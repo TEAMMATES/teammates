@@ -57,6 +57,7 @@ public class UsersLogicTest extends BaseTestCase {
     public void setUpMethod() {
         usersDb = mock(UsersDb.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
+        FeedbackSessionsLogic feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
         CourseJoinEmailsLogic courseJoinEmailsLogic = mock(CourseJoinEmailsLogic.class);
         instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
@@ -70,7 +71,7 @@ public class UsersLogicTest extends BaseTestCase {
                             : new InstructorPrivileges(instr.getId(), role.getRoleName());
             return privileges.isAllowedForPrivilege(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
-        usersLogic.initLogicDependencies(usersDb, coursesLogic, courseJoinEmailsLogic,
+        usersLogic.initLogicDependencies(usersDb, coursesLogic, courseJoinEmailsLogic, feedbackSessionsLogic,
                 feedbackResponsesLogic, instructorPermissionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE);

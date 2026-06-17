@@ -1033,6 +1033,14 @@ public class Logic {
     }
 
     /**
+     * Updates the student and enqueues the corresponding feedback session summary email.
+     */
+    public Student updateStudentAndEnqueueSummaryEmail(UUID studentId, StudentUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
+        return usersLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
+    }
+
+    /**
      * Enrolls students in a course according to the enroll requests, creating the section and team if needed.
      */
     public EnrollResults enrollStudents(Course course,
@@ -1251,6 +1259,14 @@ public class Logic {
     public User regenerateUserRegistrationKey(UUID userId)
             throws EntityDoesNotExistException, UserUpdateException {
         return usersLogic.regenerateUserRegistrationKey(userId);
+    }
+
+    /**
+     * Regenerates the registration key and enqueues the corresponding feedback session summary email.
+     */
+    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        return usersLogic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
     }
 
     /**

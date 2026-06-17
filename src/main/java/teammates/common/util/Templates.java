@@ -60,18 +60,16 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
-        public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksBySession.html");
-        public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksByCourse.html");
+        public static final String FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION =
+                FileHelper.readResourceFile("emailTemplateFragment-courseSessionLinksBySession.html");
+        public static final String FRAGMENT_COURSE_SESSION_LINKS_BY_COURSE =
+                FileHelper.readResourceFile("emailTemplateFragment-courseSessionLinksByCourse.html");
         public static final String SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-emailNotFound.html");
         public static final String SESSION_LINKS_RECOVERY_EMAIL_FOUND =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-found.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
-        public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =
-                FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionResendAllLinks.html");
         public static final String USER_FEEDBACK_SESSION_RESEND_ALL_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
         public static final String USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS =

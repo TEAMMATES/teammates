@@ -2,6 +2,7 @@ package teammates.logic.email;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 
@@ -37,6 +38,20 @@ public class FeedbackSessionsEmailsLogic {
                 context.recoveryEmailAddress(),
                 EmailType.SESSION_LINKS_RECOVERY,
                 renderedEmail);
+        emailQueueService.enqueuePriority(email);
+    }
+
+    /**
+     * Enqueues a feedback session summary email for the given user context.
+     */
+    public void enqueueFeedbackSessionSummaryEmail(FeedbackSessionSummaryEmailContext context, EmailType emailType) {
+        RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionSummaryEmail(context, emailType);
+        EmailWrapper email = EmailWrapperBuilder.build(
+                context.recipientEmailAddress(),
+                emailType,
+                renderedEmail,
+                context.courseName(),
+                context.courseId());
         emailQueueService.enqueuePriority(email);
     }
 
