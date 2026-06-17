@@ -2,7 +2,6 @@
 
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const fg = require('fast-glob');
 const prettier = require('prettier');
 const { Concurrency } = require('./concurrency');
 const { ProgressBar } = require('./progress-bar');
@@ -10,33 +9,42 @@ const { ProgressBar } = require('./progress-bar');
 const repoRoot = path.resolve(__dirname, '..');
 const ignorePaths = ['.prettierignore', '.gitignore'].map((ignorePath) => path.join(repoRoot, ignorePath));
 const concurrency = new Concurrency();
+const ignoredDirectoryNames = new Set(['node_modules', '.git', '.hg', '.svn']);
 
 const yellow = (text) => `\u001B[33m${text}\u001B[39m`;
 
 async function getPrettierFiles() {
-  const entries = await fg('**/*', {
-    cwd: repoRoot,
-    dot: true,
-    ignore: ['**/node_modules/**', '**/.git/**', '**/.hg/**', '**/.svn/**'],
-    onlyFiles: true,
-    unique: true,
-  });
+  return getFileEntries(repoRoot);
+}
 
-  const files = await concurrency.map(entries, async (entry) => {
-    const filePath = path.join(repoRoot, entry);
-    const fileInfo = await prettier.getFileInfo(filePath, {
-      ignorePath: ignorePaths,
-      withNodeModules: false,
-    });
+async function getFileEntries(directoryPath) {
+  const dirents = await fs.readdir(directoryPath, { withFileTypes: true });
 
-    if (!fileInfo.ignored && fileInfo.inferredParser) {
-      return filePath;
-    }
+  const entries = await Promise.all(
+    dirents.map(async (dirent) => {
+      const filePath = path.join(directoryPath, dirent.name);
+      const fileInfo = await prettier.getFileInfo(filePath, {
+        ignorePath: ignorePaths,
+        withNodeModules: false,
+      });
 
-    return null;
-  });
+      if (dirent.isDirectory()) {
+        if (ignoredDirectoryNames.has(dirent.name) || fileInfo.ignored) {
+          return [];
+        }
 
-  return files.filter(Boolean);
+        return getFileEntries(filePath);
+      }
+
+      if (dirent.isFile() && !fileInfo.ignored && fileInfo.inferredParser) {
+        return filePath;
+      }
+
+      return [];
+    }),
+  );
+
+  return entries.flat(Infinity);
 }
 
 function printFailureMessage() {
