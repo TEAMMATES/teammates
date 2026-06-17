@@ -29,12 +29,7 @@ public class LoginServlet extends AuthServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
-
-        nextUrl = UrlHelper.getSanitizedRedirectUrl(nextUrl);
+        String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter("nextUrl"));
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");

@@ -77,7 +77,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        String redirectUrl = resp.encodeRedirectURL(UrlHelper.getSanitizedRedirectUrl(authResult.getNextUrl()));
+        String nextUrl = UrlHelper.getSafeRedirectUrl(authResult.getNextUrl());
+        String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
@@ -87,7 +88,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     /**
-     * Extracts and validates the login method from the HTTP servlet request.
+     * Extracts and validates the login method from the OAuth2 callback.
      *
      * @return the login method, or null if it is invalid or not supported.
      */

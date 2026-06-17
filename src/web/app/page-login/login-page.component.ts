@@ -41,7 +41,7 @@ export class LoginPageComponent implements OnInit {
           }
         },
         error: () => {
-          this.statusMessageService.showErrorToast('Failed to load login methods. Please try again later.');
+          this.statusMessageService.showErrorToast('Something went wrong. Please try again later.');
         },
       });
   }
