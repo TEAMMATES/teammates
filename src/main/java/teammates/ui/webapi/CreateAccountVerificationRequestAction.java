@@ -1,9 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountVerificationRequestData;
@@ -35,15 +33,9 @@ public class CreateAccountVerificationRequestAction extends LoggedInAction {
         Account account = getCurrentAccount();
 
         try {
-            AccountVerificationRequest accountVerificationRequest = logic.createAccountVerificationRequest(
-                    instructorName, instructorEmail, instructorInstitution, instructorCountry, comments, account.getId());
-            EmailWrapper adminAlertEmail = emailGenerator
-                    .generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
-            EmailWrapper userAcknowledgementEmail = emailGenerator
-                    .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
-            emailQueueService.enqueuePriority(adminAlertEmail);
-            emailQueueService.enqueuePriority(userAcknowledgementEmail);
-            return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
+            AccountVerificationRequestData output = new AccountVerificationRequestData(logic.createAccountVerificationRequest(
+                    instructorName, instructorEmail, instructorInstitution, instructorCountry, comments, account.getId()));
+            return new JsonResult(output);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }

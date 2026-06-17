@@ -11,6 +11,8 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -88,6 +90,36 @@ public final class EmailRenderer {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(courseContext.courseId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
                 "${appUrl}", userContext.appUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the admin alert email body for a newly created account
+     * verification request.
+     */
+    public static RenderedEmail renderAccountVerificationCreatedAdminAlertEmail(
+            AccountVerificationCreatedAdminAlertEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT,
+                "${name}", context.instructorName(),
+                "${institute}", context.instituteName(),
+                "${emailAddress}", context.instructorEmailAddress(),
+                "${comments}", context.comments() == null ? "" : context.comments(),
+                "${adminAccountVerificationRequestsPageUrl}", context.adminAccountVerificationRequestsPageUrl()));
+    }
+
+    /**
+     * Renders the submitter acknowledgement email body for a newly created
+     * account verification request.
+     */
+    public static RenderedEmail renderAccountVerificationCreatedAcknowledgementEmail(
+            AccountVerificationCreatedAcknowledgementEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
+                "${name}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
+                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.instructorEmailAddress()),
+                "${comments}", sanitizeOptionalHtml(context.comments()),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
@@ -232,6 +264,10 @@ public final class EmailRenderer {
     private static String getAdditionalContactParticulars(boolean isInstructor) {
         return isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
+    }
+
+    private static String sanitizeOptionalHtml(String value) {
+        return value == null ? "" : SanitizationHelper.sanitizeForHtml(value);
     }
 
     private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {

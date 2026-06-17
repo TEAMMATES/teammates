@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.EmailQueueService;
@@ -54,16 +55,18 @@ public class LogicStarter implements ServletContextListener {
         CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
         DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
         FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = FeedbackSessionsEmailsLogic.inst();
+        AccountVerificationEmailsLogic accountVerificationEmailsLogic = AccountVerificationEmailsLogic.inst();
         EmailQueueService emailQueueService = EmailQueueService.inst();
 
         courseJoinEmailsLogic.init(emailQueueService);
         deadlineExtensionsEmailsLogic.init(emailQueueService);
         feedbackSessionsEmailsLogic.init(emailQueueService);
+        accountVerificationEmailsLogic.init(emailQueueService);
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
         accountVerificationsLogic.initLogicDependencies(
-                AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic);
+                AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic, accountVerificationEmailsLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, notificationsLogic, institutesLogic);

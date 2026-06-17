@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
+import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -106,6 +108,69 @@ public class EmailRendererTest extends BaseTestCase {
                         LinksUtil.getInstructorHomePageUrl()));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRegisterEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAdminAlertEmail_withComments_returnsAlertEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAdminAlertEmail(
+                new AccountVerificationCreatedAdminAlertEmailContext(
+                        "admin@teammates.tmt",
+                        "Dr Elena Hart",
+                        "Northbridge Institute of Technology",
+                        "elena.hart@northbridge.edu",
+                        "I will be using TEAMMATES for peer evaluation in introductory software design courses.",
+                        LinksUtil.getAdminHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/adminNewAccountVerificationRequestAlertEmailWithComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAdminAlertEmail_withoutComments_returnsAlertEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAdminAlertEmail(
+                new AccountVerificationCreatedAdminAlertEmailContext(
+                        "admin@teammates.tmt",
+                        "Prof Adrian Cole",
+                        "Riverview School of Business",
+                        "adrian.cole@riverview.edu",
+                        null,
+                        LinksUtil.getAdminHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/adminNewAccountVerificationRequestAlertEmailWithNoComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAcknowledgementEmail_withComments_returnsAcknowledgementEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAcknowledgementEmail(
+                new AccountVerificationCreatedAcknowledgementEmailContext(
+                        "maya.bennett@westhaven.edu",
+                        "Dr Maya Bennett",
+                        "Westhaven College",
+                        "maya.bennett@westhaven.edu",
+                        "I will be using TEAMMATES for peer evaluation in my communication studies classes."));
+
+        verifyEmailContent(actual.htmlContent(),
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAcknowledgementEmail_withoutComments_returnsAcknowledgementEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAcknowledgementEmail(
+                new AccountVerificationCreatedAcknowledgementEmailContext(
+                        "owen.frost@oakridge.edu",
+                        "Dr Owen Frost",
+                        "Oakridge University",
+                        "owen.frost@oakridge.edu",
+                        null));
+
+        verifyEmailContent(actual.htmlContent(),
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithNoComments.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 
