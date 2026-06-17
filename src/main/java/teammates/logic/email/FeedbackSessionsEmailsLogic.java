@@ -1,6 +1,8 @@
 package teammates.logic.email;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -91,9 +93,9 @@ public class FeedbackSessionsEmailsLogic {
             List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
             List<FeedbackSessionPreviewReminderEmailContext> previewContexts,
             EmailType emailType,
-            java.util.function.Function<FeedbackSessionParticipantReminderEmailContext, RenderedEmail> participantRenderer,
-            java.util.function.Function<FeedbackSessionPreviewReminderEmailContext, RenderedEmail> previewRenderer) {
-        List<EmailWrapper> emails = new java.util.ArrayList<>();
+            Function<FeedbackSessionParticipantReminderEmailContext, RenderedEmail> participantRenderer,
+            Function<FeedbackSessionPreviewReminderEmailContext, RenderedEmail> previewRenderer) {
+        List<EmailWrapper> emails = new ArrayList<>();
         for (FeedbackSessionParticipantReminderEmailContext context : participantContexts) {
             RenderedEmail renderedEmail = participantRenderer.apply(context);
             emails.add(EmailWrapperBuilder.build(
@@ -112,7 +114,6 @@ public class FeedbackSessionsEmailsLogic {
                     context.courseName(),
                     context.feedbackSessionName());
             email.setIsCopy(true);
-            email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
             emails.add(email);
         }
         emailQueueService.enqueueStandard(emails);
