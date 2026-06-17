@@ -47,7 +47,7 @@ public final class EmailRenderer {
      * recoverable sessions.
      */
     public static RenderedEmail renderSessionLinksRecoveryEmail(SessionLinksRecoveryContext context) {
-        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks(), false);
+        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks());
         String emptyStateMessage = context.courseSessionLinks().isEmpty()
                 ? """
                   <p>
@@ -74,7 +74,7 @@ public final class EmailRenderer {
     public static RenderedEmail renderFeedbackSessionSummaryEmail(
             FeedbackSessionSummaryEmailContext context, EmailType emailType) {
         String joinFragment = buildFeedbackSessionSummaryJoinFragment(context, emailType);
-        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks(), true);
+        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks());
         String emptyStateMessage = context.courseSessionLinks().isEmpty() ? "<p>No links found.</p>" : "";
         String template = emailType == EmailType.STUDENT_EMAIL_CHANGED
                 ? EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
@@ -256,13 +256,12 @@ public final class EmailRenderer {
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
-    private static String buildCourseSectionsHtml(List<CourseSessionLinks> courseSections,
-                                                  boolean includeUnavailableLinkText) {
+    private static String buildCourseSectionsHtml(List<CourseSessionLinks> courseSections) {
         StringBuilder html = new StringBuilder();
         for (CourseSessionLinks courseSection : courseSections) {
             StringBuilder sessionRowsHtml = new StringBuilder();
             for (SessionAccessLink sessionLink : courseSection.sessionLinks()) {
-                String linksHtml = buildSessionLinksHtml(sessionLink, includeUnavailableLinkText);
+                String linksHtml = buildSessionLinksHtml(sessionLink);
                 if (linksHtml.isEmpty()) {
                     continue;
                 }
@@ -287,31 +286,29 @@ public final class EmailRenderer {
         return html.toString();
     }
 
-    private static String buildSessionLinksHtml(SessionAccessLink sessionLink, boolean includeUnavailableLinkText) {
+    private static String buildSessionLinksHtml(SessionAccessLink sessionLink) {
         StringBuilder linksHtml = new StringBuilder();
         boolean hasSubmitLink = sessionLink.submitUrl() != null;
         boolean hasResultsLink = sessionLink.resultsUrl() != null;
-        String separator = includeUnavailableLinkText ? "<br>" : " ";
+        String separator = "<br>";
 
         if (hasSubmitLink) {
             linksHtml.append("[<a href=\"")
                     .append(sessionLink.submitUrl())
                     .append("\">submission link</a>]");
-        } else if (includeUnavailableLinkText) {
+        } else {
             linksHtml.append("(Feedback session is not yet opened)");
         }
 
-        if (hasResultsLink || includeUnavailableLinkText) {
-            if (!linksHtml.isEmpty()) {
-                linksHtml.append(separator);
-            }
-            if (hasResultsLink) {
-                linksHtml.append("[<a href=\"")
-                        .append(sessionLink.resultsUrl())
-                        .append("\">result link</a>]");
-            } else {
-                linksHtml.append("(Feedback session is not yet published)");
-            }
+        if (!linksHtml.isEmpty()) {
+            linksHtml.append(separator);
+        }
+        if (hasResultsLink) {
+            linksHtml.append("[<a href=\"")
+                    .append(sessionLink.resultsUrl())
+                    .append("\">result link</a>]");
+        } else {
+            linksHtml.append("(Feedback session is not yet published)");
         }
 
         return linksHtml.toString();
