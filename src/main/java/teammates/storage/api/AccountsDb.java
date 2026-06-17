@@ -36,13 +36,6 @@ public final class AccountsDb {
     }
 
     /**
-     * Returns an Account with the {@code googleId} or null if it does not exist.
-     */
-    public Account getAccountByGoogleId(String googleId) {
-        return HibernateUtil.getBySimpleNaturalId(Account.class, googleId);
-    }
-
-    /**
      * Returns an Account with the given auth identity or null if it does not exist.
      */
     public Account getAccountByAuthIdentity(Provider provider, String subject, @Nullable String tenantId) {

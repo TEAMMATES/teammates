@@ -296,13 +296,6 @@ public class Logic {
     }
 
     /**
-     * Gets an account by googleId.
-     */
-    public Account getAccountForGoogleId(String googleId) {
-        return accountsLogic.getAccountForGoogleId(googleId);
-    }
-
-    /**
      * Creates an account.
      *
      * @return the created account
@@ -337,13 +330,6 @@ public class Logic {
      */
     public User getUser(UUID id) {
         return usersLogic.getUser(id);
-    }
-
-    /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        return usersLogic.getStudentsByGoogleId(googleId);
     }
 
     /**
@@ -866,10 +852,10 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
+     * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        return usersLogic.getInstructorByGoogleId(courseId, googleId);
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        return usersLogic.getInstructorByAccountId(accountId, courseId);
     }
 
     /**

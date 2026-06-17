@@ -49,18 +49,8 @@ public final class AccountsLogic {
      * Gets an account.
      */
     public Account getAccount(UUID id) {
-        assert id != null;
+        Objects.requireNonNull(id);
         return accountsDb.getAccount(id);
-    }
-
-    /**
-     * Gets an account by googleId.
-     */
-    @Deprecated(forRemoval = false)
-    public Account getAccountForGoogleId(String googleId) {
-        assert googleId != null;
-
-        return accountsDb.getAccountByGoogleId(googleId);
     }
 
     /**

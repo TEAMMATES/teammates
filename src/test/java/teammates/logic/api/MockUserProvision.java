@@ -5,7 +5,6 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -25,8 +24,7 @@ public class MockUserProvision extends UserProvision {
             new AuthContext(AuthType.AUTOMATED_SERVICE, null, null, false, false);
 
     private Logic logic = Logic.inst();
-    private String loggedInGoogleId;
-    private boolean createMissingAccounts;
+    private Account loggedInAccount;
     private boolean isLoggedIn;
     private boolean loggedInUserIsAdmin;
     private boolean isAutomatedServiceMode;
@@ -37,17 +35,13 @@ public class MockUserProvision extends UserProvision {
         this.logic = logic;
     }
 
-    public void setCreateMissingAccounts(boolean createMissingAccounts) {
-        this.createMissingAccounts = createMissingAccounts;
-    }
-
-    private AuthContext loginUser(String userId, boolean isAdmin, boolean isMaintainer) {
+    private AuthContext loginUser(Account account, boolean isAdmin, boolean isMaintainer) {
         this.isLoggedIn = true;
-        this.loggedInGoogleId = userId;
+        this.loggedInAccount = account;
         this.loggedInUserIsAdmin = isAdmin;
         this.isAdmin = isAdmin;
         this.isMaintainer = isMaintainer;
-        return createAccountAuthContext(AuthType.LOGGED_IN, userId, isAdmin, isMaintainer);
+        return createAccountAuthContext(AuthType.LOGGED_IN, account, isAdmin, isMaintainer);
     }
 
     /**
@@ -55,8 +49,8 @@ public class MockUserProvision extends UserProvision {
      *
      * @return The auth context after login process
      */
-    public AuthContext loginUser(String userId) {
-        return loginUser(userId, false, false);
+    public AuthContext loginUser(Account account) {
+        return loginUser(account, false, false);
     }
 
     /**
@@ -64,8 +58,8 @@ public class MockUserProvision extends UserProvision {
      *
      * @return The auth context after login process
      */
-    public AuthContext loginAsAdmin(String userId) {
-        return loginUser(userId, true, false);
+    public AuthContext loginAsAdmin(Account account) {
+        return loginUser(account, true, false);
     }
 
     /**
@@ -73,8 +67,8 @@ public class MockUserProvision extends UserProvision {
      *
      * @return The auth context after login process
      */
-    public AuthContext loginAsMaintainer(String userId) {
-        return loginUser(userId, false, true);
+    public AuthContext loginAsMaintainer(Account account) {
+        return loginUser(account, false, true);
     }
 
     /**
@@ -95,7 +89,7 @@ public class MockUserProvision extends UserProvision {
         isLoggedIn = false;
         loggedInUserIsAdmin = false;
         isAutomatedServiceMode = false;
-        loggedInGoogleId = null;
+        loggedInAccount = null;
     }
 
     @Override
@@ -116,7 +110,8 @@ public class MockUserProvision extends UserProvision {
         if (isMasqueradeRequest(req)) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
+                        String.format("Masquerade failed: user %s does not have admin privilege",
+                                loggedInAccount.getEmail()));
             }
 
             UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
@@ -128,7 +123,7 @@ public class MockUserProvision extends UserProvision {
             return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
-        return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
+        return createAccountAuthContext(AuthType.LOGGED_IN, loggedInAccount, isAdmin, isMaintainer);
     }
 
     @Override
@@ -145,12 +140,7 @@ public class MockUserProvision extends UserProvision {
     }
 
     private AuthContext createAccountAuthContext(
-            AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
-        Account account = createMissingAccounts
-                ? new Account(
-                        googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
-                        "Test User", googleId + "@example.com")
-                : logic.getAccountForGoogleId(googleId);
+            AuthType authType, Account account, boolean isAdmin, boolean isMaintainer) {
         return new AuthContext(authType, account, null, isAdmin, isMaintainer);
     }
 
