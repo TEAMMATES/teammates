@@ -1,11 +1,8 @@
-package teammates.logic.core;
+package teammates.logic.email;
 
 import java.util.List;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.email.EmailQueueService;
-import teammates.logic.email.EmailRenderer;
-import teammates.logic.email.EmailWrapperBuilder;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.RenderedEmail;

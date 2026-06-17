@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.email;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +13,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;

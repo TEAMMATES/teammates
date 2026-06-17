@@ -24,6 +24,7 @@ import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;

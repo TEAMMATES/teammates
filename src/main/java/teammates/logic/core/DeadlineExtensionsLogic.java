@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
+import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.storage.api.DeadlineExtensionsDb;
