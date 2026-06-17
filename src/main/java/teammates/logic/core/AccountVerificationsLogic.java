@@ -56,8 +56,19 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Creates an account verification request, resolving (or creating) the shared institute for the given
+     * Creates a new pending account verification request, resolving (or creating) the shared institute for the given
      * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String instituteName, String country,
+            String comments, UUID accountId) throws InvalidParametersException {
+        return createAccountVerificationRequest(
+                name, email, instituteName, country, AccountVerificationRequestStatus.PENDING, comments, accountId);
+    }
+
+    /**
+     * Creates an account verification request with an explicit status, resolving (or creating) the shared institute
+     * for the given {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String instituteName, String country,

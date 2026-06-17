@@ -199,12 +199,23 @@ public class Logic {
     }
 
     /**
-     * Creates an account verification request.
+     * Creates a new pending account verification request.
      *
      * @return newly created account verification request.
-     * @throws InvalidParametersException   if the account verification request details are
-     *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account verification request already exists.
+     * @throws InvalidParametersException if the account verification request details are invalid.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String institute, String country, String comments, UUID accountId)
+            throws InvalidParametersException {
+        return accountVerificationsLogic.createAccountVerificationRequest(
+                name, email, institute, country, comments, accountId);
+    }
+
+    /**
+     * Creates an account verification request with an explicit status.
+     *
+     * @return newly created account verification request.
+     * @throws InvalidParametersException if the account verification request details are invalid.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String institute, String country,

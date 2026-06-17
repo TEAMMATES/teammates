@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
@@ -34,27 +33,20 @@ public class CreateAccountVerificationRequestAction extends LoggedInAction {
             comments = comments.trim();
         }
         Account account = getCurrentAccount();
-        AccountVerificationRequest accountVerificationRequest;
 
         try {
-            accountVerificationRequest = logic.createAccountVerificationRequest(instructorName, instructorEmail,
-                    instructorInstitution, instructorCountry, AccountVerificationRequestStatus.PENDING, comments,
-                    account.getId());
+            AccountVerificationRequest accountVerificationRequest = logic.createAccountVerificationRequest(
+                    instructorName, instructorEmail, instructorInstitution, instructorCountry, comments, account.getId());
+            EmailWrapper adminAlertEmail = emailGenerator
+                    .generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
+            EmailWrapper userAcknowledgementEmail = emailGenerator
+                    .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
+            emailQueueService.enqueuePriority(adminAlertEmail);
+            emailQueueService.enqueuePriority(userAcknowledgementEmail);
+            return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
-
-        assert accountVerificationRequest != null;
-
-        EmailWrapper adminAlertEmail = emailGenerator
-                .generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
-        EmailWrapper userAcknowledgementEmail = emailGenerator
-                .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
-        emailQueueService.enqueuePriority(adminAlertEmail);
-        emailQueueService.enqueuePriority(userAcknowledgementEmail);
-
-        AccountVerificationRequestData output = new AccountVerificationRequestData(accountVerificationRequest);
-        return new JsonResult(output);
     }
 
 }
