@@ -1291,10 +1291,24 @@ public class Logic {
     }
 
     /**
+     * Enqueues opening soon reminder emails for all eligible sessions.
+     */
+    public void enqueueOpeningSoonReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueOpeningSoonReminderEmailsForEligibleSessions();
+    }
+
+    /**
      * Enqueues closing soon reminder emails for all eligible sessions.
      */
     public void enqueueClosingSoonReminderEmailsForEligibleSessions() {
         feedbackSessionsLogic.enqueueClosingSoonReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues closed reminder emails for all eligible sessions.
+     */
+    public void enqueueClosedReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueClosedReminderEmailsForEligibleSessions();
     }
 
     /**

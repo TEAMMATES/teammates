@@ -36,6 +36,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.email.FeedbackSessionsEmailsLogic;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
@@ -187,6 +188,23 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Enqueues opening soon reminder emails for all eligible sessions and marks
+     * them as sent.
+     */
+    public void enqueueOpeningSoonReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsOpeningWithinTimeLimit()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueOpeningSoonEmails(
+                        buildOwnerOpeningSoonReminderEmailContexts(session));
+                session.setOpeningSoonEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
      * Enqueues closing soon reminder emails for all eligible sessions and
      * deadline extensions, and marks them as sent.
      */
@@ -219,6 +237,23 @@ public final class FeedbackSessionsLogic {
                         buildClosingSoonDeadlineExtensionReminderEmailContexts(session, deadlineExtensions),
                         List.of());
                 deadlineExtensions.forEach(deadlineExtension -> deadlineExtension.setClosingSoonEmailSent(true));
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues closed reminder emails for all eligible sessions and marks them
+     * as sent.
+     */
+    public void enqueueClosedReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsClosedRecently()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueClosedEmails(
+                        buildOwnerClosedReminderEmailContexts(session));
+                session.setClosedEmailSent(true);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }
@@ -327,6 +362,27 @@ public final class FeedbackSessionsLogic {
         return contexts;
     }
 
+    private List<FeedbackSessionOwnerReminderEmailContext> buildOwnerOpeningSoonReminderEmailContexts(
+            FeedbackSession session) {
+        String sessionEditUrl = LinksUtil.getInstructorSessionEditUrl(session.getId());
+        return usersLogic.getCoOwnersForCourse(session.getCourseId()).stream()
+                .map(coOwner -> buildOwnerReminderEmailContext(
+                        session,
+                        coOwner,
+                        sessionEditUrl,
+                        null,
+                        coOwner.isRegistered() ? null : LinksUtil.getInstructorCourseJoinUrl(coOwner.getRegKey())))
+                .toList();
+    }
+
+    private List<FeedbackSessionOwnerReminderEmailContext> buildOwnerClosedReminderEmailContexts(
+            FeedbackSession session) {
+        String reportUrl = LinksUtil.getInstructorSessionReportUrl(session.getId());
+        return usersLogic.getCoOwnersForCourse(session.getCourseId()).stream()
+                .map(coOwner -> buildOwnerReminderEmailContext(session, coOwner, null, reportUrl, null))
+                .toList();
+    }
+
     private List<FeedbackSessionParticipantReminderEmailContext> buildClosingSoonParticipantReminderEmailContexts(
             FeedbackSession session) {
         Course course = session.getCourse();
@@ -395,6 +451,24 @@ public final class FeedbackSessionsLogic {
                 getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey()),
                 user instanceof Instructor,
                 coOwnerContacts);
+    }
+
+    private FeedbackSessionOwnerReminderEmailContext buildOwnerReminderEmailContext(
+            FeedbackSession session, Instructor coOwner, String sessionEditUrl, String reportUrl, String joinUrl) {
+        Course course = session.getCourse();
+        return new FeedbackSessionOwnerReminderEmailContext(
+                coOwner.getEmail(),
+                coOwner.getName(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                session.getName(),
+                session.getStartTime(),
+                session.getEndTime(),
+                session.getInstructionsString(),
+                sessionEditUrl,
+                reportUrl,
+                joinUrl);
     }
 
     private List<FeedbackSessionPreviewReminderEmailContext> buildReminderPreviewEmailContexts(FeedbackSession session) {

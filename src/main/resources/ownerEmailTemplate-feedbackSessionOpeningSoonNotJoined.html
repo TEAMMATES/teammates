@@ -1,4 +1,4 @@
-<p>Hello Instructor Not Yet Joined Course 1,</p>
+<p>Hello ${userName},</p>
 
 <p>
   Heads up! The following feedback session is due to open soon.
@@ -12,7 +12,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        [idOfTypicalCourse1] Typical Course 1 with 2 Evals
+        [${courseId}] ${courseName}
       </td>
     </tr>
 
@@ -23,7 +23,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        First feedback session
+        ${feedbackSessionName}
       </td>
     </tr>
 
@@ -34,7 +34,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Thu, 29 Apr 2027, 08:00 PM SAST
+        ${startTime}
       </td>
     </tr>
 
@@ -45,7 +45,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Fri, 30 Apr 2027, 11:59 PM SAST
+        ${deadline}
       </td>
     </tr>
 
@@ -56,7 +56,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Please please fill in the following questions.
+        ${sessionInstructions}
       </td>
     </tr>
   </table>
@@ -64,10 +64,10 @@
 
 <p>
   <strong>To "join" the course, please go to this Web address: </strong>
-  <a href="${app.url}/web/join?key=${regkey.enc}&entityType=instructor">${app.url}/web/join?key=${regkey.enc}&entityType=instructor</a>
+  <a href="${joinUrl}">${joinUrl}</a>
 </p>
 <p>
-  After joining the course, you can edit details of the above session at <a href="${app.url}/web/instructor/sessions/${fsid}/edit">${app.url}/web/instructor/sessions/${fsid}/edit</a>.
+  After joining the course, you can edit details of the above session at <a href="${sessionEditUrl}">${sessionEditUrl}</a>.
 </p>
 <ul>
   <li>

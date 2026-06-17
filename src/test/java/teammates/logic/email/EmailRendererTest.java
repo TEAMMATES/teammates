@@ -22,6 +22,7 @@ import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
@@ -210,6 +211,69 @@ public class EmailRendererTest extends BaseTestCase {
                         buildCourseContext().coOwnerContacts()));
 
         verifyEmailContent(actual.htmlContent(), "/sessionClosingSoonEmailCopyToInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpeningSoonEmail_joinedCoOwner_returnsOpeningSoonEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpeningSoonEmail(
+                new FeedbackSessionOwnerReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-29T18:00:00Z"),
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionEditUrl(FEEDBACK_SESSION_ID),
+                        null,
+                        null));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpeningSoonEmailForCoOwnerJoined.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpeningSoonEmail_notJoinedCoOwner_returnsOpeningSoonEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpeningSoonEmail(
+                new FeedbackSessionOwnerReminderEmailContext(
+                        "instructorNotYetJoinedCourse1@email.tmt",
+                        "Instructor Not Yet Joined Course 1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-29T18:00:00Z"),
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionEditUrl(FEEDBACK_SESSION_ID),
+                        null,
+                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionClosedEmail_coOwner_returnsClosedEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosedEmail(
+                new FeedbackSessionOwnerReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-29T18:00:00Z"),
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        null,
+                        LinksUtil.getInstructorSessionReportUrl(FEEDBACK_SESSION_ID),
+                        null));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionClosedEmailForCoOwner.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

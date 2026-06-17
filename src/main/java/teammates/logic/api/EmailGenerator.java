@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
@@ -39,11 +38,8 @@ public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
                                             + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
-
     private static final EmailGenerator instance = new EmailGenerator();
 
     private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
@@ -56,96 +52,6 @@ public final class EmailGenerator {
 
     public static EmailGenerator inst() {
         return instance;
-    }
-
-    /**
-     * Generates the feedback session opening soon emails for the given {@code session}.
-     *
-     * <p>This is useful for e.g. in case the feedback session opening info was set wrongly.
-     */
-    public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSession session) {
-        return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_OPENING_SOON);
-    }
-
-    private List<EmailWrapper> generateFeedbackSessionOpeningSoonOrClosedEmails(
-            FeedbackSession session, EmailType emailType) {
-        Course course = session.getCourse();
-        // Notify only course co-owners
-        List<Instructor> coOwners = usersLogic.getCoOwnersForCourse(course.getId());
-        return coOwners.stream()
-                .map(coOwner -> generateFeedbackSessionEmailBaseForCoowner(course, session, coOwner, emailType))
-                .collect(Collectors.toList());
-    }
-
-    private EmailWrapper generateFeedbackSessionEmailBaseForCoowner(
-            Course course, FeedbackSession session, Instructor coOwner, EmailType emailType) {
-        String additionalNotes;
-        String status;
-        if (emailType == EmailType.FEEDBACK_OPENING_SOON) {
-            String editUrl = LinksUtil.getInstructorSessionEditUrl(session.getId());
-            // If instructor has not joined the course, populate additional notes with information to join course.
-            if (coOwner.isRegistered()) {
-                additionalNotes = fillUpEditFeedbackSessionDetailsFragment(editUrl);
-            } else {
-                additionalNotes = fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(editUrl,
-                        LinksUtil.getInstructorCourseJoinUrl(coOwner.getRegKey()));
-            }
-            status = FEEDBACK_STATUS_SESSION_OPENING_SOON;
-        } else {
-            String reportUrl = LinksUtil.getInstructorSessionReportUrl(session.getId());
-            additionalNotes = fillUpViewResponsesDetailsFragment(reportUrl);
-            status = FEEDBACK_STATUS_SESSION_CLOSED;
-        }
-
-        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getStartTime(), session.getCourse().getTimeZone(), false);
-        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getEndTime(), session.getCourse().getTimeZone(), false);
-        String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION,
-                "${status}", status,
-                "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${sessionInstructions}", session.getInstructionsString(),
-                "${startTime}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(startTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${additionalNotes}", additionalNotes);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
-        email.setType(emailType);
-        email.setSubjectFromType(course.getName(), session.getName());
-        email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl}.
-     */
-    private String fillUpEditFeedbackSessionDetailsFragment(String editUrl) {
-        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_EDIT_DETAILS,
-                "${sessionEditUrl}", editUrl);
-    }
-
-    /**
-     * Generates the fragment for instructions on how to view responses for feedback session at {@code reportUrl}.
-     */
-    private String fillUpViewResponsesDetailsFragment(String reportUrl) {
-        return Templates.populateTemplate(EmailTemplates.FRAGMENT_CLOSED_VIEW_RESPONSES,
-                "${reportUrl}", reportUrl);
-    }
-
-    /**
-     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl} and
-     * how to join the course at {@code joinUrl}.
-     */
-    private String fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(String editUrl, String joinUrl) {
-        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS,
-                "${sessionEditUrl}", editUrl,
-                "${joinUrl}", joinUrl
-        );
     }
 
     /**
@@ -165,13 +71,6 @@ public final class EmailGenerator {
 
         return generateFeedbackSessionEmailBases(course, session, students, instructorsToRemind, instructorToNotifyAsList,
                 template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
-    }
-
-    /**
-     * Generates the feedback session closed emails for the given {@code session}.
-     */
-    public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSession session) {
-        return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
     }
 
     /**

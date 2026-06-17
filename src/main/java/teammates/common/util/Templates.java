@@ -84,16 +84,14 @@ public final class Templates {
                 FileHelper.readResourceFile("accountVerificationApproved.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
-        public static final String OWNER_FEEDBACK_SESSION =
-                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSession.html");
-        public static final String FRAGMENT_OPENING_SOON_EDIT_DETAILS =
-                FileHelper.readResourceFile("ownerEmailFragment-editDetails.html");
-        public static final String FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS =
-                FileHelper.readResourceFile("ownerEmailFragment-joinCourseBeforeEditDetails.html");
-        public static final String FRAGMENT_CLOSED_VIEW_RESPONSES =
-                FileHelper.readResourceFile("ownerEmailFragment-viewResponses.html");
         public static final String USER_DEADLINE_EXTENSION =
                 FileHelper.readResourceFile("userEmailTemplate-deadlineExtension.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON =
+                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSessionOpeningSoon.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON_NOT_JOINED =
+                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSessionOpeningSoonNotJoined.html");
+        public static final String OWNER_FEEDBACK_SESSION_CLOSED =
+                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSessionClosed.html");
     }
 
 }

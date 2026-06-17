@@ -15,6 +15,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
@@ -216,6 +217,58 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 + "TEAMMATES: Feedback session closing soon [Course: Software Engineering]"
                 + "[Feedback Session: Midterm Feedback]",
                 previewEmail.getSubject());
+    }
+
+    @Test
+    public void enqueueOpeningSoonEmails_validContexts_enqueuesStandardEmails() {
+        var ownerContext = new FeedbackSessionOwnerReminderEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-29T15:00:00Z"),
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                "Please submit your feedback.",
+                "https://example.com/edit",
+                null,
+                null);
+
+        feedbackSessionsEmailsLogic.enqueueOpeningSoonEmails(List.of(ownerContext));
+
+        assertEquals(1, taskQueuer.getTasksAdded().size());
+        TaskWrapper task = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, task.getQueueName());
+        EmailWrapper email = ((SendEmailRequest) task.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_OPENING_SOON, email.getType());
+    }
+
+    @Test
+    public void enqueueClosedEmails_validContexts_enqueuesStandardEmails() {
+        var ownerContext = new FeedbackSessionOwnerReminderEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-29T15:00:00Z"),
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                "Please submit your feedback.",
+                null,
+                "https://example.com/report",
+                null);
+
+        feedbackSessionsEmailsLogic.enqueueClosedEmails(List.of(ownerContext));
+
+        assertEquals(1, taskQueuer.getTasksAdded().size());
+        TaskWrapper task = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, task.getQueueName());
+        EmailWrapper email = ((SendEmailRequest) task.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_CLOSED, email.getType());
     }
 
 }
