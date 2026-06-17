@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.Test;
 
+import teammates.ui.request.SendEmailRequest;
 import teammates.logic.api.Logic;
 import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
@@ -56,5 +57,22 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
         assertEquals("Successful", result.getMessage());
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
         assertFalse(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isOpeningSoonEmailSent()));
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void feedbackSessionOpeningSoonRemindersAction_unjoinedCoOwner_queuesJoinVariantEmail() {
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner().noAccount());
+        given.feedbackSession("session", fs -> fs.defaultCourse()
+                .noCreator().openingSoon().openingSoonEmailSent(false));
+        persistGivenData(given);
+
+        MessageOutput result = execute(new RequestContext().withWorkerAuth());
+
+        assertEquals("Successful", result.getMessage());
+        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
+        assertTrue(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isOpeningSoonEmailSent()));
+
+        SendEmailRequest emailRequest = (SendEmailRequest) mockTaskQueuer.getTasksAdded().get(0).getRequestBody();
+        assertTrue(emailRequest.getEmail().getContent().contains("/web/join?key="));
     }
 }
