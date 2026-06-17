@@ -20,29 +20,27 @@ async function getPrettierFiles() {
 async function getFileEntries(directoryPath) {
   const dirents = await fs.readdir(directoryPath, { withFileTypes: true });
 
-  const entries = await Promise.all(
-    dirents.map(async (dirent) => {
-      const filePath = path.join(directoryPath, dirent.name);
-      const fileInfo = await prettier.getFileInfo(filePath, {
-        ignorePath: ignorePaths,
-        withNodeModules: false,
-      });
+  const entries = await concurrency.map(dirents, async (dirent) => {
+    const filePath = path.join(directoryPath, dirent.name);
+    const fileInfo = await prettier.getFileInfo(filePath, {
+      ignorePath: ignorePaths,
+      withNodeModules: false,
+    });
 
-      if (dirent.isDirectory()) {
-        if (ignoredDirectoryNames.has(dirent.name) || fileInfo.ignored) {
-          return [];
-        }
-
-        return getFileEntries(filePath);
+    if (dirent.isDirectory()) {
+      if (ignoredDirectoryNames.has(dirent.name) || fileInfo.ignored) {
+        return [];
       }
 
-      if (dirent.isFile() && !fileInfo.ignored && fileInfo.inferredParser) {
-        return filePath;
-      }
+      return getFileEntries(filePath);
+    }
 
-      return [];
-    }),
-  );
+    if (dirent.isFile() && !fileInfo.ignored && fileInfo.inferredParser) {
+      return filePath;
+    }
+
+    return [];
+  });
 
   return entries.flat(Infinity);
 }
