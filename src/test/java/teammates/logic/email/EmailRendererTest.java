@@ -173,6 +173,28 @@ public class EmailRendererTest extends BaseTestCase {
     }
 
     @Test
+    public void renderFeedbackSessionClosingSoonParticipantEmail_instructor_returnsClosingSoonEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosingSoonParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionClosingSoonEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
     public void renderFeedbackSessionClosingSoonPreviewEmail_coOwner_returnsClosingSoonPreviewEmailBody()
             throws IOException {
         RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosingSoonPreviewEmail(

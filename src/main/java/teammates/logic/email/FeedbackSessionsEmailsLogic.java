@@ -113,7 +113,9 @@ public class FeedbackSessionsEmailsLogic {
                     renderedEmail,
                     context.courseName(),
                     context.feedbackSessionName());
+            // setSubjectFromType is called again to include the copy prefix in the subject
             email.setIsCopy(true);
+            email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
             emails.add(email);
         }
         emailQueueService.enqueueStandard(emails);
