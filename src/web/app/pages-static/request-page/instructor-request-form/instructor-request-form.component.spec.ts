@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
@@ -57,18 +58,23 @@ describe('InstructorRequestFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [{ provide: AccountService, useValue: accountServiceStub }, provideRouter([])],
-    }).compileComponents();
+    })
+      .overrideComponent(InstructorRequestFormComponent, {
+        set: {
+          imports: [FormsModule, ReactiveFormsModule],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     vi.clearAllMocks();
   });
 
   it('should have empty captcha key', () => {
-    expect(component).toBeTruthy();
+    expect(component.captchaSiteKey).toBe('');
   });
 
   it('should create', () => {
