@@ -11,7 +11,6 @@ import teammates.storage.entity.Section;
 public final class GivenSection extends GivenBase<Section> {
     public GivenSection(GivenData given, UUID sectionId) {
         super(given);
-        this.given = given;
         this.entity = defaultSection(sectionId);
     }
 

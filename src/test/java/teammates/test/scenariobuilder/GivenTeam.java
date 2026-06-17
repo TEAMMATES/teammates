@@ -11,7 +11,6 @@ import teammates.storage.entity.Team;
 public final class GivenTeam extends GivenBase<Team> {
     public GivenTeam(GivenData given, UUID teamId) {
         super(given);
-        this.given = given;
         this.entity = defaultTeam(teamId);
     }
 
