@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
 
 /**
- * Component for unauthorized warning page based on user role.
+ * Component for unauthorized warning page based on the role.
  */
 @Component({
   selector: 'tm-unauthorized-warning-page',
@@ -11,7 +11,7 @@ import { TeammatesRouterDirective } from '../components/teammates-router/teammat
   imports: [TeammatesRouterDirective],
 })
 export class UnauthorizedWarningPageComponent {
-  @Input({ required: true }) role!: string;
+  @Input() role = '';
 
   get reason(): string {
     switch (this.role) {

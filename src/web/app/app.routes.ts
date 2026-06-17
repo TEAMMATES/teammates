@@ -96,7 +96,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'unauthorized/:role',
+        path: 'unauthorized',
         component: PageComponent,
         children: [
           {

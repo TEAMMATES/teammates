@@ -100,7 +100,7 @@ describe('RoleGuard', () => {
 
       const result = await firstValueFrom(guard.canActivate(mockRoute('admin'), mockState('/web/admin')));
 
-      expect(result.toString()).toContain('/web/unauthorized/admin');
+      expect(result.toString()).toContain('/web/unauthorized?role=admin');
     });
 
     it('should return true when route has no role requirement', async () => {
@@ -143,7 +143,7 @@ describe('RoleGuard', () => {
 
       const result = await firstValueFrom(guard.canActivateChild(childRoute, mockState('/web/admin/home')));
 
-      expect(result.toString()).toContain('/web/unauthorized/admin');
+      expect(result.toString()).toContain('/web/unauthorized?role=admin');
     });
 
     it('should return true when no ancestor has a role requirement', async () => {
