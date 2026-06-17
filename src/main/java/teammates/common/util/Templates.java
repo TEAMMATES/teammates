@@ -50,12 +50,8 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
-        public static final String FRAGMENT_INSTRUCTOR_COPY_PREAMBLE =
-                FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
-        public static final String USER_FEEDBACK_SESSION =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_OPENED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_OPENED_PREVIEW =
