@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -54,8 +56,19 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Creates an account verification request, resolving (or creating) the shared institute for the given
+     * Creates a new pending account verification request, resolving (or creating) the shared institute for the given
      * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String instituteName, String country,
+            String comments, UUID accountId) throws InvalidParametersException {
+        return createAccountVerificationRequest(
+                name, email, instituteName, country, AccountVerificationRequestStatus.PENDING, comments, accountId);
+    }
+
+    /**
+     * Creates an account verification request with an explicit status, resolving (or creating) the shared institute
+     * for the given {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String instituteName, String country,
@@ -77,12 +90,73 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Updates an account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        validateAccountVerificationRequest(accountVerificationRequest);
-        return accountVerificationRequest;
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        request.setName(name);
+        request.setEmail(email);
+        request.setInstitute(institute);
+        request.setComments(comments);
+        validateAccountVerificationRequest(request);
+        return request;
+    }
+
+    /**
+     * Approves the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is already approved.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest approveAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() == AccountVerificationRequestStatus.APPROVED) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is already approved.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.APPROVED);
+        validateAccountVerificationRequest(request);
+        return request;
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() != AccountVerificationRequestStatus.PENDING) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is not in pending state and cannot be rejected.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.REJECTED);
+        validateAccountVerificationRequest(request);
+        return request;
     }
 
     /**

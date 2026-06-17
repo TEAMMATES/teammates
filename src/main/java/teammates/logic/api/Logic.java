@@ -31,6 +31,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.exception.UserUpdateException;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
@@ -198,12 +199,23 @@ public class Logic {
     }
 
     /**
-     * Creates an account verification request.
+     * Creates a new pending account verification request.
      *
      * @return newly created account verification request.
-     * @throws InvalidParametersException   if the account verification request details are
-     *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account verification request already exists.
+     * @throws InvalidParametersException if the account verification request details are invalid.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String institute, String country, String comments, UUID accountId)
+            throws InvalidParametersException {
+        return accountVerificationsLogic.createAccountVerificationRequest(
+                name, email, institute, country, comments, accountId);
+    }
+
+    /**
+     * Creates an account verification request with an explicit status.
+     *
+     * @return newly created account verification request.
+     * @throws InvalidParametersException if the account verification request details are invalid.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String institute, String country,
@@ -231,13 +243,41 @@ public class Logic {
     }
 
     /**
-     * Updates the given account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
      *
-     * @return the updated account verification request.
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        return accountVerificationsLogic.updateAccountVerificationRequest(accountVerificationRequest);
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountVerificationsLogic.updateAccountVerificationRequestDetails(
+                id, name, email, instituteName, country, comments);
+    }
+
+    /**
+     * Approves the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is already approved.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest approveAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.approveAccountVerificationRequest(id);
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
     }
 
     /**

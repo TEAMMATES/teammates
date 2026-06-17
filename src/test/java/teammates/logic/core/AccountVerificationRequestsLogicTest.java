@@ -78,23 +78,6 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccountVerificationRequest_typicalRequest_success()
-            throws InvalidParametersException {
-        AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updatedAr = accountVerificationsLogic.updateAccountVerificationRequest(ar);
-
-        assertEquals(ar, updatedAr);
-    }
-
-    @Test
-    public void testUpdateAccountVerificationRequest_requestNotFound_failure()
-            throws InvalidParametersException {
-        AccountVerificationRequest arNotFound = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updated = accountVerificationsLogic.updateAccountVerificationRequest(arNotFound);
-        assertEquals(updated, arNotFound);
-    }
-
-    @Test
     public void testDeleteAccountVerificationRequest_typicalRequest_success() {
         AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(ar.getId())).thenReturn(ar);
