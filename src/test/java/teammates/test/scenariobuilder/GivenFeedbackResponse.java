@@ -278,6 +278,16 @@ public final class GivenFeedbackResponse extends GivenBase<FeedbackResponse> {
             details(getDefaultResponseDetails(entity.getFeedbackQuestion().getQuestionType(), entity.getId()));
         }
 
+        String questionCourseId = entity.getFeedbackQuestion().getFeedbackSession().getCourseId();
+        ResponseGiver giver = entity.getGiver();
+        String giverCourseId = giver.isGiverTeam()
+                ? giver.getGiverTeam().getSection().getCourseId()
+                : giver.getGiverUser().getCourseId();
+        assert giverCourseId.equals(questionCourseId)
+                : "Giver's course '" + giverCourseId + "' does not match the feedback question's course '"
+                + questionCourseId + "'. Set the feedback question before the giver, or pre-create the giver "
+                + "in the correct course.";
+
         entity.getFeedbackQuestion().addFeedbackResponse(entity);
     }
 
