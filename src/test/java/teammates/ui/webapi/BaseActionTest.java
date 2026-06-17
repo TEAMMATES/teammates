@@ -51,6 +51,7 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
     }
 
     private T getAction(RequestContext testRequest) {
+        mockTaskQueuer.clearTasks();
         HttpServletRequest request = getMockRequest(testRequest);
 
         T action;
