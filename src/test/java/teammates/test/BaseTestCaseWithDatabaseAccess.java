@@ -24,7 +24,7 @@ import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.EmailQueueService;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
@@ -78,7 +78,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         AccountVerificationEmailsLogic.inst().init(emailQueueService);
         CourseJoinEmailsLogic.inst().init(emailQueueService);
         DeadlineExtensionsEmailsLogic.inst().init(emailQueueService);
-        FeedbackSessionsEmailsLogic.inst().init(emailQueueService);
+        FeedbackSessionEmailsLogic.inst().init(emailQueueService);
         given = new GivenData(currentTestName);
     }
 

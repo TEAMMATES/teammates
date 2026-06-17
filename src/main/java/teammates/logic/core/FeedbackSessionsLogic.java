@@ -33,7 +33,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
@@ -78,7 +78,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
-    private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
+    private FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -92,7 +92,7 @@ public final class FeedbackSessionsLogic {
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
             UsersLogic usersLogic, CoursesLogic coursesLogic,
             DeadlineExtensionsLogic deadlineExtensionsLogic,
-            FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic) {
+            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;

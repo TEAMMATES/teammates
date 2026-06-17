@@ -8,7 +8,7 @@ import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.EmailQueueService;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -54,13 +54,13 @@ public class LogicStarter implements ServletContextListener {
 
         CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
         DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
-        FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = FeedbackSessionsEmailsLogic.inst();
+        FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = FeedbackSessionEmailsLogic.inst();
         AccountVerificationEmailsLogic accountVerificationEmailsLogic = AccountVerificationEmailsLogic.inst();
         EmailQueueService emailQueueService = EmailQueueService.inst();
 
         courseJoinEmailsLogic.init(emailQueueService);
         deadlineExtensionsEmailsLogic.init(emailQueueService);
-        feedbackSessionsEmailsLogic.init(emailQueueService);
+        feedbackSessionEmailsLogic.init(emailQueueService);
         accountVerificationEmailsLogic.init(emailQueueService);
 
         authLogic.initLogicDependencies(usersLogic);
@@ -74,7 +74,7 @@ public class LogicStarter implements ServletContextListener {
                 deadlineExtensionsEmailsLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic, coursesLogic,
                 deadlineExtensionsLogic,
-                feedbackSessionsEmailsLogic);
+                feedbackSessionEmailsLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic,
                 instructorPermissionsLogic);

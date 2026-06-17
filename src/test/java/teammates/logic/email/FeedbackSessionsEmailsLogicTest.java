@@ -27,18 +27,18 @@ import teammates.test.BaseTestCase;
 import teammates.ui.request.SendEmailRequest;
 
 /**
- * SUT: {@link FeedbackSessionsEmailsLogic}.
+ * SUT: {@link FeedbackSessionEmailsLogic}.
  */
 public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     private MockTaskQueuer taskQueuer;
-    private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
+    private FeedbackSessionEmailsLogic feedbackSessionEmailsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        feedbackSessionsEmailsLogic = new FeedbackSessionsEmailsLogic();
-        feedbackSessionsEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
+        feedbackSessionEmailsLogic = new FeedbackSessionEmailsLogic();
+        feedbackSessionEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
 
-        feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
+        feedbackSessionEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -82,7 +82,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 true,
                 List.of());
 
-        feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
+        feedbackSessionEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -117,7 +117,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                                 "https://example.com/submission",
                                 "https://example.com/results")))));
 
-        feedbackSessionsEmailsLogic.enqueueFeedbackSessionSummaryEmail(context, EmailType.STUDENT_EMAIL_CHANGED);
+        feedbackSessionEmailsLogic.enqueueFeedbackSessionSummaryEmail(context, EmailType.STUDENT_EMAIL_CHANGED);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -158,7 +158,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Please submit your feedback.",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueOpenedEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueOpenedEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -202,7 +202,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Please submit your feedback.",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueClosingSoonEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueClosingSoonEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -247,7 +247,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Please submit your feedback.",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueSubmissionReminderEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueSubmissionReminderEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -284,7 +284,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Midterm Feedback",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueuePublishedEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueuePublishedEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -322,7 +322,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Midterm Feedback",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueuePublishedReminderEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueuePublishedReminderEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -352,7 +352,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Midterm Feedback",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueUnpublishedEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueUnpublishedEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -387,7 +387,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 null,
                 null);
 
-        feedbackSessionsEmailsLogic.enqueueOpeningSoonEmails(List.of(ownerContext));
+        feedbackSessionEmailsLogic.enqueueOpeningSoonEmails(List.of(ownerContext));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -413,7 +413,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/report",
                 null);
 
-        feedbackSessionsEmailsLogic.enqueueClosedEmails(List.of(ownerContext));
+        feedbackSessionEmailsLogic.enqueueClosedEmails(List.of(ownerContext));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);

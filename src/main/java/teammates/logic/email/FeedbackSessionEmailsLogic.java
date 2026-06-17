@@ -18,13 +18,13 @@ import teammates.logic.email.model.SessionLinksRecoveryContext;
 /**
  * Handles email-specific orchestration for feedback session use cases.
  */
-public class FeedbackSessionsEmailsLogic {
+public class FeedbackSessionEmailsLogic {
 
-    private static final FeedbackSessionsEmailsLogic instance = new FeedbackSessionsEmailsLogic();
+    private static final FeedbackSessionEmailsLogic instance = new FeedbackSessionEmailsLogic();
 
     private EmailQueueService emailQueueService;
 
-    public static FeedbackSessionsEmailsLogic inst() {
+    public static FeedbackSessionEmailsLogic inst() {
         return instance;
     }
 
