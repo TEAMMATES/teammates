@@ -16,18 +16,17 @@ import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmai
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 
 /**
@@ -191,7 +190,7 @@ public final class EmailRenderer {
      * Renders the student course rejoin email body after account unlink.
      */
     public static RenderedEmail renderStudentCourseRejoinAfterUnlinkAccountEmail(
-            CourseEmailContext courseContext, StudentCourseRejoinAfterUnlinkEmailContext studentContext) {
+            CourseEmailContext courseContext, CourseRejoinAfterUnlinkEmailContext studentContext) {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
                 "${userName}", SanitizationHelper.sanitizeForHtml(studentContext.recipientName()),
@@ -220,7 +219,7 @@ public final class EmailRenderer {
      * Renders the instructor course rejoin email body after account unlink.
      */
     public static RenderedEmail renderInstructorCourseRejoinAfterUnlinkAccountEmail(
-            CourseEmailContext courseContext, InstructorCourseRejoinAfterUnlinkEmailContext instructorContext) {
+            CourseEmailContext courseContext, CourseRejoinAfterUnlinkEmailContext instructorContext) {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructorContext.recipientName()),

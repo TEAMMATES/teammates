@@ -14,11 +14,10 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.test.BaseTestCase;
 import teammates.ui.request.SendEmailRequest;
@@ -86,7 +85,7 @@ public class CourseJoinEmailsLogicTest extends BaseTestCase {
                 "CS101",
                 "Software Engineering",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
-        StudentCourseRejoinAfterUnlinkEmailContext studentContext = new StudentCourseRejoinAfterUnlinkEmailContext(
+        CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
                 "student@teammates.tmt",
                 "Student Name",
                 "https://example.com/join");
@@ -120,7 +119,7 @@ public class CourseJoinEmailsLogicTest extends BaseTestCase {
                 "CS101",
                 "Software Engineering",
                 List.of());
-        InstructorCourseRejoinAfterUnlinkEmailContext instructorContext = new InstructorCourseRejoinAfterUnlinkEmailContext(
+        CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
                 "instructor@teammates.tmt",
                 "Instructor Name",
                 "https://example.com/join");

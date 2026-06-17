@@ -17,18 +17,17 @@ import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmai
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
@@ -277,7 +276,7 @@ public class EmailRendererTest extends BaseTestCase {
     public void renderStudentCourseRejoinAfterUnlinkAccountEmail_student_returnsRejoinEmailBody() throws IOException {
         RenderedEmail actual = EmailRenderer.renderStudentCourseRejoinAfterUnlinkAccountEmail(
                 buildCourseContext(),
-                new StudentCourseRejoinAfterUnlinkEmailContext(
+                new CourseRejoinAfterUnlinkEmailContext(
                         "student@email.tmt",
                         "Student Name",
                         LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
@@ -306,7 +305,7 @@ public class EmailRendererTest extends BaseTestCase {
             throws IOException {
         RenderedEmail actual = EmailRenderer.renderInstructorCourseRejoinAfterUnlinkAccountEmail(
                 buildCourseContext(),
-                new InstructorCourseRejoinAfterUnlinkEmailContext(
+                new CourseRejoinAfterUnlinkEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
                         LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
