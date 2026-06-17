@@ -22,10 +22,9 @@ public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKe
 
     @Test(groups = GroupNames.ACTION)
     public void regenerateUserKeyAction_student_queuesStudentSummaryEmail() {
-        var course = given.course("course");
         var studentAccount = given.account("student-account");
-        given.student("student", s -> s.course(course.alias()).account(studentAccount.alias()));
-        given.instructor("instructor", i -> i.course(course.alias()).coOwner());
+        given.student("student", s -> s.defaultCourse().account(studentAccount.alias()));
+        given.instructor("instructor", i -> i.defaultCourse().coOwner());
         persistGivenData(given);
 
         String studentEmail = inTransaction(() -> Logic.inst().getStudent(given.uuid("student"))).getEmail();
@@ -43,9 +42,8 @@ public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKe
 
     @Test(groups = GroupNames.ACTION)
     public void regenerateUserKeyAction_instructor_queuesInstructorSummaryEmail() {
-        var course = given.course("course");
         var instructorAccount = given.account("instructor-account");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
         persistGivenData(given);
 
         String instructorEmail = inTransaction(() -> Logic.inst().getInstructor(given.uuid("instructor"))).getEmail();

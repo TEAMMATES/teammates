@@ -17,9 +17,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
     @Test(groups = GroupNames.ACTION)
     public void sendJoinReminderEmailAction_unregisteredStudent_queuesStudentJoinEmail() {
         var instructorAccount = given.account("instructor-account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
-        var student = given.student("student", s -> s.course(course.alias()).email("student@test.tmt"));
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
+        var student = given.student("student", s -> s.defaultCourse().email("student@test.tmt"));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -34,11 +33,10 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
     @Test(groups = GroupNames.ACTION)
     public void sendJoinReminderEmailAction_unregisteredInstructor_returnsSuccessMessage() {
         var actingInstructorAccount = given.account("acting-instructor-account");
-        var course = given.course("course");
-        given.instructor("acting-instructor", i -> i.course(course.alias())
+        given.instructor("acting-instructor", i -> i.defaultCourse()
                 .account(actingInstructorAccount.alias()).coOwner());
         var invitedInstructor = given.instructor("invited-instructor",
-                i -> i.course(course.alias()).email("invited-instructor@test.tmt").noAccount());
+                i -> i.defaultCourse().email("invited-instructor@test.tmt").noAccount());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -71,8 +69,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
     @Test(groups = GroupNames.ACTION)
     public void sendJoinReminderEmailAction_neitherUserIdNorCourseIdProvided_throwsInvalidHttpParameterException() {
         var instructorAccount = given.account("instructor-account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()

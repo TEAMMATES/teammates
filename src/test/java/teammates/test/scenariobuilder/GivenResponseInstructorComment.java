@@ -92,6 +92,13 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
             entity.setLastEditedBy(entity.getGiver());
         }
 
+        String responseCourseId =
+                entity.getFeedbackResponse().getFeedbackQuestion().getFeedbackSession().getCourseId();
+        assert entity.getGiver().getCourseId().equals(responseCourseId)
+                : "Giver's course '" + entity.getGiver().getCourseId() + "' does not match the feedback response's "
+                + "course '" + responseCourseId + "'. Set the feedback response before the giver, or pre-create "
+                + "the giver in the correct course.";
+
         entity.getFeedbackResponse().addResponseInstructorComment(entity);
     }
 

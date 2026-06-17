@@ -41,8 +41,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
     @Test(groups = GroupNames.ACTION)
     public void getStudentAction_adminBypass_returnsStudentData() {
-        var course = given.course("course");
-        var targetStudent = given.student("student", s -> s.course(course.alias()));
+        var targetStudent = given.student("student", s -> s.defaultCourse());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -57,10 +56,9 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
     @Test(groups = GroupNames.ACTION)
     public void getStudentAction_instructorWithoutSectionPrivilege_throwsUnauthorizedAccessException() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
-        var section = given.section("section", s -> s.course(course.alias()));
-        var targetStudent = given.student("student", s -> s.course(course.alias()).section(section.alias()));
-        given.instructor("requester", i -> i.account(requesterAccount.alias()).course(course.alias()).noPrivileges());
+        var section = given.section("section", s -> s.defaultCourse());
+        var targetStudent = given.student("student", s -> s.defaultCourse().section(section.alias()));
+        given.instructor("requester", i -> i.defaultCourse().account(requesterAccount.alias()).noPrivileges());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -73,8 +71,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
     @Test(groups = GroupNames.ACTION)
     public void getStudentAction_nonAdminNonexistentTarget_throwsUnauthorizedAccessException() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
-        given.instructor("requester", i -> i.account(requesterAccount.alias()).course(course.alias()));
+        given.instructor("requester", i -> i.defaultCourse().account(requesterAccount.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.logic.api.Logic;
 import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
@@ -19,13 +18,12 @@ public class FeedbackSessionOpenedRemindersActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionOpenedRemindersAction_openedSession_queuesParticipantAndPreviewEmails() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()));
-        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+        given.student("student", s -> s.defaultCourse());
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse()
                 .noCreator().opened().openedEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
-                .giverType(QuestionGiverType.STUDENTS));
+                .studentsToSelf());
         persistGivenData(given);
 
         MessageOutput result = execute(new RequestContext().withWorkerAuth());
@@ -37,13 +35,12 @@ public class FeedbackSessionOpenedRemindersActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionOpenedRemindersAction_notYetOpenedSession_doesNotQueueEmails() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()));
-        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+        given.student("student", s -> s.defaultCourse());
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse()
                 .waitingToOpen().openedEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
-                .giverType(QuestionGiverType.STUDENTS));
+                .studentsToSelf());
         persistGivenData(given);
 
         MessageOutput result = execute(new RequestContext().withWorkerAuth());
