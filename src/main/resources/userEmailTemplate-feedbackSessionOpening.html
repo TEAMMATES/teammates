@@ -1,7 +1,5 @@
 <p>Hello ${userName},</p>
 
-${instructorPreamble}
-
 <p>
   The following feedback session ${status}.
   <div>
@@ -65,7 +63,20 @@ ${instructorPreamble}
   </ul>
 </p>
 
-${additionalContactInformation}
+<p>
+  <ul>
+    <li>
+      <strong>Requests for deadline extensions, problems regarding ${particulars}</strong>,
+      and <strong>other non-technical queries</strong> about the feedback session:
+      <br>
+      Contact the instructors of the course: ${coOwnersEmails}
+    </li>
+    <li>
+      <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
+      Email TEAMMATES support team at ${supportEmail}.
+    </li>
+  </ul>
+</p>
 
 <p>
   Regards,

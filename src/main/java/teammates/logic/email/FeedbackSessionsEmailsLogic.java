@@ -1,7 +1,11 @@
 package teammates.logic.email;
 
+import java.util.List;
+
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.model.FeedbackSessionOpenedParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionOpenedPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -53,6 +57,37 @@ public class FeedbackSessionsEmailsLogic {
                 context.courseName(),
                 context.courseId());
         emailQueueService.enqueuePriority(email);
+    }
+
+    /**
+     * Enqueues feedback session opened emails using the standard queue.
+     */
+    public void enqueueOpenedEmails(
+            List<FeedbackSessionOpenedParticipantEmailContext> participantContexts,
+            List<FeedbackSessionOpenedPreviewEmailContext> previewContexts) {
+        List<EmailWrapper> emails = new java.util.ArrayList<>();
+        for (FeedbackSessionOpenedParticipantEmailContext context : participantContexts) {
+            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionOpenedParticipantEmail(context);
+            emails.add(EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    EmailType.FEEDBACK_OPENED,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName()));
+        }
+        for (FeedbackSessionOpenedPreviewEmailContext context : previewContexts) {
+            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionOpenedPreviewEmail(context);
+            EmailWrapper email = EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    EmailType.FEEDBACK_OPENED,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName());
+            email.setIsCopy(true);
+            email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
+            emails.add(email);
+        }
+        emailQueueService.enqueueStandard(emails);
     }
 
 }

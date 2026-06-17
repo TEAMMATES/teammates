@@ -22,6 +22,8 @@ import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionOpenedParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionOpenedPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -85,6 +87,66 @@ public class EmailRendererTest extends BaseTestCase {
         RenderedEmail actual = EmailRenderer.renderSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt");
 
         verifyEmailContent(actual.htmlContent(), "/sessionLinksRecoveryComposerNotFoundEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedParticipantEmail_student_returnsOpenedEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedParticipantEmail(
+                new FeedbackSessionOpenedParticipantEmailContext(
+                        "student1@course1.tmt",
+                        "student1 In Course1</td></div>'\"",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        false,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailForStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedParticipantEmail_instructor_returnsOpenedEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedParticipantEmail(
+                new FeedbackSessionOpenedParticipantEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedPreviewEmail_coOwner_returnsPreviewEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedPreviewEmail(
+                new FeedbackSessionOpenedPreviewEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailCopyToInstructor.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

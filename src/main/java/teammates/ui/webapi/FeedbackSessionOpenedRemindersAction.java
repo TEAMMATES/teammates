@@ -1,34 +1,13 @@
 package teammates.ui.webapi;
 
-import java.util.List;
-
-import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
-import teammates.storage.entity.FeedbackSession;
-
 /**
  * Cron job: schedules feedback session opened emails to be sent.
  */
 public class FeedbackSessionOpenedRemindersAction extends AutomatedServiceAction {
 
-    private static final Logger log = Logger.getLogger();
-
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = logic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
-
-        for (FeedbackSession session : sessions) {
-            RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpenedEmails(session);
-            try {
-                emailQueueService.enqueueStandard(emailsToBeSent);
-                session.setOpenedEmailSent(true);
-            } catch (Exception e) {
-                log.severe("Unexpected error", e);
-            }
-        }
-
+        logic.enqueueOpenedReminderEmailsForEligibleSessions();
         return new JsonResult("Successful");
     }
 

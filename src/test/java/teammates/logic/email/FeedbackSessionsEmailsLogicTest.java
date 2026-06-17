@@ -15,6 +15,8 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionOpenedParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionOpenedPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -125,6 +127,50 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
         assertEquals("TEAMMATES: Summary of course [Software Engineering][Course ID: CS101]", email.getSubject());
         assertTrue(email.getContent().contains("Midterm Feedback"));
         assertTrue(email.getContent().contains("<table"));
+    }
+
+    @Test
+    public void enqueueOpenedEmails_validContexts_enqueuesStandardEmails() {
+        FeedbackSessionOpenedParticipantEmailContext participantContext = new FeedbackSessionOpenedParticipantEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                false,
+                "Please submit your feedback.",
+                "https://example.com/submission",
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        FeedbackSessionOpenedPreviewEmailContext previewContext = new FeedbackSessionOpenedPreviewEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                "Please submit your feedback.",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionsEmailsLogic.enqueueOpenedEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_OPENED, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session now open [Course: Software Engineering][Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
     }
 
 }

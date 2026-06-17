@@ -44,7 +44,6 @@ public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
                                             + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_OPENED = "is now open";
     private static final String FEEDBACK_STATUS_SESSION_CLOSING_SOON = "is closing soon"
                                             + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
     private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
@@ -66,15 +65,7 @@ public final class EmailGenerator {
         return instance;
     }
 
-    /**
-     * Generate Feedback Session Opened emails.
-     */
-    public List<EmailWrapper> generateFeedbackSessionOpenedEmails(FeedbackSession session) {
-        return generateFeedbackSessionOpenedOrClosingSoonEmails(session, EmailType.FEEDBACK_OPENED);
-    }
-
-    private List<EmailWrapper> generateFeedbackSessionOpenedOrClosingSoonEmails(
-            FeedbackSession session, EmailType emailType) {
+    private List<EmailWrapper> generateFeedbackSessionClosingSoonEmailsForSession(FeedbackSession session) {
         Course course = session.getCourse();
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
         boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
@@ -88,33 +79,21 @@ public final class EmailGenerator {
                 ? usersLogic.getInstructorsForCourse(course.getId())
                 : new ArrayList<>();
 
-        if (emailType == EmailType.FEEDBACK_CLOSING_SOON) {
-            Set<DeadlineExtension> deadlines = session.getDeadlineExtensions();
-            Set<UUID> userIds = deadlines.stream()
-                    .map(d -> d.getUser().getId())
-                    .collect(Collectors.toSet());
+        Set<DeadlineExtension> deadlines = session.getDeadlineExtensions();
+        Set<UUID> userIds = deadlines.stream()
+                .map(d -> d.getUser().getId())
+                .collect(Collectors.toSet());
 
-            // student.
-            students = students.stream()
-                    .filter(x -> !userIds.contains(x.getId()))
-                    .collect(Collectors.toList());
+        students = students.stream()
+                .filter(x -> !userIds.contains(x.getId()))
+                .collect(Collectors.toList());
+        instructors = instructors.stream()
+                .filter(x -> !userIds.contains(x.getId()))
+                .collect(Collectors.toList());
 
-            // instructor.
-            instructors = instructors.stream()
-                    .filter(x -> !userIds.contains(x.getId()))
-                    .collect(Collectors.toList());
-        }
-
-        String status = emailType == EmailType.FEEDBACK_OPENED
-                ? FEEDBACK_STATUS_SESSION_OPENED
-                : FEEDBACK_STATUS_SESSION_CLOSING_SOON;
-
-        String template = emailType == EmailType.FEEDBACK_OPENED
-                ? EmailTemplates.USER_FEEDBACK_SESSION_OPENED.replace("${status}", status)
-                : EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
-
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                emailType, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+                EmailType.FEEDBACK_CLOSING_SOON, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
 
     /**
@@ -232,7 +211,7 @@ public final class EmailGenerator {
      * <p>Students and instructors with deadline extensions are not notified.
      */
     public List<EmailWrapper> generateFeedbackSessionClosingSoonEmails(FeedbackSession session) {
-        return generateFeedbackSessionOpenedOrClosingSoonEmails(session, EmailType.FEEDBACK_CLOSING_SOON);
+        return generateFeedbackSessionClosingSoonEmailsForSession(session);
     }
 
     /**
