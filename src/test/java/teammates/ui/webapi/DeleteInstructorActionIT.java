@@ -106,7 +106,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
 
         assertNotNull(inTransaction(() -> logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())));
         assertNotNull(inTransaction(() ->
-                logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())));
+                logic.getInstructorByAccountId(instructor.getAccountId(), instructor.getCourseId())));
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -153,7 +153,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertNotNull(inTransaction(() ->
                 logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail())));
         assertNotNull(inTransaction(() ->
-                logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
+                logic.getInstructorByAccountId(instructorToDelete.getAccountId(), instructorToDelete.getCourseId())));
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -177,7 +177,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertNotNull(inTransaction(() ->
                 logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail())));
         assertNotNull(inTransaction(() ->
-                logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
+                logic.getInstructorByAccountId(instructorToDelete.getAccountId(), instructorToDelete.getCourseId())));
     }
 
     @Test(groups = GroupNames.INTEGRATION)

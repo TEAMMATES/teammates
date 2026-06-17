@@ -38,6 +38,7 @@ import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
+import teammates.logic.core.DemoCourseLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
@@ -93,6 +94,7 @@ public class Logic {
     final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
+    final DemoCourseLogic demoCourseLogic = DemoCourseLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -249,6 +251,16 @@ public class Logic {
     }
 
     /**
+     * Creates a demo course for the instructor associated with the given account verification request.
+     *
+     * @see DemoCourseLogic#createDemoCourse
+     */
+    public void createDemoCourse(UUID id, String timezone, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
+        demoCourseLogic.createDemoCourse(id, timezone, account);
+    }
+
+    /**
      * Gets all pending account verification requests.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
@@ -281,13 +293,6 @@ public class Logic {
      */
     public Account getAccount(UUID id) {
         return accountsLogic.getAccount(id);
-    }
-
-    /**
-     * Gets an account by googleId.
-     */
-    public Account getAccountForGoogleId(String googleId) {
-        return accountsLogic.getAccountForGoogleId(googleId);
     }
 
     /**
@@ -325,13 +330,6 @@ public class Logic {
      */
     public User getUser(UUID id) {
         return usersLogic.getUser(id);
-    }
-
-    /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        return usersLogic.getStudentsByGoogleId(googleId);
     }
 
     /**
@@ -854,10 +852,10 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
+     * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        return usersLogic.getInstructorByGoogleId(courseId, googleId);
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        return usersLogic.getInstructorByAccountId(accountId, courseId);
     }
 
     /**

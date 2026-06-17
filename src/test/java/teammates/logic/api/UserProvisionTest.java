@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -69,7 +68,6 @@ public class UserProvisionTest extends BaseTestCase {
 
         when(mockUsersLogic.getInstructorsByAccountId(any(UUID.class))).thenReturn(List.of());
         when(mockUsersLogic.getStudentsByAccountId(any(UUID.class))).thenReturn(List.of());
-        when(mockAccountsLogic.getAccountForGoogleId(anyString())).thenReturn(null);
 
         mockConfigStatic = mockStatic(Config.class);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of());

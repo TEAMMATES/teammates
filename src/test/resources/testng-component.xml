@@ -12,6 +12,7 @@
             <package name="teammates.logic.email" />
             <package name="teammates.logic.external" />
             <package name="teammates.logic.external.email" />
+            <package name="teammates.logic.util" />
             <package name="teammates.storage.api" />
             <package name="teammates.ui.request" />
             <package name="teammates.ui.servlets" />
