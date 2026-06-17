@@ -51,9 +51,11 @@ public class EmailRendererTest extends BaseTestCase {
                         new CourseSessionLinks(
                                 "CS101",
                                 "Software Engineering",
+                                "Africa/Johannesburg",
                                 List.of(
                                         new SessionAccessLink(
                                                 "Midterm Feedback",
+                                                Instant.parse("2027-04-30T21:59:00Z"),
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
 
@@ -93,6 +95,7 @@ public class EmailRendererTest extends BaseTestCase {
                 buildFeedbackSessionSummaryContext(false, true, List.of(
                         new SessionAccessLink(
                                 "Midterm Feedback",
+                                Instant.parse("2027-04-30T21:59:00Z"),
                                 "https://example.com/submission",
                                 "https://example.com/results"))),
                 EmailType.STUDENT_EMAIL_CHANGED);
@@ -108,6 +111,7 @@ public class EmailRendererTest extends BaseTestCase {
                 buildFeedbackSessionSummaryContext(true, false, List.of(
                         new SessionAccessLink(
                                 "Final Reflection",
+                                Instant.parse("2026-04-28T21:59:00Z"),
                                 null,
                                 null))),
                 EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
@@ -459,7 +463,7 @@ public class EmailRendererTest extends BaseTestCase {
                 isInstructor
                         ? LinksUtil.getInstructorCourseJoinUrl(REG_KEY)
                         : LinksUtil.getStudentCourseJoinUrl(REG_KEY),
-                List.of(new CourseSessionLinks("CS101", "Software Engineering", sessionLinks)));
+                List.of(new CourseSessionLinks("CS101", "Software Engineering", "Africa/Johannesburg", sessionLinks)));
     }
 
 }

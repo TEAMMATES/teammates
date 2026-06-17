@@ -269,6 +269,8 @@ public final class EmailRenderer {
                 sessionRowsHtml.append(Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION,
                         "${sessionName}", SanitizationHelper.sanitizeForHtml(sessionLink.feedbackSessionName()),
+                        "${deadline}", SanitizationHelper.sanitizeForHtml(
+                                formatSessionAccessDeadline(sessionLink, courseSection.courseTimeZone())),
                         "${links}", linksHtml));
             }
 
@@ -312,6 +314,10 @@ public final class EmailRenderer {
         }
 
         return linksHtml.toString();
+    }
+
+    private static String formatSessionAccessDeadline(SessionAccessLink sessionLink, String courseTimeZone) {
+        return formatDeadline(sessionLink.endTime(), courseTimeZone);
     }
 
     private static String buildFeedbackSessionSummaryJoinFragment(

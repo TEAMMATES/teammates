@@ -46,9 +46,11 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                         new CourseSessionLinks(
                                 "CS101",
                                 "Software Engineering",
+                                "Africa/Johannesburg",
                                 List.of(
                                         new SessionAccessLink(
                                                 "Midterm Feedback",
+                                                java.time.Instant.parse("2027-04-30T21:59:00Z"),
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
 
@@ -103,8 +105,10 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 List.of(new CourseSessionLinks(
                         "CS101",
                         "Software Engineering",
+                        "Africa/Johannesburg",
                         List.of(new SessionAccessLink(
                                 "Midterm Feedback",
+                                java.time.Instant.parse("2027-04-30T21:59:00Z"),
                                 "https://example.com/submission",
                                 "https://example.com/results")))));
 

@@ -188,7 +188,7 @@ public final class FeedbackSessionsLogic {
             }
 
             recoverableCourseLinksMap.put(course.getId(), new CourseSessionLinks(
-                    course.getId(), course.getName(), recoverableSessionLinks));
+                    course.getId(), course.getName(), course.getTimeZone(), recoverableSessionLinks));
         }
 
         return new SessionLinksRecoveryContext(
@@ -221,7 +221,8 @@ public final class FeedbackSessionsLogic {
                 getCourseJoinUrl(user.getUserType(), user.getRegKey()),
                 sessionLinks.isEmpty()
                         ? List.of()
-                        : List.of(new CourseSessionLinks(course.getId(), course.getName(), sessionLinks)));
+                        : List.of(new CourseSessionLinks(
+                                course.getId(), course.getName(), course.getTimeZone(), sessionLinks)));
     }
 
     private List<SessionAccessLink> buildSessionAccessLinks(User user, List<FeedbackSession> sessions) {
@@ -229,6 +230,7 @@ public final class FeedbackSessionsLogic {
                 .sorted(Comparator.comparing(FeedbackSession::getName))
                 .map(session -> new SessionAccessLink(
                         session.getName(),
+                        session.getEndTime(),
                         session.isOpened() || session.isClosed()
                                 ? getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey())
                                 : null,
