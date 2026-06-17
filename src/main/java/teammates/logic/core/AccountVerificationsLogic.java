@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -83,6 +85,29 @@ public final class AccountVerificationsLogic {
             throws InvalidParametersException {
         validateAccountVerificationRequest(accountVerificationRequest);
         return accountVerificationRequest;
+    }
+
+    /**
+     * Approves the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is already approved.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest approveAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() == AccountVerificationRequestStatus.APPROVED) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is already approved.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.APPROVED);
+        validateAccountVerificationRequest(request);
+        return request;
     }
 
     /**
