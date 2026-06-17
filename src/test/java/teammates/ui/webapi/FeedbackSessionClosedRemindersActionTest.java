@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
 
-import teammates.logic.api.Logic;
+import teammates.storage.entity.FeedbackSession;
 import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 
@@ -22,7 +22,7 @@ public class FeedbackSessionClosedRemindersActionTest
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosedRemindersAction_recentlyClosedSession_queuesOwnerEmail() {
         given.instructor("coOwner", i -> i.defaultCourse().coOwner());
-        given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(3, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(30, ChronoUnit.MINUTES))
                 .sessionVisibleFromTime(Instant.now().minus(4, ChronoUnit.HOURS))
@@ -34,13 +34,13 @@ public class FeedbackSessionClosedRemindersActionTest
 
         assertEquals("Successful", result.getMessage());
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertTrue(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isClosedEmailSent()));
+        assertTrue(getEntityInTransaction(FeedbackSession.class, session.id()).isClosedEmailSent());
     }
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosedRemindersAction_alreadySent_doesNotQueueEmails() {
         given.instructor("coOwner", i -> i.defaultCourse().coOwner());
-        given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(3, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(30, ChronoUnit.MINUTES))
                 .sessionVisibleFromTime(Instant.now().minus(4, ChronoUnit.HOURS))
@@ -52,13 +52,13 @@ public class FeedbackSessionClosedRemindersActionTest
 
         assertEquals("Successful", result.getMessage());
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
-        assertTrue(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isClosedEmailSent()));
+        assertTrue(getEntityInTransaction(FeedbackSession.class, session.id()).isClosedEmailSent());
     }
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosedRemindersAction_closedOutsideWindow_doesNotQueueEmails() {
         given.instructor("coOwner", i -> i.defaultCourse().coOwner());
-        given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(7, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(3, ChronoUnit.HOURS))
                 .sessionVisibleFromTime(Instant.now().minus(8, ChronoUnit.HOURS))
@@ -70,6 +70,6 @@ public class FeedbackSessionClosedRemindersActionTest
 
         assertEquals("Successful", result.getMessage());
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
-        assertFalse(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isClosedEmailSent()));
+        assertFalse(getEntityInTransaction(FeedbackSession.class, session.id()).isClosedEmailSent());
     }
 }
