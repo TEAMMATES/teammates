@@ -11,6 +11,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -89,6 +93,58 @@ public final class EmailRenderer {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
                 "${appUrl}", userContext.appUrl(),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the admin alert email body for a newly created account
+     * verification request.
+     */
+    public static RenderedEmail renderAccountVerificationCreatedAdminAlertEmail(
+            AccountVerificationCreatedAdminAlertEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT,
+                "${name}", SanitizationHelper.sanitizeForHtml(context.instructorName()),
+                "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
+                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.instructorEmailAddress()),
+                "${comments}", sanitizeOptionalHtml(context.comments()),
+                "${adminAccountVerificationRequestsPageUrl}", context.adminAccountVerificationRequestsPageUrl()));
+    }
+
+    /**
+     * Renders the submitter acknowledgement email body for a newly created
+     * account verification request.
+     */
+    public static RenderedEmail renderAccountVerificationCreatedAcknowledgementEmail(
+            AccountVerificationCreatedAcknowledgementEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
+                "${name}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
+                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.recipientEmailAddress()),
+                "${comments}", sanitizeOptionalHtml(context.comments()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the approval email body for an approved account verification
+     * request.
+     */
+    public static RenderedEmail renderAccountVerificationApprovedEmail(
+            AccountVerificationApprovedEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.ACCOUNT_VERIFICATION_APPROVED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${welcomeUrl}", context.instructorWelcomeUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the rejection email body for a rejected account verification
+     * request.
+     */
+    public static RenderedEmail renderAccountVerificationRejectedEmail(
+            AccountVerificationRejectedEmailContext context) {
+        return new RenderedEmail(context.reasonBodyHtml());
     }
 
     /**
@@ -232,6 +288,10 @@ public final class EmailRenderer {
     private static String getAdditionalContactParticulars(boolean isInstructor) {
         return isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
+    }
+
+    private static String sanitizeOptionalHtml(String value) {
+        return value == null ? "" : SanitizationHelper.sanitizeForHtml(value);
     }
 
     private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {

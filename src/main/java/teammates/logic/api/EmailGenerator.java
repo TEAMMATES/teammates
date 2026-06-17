@@ -20,7 +20,6 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
@@ -559,95 +558,6 @@ public final class EmailGenerator {
         email.setIsCopy(true);
         email.setSubjectFromType(course.getName(), session.getName());
         email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the new instructor account join email for the given {@code instructor}.
-     */
-    public EmailWrapper generateNewInstructorAccountJoinEmail(
-            String instructorEmail, String instructorName, String joinUrl) {
-
-        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructorName),
-                "${joinUrl}", joinUrl);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
-        email.setBcc(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.NEW_INSTRUCTOR_ACCOUNT);
-        email.setSubjectFromType(SanitizationHelper.sanitizeForHtml(instructorName));
-        email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the email to alert the admin of the new {@code accountVerificationRequest}.
-     */
-    public EmailWrapper generateNewAccountVerificationRequestAdminAlertEmail(
-            AccountVerificationRequest accountVerificationRequest) {
-        String name = accountVerificationRequest.getName();
-        String institute = accountVerificationRequest.getInstitute().getName();
-        String emailAddress = accountVerificationRequest.getEmail();
-        String comments = accountVerificationRequest.getComments();
-        if (comments == null) {
-            comments = "";
-        }
-        String adminAccountVerificationRequestsPageUrl = LinksUtil.getAdminHomePageUrl();
-        String[] templateKeyValuePairs = new String[] {
-                "${name}", name,
-                "${institute}", institute,
-                "${emailAddress}", emailAddress,
-                "${comments}", comments,
-                "${adminAccountVerificationRequestsPageUrl}", adminAccountVerificationRequestsPageUrl,
-        };
-        String content = Templates.populateTemplate(
-                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT, templateKeyValuePairs);
-        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT);
-        email.setSubjectFromType();
-        email.setContent(content);
-        return email;
-    }
-
-    /**
-     * Generates the acknowledgement email to be sent to the person who submitted {@code accountVerificationRequest}.
-     */
-    public EmailWrapper generateNewAccountVerificationRequestAcknowledgementEmail(
-            AccountVerificationRequest accountVerificationRequest) {
-        String name = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getName());
-        String institute = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getInstitute().getName());
-        String emailAddress = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getEmail());
-        String comments = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getComments());
-        if (comments == null) {
-            comments = "";
-        }
-        String[] templateKeyValuePairs = new String[] {
-                "${name}", name,
-                "${institute}", institute,
-                "${emailAddress}", emailAddress,
-                "${comments}", comments,
-                "${supportEmail}", Config.SUPPORT_EMAIL,
-        };
-        String content = Templates.populateTemplate(
-                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
-        EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
-        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT);
-        email.setSubjectFromType();
-        email.setContent(content);
-        return email;
-    }
-
-    /**
-     * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
-     */
-    public EmailWrapper generateAccountVerificationRequestRejectionEmail(
-            AccountVerificationRequest accountVerificationRequest, String title, String content) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());
-        email.setType(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION);
-        email.setBcc(Config.SUPPORT_EMAIL);
-        email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
-        email.setContent(SanitizationHelper.sanitizeForRichText(content));
-
         return email;
     }
 

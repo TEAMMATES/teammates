@@ -1,5 +1,6 @@
 package teammates.logic.email;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
@@ -11,6 +12,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -106,6 +111,118 @@ public class EmailRendererTest extends BaseTestCase {
                         LinksUtil.getInstructorHomePageUrl()));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRegisterEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationApprovedEmail_typicalCase_returnsApprovalEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationApprovedEmail(
+                new AccountVerificationApprovedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Dr Elena Hart",
+                        LinksUtil.getInstructorWelcomeUrl(UUID.fromString("33333333-3333-3333-3333-333333333333"))));
+
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationApprovedEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationApprovedEmail_nameNeedsSanitization_returnsSanitizedApprovalEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationApprovedEmail(
+                new AccountVerificationApprovedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Instructor<script> alert('hi!'); </script>",
+                        LinksUtil.getInstructorWelcomeUrl(UUID.fromString("33333333-3333-3333-3333-333333333333"))));
+
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationApprovedEmailTestingSanitization.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationRejectedEmail_typicalCase_returnsRejectedEmailBody() throws IOException {
+        String rejectionBody = """
+                <p>Hi, Dr Hart</p>
+                <p>Thanks for your interest in using TEAMMATES. We are unable to approve your instructor account
+                verification request.</p>
+
+                <p>
+                  <strong>Reason:</strong> The email address you provided could not be verified against your
+                  institution.<br />
+                  <strong>Remedy:</strong> Please resubmit your request using your official institution email address.
+                </p>
+
+                <p>If you need further clarification or would like to appeal this decision, please feel free to
+                contact us at teammates@comp.nus.edu.sg.</p>
+                <p>Regards,<br />TEAMMATES Team.</p>
+                """;
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
+                new AccountVerificationRejectedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Verification request update",
+                        rejectionBody));
+
+        assertEquals(rejectionBody, actual.htmlContent());
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAdminAlertEmail_withComments_returnsAlertEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAdminAlertEmail(
+                new AccountVerificationCreatedAdminAlertEmailContext(
+                        "admin@teammates.tmt",
+                        "Dr Elena Hart",
+                        "Northbridge Institute of Technology",
+                        "elena.hart@northbridge.edu",
+                        "I will be using TEAMMATES for peer evaluation in introductory software design courses.",
+                        LinksUtil.getAdminHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/adminNewAccountVerificationRequestAlertEmailWithComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAdminAlertEmail_withoutComments_returnsAlertEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAdminAlertEmail(
+                new AccountVerificationCreatedAdminAlertEmailContext(
+                        "admin@teammates.tmt",
+                        "Prof Adrian Cole",
+                        "Riverview School of Business",
+                        "adrian.cole@riverview.edu",
+                        null,
+                        LinksUtil.getAdminHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/adminNewAccountVerificationRequestAlertEmailWithNoComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAcknowledgementEmail_withComments_returnsAcknowledgementEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAcknowledgementEmail(
+                new AccountVerificationCreatedAcknowledgementEmailContext(
+                        "maya.bennett@westhaven.edu",
+                        "Dr Maya Bennett",
+                        "Westhaven College",
+                        "I will be using TEAMMATES for peer evaluation in my communication studies classes."));
+
+        verifyEmailContent(actual.htmlContent(),
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationCreatedAcknowledgementEmail_withoutComments_returnsAcknowledgementEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationCreatedAcknowledgementEmail(
+                new AccountVerificationCreatedAcknowledgementEmailContext(
+                        "owen.frost@oakridge.edu",
+                        "Dr Owen Frost",
+                        "Oakridge University",
+                        null));
+
+        verifyEmailContent(actual.htmlContent(),
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithNoComments.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

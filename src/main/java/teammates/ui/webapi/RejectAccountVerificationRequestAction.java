@@ -6,7 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -21,19 +20,14 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountVerificationRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
+        AccountVerificationRequestRejectionRequest rejectionRequest = getRequestBody().isBlank()
+                ? new AccountVerificationRequestRejectionRequest(null, null)
+                : getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
 
         try {
             AccountVerificationRequest accountVerificationRequest =
-                    logic.rejectAccountVerificationRequest(accountVerificationRequestId);
-            AccountVerificationRequestRejectionRequest rejectionRequest =
-                    getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
-            if (rejectionRequest.checkHasReason()) {
-                EmailWrapper email = emailGenerator.generateAccountVerificationRequestRejectionEmail(
-                        accountVerificationRequest,
-                        rejectionRequest.getReasonTitle(),
-                        rejectionRequest.getReasonBody());
-                emailQueueService.enqueuePriority(email);
-            }
+                    logic.rejectAccountVerificationRequest(accountVerificationRequestId,
+                            rejectionRequest.getReasonTitle(), rejectionRequest.getReasonBody());
             return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

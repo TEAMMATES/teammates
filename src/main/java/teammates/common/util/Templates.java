@@ -76,8 +76,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
         public static final String USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-regenerateLinksResendAllCourseLinks.html");
-        public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
-                FileHelper.readResourceFile("newInstructorAccountWelcome.html");
+        public static final String ACCOUNT_VERIFICATION_APPROVED =
+                FileHelper.readResourceFile("accountVerificationApproved.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
         public static final String OWNER_FEEDBACK_SESSION =

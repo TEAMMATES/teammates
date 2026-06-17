@@ -20,6 +20,7 @@ import teammates.logic.api.Logic;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.core.LogicStarter;
+import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.EmailQueueService;
@@ -74,6 +75,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected void setUpMethod() {
         LogicStarter.initializeDependencies();
         EmailQueueService emailQueueService = EmailQueueService.withTaskQueuer(mockTaskQueuer);
+        AccountVerificationEmailsLogic.inst().init(emailQueueService);
         CourseJoinEmailsLogic.inst().init(emailQueueService);
         DeadlineExtensionsEmailsLogic.inst().init(emailQueueService);
         FeedbackSessionsEmailsLogic.inst().init(emailQueueService);
