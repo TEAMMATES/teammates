@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
-import { LoginMethodButtonBaseComponent } from '../login-method-button-base/login-method-button-base.component';
-import { LoginMethod } from '../../../../types/api-output';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'tm-google-login-button',
   templateUrl: './google-login-button.component.html',
-  imports: [LoginMethodButtonBaseComponent],
+  styleUrls: ['./google-login-button.component.scss'],
 })
 export class GoogleLoginButtonComponent {
-  protected readonly method = LoginMethod.GOOGLE;
+  @Output() login: EventEmitter<void> = new EventEmitter<void>();
 }

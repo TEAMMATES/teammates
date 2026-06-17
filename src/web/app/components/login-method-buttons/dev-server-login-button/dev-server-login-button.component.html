@@ -1,5 +1,13 @@
-<tm-login-method-button-base [loginMethod]="method">
-  <i login-button-icon class="fas fa-user-lock"></i>
+<button
+  type="button"
+  class="btn btn-outline-dark border-2 w-100 fw-semibold position-relative dev-server-login-button"
+  (click)="login.emit()"
+>
+  <span
+    class="dev-server-login-button-icon position-absolute top-50 start-0 translate-middle-y ms-3 d-inline-flex align-items-center justify-content-center"
+  >
+    <i class="fas fa-user-lock"></i>
+  </span>
 
-  <ng-container login-button-text> Continue with Development Server </ng-container>
-</tm-login-method-button-base>
+  <span class="d-block text-center text-truncate px-5">Continue with Development Server</span>
+</button>

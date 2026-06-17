@@ -1,23 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DevServerLoginButtonComponent } from './dev-server-login-button.component';
-import { LOGIN_METHOD_BUTTON_CONTEXT, LoginMethodButtonContext } from '../login-method-button-context';
 
 describe('DevServerLoginButtonComponent', () => {
   let component: DevServerLoginButtonComponent;
   let fixture: ComponentFixture<DevServerLoginButtonComponent>;
-  let mockLoginMethodButtonContext: LoginMethodButtonContext;
 
   beforeEach(async () => {
-    mockLoginMethodButtonContext = { nextUrl: '/test' };
-
-    await TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: LOGIN_METHOD_BUTTON_CONTEXT,
-          useValue: mockLoginMethodButtonContext,
-        },
-      ],
-    }).compileComponents();
+    await TestBed.configureTestingModule({}).compileComponents();
 
     fixture = TestBed.createComponent(DevServerLoginButtonComponent);
     component = fixture.componentInstance;
@@ -26,5 +15,13 @@ describe('DevServerLoginButtonComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit login event when clicked', () => {
+    const loginSpy = vi.spyOn(component.login, 'emit');
+
+    fixture.nativeElement.querySelector('button').click();
+
+    expect(loginSpy).toHaveBeenCalledOnce();
   });
 });

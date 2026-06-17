@@ -2,8 +2,8 @@ import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginMethodButtonsListComponent } from './login-method-buttons-list.component';
 import { LoginMethod } from '../../../types/api-output';
-import { LoginMethodButtonBaseComponent } from '../login-method-buttons/login-method-button-base/login-method-button-base.component';
 import { environment } from '../../../environments/environment';
+import { GoogleLoginButtonComponent } from '../login-method-buttons/google-login-button/google-login-button.component';
 
 describe('LoginMethodButtonsListComponent', () => {
   let component: LoginMethodButtonsListComponent;
@@ -20,18 +20,25 @@ describe('LoginMethodButtonsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should provide nextUrl to rendered login buttons', () => {
+  it('should build login URL for selected login method', () => {
     component.nextUrl = '/web/student/home';
-    component.supportedLoginMethods = new Set([LoginMethod.GOOGLE]);
-    fixture.detectChanges();
+    const getCompleteLoginUrl = component as unknown as { getCompleteLoginUrl: (method: LoginMethod) => string };
 
-    const buttonBase = fixture.debugElement.query(By.directive(LoginMethodButtonBaseComponent))
-      .componentInstance as LoginMethodButtonBaseComponent;
-    const getCompleteLoginUrl = buttonBase as unknown as { getCompleteLoginUrl: () => string };
-
-    expect(getCompleteLoginUrl.getCompleteLoginUrl()).toBe(
+    expect(getCompleteLoginUrl.getCompleteLoginUrl(LoginMethod.GOOGLE)).toBe(
       `${environment.backendUrl}/login?nextUrl=%2Fweb%2Fstudent%2Fhome&method=google`,
     );
+  });
+
+  it('should log in with selected login method when rendered button is clicked', () => {
+    component.supportedLoginMethods = new Set([LoginMethod.GOOGLE]);
+    const loginSpy = vi.spyOn(component, 'login').mockReturnValue();
+    fixture.detectChanges();
+
+    const googleLoginButton = fixture.debugElement.query(By.directive(GoogleLoginButtonComponent))
+      .componentInstance as GoogleLoginButtonComponent;
+    googleLoginButton.login.emit();
+
+    expect(loginSpy).toHaveBeenCalledWith(LoginMethod.GOOGLE);
   });
 
   it('should support login method sets', () => {

@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
-import { LoginMethodButtonBaseComponent } from '../login-method-button-base/login-method-button-base.component';
-import { LoginMethod } from '../../../../types/api-output';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'tm-dev-server-login-button',
   templateUrl: './dev-server-login-button.component.html',
-  imports: [LoginMethodButtonBaseComponent],
+  styleUrls: ['./dev-server-login-button.component.scss'],
 })
 export class DevServerLoginButtonComponent {
-  protected readonly method = LoginMethod.DEV_SERVER;
+  @Output() login: EventEmitter<void> = new EventEmitter<void>();
 }

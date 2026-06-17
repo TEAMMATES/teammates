@@ -1,9 +1,9 @@
-<div class="login-method-buttons d-flex flex-column gap-3 mx-auto">
+<div class="login-method-buttons d-flex flex-column gap-3 mx-auto w-100">
   @if (isSupported(LoginMethod.GOOGLE)) {
-    <tm-google-login-button></tm-google-login-button>
+    <tm-google-login-button (login)="login(LoginMethod.GOOGLE)"></tm-google-login-button>
   }
 
   @if (isSupported(LoginMethod.DEV_SERVER)) {
-    <tm-dev-server-login-button></tm-dev-server-login-button>
+    <tm-dev-server-login-button (login)="login(LoginMethod.DEV_SERVER)"></tm-dev-server-login-button>
   }
 </div>
