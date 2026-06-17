@@ -145,6 +145,30 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testRejectAccountVerificationRequest_withReason_enqueuesRejectionEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
+                request.getId(), "Verification request update", "<p>Rejected</p>");
+
+        assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
+    }
+
+    @Test
+    public void testRejectAccountVerificationRequest_withoutReason_doesNotEnqueueRejectionEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
+                request.getId(), null, null);
+
+        assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        verify(accountVerificationEmailsLogic, never()).enqueueRejectionEmail(any());
+    }
+
+    @Test
     public void testDeleteAccountVerificationRequest_typicalRequest_success() {
         AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(ar.getId())).thenReturn(ar);

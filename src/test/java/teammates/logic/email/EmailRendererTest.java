@@ -1,5 +1,6 @@
 package teammates.logic.email;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import teammates.common.util.LinksUtil;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -135,6 +137,32 @@ public class EmailRendererTest extends BaseTestCase {
 
         verifyEmailContent(actual.htmlContent(), "/accountVerificationApprovedEmailTestingSanitization.html");
         assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationRejectedEmail_typicalCase_returnsRejectedEmailBody() throws IOException {
+        String rejectionBody = """
+                <p>Hi, Dr Hart</p>
+                <p>Thanks for your interest in using TEAMMATES. We are unable to approve your instructor account
+                verification request.</p>
+
+                <p>
+                  <strong>Reason:</strong> The email address you provided could not be verified against your
+                  institution.<br />
+                  <strong>Remedy:</strong> Please resubmit your request using your official institution email address.
+                </p>
+
+                <p>If you need further clarification or would like to appeal this decision, please feel free to
+                contact us at teammates@comp.nus.edu.sg.</p>
+                <p>Regards,<br />TEAMMATES Team.</p>
+                """;
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
+                new AccountVerificationRejectedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Verification request update",
+                        rejectionBody));
+
+        assertEquals(rejectionBody, actual.htmlContent());
     }
 
     @Test

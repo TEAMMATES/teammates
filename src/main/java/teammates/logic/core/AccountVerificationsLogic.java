@@ -4,16 +4,20 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Config;
 import teammates.common.util.LinksUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -178,6 +182,20 @@ public final class AccountVerificationsLogic {
      */
     public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
             throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return rejectAccountVerificationRequest(id, null, null);
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id} and
+     * optionally enqueues a rejection email when both reason fields are present.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(
+            UUID id, @Nullable String reasonTitle, @Nullable String reasonBody)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
         AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
         if (request == null) {
             throw new EntityDoesNotExistException(
@@ -189,6 +207,12 @@ public final class AccountVerificationsLogic {
         }
         request.setStatus(AccountVerificationRequestStatus.REJECTED);
         validateAccountVerificationRequest(request);
+        if (reasonTitle != null && reasonBody != null) {
+            accountVerificationEmailsLogic.enqueueRejectionEmail(new AccountVerificationRejectedEmailContext(
+                    request.getEmail(),
+                    SanitizationHelper.sanitizeTitle(reasonTitle),
+                    SanitizationHelper.sanitizeForRichText(reasonBody)));
+        }
         return request;
     }
 

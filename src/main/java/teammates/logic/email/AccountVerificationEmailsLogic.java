@@ -6,6 +6,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 
 /**
@@ -63,6 +64,20 @@ public class AccountVerificationEmailsLogic {
                 EmailType.ACCOUNT_VERIFICATION_APPROVED,
                 renderedEmail,
                 context.recipientName());
+        email.setBcc(Config.SUPPORT_EMAIL);
+        emailQueueService.enqueuePriority(email);
+    }
+
+    /**
+     * Enqueues the rejection email for a rejected account verification request.
+     */
+    public void enqueueRejectionEmail(AccountVerificationRejectedEmailContext context) {
+        RenderedEmail renderedEmail = EmailRenderer.renderAccountVerificationRejectedEmail(context);
+        EmailWrapper email = EmailWrapperBuilder.build(
+                context.recipientEmailAddress(),
+                EmailType.ACCOUNT_VERIFICATION_REJECTED,
+                renderedEmail,
+                context.reasonTitle());
         email.setBcc(Config.SUPPORT_EMAIL);
         emailQueueService.enqueuePriority(email);
     }

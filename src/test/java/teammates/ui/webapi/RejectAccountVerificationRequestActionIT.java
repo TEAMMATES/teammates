@@ -30,16 +30,16 @@ import teammates.ui.request.AccountVerificationRequestRejectionRequest;
  * SUT: {@link RejectAccountVerificationRequestAction}.
  */
 public class RejectAccountVerificationRequestActionIT extends BaseActionIT<RejectAccountVerificationRequestAction> {
-    private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
+    private static final String TYPICAL_TITLE = "We are Unable to Approve Your Verification Request";
     private static final String TYPICAL_BODY = new StringBuilder()
             .append("<p>Hi, Example</p>\n")
             .append("<p>Thanks for your interest in using TEAMMATES. ")
-            .append("We are unable to create a TEAMMATES instructor account for you.</p>\n\n")
+            .append("We are unable to approve your instructor account verification request.</p>\n\n")
             .append("<p>\n")
             .append("  <strong>Reason:</strong> The email address you provided ")
-            .append("is not an 'official' email address provided by your institution.<br />\n")
+            .append("could not be verified against your institution.<br />\n")
             .append("  <strong>Remedy:</strong> ")
-            .append("Please re-submit an account verification request with your 'official' institution email address.\n")
+            .append("Please re-submit your account verification request using your official institution email address.\n")
             .append("</p>\n\n")
             .append("<p>If you need further clarification or would like to appeal this decision, ")
             .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
@@ -98,7 +98,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
         verifyNumberOfEmailsQueued(1);
         EmailWrapper sentEmail = getQueuedEmails().get(0);
-        assertEquals(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION, sentEmail.getType());
+        assertEquals(EmailType.ACCOUNT_VERIFICATION_REJECTED, sentEmail.getType());
         assertEquals(Config.SUPPORT_EMAIL, sentEmail.getBcc());
         assertEquals(accountVerificationRequest.getEmail(), sentEmail.getRecipient());
         assertEquals(SanitizationHelper.sanitizeForRichText(TYPICAL_BODY), sentEmail.getContent());

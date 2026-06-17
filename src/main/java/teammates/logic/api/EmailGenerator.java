@@ -641,10 +641,10 @@ public final class EmailGenerator {
     /**
      * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
      */
-    public EmailWrapper generateAccountVerificationRequestRejectionEmail(
-            AccountVerificationRequest accountVerificationRequest, String title, String content) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());
-        email.setType(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION);
+    public EmailWrapper generateAccountVerificationRejectedEmail(
+            String recipientEmailAddress, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(recipientEmailAddress);
+        email.setType(EmailType.ACCOUNT_VERIFICATION_REJECTED);
         email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
         email.setContent(SanitizationHelper.sanitizeForRichText(content));

@@ -14,6 +14,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
@@ -135,6 +136,15 @@ public final class EmailRenderer {
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${welcomeUrl}", context.instructorWelcomeUrl(),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the rejection email body for a rejected account verification
+     * request.
+     */
+    public static RenderedEmail renderAccountVerificationRejectedEmail(
+            AccountVerificationRejectedEmailContext context) {
+        return new RenderedEmail(context.reasonBodyHtml());
     }
 
     /**
