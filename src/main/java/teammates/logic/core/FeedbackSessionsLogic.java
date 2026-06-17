@@ -1195,6 +1195,11 @@ public final class FeedbackSessionsLogic {
             session.setClosingSoonEmailSent(
                     session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
+
+        // reset isPublishedEmailSent if the session has been published but is being un-published
+        if (session.isPublishedEmailSent() && !session.isPublished()) {
+            session.setPublishedEmailSent(false);
+        }
     }
 
     /**
