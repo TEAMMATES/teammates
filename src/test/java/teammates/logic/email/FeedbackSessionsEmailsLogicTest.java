@@ -131,7 +131,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     @Test
     public void enqueueOpenedEmails_validContexts_enqueuesStandardEmails() {
-        FeedbackSessionParticipantReminderEmailContext participantContext = new FeedbackSessionParticipantReminderEmailContext(
+        var participantContext = new FeedbackSessionParticipantReminderEmailContext(
                 "student@teammates.tmt",
                 "Student Name",
                 "CS101",
@@ -144,7 +144,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/submission",
                 false,
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
-        FeedbackSessionPreviewReminderEmailContext previewContext = new FeedbackSessionPreviewReminderEmailContext(
+        var previewContext = new FeedbackSessionPreviewReminderEmailContext(
                 "instructor@teammates.tmt",
                 "Instructor One",
                 "CS101",
@@ -175,7 +175,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     @Test
     public void enqueueClosingSoonEmails_validContexts_enqueuesStandardEmails() {
-        FeedbackSessionParticipantReminderEmailContext participantContext = new FeedbackSessionParticipantReminderEmailContext(
+        var participantContext = new FeedbackSessionParticipantReminderEmailContext(
                 "student@teammates.tmt",
                 "Student Name",
                 "CS101",
@@ -188,7 +188,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/submission",
                 false,
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
-        FeedbackSessionPreviewReminderEmailContext previewContext = new FeedbackSessionPreviewReminderEmailContext(
+        var previewContext = new FeedbackSessionPreviewReminderEmailContext(
                 "instructor@teammates.tmt",
                 "Instructor One",
                 "CS101",
@@ -213,7 +213,8 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
         EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
         assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
         assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
-                + "TEAMMATES: Feedback session closing soon [Course: Software Engineering][Feedback Session: Midterm Feedback]",
+                + "TEAMMATES: Feedback session closing soon [Course: Software Engineering]"
+                + "[Feedback Session: Midterm Feedback]",
                 previewEmail.getSubject());
     }
 
