@@ -25,6 +25,8 @@ import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -274,6 +276,58 @@ public class EmailRendererTest extends BaseTestCase {
                         buildCourseContext().coOwnerContacts()));
 
         verifyEmailContent(actual.htmlContent(), "/sessionReminderEmailCopyToInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionPublishedParticipantEmail_student_returnsPublishedEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionPublishedParticipantEmail(
+                new FeedbackSessionPublishedParticipantEmailContext(
+                        "student1@course1.tmt",
+                        "student1 In Course1</td></div>'\"",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "First feedback session",
+                        LinksUtil.getStudentSessionResultsUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        false,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionPublishedEmailForStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionPublishedParticipantEmail_instructor_returnsPublishedEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionPublishedParticipantEmail(
+                new FeedbackSessionPublishedParticipantEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "First feedback session",
+                        LinksUtil.getInstructorSessionResultsUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionPublishedEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionPublishedPreviewEmail_coOwner_returnsPublishedPreviewEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionPublishedPreviewEmail(
+                new FeedbackSessionPublishedPreviewEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "First feedback session",
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionPublishedEmailCopyToInstructor.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

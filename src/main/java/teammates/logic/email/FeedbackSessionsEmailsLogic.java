@@ -9,6 +9,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -119,6 +121,52 @@ public class FeedbackSessionsEmailsLogic {
                 EmailRenderer::renderFeedbackSessionReminderParticipantEmail,
                 EmailRenderer::renderFeedbackSessionReminderPreviewEmail);
         emailQueueService.enqueuePriority(emails);
+    }
+
+    /**
+     * Enqueues feedback session published emails using the standard queue.
+     */
+    public void enqueuePublishedEmails(
+            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
+            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
+        emailQueueService.enqueueStandard(buildPublishedEmails(participantContexts, previewContexts));
+    }
+
+    /**
+     * Enqueues feedback session published emails using the priority queue.
+     */
+    public void enqueuePublishedReminderEmails(
+            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
+            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
+        emailQueueService.enqueuePriority(buildPublishedEmails(participantContexts, previewContexts));
+    }
+
+    private List<EmailWrapper> buildPublishedEmails(
+            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
+            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
+        List<EmailWrapper> emails = new ArrayList<>();
+        for (FeedbackSessionPublishedParticipantEmailContext context : participantContexts) {
+            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionPublishedParticipantEmail(context);
+            emails.add(EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    EmailType.FEEDBACK_PUBLISHED,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName()));
+        }
+        for (FeedbackSessionPublishedPreviewEmailContext context : previewContexts) {
+            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionPublishedPreviewEmail(context);
+            EmailWrapper email = EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    EmailType.FEEDBACK_PUBLISHED,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName());
+            email.setIsCopy(true);
+            email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
+            emails.add(email);
+        }
+        return emails;
     }
 
     private void enqueueReminderEmails(

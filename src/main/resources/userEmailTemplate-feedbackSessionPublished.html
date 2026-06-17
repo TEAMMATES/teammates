@@ -1,9 +1,7 @@
 <p>Hello ${userName},</p>
 
-${instructorPreamble}
-
 <p>
-  The feedback responses for the following feedback session is now open for viewing.
+  The feedback responses for the following feedback session are now available for viewing.
   <div>
     <table style="max-width:600px;border:1px solid black;">
       <tr>
@@ -38,7 +36,20 @@ ${instructorPreamble}
   </ul>
 </p>
 
-${additionalContactInformation}
+<p>
+  <ul>
+    <li>
+      <strong>Requests for deadline extensions, problems regarding ${particulars}</strong>,
+      and <strong>other non-technical queries</strong> about the feedback session:
+      <br>
+      Contact the instructors of the course: ${coOwnersEmails}
+    </li>
+    <li>
+      <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
+      Email TEAMMATES support team at ${supportEmail}.
+    </li>
+  </ul>
+</p>
 
 <p>
   Regards,
