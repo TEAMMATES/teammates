@@ -106,7 +106,33 @@ public class FeedbackSessionsEmailsLogic {
                 EmailRenderer::renderFeedbackSessionClosedEmail);
     }
 
+    /**
+     * Enqueues feedback session submission reminder emails using the priority queue.
+     */
+    public void enqueueSubmissionReminderEmails(
+            List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
+            List<FeedbackSessionPreviewReminderEmailContext> previewContexts) {
+        List<EmailWrapper> emails = buildReminderEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_SESSION_REMINDER,
+                EmailRenderer::renderFeedbackSessionReminderParticipantEmail,
+                EmailRenderer::renderFeedbackSessionReminderPreviewEmail);
+        emailQueueService.enqueuePriority(emails);
+    }
+
     private void enqueueReminderEmails(
+            List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
+            List<FeedbackSessionPreviewReminderEmailContext> previewContexts,
+            EmailType emailType,
+            Function<FeedbackSessionParticipantReminderEmailContext, RenderedEmail> participantRenderer,
+            Function<FeedbackSessionPreviewReminderEmailContext, RenderedEmail> previewRenderer) {
+        List<EmailWrapper> emails = buildReminderEmails(
+                participantContexts, previewContexts, emailType, participantRenderer, previewRenderer);
+        emailQueueService.enqueueStandard(emails);
+    }
+
+    private List<EmailWrapper> buildReminderEmails(
             List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
             List<FeedbackSessionPreviewReminderEmailContext> previewContexts,
             EmailType emailType,
@@ -130,12 +156,11 @@ public class FeedbackSessionsEmailsLogic {
                     renderedEmail,
                     context.courseName(),
                     context.feedbackSessionName());
-            // setSubjectFromType is called again to include the copy prefix in the subject
             email.setIsCopy(true);
             email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
             emails.add(email);
         }
-        emailQueueService.enqueueStandard(emails);
+        return emails;
     }
 
     private void enqueueOwnerReminderEmails(

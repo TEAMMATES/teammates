@@ -31,14 +31,8 @@ public final class EmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String FEEDBACK_ACTION_SUBMIT_OR_UPDATE =
-                            ", in case you have not submitted yet or wish to update your submission. ";
-    private static final String HTML_NO_ACTION_REQUIRED = "<mark>No action is required if you have already submitted</mark>";
 
     // status-related strings
-    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -52,25 +46,6 @@ public final class EmailGenerator {
 
     public static EmailGenerator inst() {
         return instance;
-    }
-
-    /**
-     * Generates the feedback session reminder emails for the given {@code session} for {@code students}
-     * and {@code instructorsToRemind}. In addition, the emails will also be forwarded to {@code instructorsToNotify}.
-     */
-    public List<EmailWrapper> generateFeedbackSessionReminderEmails(
-            FeedbackSession session, List<Student> students,
-            List<Instructor> instructorsToRemind, Instructor instructorToNotify) {
-
-        Course course = session.getCourse();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
-        List<Instructor> instructorToNotifyAsList = new ArrayList<>();
-        if (instructorToNotify != null) {
-            instructorToNotifyAsList.add(instructorToNotify);
-        }
-
-        return generateFeedbackSessionEmailBases(course, session, students, instructorsToRemind, instructorToNotifyAsList,
-                template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
 
     /**

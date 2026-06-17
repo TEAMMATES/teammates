@@ -1312,6 +1312,17 @@ public class Logic {
     }
 
     /**
+     * Enqueues submission reminder emails for selected respondents of an open
+     * feedback session.
+     */
+    public void enqueueSubmissionReminderEmails(
+            UUID feedbackSessionId, UUID[] userIdsToRemind, boolean sendCopyToInstructor, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        feedbackSessionsLogic.enqueueSubmissionReminderEmails(
+                feedbackSessionId, userIdsToRemind, sendCopyToInstructor, accountId);
+    }
+
+    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.

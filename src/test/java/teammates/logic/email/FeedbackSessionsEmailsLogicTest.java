@@ -220,6 +220,50 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void enqueueSubmissionReminderEmails_validContexts_enqueuesPriorityEmails() {
+        var participantContext = new FeedbackSessionParticipantReminderEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                false,
+                "Please submit your feedback.",
+                "https://example.com/submission",
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionPreviewReminderEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                "Please submit your feedback.",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionsEmailsLogic.enqueueSubmissionReminderEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_SESSION_REMINDER, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session reminder [Course: Software Engineering][Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
+    }
+
+    @Test
     public void enqueueOpeningSoonEmails_validContexts_enqueuesStandardEmails() {
         var ownerContext = new FeedbackSessionOwnerReminderEmailContext(
                 "instructor@teammates.tmt",

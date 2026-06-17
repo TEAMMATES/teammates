@@ -215,6 +215,69 @@ public class EmailRendererTest extends BaseTestCase {
     }
 
     @Test
+    public void renderFeedbackSessionReminderParticipantEmail_student_returnsReminderEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionReminderParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "student1@course1.tmt",
+                        "student1 In Course1</td></div>'\"",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        false,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionReminderEmailForStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionReminderParticipantEmail_instructor_returnsReminderEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionReminderParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionReminderEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionReminderPreviewEmail_instructor_returnsReminderPreviewEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionReminderPreviewEmail(
+                new FeedbackSessionPreviewReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionReminderEmailCopyToInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
     public void renderFeedbackSessionOpeningSoonEmail_joinedCoOwner_returnsOpeningSoonEmailBody() throws IOException {
         RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpeningSoonEmail(
                 new FeedbackSessionOwnerReminderEmailContext(

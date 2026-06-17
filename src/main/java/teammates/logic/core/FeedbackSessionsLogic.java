@@ -261,6 +261,52 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Enqueues submission reminder emails for selected respondents of an open
+     * feedback session.
+     */
+    public void enqueueSubmissionReminderEmails(
+            UUID feedbackSessionId, UUID[] userIdsToRemind, boolean sendCopyToInstructor, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
+        if (!feedbackSession.isOpened()) {
+            throw new InvalidFeedbackSessionStateException("Reminder email could not be sent out "
+                    + "as the feedback session is not open for submissions.");
+        }
+
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(feedbackSession.getCourseId());
+        List<FeedbackSessionParticipantReminderEmailContext> participantContexts = new ArrayList<>();
+        for (UUID userId : userIdsToRemind) {
+            User user = usersLogic.getUser(userId);
+            if (user == null) {
+                throw new EntityDoesNotExistException("User with ID " + userId + " not found");
+            }
+            if (!feedbackSession.getCourseId().equals(user.getCourseId())) {
+                throw new InvalidParametersException("User with ID "
+                        + userId + " does not belong to the same course as the feedback session");
+            }
+
+            Instant deadline = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, user);
+            participantContexts.add(buildParticipantReminderEmailContext(
+                    feedbackSession, user, deadline, coOwnerContacts));
+        }
+
+        List<FeedbackSessionPreviewReminderEmailContext> previewContexts = List.of();
+        if (sendCopyToInstructor) {
+            Instructor instructorToNotify = usersLogic.getInstructorByAccountId(accountId, feedbackSession.getCourseId());
+            if (instructorToNotify == null) {
+                throw new EntityDoesNotExistException("Instructor not found in course");
+            }
+            previewContexts = List.of(buildPreviewReminderEmailContext(feedbackSession, instructorToNotify));
+        }
+
+        feedbackSessionsEmailsLogic.enqueueSubmissionReminderEmails(participantContexts, previewContexts);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
@@ -490,6 +536,21 @@ public final class FeedbackSessionsLogic {
                         session.getInstructionsString(),
                         coOwnerContacts))
                 .toList();
+    }
+
+    private FeedbackSessionPreviewReminderEmailContext buildPreviewReminderEmailContext(
+            FeedbackSession session, Instructor instructorToNotify) {
+        Course course = session.getCourse();
+        return new FeedbackSessionPreviewReminderEmailContext(
+                instructorToNotify.getEmail(),
+                instructorToNotify.getName(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                session.getName(),
+                session.getEndTime(),
+                session.getInstructionsString(),
+                usersLogic.getCoOwnerContacts(course.getId()));
     }
 
     private String getCourseJoinUrl(UserType userType, String regKey) {
