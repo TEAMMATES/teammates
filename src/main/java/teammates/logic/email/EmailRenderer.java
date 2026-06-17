@@ -2,6 +2,7 @@ package teammates.logic.email;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
@@ -77,8 +78,6 @@ public final class EmailRenderer {
         String oldEndTime = formatDeadline(context.oldEndTime(), feedbackSessionContext.courseTimeZone());
         String newEndTime = formatDeadline(context.newEndTime(), feedbackSessionContext.courseTimeZone());
         String status = getDeadlineExtensionStatus(context.emailType());
-        String additionalContactInformation =
-                buildAdditionalContactInformationHtml(feedbackSessionContext.coOwnerContacts(), context.isInstructor());
 
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.USER_DEADLINE_EXTENSION,
@@ -93,7 +92,9 @@ public final class EmailRenderer {
                 "${sessionInstructions}", feedbackSessionContext.sessionInstructions(),
                 "${submitUrl}", context.submitUrl(),
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${additionalContactInformation}", additionalContactInformation));
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(feedbackSessionContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
     private static String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
@@ -151,14 +152,9 @@ public final class EmailRenderer {
         };
     }
 
-    private static String buildAdditionalContactInformationHtml(List<EmailContact> coOwnerContacts, boolean isInstructor) {
-        String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
+    private static String getAdditionalContactParticulars(boolean isInstructor) {
+        return isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
-        return Templates.populateTemplate(
-                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
-                "${particulars}", particulars,
-                "${coOwnersEmails}", buildCoOwnersEmailsLine(coOwnerContacts),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {
@@ -169,6 +165,6 @@ public final class EmailRenderer {
         return coOwnerContacts.stream()
                 .map(coOwnerContact -> SanitizationHelper.sanitizeForHtml(coOwnerContact.name())
                         + " (" + SanitizationHelper.sanitizeForHtml(coOwnerContact.email()) + ")")
-                .collect(java.util.stream.Collectors.joining(", "));
+                .collect(Collectors.joining(", "));
     }
 }
