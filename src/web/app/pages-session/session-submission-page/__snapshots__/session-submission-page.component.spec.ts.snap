@@ -71,7 +71,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -244,7 +244,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -414,7 +414,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -817,7 +817,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -3897,7 +3897,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -7188,7 +7188,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>

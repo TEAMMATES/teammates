@@ -48,8 +48,8 @@ export class RejectWithReasonModalComponent implements OnInit {
     '<strong>Remedy:</strong> If you are a student but you still need an instructor account, ' +
     'please send your justification to {supportEmail}</p>\n\n' +
     '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />' +
-    '<strong>Remedy:</strong> You can login to TEAMMATES using your existing account.</p>\n\n' +
-    '<p>If you are logged into multiple accounts, remember to logout from other accounts first, ' +
+    '<strong>Remedy:</strong> You can sign in to TEAMMATES using your existing account.</p>\n\n' +
+    '<p>If you are signed in to multiple accounts, remember to sign out from other accounts first, ' +
     "or use an incognito Browser window. Let us know (with a screenshot) if that doesn't work.</p>" +
     '<p>If you need further clarification or would like to appeal this decision, please ' +
     'feel free to contact us at {supportEmail}</p>' +

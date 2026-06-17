@@ -27,13 +27,13 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
         <h1
           class="mb-0 h3"
         >
-          Not logged in
+          Not signed in
         </h1>
       </div>
       <div
         class="card-body"
       >
-        You are not logged in. Please log in first.
+        You are not signed in. Please sign in first.
       </div>
     </div>
   </div>
@@ -181,13 +181,13 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
         <h1
           class="mb-0 h3"
         >
-          Confirm your Google account
+          Confirm your account
         </h1>
       </div>
       <div
         class="card-body"
       >
-         You are currently logged in as 
+         You are currently signed in as 
         <strong
           id="user-id"
         >
@@ -195,7 +195,7 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
         </strong>
         . 
         <br />
-        If this is not you, please log out and log in using your own Google account. 
+        If this is not you, please sign out and sign in using your own account. 
         <br />
         If this is you, please confirm below to complete your registration.
         <br />

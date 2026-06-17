@@ -199,11 +199,11 @@ exports[`SessionResultPageComponent > should snap when session results failed to
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
@@ -350,11 +350,11 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
@@ -498,11 +498,11 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
@@ -646,11 +646,11 @@ exports[`SessionResultPageComponent > should snap with session details and resul
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
@@ -726,11 +726,11 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
@@ -874,7 +874,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
+           You are viewing feedback results as alice. If you wish to link your account (alice) with this user, 
           <a
             href="#"
             id="join-course-btn"
@@ -1023,11 +1023,11 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            sign in with an account
           </a>
            (recommended). 
         </div>
