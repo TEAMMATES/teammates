@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
@@ -89,6 +90,22 @@ public class FeedbackSessionsEmailsLogic {
                 EmailRenderer::renderFeedbackSessionClosingSoonPreviewEmail);
     }
 
+    /**
+     * Enqueues feedback session opening soon emails using the standard queue.
+     */
+    public void enqueueOpeningSoonEmails(List<FeedbackSessionOwnerReminderEmailContext> contexts) {
+        enqueueOwnerReminderEmails(contexts, EmailType.FEEDBACK_OPENING_SOON,
+                EmailRenderer::renderFeedbackSessionOpeningSoonEmail);
+    }
+
+    /**
+     * Enqueues feedback session closed emails using the standard queue.
+     */
+    public void enqueueClosedEmails(List<FeedbackSessionOwnerReminderEmailContext> contexts) {
+        enqueueOwnerReminderEmails(contexts, EmailType.FEEDBACK_CLOSED,
+                EmailRenderer::renderFeedbackSessionClosedEmail);
+    }
+
     private void enqueueReminderEmails(
             List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
             List<FeedbackSessionPreviewReminderEmailContext> previewContexts,
@@ -117,6 +134,23 @@ public class FeedbackSessionsEmailsLogic {
             email.setIsCopy(true);
             email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
             emails.add(email);
+        }
+        emailQueueService.enqueueStandard(emails);
+    }
+
+    private void enqueueOwnerReminderEmails(
+            List<FeedbackSessionOwnerReminderEmailContext> contexts,
+            EmailType emailType,
+            Function<FeedbackSessionOwnerReminderEmailContext, RenderedEmail> renderer) {
+        List<EmailWrapper> emails = new ArrayList<>();
+        for (FeedbackSessionOwnerReminderEmailContext context : contexts) {
+            RenderedEmail renderedEmail = renderer.apply(context);
+            emails.add(EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    emailType,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName()));
         }
         emailQueueService.enqueueStandard(emails);
     }

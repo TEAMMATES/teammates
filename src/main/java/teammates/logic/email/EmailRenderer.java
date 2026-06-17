@@ -21,6 +21,7 @@ import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
@@ -158,6 +159,48 @@ public final class EmailRenderer {
                 context,
                 EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON_PREVIEW,
                 "is closing soon");
+    }
+
+    /**
+     * Renders a feedback session opening soon email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionOpeningSoonEmail(
+            FeedbackSessionOwnerReminderEmailContext context) {
+        String template = context.joinUrl() == null
+                ? EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON
+                : EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON_NOT_JOINED;
+        return new RenderedEmail(Templates.populateTemplate(
+                template,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${startTime}", SanitizationHelper.sanitizeForHtml(
+                        formatCourseTime(context.startTime(), context.courseTimeZone())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        formatCourseTime(context.deadline(), context.courseTimeZone())),
+                "${sessionInstructions}", context.sessionInstructions(),
+                "${sessionEditUrl}", context.sessionEditUrl(),
+                "${joinUrl}", context.joinUrl() == null ? "" : context.joinUrl()));
+    }
+
+    /**
+     * Renders a feedback session closed email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionClosedEmail(
+            FeedbackSessionOwnerReminderEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.OWNER_FEEDBACK_SESSION_CLOSED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${startTime}", SanitizationHelper.sanitizeForHtml(
+                        formatCourseTime(context.startTime(), context.courseTimeZone())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        formatCourseTime(context.deadline(), context.courseTimeZone())),
+                "${sessionInstructions}", context.sessionInstructions(),
+                "${reportUrl}", context.reportUrl()));
     }
 
     private static RenderedEmail renderFeedbackSessionPreviewReminderEmail(
@@ -427,6 +470,10 @@ public final class EmailRenderer {
     }
 
     private static String formatDeadline(Instant instant, String timeZone) {
+        return formatCourseTime(instant, timeZone);
+    }
+
+    private static String formatCourseTime(Instant instant, String timeZone) {
         Instant adjustedInstant = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timeZone, false);
         return TimeHelper.formatInstant(adjustedInstant, timeZone, DATETIME_DISPLAY_FORMAT);
     }
