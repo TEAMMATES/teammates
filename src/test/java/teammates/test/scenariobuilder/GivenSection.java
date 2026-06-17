@@ -32,6 +32,13 @@ public final class GivenSection extends GivenBase<Section> {
         return this;
     }
 
+    /**
+     * Sets the default course for the section.
+     */
+    public GivenSection defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
     @Override
     void ensureConsistent() {
         if (entity.getCourseId() == null) {

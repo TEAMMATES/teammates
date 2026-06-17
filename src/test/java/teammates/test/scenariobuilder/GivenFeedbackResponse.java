@@ -68,6 +68,13 @@ public final class GivenFeedbackResponse extends GivenBase<FeedbackResponse> {
     }
 
     /**
+     * Sets the default course for the response through a default feedback session and question.
+     */
+    public GivenFeedbackResponse defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets a student as the giver.
      */
     public GivenFeedbackResponse giverStudent(String studentAlias) {

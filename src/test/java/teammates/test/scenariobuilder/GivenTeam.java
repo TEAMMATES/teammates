@@ -46,6 +46,13 @@ public final class GivenTeam extends GivenBase<Team> {
         return this;
     }
 
+    /**
+     * Sets the default course for the team.
+     */
+    public GivenTeam defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
     @Override
     void ensureConsistent() {
         if (entity.getSection() == null) {

@@ -18,10 +18,9 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosingSoonRemindersAction_eligibleSession_queuesParticipantAndPreviewEmails() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()));
-        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+        given.student("student", s -> s.defaultCourse());
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse()
                 .noCreator().closingSoon().closingSoonEmailEnabled(true).closingSoonEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
                 .studentsToSelf());
@@ -36,10 +35,9 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosingSoonRemindersAction_deadlineExtensionClosingSoon_queuesExtensionEmail() {
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias()));
-        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+        var student = given.student("student", s -> s.defaultCourse());
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse()
                 .noCreator().opened().closingSoonEmailEnabled(true));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
                 .studentsToSelf());
@@ -56,10 +54,9 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void feedbackSessionClosingSoonRemindersAction_emailDisabled_doesNotQueueEmails() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()));
-        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+        given.student("student", s -> s.defaultCourse());
+        given.instructor("coOwner", i -> i.defaultCourse().coOwner());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse()
                 .noCreator().closingSoon().closingSoonEmailEnabled(false).closingSoonEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
                 .studentsToSelf());

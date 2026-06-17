@@ -41,6 +41,13 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
+     * Sets the default course for the feedback session.
+     */
+    public GivenFeedbackSession defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets the creator for the feedback session.
      */
     public GivenFeedbackSession creator(String instructorAlias) {

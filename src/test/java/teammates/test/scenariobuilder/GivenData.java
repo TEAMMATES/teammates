@@ -83,6 +83,8 @@ import teammates.storage.entity.Team;
  * 6. Use the generated IDs in the test assertions or further entity creation.
  */
 public final class GivenData {
+    public static final String DEFAULT_COURSE_ALIAS = GivenCourse.getDefaultAlias();
+
     final DataBundle dataBundle = new DataBundle();
     final Map<BaseEntity, String> entityToAlias = new HashMap<>();
     private final String testName;

@@ -22,13 +22,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction,
 
     @Test(groups = GroupNames.ACTION)
     public void updateStudentAction_sendSummaryEmailTrue_updatesStudentAndQueuesSummaryEmail() {
-        var course = given.course("course");
-        var section = given.section("section", s -> s.course(course.alias()).name("Test Section"));
+        var section = given.section("section", s -> s.defaultCourse().name("Test Section"));
         var team = given.team("team", t -> t.section(section.alias()).name("Test Team"));
-        given.student("student", s -> s.course(course.alias())
+        given.student("student", s -> s.defaultCourse()
                 .team(team.alias()).name("Test Student").comments("Original comments"));
         var instructorAccount = given.account("instructor-account");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
         persistGivenData(given);
 
         StudentUpdateRequest requestBody = new StudentUpdateRequest(
@@ -53,13 +52,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction,
 
     @Test(groups = GroupNames.ACTION)
     public void updateStudentAction_sendSummaryEmailFalse_updatesStudentWithoutQueueingEmail() {
-        var course = given.course("course");
-        var section = given.section("section", s -> s.course(course.alias()).name("Test Section"));
+        var section = given.section("section", s -> s.defaultCourse().name("Test Section"));
         var team = given.team("team", t -> t.section(section.alias()).name("Test Team"));
-        given.student("student", s -> s.course(course.alias())
+        given.student("student", s -> s.defaultCourse()
                 .team(team.alias()).name("Test Student").comments("Original comments"));
         var instructorAccount = given.account("instructor-account");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
         persistGivenData(given);
 
         StudentUpdateRequest requestBody = new StudentUpdateRequest(

@@ -21,9 +21,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test(groups = GroupNames.ACTION)
     public void updateInstructorAction_coOwnerUpdatesAnotherInstructor_success() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
-        given.instructor("requester", i -> i.course(course.alias()).account(requesterAccount.alias()).coOwner());
-        var target = given.instructor("target", i -> i.course(course.alias())
+        given.instructor("requester", i -> i.defaultCourse().account(requesterAccount.alias()).coOwner());
+        var target = given.instructor("target", i -> i.defaultCourse()
                 .name("Old Name").email("old@example.com").coOwner());
         persistGivenData(given);
 
@@ -49,9 +48,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test(groups = GroupNames.ACTION)
     public void updateInstructorAction_invalidEmail_throwsInvalidHttpRequestBodyException() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
-        given.instructor("requester", i -> i.course(course.alias()).account(requesterAccount.alias()).coOwner());
-        var target = given.instructor("target", i -> i.course(course.alias()).coOwner());
+        given.instructor("requester", i -> i.defaultCourse().account(requesterAccount.alias()).coOwner());
+        var target = given.instructor("target", i -> i.defaultCourse().coOwner());
         persistGivenData(given);
 
         InstructorUpdateRequest reqBody = new InstructorUpdateRequest(
@@ -69,9 +67,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test(groups = GroupNames.ACTION)
     public void updateInstructorAction_makeLastDisplayedInstructorHidden_throwsInvalidOperationException() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
         // Co-owner is the only displayed instructor; trying to hide themselves should fail
-        var instructor = given.instructor("instructor", i -> i.course(course.alias())
+        var instructor = given.instructor("instructor", i -> i.defaultCourse()
                 .account(requesterAccount.alias()).coOwner().isDisplayedToStudents(true));
         persistGivenData(given);
 
@@ -90,9 +87,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test(groups = GroupNames.ACTION)
     public void updateInstructorAction_instructorWithoutModifyPrivilege_throwsUnauthorizedAccessException() {
         var requesterAccount = given.account("requester-account");
-        var course = given.course("course");
-        given.instructor("requester", i -> i.course(course.alias()).account(requesterAccount.alias()).noPrivileges());
-        var target = given.instructor("target", i -> i.course(course.alias()).coOwner());
+        given.instructor("requester", i -> i.defaultCourse().account(requesterAccount.alias()).noPrivileges());
+        var target = given.instructor("target", i -> i.defaultCourse().coOwner());
         persistGivenData(given);
 
         InstructorUpdateRequest reqBody = new InstructorUpdateRequest(
