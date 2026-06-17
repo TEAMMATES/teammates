@@ -2,6 +2,7 @@ package teammates.logic.email;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
@@ -10,13 +11,19 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
+import teammates.logic.email.model.StudentCourseJoinEmailContext;
+import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 
 /**
  * Pure rendering logic for email templates.
@@ -70,6 +77,77 @@ public final class EmailRenderer {
     }
 
     /**
+     * Renders the post-join course registration confirmation email body.
+     */
+    public static RenderedEmail renderUserCourseRegisteredEmail(
+            CourseEmailContext courseContext, UserCourseRegisteredEmailContext userContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_COURSE_REGISTER,
+                "${userName}", SanitizationHelper.sanitizeForHtml(userContext.recipientName()),
+                "${userType}", userContext.isInstructor() ? "an instructor" : "a student",
+                "${courseId}", SanitizationHelper.sanitizeForHtml(courseContext.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${appUrl}", userContext.appUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the student course join invitation email body.
+     */
+    public static RenderedEmail renderStudentCourseJoinEmail(
+            CourseEmailContext courseContext, StudentCourseJoinEmailContext studentContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.STUDENT_COURSE_JOIN,
+                "${userName}", SanitizationHelper.sanitizeForHtml(studentContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", studentContext.joinUrl(),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(courseContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the student course rejoin email body after account unlink.
+     */
+    public static RenderedEmail renderStudentCourseRejoinAfterUnlinkAccountEmail(
+            CourseEmailContext courseContext, StudentCourseRejoinAfterUnlinkEmailContext studentContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
+                "${userName}", SanitizationHelper.sanitizeForHtml(studentContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", studentContext.joinUrl(),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(courseContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the instructor course join invitation email body.
+     */
+    public static RenderedEmail renderInstructorCourseJoinEmail(
+            CourseEmailContext courseContext, InstructorCourseJoinEmailContext instructorContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_COURSE_JOIN,
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructorContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", instructorContext.joinUrl(),
+                "${inviterName}", SanitizationHelper.sanitizeForHtml(instructorContext.inviterName()),
+                "${inviterEmail}", SanitizationHelper.sanitizeForHtml(instructorContext.inviterEmail()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the instructor course rejoin email body after account unlink.
+     */
+    public static RenderedEmail renderInstructorCourseRejoinAfterUnlinkAccountEmail(
+            CourseEmailContext courseContext, InstructorCourseRejoinAfterUnlinkEmailContext instructorContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructorContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", instructorContext.joinUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
      * Renders the deadline extension update email body.
      */
     public static RenderedEmail renderDeadlineExtensionUpdateEmail(
@@ -77,8 +155,6 @@ public final class EmailRenderer {
         String oldEndTime = formatDeadline(context.oldEndTime(), feedbackSessionContext.courseTimeZone());
         String newEndTime = formatDeadline(context.newEndTime(), feedbackSessionContext.courseTimeZone());
         String status = getDeadlineExtensionStatus(context.emailType());
-        String additionalContactInformation =
-                buildAdditionalContactInformationHtml(feedbackSessionContext.coOwnerContacts(), context.isInstructor());
 
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.USER_DEADLINE_EXTENSION,
@@ -93,7 +169,9 @@ public final class EmailRenderer {
                 "${sessionInstructions}", feedbackSessionContext.sessionInstructions(),
                 "${submitUrl}", context.submitUrl(),
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${additionalContactInformation}", additionalContactInformation));
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(feedbackSessionContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
     private static String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
@@ -151,14 +229,9 @@ public final class EmailRenderer {
         };
     }
 
-    private static String buildAdditionalContactInformationHtml(List<EmailContact> coOwnerContacts, boolean isInstructor) {
-        String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
+    private static String getAdditionalContactParticulars(boolean isInstructor) {
+        return isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
-        return Templates.populateTemplate(
-                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
-                "${particulars}", particulars,
-                "${coOwnersEmails}", buildCoOwnersEmailsLine(coOwnerContacts),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {
@@ -169,6 +242,6 @@ public final class EmailRenderer {
         return coOwnerContacts.stream()
                 .map(coOwnerContact -> SanitizationHelper.sanitizeForHtml(coOwnerContact.name())
                         + " (" + SanitizationHelper.sanitizeForHtml(coOwnerContact.email()) + ")")
-                .collect(java.util.stream.Collectors.joining(", "));
+                .collect(Collectors.joining(", "));
     }
 }

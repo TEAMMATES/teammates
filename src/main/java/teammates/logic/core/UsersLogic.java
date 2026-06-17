@@ -31,8 +31,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
+import teammates.logic.email.model.StudentCourseJoinEmailContext;
+import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -69,6 +77,7 @@ public final class UsersLogic {
     private UsersDb usersDb;
 
     private CoursesLogic coursesLogic;
+    private CourseJoinEmailsLogic courseJoinEmailsLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
@@ -82,10 +91,12 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
+                               CourseJoinEmailsLogic courseJoinEmailsLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
                                InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
+        this.courseJoinEmailsLogic = courseJoinEmailsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -383,6 +394,140 @@ public final class UsersLogic {
         return getCoOwnersForCourse(courseId).stream()
                 .map(coOwner -> new EmailContact(coOwner.getName(), coOwner.getEmail()))
                 .toList();
+    }
+
+    /**
+     * Enqueues the post-join course registration confirmation email for the given user.
+     */
+    public void enqueueUserCourseRegisteredEmail(User user) {
+        Course course = user.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        UserCourseRegisteredEmailContext userContext = new UserCourseRegisteredEmailContext(
+                user.getEmail(),
+                user.getName(),
+                user instanceof Instructor,
+                user instanceof Instructor ? LinksUtil.getInstructorHomePageUrl() : LinksUtil.getStudentHomePageUrl());
+        courseJoinEmailsLogic.enqueueUserCourseRegisteredEmail(courseContext, userContext);
+    }
+
+    /**
+     * Enqueues the student course join invitation email for the given student.
+     */
+    public void enqueueStudentCourseJoinEmail(Student student) {
+        Course course = student.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        StudentCourseJoinEmailContext studentContext = new StudentCourseJoinEmailContext(
+                student.getEmail(),
+                student.getName(),
+                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+        courseJoinEmailsLogic.enqueueStudentCourseJoinEmail(courseContext, studentContext);
+    }
+
+    /**
+     * Enqueues student course join invitation emails for all unregistered students in
+     * the given course.
+     */
+    public void enqueueStudentCourseJoinEmailsForCourse(String courseId) {
+        Course course = coursesLogic.getCourse(courseId);
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        List<StudentCourseJoinEmailContext> studentContexts = getUnregisteredStudentsForCourse(courseId).stream()
+                .map(student -> new StudentCourseJoinEmailContext(
+                        student.getEmail(),
+                        student.getName(),
+                        LinksUtil.getStudentCourseJoinUrl(student.getRegKey())))
+                .toList();
+        courseJoinEmailsLogic.enqueueStudentCourseJoinEmails(courseContext, studentContexts);
+    }
+
+    /**
+     * Enqueues the student course rejoin email after account unlink.
+     */
+    public void enqueueStudentCourseRejoinAfterUnlinkAccountEmail(Student student) {
+        Course course = student.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        StudentCourseRejoinAfterUnlinkEmailContext studentContext = new StudentCourseRejoinAfterUnlinkEmailContext(
+                student.getEmail(),
+                student.getName(),
+                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+        courseJoinEmailsLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(courseContext, studentContext);
+    }
+
+    /**
+     * Enqueues the instructor course join invitation email.
+     */
+    public void enqueueInstructorCourseJoinEmail(Instructor inviter, Instructor instructor) {
+        Course course = instructor.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                List.of());
+        InstructorCourseJoinEmailContext instructorContext = new InstructorCourseJoinEmailContext(
+                instructor.getEmail(),
+                instructor.getName(),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()),
+                inviter.getName(),
+                inviter.getEmail());
+        courseJoinEmailsLogic.enqueueInstructorCourseJoinEmail(courseContext, instructorContext);
+    }
+
+    /**
+     * Enqueues the instructor course rejoin email after account unlink.
+     */
+    public void enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(Instructor instructor) {
+        Course course = instructor.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                List.of());
+        InstructorCourseRejoinAfterUnlinkEmailContext instructorContext = new InstructorCourseRejoinAfterUnlinkEmailContext(
+                instructor.getEmail(),
+                instructor.getName(),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()));
+        courseJoinEmailsLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(courseContext, instructorContext);
+    }
+
+    /**
+     * Sends the requested join reminder email for the given user and returns the
+     * corresponding status message.
+     */
+    public String sendJoinReminderForUser(UUID userId, @Nullable Instructor inviter)
+            throws EntityDoesNotExistException {
+        User user = getJoinReminderUserOrThrow(userId);
+        if (user instanceof Student student) {
+            enqueueStudentCourseJoinEmail(student);
+            return "An email has been sent to " + student.getEmail();
+        }
+        if (user instanceof Instructor instructor) {
+            if (inviter == null) {
+                throw new EntityDoesNotExistException("Inviter does not exist.");
+            }
+            enqueueInstructorCourseJoinEmail(inviter, instructor);
+            return "An email has been sent to " + instructor.getEmail();
+        }
+
+        // This line should never be reached because the user should either be a student or an instructor.
+        throw new AssertionError("Invalid user type for join reminder: " + user.getClass().getName());
+    }
+
+    /**
+     * Sends join reminder emails to all unregistered students in the given course
+     * and returns the corresponding status message.
+     */
+    public String sendJoinReminderForStudentsInCourse(String courseId) throws EntityDoesNotExistException {
+        enqueueStudentCourseJoinEmailsForCourse(getJoinReminderCourseOrThrow(courseId).getId());
+        return "Emails have been sent to unregistered students.";
     }
 
     /**
@@ -924,10 +1069,40 @@ public final class UsersLogic {
     }
 
     /**
+     * Unlinks the account associated with the user profile and enqueues the
+     * corresponding rejoin email.
+     */
+    public User unlinkAccountAndNotify(UUID userId) throws EntityDoesNotExistException {
+        User user = unlinkAccount(userId);
+        if (user instanceof Student student) {
+            enqueueStudentCourseRejoinAfterUnlinkAccountEmail(student);
+        } else if (user instanceof Instructor instructor) {
+            enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(instructor);
+        }
+        return user;
+    }
+
+    /**
      * Sorts the instructors list alphabetically by name.
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
+    }
+
+    private User getJoinReminderUserOrThrow(UUID userId) throws EntityDoesNotExistException {
+        User user = getUser(userId);
+        if (user == null) {
+            throw new EntityDoesNotExistException("User with ID " + userId + " does not exist.");
+        }
+        return user;
+    }
+
+    private Course getJoinReminderCourseOrThrow(String courseId) throws EntityDoesNotExistException {
+        Course course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist.");
+        }
+        return course;
     }
 
     private void validateUser(User user) throws InvalidParametersException {

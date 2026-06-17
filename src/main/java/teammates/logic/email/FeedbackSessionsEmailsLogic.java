@@ -10,17 +10,19 @@ import teammates.logic.email.model.SessionLinksRecoveryContext;
  */
 public class FeedbackSessionsEmailsLogic {
 
-    private static final FeedbackSessionsEmailsLogic instance = new FeedbackSessionsEmailsLogic(
-            EmailQueueService.inst());
+    private static final FeedbackSessionsEmailsLogic instance = new FeedbackSessionsEmailsLogic();
 
-    private final EmailQueueService emailQueueService;
-
-    FeedbackSessionsEmailsLogic(EmailQueueService emailQueueService) {
-        this.emailQueueService = emailQueueService;
-    }
+    private EmailQueueService emailQueueService;
 
     public static FeedbackSessionsEmailsLogic inst() {
         return instance;
+    }
+
+    /**
+     * Initializes the outbound email queue dependency.
+     */
+    public void init(EmailQueueService emailQueueService) {
+        this.emailQueueService = emailQueueService;
     }
 
     /**

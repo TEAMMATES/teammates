@@ -12,17 +12,19 @@ import teammates.logic.email.model.RenderedEmail;
  */
 public class DeadlineExtensionsEmailsLogic {
 
-    private static final DeadlineExtensionsEmailsLogic instance = new DeadlineExtensionsEmailsLogic(
-            EmailQueueService.inst());
+    private static final DeadlineExtensionsEmailsLogic instance = new DeadlineExtensionsEmailsLogic();
 
-    private final EmailQueueService emailQueueService;
-
-    DeadlineExtensionsEmailsLogic(EmailQueueService emailQueueService) {
-        this.emailQueueService = emailQueueService;
-    }
+    private EmailQueueService emailQueueService;
 
     public static DeadlineExtensionsEmailsLogic inst() {
         return instance;
+    }
+
+    /**
+     * Initializes the outbound email queue dependency.
+     */
+    public void init(EmailQueueService emailQueueService) {
+        this.emailQueueService = emailQueueService;
     }
 
     /**

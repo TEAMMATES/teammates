@@ -25,6 +25,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -57,6 +58,7 @@ public class UsersLogicTest extends BaseTestCase {
         usersDb = mock(UsersDb.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
+        CourseJoinEmailsLogic courseJoinEmailsLogic = mock(CourseJoinEmailsLogic.class);
         instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
         doAnswer(invocation -> {
             Instructor instr = invocation.getArgument(0);
@@ -68,7 +70,8 @@ public class UsersLogicTest extends BaseTestCase {
                             : new InstructorPrivileges(instr.getId(), role.getRoleName());
             return privileges.isAllowedForPrivilege(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
-        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
+        usersLogic.initLogicDependencies(usersDb, coursesLogic, courseJoinEmailsLogic,
+                feedbackResponsesLogic, instructorPermissionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE);
         new Institute("institute", "SG").addCourse(course);

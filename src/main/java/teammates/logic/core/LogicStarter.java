@@ -4,7 +4,9 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.FeedbackSessionsEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.api.AccountsDb;
@@ -49,8 +51,14 @@ public class LogicStarter implements ServletContextListener {
         UsersLogic usersLogic = UsersLogic.inst();
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
+        CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
         DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
         FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = FeedbackSessionsEmailsLogic.inst();
+        EmailQueueService emailQueueService = EmailQueueService.inst();
+
+        courseJoinEmailsLogic.init(emailQueueService);
+        deadlineExtensionsEmailsLogic.init(emailQueueService);
+        feedbackSessionsEmailsLogic.init(emailQueueService);
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
@@ -71,7 +79,8 @@ public class LogicStarter implements ServletContextListener {
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
-        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
+        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,
+                frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         demoCourseLogic.initLogicDependencies(
                 accountVerificationsLogic, accountsLogic, coursesLogic, dataBundleLogic);

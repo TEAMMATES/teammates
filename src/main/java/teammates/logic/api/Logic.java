@@ -85,8 +85,9 @@ import teammates.ui.request.StudentUpdateRequest;
 /**
  * Provides the business logic for production usage of the system.
  *
- * <p>
- * This is a Facade class which simply forwards the method to internal classes.
+ * <p>Do not add business logic to this class. All domain-specific behavior should be
+ * implemented in the appropriate logic classes. This facade exists only to provide
+ * an entry point for accessing the various logic components.
  */
 public class Logic {
     private static final Logic instance = new Logic();
@@ -910,6 +911,17 @@ public class Logic {
     }
 
     /**
+     * Makes the user join the course and enqueues the registration confirmation
+     * email.
+     */
+    public User joinCourseAndNotify(String regkey, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        User user = accountsLogic.joinCourse(regkey, account);
+        usersLogic.enqueueUserCourseRegisteredEmail(user);
+        return user;
+    }
+
+    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list
@@ -1112,6 +1124,67 @@ public class Logic {
      */
     public User unlinkAccount(UUID userId) throws EntityDoesNotExistException {
         return usersLogic.unlinkAccount(userId);
+    }
+
+    /**
+     * Unlinks the account associated with the user profile and enqueues the
+     * corresponding rejoin email.
+     */
+    public User unlinkAccountAndNotify(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.unlinkAccountAndNotify(userId);
+    }
+
+    /**
+     * Enqueues the student course join invitation email for the given student.
+     */
+    public void enqueueStudentCourseJoinEmail(Student student) {
+        usersLogic.enqueueStudentCourseJoinEmail(student);
+    }
+
+    /**
+     * Enqueues student course join invitation emails for all unregistered students
+     * in the given course.
+     */
+    public void enqueueStudentCourseJoinEmailsForCourse(String courseId) {
+        usersLogic.enqueueStudentCourseJoinEmailsForCourse(courseId);
+    }
+
+    /**
+     * Enqueues the student course rejoin email after account unlink.
+     */
+    public void enqueueStudentCourseRejoinAfterUnlinkAccountEmail(Student student) {
+        usersLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(student);
+    }
+
+    /**
+     * Enqueues the instructor course join invitation email.
+     */
+    public void enqueueInstructorCourseJoinEmail(Instructor inviter, Instructor instructor) {
+        usersLogic.enqueueInstructorCourseJoinEmail(inviter, instructor);
+    }
+
+    /**
+     * Enqueues the instructor course rejoin email after account unlink.
+     */
+    public void enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(Instructor instructor) {
+        usersLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(instructor);
+    }
+
+    /**
+     * Sends the requested join reminder email for the given user and returns the
+     * corresponding status message.
+     */
+    public String sendJoinReminderForUser(UUID userId, @Nullable Instructor inviter)
+            throws EntityDoesNotExistException {
+        return usersLogic.sendJoinReminderForUser(userId, inviter);
+    }
+
+    /**
+     * Sends join reminder emails to all unregistered students in the given course
+     * and returns the corresponding status message.
+     */
+    public String sendJoinReminderForStudentsInCourse(String courseId) throws EntityDoesNotExistException {
+        return usersLogic.sendJoinReminderForStudentsInCourse(courseId);
     }
 
     /**

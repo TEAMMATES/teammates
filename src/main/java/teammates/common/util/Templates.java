@@ -36,22 +36,22 @@ public final class Templates {
                 FileHelper.readResourceFile("adminEmailTemplate-newAccountVerificationRequestAlert.html");
         public static final String INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT =
                 FileHelper.readResourceFile("instructorEmailTemplate-newAccountVerificationRequestAcknowledgement.html");
-        public static final String USER_COURSE_JOIN =
-                FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
         public static final String USER_COURSE_REGISTER =
                 FileHelper.readResourceFile("userEmailTemplate-userRegisterForCourse.html");
+        public static final String STUDENT_COURSE_JOIN =
+                FileHelper.readResourceFile("studentEmailTemplate-courseJoin.html");
+        public static final String STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT =
+                FileHelper.readResourceFile("studentEmailTemplate-courseRejoinAfterUnlinkAccount.html");
+        public static final String INSTRUCTOR_COURSE_JOIN =
+                FileHelper.readResourceFile("instructorEmailTemplate-courseJoin.html");
+        public static final String INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT =
+                FileHelper.readResourceFile("instructorEmailTemplate-courseRejoinAfterUnlinkAccount.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT =
-                FileHelper.readResourceFile("studentEmailFragment-accountUnlinked.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COPY_PREAMBLE =
                 FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
-        public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
-                FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT =
-                FileHelper.readResourceFile("instructorEmailFragment-accountUnlinked.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
         public static final String USER_FEEDBACK_SESSION =
