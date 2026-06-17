@@ -19,6 +19,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -59,9 +60,19 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
 
         action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
         action.setRecaptchaVerifier(mockRecaptchaVerifier);
+        configureAction(action);
         inTransaction(() -> action.init(request));
 
         return action;
+    }
+
+    /**
+     * Override to perform additional setup on the action before it is initialized.
+     * Used by tests that need to inject dependencies not held by the base {@link Action} class.
+     */
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    protected void configureAction(T action) {
+        // no-op by default
     }
 
     /**
@@ -116,6 +127,8 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
 
             testRequest.headers.forEach((key, value) -> when(request.getHeader(key)).thenReturn(value));
             when(request.getCookies()).thenReturn(testRequest.cookies.toArray(Cookie[]::new));
+            when(request.getContextPath()).thenReturn(testRequest.contextPath);
+            when(request.getRequestURI()).thenReturn(testRequest.uri);
 
             String body = testRequest.request == null ? "" : JsonUtils.toJson(testRequest.request);
             when(request.getReader()).thenReturn(new BufferedReader(
@@ -135,6 +148,8 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
         Map<String, String> headers = new HashMap<>();
         List<Cookie> cookies = new ArrayList<>();
         BasicRequest request;
+        String contextPath = "";
+        String uri = "";
 
         public RequestContext withParam(String key, String value) {
             this.params.computeIfAbsent(key, unused -> new ArrayList<>()).add(value);
@@ -158,6 +173,11 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
 
         public RequestContext withRegKey(String regKey) {
             return withParam(Const.ParamsNames.REGKEY, regKey);
+        }
+
+        public RequestContext withWorkerAuth() {
+            this.uri = Const.TaskQueue.URI_PREFIX + "/";
+            return withHeader(Const.HeaderNames.AUTHORIZATION_KEY, "Bearer " + Config.CRON_AND_WORKER_SECRET);
         }
     }
 }
