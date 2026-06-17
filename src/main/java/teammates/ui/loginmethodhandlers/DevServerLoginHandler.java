@@ -8,15 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.Provider;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
 import teammates.ui.output.LoginMethod;
-
-import tools.jackson.core.JacksonException;
 
 /**
  * Login handler for dev server login
@@ -42,32 +38,21 @@ public class DevServerLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
             resp.sendError(HttpStatus.SC_FORBIDDEN);
             return null;
         }
 
         String email = req.getParameter("email");
-        String state = req.getParameter("state");
-        if (email == null || state == null) {
+        String stateParam = req.getParameter("state");
+        if (email == null || stateParam == null) {
             log.warning("Missing email or state parameter in dev server login callback");
             resp.sendError(HttpStatus.SC_BAD_REQUEST);
             return null;
         }
 
-        String nextUrl = "/";
-        try {
-            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
-            if (authState.getNextUrl() != null) {
-                nextUrl = authState.getNextUrl();
-            }
-        } catch (JacksonException | InvalidParametersException e) {
-            log.warning("Failed to parse state object", e);
-            return null;
-        }
-
-        return new AuthResult(Provider.TEAMMATES_DEV, email, null, email, nextUrl);
+        return new AuthResult(Provider.TEAMMATES_DEV, email, null, email);
     }
 
 }

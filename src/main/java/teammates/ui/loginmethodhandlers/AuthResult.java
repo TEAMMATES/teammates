@@ -12,18 +12,15 @@ public final class AuthResult {
     private final String subject;
     private final String tenantId;
     private final String email;
-    private final String nextUrl;
 
     /**
      * Creates an AuthResult with the given parameters.
      */
-    public AuthResult(Provider provider, String subject, @Nullable String tenantId,
-                String email, String nextUrl) {
+    public AuthResult(Provider provider, String subject, @Nullable String tenantId, String email) {
         this.provider = provider;
         this.subject = subject;
         this.tenantId = tenantId;
         this.email = email;
-        this.nextUrl = nextUrl;
     }
 
     /**
@@ -52,7 +49,4 @@ public final class AuthResult {
         return email;
     }
 
-    public String getNextUrl() {
-        return nextUrl;
-    }
 }

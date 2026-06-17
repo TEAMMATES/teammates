@@ -17,5 +17,5 @@ public interface LoginMethodHandler {
     /**
      * Handles the callback from the login method by retrieving the authentication result.
      */
-    AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+    AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException;
 }

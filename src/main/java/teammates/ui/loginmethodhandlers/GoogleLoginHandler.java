@@ -25,15 +25,12 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.Provider;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.LoginMethod;
-
-import tools.jackson.core.JacksonException;
 
 /**
  * Login handler for Google login.
@@ -60,41 +57,31 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
         }
+
         AuthorizationCodeResponseUrl responseUrl =
                 new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
             return null;
         }
+
         String code = responseUrl.getCode();
-        String state = responseUrl.getState();
-        if (code == null || state == null) {
+        if (code == null) {
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
             return null;
         }
 
-        String nextUrl = "/";
-        try {
-            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
-            if (authState.getNextUrl() != null) {
-                nextUrl = authState.getNextUrl();
-            }
-            String sessionId = authState.getSessionId();
-            if (!sessionId.equals(req.getSession().getId())) {
-                // Invalid session ID
-                log.warning(String.format("Different session ID: expected %s, got %s",
-                        sessionId, req.getSession().getId()));
-                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
-                return null;
-            }
-        } catch (JacksonException | InvalidParametersException e) {
-            log.warning("Failed to parse state object", e);
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
+        String sessionId = state.getSessionId();
+        if (!sessionId.equals(req.getSession().getId())) {
+            // Invalid session ID
+            log.warning(String.format("Different session ID: expected %s, got %s",
+                    sessionId, req.getSession().getId()));
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
             return null;
         }
 
@@ -116,7 +103,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
             return null;
         }
 
-        return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
+        return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail());
     }
 
     /**

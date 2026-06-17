@@ -33,7 +33,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        LoginMethod loginMethod = getLoginMethodFromCallback(req, resp);
+        AuthState state = getAuthStateFromCallback(req, resp);
+        if (state == null) {
+            return;
+        }
+
+        LoginMethod loginMethod = getLoginMethodFromAuthState(state, req, resp);
         if (loginMethod == null) {
             return;
         }
@@ -44,7 +49,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return;
         }
 
-        AuthResult authResult = handler.handleCallback(req, resp);
+        AuthResult authResult = handler.handleCallback(req, resp, state);
 
         if (authResult == null) {
             return;
@@ -77,7 +82,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        String nextUrl = UrlHelper.getSafeRedirectUrl(authResult.getNextUrl());
+        String nextUrl = UrlHelper.getSafeRedirectUrl(state.getNextUrl());
         String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
@@ -88,23 +93,35 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     /**
-     * Extracts and validates the login method from the OAuth2 callback.
+     * Extracts and validates the state parameter from the OAuth2 callback.
      *
-     * @return the login method, or null if it is invalid or not supported.
+     * @return the AuthState object, or null if the state parameter is invalid.
      */
-    private LoginMethod getLoginMethodFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private AuthState getAuthStateFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String encyptedState = req.getParameter("state");
         if (encyptedState == null) {
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing or invalid state parameter");
             return null;
         }
 
-        AuthState state;
         try {
             String decryptedState = StringHelper.decrypt(encyptedState);
-            state = JsonUtils.fromJson(decryptedState, AuthState.class);
+            return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
+            return null;
+        }
+    }
+
+    /**
+     * Extracts and validates the login method from the auth state.
+     *
+     * @return the login method, or null if it is invalid or not supported.
+     */
+    private LoginMethod getLoginMethodFromAuthState(
+            AuthState state, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if (state == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing or invalid state parameter");
             return null;
         }
 
