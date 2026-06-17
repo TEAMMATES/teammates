@@ -168,7 +168,7 @@ public final class EmailRenderer {
 
         return coOwnerContacts.stream()
                 .map(coOwnerContact -> SanitizationHelper.sanitizeForHtml(coOwnerContact.name())
-                        + " (" + coOwnerContact.email() + ")")
+                        + " (" + SanitizationHelper.sanitizeForHtml(coOwnerContact.email()) + ")")
                 .collect(java.util.stream.Collectors.joining(", "));
     }
 }
