@@ -31,6 +31,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.FeedbackSessionsEmailsLogic;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;

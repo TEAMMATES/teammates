@@ -5,6 +5,7 @@ package teammates.common.datatransfer;
  */
 public enum ExtensionUpdateType {
   CREATED,
+  UNCHANGED,
   UPDATED,
   DELETED
 }
