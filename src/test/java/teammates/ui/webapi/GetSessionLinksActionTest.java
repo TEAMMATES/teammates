@@ -102,6 +102,6 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     private RequestContext getRequest(String userId, UUID accountId) {
         return new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, userId)
-                .withCookie(getAuthCookie(accountId));
+                .withAccountAuth(accountId);
     }
 }

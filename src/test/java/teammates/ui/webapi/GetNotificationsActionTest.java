@@ -22,7 +22,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test(groups = GroupNames.ACTION)
     public void getNotificationsAction_adminFetchesAll_returnsAllNotifications() {
-        var adminAccount = given.account("admin", a -> a.admin());
         var activeNotification = given.notification("active", n -> n.active().forGeneral());
         var expiredNotification = given.notification("expired", n -> n.expired().forGeneral());
         persistGivenData(given);
@@ -30,7 +29,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "false")
                 .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.name())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth();
 
         NotificationsData result = execute(request);
 
@@ -52,7 +51,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "true")
                 .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.name())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         NotificationsData result = execute(request);
 
@@ -68,7 +67,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "false")
                 .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.name())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -81,7 +80,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "true")
                 .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.name())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -94,7 +93,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "true")
                 .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.name())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         NotificationsData result = execute(request);
 
