@@ -663,14 +663,6 @@ public class Logic {
     }
 
     /**
-     * Returns a list of sessions that require automated emails to be sent as they
-     * are published.
-     */
-    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
-        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-    }
-
-    /**
      * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
@@ -708,6 +700,22 @@ public class Logic {
     public FeedbackSession publishFeedbackSession(UUID feedbackSessionId)
             throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionId);
+    }
+
+    /**
+     * Publishes a feedback session and enqueues any immediate published emails.
+     */
+    public FeedbackSession publishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.publishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
+    }
+
+    /**
+     * Unpublishes a feedback session and enqueues unpublished emails.
+     */
+    public FeedbackSession unpublishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.unpublishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
     }
 
     /**
@@ -758,16 +766,6 @@ public class Logic {
     public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
         return feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
-    }
-
-    /**
-     * After an update to feedback session's fields, may need to adjust the email
-     * status of the session.
-     *
-     * @param session recently updated session.
-     */
-    public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
-        feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
     }
 
     /**
@@ -1309,6 +1307,32 @@ public class Logic {
      */
     public void enqueueClosedReminderEmailsForEligibleSessions() {
         feedbackSessionsLogic.enqueueClosedReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues submission reminder emails for selected respondents of an open
+     * feedback session.
+     */
+    public void enqueueSubmissionReminderEmails(
+            UUID feedbackSessionId, UUID[] userIdsToRemind, boolean sendCopyToInstructor, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        feedbackSessionsLogic.enqueueSubmissionReminderEmails(
+                feedbackSessionId, userIdsToRemind, sendCopyToInstructor, accountId);
+    }
+
+    /**
+     * Enqueues published emails for all eligible sessions.
+     */
+    public void enqueuePublishedEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueuePublishedEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues published result reminder emails for selected users.
+     */
+    public void enqueuePublishedResultReminderEmails(UUID feedbackSessionId, UUID[] userIdsToRemind, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        feedbackSessionsLogic.enqueuePublishedResultReminderEmails(feedbackSessionId, userIdsToRemind, accountId);
     }
 
     /**

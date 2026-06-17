@@ -1,9 +1,8 @@
 <p>Hello ${userName},</p>
 
-${instructorPreamble}
-
 <p>
-  Just a gentle reminder that the following feedback session ${status}.
+  Just a gentle reminder that the following feedback session is still open for submissions, in case you have not
+  submitted yet or wish to update your submission. <mark>No action is required if you have already submitted</mark>.
   <div>
     <table style="max-width:600px;border:1px solid black;">
       <tr>
@@ -53,19 +52,33 @@ ${instructorPreamble}
   </div>
   <ul>
     <li>
-      <strong>To ${feedbackAction} your feedback for the above session, please go to this Web address: </strong>
+      <strong>To submit, edit or view your feedback for the above session, please go to this Web address: </strong>
       <a href="${submitUrl}">${submitUrl}</a>
     </li>
     <li>
       The above link is unique to you. Please do not share it with others.
     </li>
     <li>
-      After submitting, you are encouraged to download the submission receipt, which will contain your latest responses.
+      After submitting, you are encouraged to download the submission receipt, which will contain your latest
+      responses.
     </li>
   </ul>
 </p>
 
-${additionalContactInformation}
+<p>
+  <ul>
+    <li>
+      <strong>Requests for deadline extensions, problems regarding ${particulars}</strong>,
+      and <strong>other non-technical queries</strong> about the feedback session:
+      <br>
+      Contact the instructors of the course: ${coOwnersEmails}
+    </li>
+    <li>
+      <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
+      Email TEAMMATES support team at ${supportEmail}.
+    </li>
+  </ul>
+</p>
 
 <p>
   Regards,

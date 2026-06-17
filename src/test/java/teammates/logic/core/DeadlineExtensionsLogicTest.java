@@ -24,7 +24,7 @@ import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
 import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -50,8 +50,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         FeedbackSessionsLogic fsLogic = mock(FeedbackSessionsLogic.class);
         coursesLogic = mock(CoursesLogic.class);
         usersLogic = mock(UsersLogic.class);
-        DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = mock(DeadlineExtensionsEmailsLogic.class);
-        deLogic.initLogicDependencies(deDb, fsLogic, coursesLogic, usersLogic, deadlineExtensionsEmailsLogic);
+        DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic = mock(DeadlineExtensionEmailsLogic.class);
+        deLogic.initLogicDependencies(deDb, fsLogic, coursesLogic, usersLogic, deadlineExtensionEmailsLogic);
     }
 
     @Test

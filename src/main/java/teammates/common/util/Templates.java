@@ -50,22 +50,26 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
-        public static final String FRAGMENT_INSTRUCTOR_COPY_PREAMBLE =
-                FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
-        public static final String USER_FEEDBACK_SESSION =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_OPENED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_OPENED_PREVIEW =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpeningPreview.html");
+        public static final String USER_FEEDBACK_SESSION_REMINDER =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionReminder.html");
+        public static final String USER_FEEDBACK_SESSION_REMINDER_PREVIEW =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionReminderPreview.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING_SOON =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingSoon.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING_SOON_PREVIEW =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingSoonPreview.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
+        public static final String USER_FEEDBACK_SESSION_PUBLISHED_PREVIEW =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublishedPreview.html");
+        public static final String USER_FEEDBACK_SESSION_UNPUBLISHED_PREVIEW =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublishedPreview.html");
         public static final String FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION =
                 FileHelper.readResourceFile("emailTemplateFragment-courseSessionLinksBySession.html");
         public static final String FRAGMENT_COURSE_SESSION_LINKS_BY_COURSE =

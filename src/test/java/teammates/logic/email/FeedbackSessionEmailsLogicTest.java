@@ -18,6 +18,8 @@ import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -25,18 +27,18 @@ import teammates.test.BaseTestCase;
 import teammates.ui.request.SendEmailRequest;
 
 /**
- * SUT: {@link FeedbackSessionsEmailsLogic}.
+ * SUT: {@link FeedbackSessionEmailsLogic}.
  */
-public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
+public class FeedbackSessionEmailsLogicTest extends BaseTestCase {
 
     private MockTaskQueuer taskQueuer;
-    private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
+    private FeedbackSessionEmailsLogic feedbackSessionEmailsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        feedbackSessionsEmailsLogic = new FeedbackSessionsEmailsLogic();
-        feedbackSessionsEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
+        feedbackSessionEmailsLogic = new FeedbackSessionEmailsLogic();
+        feedbackSessionEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
 
-        feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
+        feedbackSessionEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -80,7 +82,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 true,
                 List.of());
 
-        feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
+        feedbackSessionEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -115,7 +117,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                                 "https://example.com/submission",
                                 "https://example.com/results")))));
 
-        feedbackSessionsEmailsLogic.enqueueFeedbackSessionSummaryEmail(context, EmailType.STUDENT_EMAIL_CHANGED);
+        feedbackSessionEmailsLogic.enqueueFeedbackSessionSummaryEmail(context, EmailType.STUDENT_EMAIL_CHANGED);
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -156,7 +158,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Please submit your feedback.",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueOpenedEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueOpenedEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -200,7 +202,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Please submit your feedback.",
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
 
-        feedbackSessionsEmailsLogic.enqueueClosingSoonEmails(List.of(participantContext), List.of(previewContext));
+        feedbackSessionEmailsLogic.enqueueClosingSoonEmails(List.of(participantContext), List.of(previewContext));
 
         assertEquals(2, taskQueuer.getTasksAdded().size());
         TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
@@ -215,6 +217,156 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
         assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
         assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
                 + "TEAMMATES: Feedback session closing soon [Course: Software Engineering]"
+                + "[Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
+    }
+
+    @Test
+    public void enqueueSubmissionReminderEmails_validContexts_enqueuesPriorityEmails() {
+        var participantContext = new FeedbackSessionParticipantReminderEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                false,
+                "Please submit your feedback.",
+                "https://example.com/submission",
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionPreviewReminderEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Asia/Singapore",
+                "Midterm Feedback",
+                java.time.Instant.parse("2027-04-30T15:59:00Z"),
+                "Please submit your feedback.",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionEmailsLogic.enqueueSubmissionReminderEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_SESSION_REMINDER, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session reminder [Course: Software Engineering][Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
+    }
+
+    @Test
+    public void enqueuePublishedEmails_validContexts_enqueuesStandardEmails() {
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                "https://example.com/results",
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionEmailsLogic.enqueuePublishedEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_PUBLISHED, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session results published [Course: Software Engineering]"
+                + "[Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
+    }
+
+    @Test
+    public void enqueuePublishedReminderEmails_validContexts_enqueuesPriorityEmails() {
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                "https://example.com/results",
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionEmailsLogic.enqueuePublishedReminderEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertTrue(previewEmail.getIsCopy());
+    }
+
+    @Test
+    public void enqueueUnpublishedEmails_validContexts_enqueuesStandardEmails() {
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                null,
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionEmailsLogic.enqueueUnpublishedEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_UNPUBLISHED, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session results unpublished [Course: Software Engineering]"
                 + "[Feedback Session: Midterm Feedback]",
                 previewEmail.getSubject());
     }
@@ -235,7 +387,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 null,
                 null);
 
-        feedbackSessionsEmailsLogic.enqueueOpeningSoonEmails(List.of(ownerContext));
+        feedbackSessionEmailsLogic.enqueueOpeningSoonEmails(List.of(ownerContext));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
@@ -261,7 +413,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/report",
                 null);
 
-        feedbackSessionsEmailsLogic.enqueueClosedEmails(List.of(ownerContext));
+        feedbackSessionEmailsLogic.enqueueClosedEmails(List.of(ownerContext));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);

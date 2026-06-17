@@ -24,6 +24,8 @@ import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -159,6 +161,113 @@ public final class EmailRenderer {
                 context,
                 EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON_PREVIEW,
                 "is closing soon");
+    }
+
+    /**
+     * Renders a feedback session reminder email body for a participant.
+     */
+    public static RenderedEmail renderFeedbackSessionReminderParticipantEmail(
+            FeedbackSessionParticipantReminderEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_REMINDER,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        formatDeadline(context.deadline(), context.courseTimeZone())
+                        + (context.hasDeadlineExtension() ? " (after extension)" : "")),
+                "${sessionInstructions}", context.sessionInstructions(),
+                "${submitUrl}", context.submitUrl(),
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders a feedback session reminder preview email body for an instructor.
+     */
+    public static RenderedEmail renderFeedbackSessionReminderPreviewEmail(
+            FeedbackSessionPreviewReminderEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_REMINDER_PREVIEW,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        formatDeadline(context.deadline(), context.courseTimeZone())),
+                "${sessionInstructions}", context.sessionInstructions(),
+                "${submitUrlPlaceholder}", "{in the actual email sent to the respondents, this will be the unique link}",
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
+    }
+
+    /**
+     * Renders a feedback session published email body for a participant.
+     */
+    public static RenderedEmail renderFeedbackSessionPublishedParticipantEmail(
+            FeedbackSessionResultsParticipantEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${reportUrl}", context.reportUrl(),
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders a feedback session published preview email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionPublishedPreviewEmail(
+            FeedbackSessionResultsPreviewEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED_PREVIEW,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${reportUrlPlaceholder}", "{in the actual email sent to the students, this will be the unique link}",
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
+    }
+
+    /**
+     * Renders a feedback session unpublished email body for a participant.
+     */
+    public static RenderedEmail renderFeedbackSessionUnpublishedParticipantEmail(
+            FeedbackSessionResultsParticipantEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders a feedback session unpublished preview email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionUnpublishedPreviewEmail(
+            FeedbackSessionResultsPreviewEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED_PREVIEW,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
     }
 
     /**

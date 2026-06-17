@@ -10,13 +10,13 @@ import teammates.logic.email.model.RenderedEmail;
 /**
  * Handles email-specific orchestration for deadline extension use cases.
  */
-public class DeadlineExtensionsEmailsLogic {
+public class DeadlineExtensionEmailsLogic {
 
-    private static final DeadlineExtensionsEmailsLogic instance = new DeadlineExtensionsEmailsLogic();
+    private static final DeadlineExtensionEmailsLogic instance = new DeadlineExtensionEmailsLogic();
 
     private EmailQueueService emailQueueService;
 
-    public static DeadlineExtensionsEmailsLogic inst() {
+    public static DeadlineExtensionEmailsLogic inst() {
         return instance;
     }
 
