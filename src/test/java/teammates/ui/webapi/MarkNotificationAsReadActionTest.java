@@ -21,7 +21,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withRequest(new MarkNotificationAsReadRequest(notification.id().toString()));
 
         ReadNotificationData result = execute(request);
@@ -37,7 +37,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
 
         String nonExistentNotificationId = given.uuid("nonexistent").toString();
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withRequest(new MarkNotificationAsReadRequest(nonExistentNotificationId));
 
         assertActionThrows(EntityNotFoundException.class, request);

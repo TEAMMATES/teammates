@@ -20,11 +20,8 @@ import teammates.ui.output.UsageStatisticsRangeData;
  */
 public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatisticsAction, UsageStatisticsRangeData> {
 
-    private static final String ADMIN_EMAIL = "app_admin@gmail.com";
-
     @Test(groups = GroupNames.ACTION)
     public void getUsageStatisticsAction_adminUser_returnsStatistics() {
-        var adminAccount = given.account("admin", a -> a.email(ADMIN_EMAIL));
         given.course("course");
         persistGivenData(given);
 
@@ -35,7 +32,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTime))
                 .withParam(Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTime))
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth();
 
         UsageStatisticsRangeData result = execute(request);
 
@@ -56,7 +53,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTime))
                 .withParam(Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTime))
-                .withCookie(getAuthCookie(regularAccount.id()));
+                .withAccountAuth(regularAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

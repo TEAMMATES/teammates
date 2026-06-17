@@ -24,7 +24,7 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         ReadNotificationsData result = execute(request);
 
@@ -39,7 +39,7 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         ReadNotificationsData result = execute(request);
 

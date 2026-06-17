@@ -24,7 +24,7 @@ public class GetInstitutesActionTest extends BaseActionTest<GetInstitutesAction,
         persistGivenData(given);
 
         RequestContext testRequest = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withParam(Const.ParamsNames.ACCOUNT_ID, account.id().toString());
 
         InstitutesData result = execute(testRequest);
@@ -39,7 +39,7 @@ public class GetInstitutesActionTest extends BaseActionTest<GetInstitutesAction,
         persistGivenData(given);
 
         RequestContext testRequest = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withParam(Const.ParamsNames.ACCOUNT_ID, account.id().toString());
 
         InstitutesData result = execute(testRequest);
@@ -54,7 +54,7 @@ public class GetInstitutesActionTest extends BaseActionTest<GetInstitutesAction,
         persistGivenData(given);
 
         RequestContext testRequest = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withParam(Const.ParamsNames.ACCOUNT_ID, other.id().toString());
 
         assertActionThrows(UnauthorizedAccessException.class, testRequest);

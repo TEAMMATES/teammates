@@ -23,7 +23,7 @@ public class GetOwnInstructorActionTest extends BaseActionTest<GetOwnInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         InstructorData result = execute(request);
 
@@ -55,7 +55,7 @@ public class GetOwnInstructorActionTest extends BaseActionTest<GetOwnInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }
