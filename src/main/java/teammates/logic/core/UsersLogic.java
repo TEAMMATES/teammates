@@ -292,16 +292,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
-     */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getInstructorByGoogleId(courseId, googleId);
-    }
-
-    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list if no results are found.
@@ -587,24 +577,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getStudentsByGoogleId(googleId);
-    }
-
-    /**
-     * Gets all instructors and students by {@code googleId}.
-     */
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getAllUsersByGoogleId(googleId);
-    }
-
-    /**
      * Gets team by ID.
      */
     public Team getTeam(UUID teamId) {
@@ -641,8 +613,8 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                || instrWithModifyInstructorPrivilege.getAccountId()
+                .equals(instructorToEdit.getAccountId()));
         if (isLastRegInstructorWithPrivilege) {
             InstructorPrivileges privileges = instructorPermissionsLogic.getInstructorPrivileges(instructorToEdit);
             privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);

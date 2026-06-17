@@ -63,13 +63,13 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction, CourseV
         return new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, courseId)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
-                .withCookie(getAuthCookie(accountId));
+                .withAccountAuth(accountId);
     }
 
     private RequestContext getStudentRequest(String courseId, UUID accountId) {
         return new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, courseId)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
-                .withCookie(getAuthCookie(accountId));
+                .withAccountAuth(accountId);
     }
 }

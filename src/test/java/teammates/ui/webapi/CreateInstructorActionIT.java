@@ -30,8 +30,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         // Ensure the admin account exists for email sending
         String adminEmail = Config.APP_ADMINS.get(0);
-        inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, "validAdminSubject",
-                "validAdminTenant", adminEmail, adminEmail));
+        inTransaction(() -> logic.createOrGetAccount(Provider.TEAMMATES_DEV, adminEmail, null, adminEmail));
     }
 
     @Override

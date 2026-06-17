@@ -25,7 +25,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         FeedbackSessionViewData result = execute(request);
 
@@ -45,7 +45,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         FeedbackSessionViewData result = execute(request);
 
@@ -64,7 +64,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         FeedbackSessionViewData result = execute(request);
 
@@ -83,7 +83,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -98,7 +98,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         FeedbackSessionViewData result = execute(request);
 
@@ -117,7 +117,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
