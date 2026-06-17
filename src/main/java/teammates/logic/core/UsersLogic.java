@@ -31,8 +31,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -69,6 +73,7 @@ public final class UsersLogic {
     private UsersDb usersDb;
 
     private CoursesLogic coursesLogic;
+    private CourseJoinEmailsLogic courseJoinEmailsLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
@@ -82,10 +87,12 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
+                               CourseJoinEmailsLogic courseJoinEmailsLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
                                InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
+        this.courseJoinEmailsLogic = courseJoinEmailsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -383,6 +390,23 @@ public final class UsersLogic {
         return getCoOwnersForCourse(courseId).stream()
                 .map(coOwner -> new EmailContact(coOwner.getName(), coOwner.getEmail()))
                 .toList();
+    }
+
+    /**
+     * Enqueues the post-join course registration confirmation email for the given user.
+     */
+    public void enqueueUserCourseRegisteredEmail(User user) {
+        Course course = user.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        UserCourseRegisteredEmailContext userContext = new UserCourseRegisteredEmailContext(
+                user.getEmail(),
+                user.getName(),
+                user instanceof Instructor,
+                user instanceof Instructor ? LinksUtil.getInstructorHomePageUrl() : LinksUtil.getStudentHomePageUrl());
+        courseJoinEmailsLogic.enqueueUserCourseRegisteredEmail(courseContext, userContext);
     }
 
     /**

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
+import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
@@ -18,6 +19,7 @@ import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
 
@@ -72,6 +74,34 @@ public class EmailRendererTest extends BaseTestCase {
         RenderedEmail actual = EmailRenderer.renderSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt");
 
         verifyEmailContent(actual.htmlContent(), "/sessionLinksRecoveryComposerNotFoundEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderUserCourseRegisteredEmail_student_returnsRegisteredEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderUserCourseRegisteredEmail(
+                new CourseEmailContext("idOfTypicalCourse1", "Course Name", List.of()),
+                new UserCourseRegisteredEmailContext(
+                        "student@email.tmt",
+                        "User Name",
+                        false,
+                        LinksUtil.getStudentHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/studentCourseRegisterEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderUserCourseRegisteredEmail_instructor_returnsRegisteredEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderUserCourseRegisteredEmail(
+                new CourseEmailContext("idOfTypicalCourse1", "Course Name", List.of()),
+                new UserCourseRegisteredEmailContext(
+                        "instructor@email.tmt",
+                        "User Name",
+                        true,
+                        LinksUtil.getInstructorHomePageUrl()));
+
+        verifyEmailContent(actual.htmlContent(), "/instructorCourseRegisterEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionsEmailsLogic;
 import teammates.logic.email.FeedbackSessionsEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -49,6 +50,7 @@ public class LogicStarter implements ServletContextListener {
         UsersLogic usersLogic = UsersLogic.inst();
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
+        CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
         DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
         FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = FeedbackSessionsEmailsLogic.inst();
 
@@ -71,7 +73,8 @@ public class LogicStarter implements ServletContextListener {
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
-        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
+        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,
+                frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         demoCourseLogic.initLogicDependencies(
                 accountVerificationsLogic, accountsLogic, coursesLogic, dataBundleLogic);

@@ -11,6 +11,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
@@ -18,6 +19,7 @@ import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 
 /**
  * Pure rendering logic for email templates.
@@ -68,6 +70,21 @@ public final class EmailRenderer {
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${homePageLink}", LinksUtil.getHomePageUrl(),
                 "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
+    }
+
+    /**
+     * Renders the post-join course registration confirmation email body.
+     */
+    public static RenderedEmail renderUserCourseRegisteredEmail(
+            CourseEmailContext courseContext, UserCourseRegisteredEmailContext userContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_COURSE_REGISTER,
+                "${userName}", SanitizationHelper.sanitizeForHtml(userContext.recipientName()),
+                "${userType}", userContext.isInstructor() ? "an instructor" : "a student",
+                "${courseId}", SanitizationHelper.sanitizeForHtml(courseContext.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${appUrl}", userContext.appUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
     /**

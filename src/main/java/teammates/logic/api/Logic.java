@@ -910,6 +910,17 @@ public class Logic {
     }
 
     /**
+     * Makes the user join the course and enqueues the registration confirmation
+     * email.
+     */
+    public User joinCourseAndNotify(String regkey, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        User user = accountsLogic.joinCourse(regkey, account);
+        usersLogic.enqueueUserCourseRegisteredEmail(user);
+        return user;
+    }
+
+    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list
