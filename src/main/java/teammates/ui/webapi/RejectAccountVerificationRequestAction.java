@@ -49,7 +49,7 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
                         accountVerificationRequest,
                         accountVerificationRequestRejectionRequest.getReasonTitle(),
                         accountVerificationRequestRejectionRequest.getReasonBody());
-                emailSender.sendEmail(email);
+                emailQueueService.enqueuePriority(email);
             }
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);

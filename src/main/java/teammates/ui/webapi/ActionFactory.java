@@ -70,7 +70,6 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_GIVER_COMMENT, DELETE, DeleteFeedbackResponseGiverCommentAction.class);
         map(ResourceURIs.COURSE_SESSION_RESULTS, GET, GetCourseSessionResultsAction.class);
         map(ResourceURIs.USER_SESSION_RESULTS, GET, GetUserSessionResultsAction.class);
-        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
         map(ResourceURIs.CONFIG, GET, GetConfigAction.class);
 
         //STUDENTS APIs

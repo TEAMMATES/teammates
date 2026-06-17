@@ -21,7 +21,7 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedServiceAct
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionPublishedEmails(session);
             try {
-                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                emailQueueService.enqueueStandard(emailsToBeSent);
                 session.setPublishedEmailSent(true);
                 logic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
             } catch (Exception e) {

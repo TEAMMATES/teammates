@@ -360,30 +360,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets instructors with the specified {@code userEmail}.
-     *
-     * @deprecated unused in production code, moving away from email based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-        for (String userEmail : userEmails) {
-            predicates.add(cb.equal(cb.lower(instructorRoot.get("email")), normalizeEmail(userEmail)));
-        }
-
-        cr.select(instructorRoot)
-                .where(cb.and(
-                        cb.equal(instructorRoot.get("courseId"), courseId),
-                        cb.or(predicates.toArray(new Predicate[0]))));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Gets the student with the specified {@code userEmail}.
      *
      * @deprecated unused in production code, moving away from email based retrieval
@@ -402,30 +378,6 @@ public final class UsersDb {
                 cb.equal(cb.lower(studentRoot.get("email")), normalizedUserEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets students with the specified {@code userEmail}.
-     *
-     * @deprecated unused in production code, moving away from email based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-        for (String userEmail : userEmails) {
-            predicates.add(cb.equal(cb.lower(studentRoot.get("email")), normalizeEmail(userEmail)));
-        }
-
-        cr.select(studentRoot)
-                .where(cb.and(
-                        cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.or(predicates.toArray(new Predicate[0]))));
-
-        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

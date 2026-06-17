@@ -3,9 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -15,7 +13,6 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.LinksUtil;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
@@ -56,8 +53,6 @@ public final class EmailGenerator {
     private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
-
-    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 180;
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -339,121 +334,6 @@ public final class EmailGenerator {
         email.setType(emailType);
         email.setSubjectFromType(course.getName(), course.getId());
         return email;
-    }
-
-    /**
-     * Generates the email to be sent to a non-existent student when they request for session links recovery.
-     */
-    public EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
-        Objects.requireNonNull(recoveryEmailAddress);
-        String emailBody = Templates.populateTemplate(
-                EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
-                "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        EmailWrapper email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
-        email.setType(EmailType.SESSION_LINKS_RECOVERY);
-        email.setSubjectFromType();
-        email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the email to be sent to an existing student when they request for session links recovery.
-     *
-     * <p>Lists the links to submit/view responses for all feedback sessions under the student's email in the past 180 days.
-     */
-    public EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(
-            String recoveryEmailAddress, List<Student> studentsForEmail) {
-        Objects.requireNonNull(recoveryEmailAddress);
-        if (studentsForEmail.isEmpty()) {
-            throw new IllegalArgumentException("studentsForEmail cannot be empty");
-        }
-        int firstStudentIdx = 0;
-        Map<Course, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
-        String emailBody;
-        String studentName = studentsForEmail.get(firstStudentIdx).getName();
-        if (linkFragmentsMap.isEmpty()) {
-            emailBody = Templates.populateTemplate(
-                    EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
-                    "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                    "${supportEmail}", Config.SUPPORT_EMAIL,
-                    "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        } else {
-            var courseFragments = new StringBuilder(10000);
-            linkFragmentsMap.forEach((course, linksFragments) -> {
-                String courseBody = Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
-                        "${sessionFragment}", linksFragments.toString(),
-                        "${courseName}", course.getName());
-                courseFragments.append(courseBody);
-            });
-
-            emailBody = Templates.populateTemplate(
-                    EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
-                    "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
-                    "${linksFragment}", courseFragments.toString(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                    "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                    "${supportEmail}", Config.SUPPORT_EMAIL,
-                    "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        }
-
-        var email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
-        email.setType(EmailType.SESSION_LINKS_RECOVERY);
-        email.setSubjectFromType();
-        email.setContent(emailBody);
-        return email;
-    }
-
-    private Map<Course, StringBuilder> generateLinkFragmentsMap(List<Student> students) {
-        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
-        Map<Course, StringBuilder> linkFragmentsMap = new HashMap<>();
-
-        for (var student : students) {
-            RequestTracer.checkRemainingTime();
-            Course course = student.getCourse();
-            String courseId = course.getId();
-
-            StringBuilder linksFragmentValue;
-            if (linkFragmentsMap.containsKey(course)) {
-                linksFragmentValue = linkFragmentsMap.get(course);
-            } else {
-                linksFragmentValue = new StringBuilder(5000);
-            }
-
-            for (var session : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
-                RequestTracer.checkRemainingTime();
-                var submitUrlHtml = "";
-                var reportUrlHtml = "";
-
-                if (session.isOpened() || session.isClosed()) {
-                    var submitUrl = LinksUtil.getStudentSessionSubmitUrl(session.getId(), student.getRegKey());
-                    submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
-                }
-
-                if (session.isPublished()) {
-                    var reportUrl = LinksUtil.getStudentSessionResultsUrl(session.getId(), student.getRegKey());
-                    reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
-                }
-
-                if (submitUrlHtml.isEmpty() && reportUrlHtml.isEmpty()) {
-                    continue;
-                }
-
-                linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
-                        "${sessionName}", session.getName(),
-                        "${submitUrl}", submitUrlHtml,
-                        "${reportUrl}", reportUrlHtml));
-
-                linkFragmentsMap.putIfAbsent(course, linksFragmentValue);
-            }
-        }
-        return linkFragmentsMap;
-
     }
 
     /**

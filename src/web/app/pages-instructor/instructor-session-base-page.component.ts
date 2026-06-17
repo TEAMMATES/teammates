@@ -110,7 +110,6 @@ export abstract class InstructorSessionBasePageComponent {
     fromFeedbackSession: FeedbackSession,
     newSessionName: string,
     newCourseId: string,
-    oldCourseId: string,
   ): Observable<FeedbackSession> {
     // Local constants
     const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
@@ -251,8 +250,7 @@ export abstract class InstructorSessionBasePageComponent {
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
-      toCopySessionName: fromFeedbackSession.feedbackSessionName,
-      toCopyCourseId: oldCourseId,
+      toCopySessionId: fromFeedbackSession.feedbackSessionId,
 
       submissionStartTimestamp: copiedSubmissionStartTimestamp,
       submissionEndTimestamp: copiedSubmissionEndTimestamp,
@@ -370,12 +368,7 @@ export abstract class InstructorSessionBasePageComponent {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
-        this.copyFeedbackSession(
-          model.feedbackSession,
-          result.newFeedbackSessionName,
-          copyToCourseId,
-          result.sessionToCopyCourseId,
-        ).pipe(
+        this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId).pipe(
           catchError((err: ErrorMessageOutput) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return EMPTY;
@@ -410,7 +403,6 @@ export abstract class InstructorSessionBasePageComponent {
                 feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
-                result.sessionToCopyCourseId,
               ),
             ),
             catchError((err: ErrorMessageOutput) => {
