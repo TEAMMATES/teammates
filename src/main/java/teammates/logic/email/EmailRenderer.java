@@ -11,6 +11,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
@@ -120,6 +121,19 @@ public final class EmailRenderer {
                 "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
                 "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.instructorEmailAddress()),
                 "${comments}", sanitizeOptionalHtml(context.comments()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the approval email body for an approved account verification
+     * request.
+     */
+    public static RenderedEmail renderAccountVerificationApprovedEmail(
+            AccountVerificationApprovedEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.ACCOUNT_VERIFICATION_APPROVED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${welcomeUrl}", context.instructorWelcomeUrl(),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 

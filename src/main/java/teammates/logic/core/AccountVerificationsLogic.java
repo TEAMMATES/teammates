@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Config;
 import teammates.common.util.LinksUtil;
 import teammates.logic.email.AccountVerificationEmailsLogic;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -161,6 +162,10 @@ public final class AccountVerificationsLogic {
         }
         request.setStatus(AccountVerificationRequestStatus.APPROVED);
         validateAccountVerificationRequest(request);
+        accountVerificationEmailsLogic.enqueueApprovalEmail(new AccountVerificationApprovedEmailContext(
+                request.getEmail(),
+                request.getName(),
+                LinksUtil.getInstructorWelcomeUrl(request.getId())));
         return request;
     }
 

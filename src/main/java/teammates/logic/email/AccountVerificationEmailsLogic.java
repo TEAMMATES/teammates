@@ -1,7 +1,9 @@
 package teammates.logic.email;
 
+import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -48,6 +50,20 @@ public class AccountVerificationEmailsLogic {
                 context.recipientEmailAddress(),
                 EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
                 renderedEmail);
+        emailQueueService.enqueuePriority(email);
+    }
+
+    /**
+     * Enqueues the approval email for an approved account verification request.
+     */
+    public void enqueueApprovalEmail(AccountVerificationApprovedEmailContext context) {
+        RenderedEmail renderedEmail = EmailRenderer.renderAccountVerificationApprovedEmail(context);
+        EmailWrapper email = EmailWrapperBuilder.build(
+                context.recipientEmailAddress(),
+                EmailType.ACCOUNT_VERIFICATION_APPROVED,
+                renderedEmail,
+                context.recipientName());
+        email.setBcc(Config.SUPPORT_EMAIL);
         emailQueueService.enqueuePriority(email);
     }
 }

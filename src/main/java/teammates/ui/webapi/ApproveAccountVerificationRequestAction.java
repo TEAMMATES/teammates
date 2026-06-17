@@ -6,8 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
-import teammates.common.util.LinksUtil;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -26,10 +24,6 @@ public class ApproveAccountVerificationRequestAction extends AdminOnlyAction {
         try {
             AccountVerificationRequest accountVerificationRequest =
                     logic.approveAccountVerificationRequest(accountVerificationRequestId);
-            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                    accountVerificationRequest.getEmail(), accountVerificationRequest.getName(),
-                    LinksUtil.getInstructorWelcomeUrl(accountVerificationRequest.getId()));
-            emailQueueService.enqueuePriority(email);
             return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

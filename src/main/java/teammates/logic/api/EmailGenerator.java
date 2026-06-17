@@ -563,18 +563,19 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the new instructor account join email for the given {@code instructor}.
+     * Generates the approval email for the given verified instructor.
      */
-    public EmailWrapper generateNewInstructorAccountJoinEmail(
-            String instructorEmail, String instructorName, String joinUrl) {
+    public EmailWrapper generateAccountVerificationApprovedEmail(
+            String instructorEmail, String instructorName, String welcomeUrl) {
 
-        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
+        String emailBody = Templates.populateTemplate(EmailTemplates.ACCOUNT_VERIFICATION_APPROVED,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructorName),
-                "${joinUrl}", joinUrl);
+                "${welcomeUrl}", welcomeUrl,
+                "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.NEW_INSTRUCTOR_ACCOUNT);
+        email.setType(EmailType.ACCOUNT_VERIFICATION_APPROVED);
         email.setSubjectFromType(SanitizationHelper.sanitizeForHtml(instructorName));
         email.setContent(emailBody);
         return email;

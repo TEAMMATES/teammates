@@ -33,8 +33,10 @@ public class CreateAccountVerificationRequestAction extends LoggedInAction {
         Account account = getCurrentAccount();
 
         try {
-            AccountVerificationRequestData output = new AccountVerificationRequestData(logic.createAccountVerificationRequest(
-                    instructorName, instructorEmail, instructorInstitution, instructorCountry, comments, account.getId()));
+            AccountVerificationRequestData output = new AccountVerificationRequestData(
+                    logic.createAccountVerificationRequest(
+                            instructorName, instructorEmail, instructorInstitution,
+                            instructorCountry, comments, account.getId()));
             return new JsonResult(output);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
@@ -108,6 +109,31 @@ public class EmailRendererTest extends BaseTestCase {
                         LinksUtil.getInstructorHomePageUrl()));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRegisterEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationApprovedEmail_typicalCase_returnsApprovalEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationApprovedEmail(
+                new AccountVerificationApprovedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Dr Elena Hart",
+                        LinksUtil.getInstructorWelcomeUrl(UUID.fromString("33333333-3333-3333-3333-333333333333"))));
+
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationApprovedEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationApprovedEmail_nameNeedsSanitization_returnsSanitizedApprovalEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationApprovedEmail(
+                new AccountVerificationApprovedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Instructor<script> alert('hi!'); </script>",
+                        LinksUtil.getInstructorWelcomeUrl(UUID.fromString("33333333-3333-3333-3333-333333333333"))));
+
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationApprovedEmailTestingSanitization.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

@@ -134,6 +134,17 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testApproveAccountVerificationRequest_pendingRequest_enqueuesApprovalEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.approveAccountVerificationRequest(request.getId());
+
+        assertEquals(AccountVerificationRequestStatus.APPROVED, actual.getStatus());
+        verify(accountVerificationEmailsLogic).enqueueApprovalEmail(any());
+    }
+
+    @Test
     public void testDeleteAccountVerificationRequest_typicalRequest_success() {
         AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(ar.getId())).thenReturn(ar);

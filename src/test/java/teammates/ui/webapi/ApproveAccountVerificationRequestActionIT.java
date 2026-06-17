@@ -12,6 +12,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
@@ -67,6 +69,8 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         assertEquals(AccountVerificationRequestStatus.APPROVED, data.getStatus());
         assertEquals(accountVerificationRequest.getComments(), data.getComments());
         verifyNumberOfEmailsQueued(1);
+        EmailWrapper sentEmail = getQueuedEmails().get(0);
+        assertEquals(EmailType.ACCOUNT_VERIFICATION_APPROVED, sentEmail.getType());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
