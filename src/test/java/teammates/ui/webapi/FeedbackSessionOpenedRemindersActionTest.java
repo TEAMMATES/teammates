@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.logic.api.Logic;
 import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
@@ -25,7 +24,7 @@ public class FeedbackSessionOpenedRemindersActionTest
         var session = given.feedbackSession("session", fs -> fs.course(course.alias())
                 .noCreator().opened().openedEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
-                .giverType(QuestionGiverType.STUDENTS));
+                .studentsToSelf());
         persistGivenData(given);
 
         MessageOutput result = execute(new RequestContext().withWorkerAuth());
@@ -43,7 +42,7 @@ public class FeedbackSessionOpenedRemindersActionTest
         var session = given.feedbackSession("session", fs -> fs.course(course.alias())
                 .waitingToOpen().openedEmailSent(false));
         given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
-                .giverType(QuestionGiverType.STUDENTS));
+                .studentsToSelf());
         persistGivenData(given);
 
         MessageOutput result = execute(new RequestContext().withWorkerAuth());
