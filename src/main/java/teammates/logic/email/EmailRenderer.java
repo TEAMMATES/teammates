@@ -262,9 +262,6 @@ public final class EmailRenderer {
             StringBuilder sessionRowsHtml = new StringBuilder();
             for (SessionAccessLink sessionLink : courseSection.sessionLinks()) {
                 String linksHtml = buildSessionLinksHtml(sessionLink);
-                if (linksHtml.isEmpty()) {
-                    continue;
-                }
 
                 sessionRowsHtml.append(Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION,
@@ -302,9 +299,8 @@ public final class EmailRenderer {
             linksHtml.append("(Feedback session is not yet opened)");
         }
 
-        if (!linksHtml.isEmpty()) {
-            linksHtml.append(separator);
-        }
+        linksHtml.append(separator);
+
         if (hasResultsLink) {
             linksHtml.append("[<a href=\"")
                     .append(sessionLink.resultsUrl())
