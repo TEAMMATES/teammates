@@ -15,10 +15,14 @@ import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
+import teammates.logic.email.model.StudentCourseJoinEmailContext;
+import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
@@ -102,6 +106,61 @@ public class EmailRendererTest extends BaseTestCase {
                         LinksUtil.getInstructorHomePageUrl()));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRegisterEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderStudentCourseJoinEmail_student_returnsJoinEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderStudentCourseJoinEmail(
+                buildCourseContext(),
+                new StudentCourseJoinEmailContext(
+                        "student@email.tmt",
+                        "Student Name",
+                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+
+        verifyEmailContent(actual.htmlContent(), "/studentCourseJoinEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderStudentCourseRejoinAfterUnlinkAccountEmail_student_returnsRejoinEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderStudentCourseRejoinAfterUnlinkAccountEmail(
+                buildCourseContext(),
+                new StudentCourseRejoinAfterUnlinkEmailContext(
+                        "student@email.tmt",
+                        "Student Name",
+                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+
+        verifyEmailContent(actual.htmlContent(), "/studentCourseRejoinAfterUnlinkAccountEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderInstructorCourseJoinEmail_instructor_returnsJoinEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderInstructorCourseJoinEmail(
+                buildCourseContext(),
+                new InstructorCourseJoinEmailContext(
+                        "instructor@email.tmt",
+                        "Instructor Name",
+                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY),
+                        "Joe Wilson",
+                        "instructor-joe@gmail.com"));
+
+        verifyEmailContent(actual.htmlContent(), "/instructorCourseJoinEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderInstructorCourseRejoinAfterUnlinkAccountEmail_instructor_returnsRejoinEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderInstructorCourseRejoinAfterUnlinkAccountEmail(
+                buildCourseContext(),
+                new InstructorCourseRejoinAfterUnlinkEmailContext(
+                        "instructor@email.tmt",
+                        "Instructor Name",
+                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+
+        verifyEmailContent(actual.htmlContent(), "/instructorCourseRejoinAfterUnlinkAccountEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 
@@ -209,6 +268,17 @@ public class EmailRendererTest extends BaseTestCase {
                 "Africa/Johannesburg",
                 "First feedback session",
                 "Please please fill in the following questions.",
+                List.of(
+                        new EmailContact("Instructor Not Yet Joined Course 1",
+                                "instructorNotYetJoinedCourse1@email.tmt"),
+                        new EmailContact("Instructor1 Course1", "instructor1@course1.tmt"),
+                        new EmailContact("Instructor3 Course1", "instructor3@course1.tmt")));
+    }
+
+    private static CourseEmailContext buildCourseContext() {
+        return new CourseEmailContext(
+                "idOfTypicalCourse1",
+                "Course Name",
                 List.of(
                         new EmailContact("Instructor Not Yet Joined Course 1",
                                 "instructorNotYetJoinedCourse1@email.tmt"),

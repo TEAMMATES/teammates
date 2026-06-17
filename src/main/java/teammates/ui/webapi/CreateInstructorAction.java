@@ -1,13 +1,8 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -40,11 +35,7 @@ public class CreateInstructorAction extends LoggedInAction {
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
             }
-            Course course = logic.getCourse(courseId);
-            EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
-            List<EmailWrapper> emails = new ArrayList<>();
-            emails.add(email);
-            emailQueueService.enqueuePriority(emails);
+            logic.enqueueInstructorCourseJoinEmail(inviter, createdInstructor);
 
             return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {

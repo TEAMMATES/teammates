@@ -15,10 +15,14 @@ import teammates.logic.email.model.CourseEmailContext;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
+import teammates.logic.email.model.StudentCourseJoinEmailContext;
+import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 
 /**
@@ -84,6 +88,62 @@ public final class EmailRenderer {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(courseContext.courseId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
                 "${appUrl}", userContext.appUrl(),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the student course join invitation email body.
+     */
+    public static RenderedEmail renderStudentCourseJoinEmail(
+            CourseEmailContext courseContext, StudentCourseJoinEmailContext studentContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.STUDENT_COURSE_JOIN,
+                "${userName}", SanitizationHelper.sanitizeForHtml(studentContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", studentContext.joinUrl(),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(courseContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the student course rejoin email body after account unlink.
+     */
+    public static RenderedEmail renderStudentCourseRejoinAfterUnlinkAccountEmail(
+            CourseEmailContext courseContext, StudentCourseRejoinAfterUnlinkEmailContext studentContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
+                "${userName}", SanitizationHelper.sanitizeForHtml(studentContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", studentContext.joinUrl(),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(courseContext.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the instructor course join invitation email body.
+     */
+    public static RenderedEmail renderInstructorCourseJoinEmail(
+            CourseEmailContext courseContext, InstructorCourseJoinEmailContext instructorContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_COURSE_JOIN,
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructorContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", instructorContext.joinUrl(),
+                "${inviterName}", SanitizationHelper.sanitizeForHtml(instructorContext.inviterName()),
+                "${inviterEmail}", SanitizationHelper.sanitizeForHtml(instructorContext.inviterEmail()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the instructor course rejoin email body after account unlink.
+     */
+    public static RenderedEmail renderInstructorCourseRejoinAfterUnlinkAccountEmail(
+            CourseEmailContext courseContext, InstructorCourseRejoinAfterUnlinkEmailContext instructorContext) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructorContext.recipientName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(courseContext.courseName()),
+                "${joinUrl}", instructorContext.joinUrl(),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
