@@ -967,6 +967,8 @@ public final class FeedbackSessionsLogic {
         session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
         session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
 
+        adjustFeedbackSessionEmailStatusAfterUpdate(session);
+
         validateFeedbackSession(session);
 
         return session;
