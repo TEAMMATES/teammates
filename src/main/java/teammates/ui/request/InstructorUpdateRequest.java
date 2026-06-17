@@ -1,7 +1,5 @@
 package teammates.ui.request;
 
-import java.util.UUID;
-
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -12,8 +10,6 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
  * The update request for an instructor.
  */
 public class InstructorUpdateRequest extends BasicRequest {
-    private UUID id;
-
     private String name;
     private String email;
     private InstructorPermissionRole role;
@@ -30,10 +26,9 @@ public class InstructorUpdateRequest extends BasicRequest {
         // for Jackson deserialization
     }
 
-    public InstructorUpdateRequest(UUID id, String name, String email, String roleName,
+    public InstructorUpdateRequest(String name, String email, String roleName,
                                    String displayName, Boolean isDisplayedToStudent,
                                    @Nullable InstructorPrivileges privileges) {
-        this.id = id;
         this.name = name;
         this.email = email;
         this.role = InstructorPermissionRole.getEnum(roleName);
@@ -44,15 +39,10 @@ public class InstructorUpdateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        validateTrue(id != null, "id cannot be null");
         validateTrue(name != null, "name cannot be null");
         validateTrue(email != null, "email cannot be null");
         validateTrue(role != null, "role name cannot be null");
         validateTrue(isDisplayedToStudent != null, "displayed to student boolean cannot be null");
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getName() {

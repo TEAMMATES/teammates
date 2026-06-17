@@ -35,7 +35,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
                 .withUserId(student.getId());
         InstructorCourseStudentDetailsEditPage editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
-                        testData.instructors.get("ICSDetEdit.instr").getGoogleId());
+                        testData.instructors.get("ICSDetEdit.instr").getEmail());
 
         ______TS("verify loaded data");
         editPage.verifyStudentDetails(student);

@@ -195,12 +195,16 @@
                         <td>{{ session.startTimeString }}</td>
                         <td>{{ session.endTimeString }}</td>
                         <td>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            [href]="session.ongoingSession.instructorHomePageLink"
-                            >{{ session.ongoingSession.creatorEmail }}</a
-                          >
+                          @if (session.ongoingSession.accountId) {
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              [tmRouterLink]="'/web/admin/accounts/' + session.ongoingSession.accountId"
+                              >{{ session.ongoingSession.creatorEmail }}</a
+                            >
+                          } @else {
+                            {{ session.ongoingSession.creatorEmail }}
+                          }
                         </td>
                       </tr>
                     }

@@ -13,7 +13,7 @@
       "email": "scjoinconf.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SCJoinConf.instr"
+      "subject": "scjoinconf.instr@gmail.tmt"
     },
     "alice.tmms": {
       "googleId": "tm.e2e.SCJoinConf.alice",
@@ -21,10 +21,10 @@
       "email": "scjoinconf.alice@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SCJoinConf.alice"
+      "subject": "scjoinconf.alice@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "SCJoinConf.CS2104": {
       "id": "tm.e2e.SCJoinConf.CS2104",

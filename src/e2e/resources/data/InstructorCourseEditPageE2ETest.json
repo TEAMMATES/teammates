@@ -11,17 +11,17 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
-      "email": "icedit.coowner@gmail.tmt",
+      "email": "icedit.coowner.cs2104@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.coowner"
+      "subject": "icedit.coowner.cs2104@gmail.tmt"
     },
     "ICEdit.observer": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.ICEdit.observer",
       "name": "Teammates Instructor",
-      "email": "icedit.observer@gmail.tmt",
+      "email": "icedit.observer.cs2104@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.observer"
+      "subject": "icedit.observer.cs2104@gmail.tmt"
     },
     "ICEdit.manager.CS2104": {
       "id": "00000000-0000-4000-8000-000000000003",
@@ -29,7 +29,7 @@
       "name": "CS2104 Manager",
       "email": "icedit.manager.cs2104@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.manager.CS2104"
+      "subject": "icedit.manager.cs2104@gmail.tmt"
     },
     "ICEdit.tutor.CS2104": {
       "id": "00000000-0000-4000-8000-000000000004",
@@ -37,7 +37,7 @@
       "name": "CS2104 Tutor",
       "email": "icedit.tutor.cs2104@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.tutor.CS2104"
+      "subject": "icedit.tutor.cs2104@gmail.tmt"
     },
     "ICEdit.helper.CS2104": {
       "id": "00000000-0000-4000-8000-000000000005",
@@ -45,7 +45,7 @@
       "name": "CS2104 Helper",
       "email": "icedit.helper.cs2104@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.helper.CS2104"
+      "subject": "icedit.helper.cs2104@gmail.tmt"
     },
     "ICEdit.helper.CS2103T": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -53,7 +53,7 @@
       "name": "CS2103T Helper",
       "email": "icedit.helper.cs2103t@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.helper.CS2103T"
+      "subject": "icedit.helper.cs2103t@gmail.tmt"
     },
     "ICEdit.manager.CS2105": {
       "id": "00000000-0000-4000-8000-000000000007",
@@ -61,7 +61,7 @@
       "name": "CS2105 Manager",
       "email": "icedit.manager.cs2105@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.manager.CS2105"
+      "subject": "icedit.manager.cs2105@gmail.tmt"
     },
     "ICEdit.tutor.CS2106": {
       "id": "00000000-0000-4000-8000-000000000008",
@@ -69,31 +69,31 @@
       "name": "CS2106 Tutor",
       "email": "icedit.tutor.cs2106@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.tutor.CS2106"
+      "subject": "icedit.tutor.cs2106@gmail.tmt"
     },
     "tm.e2e.ICEdit.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000009",
       "googleId": "tm.e2e.ICEdit.alice.tmms",
       "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "icedit.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.alice.tmms"
+      "subject": "icedit.alice.tmms@gmail.tmt"
     },
     "tm.e2e.ICEdit.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000010",
       "googleId": "tm.e2e.ICEdit.charlie.tmms",
       "name": "Charlie Davis",
-      "email": "charlie.d.tmms@gmail.tmt",
+      "email": "icedit.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.charlie.tmms"
+      "subject": "icedit.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.ICEdit.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000011",
       "googleId": "tm.e2e.ICEdit.danny.tmms",
       "name": "Danny Engrid",
-      "email": "danny.e.tmms@gmail.tmt",
+      "email": "icedit.danny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICEdit.danny.tmms"
+      "subject": "icedit.danny.tmms@gmail.tmt"
     }
   },
   "courses": {
@@ -302,7 +302,7 @@
     "alice.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "icedit.alice.tmms@gmail.tmt",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
       "accountId": "00000000-0000-4000-8000-000000000009",
@@ -311,7 +311,7 @@
     "charlie.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "email": "charlie.d.tmms@gmail.tmt",
+      "email": "icedit.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "accountId": "00000000-0000-4000-8000-000000000010",
@@ -320,7 +320,7 @@
     "danny.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "email": "danny.e.tmms@gmail.tmt",
+      "email": "icedit.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "accountId": "00000000-0000-4000-8000-000000000011",

@@ -17,6 +17,8 @@ import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.ui.request.NotificationCreateRequest;
+import teammates.ui.request.NotificationUpdateRequest;
 
 /**
  * Handles the logic related to notifications.
@@ -43,6 +45,22 @@ public final class NotificationsLogic {
     public void initLogicDependencies(NotificationsDb notificationsDb, AccountsLogic accountsLogic) {
         this.notificationsDb = notificationsDb;
         this.accountsLogic = accountsLogic;
+    }
+
+    /**
+     * Creates a notification from a create request.
+     *
+     * @return the created notification
+     * @throws InvalidParametersException if the notification is not valid
+     */
+    public Notification createNotification(NotificationCreateRequest createRequest)
+            throws InvalidParametersException {
+        Instant startTime = Instant.ofEpochMilli(createRequest.getStartTimestamp());
+        Instant endTime = Instant.ofEpochMilli(createRequest.getEndTimestamp());
+        Notification notification = new Notification(startTime, endTime, createRequest.getStyle(),
+                createRequest.getTargetUser(), createRequest.getTitle(), createRequest.getMessage());
+        validateNotification(notification);
+        return notificationsDb.persistNotification(notification);
     }
 
     /**
@@ -75,6 +93,21 @@ public final class NotificationsLogic {
         assert notificationId != null;
 
         return notificationsDb.getNotification(notificationId);
+    }
+
+    /**
+     * Updates a notification from an update request.
+     *
+     * @return updated notification
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if notification cannot be found with given Id
+     */
+    public Notification updateNotification(UUID notificationId, NotificationUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Instant startTime = Instant.ofEpochMilli(updateRequest.getStartTimestamp());
+        Instant endTime = Instant.ofEpochMilli(updateRequest.getEndTimestamp());
+        return updateNotification(notificationId, startTime, endTime, updateRequest.getStyle(),
+                updateRequest.getTargetUser(), updateRequest.getTitle(), updateRequest.getMessage());
     }
 
     /**

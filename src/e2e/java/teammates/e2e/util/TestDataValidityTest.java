@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseTestCase;
@@ -84,6 +85,16 @@ public class TestDataValidityTest extends BaseTestCase {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid account email: " + account.getEmail());
                     }
+
+                    if (account.getProvider() != Provider.TEAMMATES_DEV) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("account provider must be TEAMMATES_DEV: " + account.getProvider());
+                    }
+
+                    if (!account.getEmail().equals(account.getSubject())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("TEAMMATES_DEV account subject must match email: " + account.getEmail());
+                    }
                 });
 
                 dataBundle.courses.forEach((id, course) -> {
@@ -138,10 +149,10 @@ public class TestDataValidityTest extends BaseTestCase {
                     }
                 });
 
-                dataBundle.accountRequests.forEach((id, accountRequest) -> {
-                    if (!isValidTestEmail(accountRequest.getEmail())) {
+                dataBundle.accountVerificationRequests.forEach((id, accountVerificationRequest) -> {
+                    if (!isValidTestEmail(accountVerificationRequest.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account request email: " + accountRequest.getEmail());
+                                .add("Invalid account verification request email: " + accountVerificationRequest.getEmail());
                     }
                 });
 

@@ -40,7 +40,7 @@ public class Institute extends BaseEntity {
     private Set<Course> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "institute")
-    private Set<AccountRequest> accountRequests = new HashSet<>();
+    private Set<AccountVerificationRequest> accountVerificationRequests = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -74,11 +74,11 @@ public class Institute extends BaseEntity {
     }
 
     /**
-     * Adds an account request to the Institute.
+     * Adds an account verification request to the Institute.
      */
-    public void addAccountRequest(AccountRequest accountRequest) {
-        this.accountRequests.add(accountRequest);
-        accountRequest.setInstitute(this);
+    public void addAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+        this.accountVerificationRequests.add(accountVerificationRequest);
+        accountVerificationRequest.setInstitute(this);
     }
 
     public UUID getId() {
@@ -113,12 +113,12 @@ public class Institute extends BaseEntity {
         this.courses = courses;
     }
 
-    public Set<AccountRequest> getAccountRequests() {
-        return accountRequests;
+    public Set<AccountVerificationRequest> getAccountVerificationRequests() {
+        return accountVerificationRequests;
     }
 
-    public void setAccountRequests(Set<AccountRequest> accountRequests) {
-        this.accountRequests = accountRequests;
+    public void setAccountVerificationRequests(Set<AccountVerificationRequest> accountVerificationRequests) {
+        this.accountVerificationRequests = accountVerificationRequests;
     }
 
     public Instant getUpdatedAt() {

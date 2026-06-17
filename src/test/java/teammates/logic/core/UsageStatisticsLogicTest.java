@@ -26,7 +26,7 @@ public class UsageStatisticsLogicTest extends BaseLogicTestcase {
         given.student("student");
         given.feedbackResponse("feedback-response");
         given.instructor("instructor");
-        given.accountRequest("account-request");
+        given.accountVerificationRequest("account-request");
         persistGivenData(given);
         DataBundle dataBundle = given.getDataBundle();
 
@@ -42,12 +42,13 @@ public class UsageStatisticsLogicTest extends BaseLogicTestcase {
         int totalStudents = result.stream().mapToInt(UsageStatisticsData::getNumStudents).sum();
         int totalResponses = result.stream().mapToInt(UsageStatisticsData::getNumResponses).sum();
         int totalInstructors = result.stream().mapToInt(UsageStatisticsData::getNumInstructors).sum();
-        int totalAccountRequests = result.stream().mapToInt(UsageStatisticsData::getNumAccountRequests).sum();
+        int totalAccountVerificationRequests =
+                result.stream().mapToInt(UsageStatisticsData::getNumAccountVerificationRequests).sum();
         assertEquals(dataBundle.courses.size(), totalCourses);
         assertEquals(dataBundle.students.size(), totalStudents);
         assertEquals(dataBundle.feedbackResponses.size(), totalResponses);
         assertEquals(dataBundle.instructors.size(), totalInstructors);
-        assertEquals(dataBundle.accountRequests.size(), totalAccountRequests);
+        assertEquals(dataBundle.accountVerificationRequests.size(), totalAccountVerificationRequests);
     }
 
     @Test(groups = GroupNames.LOGIC)
@@ -65,7 +66,7 @@ public class UsageStatisticsLogicTest extends BaseLogicTestcase {
         assertEquals(0, bucket.getNumStudents());
         assertEquals(0, bucket.getNumResponses());
         assertEquals(0, bucket.getNumInstructors());
-        assertEquals(0, bucket.getNumAccountRequests());
+        assertEquals(0, bucket.getNumAccountVerificationRequests());
     }
 
 }

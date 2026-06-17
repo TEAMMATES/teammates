@@ -45,7 +45,7 @@ public class SendJoinReminderEmailAction extends LoggedInAction {
             EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
             statusMsg = new JsonResult("An email has been sent to " + student.getEmail());
 
         } else if (user instanceof Instructor instructorData) {
@@ -57,7 +57,7 @@ public class SendJoinReminderEmailAction extends LoggedInAction {
             EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructorData, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
             statusMsg = new JsonResult("An email has been sent to " + instructorData.getEmail());
 
         } else {
@@ -68,7 +68,7 @@ public class SendJoinReminderEmailAction extends LoggedInAction {
                 EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
                 emails.add(email);
             }
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
             statusMsg = new JsonResult("Emails have been sent to unregistered students.");
         }
 

@@ -5,6 +5,7 @@ import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Mocked } from 'vitest';
+import { environment } from '../../../environments/environment';
 
 const mockStatusMessageService: Mocked<Partial<StatusMessageService>> = {
   showErrorToast: vi.fn(),
@@ -39,6 +40,8 @@ describe('SessionLinksRecoveryPageComponent', () => {
   let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
 
   beforeEach(async () => {
+    environment.captchaSiteKey = '';
+
     await TestBed.configureTestingModule({
       imports: [SessionLinksRecoveryPageComponent],
       providers: [

@@ -29,10 +29,13 @@ import teammates.common.util.SanitizationHelper;
 @Entity
 @Table(name = "Accounts",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UniqueOidc", columnNames = {"provider", "subject", "tenantId"}),
+                @UniqueConstraint(name = "unique_provider_subject_tenant",
+                        columnNames = {"provider", "subject", "tenantId"}),
         }
 )
 public class Account extends BaseEntity {
+    public static final String NO_TENANT = "__NO_TENANT__";
+
     @Id
     private UUID id;
 
@@ -43,7 +46,7 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String subject;
 
-    @Column
+    @Column(nullable = false)
     private String tenantId;
 
     @NaturalId
@@ -65,7 +68,7 @@ public class Account extends BaseEntity {
     private Set<Student> students = new HashSet<>();
 
     @OneToMany(mappedBy = "account")
-    private Set<AccountRequest> accountRequests = new HashSet<>();
+    private Set<AccountVerificationRequest> accountVerificationRequests = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -121,7 +124,15 @@ public class Account extends BaseEntity {
     }
 
     public void setTenantId(String tenantId) {
-        this.tenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        this.tenantId = normalizeTenantId(tenantId);
+    }
+
+    /**
+     * Normalizes the tenant ID, returning a default value if the input is null or empty.
+     */
+    public static String normalizeTenantId(String tenantId) {
+        String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
     }
 
     public String getGoogleId() {
@@ -165,15 +176,15 @@ public class Account extends BaseEntity {
     }
 
     /**
-     * Add an account request to this account.
+     * Add an account verification request to this account.
      */
-    public void addAccountRequest(AccountRequest accountRequest) {
-        accountRequests.add(accountRequest);
-        accountRequest.setAccount(this);
+    public void addAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+        accountVerificationRequests.add(accountVerificationRequest);
+        accountVerificationRequest.setAccount(this);
     }
 
-    public Set<AccountRequest> getAccountRequests() {
-        return accountRequests;
+    public Set<AccountVerificationRequest> getAccountVerificationRequests() {
+        return accountVerificationRequests;
     }
 
     public Instant getUpdatedAt() {
@@ -216,7 +227,6 @@ public class Account extends BaseEntity {
     @Override
     public String toString() {
         return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
-                + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
-                + ",updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }

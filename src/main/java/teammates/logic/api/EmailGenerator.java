@@ -3,9 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -15,7 +13,6 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.LinksUtil;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
@@ -23,7 +20,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
@@ -56,8 +53,6 @@ public final class EmailGenerator {
     private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
-
-    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 180;
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -339,121 +334,6 @@ public final class EmailGenerator {
         email.setType(emailType);
         email.setSubjectFromType(course.getName(), course.getId());
         return email;
-    }
-
-    /**
-     * Generates the email to be sent to a non-existent student when they request for session links recovery.
-     */
-    public EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
-        Objects.requireNonNull(recoveryEmailAddress);
-        String emailBody = Templates.populateTemplate(
-                EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
-                "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        EmailWrapper email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
-        email.setType(EmailType.SESSION_LINKS_RECOVERY);
-        email.setSubjectFromType();
-        email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the email to be sent to an existing student when they request for session links recovery.
-     *
-     * <p>Lists the links to submit/view responses for all feedback sessions under the student's email in the past 180 days.
-     */
-    public EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(
-            String recoveryEmailAddress, List<Student> studentsForEmail) {
-        Objects.requireNonNull(recoveryEmailAddress);
-        if (studentsForEmail.isEmpty()) {
-            throw new IllegalArgumentException("studentsForEmail cannot be empty");
-        }
-        int firstStudentIdx = 0;
-        Map<Course, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
-        String emailBody;
-        String studentName = studentsForEmail.get(firstStudentIdx).getName();
-        if (linkFragmentsMap.isEmpty()) {
-            emailBody = Templates.populateTemplate(
-                    EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
-                    "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                    "${supportEmail}", Config.SUPPORT_EMAIL,
-                    "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        } else {
-            var courseFragments = new StringBuilder(10000);
-            linkFragmentsMap.forEach((course, linksFragments) -> {
-                String courseBody = Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
-                        "${sessionFragment}", linksFragments.toString(),
-                        "${courseName}", course.getName());
-                courseFragments.append(courseBody);
-            });
-
-            emailBody = Templates.populateTemplate(
-                    EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
-                    "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
-                    "${linksFragment}", courseFragments.toString(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                    "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                    "${supportEmail}", Config.SUPPORT_EMAIL,
-                    "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-        }
-
-        var email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
-        email.setType(EmailType.SESSION_LINKS_RECOVERY);
-        email.setSubjectFromType();
-        email.setContent(emailBody);
-        return email;
-    }
-
-    private Map<Course, StringBuilder> generateLinkFragmentsMap(List<Student> students) {
-        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
-        Map<Course, StringBuilder> linkFragmentsMap = new HashMap<>();
-
-        for (var student : students) {
-            RequestTracer.checkRemainingTime();
-            Course course = student.getCourse();
-            String courseId = course.getId();
-
-            StringBuilder linksFragmentValue;
-            if (linkFragmentsMap.containsKey(course)) {
-                linksFragmentValue = linkFragmentsMap.get(course);
-            } else {
-                linksFragmentValue = new StringBuilder(5000);
-            }
-
-            for (var session : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
-                RequestTracer.checkRemainingTime();
-                var submitUrlHtml = "";
-                var reportUrlHtml = "";
-
-                if (session.isOpened() || session.isClosed()) {
-                    var submitUrl = LinksUtil.getStudentSessionSubmitUrl(session.getId(), student.getRegKey());
-                    submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
-                }
-
-                if (session.isPublished()) {
-                    var reportUrl = LinksUtil.getStudentSessionResultsUrl(session.getId(), student.getRegKey());
-                    reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
-                }
-
-                if (submitUrlHtml.isEmpty() && reportUrlHtml.isEmpty()) {
-                    continue;
-                }
-
-                linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
-                        "${sessionName}", session.getName(),
-                        "${submitUrl}", submitUrlHtml,
-                        "${reportUrl}", reportUrlHtml));
-
-                linkFragmentsMap.putIfAbsent(course, linksFragmentValue);
-            }
-        }
-        return linkFragmentsMap;
-
     }
 
     /**
@@ -852,40 +732,43 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the email to alert the admin of the new {@code accountRequest}.
+     * Generates the email to alert the admin of the new {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
-        String name = accountRequest.getName();
-        String institute = accountRequest.getInstitute().getName();
-        String emailAddress = accountRequest.getEmail();
-        String comments = accountRequest.getComments();
+    public EmailWrapper generateNewAccountVerificationRequestAdminAlertEmail(
+            AccountVerificationRequest accountVerificationRequest) {
+        String name = accountVerificationRequest.getName();
+        String institute = accountVerificationRequest.getInstitute().getName();
+        String emailAddress = accountVerificationRequest.getEmail();
+        String comments = accountVerificationRequest.getComments();
         if (comments == null) {
             comments = "";
         }
-        String adminAccountRequestsPageUrl = LinksUtil.getAdminHomePageUrl();
+        String adminAccountVerificationRequestsPageUrl = LinksUtil.getAdminHomePageUrl();
         String[] templateKeyValuePairs = new String[] {
                 "${name}", name,
                 "${institute}", institute,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
-                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+                "${adminAccountVerificationRequestsPageUrl}", adminAccountVerificationRequestsPageUrl,
         };
-        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        String content = Templates.populateTemplate(
+                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT);
         email.setSubjectFromType();
         email.setContent(content);
         return email;
     }
 
     /**
-     * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     * Generates the acknowledgement email to be sent to the person who submitted {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
-        String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
-        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute().getName());
-        String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
-        String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
+    public EmailWrapper generateNewAccountVerificationRequestAcknowledgementEmail(
+            AccountVerificationRequest accountVerificationRequest) {
+        String name = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getName());
+        String institute = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getInstitute().getName());
+        String emailAddress = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getEmail());
+        String comments = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getComments());
         if (comments == null) {
             comments = "";
         }
@@ -897,20 +780,21 @@ public final class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL,
         };
         String content = Templates.populateTemplate(
-                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
-        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
+        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT);
         email.setSubjectFromType();
         email.setContent(content);
         return email;
     }
 
     /**
-     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
      */
-    public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
-        email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+    public EmailWrapper generateAccountVerificationRequestRejectionEmail(
+            AccountVerificationRequest accountVerificationRequest, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());
+        email.setType(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION);
         email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
         email.setContent(SanitizationHelper.sanitizeForRichText(content));

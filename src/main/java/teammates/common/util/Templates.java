@@ -32,10 +32,10 @@ public final class Templates {
      * Collection of templates of emails to be sent by the system.
      */
     public static class EmailTemplates {
-        public static final String ADMIN_NEW_ACCOUNT_REQUEST_ALERT =
-                FileHelper.readResourceFile("adminEmailTemplate-newAccountRequestAlert.html");
-        public static final String INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT =
-                FileHelper.readResourceFile("instructorEmailTemplate-newAccountRequestAcknowledgement.html");
+        public static final String ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT =
+                FileHelper.readResourceFile("adminEmailTemplate-newAccountVerificationRequestAlert.html");
+        public static final String INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT =
+                FileHelper.readResourceFile("instructorEmailTemplate-newAccountVerificationRequestAcknowledgement.html");
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
         public static final String USER_COURSE_REGISTER =
@@ -64,12 +64,10 @@ public final class Templates {
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksBySession.html");
         public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksByCourse.html");
-        public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-feedbackSessionAccessLinks.html");
-        public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-feedbackSessionAccessLinksNone.html");
         public static final String SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-emailNotFound.html");
+        public static final String SESSION_LINKS_RECOVERY_EMAIL_FOUND =
+                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-found.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =

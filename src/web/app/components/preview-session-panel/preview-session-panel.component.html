@@ -22,11 +22,8 @@
         <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
           @if (userIdOfStudentToPreview.length !== 0) {
             <a
-              tmRouterLink="/web/sessions/submission"
-              [queryParams]="{
-                fsid: feedbackSessionId,
-                previewas: userIdOfStudentToPreview,
-              }"
+              [tmRouterLink]="['/web/sessions', feedbackSessionId, 'submission']"
+              [queryParams]="{ previewAs: userIdOfStudentToPreview }"
               target="_blank"
               rel="noopener noreferrer"
               [ngbTooltip]="
@@ -76,11 +73,8 @@
         <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
           @if (userIdOfInstructorToPreview.length !== 0) {
             <a
-              tmRouterLink="/web/instructor/sessions/submission"
-              [queryParams]="{
-                fsid: feedbackSessionId,
-                previewas: userIdOfInstructorToPreview,
-              }"
+              [tmRouterLink]="['/web/instructor/sessions', feedbackSessionId, 'submission']"
+              [queryParams]="{ previewAs: userIdOfInstructorToPreview }"
               target="_blank"
               rel="noopener noreferrer"
               ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list."

@@ -134,6 +134,16 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
+     * Marks the feedback session as not yet visible to students.
+     */
+    public GivenFeedbackSession notVisible() {
+        return sessionVisibleFromTime(now.plus(2, ChronoUnit.HOURS))
+                .startTime(now.plus(3, ChronoUnit.HOURS))
+                .endTime(now.plus(5, ChronoUnit.HOURS))
+                .resultsVisibleFromTime(now.plus(6, ChronoUnit.HOURS));
+    }
+
+    /**
      * Marks the feedback session as waiting to open.
      */
     public GivenFeedbackSession waitingToOpen() {

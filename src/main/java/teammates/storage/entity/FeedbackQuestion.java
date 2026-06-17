@@ -269,10 +269,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return feedbackSession;
     }
 
-    public String getFeedbackSessionName() {
-        return feedbackSession.getName();
-    }
-
     public UUID getSessionId() {
         return sessionId;
     }

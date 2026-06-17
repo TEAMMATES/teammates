@@ -21,7 +21,7 @@ export interface GetNotificationsParams {
   providedIn: 'root',
 })
 export class NotificationService {
-  private httpRequestService = inject(HttpRequestService);
+  private readonly httpRequestService = inject(HttpRequestService);
 
   /**
    * Creates a notification by calling API.

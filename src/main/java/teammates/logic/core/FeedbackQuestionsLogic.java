@@ -862,9 +862,7 @@ public final class FeedbackQuestionsLogic {
                     .toList();
             break;
         case SESSION_CREATOR:
-            FeedbackSession feedbackSession =
-                    feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
-            Instructor instructorGiver = feedbackSession.getSessionCreator();
+            Instructor instructorGiver = fq.getFeedbackSession().getSessionCreator();
             // If the instructorGiver is null, they have been deleted,
             // so we return an empty list of givers instead of a giver with null user.
             possibleGivers = instructorGiver != null

@@ -1,70 +1,47 @@
-import { KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { DateFormatService } from '../../../../services/date-format.service';
 
-export enum RadioOptions {
-  EXTEND_TO = 1,
-  EXTEND_BY = 2,
-}
+const DEADLINE_OPTIONS = [
+  { label: '12 hours', hours: Hours.TWELVE },
+  { label: '1 day', hours: Hours.IN_ONE_DAY },
+  { label: '3 days', hours: Hours.IN_THREE_DAYS },
+  { label: '1 week', hours: Hours.IN_ONE_WEEK },
+  { label: 'Custom', hours: Hours.ZERO },
+] as const;
+
+type DeadlineLabel = (typeof DEADLINE_OPTIONS)[number]['label'];
 
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
-  imports: [FormsModule, DatetimepickerComponent, KeyValuePipe],
-  providers: [FormatDateDetailPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, DatetimepickerComponent],
 })
 export class IndividualExtensionDateModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
-  private simpleModalService = inject(SimpleModalService);
-  private dateFormatService = inject(DateFormatService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly dateFormatService = inject(DateFormatService);
 
-  @Input()
-  numStudents = 0;
+  @Input({ required: true }) numStudents = 0;
+  @Input({ required: true }) numInstructors = 0;
+  @Input({ required: true }) feedbackSessionEndingTimestamp = 0;
+  @Input({ required: true }) feedbackSessionTimeZone = '';
 
-  @Input()
-  numInstructors = 0;
+  @Output() confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
 
-  @Input()
-  feedbackSessionEndingTimestamp = 0;
+  readonly DEADLINE_OPTIONS = DEADLINE_OPTIONS;
 
-  @Input()
-  feedbackSessionTimeZone = '';
-
-  @Output()
-  confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
-
-  RadioOptions!: typeof RadioOptions;
-  radioOption: RadioOptions = RadioOptions.EXTEND_BY;
-
-  extendByDeadlineKey = '';
-  extendByDeadlineOptions: Map<string, number> = new Map([
-    ['12 hours', Hours.TWELVE],
-    ['1 day', Hours.IN_ONE_DAY],
-    ['3 days', Hours.IN_THREE_DAYS],
-    ['1 week', Hours.IN_ONE_WEEK],
-    ['Customize', Hours.ZERO],
-  ]);
-  extendByDatePicker = { hours: 0, days: 0 };
-
-  MAX_EPOCH_TIME_IN_DAYS = 100000000;
-  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * Milliseconds.IN_ONE_DAY;
-  extendToTimestamp = 0;
-
-  sortMapByOriginalOrder = (): number => 0;
-
-  constructor() {
-    this.RadioOptions = RadioOptions;
-  }
+  readonly selectedPreset = signal<DeadlineLabel>(DEADLINE_OPTIONS[0].label);
+  readonly customTimestamp = signal(0);
 
   ngOnInit(): void {
-    this.extendToTimestamp = this.feedbackSessionEndingTimestamp;
+    this.customTimestamp.set(this.feedbackSessionEndingTimestamp);
   }
 
   onConfirm(): void {
@@ -73,8 +50,8 @@ export class IndividualExtensionDateModalComponent implements OnInit {
       return;
     }
 
-    const extensionTimeString = this.adjustToFeedbackSessionTimeZone(this.getExtensionTimestamp());
-    const currentTimeString = this.adjustToFeedbackSessionTimeZone(Date.now());
+    const extensionTimeString = this.formatTimestamp(this.getExtensionTimestamp());
+    const currentTimeString = this.formatTimestamp(Date.now());
 
     this.simpleModalService
       .openConfirmationModal(
@@ -91,87 +68,30 @@ export class IndividualExtensionDateModalComponent implements OnInit {
   }
 
   onChangeDateTime(timestamp: number): void {
-    this.extendToTimestamp = timestamp;
+    this.customTimestamp.set(timestamp);
   }
 
   getExtensionTimestamp(): number {
-    if (this.isRadioExtendBy()) {
-      if (this.isCustomize()) {
-        return this.addTime(
-          this.feedbackSessionEndingTimestamp,
-          this.extendByDatePicker.hours,
-          this.extendByDatePicker.days,
-        );
-      }
-      if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
-        return this.addTime(
-          this.feedbackSessionEndingTimestamp,
-          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(),
-          0,
-        );
-      }
+    if (this.isCustom()) {
+      return this.customTimestamp();
     }
-    if (this.isRadioExtendTo()) {
-      return this.extendToTimestamp;
-    }
-    return this.feedbackSessionEndingTimestamp;
+    const { hours } = this.DEADLINE_OPTIONS.find((o) => o.label === this.selectedPreset())!;
+    return this.feedbackSessionEndingTimestamp + hours * Milliseconds.IN_ONE_HOUR;
   }
 
-  extendAndFormatEndTimeBy(hours: number, days: number): string {
-    const time = this.addTime(this.feedbackSessionEndingTimestamp, hours, days);
-    return this.adjustToFeedbackSessionTimeZone(time);
+  extendAndFormatEndTimeBy(hours: number): string {
+    return this.formatTimestamp(this.feedbackSessionEndingTimestamp + hours * Milliseconds.IN_ONE_HOUR);
   }
 
-  private addTime(timestamp: number, hours: number, days: number): number {
-    return timestamp + hours * Milliseconds.IN_ONE_HOUR + days * Milliseconds.IN_ONE_DAY;
-  }
-
-  private adjustToFeedbackSessionTimeZone(time: number): string {
-    return this.dateFormatService.formatDateDetailed(time, this.feedbackSessionTimeZone);
+  isCustom(): boolean {
+    return this.selectedPreset() === 'Custom';
   }
 
   isValidForm(): boolean {
-    return this.isDateSelectedLaterThanCurrentEndingTimestamp() && this.isCustomizeValid();
-  }
-
-  isDateSelectedLaterThanCurrentEndingTimestamp(): boolean {
     return this.getExtensionTimestamp() > this.feedbackSessionEndingTimestamp;
   }
 
-  isCustomizeValid(): boolean {
-    return this.isCustomizeDateTimeIntegers() && this.isCustomizeBeforeMaxDate();
-  }
-
-  isCustomizeDateTimeIntegers(): boolean {
-    if (!this.isCustomize()) {
-      return true;
-    }
-
-    return Number.isInteger(this.extendByDatePicker.days) && Number.isInteger(this.extendByDatePicker.hours);
-  }
-
-  isCustomizeBeforeMaxDate(): boolean {
-    if (!this.isCustomize()) {
-      return true;
-    }
-
-    const timeSelected = this.addTime(
-      this.feedbackSessionEndingTimestamp,
-      this.extendByDatePicker.hours,
-      this.extendByDatePicker.days,
-    );
-    return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
-  }
-
-  isRadioExtendBy(): boolean {
-    return this.radioOption === RadioOptions.EXTEND_BY;
-  }
-
-  isCustomize(): boolean {
-    return this.isRadioExtendBy() && this.extendByDeadlineKey === 'Customize';
-  }
-
-  isRadioExtendTo(): boolean {
-    return this.radioOption === RadioOptions.EXTEND_TO;
+  private formatTimestamp(time: number): string {
+    return this.dateFormatService.formatDateDetailed(time, this.feedbackSessionTimeZone);
   }
 }

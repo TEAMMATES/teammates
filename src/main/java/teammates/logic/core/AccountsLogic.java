@@ -56,10 +56,21 @@ public final class AccountsLogic {
     /**
      * Gets an account by googleId.
      */
+    @Deprecated(forRemoval = false)
     public Account getAccountForGoogleId(String googleId) {
         assert googleId != null;
 
         return accountsDb.getAccountByGoogleId(googleId);
+    }
+
+    /**
+     * Gets an account by auth identity.
+     */
+    public Account getAccountForAuthIdentity(Provider provider, String subject, @Nullable String tenantId) {
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+
+        return accountsDb.getAccountByAuthIdentity(provider, subject, tenantId);
     }
 
     /**
@@ -78,17 +89,11 @@ public final class AccountsLogic {
         Objects.requireNonNull(email);
 
         String googleId = email;
-        // TODO: Fetch account by provider, subject and tenantId.
-        Account account = getAccountForGoogleId(googleId);
-        if (account != null) {
-            return account;
-        }
+        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
 
         try {
-            return createAccount(provider, subject, tenantId, email, googleId);
-        } catch (EntityAlreadyExistsException e) {
-            // This should not happen.
-            throw new IllegalStateException("Failed to create existing account for email: " + email, e);
+            validateAccount(account);
+            return accountsDb.upsertAccount(account);
         } catch (InvalidParametersException e) {
             throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
         }
@@ -120,7 +125,7 @@ public final class AccountsLogic {
 
         validateAccount(account);
 
-        if (getAccountForGoogleId(account.getGoogleId()) != null) {
+        if (getAccountForAuthIdentity(account.getProvider(), account.getSubject(), account.getTenantId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
@@ -149,13 +154,13 @@ public final class AccountsLogic {
         Objects.requireNonNull(account);
         Objects.requireNonNull(registrationKey);
 
-        User user = validateJoinRequest(registrationKey, account.getGoogleId());
+        User user = validateJoinRequest(registrationKey, account.getId());
         assert user.getAccount() == null;
         user.setAccount(account);
         return user;
     }
 
-    private User validateJoinRequest(String registrationKey, String googleId)
+    private User validateJoinRequest(String registrationKey, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         User user = usersLogic.getUserByRegistrationKey(registrationKey);
 
@@ -168,7 +173,7 @@ public final class AccountsLogic {
                     "User has already joined course");
         }
 
-        validateNonExistingLinkedUserInCourse(user, googleId);
+        validateNonExistingLinkedUserInCourse(user, accountId);
 
         return user;
     }
@@ -179,13 +184,13 @@ public final class AccountsLogic {
         }
     }
 
-    private void validateNonExistingLinkedUserInCourse(User user, String googleId)
+    private void validateNonExistingLinkedUserInCourse(User user, UUID accountId)
             throws EntityAlreadyExistsException {
         User existingLinkedUser;
         if (user instanceof Student) {
-            existingLinkedUser = usersLogic.getStudentByGoogleId(user.getCourseId(), googleId);
+            existingLinkedUser = usersLogic.getStudentByAccountId(accountId, user.getCourseId());
         } else if (user instanceof Instructor) {
-            existingLinkedUser = usersLogic.getInstructorByGoogleId(user.getCourseId(), googleId);
+            existingLinkedUser = usersLogic.getInstructorByAccountId(accountId, user.getCourseId());
         } else {
             throw new IllegalStateException("Unknown user type: " + user.getClass().getName());
         }

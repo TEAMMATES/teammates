@@ -802,8 +802,8 @@ describe('StudentHomePageComponent', () => {
     const href2: HTMLElement = fixture.debugElement.nativeElement
       .querySelector('#view-team-btn-1')
       .getAttribute('href');
-    expect(href1).toEqual('/web/student/course?courseid=CS3281');
-    expect(href2).toEqual('/web/student/course?courseid=CS3282');
+    expect(href1).toEqual('/web/student/courses/CS3281');
+    expect(href2).toEqual('/web/student/courses/CS3282');
   });
 
   it('should navigate to student session result page to view responses', () => {
@@ -882,8 +882,8 @@ describe('StudentHomePageComponent', () => {
     const href2: HTMLElement = fixture.debugElement.nativeElement
       .querySelector('#view-responses-btn-1')
       .getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/result?fsid=fs-id-1');
-    expect(href2).toEqual('/web/student/sessions/result?fsid=fs-id-2');
+    expect(href1).toEqual('/web/student/sessions/fs-id-1/result');
+    expect(href2).toEqual('/web/student/sessions/fs-id-2/result');
   });
 
   // start/edit/view submission button share the same router link and query params
@@ -964,8 +964,8 @@ describe('StudentHomePageComponent', () => {
     const href2: HTMLElement = fixture.debugElement.nativeElement
       .querySelector('#view-submit-btn-1')
       .getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/submission?fsid=fs-id-1');
-    expect(href2).toEqual('/web/student/sessions/submission?fsid=fs-id-2');
+    expect(href1).toEqual('/web/student/sessions/fs-id-1/submission');
+    expect(href2).toEqual('/web/student/sessions/fs-id-2/submission');
   });
 
   it('should sort courses by their IDs', () => {

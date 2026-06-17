@@ -5,11 +5,8 @@
       <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
         @if (session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
           <a
-            tmRouterLink="/web/instructor/sessions/individual-extension"
-            [queryParams]="{
-              fsid: session.feedbackSessionId,
-              preselectnonsubmitters: true,
-            }"
+            [tmRouterLink]="['/web/instructor/sessions', session.feedbackSessionId, 'individual-extension']"
+            [queryParams]="{ preselectNonSubmitters: true }"
           >
             <button type="button" class="btn btn-secondary btn-sm button">Extend Deadline for All</button>
           </a>
@@ -73,13 +70,10 @@
                   <td>
                     @if (!isDisplayOnly) {
                       <a
-                        tmRouterLink="/web/sessions/submission"
+                        [tmRouterLink]="['/web/sessions', session.feedbackSessionId, 'submission']"
                         rel="noopener noreferrer"
                         target="_blank"
-                        [queryParams]="{
-                          fsid: session.feedbackSessionId,
-                          moderatedperson: noResponseStudent.userId,
-                        }"
+                        [queryParams]="{ moderatedPerson: noResponseStudent.userId }"
                         class="btn btn-light btn-sm button"
                       >
                         Submit responses

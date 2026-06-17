@@ -12,12 +12,13 @@ import java.util.UUID;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -101,7 +102,7 @@ public final class DataBundleLogic {
 
         Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
-        Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
+        Collection<AccountVerificationRequest> accountVerificationRequests = dataBundle.accountVerificationRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
         Collection<Section> sections = dataBundle.sections.values();
         Collection<Team> teams = dataBundle.teams.values();
@@ -161,16 +162,19 @@ public final class DataBundleLogic {
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(generateId(placeholderId, seed));
+            if (account.getProvider() == Provider.TEAMMATES_DEV) {
+                account.setTenantId(Account.NO_TENANT);
+            }
             accountsMap.put(placeholderId, account);
         }
 
-        for (AccountRequest accountRequest : accountRequests) {
-            UUID placeholderId = accountRequest.getId();
-            accountRequest.setId(generateId(placeholderId, seed));
-            accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
-            if (accountRequest.getAccountId() != null) {
-                Account account = accountsMap.get(accountRequest.getAccountId());
-                accountRequest.setAccount(account);
+        for (AccountVerificationRequest accountVerificationRequest : accountVerificationRequests) {
+            UUID placeholderId = accountVerificationRequest.getId();
+            accountVerificationRequest.setId(generateId(placeholderId, seed));
+            accountVerificationRequest.setInstitute(institutesMap.get(accountVerificationRequest.getInstituteId()));
+            if (accountVerificationRequest.getAccountId() != null) {
+                Account account = accountsMap.get(accountVerificationRequest.getAccountId());
+                accountVerificationRequest.setAccount(account);
             }
         }
 
@@ -431,7 +435,7 @@ public final class DataBundleLogic {
 
         Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
-        Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
+        Collection<AccountVerificationRequest> accountVerificationRequests = dataBundle.accountVerificationRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
         Collection<Section> sections = dataBundle.sections.values();
         Collection<Team> teams = dataBundle.teams.values();
@@ -449,7 +453,7 @@ public final class DataBundleLogic {
         persistEntities(institutes);
         persistEntities(notifications);
         persistEntities(accounts);
-        persistEntities(accountRequests);
+        persistEntities(accountVerificationRequests);
         persistEntities(courses);
         persistEntities(sections);
         persistEntities(teams);

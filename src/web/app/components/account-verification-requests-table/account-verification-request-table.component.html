@@ -1,0 +1,145 @@
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white">
+    <strong>Pending Account Verification Requests</strong>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped data-table" id="search-table-account-verification-request">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Institute</th>
+          <th>Country</th>
+          <th>Submitted At</th>
+          <th>Comments</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (
+          accountVerificationRequest of accountVerificationRequests;
+          track accountVerificationRequest.id;
+          let i = $index
+        ) {
+          <tr>
+            <td>{{ accountVerificationRequest.name }}</td>
+            <td>{{ accountVerificationRequest.email }}</td>
+            <td>{{ accountVerificationRequest.status }}</td>
+            <td>{{ accountVerificationRequest.institute }}</td>
+            <td>{{ accountVerificationRequest.country | countryName }}</td>
+            <td id="timestamp-box">{{ accountVerificationRequest.createdAtText }}</td>
+            <td>
+              <div id="comment-box">
+                {{ accountVerificationRequest.comments }}
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="d-flex flex-row align-items-center justify-content-center gap-2">
+                <div>
+                  <button
+                    id="edit-account-verification-request-{{ i }}"
+                    type="button"
+                    class="btn btn-link p-0"
+                    (click)="$event.stopPropagation(); editAccountVerificationRequest(accountVerificationRequest)"
+                    aria-label="Edit account verification request"
+                  >
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  [ngbTooltip]="
+                    accountVerificationRequest.createdDemoCourseAtText &&
+                    'Account verification requests of registered instructors cannot be deleted'
+                  "
+                  placement="top"
+                >
+                  <button
+                    id="delete-account-verification-request-{{ i }}"
+                    type="button"
+                    class="btn btn-link p-0"
+                    (click)="$event.stopPropagation(); deleteAccountVerificationRequest(accountVerificationRequest)"
+                    aria-label="Delete account verification request"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+                <div>
+                  <button
+                    id="view-account-verification-request-{{ i }}"
+                    type="button"
+                    class="btn btn-link p-0"
+                    (click)="$event.stopPropagation(); viewAccountVerificationRequest(accountVerificationRequest)"
+                    aria-label="View account verification request"
+                  >
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </div>
+                <button
+                  id="approve-account-verification-request-{{ i }}"
+                  class="btn btn-success"
+                  [disabled]="
+                    !accountVerificationRequest.status ||
+                    accountVerificationRequest.status === 'APPROVED' ||
+                    isApprovingAccountVerificationRequest[i]
+                  "
+                  (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
+                >
+                  @if (isApprovingAccountVerificationRequest[i]) {
+                    <tm-ajax-loading></tm-ajax-loading>
+                  }
+                  Approve
+                </button>
+                <span ngbDropdown container="body">
+                  <button
+                    id="reject-account-verification-request-{{ i }}"
+                    type="button"
+                    class="btn btn-warning"
+                    [disabled]="
+                      !accountVerificationRequest.status ||
+                      accountVerificationRequest.status === 'APPROVED' ||
+                      accountVerificationRequest.status === 'REJECTED' ||
+                      isRejectingAccountVerificationRequest[i]
+                    "
+                    ngbDropdownToggle
+                  >
+                    @if (isRejectingAccountVerificationRequest[i]) {
+                      <tm-ajax-loading></tm-ajax-loading>
+                    }
+                    Reject
+                  </button>
+                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                    <button
+                      id="reject-request-{{ i }}"
+                      class="btn btn-light btn-sm dropdown-item"
+                      (click)="
+                        $event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)
+                      "
+                    >
+                      Reject
+                    </button>
+                    <button
+                      id="reject-request-with-reason-{{ i }}"
+                      class="btn btn-light btn-sm dropdown-item"
+                      (click)="
+                        $event.stopPropagation();
+                        rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)
+                      "
+                    >
+                      Reject With Reason
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="text-center">No pending account verification requests</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

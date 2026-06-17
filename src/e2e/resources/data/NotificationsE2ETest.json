@@ -13,7 +13,7 @@
       "name": "Teammates Test Instructor",
       "email": "notif.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.notif.instructor"
+      "subject": "notif.instructor@gmail.tmt"
     },
     "notif.student": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -21,10 +21,10 @@
       "name": "Teammates Test Student",
       "email": "notif.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.notif.student"
+      "subject": "notif.student@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.notif.course1",

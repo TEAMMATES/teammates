@@ -104,10 +104,10 @@ public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAct
 
         RegenerateKeyData response = (RegenerateKeyData) actionOutput.getOutput();
 
-        assertEquals(RegenerateUserKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, response.getMessage());
+        assertEquals(RegenerateUserKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_QUEUED, response.getMessage());
         assertNotEquals(oldRegKey, response.getNewRegistrationKey());
 
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(mockEmailSender.getEmailsSent().size() - 1);
+        EmailWrapper emailSent = getQueuedEmails().get(getQueuedEmails().size() - 1);
         assertEquals(String.format(emailType.getSubject(), course.getName(), user.getCourseId()),
                 emailSent.getSubject());
         assertEquals(user.getEmail(), emailSent.getRecipient());

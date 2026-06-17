@@ -110,7 +110,6 @@ export abstract class InstructorSessionBasePageComponent {
     fromFeedbackSession: FeedbackSession,
     newSessionName: string,
     newCourseId: string,
-    oldCourseId: string,
   ): Observable<FeedbackSession> {
     // Local constants
     const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
@@ -251,8 +250,7 @@ export abstract class InstructorSessionBasePageComponent {
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
-      toCopySessionName: fromFeedbackSession.feedbackSessionName,
-      toCopyCourseId: oldCourseId,
+      toCopySessionId: fromFeedbackSession.feedbackSessionId,
 
       submissionStartTimestamp: copiedSubmissionStartTimestamp,
       submissionEndTimestamp: copiedSubmissionEndTimestamp,
@@ -370,12 +368,7 @@ export abstract class InstructorSessionBasePageComponent {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
-        this.copyFeedbackSession(
-          model.feedbackSession,
-          result.newFeedbackSessionName,
-          copyToCourseId,
-          result.sessionToCopyCourseId,
-        ).pipe(
+        this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId).pipe(
           catchError((err: ErrorMessageOutput) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return EMPTY;
@@ -403,7 +396,6 @@ export abstract class InstructorSessionBasePageComponent {
         this.feedbackSessionsService
           .getFeedbackSession({
             feedbackSessionId,
-            intent: Intent.FULL_DETAIL,
           })
           .pipe(
             switchMap((feedbackSessionView: FeedbackSessionView) =>
@@ -411,7 +403,6 @@ export abstract class InstructorSessionBasePageComponent {
                 feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
-                result.sessionToCopyCourseId,
               ),
             ),
             catchError((err: ErrorMessageOutput) => {
@@ -439,18 +430,15 @@ export abstract class InstructorSessionBasePageComponent {
             modifiedTimestampsModal,
             {
               onClosed: () =>
-                this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                  fsid: createdSession.feedbackSessionId,
-                }),
+                this.navigationService.navigateByURL(
+                  `/web/instructor/sessions/${createdSession.feedbackSessionId}/edit`,
+                ),
             },
           );
         } else {
           this.navigationService.navigateWithSuccessMessage(
-            '/web/instructor/sessions/edit',
+            `/web/instructor/sessions/${createdSession.feedbackSessionId}/edit`,
             'The feedback session has been copied. Please modify settings/questions as necessary.',
-            {
-              fsid: createdSession.feedbackSessionId,
-            },
           );
         }
       },
@@ -488,9 +476,9 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/submission', {
-      fsid: model.feedbackSession.feedbackSessionId,
-    });
+    this.navigationService.navigateByURL(
+      `/web/instructor/sessions/${model.feedbackSession.feedbackSessionId}/submission`,
+    );
   }
 
   /**

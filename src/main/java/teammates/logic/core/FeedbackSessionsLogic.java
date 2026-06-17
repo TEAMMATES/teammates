@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.LinksUtil;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.RecoverableCourseLinks;
+import teammates.logic.email.model.RecoverableSessionLink;
+import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -52,6 +58,7 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
     private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
+    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 180;
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private FeedbackSessionsDb fsDb;
@@ -59,6 +66,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
+    private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -70,12 +78,14 @@ public final class FeedbackSessionsLogic {
 
     void initLogicDependencies(FeedbackSessionsDb fsDb,
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
-            UsersLogic usersLogic, CoursesLogic coursesLogic) {
+            UsersLogic usersLogic, CoursesLogic coursesLogic,
+            FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
         this.usersLogic = usersLogic;
         this.coursesLogic = coursesLogic;
+        this.feedbackSessionsEmailsLogic = feedbackSessionsEmailsLogic;
     }
 
     /**
@@ -86,18 +96,6 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession getFeedbackSession(UUID id) {
         assert id != null;
         return fsDb.getFeedbackSession(id);
-    }
-
-    /**
-     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return fsDb.getFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -145,10 +143,64 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Enqueues a session links recovery email for the given email address.
+     */
+    public void enqueueSessionLinksRecoveryEmail(String recoveryEmailAddress) {
+        SessionLinksRecoveryContext context = buildSessionLinksRecoveryContext(recoveryEmailAddress);
+        feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
         return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
+    }
+
+    private SessionLinksRecoveryContext buildSessionLinksRecoveryContext(String recoveryEmailAddress) {
+        List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
+        String recipientName = studentsForEmail.isEmpty() ? null : studentsForEmail.get(0).getName();
+        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
+
+        Map<String, RecoverableCourseLinks> recoverableCourseLinksMap = new LinkedHashMap<>();
+
+        for (Student student : studentsForEmail) {
+            RequestTracer.checkRemainingTime();
+            Course course = student.getCourse();
+            List<RecoverableSessionLink> recoverableSessionLinks = new ArrayList<>();
+
+            for (FeedbackSession session : getFeedbackSessionsForCourseStartingAfter(course.getId(), searchStartTime)) {
+                String submitUrl = null;
+                String resultsUrl = null;
+
+                if (session.isOpened() || session.isClosed()) {
+                    submitUrl = LinksUtil.getStudentSessionSubmitUrl(session.getId(), student.getRegKey());
+                }
+
+                if (session.isPublished()) {
+                    resultsUrl = LinksUtil.getStudentSessionResultsUrl(session.getId(), student.getRegKey());
+                }
+
+                if (submitUrl == null && resultsUrl == null) {
+                    continue;
+                }
+
+                recoverableSessionLinks.add(new RecoverableSessionLink(session.getName(), submitUrl, resultsUrl));
+            }
+
+            if (recoverableSessionLinks.isEmpty()) {
+                continue;
+            }
+
+            recoverableCourseLinksMap.put(course.getId(), new RecoverableCourseLinks(
+                    course.getId(), course.getName(), recoverableSessionLinks));
+        }
+
+        return new SessionLinksRecoveryContext(
+                recoveryEmailAddress,
+                recipientName,
+                studentsForEmail.isEmpty(),
+                new ArrayList<>(recoverableCourseLinksMap.values()));
     }
 
     private String getCourseJoinUrl(UserType userType, String regKey) {
@@ -352,19 +404,16 @@ public final class FeedbackSessionsLogic {
         validateFeedbackSession(feedbackSession);
         feedbackSession = fsDb.persistFeedbackSession(feedbackSession);
 
-        if (createRequest.getToCopyCourseId() != null) {
-            copyFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
-                    feedbackSessionName, createRequest.getToCopySessionName());
+        if (createRequest.getToCopySessionId() != null) {
+            copyFeedbackQuestions(createRequest.getToCopySessionId(), feedbackSession);
         }
 
         HibernateUtil.flushSession();
         return feedbackSession;
     }
 
-    private void copyFeedbackQuestions(String oldCourseId, String newCourseId,
-            String newFeedbackSessionName, String oldFeedbackSessionName) {
-        FeedbackSession oldFeedbackSession = getFeedbackSession(oldFeedbackSessionName, oldCourseId);
-        FeedbackSession newFeedbackSession = getFeedbackSession(newFeedbackSessionName, newCourseId);
+    private void copyFeedbackQuestions(UUID oldSessionId, FeedbackSession newFeedbackSession) {
+        FeedbackSession oldFeedbackSession = getFeedbackSession(oldSessionId);
         fqLogic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
             FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
             newFeedbackSession.addFeedbackQuestion(feedbackQuestion);

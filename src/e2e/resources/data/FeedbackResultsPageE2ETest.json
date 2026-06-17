@@ -13,7 +13,7 @@
       "name": "Teammates Test",
       "email": "fres.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.instr"
+      "subject": "fres.instr@gmail.tmt"
     },
     "FRes.instr2": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -21,7 +21,7 @@
       "name": "Teammates Test",
       "email": "fres.instr2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.instr2"
+      "subject": "fres.instr2@gmail.tmt"
     },
     "FRes.alice.b": {
       "id": "00000000-0000-4000-8000-000000000003",
@@ -29,7 +29,7 @@
       "name": "Alice B.",
       "email": "fres.alice.b@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.alice.b"
+      "subject": "fres.alice.b@gmail.tmt"
     },
     "FRes.benny.c": {
       "id": "00000000-0000-4000-8000-000000000004",
@@ -37,7 +37,7 @@
       "name": "Benny C.",
       "email": "fres.benny.c@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.benny.c"
+      "subject": "fres.benny.c@gmail.tmt"
     },
     "FRes.charlie.d": {
       "id": "00000000-0000-4000-8000-000000000005",
@@ -45,7 +45,7 @@
       "name": "Charlie D.",
       "email": "fres.charlie.d@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.charlie.d"
+      "subject": "fres.charlie.d@gmail.tmt"
     },
     "FRes.danny.e": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -53,7 +53,7 @@
       "name": "Danny E.",
       "email": "fres.danny.e@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.danny.e"
+      "subject": "fres.danny.e@gmail.tmt"
     },
     "FRes.emily.f": {
       "id": "00000000-0000-4000-8000-000000000007",
@@ -61,10 +61,10 @@
       "name": "Emily F.",
       "email": "fres.emily.f@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRes.emily.f"
+      "subject": "fres.emily.f@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "FRes.CS2104": {
       "id": "tm.e2e.FRes.CS2104",

@@ -145,7 +145,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testQuestionView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -182,7 +182,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGrqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -215,7 +215,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testRgqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -249,7 +249,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGqrView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -291,7 +291,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testRqgView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -339,7 +339,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId());
-        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data

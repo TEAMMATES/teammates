@@ -126,7 +126,7 @@ export class InstructorRequestFormComponent {
     }
 
     this.accountService
-      .createAccountRequest(requestData)
+      .createAccountVerificationRequest(requestData)
       .pipe(
         finalize(() => {
           this.isLoading = false;

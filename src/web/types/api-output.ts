@@ -10,20 +10,20 @@ export interface Account extends ApiOutput {
   students: Student[];
 }
 
-export interface AccountRequest extends ApiOutput {
-  accountRequestId: string;
+export interface AccountVerificationRequest extends ApiOutput {
+  accountVerificationRequestId: string;
   email: string;
   name: string;
   institute: string;
   country: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   comments?: string;
-  registeredAt?: number;
+  createdDemoCourseAt?: number;
   createdAt: number;
 }
 
-export interface AccountRequests extends ApiOutput {
-  accountRequests: AccountRequest[];
+export interface AccountVerificationRequests extends ApiOutput {
+  accountVerificationRequests: AccountVerificationRequest[];
 }
 
 export interface ApiOutput {
@@ -87,12 +87,6 @@ export interface DeadlineExtension extends ApiOutput {
 
 export interface DeadlineExtensions extends ApiOutput {
   userDeadlines: { [index: string]: number };
-}
-
-export interface Email extends ApiOutput {
-  recipient: string;
-  subject: string;
-  content: string;
 }
 
 export interface EnrollErrorResults {
@@ -341,6 +335,16 @@ export interface HasResponses extends ApiOutput {
   hasResponsesBySession?: { [index: string]: boolean };
 }
 
+export interface Institute extends ApiOutput {
+  id: string;
+  name: string;
+  country: string;
+}
+
+export interface Institutes extends ApiOutput {
+  institutes: Institute[];
+}
+
 export interface Instructor extends ApiOutput {
   userId: string;
   courseId: string;
@@ -423,7 +427,7 @@ export interface Notifications extends ApiOutput {
 export interface OngoingSession {
   feedbackSessionId: string;
   sessionStatus: string;
-  instructorHomePageLink: string;
+  accountId: string;
   startTime: number;
   endTime: number;
   creatorEmail: string;
@@ -581,7 +585,7 @@ export interface UsageStatistics extends ApiOutput {
   numCourses: number;
   numStudents: number;
   numInstructors: number;
-  numAccountRequests: number;
+  numAccountVerificationRequests: number;
 }
 
 export interface UsageStatisticsRange extends ApiOutput {
@@ -605,11 +609,10 @@ export interface UserInfo {
   isMaintainer: boolean;
 }
 
-export enum AccountRequestStatus {
+export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-  REGISTERED = "REGISTERED",
 }
 
 export enum CommentVisibilityType {

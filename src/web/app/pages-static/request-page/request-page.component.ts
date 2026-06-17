@@ -7,7 +7,7 @@ import { InstructorRequestFormComponent } from './instructor-request-form/instru
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
 
 /**
- * Account request page.
+ * Account verification request page.
  */
 @Component({
   selector: 'tm-request-page',

@@ -333,7 +333,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getGiver()), giverEmail);
                 assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getRecipient()), recipientEmail);
 
-                assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
+                assertEquals(session.getName(), feedbackQuestion.getFeedbackSession().getName());
                 assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
 
                 FeedbackResponseDetails responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();

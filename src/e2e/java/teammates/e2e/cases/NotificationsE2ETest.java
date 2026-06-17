@@ -43,7 +43,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         Account instructorAccount = testData.accounts.get("notif.instructor");
         AppUrl instructorNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_NOTIFICATIONS_PAGE);
         InstructorNotificationsPage notificationsPage = loginToPage(instructorNotificationsPageUrl,
-                InstructorNotificationsPage.class, instructorAccount.getGoogleId());
+                InstructorNotificationsPage.class, instructorAccount.getEmail());
 
         ______TS("verify that only active notifications for instructors are shown");
         Notification[] notShownNotifications = {
@@ -72,7 +72,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         Account studentAccount = testData.accounts.get("notif.student");
         AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
         StudentNotificationsPage notificationsPage = loginToPage(studentNotificationsPageUrl, StudentNotificationsPage.class,
-                studentAccount.getGoogleId());
+                studentAccount.getEmail());
 
         ______TS("verify that only active notifications for students are shown");
         Notification[] notShownNotifications = {
@@ -102,7 +102,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         Account studentAccount = testData.accounts.get("notif.student");
         AppUrl studentHomePageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
         StudentHomePage homePage = loginToPage(studentHomePageUrl, StudentHomePage.class,
-                studentAccount.getGoogleId());
+                studentAccount.getEmail());
 
         ______TS("verify active notification with correct information is shown");
         assertTrue(homePage.isBannerVisible(true));
@@ -134,7 +134,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         ______TS("verify that the notifications marked as read are reflected in the notifications page");
         AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
         StudentNotificationsPage notificationsPage = loginToPage(studentNotificationsPageUrl, StudentNotificationsPage.class,
-                studentAccount.getGoogleId());
+                studentAccount.getEmail());
 
         Notification[] shownNotifications = {
                 testData.notifications.get("notification1"),

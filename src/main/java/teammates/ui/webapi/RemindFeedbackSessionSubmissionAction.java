@@ -76,7 +76,7 @@ public class RemindFeedbackSessionSubmissionAction extends LoggedInAction {
         List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
                 feedbackSession, studentsToRemindList, instructorsToRemindList, instructorToNotify);
 
-        taskQueuer.scheduleEmailsForPrioritySending(emails);
+        emailQueueService.enqueuePriority(emails);
 
         return new JsonResult("Reminders sent");
     }

@@ -13,6 +13,7 @@ import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -37,6 +38,7 @@ interface OngoingSessionModel {
     PanelChevronComponent,
     KeyValuePipe,
     NgbCollapse,
+    TeammatesRouterDirective,
   ],
 })
 export class AdminSessionsPageComponent implements OnInit {
