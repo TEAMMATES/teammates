@@ -25,8 +25,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.api.MockRecaptchaVerifier;
-import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
@@ -40,8 +38,6 @@ import teammates.ui.request.BasicRequest;
  * @param <R> the type of ApiOutput expected from the Action
  */
 public abstract class BaseActionTest<T extends Action, R extends ApiOutput> extends BaseTestCaseWithDatabaseAccess {
-    MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
     // Intentionally made private to encourage subclasses to use `GivenData` and execute() instead.
     private final Logic logic = Logic.inst();

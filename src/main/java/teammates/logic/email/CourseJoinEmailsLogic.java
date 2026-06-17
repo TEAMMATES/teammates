@@ -15,16 +15,19 @@ import teammates.logic.email.model.UserCourseRegisteredEmailContext;
  */
 public class CourseJoinEmailsLogic {
 
-    private static final CourseJoinEmailsLogic instance = new CourseJoinEmailsLogic(EmailQueueService.inst());
+    private static final CourseJoinEmailsLogic instance = new CourseJoinEmailsLogic();
 
-    private final EmailQueueService emailQueueService;
-
-    CourseJoinEmailsLogic(EmailQueueService emailQueueService) {
-        this.emailQueueService = emailQueueService;
-    }
+    private EmailQueueService emailQueueService;
 
     public static CourseJoinEmailsLogic inst() {
         return instance;
+    }
+
+    /**
+     * Initializes the outbound email queue dependency.
+     */
+    public void init(EmailQueueService emailQueueService) {
+        this.emailQueueService = emailQueueService;
     }
 
     /**

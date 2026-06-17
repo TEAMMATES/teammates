@@ -34,7 +34,8 @@ public class CourseJoinEmailsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        courseJoinEmailsLogic = new CourseJoinEmailsLogic(EmailQueueService.withTaskQueuer(taskQueuer));
+        courseJoinEmailsLogic = new CourseJoinEmailsLogic();
+        courseJoinEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
     @Test

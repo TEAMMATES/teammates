@@ -31,7 +31,8 @@ public class DeadlineExtensionsEmailsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        deadlineExtensionsEmailsLogic = new DeadlineExtensionsEmailsLogic(
+        deadlineExtensionsEmailsLogic = new DeadlineExtensionsEmailsLogic();
+        deadlineExtensionsEmailsLogic.init(
                 EmailQueueService.withTaskQueuer(taskQueuer));
     }
 

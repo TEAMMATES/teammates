@@ -30,8 +30,8 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        feedbackSessionsEmailsLogic = new FeedbackSessionsEmailsLogic(
-                EmailQueueService.withTaskQueuer(taskQueuer));
+        feedbackSessionsEmailsLogic = new FeedbackSessionsEmailsLogic();
+        feedbackSessionsEmailsLogic.init(EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
     @Test

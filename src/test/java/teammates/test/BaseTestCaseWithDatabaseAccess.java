@@ -17,7 +17,13 @@ import org.testng.annotations.BeforeSuite;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.logic.api.Logic;
+import teammates.logic.api.MockRecaptchaVerifier;
+import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.core.LogicStarter;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.EmailQueueService;
+import teammates.logic.email.FeedbackSessionsEmailsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
@@ -45,6 +51,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     protected GivenData given;
 
+    /**
+     * MockTaskQueuer for verifying enqueued tasks.
+     */
+    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+
+    /**
+     * MockRecaptchaVerifier for bypassing reCAPTCHA verification in tests.
+     */
+    protected MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+
     private final Logic logic = Logic.inst();
 
     @BeforeSuite(alwaysRun = true)
@@ -57,6 +73,10 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     @BeforeMethod(alwaysRun = true)
     protected void setUpMethod() {
         LogicStarter.initializeDependencies();
+        EmailQueueService emailQueueService = EmailQueueService.withTaskQueuer(mockTaskQueuer);
+        CourseJoinEmailsLogic.inst().init(emailQueueService);
+        DeadlineExtensionsEmailsLogic.inst().init(emailQueueService);
+        FeedbackSessionsEmailsLogic.inst().init(emailQueueService);
         given = new GivenData(currentTestName);
     }
 
