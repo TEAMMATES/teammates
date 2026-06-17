@@ -516,7 +516,9 @@ public final class UsersLogic {
             enqueueInstructorCourseJoinEmail(inviter, instructor);
             return "An email has been sent to " + instructor.getEmail();
         }
-        throw new EntityDoesNotExistException("User with ID " + userId + " does not exist.");
+
+        // This line should never be reached because the user should either be a student or an instructor.
+        throw new AssertionError("Invalid user type for join reminder: " + user.getClass().getName());
     }
 
     /**
@@ -1095,7 +1097,7 @@ public final class UsersLogic {
         return user;
     }
 
-    private Course getJoinReminderCourseOrThrow(@Nullable String courseId) throws EntityDoesNotExistException {
+    private Course getJoinReminderCourseOrThrow(String courseId) throws EntityDoesNotExistException {
         Course course = coursesLogic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist.");
