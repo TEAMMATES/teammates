@@ -103,10 +103,10 @@ public final class EmailRenderer {
             AccountVerificationCreatedAdminAlertEmailContext context) {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT,
-                "${name}", context.instructorName(),
-                "${institute}", context.instituteName(),
-                "${emailAddress}", context.instructorEmailAddress(),
-                "${comments}", context.comments() == null ? "" : context.comments(),
+                "${name}", SanitizationHelper.sanitizeForHtml(context.instructorName()),
+                "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
+                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.instructorEmailAddress()),
+                "${comments}", sanitizeOptionalHtml(context.comments()),
                 "${adminAccountVerificationRequestsPageUrl}", context.adminAccountVerificationRequestsPageUrl()));
     }
 
@@ -120,7 +120,7 @@ public final class EmailRenderer {
                 EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
                 "${name}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${institute}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
-                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.instructorEmailAddress()),
+                "${emailAddress}", SanitizationHelper.sanitizeForHtml(context.recipientEmailAddress()),
                 "${comments}", sanitizeOptionalHtml(context.comments()),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }

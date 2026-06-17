@@ -111,7 +111,6 @@ public final class AccountVerificationsLogic {
                         request.getEmail(),
                         request.getName(),
                         request.getInstitute().getName(),
-                        request.getEmail(),
                         request.getComments()));
     }
 

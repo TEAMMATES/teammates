@@ -204,7 +204,6 @@ public class EmailRendererTest extends BaseTestCase {
                         "maya.bennett@westhaven.edu",
                         "Dr Maya Bennett",
                         "Westhaven College",
-                        "maya.bennett@westhaven.edu",
                         "I will be using TEAMMATES for peer evaluation in my communication studies classes."));
 
         verifyEmailContent(actual.htmlContent(),
@@ -220,7 +219,6 @@ public class EmailRendererTest extends BaseTestCase {
                         "owen.frost@oakridge.edu",
                         "Dr Owen Frost",
                         "Oakridge University",
-                        "owen.frost@oakridge.edu",
                         null));
 
         verifyEmailContent(actual.htmlContent(),

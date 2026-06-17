@@ -54,7 +54,6 @@ public class AccountVerificationEmailsLogicTest extends BaseTestCase {
                         "instructor@teammates.tmt",
                         "Instructor Name",
                         "Institute Name",
-                        "instructor@teammates.tmt",
                         "Some comments"));
 
         assertEnqueuedEmail("instructor@teammates.tmt", EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT);
