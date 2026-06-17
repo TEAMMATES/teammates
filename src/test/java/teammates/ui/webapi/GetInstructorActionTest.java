@@ -27,7 +27,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetInstructor.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         InstructorData result = execute(request);
 
@@ -44,7 +44,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetInstructor.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         InstructorData result = execute(request);
 
@@ -62,7 +62,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetInstructor.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -76,7 +76,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, DUMMY_UUID)
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

@@ -29,7 +29,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetStudent.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         StudentData result = execute(request);
 
@@ -48,7 +48,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetStudent.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         StudentData result = execute(request);
 
@@ -66,7 +66,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetStudent.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -80,7 +80,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, DUMMY_UUID)
-                .withCookie(getAuthCookie(requesterAccount.id()));
+                .withAccountAuth(requesterAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

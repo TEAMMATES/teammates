@@ -175,6 +175,14 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             return withParam(Const.ParamsNames.REGKEY, regKey);
         }
 
+        public RequestContext withAccountAuth(UUID accountId) {
+            return withCookie(getAuthCookie(accountId));
+        }
+
+        public RequestContext withAdminAuth(UUID adminAccountId) {
+            return withCookie(getAuthCookie(adminAccountId));
+        }
+
         public RequestContext withWorkerAuth() {
             this.uri = Const.TaskQueue.URI_PREFIX + "/";
             return withHeader(Const.HeaderNames.AUTHORIZATION_KEY, "Bearer " + Config.CRON_AND_WORKER_SECRET);

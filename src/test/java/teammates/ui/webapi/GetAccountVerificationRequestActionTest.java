@@ -28,7 +28,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         AccountVerificationRequestData result = execute(request);
 
@@ -48,7 +48,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         AccountVerificationRequestData result = execute(request);
 
@@ -65,7 +65,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(otherAccount.id()));
+                .withAccountAuth(otherAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

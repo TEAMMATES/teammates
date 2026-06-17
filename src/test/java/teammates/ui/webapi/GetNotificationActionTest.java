@@ -23,7 +23,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         NotificationData result = execute(request);
 
@@ -37,7 +37,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, given.uuid("nonexistent").toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }
@@ -50,7 +50,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

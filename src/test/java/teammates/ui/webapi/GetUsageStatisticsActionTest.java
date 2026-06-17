@@ -35,7 +35,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTime))
                 .withParam(Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTime))
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         UsageStatisticsRangeData result = execute(request);
 
@@ -56,7 +56,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTime))
                 .withParam(Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTime))
-                .withCookie(getAuthCookie(regularAccount.id()));
+                .withAccountAuth(regularAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

@@ -27,7 +27,7 @@ public class CreateDemoCourseActionTest extends BaseActionTest<CreateDemoCourseA
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, avr.id().toString())
                 .withParam(Const.ParamsNames.TIMEZONE, "UTC")
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         MessageOutput result = execute(request);
 
@@ -41,7 +41,7 @@ public class CreateDemoCourseActionTest extends BaseActionTest<CreateDemoCourseA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, UUID.randomUUID().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth(adminAccount.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }
@@ -55,7 +55,7 @@ public class CreateDemoCourseActionTest extends BaseActionTest<CreateDemoCourseA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, avr.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(InvalidOperationException.class, request);
     }

@@ -34,7 +34,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()))
+                .withAdminAuth(adminAccount.id())
                 .withRequest(updateRequest);
 
         NotificationData result = execute(request);
@@ -52,7 +52,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, given.uuid("nonexistent").toString())
-                .withCookie(getAuthCookie(adminAccount.id()))
+                .withAdminAuth(adminAccount.id())
                 .withRequest(buildDefaultUpdateRequest());
 
         assertActionThrows(EntityNotFoundException.class, request);
@@ -66,7 +66,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withRequest(buildDefaultUpdateRequest());
 
         assertActionThrows(UnauthorizedAccessException.class, request);

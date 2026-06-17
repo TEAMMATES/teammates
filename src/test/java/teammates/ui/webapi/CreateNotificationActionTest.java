@@ -27,7 +27,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(adminAccount.id()))
+                .withAdminAuth(adminAccount.id())
                 .withRequest(buildDefaultCreateRequest());
 
         NotificationData result = execute(request);
@@ -50,7 +50,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         createRequest.setEndTimestamp(now.plus(1, ChronoUnit.HOURS).toEpochMilli());
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(adminAccount.id()))
+                .withAdminAuth(adminAccount.id())
                 .withRequest(createRequest);
 
         assertActionThrows(InvalidHttpRequestBodyException.class, request);
@@ -62,7 +62,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withCookie(getAuthCookie(account.id()))
+                .withAccountAuth(account.id())
                 .withRequest(buildDefaultCreateRequest());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
