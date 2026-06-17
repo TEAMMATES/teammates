@@ -60,6 +60,10 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_OPENED_PREVIEW =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpeningPreview.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSING_SOON =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingSoon.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSING_SOON_PREVIEW =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingSoonPreview.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION =

@@ -1291,6 +1291,13 @@ public class Logic {
     }
 
     /**
+     * Enqueues closing soon reminder emails for all eligible sessions.
+     */
+    public void enqueueClosingSoonReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueClosingSoonReminderEmailsForEligibleSessions();
+    }
+
+    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.

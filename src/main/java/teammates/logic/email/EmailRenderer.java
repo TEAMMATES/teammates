@@ -21,8 +21,8 @@ import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
-import teammates.logic.email.model.FeedbackSessionOpenedParticipantEmailContext;
-import teammates.logic.email.model.FeedbackSessionOpenedPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -98,13 +98,34 @@ public final class EmailRenderer {
      * Renders a feedback session opened email body for a participant.
      */
     public static RenderedEmail renderFeedbackSessionOpenedParticipantEmail(
-            FeedbackSessionOpenedParticipantEmailContext context) {
+            FeedbackSessionParticipantReminderEmailContext context) {
+        return renderFeedbackSessionParticipantReminderEmail(
+                context,
+                EmailTemplates.USER_FEEDBACK_SESSION_OPENED,
+                "is now open");
+    }
+
+    /**
+     * Renders a feedback session closing soon email body for a participant.
+     */
+    public static RenderedEmail renderFeedbackSessionClosingSoonParticipantEmail(
+            FeedbackSessionParticipantReminderEmailContext context) {
+        return renderFeedbackSessionParticipantReminderEmail(
+                context,
+                EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON,
+                "is closing soon");
+    }
+
+    private static RenderedEmail renderFeedbackSessionParticipantReminderEmail(
+            FeedbackSessionParticipantReminderEmailContext context,
+            String template,
+            String status) {
         String deadline = formatDeadline(context.deadline(), context.courseTimeZone())
                 + (context.hasDeadlineExtension() ? " (after extension)" : "");
         return new RenderedEmail(Templates.populateTemplate(
-                EmailTemplates.USER_FEEDBACK_SESSION_OPENED,
+                template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
-                "${status}", "is now open",
+                "${status}", status,
                 "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
@@ -121,13 +142,35 @@ public final class EmailRenderer {
      * Renders a feedback session opened preview email body for a co-owner.
      */
     public static RenderedEmail renderFeedbackSessionOpenedPreviewEmail(
-            FeedbackSessionOpenedPreviewEmailContext context) {
-        return new RenderedEmail(Templates.populateTemplate(
+            FeedbackSessionPreviewReminderEmailContext context) {
+        return renderFeedbackSessionPreviewReminderEmail(
+                context,
                 EmailTemplates.USER_FEEDBACK_SESSION_OPENED_PREVIEW,
+                "is now open");
+    }
+
+    /**
+     * Renders a feedback session closing soon preview email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionClosingSoonPreviewEmail(
+            FeedbackSessionPreviewReminderEmailContext context) {
+        return renderFeedbackSessionPreviewReminderEmail(
+                context,
+                EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON_PREVIEW,
+                "is closing soon");
+    }
+
+    private static RenderedEmail renderFeedbackSessionPreviewReminderEmail(
+            FeedbackSessionPreviewReminderEmailContext context,
+            String template,
+            String status) {
+        return new RenderedEmail(Templates.populateTemplate(
+                template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${status}", status,
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         formatDeadline(context.deadline(), context.courseTimeZone())),
                 "${sessionInstructions}", context.sessionInstructions(),

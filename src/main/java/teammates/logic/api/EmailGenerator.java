@@ -44,8 +44,6 @@ public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
                                             + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING_SOON = "is closing soon"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
     private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
     private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
 
@@ -63,37 +61,6 @@ public final class EmailGenerator {
 
     public static EmailGenerator inst() {
         return instance;
-    }
-
-    private List<EmailWrapper> generateFeedbackSessionClosingSoonEmailsForSession(FeedbackSession session) {
-        Course course = session.getCourse();
-        boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
-        boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
-        List<Instructor> instructorsToNotify = isEmailNeededForStudents
-                ? usersLogic.getCoOwnersForCourse(course.getId())
-                : new ArrayList<>();
-        List<Student> students = isEmailNeededForStudents
-                ? usersLogic.getStudentsForCourse(course.getId())
-                : new ArrayList<>();
-        List<Instructor> instructors = isEmailNeededForInstructors
-                ? usersLogic.getInstructorsForCourse(course.getId())
-                : new ArrayList<>();
-
-        Set<DeadlineExtension> deadlines = session.getDeadlineExtensions();
-        Set<UUID> userIds = deadlines.stream()
-                .map(d -> d.getUser().getId())
-                .collect(Collectors.toSet());
-
-        students = students.stream()
-                .filter(x -> !userIds.contains(x.getId()))
-                .collect(Collectors.toList());
-        instructors = instructors.stream()
-                .filter(x -> !userIds.contains(x.getId()))
-                .collect(Collectors.toList());
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                EmailType.FEEDBACK_CLOSING_SOON, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
 
     /**
@@ -206,53 +173,10 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the feedback session closing soon emails for the given {@code session}.
-     *
-     * <p>Students and instructors with deadline extensions are not notified.
-     */
-    public List<EmailWrapper> generateFeedbackSessionClosingSoonEmails(FeedbackSession session) {
-        return generateFeedbackSessionClosingSoonEmailsForSession(session);
-    }
-
-    /**
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSession session) {
         return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
-    }
-
-    /**
-     * Generates the feedback session closing soon emails for users with deadline extensions.
-    */
-    public List<EmailWrapper> generateFeedbackSessionClosingWithExtensionEmails(
-            FeedbackSession session, List<DeadlineExtension> deadlineExtensions) {
-        Course course = session.getCourse();
-
-        boolean isEmailNeededForStudents =
-                !deadlineExtensions.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
-        boolean isEmailNeededForInstructors =
-                !deadlineExtensions.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
-
-        List<User> usersWithExtensions = deadlineExtensions.stream()
-                .map(DeadlineExtension::getUser)
-                .toList();
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
-        EmailType type = EmailType.FEEDBACK_CLOSING_SOON;
-        String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
-        List<EmailWrapper> emails = new ArrayList<>();
-        for (User user : usersWithExtensions) {
-            if (isEmailNeededForStudents && user instanceof Student student) {
-                emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.singletonList(student),
-                        Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction));
-            }
-            if (isEmailNeededForInstructors && user instanceof Instructor instructor) {
-                emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.emptyList(),
-                        Collections.singletonList(instructor), Collections.emptyList(), template, type,
-                        feedbackAction));
-            }
-        }
-        return emails;
     }
 
     /**
