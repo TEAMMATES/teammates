@@ -1,10 +1,7 @@
-package teammates.logic.core;
+package teammates.logic.email;
 
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.email.EmailQueueService;
-import teammates.logic.email.EmailRenderer;
-import teammates.logic.email.EmailWrapperBuilder;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 

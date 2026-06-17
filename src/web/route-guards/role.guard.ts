@@ -75,6 +75,6 @@ export class RoleGuard implements CanActivate, CanActivateChild {
    * Redirects to the unauthorized page.
    */
   private redirectToUnauthorized(expectedRole: UserRole) {
-    return this.router.parseUrl(`/web/unauthorized?role=${expectedRole}`);
+    return this.router.createUrlTree(['/web/unauthorized'], { queryParams: { role: expectedRole } });
   }
 }

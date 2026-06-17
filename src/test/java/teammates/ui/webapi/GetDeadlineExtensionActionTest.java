@@ -28,7 +28,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         DeadlineExtensionData result = execute(request);
 
@@ -51,7 +51,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(instructorAccount.id()));
+                .withAccountAuth(instructorAccount.id());
 
         DeadlineExtensionData result = execute(request);
 
@@ -72,7 +72,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(otherAccount.id()));
+                .withAccountAuth(otherAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -88,7 +88,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }

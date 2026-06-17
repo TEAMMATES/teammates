@@ -32,6 +32,7 @@ import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.email.model.EmailContact;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -373,6 +374,15 @@ public final class UsersLogic {
             coOwners.add(instructor);
         }
         return coOwners;
+    }
+
+    /**
+     * Gets the co-owner contacts for the specified course.
+     */
+    public List<EmailContact> getCoOwnerContacts(String courseId) {
+        return getCoOwnersForCourse(courseId).stream()
+                .map(coOwner -> new EmailContact(coOwner.getName(), coOwner.getEmail()))
+                .toList();
     }
 
     /**

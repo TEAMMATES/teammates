@@ -28,7 +28,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         AccountVerificationRequestData result = execute(request);
 
@@ -40,7 +40,6 @@ public class GetAccountVerificationRequestActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void getAccountVerificationRequestAction_adminBypass_returnsAccountVerificationRequestData() {
-        var adminAccount = given.account("admin-account", a -> a.admin());
         var ownerAccount = given.account("owner-account");
         var accountVerificationRequest = given.accountVerificationRequest("account-request",
                 ar -> ar.account(ownerAccount.alias()));
@@ -48,7 +47,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth();
 
         AccountVerificationRequestData result = execute(request);
 
@@ -65,7 +64,7 @@ public class GetAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.id().toString())
-                .withCookie(getAuthCookie(otherAccount.id()));
+                .withAccountAuth(otherAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }

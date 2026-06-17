@@ -1,24 +1,14 @@
-import { ActivatedRoute, Params } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { UnauthorizedWarningPageComponent } from './unauthorized-warning-page.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs';
 
 describe('UnauthorizedWarningPageComponent', () => {
   let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
-  let queryParams$: Subject<Params>;
 
   beforeEach(() => {
-    queryParams$ = new Subject<Params>();
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: queryParams$.asObservable(),
-          },
-        },
-      ],
+      providers: [provideRouter([])],
     }).compileComponents();
     fixture = TestBed.createComponent(UnauthorizedWarningPageComponent);
     component = fixture.componentInstance;
@@ -29,56 +19,41 @@ describe('UnauthorizedWarningPageComponent', () => {
   });
 
   it('should return correct reason for instructor role', () => {
-    component.role = 'instructor';
-    expect(component.getUnauthorizedReason()).toBe('You are not an instructor of any course.');
+    fixture.componentRef.setInput('role', 'instructor');
+    fixture.detectChanges();
+
+    expect(component.role).toBe('instructor');
+    expect(component.reason).toBe('You are not an instructor of any course.');
   });
 
   it('should return correct reason for student role', () => {
-    component.role = 'student';
-    expect(component.getUnauthorizedReason()).toBe('You are not enrolled as a student in any course.');
-  });
+    fixture.componentRef.setInput('role', 'student');
+    fixture.detectChanges();
 
-  it('should extract correct query parameters on initialization', () => {
-    const mockQueryParams = { role: 'admin' };
-    component.ngOnInit();
-    queryParams$.next(mockQueryParams);
-    expect(component.role).toBe('admin');
-    expect(component.reason).toBe('You need to be an admin to access this page.');
+    expect(component.role).toBe('student');
+    expect(component.reason).toBe('You are not enrolled as a student in any course.');
   });
 });
 
 describe('UnauthorizedWarningPageComponent snapshot', () => {
-  let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
-  let queryParams$: Subject<Params>;
 
   beforeEach(() => {
-    queryParams$ = new Subject<Params>();
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: queryParams$.asObservable(),
-          },
-        },
-      ],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UnauthorizedWarningPageComponent);
-    component = fixture.componentInstance;
   });
 
   it('should match snapshot when student role is set', () => {
-    component.ngOnInit();
-    queryParams$.next({ role: 'student' });
+    fixture.componentRef.setInput('role', 'student');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should match snapshot when admin role is set', () => {
-    component.ngOnInit();
-    queryParams$.next({ role: 'admin' });
+    fixture.componentRef.setInput('role', 'admin');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

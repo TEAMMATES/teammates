@@ -30,4 +30,17 @@ public class EmailWrapperBuilderTest extends BaseTestCase {
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), actual.getSubject());
         assertEquals("email-body", actual.getContent());
     }
+
+    @Test
+    public void build_deadlineExtensionEmailWithSubjectParameters_returnsWrappedEmailWithFormattedSubject() {
+        EmailWrapper actual = EmailWrapperBuilder.build(
+                "student@teammates.tmt",
+                EmailType.DEADLINE_EXTENSION_GRANTED,
+                new RenderedEmail("email-body"),
+                "Software Engineering",
+                "Midterm Feedback");
+
+        assertEquals("TEAMMATES: Deadline extension granted [Course: Software Engineering]"
+                + "[Feedback Session: Midterm Feedback]", actual.getSubject());
+    }
 }

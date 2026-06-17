@@ -33,7 +33,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, target.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()))
+                .withAccountAuth(requesterAccount.id())
                 .withRequest(reqBody);
 
         InstructorData result = execute(request);
@@ -60,7 +60,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, target.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()))
+                .withAccountAuth(requesterAccount.id())
                 .withRequest(reqBody);
 
         assertActionThrows(InvalidHttpRequestBodyException.class, request);
@@ -81,7 +81,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, instructor.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()))
+                .withAccountAuth(requesterAccount.id())
                 .withRequest(reqBody);
 
         assertActionThrows(InvalidOperationException.class, request);
@@ -101,7 +101,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, target.id().toString())
-                .withCookie(getAuthCookie(requesterAccount.id()))
+                .withAccountAuth(requesterAccount.id())
                 .withRequest(reqBody);
 
         assertActionThrows(UnauthorizedAccessException.class, request);

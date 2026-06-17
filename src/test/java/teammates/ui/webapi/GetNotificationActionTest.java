@@ -17,13 +17,12 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test(groups = GroupNames.ACTION)
     public void getNotificationAction_existingNotification_returnsNotificationData() {
-        var adminAccount = given.account("admin", a -> a.admin());
         var notification = given.notification("notification");
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth();
 
         NotificationData result = execute(request);
 
@@ -32,12 +31,9 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test(groups = GroupNames.ACTION)
     public void getNotificationAction_notificationDoesNotExist_throwsEntityNotFoundException() {
-        var adminAccount = given.account("admin", a -> a.admin());
-        persistGivenData(given);
-
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, given.uuid("nonexistent").toString())
-                .withCookie(getAuthCookie(adminAccount.id()));
+                .withAdminAuth();
 
         assertActionThrows(EntityNotFoundException.class, request);
     }
@@ -50,7 +46,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
