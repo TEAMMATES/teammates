@@ -46,6 +46,6 @@ public class JoinCourseAction extends LoggedInAction {
         Course course = logic.getCourse(courseId);
         EmailWrapper email = emailGenerator.generateUserCourseRegisteredEmail(
                 userName, userEmail, requestContext.getAccount().getGoogleId(), isInstructor, course);
-        emailSender.sendEmail(email);
+        emailQueueService.enqueuePriority(email);
     }
 }

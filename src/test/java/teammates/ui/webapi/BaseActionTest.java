@@ -22,9 +22,9 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
+import teammates.logic.email.EmailQueueService;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.ui.output.ApiOutput;
 import teammates.ui.request.BasicRequest;
@@ -37,7 +37,6 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class BaseActionTest<T extends Action, R extends ApiOutput> extends BaseTestCaseWithDatabaseAccess {
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    MockEmailSender mockEmailSender = new MockEmailSender();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
     private final Class<T> actionClass;
@@ -58,8 +57,7 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             throw new RuntimeException("Failed to instantiate action class: " + actionClass.getName(), e);
         }
 
-        action.setTaskQueuer(mockTaskQueuer);
-        action.setEmailSender(mockEmailSender);
+        action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
         action.setRecaptchaVerifier(mockRecaptchaVerifier);
         inTransaction(() -> action.init(request));
 

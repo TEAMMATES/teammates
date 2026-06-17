@@ -60,8 +60,8 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         JoinCourseAction joinCourseAction = getAction(regKeyRequest);
         getJsonResult(joinCourseAction);
 
-        verifyNumberOfEmailsSent(1);
-        EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
+        verifyNumberOfEmailsQueued(1);
+        EmailWrapper email = getQueuedEmails().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
@@ -73,7 +73,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         InvalidOperationException ioe = verifyInvalidOperation(regKeyRequest);
         assertEquals("User has already joined course", ioe.getMessage());
 
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
 
         ______TS("success: instructor joins course");
 
@@ -84,8 +84,8 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         joinCourseAction = getAction(regKeyRequest);
         getJsonResult(joinCourseAction);
 
-        verifyNumberOfEmailsSent(1);
-        email = mockEmailSender.getEmailsSent().get(0);
+        verifyNumberOfEmailsQueued(1);
+        email = getQueuedEmails().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
@@ -97,7 +97,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         ioe = verifyInvalidOperation(regKeyRequest);
         assertEquals("User has already joined course", ioe.getMessage());
 
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
 
         ______TS("failure: invalid regkey");
 
@@ -105,7 +105,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         verifyEntityNotFound(regKeyRequest);
 
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Override

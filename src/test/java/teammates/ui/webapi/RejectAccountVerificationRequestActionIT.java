@@ -96,8 +96,8 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         assertEquals(AccountVerificationRequestStatus.REJECTED, data.getStatus());
         assertEquals(accountVerificationRequest.getComments(), data.getComments());
 
-        verifyNumberOfEmailsSent(1);
-        EmailWrapper sentEmail = mockEmailSender.getEmailsSent().get(0);
+        verifyNumberOfEmailsQueued(1);
+        EmailWrapper sentEmail = getQueuedEmails().get(0);
         assertEquals(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION, sentEmail.getType());
         assertEquals(Config.SUPPORT_EMAIL, sentEmail.getBcc());
         assertEquals(accountVerificationRequest.getEmail(), sentEmail.getRecipient());
@@ -132,7 +132,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         assertEquals(AccountVerificationRequestStatus.REJECTED, data.getStatus());
         assertEquals(accountVerificationRequest.getComments(), data.getComments());
 
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -154,7 +154,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -176,7 +176,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Test(groups = GroupNames.INTEGRATION)

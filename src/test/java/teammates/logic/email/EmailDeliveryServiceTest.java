@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.logic.email;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -15,13 +15,13 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.external.EmptyEmailService;
+import teammates.logic.external.email.EmptyEmailTransport;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link EmailSender}.
+ * SUT: {@link EmailDeliveryService}.
  */
-public class EmailSenderTest extends BaseTestCase {
+public class EmailDeliveryServiceTest extends BaseTestCase {
 
     private EmailWrapper getEmailToTestDomain() {
         EmailWrapper message = new EmailWrapper();
@@ -32,26 +32,26 @@ public class EmailSenderTest extends BaseTestCase {
     }
 
     @Test
-    public void testSendEmail_allowEmailsToTestDomainFalse_blocksTestRecipient() {
+    public void testDeliver_allowEmailsToTestDomainFalse_blocksTestRecipient() {
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
             mockConfig.when(Config::isAllowSendingEmailsToTestDomain).thenReturn(false);
-            EmptyEmailService emptyEmailService = new EmptyEmailService();
-            EmailSender emailSender = new EmailSender(emptyEmailService);
-            EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
+            EmptyEmailTransport emptyEmailTransport = new EmptyEmailTransport();
+            EmailDeliveryService emailDeliveryService = new EmailDeliveryService(emptyEmailTransport);
+            EmailSendingStatus status = emailDeliveryService.deliver(getEmailToTestDomain());
             assertEquals(HttpStatus.SC_OK, status.getStatusCode());
             assertEquals("Not sending email to test account", status.getMessage());
         }
     }
 
     @Test
-    public void testSendEmail_allowEmailsToTestDomainTrue_doesNotBlockTestRecipient() {
+    public void testDeliver_allowEmailsToTestDomainTrue_doesNotBlockTestRecipient() {
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
             mockConfig.when(Config::isAllowSendingEmailsToTestDomain).thenReturn(true);
-            EmptyEmailService emptyEmailService = new EmptyEmailService();
-            EmailSender emailSender = new EmailSender(emptyEmailService);
-            EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
+            EmptyEmailTransport emptyEmailTransport = new EmptyEmailTransport();
+            EmailDeliveryService emailDeliveryService = new EmailDeliveryService(emptyEmailTransport);
+            EmailSendingStatus status = emailDeliveryService.deliver(getEmailToTestDomain());
             assertTrue(status.isSuccess());
             assertNotEquals("Not sending email to test account", status.getMessage());
         }

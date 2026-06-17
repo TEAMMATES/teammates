@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.logic.email;
 
 import org.apache.http.HttpStatus;
 
@@ -9,48 +9,48 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.external.EmailSenderService;
-import teammates.logic.external.EmptyEmailService;
-import teammates.logic.external.MailjetService;
-import teammates.logic.external.SendgridService;
-import teammates.logic.external.SmtpService;
+import teammates.logic.external.email.EmailTransport;
+import teammates.logic.external.email.EmptyEmailTransport;
+import teammates.logic.external.email.MailjetTransport;
+import teammates.logic.external.email.SendgridTransport;
+import teammates.logic.external.email.SmtpTransport;
 
 /**
- * Handles operations related to sending emails.
+ * Handles worker-side delivery of queued emails.
  */
-public class EmailSender {
+public class EmailDeliveryService {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final EmailSender instance = new EmailSender();
-    private final EmailSenderService service;
+    private static final EmailDeliveryService instance = new EmailDeliveryService();
+    private final EmailTransport transport;
 
-    EmailSender() {
+    EmailDeliveryService() {
         if (Config.isUsingSendgrid()) {
-            service = new SendgridService();
+            transport = new SendgridTransport();
         } else if (Config.isUsingMailjet()) {
-            service = new MailjetService();
+            transport = new MailjetTransport();
         } else if (Config.isUsingSmtp()) {
-            service = new SmtpService();
+            transport = new SmtpTransport();
         } else {
-            service = new EmptyEmailService();
+            transport = new EmptyEmailTransport();
         }
     }
 
-    EmailSender(EmailSenderService service) {
-        this.service = service;
+    EmailDeliveryService(EmailTransport transport) {
+        this.transport = transport;
     }
 
-    public static EmailSender inst() {
+    public static EmailDeliveryService inst() {
         return instance;
     }
 
     /**
-     * Sends the given {@code message} and generates a log report.
+     * Delivers the given queued email and generates a log report.
      *
      * @return The HTTP status of the email request.
      */
-    public EmailSendingStatus sendEmail(EmailWrapper message) {
+    public EmailSendingStatus deliver(EmailWrapper message) {
         if (!Config.isAllowSendingEmailsToTestDomain() && isTestingAccount(message.getRecipient())) {
             return new EmailSendingStatus(HttpStatus.SC_OK, "Not sending email to test account");
         }
@@ -58,7 +58,7 @@ public class EmailSender {
         EmailSendingStatus status;
         EmailSendingException caughtE = null;
         try {
-            status = service.sendEmail(message);
+            status = transport.deliver(message);
         } catch (EmailSendingException e) {
             caughtE = e;
             status = new EmailSendingStatus(e.getStatusCode(), e.getMessage());

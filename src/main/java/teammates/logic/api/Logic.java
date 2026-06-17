@@ -16,7 +16,6 @@ import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.SessionLinksBundle;
@@ -33,7 +32,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
-import teammates.common.util.Const;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
@@ -62,9 +60,7 @@ import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -79,6 +75,8 @@ import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
+import teammates.ui.request.NotificationCreateRequest;
+import teammates.ui.request.NotificationUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -158,15 +156,6 @@ public class Logic {
     public boolean hasInstructorPermissionsForSection(Instructor instructor, UUID sectionId,
             String... permissionNames) {
         return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionId, permissionNames);
-    }
-
-    /**
-     * Checks if the given instructor has the specified session-in-section-level permissions.
-     */
-    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, UUID sectionId,
-            UUID feedbackSessionId, String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                instructor, sectionId, feedbackSessionId, permissionNames);
     }
 
     /**
@@ -765,9 +754,9 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the notification exists in the
      *                                      database
      */
-    public Notification createNotification(Notification notification)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return notificationsLogic.createNotification(notification);
+    public Notification createNotification(NotificationCreateRequest createRequest)
+            throws InvalidParametersException {
+        return notificationsLogic.createNotification(createRequest);
     }
 
     /**
@@ -797,11 +786,9 @@ public class Logic {
      * @throws EntityDoesNotExistException if the notification does not exist in the
      *                                     database
      */
-    public Notification updateNotification(UUID notificationId, Instant startTime, Instant endTime,
-            NotificationStyle style, NotificationTargetUser targetUser, String title,
-            String message) throws InvalidParametersException, EntityDoesNotExistException {
-        return notificationsLogic.updateNotification(notificationId, startTime, endTime, style, targetUser, title,
-                message);
+    public Notification updateNotification(UUID notificationId, NotificationUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return notificationsLogic.updateNotification(notificationId, updateRequest);
     }
 
     /**
@@ -871,13 +858,6 @@ public class Logic {
      */
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
         return usersLogic.getInstructorByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets list of instructors by {@code googleId}.
-     */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        return usersLogic.getInstructorsForGoogleId(googleId);
     }
 
     /**
@@ -989,20 +969,6 @@ public class Logic {
     }
 
     /**
-     * Check if the students with the provided emails exist in the course.
-     */
-    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
-        return usersLogic.verifyStudentsExistInCourse(courseId, emails);
-    }
-
-    /**
-     * Check if the instructors with the provided emails exist in the course.
-     */
-    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
-        return usersLogic.verifyInstructorsExistInCourse(courseId, emails);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      *
@@ -1038,32 +1004,10 @@ public class Logic {
     }
 
     /**
-     * Gets a student by associated {@code googleId}.
-     */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        return usersLogic.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets students by associated {@code teamName} and {@code courseId}.
-     */
-    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
-        return usersLogic.getStudentsForTeam(teamName, courseId);
-    }
-
-    /**
      * Gets students by associated {@code teamId} and {@code courseId}.
      */
     public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
         return usersLogic.getStudentsForTeam(teamId, courseId);
-    }
-
-    /**
-     * Returns the default section.
-     * If it does not exist, create and return it.
-     */
-    public Section getDefaultSectionOrCreate(String courseId) {
-        return usersLogic.getSectionOrCreate(courseId, Const.NO_SPECIFIC_SECTION);
     }
 
     /**
@@ -1181,6 +1125,13 @@ public class Logic {
      */
     public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
         return feedbackSessionsLogic.getSessionLinks(userId);
+    }
+
+    /**
+     * Enqueues a session links recovery email for the given email address.
+     */
+    public void enqueueSessionLinksRecoveryEmail(String recoveryEmailAddress) {
+        feedbackSessionsLogic.enqueueSessionLinksRecoveryEmail(recoveryEmailAddress);
     }
 
     /**
@@ -1313,16 +1264,6 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question.
-     *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
-     */
-    public Set<ResponseRecipient> getRecipientsOfQuestion(
-            FeedbackQuestion question, ResponseGiver responseGiver) {
-        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, responseGiver);
-    }
-
-    /**
      * Gets a list of students with the specified email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
@@ -1343,15 +1284,6 @@ public class Logic {
      */
     public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
         return feedbackResponsesLogic.deleteFeedbackResponseGiverComment(frId);
-    }
-
-    /**
-     * Deletes a feedback response and its associated feedback response comments.
-     *
-     * <p>Fails silently if the feedback response doesn't exist.</p>
-     */
-    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
-        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
     }
 
     /**

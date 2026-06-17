@@ -4,6 +4,8 @@ on:
     types:
       - opened
       - reopened
+      - edited
+      - synchronize
     branches:
       - master
 
@@ -18,4 +20,4 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/check-pr.js')
-            await script({ github, context })
+            await script({ github, context, core })

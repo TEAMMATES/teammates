@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import java.io.IOException;
 
@@ -20,9 +20,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HtmlHelper;
 
 /**
- * Email sender service provided by SendGrid.
+ * Email transport provided by SendGrid.
  */
-public class SendgridService implements EmailSenderService {
+public class SendgridTransport implements EmailTransport {
 
     Mail parseToEmail(EmailWrapper wrapper) {
         Mail email = new Mail();
@@ -47,7 +47,7 @@ public class SendgridService implements EmailSenderService {
     }
 
     @Override
-    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
+    public EmailSendingStatus deliver(EmailWrapper wrapper) throws EmailSendingException {
         Mail email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
         Request request = new Request();

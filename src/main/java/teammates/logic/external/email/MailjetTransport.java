@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -18,9 +18,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HtmlHelper;
 
 /**
- * Email sender service provided by Mailjet.
+ * Email transport provided by Mailjet.
  */
-public class MailjetService implements EmailSenderService {
+public class MailjetTransport implements EmailTransport {
 
     MailjetRequest parseToEmail(EmailWrapper wrapper) {
         MailjetRequest request = new MailjetRequest(Email.resource);
@@ -42,7 +42,7 @@ public class MailjetService implements EmailSenderService {
     }
 
     @Override
-    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
+    public EmailSendingStatus deliver(EmailWrapper wrapper) throws EmailSendingException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(
                 ClientOptions.builder().apiKey(Config.MAILJET_APIKEY).apiSecretKey(Config.MAILJET_SECRETKEY).build());
