@@ -37,14 +37,13 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
     @Test(groups = GroupNames.ACTION)
     public void getInstructorAction_adminBypass_returnsInstructorData() {
-        var adminAccount = given.account("admin-account", a -> a.admin());
         var course = given.course("course");
         var targetInstructor = given.instructor("target", i -> i.course(course.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetInstructor.id().toString())
-                .withAdminAuth(adminAccount.id());
+                .withAdminAuth();
 
         InstructorData result = execute(request);
 

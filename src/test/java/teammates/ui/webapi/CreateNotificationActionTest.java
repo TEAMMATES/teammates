@@ -23,11 +23,8 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test(groups = GroupNames.ACTION)
     public void createNotificationAction_validRequest_createsNotification() {
-        var adminAccount = given.account("admin", a -> a.admin());
-        persistGivenData(given);
-
         RequestContext request = new RequestContext()
-                .withAdminAuth(adminAccount.id())
+                .withAdminAuth()
                 .withRequest(buildDefaultCreateRequest());
 
         NotificationData result = execute(request);
@@ -40,9 +37,6 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
     @Test(groups = GroupNames.ACTION)
     public void createNotificationAction_endTimeBeforeStartTime_throwsInvalidHttpRequestBodyException() {
-        var adminAccount = given.account("admin", a -> a.admin());
-        persistGivenData(given);
-
         NotificationCreateRequest createRequest = buildDefaultCreateRequest();
         // Swap: end is before start
         Instant now = Instant.now();
@@ -50,7 +44,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         createRequest.setEndTimestamp(now.plus(1, ChronoUnit.HOURS).toEpochMilli());
 
         RequestContext request = new RequestContext()
-                .withAdminAuth(adminAccount.id())
+                .withAdminAuth()
                 .withRequest(createRequest);
 
         assertActionThrows(InvalidHttpRequestBodyException.class, request);

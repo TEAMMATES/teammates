@@ -36,12 +36,9 @@ public class CreateDemoCourseActionTest extends BaseActionTest<CreateDemoCourseA
 
     @Test(groups = GroupNames.ACTION)
     public void createDemoCourseAction_avrNotFound_throwsEntityNotFoundException() {
-        var adminAccount = given.account("admin", a -> a.admin());
-        persistGivenData(given);
-
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, UUID.randomUUID().toString())
-                .withAdminAuth(adminAccount.id());
+                .withAdminAuth();
 
         assertActionThrows(EntityNotFoundException.class, request);
     }

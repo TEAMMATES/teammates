@@ -41,14 +41,13 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
     @Test(groups = GroupNames.ACTION)
     public void getStudentAction_adminBypass_returnsStudentData() {
-        var adminAccount = given.account("admin-account", a -> a.admin());
         var course = given.course("course");
         var targetStudent = given.student("student", s -> s.course(course.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, targetStudent.id().toString())
-                .withAdminAuth(adminAccount.id());
+                .withAdminAuth();
 
         StudentData result = execute(request);
 

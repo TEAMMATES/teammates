@@ -17,13 +17,12 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
 
     @Test(groups = GroupNames.ACTION)
     public void deleteNotificationAction_existingNotification_deletesNotification() {
-        var adminAccount = given.account("admin", a -> a.admin());
         var notification = given.notification("notification");
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withAdminAuth(adminAccount.id());
+                .withAdminAuth();
 
         execute(request);
 

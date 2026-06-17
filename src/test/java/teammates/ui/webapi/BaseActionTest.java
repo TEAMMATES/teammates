@@ -18,14 +18,17 @@ import java.util.stream.Collectors;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.EmailQueueService;
+import teammates.storage.entity.Account;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.ui.output.ApiOutput;
 import teammates.ui.request.BasicRequest;
@@ -40,6 +43,8 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
+    // Intentionally made private to encourage subclasses to use `GivenData` and execute() instead.
+    private final Logic logic = Logic.inst();
     private final Class<T> actionClass;
 
     @SuppressWarnings("unchecked")
@@ -179,8 +184,11 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             return withCookie(getAuthCookie(accountId));
         }
 
-        public RequestContext withAdminAuth(UUID adminAccountId) {
-            return withCookie(getAuthCookie(adminAccountId));
+        public RequestContext withAdminAuth() {
+            String adminEmail = Config.APP_ADMINS.get(0);
+            Account admin = inTransaction(() ->
+                    logic.createOrGetAccount(Provider.TEAMMATES_DEV, adminEmail, Account.NO_TENANT, adminEmail));
+            return withCookie(getAuthCookie(admin.getId()));
         }
 
         public RequestContext withWorkerAuth() {

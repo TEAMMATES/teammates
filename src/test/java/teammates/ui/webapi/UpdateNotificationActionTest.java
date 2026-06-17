@@ -23,7 +23,6 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
     @Test(groups = GroupNames.ACTION)
     public void updateNotificationAction_existingNotification_returnsUpdatedNotificationData() {
-        var adminAccount = given.account("admin", a -> a.admin());
         var notification = given.notification("notification");
         persistGivenData(given);
 
@@ -34,7 +33,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
-                .withAdminAuth(adminAccount.id())
+                .withAdminAuth()
                 .withRequest(updateRequest);
 
         NotificationData result = execute(request);
@@ -47,12 +46,9 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
     @Test(groups = GroupNames.ACTION)
     public void updateNotificationAction_notificationDoesNotExist_throwsEntityNotFoundException() {
-        var adminAccount = given.account("admin", a -> a.admin());
-        persistGivenData(given);
-
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, given.uuid("nonexistent").toString())
-                .withAdminAuth(adminAccount.id())
+                .withAdminAuth()
                 .withRequest(buildDefaultUpdateRequest());
 
         assertActionThrows(EntityNotFoundException.class, request);
