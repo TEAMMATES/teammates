@@ -39,8 +39,8 @@ import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -316,9 +316,23 @@ public final class FeedbackSessionsLogic {
         FeedbackSession session = publishFeedbackSession(feedbackSessionId);
         if (session.isPublishedEmailEnabled()) {
             feedbackSessionsEmailsLogic.enqueuePublishedEmails(
-                    buildPublishedParticipantEmailContexts(session),
-                    buildPublishedPreviewEmailContexts(session));
+                    buildResultsParticipantEmailContexts(session),
+                    buildResultsPreviewEmailContexts(session));
             session.setPublishedEmailSent(true);
+        }
+        return session;
+    }
+
+    /**
+     * Unpublishes a feedback session and enqueues unpublished emails.
+     */
+    public FeedbackSession unpublishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        FeedbackSession session = unpublishFeedbackSession(feedbackSessionId);
+        if (session.isPublishedEmailEnabled()) {
+            feedbackSessionsEmailsLogic.enqueueUnpublishedEmails(
+                    buildResultsParticipantEmailContexts(session),
+                    buildResultsPreviewEmailContexts(session));
         }
         return session;
     }
@@ -331,8 +345,8 @@ public final class FeedbackSessionsLogic {
             RequestTracer.checkRemainingTime();
             try {
                 feedbackSessionsEmailsLogic.enqueuePublishedEmails(
-                        buildPublishedParticipantEmailContexts(session),
-                        buildPublishedPreviewEmailContexts(session));
+                        buildResultsParticipantEmailContexts(session),
+                        buildResultsPreviewEmailContexts(session));
                 session.setPublishedEmailSent(true);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
@@ -356,7 +370,7 @@ public final class FeedbackSessionsLogic {
         }
 
         List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(feedbackSession.getCourseId());
-        List<FeedbackSessionPublishedParticipantEmailContext> participantContexts = new ArrayList<>();
+        List<FeedbackSessionResultsParticipantEmailContext> participantContexts = new ArrayList<>();
         boolean hasStudentRecipients = false;
 
         for (UUID userId : userIdsToRemind) {
@@ -372,16 +386,16 @@ public final class FeedbackSessionsLogic {
             if (user instanceof Student) {
                 hasStudentRecipients = true;
             }
-            participantContexts.add(buildPublishedParticipantEmailContext(feedbackSession, user, coOwnerContacts));
+            participantContexts.add(buildResultsParticipantEmailContext(feedbackSession, user, coOwnerContacts));
         }
 
-        List<FeedbackSessionPublishedPreviewEmailContext> previewContexts = List.of();
+        List<FeedbackSessionResultsPreviewEmailContext> previewContexts = List.of();
         if (hasStudentRecipients) {
             Instructor instructorToNotify = usersLogic.getInstructorByAccountId(accountId, feedbackSession.getCourseId());
             if (instructorToNotify == null) {
                 throw new EntityDoesNotExistException("Instructor not found in course");
             }
-            previewContexts = List.of(buildPublishedPreviewEmailContext(feedbackSession, instructorToNotify));
+            previewContexts = List.of(buildResultsPreviewEmailContext(feedbackSession, instructorToNotify));
         }
 
         feedbackSessionsEmailsLogic.enqueuePublishedReminderEmails(participantContexts, previewContexts);
@@ -489,21 +503,21 @@ public final class FeedbackSessionsLogic {
         return contexts;
     }
 
-    private List<FeedbackSessionPublishedParticipantEmailContext> buildPublishedParticipantEmailContexts(
+    private List<FeedbackSessionResultsParticipantEmailContext> buildResultsParticipantEmailContexts(
             FeedbackSession session) {
         Course course = session.getCourse();
         List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
-        List<FeedbackSessionPublishedParticipantEmailContext> contexts = new ArrayList<>();
+        List<FeedbackSessionResultsParticipantEmailContext> contexts = new ArrayList<>();
 
         if (isFeedbackSessionViewableToUserType(session, false)) {
             for (Student student : usersLogic.getStudentsForCourse(course.getId())) {
-                contexts.add(buildPublishedParticipantEmailContext(session, student, coOwnerContacts));
+                contexts.add(buildResultsParticipantEmailContext(session, student, coOwnerContacts));
             }
         }
 
         if (isFeedbackSessionViewableToUserType(session, true)) {
             for (Instructor instructor : usersLogic.getInstructorsForCourse(course.getId())) {
-                contexts.add(buildPublishedParticipantEmailContext(session, instructor, coOwnerContacts));
+                contexts.add(buildResultsParticipantEmailContext(session, instructor, coOwnerContacts));
             }
         }
 
@@ -601,10 +615,10 @@ public final class FeedbackSessionsLogic {
                 coOwnerContacts);
     }
 
-    private FeedbackSessionPublishedParticipantEmailContext buildPublishedParticipantEmailContext(
+    private FeedbackSessionResultsParticipantEmailContext buildResultsParticipantEmailContext(
             FeedbackSession session, User user, List<EmailContact> coOwnerContacts) {
         Course course = session.getCourse();
-        return new FeedbackSessionPublishedParticipantEmailContext(
+        return new FeedbackSessionResultsParticipantEmailContext(
                 user.getEmail(),
                 user.getName(),
                 course.getId(),
@@ -669,7 +683,7 @@ public final class FeedbackSessionsLogic {
                 usersLogic.getCoOwnerContacts(course.getId()));
     }
 
-    private List<FeedbackSessionPublishedPreviewEmailContext> buildPublishedPreviewEmailContexts(FeedbackSession session) {
+    private List<FeedbackSessionResultsPreviewEmailContext> buildResultsPreviewEmailContexts(FeedbackSession session) {
         if (!isFeedbackSessionViewableToUserType(session, false)) {
             return List.of();
         }
@@ -677,7 +691,7 @@ public final class FeedbackSessionsLogic {
         Course course = session.getCourse();
         List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
         return usersLogic.getCoOwnersForCourse(course.getId()).stream()
-                .map(coOwner -> new FeedbackSessionPublishedPreviewEmailContext(
+                .map(coOwner -> new FeedbackSessionResultsPreviewEmailContext(
                         coOwner.getEmail(),
                         coOwner.getName(),
                         course.getId(),
@@ -687,10 +701,10 @@ public final class FeedbackSessionsLogic {
                 .toList();
     }
 
-    private FeedbackSessionPublishedPreviewEmailContext buildPublishedPreviewEmailContext(
+    private FeedbackSessionResultsPreviewEmailContext buildResultsPreviewEmailContext(
             FeedbackSession session, Instructor instructorToNotify) {
         Course course = session.getCourse();
-        return new FeedbackSessionPublishedPreviewEmailContext(
+        return new FeedbackSessionResultsPreviewEmailContext(
                 instructorToNotify.getEmail(),
                 instructorToNotify.getName(),
                 course.getId(),

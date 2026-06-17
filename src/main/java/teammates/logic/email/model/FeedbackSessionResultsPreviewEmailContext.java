@@ -3,7 +3,7 @@ package teammates.logic.email.model;
 import java.util.List;
 
 /**
- * Data required to render a feedback session published preview email for co-owners.
+ * Data required to render a feedback session results-status preview email for co-owners.
  *
  * @param recipientEmailAddress the preview recipient
  * @param recipientName the preview recipient name
@@ -12,7 +12,7 @@ import java.util.List;
  * @param feedbackSessionName the feedback session name
  * @param coOwnerContacts the contactable co-owner instructors for the course
  */
-public record FeedbackSessionPublishedPreviewEmailContext(
+public record FeedbackSessionResultsPreviewEmailContext(
         String recipientEmailAddress,
         String recipientName,
         String courseId,

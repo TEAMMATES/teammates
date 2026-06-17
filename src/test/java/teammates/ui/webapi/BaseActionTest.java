@@ -25,7 +25,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.ui.output.ApiOutput;
@@ -60,8 +59,6 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             throw new RuntimeException("Failed to instantiate action class: " + actionClass.getName(), e);
         }
 
-        EmailQueueService mockQueueService = EmailQueueService.withTaskQueuer(mockTaskQueuer);
-        action.setEmailQueueService(mockQueueService);
         action.setRecaptchaVerifier(mockRecaptchaVerifier);
         configureAction(action);
         inTransaction(() -> action.init(request));

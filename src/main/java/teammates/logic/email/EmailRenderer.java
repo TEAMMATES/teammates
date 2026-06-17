@@ -24,8 +24,8 @@ import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.RenderedEmail;
@@ -208,7 +208,7 @@ public final class EmailRenderer {
      * Renders a feedback session published email body for a participant.
      */
     public static RenderedEmail renderFeedbackSessionPublishedParticipantEmail(
-            FeedbackSessionPublishedParticipantEmailContext context) {
+            FeedbackSessionResultsParticipantEmailContext context) {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
@@ -225,7 +225,7 @@ public final class EmailRenderer {
      * Renders a feedback session published preview email body for a co-owner.
      */
     public static RenderedEmail renderFeedbackSessionPublishedPreviewEmail(
-            FeedbackSessionPublishedPreviewEmailContext context) {
+            FeedbackSessionResultsPreviewEmailContext context) {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED_PREVIEW,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
@@ -233,6 +233,38 @@ public final class EmailRenderer {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
                 "${reportUrlPlaceholder}", "{in the actual email sent to the students, this will be the unique link}",
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
+    }
+
+    /**
+     * Renders a feedback session unpublished email body for a participant.
+     */
+    public static RenderedEmail renderFeedbackSessionUnpublishedParticipantEmail(
+            FeedbackSessionResultsParticipantEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
+                "${particulars}", getAdditionalContactParticulars(context.isInstructor()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders a feedback session unpublished preview email body for a co-owner.
+     */
+    public static RenderedEmail renderFeedbackSessionUnpublishedPreviewEmail(
+            FeedbackSessionResultsPreviewEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED_PREVIEW,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(context.feedbackSessionName()),
                 "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));

@@ -711,6 +711,14 @@ public class Logic {
     }
 
     /**
+     * Unpublishes a feedback session and enqueues unpublished emails.
+     */
+    public FeedbackSession unpublishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.unpublishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
+    }
+
+    /**
      * Unpublishes a feedback session.
      *
      * @return the unpublished feedback session

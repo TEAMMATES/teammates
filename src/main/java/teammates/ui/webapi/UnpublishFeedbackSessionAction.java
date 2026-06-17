@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
@@ -31,22 +29,12 @@ public class UnpublishFeedbackSessionAction extends LoggedInAction {
 
         try {
             FeedbackSession unpublishFeedbackSession =
-                    logic.unpublishFeedbackSession(feedbackSessionId);
-
-            sendUnpublishedEmails(unpublishFeedbackSession);
+                    logic.unpublishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
             return new JsonResult(new FeedbackSessionData(unpublishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         } catch (InvalidFeedbackSessionStateException e) {
             throw new InvalidOperationException(e);
-        }
-    }
-
-    private void sendUnpublishedEmails(FeedbackSession feedbackSession) {
-        if (feedbackSession.isPublishedEmailEnabled()) {
-            List<EmailWrapper> emailsToBeSent =
-                    emailGenerator.generateFeedbackSessionUnpublishedEmails(feedbackSession);
-            emailQueueService.enqueueStandard(emailsToBeSent);
         }
     }
 }

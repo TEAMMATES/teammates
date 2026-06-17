@@ -113,7 +113,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             AccountVerificationEmailsLogic.inst().init(EmailQueueService.withTaskQueuer(mockTaskQueuer));
-            action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);

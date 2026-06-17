@@ -9,8 +9,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -127,38 +127,65 @@ public class FeedbackSessionsEmailsLogic {
      * Enqueues feedback session published emails using the standard queue.
      */
     public void enqueuePublishedEmails(
-            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
-            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
-        emailQueueService.enqueueStandard(buildPublishedEmails(participantContexts, previewContexts));
+            List<FeedbackSessionResultsParticipantEmailContext> participantContexts,
+            List<FeedbackSessionResultsPreviewEmailContext> previewContexts) {
+        emailQueueService.enqueueStandard(buildResultsStatusEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_PUBLISHED,
+                EmailRenderer::renderFeedbackSessionPublishedParticipantEmail,
+                EmailRenderer::renderFeedbackSessionPublishedPreviewEmail));
     }
 
     /**
      * Enqueues feedback session published emails using the priority queue.
      */
     public void enqueuePublishedReminderEmails(
-            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
-            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
-        emailQueueService.enqueuePriority(buildPublishedEmails(participantContexts, previewContexts));
+            List<FeedbackSessionResultsParticipantEmailContext> participantContexts,
+            List<FeedbackSessionResultsPreviewEmailContext> previewContexts) {
+        emailQueueService.enqueuePriority(buildResultsStatusEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_PUBLISHED,
+                EmailRenderer::renderFeedbackSessionPublishedParticipantEmail,
+                EmailRenderer::renderFeedbackSessionPublishedPreviewEmail));
     }
 
-    private List<EmailWrapper> buildPublishedEmails(
-            List<FeedbackSessionPublishedParticipantEmailContext> participantContexts,
-            List<FeedbackSessionPublishedPreviewEmailContext> previewContexts) {
+    /**
+     * Enqueues feedback session unpublished emails using the standard queue.
+     */
+    public void enqueueUnpublishedEmails(
+            List<FeedbackSessionResultsParticipantEmailContext> participantContexts,
+            List<FeedbackSessionResultsPreviewEmailContext> previewContexts) {
+        emailQueueService.enqueueStandard(buildResultsStatusEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_UNPUBLISHED,
+                EmailRenderer::renderFeedbackSessionUnpublishedParticipantEmail,
+                EmailRenderer::renderFeedbackSessionUnpublishedPreviewEmail));
+    }
+
+    private List<EmailWrapper> buildResultsStatusEmails(
+            List<FeedbackSessionResultsParticipantEmailContext> participantContexts,
+            List<FeedbackSessionResultsPreviewEmailContext> previewContexts,
+            EmailType emailType,
+            Function<FeedbackSessionResultsParticipantEmailContext, RenderedEmail> participantRenderer,
+            Function<FeedbackSessionResultsPreviewEmailContext, RenderedEmail> previewRenderer) {
         List<EmailWrapper> emails = new ArrayList<>();
-        for (FeedbackSessionPublishedParticipantEmailContext context : participantContexts) {
-            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionPublishedParticipantEmail(context);
+        for (FeedbackSessionResultsParticipantEmailContext context : participantContexts) {
+            RenderedEmail renderedEmail = participantRenderer.apply(context);
             emails.add(EmailWrapperBuilder.build(
                     context.recipientEmailAddress(),
-                    EmailType.FEEDBACK_PUBLISHED,
+                    emailType,
                     renderedEmail,
                     context.courseName(),
                     context.feedbackSessionName()));
         }
-        for (FeedbackSessionPublishedPreviewEmailContext context : previewContexts) {
-            RenderedEmail renderedEmail = EmailRenderer.renderFeedbackSessionPublishedPreviewEmail(context);
+        for (FeedbackSessionResultsPreviewEmailContext context : previewContexts) {
+            RenderedEmail renderedEmail = previewRenderer.apply(context);
             EmailWrapper email = EmailWrapperBuilder.build(
                     context.recipientEmailAddress(),
-                    EmailType.FEEDBACK_PUBLISHED,
+                    emailType,
                     renderedEmail,
                     context.courseName(),
                     context.feedbackSessionName());

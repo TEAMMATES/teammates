@@ -18,8 +18,8 @@ import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedParticipantEmailContext;
-import teammates.logic.email.model.FeedbackSessionPublishedPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -267,7 +267,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     @Test
     public void enqueuePublishedEmails_validContexts_enqueuesStandardEmails() {
-        var participantContext = new FeedbackSessionPublishedParticipantEmailContext(
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
                 "student@teammates.tmt",
                 "Student Name",
                 "CS101",
@@ -276,7 +276,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/results",
                 false,
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
-        var previewContext = new FeedbackSessionPublishedPreviewEmailContext(
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
                 "instructor@teammates.tmt",
                 "Instructor One",
                 "CS101",
@@ -305,7 +305,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     @Test
     public void enqueuePublishedReminderEmails_validContexts_enqueuesPriorityEmails() {
-        var participantContext = new FeedbackSessionPublishedParticipantEmailContext(
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
                 "student@teammates.tmt",
                 "Student Name",
                 "CS101",
@@ -314,7 +314,7 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "https://example.com/results",
                 false,
                 List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
-        var previewContext = new FeedbackSessionPublishedPreviewEmailContext(
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
                 "instructor@teammates.tmt",
                 "Instructor One",
                 "CS101",
@@ -331,6 +331,44 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
         assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, previewTask.getQueueName());
         EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
         assertTrue(previewEmail.getIsCopy());
+    }
+
+    @Test
+    public void enqueueUnpublishedEmails_validContexts_enqueuesStandardEmails() {
+        var participantContext = new FeedbackSessionResultsParticipantEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                null,
+                false,
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+        var previewContext = new FeedbackSessionResultsPreviewEmailContext(
+                "instructor@teammates.tmt",
+                "Instructor One",
+                "CS101",
+                "Software Engineering",
+                "Midterm Feedback",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")));
+
+        feedbackSessionsEmailsLogic.enqueueUnpublishedEmails(List.of(participantContext), List.of(previewContext));
+
+        assertEquals(2, taskQueuer.getTasksAdded().size());
+        TaskWrapper participantTask = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, participantTask.getQueueName());
+        EmailWrapper participantEmail = ((SendEmailRequest) participantTask.getRequestBody()).getEmail();
+        assertEquals("student@teammates.tmt", participantEmail.getRecipient());
+        assertEquals(EmailType.FEEDBACK_UNPUBLISHED, participantEmail.getType());
+
+        TaskWrapper previewTask = taskQueuer.getTasksAdded().get(1);
+        assertEquals(TaskQueue.SEND_EMAIL_QUEUE_NAME, previewTask.getQueueName());
+        EmailWrapper previewEmail = ((SendEmailRequest) previewTask.getRequestBody()).getEmail();
+        assertEquals("instructor@teammates.tmt", previewEmail.getRecipient());
+        assertEquals(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX
+                + "TEAMMATES: Feedback session results unpublished [Course: Software Engineering]"
+                + "[Feedback Session: Midterm Feedback]",
+                previewEmail.getSubject());
     }
 
     @Test
