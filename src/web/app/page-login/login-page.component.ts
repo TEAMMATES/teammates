@@ -1,9 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
 import { Config, LoginMethod } from '../../types/api-output';
 import { finalize } from 'rxjs';
 import { StatusMessageService } from '../../services/status-message.service';
-import { ActivatedRoute } from '@angular/router';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
 import { LoginMethodButtonsListComponent } from '../components/login-method-buttons-list/login-method-buttons-list.component';
 
@@ -16,11 +15,11 @@ import { LoginMethodButtonsListComponent } from '../components/login-method-butt
 export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
-  private readonly route = inject(ActivatedRoute);
+
+  @Input({ required: true }) nextUrl!: string;
 
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
-  nextUrl = '/';
 
   ngOnInit(): void {
     this.isLoadingLoginMethods = true;
@@ -45,12 +44,5 @@ export class LoginPageComponent implements OnInit {
           this.statusMessageService.showErrorToast('Failed to load login methods. Please try again later.');
         },
       });
-
-    this.route.queryParams.subscribe((params) => {
-      const nextUrl = params['nextUrl'];
-      if (nextUrl) {
-        this.nextUrl = nextUrl;
-      }
-    });
   }
 }

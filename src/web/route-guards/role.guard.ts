@@ -68,7 +68,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
    * Redirects to the login page.
    */
   private redirectToLogin(nextUrl: string) {
-    return this.router.parseUrl(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
+    return this.router.createUrlTree(['/web/login', nextUrl]);
   }
 
   /**

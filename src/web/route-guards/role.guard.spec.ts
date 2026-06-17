@@ -59,7 +59,7 @@ describe('RoleGuard', () => {
 
       const result = await firstValueFrom(guard.canActivate(mockRoute('admin'), mockState('/web/admin')));
 
-      expect(result.toString()).toContain('/web/login?nextUrl=');
+      expect(result.toString()).toBe('/web/login/%2Fweb%2Fadmin');
     });
 
     it('should return true for a student accessing a student route', async () => {

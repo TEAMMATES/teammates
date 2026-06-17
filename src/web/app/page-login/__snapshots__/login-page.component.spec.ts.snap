@@ -6,7 +6,6 @@ exports[`LoginPageComponent snapshot > should match snapshot with login methods 
   isLoadingLoginMethods="false"
   loginMethods={[Function Set]}
   nextUrl={[Function String]}
-  route={[Function Object]}
   statusMessageService={[Function _StatusMessageService]}
 >
   <div>

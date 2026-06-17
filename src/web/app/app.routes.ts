@@ -111,7 +111,7 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
       },
       {
-        path: 'login',
+        path: 'login/:nextUrl',
         component: PageComponent,
         children: [
           {
