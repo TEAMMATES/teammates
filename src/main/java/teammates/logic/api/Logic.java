@@ -254,6 +254,18 @@ public class Logic {
     }
 
     /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
+    }
+
+    /**
      * Deletes account verification request by id.
      *
      * <ul>

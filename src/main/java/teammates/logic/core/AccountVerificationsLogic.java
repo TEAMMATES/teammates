@@ -111,6 +111,29 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() != AccountVerificationRequestStatus.PENDING) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is not in pending state and cannot be rejected.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.REJECTED);
+        validateAccountVerificationRequest(request);
+        return request;
+    }
+
+    /**
      * Gets all pending account verification requests.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
