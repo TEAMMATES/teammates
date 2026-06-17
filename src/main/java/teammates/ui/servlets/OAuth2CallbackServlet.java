@@ -44,7 +44,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return;
         }
 
-        AuthResult authResult = handler.getAuthResult(req, resp);
+        AuthResult authResult = handler.handleCallback(req, resp);
 
         if (authResult == null) {
             return;

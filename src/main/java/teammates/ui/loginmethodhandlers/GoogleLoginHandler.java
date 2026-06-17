@@ -60,7 +60,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult getAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());

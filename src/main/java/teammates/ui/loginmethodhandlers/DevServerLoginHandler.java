@@ -42,7 +42,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult getAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
             resp.sendError(HttpStatus.SC_FORBIDDEN);
             return null;
