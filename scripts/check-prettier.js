@@ -24,7 +24,6 @@ async function getPrettierFiles() {
     const filePath = path.join(repoRoot, entry);
     const fileInfo = await prettier.getFileInfo(filePath, {
       ignorePath: ignorePaths,
-      resolveConfig: true,
       withNodeModules: false,
     });
 
@@ -40,7 +39,7 @@ function printFailureMessage() {
   console.error(
     [
       '',
-      'Prettier found formatting issues.',
+      '✖ Prettier found formatting issues.',
       '',
       'To fix this automatically, run:',
       '',
@@ -83,7 +82,7 @@ async function main() {
   progressBar.clear();
 
   if (unformattedFiles.length === 0) {
-    console.log('\nAll files use Prettier code style!');
+    console.log('\n✔ All files use Prettier code style!');
     return;
   }
 
@@ -96,6 +95,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(`Unable to run Prettier: ${error.message}`);
+  console.error(`✖ Unable to run Prettier: ${error.message}`);
   process.exit(1);
 });
