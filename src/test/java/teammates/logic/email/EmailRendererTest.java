@@ -17,14 +17,15 @@ import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmai
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
-import teammates.logic.email.model.RecoverableCourseLinks;
-import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
+import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
 import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
@@ -47,11 +48,11 @@ public class EmailRendererTest extends BaseTestCase {
                 "Student Name",
                 false,
                 List.of(
-                        new RecoverableCourseLinks(
+                        new CourseSessionLinks(
                                 "CS101",
                                 "Software Engineering",
                                 List.of(
-                                        new RecoverableSessionLink(
+                                        new SessionAccessLink(
                                                 "Midterm Feedback",
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
@@ -83,6 +84,35 @@ public class EmailRendererTest extends BaseTestCase {
         RenderedEmail actual = EmailRenderer.renderSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt");
 
         verifyEmailContent(actual.htmlContent(), "/sessionLinksRecoveryComposerNotFoundEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionSummaryEmail_studentEmailChanged_rendersTableAndJoinPrompt() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionSummaryEmail(
+                buildFeedbackSessionSummaryContext(false, true, List.of(
+                        new SessionAccessLink(
+                                "Midterm Feedback",
+                                "https://example.com/submission",
+                                "https://example.com/results"))),
+                EmailType.STUDENT_EMAIL_CHANGED);
+
+        verifyEmailContent(actual.htmlContent(), "/feedbackSessionSummaryEmailForUpdatedStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionSummaryEmail_instructorLinksRegenerated_withoutAccessibleLinksRendersFallbacks()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionSummaryEmail(
+                buildFeedbackSessionSummaryContext(true, false, List.of(
+                        new SessionAccessLink(
+                                "Final Reflection",
+                                null,
+                                null))),
+                EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+
+        verifyEmailContent(actual.htmlContent(), "/feedbackSessionSummaryEmailForRegeneratedInstructor.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 
@@ -414,6 +444,22 @@ public class EmailRendererTest extends BaseTestCase {
                 oldEndTime,
                 newEndTime,
                 emailType);
+    }
+
+    private static FeedbackSessionSummaryEmailContext buildFeedbackSessionSummaryContext(
+            boolean isInstructor, boolean isYetToJoinCourse, List<SessionAccessLink> sessionLinks) {
+        return new FeedbackSessionSummaryEmailContext(
+                isInstructor ? "instructor@email.tmt" : "student@email.tmt",
+                isInstructor ? "Instructor Name" : "Student Name",
+                "CS101",
+                "Software Engineering",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")),
+                isInstructor,
+                isYetToJoinCourse,
+                isInstructor
+                        ? LinksUtil.getInstructorCourseJoinUrl(REG_KEY)
+                        : LinksUtil.getStudentCourseJoinUrl(REG_KEY),
+                List.of(new CourseSessionLinks("CS101", "Software Engineering", sessionLinks)));
     }
 
 }

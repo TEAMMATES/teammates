@@ -30,6 +30,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
@@ -78,6 +79,7 @@ public final class UsersLogic {
 
     private CoursesLogic coursesLogic;
     private CourseJoinEmailsLogic courseJoinEmailsLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
@@ -92,11 +94,13 @@ public final class UsersLogic {
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
                                CourseJoinEmailsLogic courseJoinEmailsLogic,
+                               FeedbackSessionsLogic feedbackSessionsLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
                                InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
         this.courseJoinEmailsLogic = courseJoinEmailsLogic;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -569,6 +573,21 @@ public final class UsersLogic {
     }
 
     /**
+     * Regenerates the registration key for the user with {@code userId} and enqueues the
+     * corresponding feedback session summary email.
+     */
+    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        User user = regenerateUserRegistrationKey(userId);
+        feedbackSessionsLogic.enqueueFeedbackSessionSummaryEmail(
+                user,
+                user instanceof Student
+                        ? EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                        : EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        return user;
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id Id of Student.
@@ -897,6 +916,16 @@ public final class UsersLogic {
             throw new EnrollException(errorMessage);
         }
 
+        return student;
+    }
+
+    /**
+     * Updates a student and enqueues the corresponding feedback session summary email.
+     */
+    public Student updateStudentAndEnqueueSummaryEmail(UUID studentId, StudentUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
+        Student student = updateStudent(studentId, updateRequest);
+        feedbackSessionsLogic.enqueueFeedbackSessionSummaryEmail(student, EmailType.STUDENT_EMAIL_CHANGED);
         return student;
     }
 

@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,16 +25,17 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.LinksUtil;
 import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.email.FeedbackSessionsEmailsLogic;
-import teammates.logic.email.model.RecoverableCourseLinks;
-import teammates.logic.email.model.RecoverableSessionLink;
+import teammates.logic.email.model.CourseSessionLinks;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
+import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
@@ -152,6 +154,14 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Enqueues a feedback session summary email for the given user and email type.
+     */
+    public void enqueueFeedbackSessionSummaryEmail(User user, EmailType emailType) {
+        feedbackSessionsEmailsLogic.enqueueFeedbackSessionSummaryEmail(
+                buildFeedbackSessionSummaryEmailContext(user, emailType), emailType);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
@@ -163,37 +173,21 @@ public final class FeedbackSessionsLogic {
         String recipientName = studentsForEmail.isEmpty() ? null : studentsForEmail.get(0).getName();
         Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
 
-        Map<String, RecoverableCourseLinks> recoverableCourseLinksMap = new LinkedHashMap<>();
+        Map<String, CourseSessionLinks> recoverableCourseLinksMap = new LinkedHashMap<>();
 
         for (Student student : studentsForEmail) {
-            RequestTracer.checkRemainingTime();
             Course course = student.getCourse();
-            List<RecoverableSessionLink> recoverableSessionLinks = new ArrayList<>();
-
-            for (FeedbackSession session : getFeedbackSessionsForCourseStartingAfter(course.getId(), searchStartTime)) {
-                String submitUrl = null;
-                String resultsUrl = null;
-
-                if (session.isOpened() || session.isClosed()) {
-                    submitUrl = LinksUtil.getStudentSessionSubmitUrl(session.getId(), student.getRegKey());
-                }
-
-                if (session.isPublished()) {
-                    resultsUrl = LinksUtil.getStudentSessionResultsUrl(session.getId(), student.getRegKey());
-                }
-
-                if (submitUrl == null && resultsUrl == null) {
-                    continue;
-                }
-
-                recoverableSessionLinks.add(new RecoverableSessionLink(session.getName(), submitUrl, resultsUrl));
-            }
+            List<FeedbackSession> sessions = getFeedbackSessionsForCourseStartingAfter(course.getId(), searchStartTime)
+                    .stream()
+                    .filter(session -> session.isOpened() || session.isClosed() || session.isPublished())
+                    .toList();
+            List<SessionAccessLink> recoverableSessionLinks = buildSessionAccessLinks(student, sessions);
 
             if (recoverableSessionLinks.isEmpty()) {
                 continue;
             }
 
-            recoverableCourseLinksMap.put(course.getId(), new RecoverableCourseLinks(
+            recoverableCourseLinksMap.put(course.getId(), new CourseSessionLinks(
                     course.getId(), course.getName(), recoverableSessionLinks));
         }
 
@@ -202,6 +196,46 @@ public final class FeedbackSessionsLogic {
                 recipientName,
                 studentsForEmail.isEmpty(),
                 new ArrayList<>(recoverableCourseLinksMap.values()));
+    }
+
+    private FeedbackSessionSummaryEmailContext buildFeedbackSessionSummaryEmailContext(User user, EmailType emailType) {
+        if (emailType != EmailType.STUDENT_EMAIL_CHANGED
+                && emailType != EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                && emailType != EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED) {
+            throw new IllegalArgumentException("Unsupported email type: " + emailType);
+        }
+
+        Course course = user.getCourse();
+        List<FeedbackSession> sessions = getFeedbackSessionsForCourse(user.getCourseId()).stream()
+                .filter(session -> session.isOpenedEmailSent() || session.isPublishedEmailSent())
+                .toList();
+        List<SessionAccessLink> sessionLinks = buildSessionAccessLinks(user, sessions);
+        return new FeedbackSessionSummaryEmailContext(
+                user.getEmail(),
+                user.getName(),
+                course.getId(),
+                course.getName(),
+                usersLogic.getCoOwnerContacts(course.getId()),
+                user instanceof Instructor,
+                user.getAccount() == null,
+                getCourseJoinUrl(user.getUserType(), user.getRegKey()),
+                sessionLinks.isEmpty()
+                        ? List.of()
+                        : List.of(new CourseSessionLinks(course.getId(), course.getName(), sessionLinks)));
+    }
+
+    private List<SessionAccessLink> buildSessionAccessLinks(User user, List<FeedbackSession> sessions) {
+        return sessions.stream()
+                .sorted(Comparator.comparing(FeedbackSession::getName))
+                .map(session -> new SessionAccessLink(
+                        session.getName(),
+                        session.isOpened() || session.isClosed()
+                                ? getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                : null,
+                        session.isPublished()
+                                ? getResultUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                : null))
+                .toList();
     }
 
     private String getCourseJoinUrl(UserType userType, String regKey) {

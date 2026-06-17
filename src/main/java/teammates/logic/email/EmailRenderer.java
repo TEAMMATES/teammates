@@ -16,14 +16,15 @@ import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmai
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
 import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
-import teammates.logic.email.model.RecoverableCourseLinks;
-import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
+import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
 import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
@@ -46,8 +47,8 @@ public final class EmailRenderer {
      * recoverable sessions.
      */
     public static RenderedEmail renderSessionLinksRecoveryEmail(SessionLinksRecoveryContext context) {
-        String courseSectionsHtml = buildCourseSectionsHtml(context.recoverableCourseLinks());
-        String emptyStateMessage = context.recoverableCourseLinks().isEmpty()
+        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks(), false);
+        String emptyStateMessage = context.courseSessionLinks().isEmpty()
                 ? """
                   <p>
                       We could not find any sessions associated with this email address that have opened or closed
@@ -65,6 +66,31 @@ public final class EmailRenderer {
                 "${emptyStateMessage}", emptyStateMessage,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
+    }
+
+    /**
+     * Renders a feedback session summary email body.
+     */
+    public static RenderedEmail renderFeedbackSessionSummaryEmail(
+            FeedbackSessionSummaryEmailContext context, EmailType emailType) {
+        String joinFragment = buildFeedbackSessionSummaryJoinFragment(context, emailType);
+        String courseSectionsHtml = buildCourseSectionsHtml(context.courseSessionLinks(), true);
+        String emptyStateMessage = context.courseSessionLinks().isEmpty() ? "<p>No links found.</p>" : "";
+        String template = emailType == EmailType.STUDENT_EMAIL_CHANGED
+                ? EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
+                : EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
+
+        return new RenderedEmail(Templates.populateTemplate(
+                template,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${userEmail}", SanitizationHelper.sanitizeForHtml(context.recipientEmailAddress()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(context.courseId()),
+                "${joinFragment}", joinFragment,
+                "${courseSections}", courseSectionsHtml,
+                "${emptyStateMessage}", emptyStateMessage,
+                "${additionalContactInformation}", getAdditionalContactInformationFragment(
+                        context.coOwnerContacts(), context.isInstructor())));
     }
 
     /**
@@ -230,43 +256,88 @@ public final class EmailRenderer {
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
-    private static String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
+    private static String buildCourseSectionsHtml(List<CourseSessionLinks> courseSections,
+                                                  boolean includeUnavailableLinkText) {
         StringBuilder html = new StringBuilder();
-        for (RecoverableCourseLinks courseSection : courseSections) {
+        for (CourseSessionLinks courseSection : courseSections) {
             StringBuilder sessionRowsHtml = new StringBuilder();
-            for (RecoverableSessionLink sessionLink : courseSection.sessionLinks()) {
-                StringBuilder linksHtml = new StringBuilder();
-                boolean hasSubmitLink = sessionLink.submitUrl() != null;
-                boolean hasResultsLink = sessionLink.resultsUrl() != null;
-
-                if (hasSubmitLink) {
-                    linksHtml.append("[<a href=\"")
-                            .append(sessionLink.submitUrl())
-                            .append("\">submission link</a>]");
-                }
-                if (hasSubmitLink && hasResultsLink) {
-                    linksHtml.append(' ');
-                }
-                if (hasResultsLink) {
-                    linksHtml.append("[<a href=\"")
-                            .append(sessionLink.resultsUrl())
-                            .append("\">result link</a>]");
+            for (SessionAccessLink sessionLink : courseSection.sessionLinks()) {
+                String linksHtml = buildSessionLinksHtml(sessionLink, includeUnavailableLinkText);
+                if (linksHtml.isEmpty()) {
+                    continue;
                 }
 
                 sessionRowsHtml.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
+                        EmailTemplates.FRAGMENT_COURSE_SESSION_LINKS_BY_SESSION,
                         "${sessionName}", SanitizationHelper.sanitizeForHtml(sessionLink.feedbackSessionName()),
-                        "${links}", linksHtml.toString()));
+                        "${links}", linksHtml));
+            }
+
+            if (sessionRowsHtml.isEmpty()) {
+                continue;
             }
 
             String courseName = SanitizationHelper.sanitizeForHtml(courseSection.courseName()
                     + " (" + courseSection.courseId() + ")");
             html.append(Templates.populateTemplate(
-                    EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
+                    EmailTemplates.FRAGMENT_COURSE_SESSION_LINKS_BY_COURSE,
                     "${sessionFragment}", sessionRowsHtml.toString(),
                     "${courseName}", courseName));
         }
         return html.toString();
+    }
+
+    private static String buildSessionLinksHtml(SessionAccessLink sessionLink, boolean includeUnavailableLinkText) {
+        StringBuilder linksHtml = new StringBuilder();
+        boolean hasSubmitLink = sessionLink.submitUrl() != null;
+        boolean hasResultsLink = sessionLink.resultsUrl() != null;
+        String separator = includeUnavailableLinkText ? "<br>" : " ";
+
+        if (hasSubmitLink) {
+            linksHtml.append("[<a href=\"")
+                    .append(sessionLink.submitUrl())
+                    .append("\">submission link</a>]");
+        } else if (includeUnavailableLinkText) {
+            linksHtml.append("(Feedback session is not yet opened)");
+        }
+
+        if (hasResultsLink || includeUnavailableLinkText) {
+            if (!linksHtml.isEmpty()) {
+                linksHtml.append(separator);
+            }
+            if (hasResultsLink) {
+                linksHtml.append("[<a href=\"")
+                        .append(sessionLink.resultsUrl())
+                        .append("\">result link</a>]");
+            } else {
+                linksHtml.append("(Feedback session is not yet published)");
+            }
+        }
+
+        return linksHtml.toString();
+    }
+
+    private static String buildFeedbackSessionSummaryJoinFragment(
+            FeedbackSessionSummaryEmailContext context, EmailType emailType) {
+        if (!context.isYetToJoinCourse()) {
+            return "";
+        }
+
+        String joinFragmentTemplate;
+        if (context.isInstructor()) {
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET;
+        } else if (emailType == EmailType.STUDENT_EMAIL_CHANGED) {
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN;
+        } else {
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
+        }
+
+        return Templates.populateTemplate(
+                joinFragmentTemplate,
+                "${joinUrl}", context.joinUrl(),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(context.courseName()),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(context.coOwnerContacts()),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private static String formatDeadline(Instant instant, String timeZone) {
@@ -292,6 +363,14 @@ public final class EmailRenderer {
 
     private static String sanitizeOptionalHtml(String value) {
         return value == null ? "" : SanitizationHelper.sanitizeForHtml(value);
+    }
+
+    private static String getAdditionalContactInformationFragment(List<EmailContact> coOwnerContacts, boolean isInstructor) {
+        return Templates.populateTemplate(
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
+                "${particulars}", getAdditionalContactParticulars(isInstructor),
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(coOwnerContacts),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {

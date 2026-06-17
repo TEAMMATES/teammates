@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -225,114 +224,6 @@ public final class EmailGenerator {
 
         return generateFeedbackSessionEmailBases(course, session, students, instructorsToRemind, instructorToNotifyAsList,
                 template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
-    }
-
-    /**
-     * Generates the email containing the summary of the feedback sessions
-     * email for the given {@code user}.
-     *
-     * @param user - User to send feedback session summary to
-     * @param emailType - The email type which corresponds to the reason behind why the links are being resent
-     */
-    public EmailWrapper generateFeedbackSessionSummaryOfCourse(User user, EmailType emailType) {
-        Objects.requireNonNull(user);
-        if (emailType != EmailType.STUDENT_EMAIL_CHANGED
-                && emailType != EmailType.STUDENT_COURSE_LINKS_REGENERATED
-                && emailType != EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED) {
-            throw new IllegalArgumentException("Unsupported email type: " + emailType);
-        }
-
-        String userEmail = user.getEmail();
-        Course course = user.getCourse();
-
-        boolean isYetToJoinCourse = user.getAccount() == null;
-        String userKey = user.getRegKey();
-        String userName = user.getName();
-
-        String joinUrl;
-        String joinFragmentTemplate;
-        if (user instanceof Instructor) {
-            joinUrl = LinksUtil.getInstructorCourseJoinUrl(userKey);
-            joinFragmentTemplate = EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET;
-        } else if (user instanceof Student) {
-            joinUrl = LinksUtil.getStudentCourseJoinUrl(userKey);
-            joinFragmentTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
-                    ? EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN
-                    : EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
-        } else {
-            throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getSimpleName());
-        }
-
-        List<FeedbackSession> sessions = new ArrayList<>();
-        List<FeedbackSession> fsInCourse = fsLogic.getFeedbackSessionsForCourse(course.getId());
-
-        for (FeedbackSession fs : fsInCourse) {
-            if (fs.isOpenedEmailSent() || fs.isPublishedEmailSent()) {
-                sessions.add(fs);
-            }
-        }
-
-        StringBuilder linksFragmentValue = new StringBuilder(1000);
-        String joinFragmentValue = isYetToJoinCourse
-                ? Templates.populateTemplate(joinFragmentTemplate,
-                        "${joinUrl}", joinUrl,
-                        "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                        "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
-                        "${supportEmail}", Config.SUPPORT_EMAIL)
-                : "";
-
-        for (FeedbackSession fs : sessions) {
-            String submitUrlHtml = "(Feedback session is not yet opened)";
-            String reportUrlHtml = "(Feedback session is not yet published)";
-
-            if (fs.isOpened() || fs.isClosed()) {
-                String submitUrl = user instanceof Instructor
-                        ? LinksUtil.getInstructorSessionSubmitUrl(fs.getId(), userKey)
-                        : LinksUtil.getStudentSessionSubmitUrl(fs.getId(), userKey);
-                submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
-            }
-
-            if (fs.isPublished()) {
-                String reportUrl = user instanceof Instructor
-                        ? LinksUtil.getInstructorSessionResultsUrl(fs.getId(), userKey)
-                        : LinksUtil.getStudentSessionResultsUrl(fs.getId(), userKey);
-                reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
-            }
-
-            Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    fs.getEndTime(), fs.getCourse().getTimeZone(), false);
-            linksFragmentValue.append(Templates.populateTemplate(
-                    EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
-                    "${feedbackSessionName}", fs.getName(),
-                    "${deadline}", TimeHelper.formatInstant(endTime, fs.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)
-                            + (fs.isClosed() ? " (Passed)" : ""),
-                    "${submitUrl}", submitUrlHtml,
-                    "${reportUrl}", reportUrlHtml));
-        }
-
-        if (linksFragmentValue.isEmpty()) {
-            linksFragmentValue.append("No links found.");
-        }
-
-        String additionalContactInformation = getAdditionalContactInformationFragment(course, user instanceof Instructor);
-        String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
-                ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
-                : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
-
-        String emailBody = Templates.populateTemplate(resendLinksTemplate,
-                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-                "${userEmail}", userEmail,
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", course.getId(),
-                "${joinFragment}", joinFragmentValue,
-                "${linksFragment}", linksFragmentValue.toString(),
-                "${additionalContactInformation}", additionalContactInformation);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
-        email.setContent(emailBody);
-        email.setType(emailType);
-        email.setSubjectFromType(course.getName(), course.getId());
-        return email;
     }
 
     /**

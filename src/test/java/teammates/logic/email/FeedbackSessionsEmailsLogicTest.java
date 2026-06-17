@@ -13,8 +13,10 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.logic.email.model.RecoverableCourseLinks;
-import teammates.logic.email.model.RecoverableSessionLink;
+import teammates.logic.email.model.CourseSessionLinks;
+import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
+import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.test.BaseTestCase;
 import teammates.ui.request.SendEmailRequest;
@@ -41,11 +43,11 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                 "Student Name",
                 false,
                 List.of(
-                        new RecoverableCourseLinks(
+                        new CourseSessionLinks(
                                 "CS101",
                                 "Software Engineering",
                                 List.of(
-                                        new RecoverableSessionLink(
+                                        new SessionAccessLink(
                                                 "Midterm Feedback",
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
@@ -85,6 +87,40 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
         assertEquals(EmailType.SESSION_LINKS_RECOVERY, email.getType());
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), email.getSubject());
         assertTrue(email.getContent().contains("Sorry, we could not find any links"));
+    }
+
+    @Test
+    public void enqueueFeedbackSessionSummaryEmail_validContext_enqueuesPrioritySummaryEmail() {
+        FeedbackSessionSummaryEmailContext context = new FeedbackSessionSummaryEmailContext(
+                "student@teammates.tmt",
+                "Student Name",
+                "CS101",
+                "Software Engineering",
+                List.of(new EmailContact("Instructor One", "instructor1@teammates.tmt")),
+                false,
+                true,
+                "https://example.com/join",
+                List.of(new CourseSessionLinks(
+                        "CS101",
+                        "Software Engineering",
+                        List.of(new SessionAccessLink(
+                                "Midterm Feedback",
+                                "https://example.com/submission",
+                                "https://example.com/results")))));
+
+        feedbackSessionsEmailsLogic.enqueueFeedbackSessionSummaryEmail(context, EmailType.STUDENT_EMAIL_CHANGED);
+
+        assertEquals(1, taskQueuer.getTasksAdded().size());
+        TaskWrapper task = taskQueuer.getTasksAdded().get(0);
+        assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, task.getQueueName());
+
+        SendEmailRequest request = (SendEmailRequest) task.getRequestBody();
+        EmailWrapper email = request.getEmail();
+        assertEquals("student@teammates.tmt", email.getRecipient());
+        assertEquals(EmailType.STUDENT_EMAIL_CHANGED, email.getType());
+        assertEquals("TEAMMATES: Summary of course [Software Engineering][Course ID: CS101]", email.getSubject());
+        assertTrue(email.getContent().contains("Midterm Feedback"));
+        assertTrue(email.getContent().contains("<table"));
     }
 
 }
