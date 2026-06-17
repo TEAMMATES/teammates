@@ -1,7 +1,14 @@
 const defaultWidth = 30;
 
-function createProgressBar({ stream = process.stdout, width = defaultWidth } = {}) {
-  function render(completed, total) {
+class ProgressBar {
+  constructor({ stream = process.stdout, width = defaultWidth } = {}) {
+    this.stream = stream;
+    this.width = width;
+  }
+
+  render(completed, total) {
+    const { stream, width } = this;
+
     if (!stream.isTTY || total === 0) {
       return;
     }
@@ -13,15 +20,15 @@ function createProgressBar({ stream = process.stdout, width = defaultWidth } = {
     stream.write(`\r[${progressBar}] ${completed}/${total}`);
   }
 
-  function clear() {
+  clear() {
+    const { stream } = this;
+
     if (!stream.isTTY) {
       return;
     }
 
     stream.write('\r\u001B[2K');
   }
-
-  return { clear, render };
 }
 
-module.exports = { createProgressBar };
+module.exports = { ProgressBar };
