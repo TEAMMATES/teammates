@@ -151,12 +151,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       .then((result: CopyFromOtherSessionsResult) => {
         this.coursesOfModifiedSession = [];
         this.modifiedSession = {};
-        this.copyFeedbackSession(
-          result.fromFeedbackSession,
-          result.newFeedbackSessionName,
-          result.copyToCourseId,
-          result.fromFeedbackSession.courseId,
-        )
+        this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
           .pipe(
             finalize(() => {
               this.isCopyOtherSessionLoading = false;

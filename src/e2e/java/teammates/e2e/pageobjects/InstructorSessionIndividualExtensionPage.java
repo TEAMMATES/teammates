@@ -198,8 +198,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
 
     private void extendDeadlineBy(String by, boolean notifyUsers) {
         click(extendDeadlinesButton);
-        WebElement dropdown = waitForElementPresence(By.id("extend-by-dropdown"));
-        selectDropdownOptionByValue(dropdown, by);
+        click(waitForElementPresence(By.cssSelector("input[name='deadlineOption'][value='" + by + "']")));
         click(browser.driver.findElement(By.className("modal-btn-ok")));
         confirmChangesToDeadlineExtensions(notifyUsers);
     }
@@ -210,7 +209,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
         Instant extendedDeadline = session.getEndTime().plus(Duration.ofDays(1));
         extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedDeadline,
                 session.getCourse().getTimeZone(), false);
-        click(waitForElementPresence(By.id("extend-deadline-to")));
+        click(waitForElementPresence(By.cssSelector("input[name='deadlineOption'][value='Custom']")));
 
         WebElement dateTimePicker = browser.driver.findElement(By.id("submission-end-datetime"));
         fillDatePicker(dateTimePicker, extendedDeadline, session.getCourse().getTimeZone());

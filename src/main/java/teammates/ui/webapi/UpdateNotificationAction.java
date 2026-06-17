@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.entity.Notification;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.NotificationData;
@@ -20,17 +18,10 @@ public class UpdateNotificationAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID notificationId = getUuidRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
-        NotificationUpdateRequest notificationRequest = getAndValidateRequestBody(NotificationUpdateRequest.class);
-
-        Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
-        Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
+        NotificationUpdateRequest updateRequest = getAndValidateRequestBody(NotificationUpdateRequest.class);
 
         try {
-            Notification updateNotification = logic.updateNotification(notificationId, startTime, endTime,
-                    notificationRequest.getStyle(), notificationRequest.getTargetUser(), notificationRequest.getTitle(),
-                    notificationRequest.getMessage());
-
-            return new JsonResult(new NotificationData(updateNotification));
+            return new JsonResult(new NotificationData(logic.updateNotification(notificationId, updateRequest)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {

@@ -46,7 +46,7 @@ public class UnpublishFeedbackSessionAction extends LoggedInAction {
         if (feedbackSession.isPublishedEmailEnabled()) {
             List<EmailWrapper> emailsToBeSent =
                     emailGenerator.generateFeedbackSessionUnpublishedEmails(feedbackSession);
-            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+            emailQueueService.enqueueStandard(emailsToBeSent);
         }
     }
 }

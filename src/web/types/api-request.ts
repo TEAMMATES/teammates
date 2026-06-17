@@ -152,8 +152,7 @@ export interface FeedbackSessionBasicRequest extends BasicRequest {
 
 export interface FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
   feedbackSessionName: string;
-  toCopyCourseId?: string;
-  toCopySessionName?: string;
+  toCopySessionId?: string;
 }
 
 export interface FeedbackSessionRemindRequest extends BasicRequest {

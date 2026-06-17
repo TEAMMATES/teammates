@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.EmailDeliveryService;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.SendEmailRequest;
 
@@ -11,12 +12,17 @@ import teammates.ui.request.SendEmailRequest;
  * Task queue worker action: sends queued email.
  */
 public class SendEmailWorkerAction extends AutomatedServiceAction {
+    private EmailDeliveryService emailDeliveryService = EmailDeliveryService.inst();
+
+    void setEmailDeliveryService(EmailDeliveryService emailDeliveryService) {
+        this.emailDeliveryService = emailDeliveryService;
+    }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         SendEmailRequest emailRequest = getAndValidateRequestBody(SendEmailRequest.class);
         EmailWrapper email = emailRequest.getEmail();
-        EmailSendingStatus status = emailSender.sendEmail(email);
+        EmailSendingStatus status = emailDeliveryService.deliver(email);
         if (!status.isSuccess()) {
             // Set an arbitrary retry code outside of the range 200-299 so Cloud Tasks will automatically retry upon failure
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);

@@ -25,7 +25,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingSoonEmails(session);
             try {
-                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                emailQueueService.enqueueStandard(emailsToBeSent);
                 session.setClosingSoonEmailSent(true);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
@@ -49,7 +49,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
 
             List<EmailWrapper> emailsToBeSent = emailGenerator
                     .generateFeedbackSessionClosingWithExtensionEmails(session, deadlineExtensions);
-            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+            emailQueueService.enqueueStandard(emailsToBeSent);
 
             for (var de : deadlineExtensions) {
                 de.setClosingSoonEmailSent(true);

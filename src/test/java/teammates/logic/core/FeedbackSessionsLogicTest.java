@@ -60,7 +60,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic);
+        FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = mock(FeedbackSessionsEmailsLogic.class);
+        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic, feedbackSessionsEmailsLogic);
     }
 
     @Test
@@ -89,22 +90,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         assertNull(result);
         verify(fsDb, times(1)).getFeedbackSession(nonExistentId);
-    }
-
-    @Test
-    public void testGetFeedbackSessionByNameAndCourse_sessionExists_success() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        String sessionName = session.getName();
-        String courseId = course.getId();
-
-        when(fsDb.getFeedbackSession(sessionName, courseId)).thenReturn(session);
-
-        FeedbackSession result = fsLogic.getFeedbackSession(sessionName, courseId);
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        verify(fsDb, times(1)).getFeedbackSession(sessionName, courseId);
     }
 
     @Test

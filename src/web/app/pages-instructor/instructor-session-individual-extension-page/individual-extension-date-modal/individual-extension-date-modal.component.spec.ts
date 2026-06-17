@@ -2,18 +2,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
+import { IndividualExtensionDateModalComponent } from './individual-extension-date-modal.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { Mock } from 'vitest';
 
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
-  const MAX_EPOCH_TIME_IN_DAYS = 100000000;
 
   let component: IndividualExtensionDateModalComponent;
   let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
@@ -23,7 +21,7 @@ describe('IndividualExtensionDateModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [NgbActiveModal, FormatDateDetailPipe, provideHttpClient(), provideHttpClientTesting()],
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
@@ -33,6 +31,8 @@ describe('IndividualExtensionDateModalComponent', () => {
     formatSpy = vi.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
     component.numStudents = 10;
     component.numInstructors = 20;
+    component.feedbackSessionEndingTimestamp = 0;
+    component.feedbackSessionTimeZone = '';
     fixture.detectChanges();
   });
 
@@ -45,120 +45,52 @@ describe('IndividualExtensionDateModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with the extend by radio option', () => {
-    component.extendByDeadlineKey = '12 hours';
-    component.radioOption = RadioOptions.EXTEND_BY;
+  it('should snap with a preset selected', () => {
+    component.selectedPreset.set('12 hours');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display correct time with the extend by radio option', () => {
+  it('should snap with custom selected', () => {
+    component.feedbackSessionTimeZone = 'UTC';
+    component.selectedPreset.set('Custom');
+    component.customTimestamp.set(Date.UTC(2022, 9, 10, 10, 30));
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display correct time with preset options', () => {
     formatSpy.mockRestore();
-    component.radioOption = RadioOptions.EXTEND_BY;
     component.feedbackSessionTimeZone = 'Asia/Singapore';
     component.feedbackSessionEndingTimestamp = 1600000000000;
-    expect(component.extendAndFormatEndTimeBy(0, 0)).toEqual('Sun, 13 Sep 2020, 08:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(0)).toEqual('Sun, 13 Sep 2020, 08:26 PM +08');
 
-    component.extendByDeadlineKey = '12 hours';
+    component.selectedPreset.set('12 hours');
     expect(component.getExtensionTimestamp()).toEqual(
       component.feedbackSessionEndingTimestamp + Hours.TWELVE * Milliseconds.IN_ONE_HOUR,
     );
-    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE, 0)).toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
+    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE)).toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
 
-    component.extendByDeadlineKey = '1 day';
+    component.selectedPreset.set('1 day');
     expect(component.getExtensionTimestamp()).toEqual(
       component.feedbackSessionEndingTimestamp + Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR,
     );
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY, 0)).toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY)).toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
 
-    component.extendByDeadlineKey = '3 days';
+    component.selectedPreset.set('3 days');
     expect(component.getExtensionTimestamp()).toEqual(
       component.feedbackSessionEndingTimestamp + Hours.IN_THREE_DAYS * Milliseconds.IN_ONE_HOUR,
     );
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS, 0)).toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS)).toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
 
-    component.extendByDeadlineKey = '1 week';
+    component.selectedPreset.set('1 week');
     expect(component.getExtensionTimestamp()).toEqual(
       component.feedbackSessionEndingTimestamp + Hours.IN_ONE_WEEK * Milliseconds.IN_ONE_HOUR,
     );
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK, 0)).toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
-  });
-
-  it('should snap with the extend by radio option with customize', () => {
-    component.extendByDeadlineKey = 'Customize';
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.extendByDatePicker = { hours: 20, days: 100 };
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display correct time with the extend by customize option', () => {
-    formatSpy.mockRestore();
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.extendByDeadlineKey = 'Customize';
-    component.feedbackSessionTimeZone = 'Asia/Singapore';
-    component.feedbackSessionEndingTimestamp = 1600000000000;
-    expect(component.extendAndFormatEndTimeBy(0, 0)).toEqual('Sun, 13 Sep 2020, 08:26 PM +08');
-    expect(component.extendAndFormatEndTimeBy(20, 0)).toEqual('Mon, 14 Sep 2020, 04:26 PM +08');
-    expect(component.extendAndFormatEndTimeBy(0, 20)).toEqual('Sat, 03 Oct 2020, 08:26 PM +08');
-    expect(component.extendAndFormatEndTimeBy(20, 20)).toEqual('Sun, 04 Oct 2020, 04:26 PM +08');
-    expect(component.extendAndFormatEndTimeBy(0, MAX_EPOCH_TIME_IN_DAYS)).toEqual('Invalid date');
-  });
-
-  it('should display only the message for date to be later than session ending timestamp as default', () => {
-    component.extendByDeadlineKey = 'Customize';
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.extendByDatePicker = { hours: 0, days: 0 };
-    component.feedbackSessionEndingTimestamp = new Date(testTimeString).getTime();
-    fixture.detectChanges();
-    expect(component.isCustomizeBeforeMaxDate()).toBeTruthy();
-    expect(component.isCustomizeDateTimeIntegers()).toBeTruthy();
-    expect(component.isDateSelectedLaterThanCurrentEndingTimestamp()).toBeFalsy();
-  });
-
-  it('should display the message for date to be later than session ending timestamp', () => {
-    component.extendByDeadlineKey = 'Customize';
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.extendByDatePicker = { hours: -10, days: 0 };
-    component.feedbackSessionEndingTimestamp = new Date(testTimeString).getTime();
-    fixture.detectChanges();
-    expect(component.isDateSelectedLaterThanCurrentEndingTimestamp()).toBeFalsy();
-  });
-
-  it('should display the message for date to be before maximum date', () => {
-    component.extendByDeadlineKey = 'Customize';
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.extendByDatePicker.days = MAX_EPOCH_TIME_IN_DAYS;
-    component.feedbackSessionEndingTimestamp = new Date(testTimeString).getTime();
-    fixture.detectChanges();
-    expect(component.isCustomizeBeforeMaxDate()).toBeFalsy();
-  });
-
-  it('should display the message for non-integer date or time', () => {
-    component.extendByDeadlineKey = 'Customize';
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.feedbackSessionEndingTimestamp = new Date(testTimeString).getTime();
-    component.extendByDatePicker = { hours: 0.5, days: 0 };
-    fixture.detectChanges();
-    expect(component.isCustomizeDateTimeIntegers()).toBeFalsy();
-    component.extendByDatePicker = { hours: 0, days: 0.5 };
-    fixture.detectChanges();
-    expect(component.isCustomizeDateTimeIntegers()).toBeFalsy();
-    component.extendByDatePicker = { hours: 0.5, days: 0.5 };
-    fixture.detectChanges();
-    expect(component.isCustomizeDateTimeIntegers()).toBeFalsy();
-  });
-
-  it('should snap with the extend to radio option with timepicker', () => {
-    component.feedbackSessionTimeZone = 'UTC';
-    component.radioOption = RadioOptions.EXTEND_TO;
-    component.extendToTimestamp = Date.UTC(2022, 9, 10, 10, 30);
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK)).toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
   });
 
   it('should snap with the warning modal', () => {
-    // Set mocked picked time to be lesser than current system time
     vi.useFakeTimers().setSystemTime(new Date('2021-01-01').getTime());
     vi.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
     const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>

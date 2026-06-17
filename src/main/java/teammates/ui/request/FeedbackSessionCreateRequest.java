@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -10,32 +12,22 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
     private String feedbackSessionName;
     @Nullable
-    private String toCopyCourseId;
-    @Nullable
-    private String toCopySessionName;
+    private UUID toCopySessionId;
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
 
-    public String getToCopyCourseId() {
-        return toCopyCourseId;
-    }
-
-    public String getToCopySessionName() {
-        return toCopySessionName;
+    public UUID getToCopySessionId() {
+        return toCopySessionId;
     }
 
     public void setFeedbackSessionName(String feedbackSessionName) {
         this.feedbackSessionName = feedbackSessionName;
     }
 
-    public void setToCopyCourseId(String toCopyCourseId) {
-        this.toCopyCourseId = toCopyCourseId;
-    }
-
-    public void setToCopySessionName(String toCopySessionName) {
-        this.toCopySessionName = toCopySessionName;
+    public void setToCopySessionId(UUID toCopySessionId) {
+        this.toCopySessionId = toCopySessionId;
     }
 
     @Override
@@ -44,7 +36,5 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
 
         validateTrue(feedbackSessionName != null, "Session name cannot be null");
         validateTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
-        validateTrue(toCopyCourseId == null || toCopySessionName != null,
-                "Session name to be copied from cannot be null if course ID to be copied from is not null");
     }
 }

@@ -50,8 +50,8 @@ public class CreateAccountVerificationRequestAction extends LoggedInAction {
                 .generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
         EmailWrapper userAcknowledgementEmail = emailGenerator
                 .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
-        emailSender.sendEmail(adminAlertEmail);
-        emailSender.sendEmail(userAcknowledgementEmail);
+        emailQueueService.enqueuePriority(adminAlertEmail);
+        emailQueueService.enqueuePriority(userAcknowledgementEmail);
 
         AccountVerificationRequestData output = new AccountVerificationRequestData(accountVerificationRequest);
         return new JsonResult(output);

@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import org.apache.http.HttpStatus;
 
@@ -6,16 +6,16 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 
 /**
- * Email sender service which will not send any email.
+ * Email transport which will not deliver any email.
  */
-public class EmptyEmailService implements EmailSenderService {
+public class EmptyEmailTransport implements EmailTransport {
 
     EmailWrapper parseToEmail(EmailWrapper wrapper) {
         return wrapper;
     }
 
     @Override
-    public EmailSendingStatus sendEmail(EmailWrapper wrapper) {
+    public EmailSendingStatus deliver(EmailWrapper wrapper) {
         return new EmailSendingStatus(HttpStatus.SC_OK, null);
     }
 

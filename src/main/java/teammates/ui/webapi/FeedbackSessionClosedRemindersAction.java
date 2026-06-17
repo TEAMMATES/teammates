@@ -22,7 +22,7 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedServiceAction
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosedEmails(session);
             try {
-                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                emailQueueService.enqueueStandard(emailsToBeSent);
                 session.setClosedEmailSent(true);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);

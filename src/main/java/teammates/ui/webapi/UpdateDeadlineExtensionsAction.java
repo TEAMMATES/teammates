@@ -72,6 +72,6 @@ public class UpdateDeadlineExtensionsAction extends LoggedInAction {
             emailsToSend.add(email);
         }
 
-        taskQueuer.scheduleEmailsForSending(emailsToSend);
+        emailQueueService.enqueueStandard(emailsToSend);
     }
 }

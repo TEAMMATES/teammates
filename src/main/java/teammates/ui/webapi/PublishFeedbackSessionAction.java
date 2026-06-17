@@ -45,7 +45,7 @@ public class PublishFeedbackSessionAction extends LoggedInAction {
         if (feedbackSession.isPublishedEmailEnabled()) {
             List<EmailWrapper> emailsToBeSent =
                     emailGenerator.generateFeedbackSessionPublishedEmails(feedbackSession);
-            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+            emailQueueService.enqueueStandard(emailsToBeSent);
             feedbackSession.setPublishedEmailSent(true);
         }
     }

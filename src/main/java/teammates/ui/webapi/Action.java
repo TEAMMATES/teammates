@@ -12,17 +12,14 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.RecaptchaVerifier;
-import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
+import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
-import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
@@ -40,8 +37,7 @@ public abstract class Action {
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
-    TaskQueuer taskQueuer = TaskQueuer.inst();
-    EmailSender emailSender = EmailSender.inst();
+    EmailQueueService emailQueueService = EmailQueueService.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
 
     HttpServletRequest req;
@@ -70,12 +66,8 @@ public abstract class Action {
         this.userProvision = userProvision;
     }
 
-    public void setTaskQueuer(TaskQueuer taskQueuer) {
-        this.taskQueuer = taskQueuer;
-    }
-
-    public void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
+    public void setEmailQueueService(EmailQueueService emailQueueService) {
+        this.emailQueueService = emailQueueService;
     }
 
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
@@ -243,14 +235,6 @@ public abstract class Action {
      */
     public boolean hasDefinedRequestBody() {
         return requestBody != null;
-    }
-
-    FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        return feedbackSession;
     }
 
     /**
