@@ -3,11 +3,10 @@ package teammates.logic.email;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 
 /**
@@ -74,7 +73,7 @@ public class CourseJoinEmailsLogic {
      * Enqueues the student course rejoin email after account unlink.
      */
     public void enqueueStudentCourseRejoinAfterUnlinkAccountEmail(
-            CourseEmailContext courseContext, StudentCourseRejoinAfterUnlinkEmailContext studentContext) {
+            CourseEmailContext courseContext, CourseRejoinAfterUnlinkEmailContext studentContext) {
         RenderedEmail renderedEmail = EmailRenderer.renderStudentCourseRejoinAfterUnlinkAccountEmail(
                 courseContext, studentContext);
         EmailWrapper email = EmailWrapperBuilder.build(
@@ -105,7 +104,7 @@ public class CourseJoinEmailsLogic {
      * Enqueues the instructor course rejoin email after account unlink.
      */
     public void enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(
-            CourseEmailContext courseContext, InstructorCourseRejoinAfterUnlinkEmailContext instructorContext) {
+            CourseEmailContext courseContext, CourseRejoinAfterUnlinkEmailContext instructorContext) {
         RenderedEmail renderedEmail = EmailRenderer.renderInstructorCourseRejoinAfterUnlinkAccountEmail(
                 courseContext, instructorContext);
         EmailWrapper email = EmailWrapperBuilder.build(

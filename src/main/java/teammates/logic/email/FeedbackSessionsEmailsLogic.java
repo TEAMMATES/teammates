@@ -1,7 +1,13 @@
 package teammates.logic.email;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -53,6 +59,66 @@ public class FeedbackSessionsEmailsLogic {
                 context.courseName(),
                 context.courseId());
         emailQueueService.enqueuePriority(email);
+    }
+
+    /**
+     * Enqueues feedback session opened emails using the standard queue.
+     */
+    public void enqueueOpenedEmails(
+            List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
+            List<FeedbackSessionPreviewReminderEmailContext> previewContexts) {
+        enqueueReminderEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_OPENED,
+                EmailRenderer::renderFeedbackSessionOpenedParticipantEmail,
+                EmailRenderer::renderFeedbackSessionOpenedPreviewEmail);
+    }
+
+    /**
+     * Enqueues feedback session closing soon emails using the standard queue.
+     */
+    public void enqueueClosingSoonEmails(
+            List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
+            List<FeedbackSessionPreviewReminderEmailContext> previewContexts) {
+        enqueueReminderEmails(
+                participantContexts,
+                previewContexts,
+                EmailType.FEEDBACK_CLOSING_SOON,
+                EmailRenderer::renderFeedbackSessionClosingSoonParticipantEmail,
+                EmailRenderer::renderFeedbackSessionClosingSoonPreviewEmail);
+    }
+
+    private void enqueueReminderEmails(
+            List<FeedbackSessionParticipantReminderEmailContext> participantContexts,
+            List<FeedbackSessionPreviewReminderEmailContext> previewContexts,
+            EmailType emailType,
+            Function<FeedbackSessionParticipantReminderEmailContext, RenderedEmail> participantRenderer,
+            Function<FeedbackSessionPreviewReminderEmailContext, RenderedEmail> previewRenderer) {
+        List<EmailWrapper> emails = new ArrayList<>();
+        for (FeedbackSessionParticipantReminderEmailContext context : participantContexts) {
+            RenderedEmail renderedEmail = participantRenderer.apply(context);
+            emails.add(EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    emailType,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName()));
+        }
+        for (FeedbackSessionPreviewReminderEmailContext context : previewContexts) {
+            RenderedEmail renderedEmail = previewRenderer.apply(context);
+            EmailWrapper email = EmailWrapperBuilder.build(
+                    context.recipientEmailAddress(),
+                    emailType,
+                    renderedEmail,
+                    context.courseName(),
+                    context.feedbackSessionName());
+            // setSubjectFromType is called again to include the copy prefix in the subject
+            email.setIsCopy(true);
+            email.setSubjectFromType(context.courseName(), context.feedbackSessionName());
+            emails.add(email);
+        }
+        emailQueueService.enqueueStandard(emails);
     }
 
 }

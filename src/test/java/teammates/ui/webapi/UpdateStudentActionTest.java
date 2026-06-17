@@ -4,16 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
@@ -24,28 +20,28 @@ import teammates.ui.request.StudentUpdateRequest;
  */
 public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction, MessageOutput> {
 
-    private DataBundle typicalBundle;
-
-    @BeforeMethod(alwaysRun = true)
-    public void setUpData() {
-        typicalBundle = persistDataBundle(getTypicalDataBundle());
-    }
-
     @Test(groups = GroupNames.ACTION)
     public void updateStudentAction_sendSummaryEmailTrue_updatesStudentAndQueuesSummaryEmail() {
-        Student student = typicalBundle.students.get("student1InCourse1");
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        var course = given.course("course");
+        var section = given.section("section", s -> s.course(course.alias()).name("Test Section"));
+        var team = given.team("team", t -> t.section(section.alias()).name("Test Team"));
+        given.student("student", s -> s.course(course.alias())
+                .team(team.alias()).name("Test Student").comments("Original comments"));
+        var instructorAccount = given.account("instructor-account");
+        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        persistGivenData(given);
+
         StudentUpdateRequest requestBody = new StudentUpdateRequest(
-                student.getName(),
+                "Test Student",
                 "updated.student@teammates.tmt",
-                student.getTeamName(),
-                student.getSectionName(),
+                "Test Team",
+                "Test Section",
                 "Updated comments",
                 true);
 
         MessageOutput result = execute(new RequestContext()
-                .withAccountAuth(instructor.getAccount().getId())
-                .withParam(Const.ParamsNames.USER_ID, student.getId().toString())
+                .withAccountAuth(given.uuid("instructor-account"))
+                .withParam(Const.ParamsNames.USER_ID, given.uuid("student").toString())
                 .withRequest(requestBody));
 
         assertEquals(UpdateStudentAction.SUCCESSFUL_UPDATE_WITH_EMAIL, result.getMessage());
@@ -57,19 +53,26 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction,
 
     @Test(groups = GroupNames.ACTION)
     public void updateStudentAction_sendSummaryEmailFalse_updatesStudentWithoutQueueingEmail() {
-        Student student = typicalBundle.students.get("student1InCourse1");
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        var course = given.course("course");
+        var section = given.section("section", s -> s.course(course.alias()).name("Test Section"));
+        var team = given.team("team", t -> t.section(section.alias()).name("Test Team"));
+        given.student("student", s -> s.course(course.alias())
+                .team(team.alias()).name("Test Student").comments("Original comments"));
+        var instructorAccount = given.account("instructor-account");
+        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
+        persistGivenData(given);
+
         StudentUpdateRequest requestBody = new StudentUpdateRequest(
-                student.getName(),
-                student.getEmail(),
-                student.getTeamName(),
-                student.getSectionName(),
-                student.getComments(),
+                "Test Student",
+                "test.student@teammates.tmt",
+                "Test Team",
+                "Test Section",
+                "Original comments",
                 false);
 
         MessageOutput result = execute(new RequestContext()
-                .withAccountAuth(instructor.getAccount().getId())
-                .withParam(Const.ParamsNames.USER_ID, student.getId().toString())
+                .withAccountAuth(given.uuid("instructor-account"))
+                .withParam(Const.ParamsNames.USER_ID, given.uuid("student").toString())
                 .withRequest(requestBody));
 
         assertEquals(UpdateStudentAction.SUCCESSFUL_UPDATE, result.getMessage());

@@ -1,0 +1,55 @@
+package teammates.ui.webapi;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.testng.annotations.Test;
+
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.logic.api.Logic;
+import teammates.test.GroupNames;
+import teammates.ui.output.MessageOutput;
+
+/**
+ * Tests for {@link FeedbackSessionOpenedRemindersAction}.
+ */
+public class FeedbackSessionOpenedRemindersActionTest
+        extends BaseActionTest<FeedbackSessionOpenedRemindersAction, MessageOutput> {
+
+    @Test(groups = GroupNames.ACTION)
+    public void feedbackSessionOpenedRemindersAction_openedSession_queuesParticipantAndPreviewEmails() {
+        var course = given.course("course");
+        given.student("student", s -> s.course(course.alias()));
+        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
+        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+                .noCreator().opened().openedEmailSent(false));
+        given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
+                .giverType(QuestionGiverType.STUDENTS));
+        persistGivenData(given);
+
+        MessageOutput result = execute(new RequestContext().withWorkerAuth());
+
+        assertEquals("Successful", result.getMessage());
+        assertEquals(2, mockTaskQueuer.getTasksAdded().size());
+        assertTrue(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isOpenedEmailSent()));
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void feedbackSessionOpenedRemindersAction_notYetOpenedSession_doesNotQueueEmails() {
+        var course = given.course("course");
+        given.student("student", s -> s.course(course.alias()));
+        given.instructor("coOwner", i -> i.course(course.alias()).coOwner());
+        var session = given.feedbackSession("session", fs -> fs.course(course.alias())
+                .waitingToOpen().openedEmailSent(false));
+        given.feedbackQuestion("qn", fq -> fq.feedbackSession(session.alias())
+                .giverType(QuestionGiverType.STUDENTS));
+        persistGivenData(given);
+
+        MessageOutput result = execute(new RequestContext().withWorkerAuth());
+
+        assertEquals("Successful", result.getMessage());
+        assertEquals(0, mockTaskQueuer.getTasksAdded().size());
+        assertFalse(inTransaction(() -> Logic.inst().getFeedbackSession(given.uuid("session")).isOpenedEmailSent()));
+    }
+}

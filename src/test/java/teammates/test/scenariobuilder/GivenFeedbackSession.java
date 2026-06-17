@@ -187,7 +187,8 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as closing soon.
      */
     public GivenFeedbackSession closingSoon() {
-        return startTime(now.minus(1, ChronoUnit.HOURS))
+        return sessionVisibleFromTime(now.minus(26, ChronoUnit.HOURS))
+                .startTime(now.minus(25, ChronoUnit.HOURS))
                 .endTime(now.plus(23, ChronoUnit.HOURS));
     }
 

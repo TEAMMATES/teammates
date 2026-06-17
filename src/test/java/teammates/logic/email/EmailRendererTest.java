@@ -17,18 +17,19 @@ import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmai
 import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
 import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.CourseSessionLinks;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
+import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
@@ -86,6 +87,129 @@ public class EmailRendererTest extends BaseTestCase {
         RenderedEmail actual = EmailRenderer.renderSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt");
 
         verifyEmailContent(actual.htmlContent(), "/sessionLinksRecoveryComposerNotFoundEmail.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedParticipantEmail_student_returnsOpenedEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "student1@course1.tmt",
+                        "student1 In Course1</td></div>'\"",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        false,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailForStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedParticipantEmail_instructor_returnsOpenedEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionOpenedPreviewEmail_coOwner_returnsPreviewEmailBody() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionOpenedPreviewEmail(
+                new FeedbackSessionPreviewReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionOpenedEmailCopyToInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionClosingSoonParticipantEmail_student_returnsClosingSoonEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosingSoonParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "student1@course1.tmt",
+                        "student1 In Course1</td></div>'\"",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        true,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        false,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionClosingSoonEmailForStudent.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionClosingSoonParticipantEmail_instructor_returnsClosingSoonEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosingSoonParticipantEmail(
+                new FeedbackSessionParticipantReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        false,
+                        "Please please fill in the following questions.",
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        true,
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionClosingSoonEmailForInstructor.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderFeedbackSessionClosingSoonPreviewEmail_coOwner_returnsClosingSoonPreviewEmailBody()
+            throws IOException {
+        RenderedEmail actual = EmailRenderer.renderFeedbackSessionClosingSoonPreviewEmail(
+                new FeedbackSessionPreviewReminderEmailContext(
+                        "instructor1@course1.tmt",
+                        "Instructor1 Course1",
+                        "idOfTypicalCourse1",
+                        "Typical Course 1 with 2 Evals",
+                        "Africa/Johannesburg",
+                        "First feedback session",
+                        Instant.parse("2027-04-30T21:59:00Z"),
+                        "Please please fill in the following questions.",
+                        buildCourseContext().coOwnerContacts()));
+
+        verifyEmailContent(actual.htmlContent(), "/sessionClosingSoonEmailCopyToInstructor.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 
@@ -277,7 +401,7 @@ public class EmailRendererTest extends BaseTestCase {
     public void renderStudentCourseRejoinAfterUnlinkAccountEmail_student_returnsRejoinEmailBody() throws IOException {
         RenderedEmail actual = EmailRenderer.renderStudentCourseRejoinAfterUnlinkAccountEmail(
                 buildCourseContext(),
-                new StudentCourseRejoinAfterUnlinkEmailContext(
+                new CourseRejoinAfterUnlinkEmailContext(
                         "student@email.tmt",
                         "Student Name",
                         LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
@@ -306,7 +430,7 @@ public class EmailRendererTest extends BaseTestCase {
             throws IOException {
         RenderedEmail actual = EmailRenderer.renderInstructorCourseRejoinAfterUnlinkAccountEmail(
                 buildCourseContext(),
-                new InstructorCourseRejoinAfterUnlinkEmailContext(
+                new CourseRejoinAfterUnlinkEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
                         LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));

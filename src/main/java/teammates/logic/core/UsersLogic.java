@@ -36,11 +36,10 @@ import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.EmailContact;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
-import teammates.logic.email.model.InstructorCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.StudentCourseJoinEmailContext;
-import teammates.logic.email.model.StudentCourseRejoinAfterUnlinkEmailContext;
 import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
@@ -461,7 +460,7 @@ public final class UsersLogic {
                 course.getId(),
                 course.getName(),
                 getCoOwnerContacts(course.getId()));
-        StudentCourseRejoinAfterUnlinkEmailContext studentContext = new StudentCourseRejoinAfterUnlinkEmailContext(
+        CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
                 student.getEmail(),
                 student.getName(),
                 LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
@@ -495,7 +494,7 @@ public final class UsersLogic {
                 course.getId(),
                 course.getName(),
                 List.of());
-        InstructorCourseRejoinAfterUnlinkEmailContext instructorContext = new InstructorCourseRejoinAfterUnlinkEmailContext(
+        CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
                 LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()));
