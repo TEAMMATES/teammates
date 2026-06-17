@@ -493,6 +493,15 @@ public class Logic {
     }
 
     /**
+     * Updates the deadline extensions for a feedback session and enqueues
+     * notifications for changed users.
+     */
+    public List<UpdateExtensionsResult> updateDeadlineExtensionsAndNotify(
+            FeedbackSession feedbackSession, Map<UUID, Instant> extensions) throws InvalidParametersException {
+        return deadlineExtensionsLogic.updateDeadlineExtensionsAndNotify(feedbackSession, extensions);
+    }
+
+    /**
      * Updates a deadline extension.
      *
      * @return updated deadline extension
