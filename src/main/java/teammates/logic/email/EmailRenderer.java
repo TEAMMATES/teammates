@@ -1,12 +1,18 @@
 package teammates.logic.email;
 
+import java.time.Instant;
 import java.util.List;
 
 import teammates.common.util.Config;
+import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
+import teammates.common.util.TimeHelper;
+import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
+import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
 import teammates.logic.email.model.RenderedEmail;
@@ -16,6 +22,9 @@ import teammates.logic.email.model.SessionLinksRecoveryContext;
  * Pure rendering logic for email templates.
  */
 public final class EmailRenderer {
+
+    private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
+    private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
 
     private EmailRenderer() {
         // utility class
@@ -60,6 +69,33 @@ public final class EmailRenderer {
                 "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
     }
 
+    /**
+     * Renders the deadline extension update email body.
+     */
+    public static RenderedEmail renderDeadlineExtensionUpdateEmail(
+            FeedbackSessionEmailContext feedbackSessionContext, DeadlineExtensionUpdateEmailContext context) {
+        String oldEndTime = formatDeadline(context.oldEndTime(), feedbackSessionContext.courseTimeZone());
+        String newEndTime = formatDeadline(context.newEndTime(), feedbackSessionContext.courseTimeZone());
+        String status = getDeadlineExtensionStatus(context.emailType());
+        String additionalContactInformation =
+                buildAdditionalContactInformationHtml(feedbackSessionContext.coOwnerContacts(), context.isInstructor());
+
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.USER_DEADLINE_EXTENSION,
+                "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
+                "${instructorPreamble}", "",
+                "${status}", status,
+                "${courseId}", SanitizationHelper.sanitizeForHtml(feedbackSessionContext.courseId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(feedbackSessionContext.courseName()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(feedbackSessionContext.feedbackSessionName()),
+                "${oldEndTime}", SanitizationHelper.sanitizeForHtml(oldEndTime),
+                "${newEndTime}", SanitizationHelper.sanitizeForHtml(newEndTime),
+                "${sessionInstructions}", feedbackSessionContext.sessionInstructions(),
+                "${submitUrl}", context.submitUrl(),
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
+                "${additionalContactInformation}", additionalContactInformation));
+    }
+
     private static String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
         StringBuilder html = new StringBuilder();
         for (RecoverableCourseLinks courseSection : courseSections) {
@@ -97,5 +133,42 @@ public final class EmailRenderer {
                     "${courseName}", courseName));
         }
         return html.toString();
+    }
+
+    private static String formatDeadline(Instant instant, String timeZone) {
+        Instant adjustedInstant = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timeZone, false);
+        return TimeHelper.formatInstant(adjustedInstant, timeZone, DATETIME_DISPLAY_FORMAT);
+    }
+
+    private static String getDeadlineExtensionStatus(EmailType emailType) {
+        return switch (emailType) {
+        case DEADLINE_EXTENSION_GRANTED -> "You have been granted a deadline extension for the following"
+                + " feedback session.";
+        case DEADLINE_EXTENSION_UPDATED -> "Your deadline for the following feedback session has been updated.";
+        case DEADLINE_EXTENSION_REVOKED -> "Your deadline extension for the following feedback session has been"
+                + " revoked.";
+        default -> throw new AssertionError("Invalid deadline extension email type: " + emailType);
+        };
+    }
+
+    private static String buildAdditionalContactInformationHtml(List<EmailContact> coOwnerContacts, boolean isInstructor) {
+        String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
+                : "team/student data (e.g. wrong team, misspelled name)";
+        return Templates.populateTemplate(
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
+                "${particulars}", particulars,
+                "${coOwnersEmails}", buildCoOwnersEmailsLine(coOwnerContacts),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
+
+    private static String buildCoOwnersEmailsLine(List<EmailContact> coOwnerContacts) {
+        if (coOwnerContacts.isEmpty()) {
+            return "(No contactable instructors found)";
+        }
+
+        return coOwnerContacts.stream()
+                .map(coOwnerContact -> SanitizationHelper.sanitizeForHtml(coOwnerContact.name())
+                        + " (" + coOwnerContact.email() + ")")
+                .collect(java.util.stream.Collectors.joining(", "));
     }
 }

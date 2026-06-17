@@ -1,19 +1,18 @@
 package teammates.common.datatransfer;
 
 import java.time.Instant;
-
-import teammates.storage.entity.User;
+import java.util.UUID;
 
 /**
  * Represents the result of updating a deadline extension for a user.
  *
- * @param user the user for whom the deadline extension was updated
+ * @param userId the user for whom the deadline extension was updated
  * @param oldEndTime the old end time of the deadline extension, or the original deadline if the extension was created
  * @param newEndTime the new end time of the deadline extension, or the original deadline if the extension was deleted
- * @param updateType the type of update performed (created, updated, or deleted)
+ * @param updateType the type of update performed
  */
 public record UpdateExtensionsResult(
-        User user,
+        UUID userId,
         Instant oldEndTime,
         Instant newEndTime,
         ExtensionUpdateType updateType

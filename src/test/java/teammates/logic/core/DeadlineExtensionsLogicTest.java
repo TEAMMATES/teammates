@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,11 +14,13 @@ import static org.mockito.Mockito.when;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,13 +40,17 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
     private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
 
     private DeadlineExtensionsDb deDb;
+    private CoursesLogic coursesLogic;
+    private UsersLogic usersLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         deDb = mock(DeadlineExtensionsDb.class);
         FeedbackSessionsLogic fsLogic = mock(FeedbackSessionsLogic.class);
-        UsersLogic usersLogic = mock(UsersLogic.class);
-        deLogic.initLogicDependencies(deDb, fsLogic, usersLogic);
+        coursesLogic = mock(CoursesLogic.class);
+        usersLogic = mock(UsersLogic.class);
+        DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = mock(DeadlineExtensionsEmailsLogic.class);
+        deLogic.initLogicDependencies(deDb, fsLogic, coursesLogic, usersLogic, deadlineExtensionsEmailsLogic);
     }
 
     @Test
@@ -304,5 +312,72 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertEquals(extendedDeadline1, result1);
         assertEquals(extendedDeadline2, result2);
         assertTrue(result2.isAfter(result1));
+    }
+
+    @Test
+    public void testUpdateDeadlineExtensions_mixedChanges_returnsCreatedUpdatedUnchangedAndDeletedResults()
+            throws InvalidParametersException {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setId(UUID.randomUUID());
+
+        Student createdStudent = new Student(course, "Created Student", "created@student.tmt", "");
+        createdStudent.setId(UUID.randomUUID());
+
+        Student updatedStudent = new Student(course, "Updated Student", "updated@student.tmt", "");
+        updatedStudent.setId(UUID.randomUUID());
+
+        Student unchangedStudent = new Student(course, "Unchanged Student", "unchanged@student.tmt", "");
+        unchangedStudent.setId(UUID.randomUUID());
+
+        Student deletedStudent = new Student(course, "Deleted Student", "deleted@student.tmt", "");
+        deletedStudent.setId(UUID.randomUUID());
+
+        Instant originalDeadline = session.getEndTime();
+        Instant updatedOldDeadline = originalDeadline.plusSeconds(3600);
+        Instant updatedNewDeadline = originalDeadline.plusSeconds(7200);
+        Instant unchangedDeadline = originalDeadline.plusSeconds(10800);
+        Instant deletedDeadline = originalDeadline.plusSeconds(14400);
+        Instant createdDeadline = originalDeadline.plusSeconds(18000);
+
+        DeadlineExtension updatedExtension = new DeadlineExtension(updatedStudent, updatedOldDeadline);
+        DeadlineExtension unchangedExtension = new DeadlineExtension(unchangedStudent, unchangedDeadline);
+        DeadlineExtension deletedExtension = new DeadlineExtension(deletedStudent, deletedDeadline);
+        session.addDeadlineExtension(updatedExtension);
+        session.addDeadlineExtension(unchangedExtension);
+        session.addDeadlineExtension(deletedExtension);
+
+        when(coursesLogic.getCourse(course.getId())).thenReturn(course);
+        when(usersLogic.getUsersForCourse(course.getId())).thenReturn(List.of(
+                createdStudent, updatedStudent, unchangedStudent, deletedStudent));
+        when(usersLogic.getCoOwnersForCourse(course.getId())).thenReturn(List.of());
+
+        List<UpdateExtensionsResult> results = deLogic.updateDeadlineExtensions(session, Map.of(
+                createdStudent.getId(), createdDeadline,
+                updatedStudent.getId(), updatedNewDeadline,
+                unchangedStudent.getId(), unchangedDeadline));
+
+        assertEquals(4, results.size());
+        assertTrue(results.stream().anyMatch(result -> result.userId().equals(createdStudent.getId())
+                && result.updateType() == teammates.common.datatransfer.ExtensionUpdateType.CREATED
+                && result.oldEndTime().equals(originalDeadline)
+                && result.newEndTime().equals(createdDeadline)));
+        assertTrue(results.stream().anyMatch(result -> result.userId().equals(updatedStudent.getId())
+                && result.updateType() == teammates.common.datatransfer.ExtensionUpdateType.UPDATED
+                && result.oldEndTime().equals(updatedOldDeadline)
+                && result.newEndTime().equals(updatedNewDeadline)));
+        assertTrue(results.stream().anyMatch(result -> result.userId().equals(unchangedStudent.getId())
+                && result.updateType() == teammates.common.datatransfer.ExtensionUpdateType.UNCHANGED
+                && result.oldEndTime().equals(unchangedDeadline)
+                && result.newEndTime().equals(unchangedDeadline)));
+        assertTrue(results.stream().anyMatch(result -> result.userId().equals(deletedStudent.getId())
+                && result.updateType() == teammates.common.datatransfer.ExtensionUpdateType.DELETED
+                && result.oldEndTime().equals(deletedDeadline)
+                && result.newEndTime().equals(originalDeadline)));
+
+        verify(deDb).persistDeadlineExtension(any(DeadlineExtension.class));
+        verify(deDb).removeDeadlineExtension(deletedExtension);
+        verify(deDb, never()).removeDeadlineExtension(updatedExtension);
+        verify(deDb, never()).removeDeadlineExtension(unchangedExtension);
     }
 }
