@@ -243,13 +243,17 @@ public class Logic {
     }
 
     /**
-     * Updates the given account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
      *
-     * @return the updated account verification request.
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        return accountVerificationsLogic.updateAccountVerificationRequest(accountVerificationRequest);
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountVerificationsLogic.updateAccountVerificationRequestDetails(
+                id, name, email, instituteName, country, comments);
     }
 
     /**

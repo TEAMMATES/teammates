@@ -90,12 +90,27 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Updates an account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        validateAccountVerificationRequest(accountVerificationRequest);
-        return accountVerificationRequest;
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        request.setName(name);
+        request.setEmail(email);
+        request.setInstitute(institute);
+        request.setComments(comments);
+        validateAccountVerificationRequest(request);
+        return request;
     }
 
     /**
