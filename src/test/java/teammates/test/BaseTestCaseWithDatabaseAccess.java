@@ -22,7 +22,7 @@ import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.core.LogicStarter;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
-import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.entity.Account;
@@ -77,7 +77,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         EmailQueueService emailQueueService = EmailQueueService.withTaskQueuer(mockTaskQueuer);
         AccountVerificationEmailsLogic.inst().init(emailQueueService);
         CourseJoinEmailsLogic.inst().init(emailQueueService);
-        DeadlineExtensionsEmailsLogic.inst().init(emailQueueService);
+        DeadlineExtensionEmailsLogic.inst().init(emailQueueService);
         FeedbackSessionEmailsLogic.inst().init(emailQueueService);
         given = new GivenData(currentTestName);
     }

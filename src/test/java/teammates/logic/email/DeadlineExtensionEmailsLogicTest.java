@@ -21,18 +21,18 @@ import teammates.test.BaseTestCase;
 import teammates.ui.request.SendEmailRequest;
 
 /**
- * SUT: {@link DeadlineExtensionsEmailsLogic}.
+ * SUT: {@link DeadlineExtensionEmailsLogic}.
  */
-public class DeadlineExtensionsEmailsLogicTest extends BaseTestCase {
+public class DeadlineExtensionEmailsLogicTest extends BaseTestCase {
 
     private MockTaskQueuer taskQueuer;
-    private DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic;
+    private DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        deadlineExtensionsEmailsLogic = new DeadlineExtensionsEmailsLogic();
-        deadlineExtensionsEmailsLogic.init(
+        deadlineExtensionEmailsLogic = new DeadlineExtensionEmailsLogic();
+        deadlineExtensionEmailsLogic.init(
                 EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
@@ -55,7 +55,7 @@ public class DeadlineExtensionsEmailsLogicTest extends BaseTestCase {
                 Instant.parse("2027-04-30T17:00:00Z"),
                 EmailType.DEADLINE_EXTENSION_GRANTED);
 
-        deadlineExtensionsEmailsLogic.enqueueDeadlineExtensionUpdateEmails(feedbackSessionContext, List.of(emailContext));
+        deadlineExtensionEmailsLogic.enqueueDeadlineExtensionUpdateEmails(feedbackSessionContext, List.of(emailContext));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);

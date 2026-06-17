@@ -6,7 +6,7 @@ import jakarta.servlet.ServletContextListener;
 import teammates.common.util.Logger;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.CourseJoinEmailsLogic;
-import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -53,13 +53,13 @@ public class LogicStarter implements ServletContextListener {
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
         CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
-        DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
+        DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic = DeadlineExtensionEmailsLogic.inst();
         FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = FeedbackSessionEmailsLogic.inst();
         AccountVerificationEmailsLogic accountVerificationEmailsLogic = AccountVerificationEmailsLogic.inst();
         EmailQueueService emailQueueService = EmailQueueService.inst();
 
         courseJoinEmailsLogic.init(emailQueueService);
-        deadlineExtensionsEmailsLogic.init(emailQueueService);
+        deadlineExtensionEmailsLogic.init(emailQueueService);
         feedbackSessionEmailsLogic.init(emailQueueService);
         accountVerificationEmailsLogic.init(emailQueueService);
 
@@ -71,7 +71,7 @@ public class LogicStarter implements ServletContextListener {
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, notificationsLogic, institutesLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, coursesLogic, usersLogic,
-                deadlineExtensionsEmailsLogic);
+                deadlineExtensionEmailsLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic, coursesLogic,
                 deadlineExtensionsLogic,
                 feedbackSessionEmailsLogic);

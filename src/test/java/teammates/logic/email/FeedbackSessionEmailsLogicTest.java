@@ -29,7 +29,7 @@ import teammates.ui.request.SendEmailRequest;
 /**
  * SUT: {@link FeedbackSessionEmailsLogic}.
  */
-public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
+public class FeedbackSessionEmailsLogicTest extends BaseTestCase {
 
     private MockTaskQueuer taskQueuer;
     private FeedbackSessionEmailsLogic feedbackSessionEmailsLogic;
