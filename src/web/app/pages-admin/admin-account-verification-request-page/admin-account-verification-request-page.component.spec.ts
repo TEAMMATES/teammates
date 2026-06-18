@@ -10,12 +10,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { AdminAccountVerificationRequestPageComponent } from './admin-account-verification-request-page.component';
 
-async function flushAsyncSubmission(): Promise<void> {
-  await Promise.resolve();
-  await Promise.resolve();
-  await Promise.resolve();
-}
-
 const mockPendingRequest: AccountVerificationRequest = {
   accountVerificationRequestId: 'test-id-123',
   email: 'test@example.com',
@@ -156,17 +150,18 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     fixture.detectChanges();
 
     (fixture.debugElement.query(By.css('#btn-save-request-details')).nativeElement as HTMLButtonElement).click();
-    await flushAsyncSubmission();
+    await vi.waitFor(() => {
+      expect(saveSpy).toHaveBeenCalledWith('test-id-123', {
+        name: 'Updated Instructor',
+        email: 'test@example.com',
+        institute: 'Test University',
+        country: 'SG',
+        status: AccountVerificationRequestStatus.PENDING,
+        comments: 'Updated comments',
+      });
+    });
     fixture.detectChanges();
 
-    expect(saveSpy).toHaveBeenCalledWith('test-id-123', {
-      name: 'Updated Instructor',
-      email: 'test@example.com',
-      institute: 'Test University',
-      country: 'SG',
-      status: AccountVerificationRequestStatus.PENDING,
-      comments: 'Updated comments',
-    });
     expect(component.accountVerificationRequest()?.name).toBe('Updated Instructor');
     expect(component.accountVerificationRequest()?.comments).toBe('Updated comments');
     expect(component.isEditing()).toBe(false);
@@ -190,11 +185,12 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     fixture.detectChanges();
 
     (fixture.debugElement.query(By.css('#btn-save-request-details')).nativeElement as HTMLButtonElement).click();
-    await flushAsyncSubmission();
+    await vi.waitFor(() => {
+      expect(errorSpy).toHaveBeenCalledWith('Update failed');
+    });
     fixture.detectChanges();
 
     expect(component.isEditing()).toBe(true);
-    expect(errorSpy).toHaveBeenCalledWith('Update failed');
   });
 
   it('should update state and show success toast on approve', async () => {

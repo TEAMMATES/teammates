@@ -79,13 +79,6 @@
             Comments
           </label>
           <textarea id="request-comments" class="form-control" rows="5" [formField]="requestForm.comments"></textarea>
-          @if (requestForm.comments().invalid() && requestForm.comments().touched()) {
-            <ul class="text-danger small mt-1 mb-0 ps-3">
-              @for (error of requestForm.comments().errors(); track $index) {
-                <li>{{ error.message }}</li>
-              }
-            </ul>
-          }
         </div>
 
         <div class="col-12 pt-2">

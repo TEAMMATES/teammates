@@ -56,8 +56,9 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isEditing = signal(false);
   readonly isApprovingOrRejecting = signal(false);
 
-  readonly requestStatus = AccountVerificationRequestStatus;
   readonly formatTimestampFn = (timestamp: number): string => this.formatTimestamp(timestamp);
+  readonly submitRequestDetails = (updateRequest: AccountVerificationRequestUpdateRequest): Promise<void> =>
+    this.saveRequestDetails(updateRequest);
 
   ngOnInit(): void {
     this.accountService.getAccountVerificationRequest(this.accountVerificationRequestId()).subscribe({
@@ -78,22 +79,11 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       return;
     }
 
-    this.isApprovingOrRejecting.set(true);
-    this.accountService
-      .approveAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
-      .subscribe({
-        next: (updatedRequest: AccountVerificationRequest) => {
-          this.accountVerificationRequest.set(updatedRequest);
-          this.statusMessageService.showSuccessToast(
-            `Account verification request was successfully approved. Email has been sent to ${updatedRequest.email}.`,
-          );
-          this.isApprovingOrRejecting.set(false);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.isApprovingOrRejecting.set(false);
-        },
-      });
+    this.runStatusTransition(
+      this.accountService.approveAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId),
+      (updatedRequest: AccountVerificationRequest) =>
+        `Account verification request was successfully approved. Email has been sent to ${updatedRequest.email}.`,
+    );
   }
 
   rejectRequest(): void {
@@ -102,20 +92,10 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       return;
     }
 
-    this.isApprovingOrRejecting.set(true);
-    this.accountService
-      .rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
-      .subscribe({
-        next: (updatedRequest: AccountVerificationRequest) => {
-          this.accountVerificationRequest.set(updatedRequest);
-          this.statusMessageService.showSuccessToast('Account verification request was successfully rejected.');
-          this.isApprovingOrRejecting.set(false);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.isApprovingOrRejecting.set(false);
-        },
-      });
+    this.runStatusTransition(
+      this.accountService.rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId),
+      () => 'Account verification request was successfully rejected.',
+    );
   }
 
   canTakeAction(status: AccountVerificationRequestStatus): boolean {
@@ -168,5 +148,23 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   formatTimestamp(timestamp: number): string {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return this.dateFormatService.formatDateDetailed(timestamp, timezone);
+  }
+
+  private runStatusTransition(
+    requestAction: ReturnType<AccountService['approveAccountVerificationRequest']>,
+    getSuccessMessage: (updatedRequest: AccountVerificationRequest) => string,
+  ): void {
+    this.isApprovingOrRejecting.set(true);
+    requestAction.subscribe({
+      next: (updatedRequest: AccountVerificationRequest) => {
+        this.accountVerificationRequest.set(updatedRequest);
+        this.statusMessageService.showSuccessToast(getSuccessMessage(updatedRequest));
+        this.isApprovingOrRejecting.set(false);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.isApprovingOrRejecting.set(false);
+      },
+    });
   }
 }
