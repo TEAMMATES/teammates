@@ -1,0 +1,89 @@
+<div *tmIsLoading="isLoading()">
+  @if (isInvalidLink()) {
+    <div class="alert alert-warning" role="alert">
+      <h1 class="h4 mb-2">Account verification request unavailable</h1>
+      <p class="mb-0">This account verification request could not be loaded. Check the URL and try again.</p>
+    </div>
+  }
+
+  @if (accountVerificationRequest(); as request) {
+    <div class="d-flex flex-column gap-2">
+      <div class="card">
+        <div class="card-body d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+          <div>
+            <p class="text-body-secondary text-uppercase small fw-semibold mb-2">Account Verification Request</p>
+            <h1 class="h3 mb-2">{{ request.name }}</h1>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <span [class]="getStatusBadgeClass(request.status)">{{ request.status }}</span>
+              <span class="text-body-secondary">Submitted {{ formatTimestamp(request.createdAt) }}</span>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button
+              id="btn-approve-request"
+              type="button"
+              class="btn btn-success"
+              [disabled]="!canTakeAction(request.status) || isEditing()"
+              (click)="approveRequest()"
+            >
+              Approve
+            </button>
+            <button
+              id="btn-reject-request"
+              type="button"
+              class="btn btn-danger"
+              [disabled]="!canTakeAction(request.status) || isEditing()"
+              (click)="rejectRequest()"
+            >
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-xl-6">
+          <tm-admin-account-verification-request-details-card
+            [request]="request"
+            [isEditing]="isEditing()"
+            [timezone]="timezone"
+            [submitDraft]="submitRequestDraft"
+            (editStarted)="startEditing()"
+            (cancelRequested)="cancelEditing()"
+          />
+        </div>
+
+        <div class="col-12 col-xl-6">
+          <div class="card h-100">
+            <div class="card-header">
+              <h2 class="h5">Additional Context</h2>
+            </div>
+            <div class="card-body">
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <div class="text-body-secondary small text-uppercase fw-semibold mb-2">
+                    Request History For This Account
+                  </div>
+                  <p class="mb-0 text-body">
+                    The data shown here is mocked for demonstration purposes. It is not the actual request history for
+                    this account.
+                  </p>
+                </div>
+
+                @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
+                  <div class="border rounded p-3">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                      <div class="fw-semibold">{{ historyEntry.institute }}</div>
+                      <span [class]="getStatusBadgeClass(historyEntry.status)">{{ historyEntry.status }}</span>
+                    </div>
+                    <div class="text-body-secondary small">Submitted {{ formatTimestamp(historyEntry.createdAt) }}</div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
