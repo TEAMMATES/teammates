@@ -9,6 +9,7 @@ import static teammates.common.util.UrlHelper.isSafeRedirectUrl;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -32,10 +33,17 @@ public class UrlHelperTest extends BaseTestCase {
         assertTrue(isSafeRedirectUrl(url));
     }
 
-    @Test
-    public void testIsSafeRedirectUrl_externalUrl_returnsFalse() {
-        assertFalse(isSafeRedirectUrl("https://example.com/web/instructor/home"));
-        assertFalse(isSafeRedirectUrl("https://evil.example.com"));
+    @Test(dataProvider = "externalUrls")
+    public void testIsSafeRedirectUrl_externalUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] externalUrls() {
+        return new Object[][] {
+                {"https://example.com/web/instructor/home"},
+                {"https://evil.example.com"},
+        };
     }
 
     @Test
@@ -53,23 +61,49 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl("//example.com/web/instructor/home"));
     }
 
-    @Test
-    public void testIsSafeRedirectUrl_unsupportedScheme_returnsFalse() {
-        assertFalse(isSafeRedirectUrl("javascript:alert(1)"));
-        assertFalse(isSafeRedirectUrl("ftp://example.com/web/instructor/home"));
+    @Test(dataProvider = "unsupportedSchemeUrls")
+    public void testIsSafeRedirectUrl_unsupportedScheme_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] unsupportedSchemeUrls() {
+        return new Object[][] {
+                {"javascript:alert(1)"},
+                {"ftp://example.com/web/instructor/home"},
+        };
     }
 
     @Test
-    public void testIsSafeRedirectUrl_invalidUrl_returnsFalse() {
+    public void testIsSafeRedirectUrl_nullUrl_returnsFalse() {
         assertFalse(isSafeRedirectUrl(null));
-        assertFalse(isSafeRedirectUrl("https://[invalid"));
-        assertFalse(isSafeRedirectUrl("web/instructor/home"));
+    }
+
+    @Test(dataProvider = "malformedUrls")
+    public void testIsSafeRedirectUrl_malformedUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] malformedUrls() {
+        return new Object[][] {
+                {"https://[invalid"},
+                {"web/instructor/home"},
+        };
     }
 
     @Test
-    public void testEncodeQueryParam() {
+    public void testEncodeQueryParam_normalParam_returnsEncoded() {
         assertEquals("normal", encodeQueryParam("normal"));
+    }
+
+    @Test
+    public void testEncodeQueryParam_paramWithSpaces_returnsEncoded() {
         assertEquals("with+spaces", encodeQueryParam("with spaces"));
+    }
+
+    @Test
+    public void testEncodeQueryParam_paramWithSpecialChars_returnsEncoded() {
         assertEquals("with%2Fspecial%3Fchars%26", encodeQueryParam("with/special?chars&"));
     }
 

@@ -1,6 +1,7 @@
 package teammates.ui.servlets;
 
 import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.getSafeRedirectUrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
-import teammates.common.util.UrlHelper;
 
 /**
  * Servlet that handles dev server login.
@@ -44,7 +44,7 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter("nextUrl"));
+        String nextUrl = getSafeRedirectUrl(req.getParameter("nextUrl"));
 
         email = encodeQueryParam(email);
         nextUrl = encodeQueryParam(nextUrl);

@@ -1,7 +1,5 @@
 package teammates.ui.servlets;
 
-import static teammates.common.util.UrlHelper.encodeQueryParam;
-
 import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +43,7 @@ public class LoginServlet extends AuthServlet {
         if (Config.isDevServerLoginEnabled()) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
             String redirectUrl = resp.encodeRedirectURL(
-                    "/devServerLogin?nextUrl=" + encodeQueryParam(nextUrl));
+                    "/devServerLogin?nextUrl=" + UrlHelper.encodeQueryParam(nextUrl));
             resp.sendRedirect(redirectUrl);
             return;
         }
