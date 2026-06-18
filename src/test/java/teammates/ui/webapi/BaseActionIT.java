@@ -31,6 +31,7 @@ import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -111,7 +112,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         try {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
-            action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
+            AccountVerificationEmailsLogic.inst().init(EmailQueueService.withTaskQueuer(mockTaskQueuer));
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);

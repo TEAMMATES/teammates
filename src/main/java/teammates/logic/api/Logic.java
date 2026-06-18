@@ -31,6 +31,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.exception.UserUpdateException;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
@@ -85,8 +86,9 @@ import teammates.ui.request.StudentUpdateRequest;
 /**
  * Provides the business logic for production usage of the system.
  *
- * <p>
- * This is a Facade class which simply forwards the method to internal classes.
+ * <p>Do not add business logic to this class. All domain-specific behavior should be
+ * implemented in the appropriate logic classes. This facade exists only to provide
+ * an entry point for accessing the various logic components.
  */
 public class Logic {
     private static final Logic instance = new Logic();
@@ -197,12 +199,23 @@ public class Logic {
     }
 
     /**
-     * Creates an account verification request.
+     * Creates a new pending account verification request.
      *
      * @return newly created account verification request.
-     * @throws InvalidParametersException   if the account verification request details are
-     *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account verification request already exists.
+     * @throws InvalidParametersException if the account verification request details are invalid.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String institute, String country, String comments, UUID accountId)
+            throws InvalidParametersException {
+        return accountVerificationsLogic.createAccountVerificationRequest(
+                name, email, institute, country, comments, accountId);
+    }
+
+    /**
+     * Creates an account verification request with an explicit status.
+     *
+     * @return newly created account verification request.
+     * @throws InvalidParametersException if the account verification request details are invalid.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String institute, String country,
@@ -230,13 +243,54 @@ public class Logic {
     }
 
     /**
-     * Updates the given account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
      *
-     * @return the updated account verification request.
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        return accountVerificationsLogic.updateAccountVerificationRequest(accountVerificationRequest);
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountVerificationsLogic.updateAccountVerificationRequestDetails(
+                id, name, email, instituteName, country, comments);
+    }
+
+    /**
+     * Approves the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is already approved.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest approveAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.approveAccountVerificationRequest(id);
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id} and
+     * optionally sends a rejection email when both reason fields are provided.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id, String reasonTitle, String reasonBody)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id, reasonTitle, reasonBody);
     }
 
     /**
@@ -609,14 +663,6 @@ public class Logic {
     }
 
     /**
-     * Returns a list of sessions that require automated emails to be sent as they
-     * are published.
-     */
-    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
-        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
-    }
-
-    /**
      * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
@@ -654,6 +700,22 @@ public class Logic {
     public FeedbackSession publishFeedbackSession(UUID feedbackSessionId)
             throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionId);
+    }
+
+    /**
+     * Publishes a feedback session and enqueues any immediate published emails.
+     */
+    public FeedbackSession publishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.publishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
+    }
+
+    /**
+     * Unpublishes a feedback session and enqueues unpublished emails.
+     */
+    public FeedbackSession unpublishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.unpublishFeedbackSessionAndEnqueueEmails(feedbackSessionId);
     }
 
     /**
@@ -704,16 +766,6 @@ public class Logic {
     public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
         return feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
-    }
-
-    /**
-     * After an update to feedback session's fields, may need to adjust the email
-     * status of the session.
-     *
-     * @param session recently updated session.
-     */
-    public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
-        feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
     }
 
     /**
@@ -910,6 +962,17 @@ public class Logic {
     }
 
     /**
+     * Makes the user join the course and enqueues the registration confirmation
+     * email.
+     */
+    public User joinCourseAndNotify(String regkey, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        User user = accountsLogic.joinCourse(regkey, account);
+        usersLogic.enqueueUserCourseRegisteredEmail(user);
+        return user;
+    }
+
+    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list
@@ -965,6 +1028,14 @@ public class Logic {
     public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
         return usersLogic.updateStudent(studentId, updateRequest);
+    }
+
+    /**
+     * Updates the student and enqueues the corresponding feedback session summary email.
+     */
+    public Student updateStudentAndEnqueueSummaryEmail(UUID studentId, StudentUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
+        return usersLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
     }
 
     /**
@@ -1115,6 +1186,67 @@ public class Logic {
     }
 
     /**
+     * Unlinks the account associated with the user profile and enqueues the
+     * corresponding rejoin email.
+     */
+    public User unlinkAccountAndNotify(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.unlinkAccountAndNotify(userId);
+    }
+
+    /**
+     * Enqueues the student course join invitation email for the given student.
+     */
+    public void enqueueStudentCourseJoinEmail(Student student) {
+        usersLogic.enqueueStudentCourseJoinEmail(student);
+    }
+
+    /**
+     * Enqueues student course join invitation emails for all unregistered students
+     * in the given course.
+     */
+    public void enqueueStudentCourseJoinEmailsForCourse(String courseId) {
+        usersLogic.enqueueStudentCourseJoinEmailsForCourse(courseId);
+    }
+
+    /**
+     * Enqueues the student course rejoin email after account unlink.
+     */
+    public void enqueueStudentCourseRejoinAfterUnlinkAccountEmail(Student student) {
+        usersLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(student);
+    }
+
+    /**
+     * Enqueues the instructor course join invitation email.
+     */
+    public void enqueueInstructorCourseJoinEmail(Instructor inviter, Instructor instructor) {
+        usersLogic.enqueueInstructorCourseJoinEmail(inviter, instructor);
+    }
+
+    /**
+     * Enqueues the instructor course rejoin email after account unlink.
+     */
+    public void enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(Instructor instructor) {
+        usersLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(instructor);
+    }
+
+    /**
+     * Sends the requested join reminder email for the given user and returns the
+     * corresponding status message.
+     */
+    public String sendJoinReminderForUser(UUID userId, @Nullable Instructor inviter)
+            throws EntityDoesNotExistException {
+        return usersLogic.sendJoinReminderForUser(userId, inviter);
+    }
+
+    /**
+     * Sends join reminder emails to all unregistered students in the given course
+     * and returns the corresponding status message.
+     */
+    public String sendJoinReminderForStudentsInCourse(String courseId) throws EntityDoesNotExistException {
+        return usersLogic.sendJoinReminderForStudentsInCourse(courseId);
+    }
+
+    /**
      * Regenerates the registration key for the user with {@code userId}.
      *
      * @return the user with the new registration key.
@@ -1125,6 +1257,14 @@ public class Logic {
     public User regenerateUserRegistrationKey(UUID userId)
             throws EntityDoesNotExistException, UserUpdateException {
         return usersLogic.regenerateUserRegistrationKey(userId);
+    }
+
+    /**
+     * Regenerates the registration key and enqueues the corresponding feedback session summary email.
+     */
+    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        return usersLogic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
     }
 
     /**
@@ -1139,6 +1279,60 @@ public class Logic {
      */
     public void enqueueSessionLinksRecoveryEmail(String recoveryEmailAddress) {
         feedbackSessionsLogic.enqueueSessionLinksRecoveryEmail(recoveryEmailAddress);
+    }
+
+    /**
+     * Enqueues opened reminder emails for all eligible sessions.
+     */
+    public void enqueueOpenedReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueOpenedReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues opening soon reminder emails for all eligible sessions.
+     */
+    public void enqueueOpeningSoonReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueOpeningSoonReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues closing soon reminder emails for all eligible sessions.
+     */
+    public void enqueueClosingSoonReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueClosingSoonReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues closed reminder emails for all eligible sessions.
+     */
+    public void enqueueClosedReminderEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueueClosedReminderEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues submission reminder emails for selected respondents of an open
+     * feedback session.
+     */
+    public void enqueueSubmissionReminderEmails(
+            UUID feedbackSessionId, UUID[] userIdsToRemind, boolean sendCopyToInstructor, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        feedbackSessionsLogic.enqueueSubmissionReminderEmails(
+                feedbackSessionId, userIdsToRemind, sendCopyToInstructor, accountId);
+    }
+
+    /**
+     * Enqueues published emails for all eligible sessions.
+     */
+    public void enqueuePublishedEmailsForEligibleSessions() {
+        feedbackSessionsLogic.enqueuePublishedEmailsForEligibleSessions();
+    }
+
+    /**
+     * Enqueues published result reminder emails for selected users.
+     */
+    public void enqueuePublishedResultReminderEmails(UUID feedbackSessionId, UUID[] userIdsToRemind, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        feedbackSessionsLogic.enqueuePublishedResultReminderEmails(feedbackSessionId, userIdsToRemind, accountId);
     }
 
     /**

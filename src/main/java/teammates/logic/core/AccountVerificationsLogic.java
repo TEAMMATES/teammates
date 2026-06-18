@@ -4,8 +4,20 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
+import teammates.common.util.Config;
+import teammates.common.util.LinksUtil;
+import teammates.common.util.SanitizationHelper;
+import teammates.logic.email.AccountVerificationEmailsLogic;
+import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
+import teammates.logic.email.model.AccountVerificationCreatedAdminAlertEmailContext;
+import teammates.logic.email.model.AccountVerificationRejectedEmailContext;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -25,6 +37,7 @@ public final class AccountVerificationsLogic {
     private AccountVerificationRequestsDb accountVerificationRequestDb;
     private AccountsLogic accountsLogic;
     private InstitutesLogic institutesLogic;
+    private AccountVerificationEmailsLogic accountVerificationEmailsLogic;
 
     private AccountVerificationsLogic() {
         // prevent notification
@@ -38,10 +51,12 @@ public final class AccountVerificationsLogic {
      * Initialise dependencies for {@code AccountVerificationRequestLogic} object.
      */
     public void initLogicDependencies(AccountVerificationRequestsDb accountVerificationRequestDb,
-            AccountsLogic accountsLogic, InstitutesLogic institutesLogic) {
+            AccountsLogic accountsLogic, InstitutesLogic institutesLogic,
+            AccountVerificationEmailsLogic accountVerificationEmailsLogic) {
         this.accountVerificationRequestDb = accountVerificationRequestDb;
         this.accountsLogic = accountsLogic;
         this.institutesLogic = institutesLogic;
+        this.accountVerificationEmailsLogic = accountVerificationEmailsLogic;
     }
 
     /**
@@ -54,8 +69,21 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Creates an account verification request, resolving (or creating) the shared institute for the given
+     * Creates a new pending account verification request, resolving (or creating) the shared institute for the given
      * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String instituteName, String country,
+            String comments, UUID accountId) throws InvalidParametersException {
+        AccountVerificationRequest createdRequest = createAccountVerificationRequest(
+                name, email, instituteName, country, AccountVerificationRequestStatus.PENDING, comments, accountId);
+        enqueueCreatedEmails(createdRequest);
+        return createdRequest;
+    }
+
+    /**
+     * Creates an account verification request with an explicit status, resolving (or creating) the shared institute
+     * for the given {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
     public AccountVerificationRequest createAccountVerificationRequest(
             String name, String email, String instituteName, String country,
@@ -69,6 +97,23 @@ public final class AccountVerificationsLogic {
         return createAccountVerificationRequest(toCreate);
     }
 
+    private void enqueueCreatedEmails(AccountVerificationRequest request) {
+        accountVerificationEmailsLogic.enqueueCreatedAdminAlertEmail(
+                new AccountVerificationCreatedAdminAlertEmailContext(
+                        Config.SUPPORT_EMAIL,
+                        request.getName(),
+                        request.getInstitute().getName(),
+                        request.getEmail(),
+                        request.getComments(),
+                        LinksUtil.getAdminHomePageUrl()));
+        accountVerificationEmailsLogic.enqueueCreatedAcknowledgementEmail(
+                new AccountVerificationCreatedAcknowledgementEmailContext(
+                        request.getEmail(),
+                        request.getName(),
+                        request.getInstitute().getName(),
+                        request.getComments()));
+    }
+
     /**
      * Gets the account verification request associated with the {@code id}.
      */
@@ -77,12 +122,97 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Updates an account verification request.
+     * Updates the details (name, email, institute, comments) of the account verification request with the given
+     * {@code id}. Status is not changed by this method.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidParametersException if the updated details are invalid.
      */
-    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
-            throws InvalidParametersException {
-        validateAccountVerificationRequest(accountVerificationRequest);
-        return accountVerificationRequest;
+    public AccountVerificationRequest updateAccountVerificationRequestDetails(
+            UUID id, String name, String email, String instituteName, String country, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        request.setName(name);
+        request.setEmail(email);
+        request.setInstitute(institute);
+        request.setComments(comments);
+        validateAccountVerificationRequest(request);
+        return request;
+    }
+
+    /**
+     * Approves the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is already approved.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest approveAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() == AccountVerificationRequestStatus.APPROVED) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is already approved.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.APPROVED);
+        validateAccountVerificationRequest(request);
+        accountVerificationEmailsLogic.enqueueApprovalEmail(new AccountVerificationApprovedEmailContext(
+                request.getEmail(),
+                request.getName(),
+                LinksUtil.getInstructorWelcomeUrl(request.getId())));
+        return request;
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id}.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        return rejectAccountVerificationRequest(id, null, null);
+    }
+
+    /**
+     * Rejects the account verification request with the given {@code id} and
+     * optionally enqueues a rejection email when both reason fields are present.
+     *
+     * @throws EntityDoesNotExistException if no request with the given id exists.
+     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
+     * @throws InvalidParametersException if the request is invalid.
+     */
+    public AccountVerificationRequest rejectAccountVerificationRequest(
+            UUID id, @Nullable String reasonTitle, @Nullable String reasonBody)
+            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
+        AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
+        if (request == null) {
+            throw new EntityDoesNotExistException(
+                    "Account verification request with id = " + id + " not found");
+        }
+        if (request.getStatus() != AccountVerificationRequestStatus.PENDING) {
+            throw new InvalidVerificationRequestStateException(
+                    "Account verification request with id " + id + " is not in pending state and cannot be rejected.");
+        }
+        request.setStatus(AccountVerificationRequestStatus.REJECTED);
+        validateAccountVerificationRequest(request);
+        if (reasonTitle != null && reasonBody != null) {
+            accountVerificationEmailsLogic.enqueueRejectionEmail(new AccountVerificationRejectedEmailContext(
+                    request.getEmail(),
+                    SanitizationHelper.sanitizeTitle(reasonTitle),
+                    SanitizationHelper.sanitizeForRichText(reasonBody)));
+        }
+        return request;
     }
 
     /**

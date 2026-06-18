@@ -11,7 +11,6 @@ import teammates.storage.entity.Team;
 public final class GivenTeam extends GivenBase<Team> {
     public GivenTeam(GivenData given, UUID teamId) {
         super(given);
-        this.given = given;
         this.entity = defaultTeam(teamId);
     }
 
@@ -45,6 +44,13 @@ public final class GivenTeam extends GivenBase<Team> {
         });
         s.addTeam(entity);
         return this;
+    }
+
+    /**
+     * Sets the default course for the team.
+     */
+    public GivenTeam defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
     }
 
     @Override

@@ -21,9 +21,6 @@ component Logic {
     }
 
     folder "logic::api" as Api {
-        rectangle EmailSender
-        rectangle EmailGenerator
-        rectangle TaskQueuer
         rectangle "Logic" as Logic2
         rectangle UserProvision
         rectangle "~*API"

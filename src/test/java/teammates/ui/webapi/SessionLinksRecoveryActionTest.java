@@ -26,9 +26,8 @@ public class SessionLinksRecoveryActionTest
 
     @Test(groups = GroupNames.ACTION)
     public void sessionLinksRecoveryAction_matchingStudentWithRecoverableSession_queuesPriorityEmail() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()).email("student@test.tmt"));
-        given.feedbackSession("session", fs -> fs.course(course.alias()).published());
+        given.student("student", s -> s.defaultCourse().email("student@test.tmt"));
+        given.feedbackSession("session", fs -> fs.defaultCourse().published());
         persistGivenData(given);
 
         SessionLinksRecoveryResponseData result = execute(getRequest("student@test.tmt", "captcha-token"));

@@ -28,7 +28,7 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -61,8 +61,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = mock(FeedbackSessionsEmailsLogic.class);
-        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic, feedbackSessionsEmailsLogic);
+        DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = mock(FeedbackSessionEmailsLogic.class);
+        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic,
+                deadlineExtensionsLogic, feedbackSessionEmailsLogic);
     }
 
     @Test

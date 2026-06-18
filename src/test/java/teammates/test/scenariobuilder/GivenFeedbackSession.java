@@ -41,6 +41,13 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
+     * Sets the default course for the feedback session.
+     */
+    public GivenFeedbackSession defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets the creator for the feedback session.
      */
     public GivenFeedbackSession creator(String instructorAlias) {
@@ -187,7 +194,8 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as closing soon.
      */
     public GivenFeedbackSession closingSoon() {
-        return startTime(now.minus(1, ChronoUnit.HOURS))
+        return sessionVisibleFromTime(now.minus(26, ChronoUnit.HOURS))
+                .startTime(now.minus(25, ChronoUnit.HOURS))
                 .endTime(now.plus(23, ChronoUnit.HOURS));
     }
 

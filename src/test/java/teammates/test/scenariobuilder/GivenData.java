@@ -83,6 +83,8 @@ import teammates.storage.entity.Team;
  * 6. Use the generated IDs in the test assertions or further entity creation.
  */
 public final class GivenData {
+    public static final String DEFAULT_COURSE_ALIAS = GivenCourse.getDefaultAlias();
+
     final DataBundle dataBundle = new DataBundle();
     final Map<BaseEntity, String> entityToAlias = new HashMap<>();
     private final String testName;
@@ -223,7 +225,7 @@ public final class GivenData {
         options.accept(studentData);
         Student student = studentData.build();
         registerEntity(alias, student, dataBundle.students);
-        return new StudentRef(student.getId(), alias, student.getRegKey());
+        return new StudentRef(student.getId(), alias, student.getRegKey(), student.getEmail());
     }
 
     /**
@@ -242,7 +244,7 @@ public final class GivenData {
         options.accept(instructorData);
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
-        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey());
+        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey(), instructor.getEmail());
     }
 
     /**
@@ -506,8 +508,9 @@ public final class GivenData {
      * @param id generated entity ID
      * @param alias GivenData alias
      * @param regKey registration key
+     * @param email email address
      */
-    public record StudentRef(UUID id, String alias, String regKey) {}
+    public record StudentRef(UUID id, String alias, String regKey, String email) {}
 
     /**
      * Reference to an instructor created by GivenData.
@@ -515,8 +518,9 @@ public final class GivenData {
      * @param id generated entity ID
      * @param alias GivenData alias
      * @param regKey registration key
+     * @param email email address
      */
-    public record InstructorRef(UUID id, String alias, String regKey) {}
+    public record InstructorRef(UUID id, String alias, String regKey, String email) {}
 
     /**
      * Reference to a feedback session created by GivenData.

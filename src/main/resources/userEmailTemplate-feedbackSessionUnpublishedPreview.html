@@ -1,0 +1,68 @@
+<p>Hello ${userName},</p>
+
+<p>
+  Kindly note that this email simply serves as a preview of how the email will appear to student recipients. As such,
+  please <b style="color: red;">do not forward</b> this email.
+  We recommend that you make the following announcement (edit content as you see fit) using an alternative means
+  (e.g., your course announcements) to alert students:
+  <hr>
+  The results for the TEAMMATES session ${feedbackSessionName} in course [${courseId}] ${courseName} are no longer
+  available for viewing.
+  If students have questions about result visibility or result links they received earlier, contact the course
+  instructors directly.
+  <hr>
+  The email below has been sent to student recipients of course: [${courseId}] ${courseName}.
+  <br><br>
+  === Email message as seen by the students ===
+</p>
+
+<p>
+  The results for the following feedback session have been unpublished and are no longer available for viewing.
+  <div>
+    <table style="max-width:600px;border:1px solid black;">
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Course:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          [${courseId}] ${courseName}
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:5px;">
+          <strong>
+            Feedback Session Name:
+          </strong>
+        </td>
+        <td style="padding:5px;">
+          ${feedbackSessionName}
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br>Please note that the 'view results' link emailed to you earlier will no longer work, until the session results
+  are published again. You will be notified if the session results are published again.
+</p>
+
+<p>
+  <ul>
+    <li>
+      <strong>Requests for deadline extensions, problems regarding team/student data (e.g. wrong team, misspelled
+      name)</strong>, and <strong>other non-technical queries</strong> about the feedback session:
+      <br>
+      Contact the instructors of the course: ${coOwnersEmails}
+    </li>
+    <li>
+      <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
+      Email TEAMMATES support team at ${supportEmail}.
+    </li>
+  </ul>
+</p>
+
+<p>
+  Regards,
+  <br>TEAMMATES Team.
+</p>

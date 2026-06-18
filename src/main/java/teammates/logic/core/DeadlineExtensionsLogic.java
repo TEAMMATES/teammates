@@ -16,7 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
-import teammates.logic.email.DeadlineExtensionsEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
 import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
 import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.storage.api.DeadlineExtensionsDb;
@@ -43,7 +43,7 @@ public final class DeadlineExtensionsLogic {
     private CoursesLogic coursesLogic;
 
     private UsersLogic usersLogic;
-    private DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic;
+    private DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic;
 
     private DeadlineExtensionsLogic() {
         // prevent initialization
@@ -55,12 +55,12 @@ public final class DeadlineExtensionsLogic {
 
     void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb,
             FeedbackSessionsLogic feedbackSessionsLogic, CoursesLogic coursesLogic, UsersLogic usersLogic,
-            DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic) {
+            DeadlineExtensionEmailsLogic deadlineExtensionsEmailsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.coursesLogic = coursesLogic;
         this.usersLogic = usersLogic;
-        this.deadlineExtensionsEmailsLogic = deadlineExtensionsEmailsLogic;
+        this.deadlineExtensionEmailsLogic = deadlineExtensionsEmailsLogic;
     }
 
     /**
@@ -140,7 +140,7 @@ public final class DeadlineExtensionsLogic {
         List<DeadlineExtensionUpdateEmailContext> emailContexts = new ArrayList<>();
         FeedbackSessionEmailContext feedbackSessionContext = buildFeedbackSessionEmailContext(feedbackSession);
         List<UpdateExtensionsResult> updateResults = updateDeadlineExtensions(feedbackSession, extensions, emailContexts);
-        deadlineExtensionsEmailsLogic.enqueueDeadlineExtensionUpdateEmails(feedbackSessionContext, emailContexts);
+        deadlineExtensionEmailsLogic.enqueueDeadlineExtensionUpdateEmails(feedbackSessionContext, emailContexts);
         return updateResults;
     }
 

@@ -2,10 +2,10 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -20,41 +20,21 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountVerificationRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
-
-        AccountVerificationRequest accountVerificationRequest =
-                logic.getAccountVerificationRequest(accountVerificationRequestId);
-
-        if (accountVerificationRequest == null) {
-            String errorMessage = String.format(
-                    "Account verification request with id = %s not found", accountVerificationRequestId.toString());
-            throw new EntityNotFoundException(errorMessage);
-        }
-
-        if (accountVerificationRequest.getStatus() != AccountVerificationRequestStatus.PENDING) {
-            throw new InvalidOperationException(
-                    "Account verification request with id " + accountVerificationRequestId
-                            + " is not in pending state and cannot be rejected.");
-        }
-
-        AccountVerificationRequestRejectionRequest accountVerificationRequestRejectionRequest =
-                getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
-        AccountVerificationRequestStatus initialStatus = accountVerificationRequest.getStatus();
+        AccountVerificationRequestRejectionRequest rejectionRequest = getRequestBody().isBlank()
+                ? new AccountVerificationRequestRejectionRequest(null, null)
+                : getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
 
         try {
-            accountVerificationRequest.setStatus(AccountVerificationRequestStatus.REJECTED);
-            accountVerificationRequest = logic.updateAccountVerificationRequest(accountVerificationRequest);
-            if (accountVerificationRequestRejectionRequest.checkHasReason()
-                    && initialStatus != AccountVerificationRequestStatus.REJECTED) {
-                EmailWrapper email = emailGenerator.generateAccountVerificationRequestRejectionEmail(
-                        accountVerificationRequest,
-                        accountVerificationRequestRejectionRequest.getReasonTitle(),
-                        accountVerificationRequestRejectionRequest.getReasonBody());
-                emailQueueService.enqueuePriority(email);
-            }
+            AccountVerificationRequest accountVerificationRequest =
+                    logic.rejectAccountVerificationRequest(accountVerificationRequestId,
+                            rejectionRequest.getReasonTitle(), rejectionRequest.getReasonBody());
+            return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        } catch (InvalidVerificationRequestStateException e) {
+            throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-
-        return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
     }
 }

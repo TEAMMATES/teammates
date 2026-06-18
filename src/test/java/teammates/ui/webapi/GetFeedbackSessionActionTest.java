@@ -18,9 +18,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_student_returnsHiddenData() {
         var account = given.account("account");
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()).account(account.alias()));
-        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).opened());
+        given.student("student", s -> s.defaultCourse().account(account.alias()));
+        var fs = given.feedbackSession("fs", f -> f.defaultCourse().opened());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -38,9 +37,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_instructorWithViewPrivilege_returnsFullData() {
         var account = given.account("account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(account.alias()).coOwner());
-        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).opened());
+        given.instructor("instructor", i -> i.defaultCourse().account(account.alias()).coOwner());
+        var fs = given.feedbackSession("fs", f -> f.defaultCourse().opened());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -57,9 +55,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_instructorWithoutViewPrivilege_returnsHiddenDataWithPermissions() {
         var account = given.account("account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(account.alias()).noPrivileges());
-        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).opened());
+        given.instructor("instructor", i -> i.defaultCourse().account(account.alias()).noPrivileges());
+        var fs = given.feedbackSession("fs", f -> f.defaultCourse().opened());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -76,9 +73,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_studentAccessesNotVisibleSession_throwsUnauthorizedAccessException() {
         var account = given.account("account");
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()).account(account.alias()));
-        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).notVisible());
+        given.student("student", s -> s.defaultCourse().account(account.alias()));
+        var fs = given.feedbackSession("fs", f -> f.defaultCourse().notVisible());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -91,9 +87,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_instructorWithViewPrivilegeAccessesNotVisibleSession_returnsFullData() {
         var account = given.account("account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(account.alias()).coOwner());
-        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).notVisible());
+        given.instructor("instructor", i -> i.defaultCourse().account(account.alias()).coOwner());
+        var fs = given.feedbackSession("fs", f -> f.defaultCourse().notVisible());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()

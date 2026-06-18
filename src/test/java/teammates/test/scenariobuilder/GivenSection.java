@@ -11,7 +11,6 @@ import teammates.storage.entity.Section;
 public final class GivenSection extends GivenBase<Section> {
     public GivenSection(GivenData given, UUID sectionId) {
         super(given);
-        this.given = given;
         this.entity = defaultSection(sectionId);
     }
 
@@ -31,6 +30,13 @@ public final class GivenSection extends GivenBase<Section> {
         Course c = given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
         c.addSection(entity);
         return this;
+    }
+
+    /**
+     * Sets the default course for the section.
+     */
+    public GivenSection defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
     }
 
     @Override

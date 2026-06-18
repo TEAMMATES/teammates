@@ -18,7 +18,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCase;
@@ -30,12 +32,18 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
 
     private AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     private AccountVerificationRequestsDb accountVerificationRequestsDb;
+    private AccountsLogic accountsLogic;
+    private InstitutesLogic institutesLogic;
+    private AccountVerificationEmailsLogic accountVerificationEmailsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         accountVerificationRequestsDb = mock(AccountVerificationRequestsDb.class);
-        accountVerificationsLogic.initLogicDependencies(accountVerificationRequestsDb, mock(AccountsLogic.class),
-                mock(InstitutesLogic.class));
+        accountsLogic = mock(AccountsLogic.class);
+        institutesLogic = mock(InstitutesLogic.class);
+        accountVerificationEmailsLogic = mock(AccountVerificationEmailsLogic.class);
+        accountVerificationsLogic.initLogicDependencies(accountVerificationRequestsDb, accountsLogic,
+                institutesLogic, accountVerificationEmailsLogic);
     }
 
     @Test
@@ -78,20 +86,86 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccountVerificationRequest_typicalRequest_success()
-            throws InvalidParametersException {
-        AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updatedAr = accountVerificationsLogic.updateAccountVerificationRequest(ar);
+    public void testCreatePendingAccountVerificationRequest_validParams_enqueuesCreatedEmails() throws Exception {
+        UUID accountId = UUID.randomUUID();
+        Account account = getTypicalAccount();
+        Institute institute = new Institute("institute", "SG");
+        AccountVerificationRequest createdRequest = new AccountVerificationRequest(
+                "test@email.com", "name", AccountVerificationRequestStatus.PENDING, "comments");
+        institute.addAccountVerificationRequest(createdRequest);
+        account.addAccountVerificationRequest(createdRequest);
 
-        assertEquals(ar, updatedAr);
+        when(institutesLogic.getOrCreateInstitute("institute", "SG")).thenReturn(institute);
+        when(accountsLogic.getAccount(accountId)).thenReturn(account);
+        when(accountVerificationRequestsDb.persistAccountVerificationRequest(any(AccountVerificationRequest.class)))
+                .thenReturn(createdRequest);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.createAccountVerificationRequest(
+                "name", "test@email.com", "institute", "SG", "comments", accountId);
+
+        assertEquals(createdRequest, actual);
+        verify(accountVerificationEmailsLogic).enqueueCreatedAdminAlertEmail(any());
+        verify(accountVerificationEmailsLogic).enqueueCreatedAcknowledgementEmail(any());
     }
 
     @Test
-    public void testUpdateAccountVerificationRequest_requestNotFound_failure()
-            throws InvalidParametersException {
-        AccountVerificationRequest arNotFound = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updated = accountVerificationsLogic.updateAccountVerificationRequest(arNotFound);
-        assertEquals(updated, arNotFound);
+    public void testCreateAccountVerificationRequestWithExplicitStatus_validParams_doesNotEnqueueCreatedEmails()
+            throws Exception {
+        UUID accountId = UUID.randomUUID();
+        Account account = getTypicalAccount();
+        Institute institute = new Institute("institute", "SG");
+        AccountVerificationRequest createdRequest = new AccountVerificationRequest(
+                "test@email.com", "name", AccountVerificationRequestStatus.APPROVED, "comments");
+        institute.addAccountVerificationRequest(createdRequest);
+        account.addAccountVerificationRequest(createdRequest);
+
+        when(institutesLogic.getOrCreateInstitute("institute", "SG")).thenReturn(institute);
+        when(accountsLogic.getAccount(accountId)).thenReturn(account);
+        when(accountVerificationRequestsDb.persistAccountVerificationRequest(any(AccountVerificationRequest.class)))
+                .thenReturn(createdRequest);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.createAccountVerificationRequest(
+                "name", "test@email.com", "institute", "SG",
+                AccountVerificationRequestStatus.APPROVED, "comments", accountId);
+
+        assertEquals(createdRequest, actual);
+        verify(accountVerificationEmailsLogic, never()).enqueueCreatedAdminAlertEmail(any());
+        verify(accountVerificationEmailsLogic, never()).enqueueCreatedAcknowledgementEmail(any());
+    }
+
+    @Test
+    public void testApproveAccountVerificationRequest_pendingRequest_enqueuesApprovalEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.approveAccountVerificationRequest(request.getId());
+
+        assertEquals(AccountVerificationRequestStatus.APPROVED, actual.getStatus());
+        verify(accountVerificationEmailsLogic).enqueueApprovalEmail(any());
+    }
+
+    @Test
+    public void testRejectAccountVerificationRequest_withReason_enqueuesRejectionEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
+                request.getId(), "Verification request update", "<p>Rejected</p>");
+
+        assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
+    }
+
+    @Test
+    public void testRejectAccountVerificationRequest_withoutReason_doesNotEnqueueRejectionEmail() throws Exception {
+        AccountVerificationRequest request = getTypicalAccountVerificationRequest();
+        when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
+
+        AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
+                request.getId(), null, null);
+
+        assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        verify(accountVerificationEmailsLogic, never()).enqueueRejectionEmail(any());
     }
 
     @Test

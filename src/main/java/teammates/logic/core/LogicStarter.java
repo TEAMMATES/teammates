@@ -4,8 +4,11 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
-import teammates.logic.email.DeadlineExtensionsEmailsLogic;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
+import teammates.logic.email.AccountVerificationEmailsLogic;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
+import teammates.logic.email.EmailQueueService;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -49,20 +52,29 @@ public class LogicStarter implements ServletContextListener {
         UsersLogic usersLogic = UsersLogic.inst();
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
-        DeadlineExtensionsEmailsLogic deadlineExtensionsEmailsLogic = DeadlineExtensionsEmailsLogic.inst();
-        FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic = FeedbackSessionsEmailsLogic.inst();
+        CourseJoinEmailsLogic courseJoinEmailsLogic = CourseJoinEmailsLogic.inst();
+        DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic = DeadlineExtensionEmailsLogic.inst();
+        FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = FeedbackSessionEmailsLogic.inst();
+        AccountVerificationEmailsLogic accountVerificationEmailsLogic = AccountVerificationEmailsLogic.inst();
+        EmailQueueService emailQueueService = EmailQueueService.inst();
+
+        courseJoinEmailsLogic.init(emailQueueService);
+        deadlineExtensionEmailsLogic.init(emailQueueService);
+        feedbackSessionEmailsLogic.init(emailQueueService);
+        accountVerificationEmailsLogic.init(emailQueueService);
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
         accountVerificationsLogic.initLogicDependencies(
-                AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic);
+                AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic, accountVerificationEmailsLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, notificationsLogic, institutesLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, coursesLogic, usersLogic,
-                deadlineExtensionsEmailsLogic);
+                deadlineExtensionEmailsLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic, coursesLogic,
-                feedbackSessionsEmailsLogic);
+                deadlineExtensionsLogic,
+                feedbackSessionEmailsLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic,
                 instructorPermissionsLogic);
@@ -71,7 +83,8 @@ public class LogicStarter implements ServletContextListener {
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
-        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
+        usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,
+                fsLogic, frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         demoCourseLogic.initLogicDependencies(
                 accountVerificationsLogic, accountsLogic, coursesLogic, dataBundleLogic);

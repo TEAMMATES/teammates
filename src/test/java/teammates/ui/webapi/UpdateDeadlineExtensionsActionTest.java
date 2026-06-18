@@ -26,12 +26,11 @@ public class UpdateDeadlineExtensionsActionTest
     @Test(groups = GroupNames.ACTION)
     public void updateDeadlineExtensionsAction_existingSessionWithNotify_updatesDeadlineExtensionsData() {
         var instructorAccount = given.account("instructor-account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
-        var studentToUpdate = given.student("student-to-update", s -> s.course(course.alias()));
-        var studentToCreate = given.student("student-to-create", s -> s.course(course.alias()));
-        var studentToDelete = given.student("student-to-delete", s -> s.course(course.alias()));
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
+        var studentToUpdate = given.student("student-to-update", s -> s.defaultCourse());
+        var studentToCreate = given.student("student-to-create", s -> s.defaultCourse());
+        var studentToDelete = given.student("student-to-delete", s -> s.defaultCourse());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
         given.deadlineExtension("deadline-extension",
                 d -> d.student(studentToUpdate.alias()).feedbackSession(session.alias()));
         given.deadlineExtension("deadline-extension-to-delete",
@@ -67,10 +66,9 @@ public class UpdateDeadlineExtensionsActionTest
     @Test(groups = GroupNames.ACTION)
     public void updateDeadlineExtensionsAction_instructorWithoutModifyPrivilege_throwsUnauthorizedAccessException() {
         var instructorAccount = given.account("instructor-account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).noPrivileges());
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
-        var student = given.student("student", s -> s.course(course.alias()));
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).noPrivileges());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
+        var student = given.student("student", s -> s.defaultCourse());
         persistGivenData(given);
 
         FeedbackSession persistedSession = getEntityInTransaction(FeedbackSession.class, session.id());

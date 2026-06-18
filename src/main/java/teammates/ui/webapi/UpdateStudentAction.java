@@ -7,8 +7,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -58,9 +56,14 @@ public class UpdateStudentAction extends LoggedInAction {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
-        Student updatedStudent;
         try {
-            updatedStudent = logic.updateStudent(studentId, updateRequest);
+            if (updateRequest.getIsSessionSummarySendEmail()) {
+                logic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
+                return new JsonResult(SUCCESSFUL_UPDATE_WITH_EMAIL);
+            } else {
+                logic.updateStudent(studentId, updateRequest);
+                return new JsonResult(SUCCESSFUL_UPDATE);
+            }
         } catch (EnrollException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
@@ -70,22 +73,6 @@ public class UpdateStudentAction extends LoggedInAction {
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(ERROR_EMAIL_ALREADY_EXISTS, e);
         }
-
-        if (updateRequest.getIsSessionSummarySendEmail()) {
-            sendEmail(updatedStudent);
-            return new JsonResult(SUCCESSFUL_UPDATE_WITH_EMAIL);
-        }
-
-        return new JsonResult(SUCCESSFUL_UPDATE);
-    }
-
-    /**
-     * Queues the feedback session summary email.
-     */
-    private void sendEmail(Student student) {
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                student, EmailType.STUDENT_EMAIL_CHANGED);
-        emailQueueService.enqueuePriority(email);
     }
 
 }

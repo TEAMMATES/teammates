@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.LinksUtil;
@@ -31,12 +33,20 @@ import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.email.FeedbackSessionsEmailsLogic;
-import teammates.logic.email.model.RecoverableCourseLinks;
-import teammates.logic.email.model.RecoverableSessionLink;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
+import teammates.logic.email.model.CourseSessionLinks;
+import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.FeedbackSessionOwnerReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionParticipantReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionPreviewReminderEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext;
+import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
+import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
+import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
@@ -67,7 +77,8 @@ public final class FeedbackSessionsLogic {
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
-    private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+    private FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -80,12 +91,14 @@ public final class FeedbackSessionsLogic {
     void initLogicDependencies(FeedbackSessionsDb fsDb,
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
             UsersLogic usersLogic, CoursesLogic coursesLogic,
-            FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic) {
+            DeadlineExtensionsLogic deadlineExtensionsLogic,
+            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
         this.usersLogic = usersLogic;
         this.coursesLogic = coursesLogic;
+        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
         this.feedbackSessionsEmailsLogic = feedbackSessionsEmailsLogic;
     }
 
@@ -152,6 +165,243 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Enqueues a feedback session summary email for the given user and email type.
+     */
+    public void enqueueFeedbackSessionSummaryEmail(User user, EmailType emailType) {
+        feedbackSessionsEmailsLogic.enqueueFeedbackSessionSummaryEmail(
+                buildFeedbackSessionSummaryEmailContext(user, emailType), emailType);
+    }
+
+    /**
+     * Enqueues opened reminder emails for all eligible sessions and marks them as sent.
+     */
+    public void enqueueOpenedReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsWhichNeedOpenedEmailsToBeSent()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueOpenedEmails(
+                        buildOpenedParticipantReminderEmailContexts(session),
+                        buildReminderPreviewEmailContexts(session));
+                session.setOpenedEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues opening soon reminder emails for all eligible sessions and marks
+     * them as sent.
+     */
+    public void enqueueOpeningSoonReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsOpeningWithinTimeLimit()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueOpeningSoonEmails(
+                        buildOwnerOpeningSoonReminderEmailContexts(session));
+                session.setOpeningSoonEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues closing soon reminder emails for all eligible sessions and
+     * deadline extensions, and marks them as sent.
+     */
+    public void enqueueClosingSoonReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsClosingWithinTimeLimit()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueClosingSoonEmails(
+                        buildClosingSoonParticipantReminderEmailContexts(session),
+                        buildReminderPreviewEmailContexts(session));
+                session.setClosingSoonEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+
+        Map<UUID, List<DeadlineExtension>> deadlineExtensionsBySessionId =
+                deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail().stream()
+                        .collect(Collectors.groupingBy(deadlineExtension -> deadlineExtension.getFeedbackSession().getId()));
+
+        for (List<DeadlineExtension> deadlineExtensions : deadlineExtensionsBySessionId.values()) {
+            RequestTracer.checkRemainingTime();
+            FeedbackSession session = deadlineExtensions.get(0).getFeedbackSession();
+            if (!session.isClosingSoonEmailEnabled()) {
+                continue;
+            }
+
+            try {
+                feedbackSessionsEmailsLogic.enqueueClosingSoonEmails(
+                        buildClosingSoonDeadlineExtensionReminderEmailContexts(session, deadlineExtensions),
+                        List.of());
+                deadlineExtensions.forEach(deadlineExtension -> deadlineExtension.setClosingSoonEmailSent(true));
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues closed reminder emails for all eligible sessions and marks them
+     * as sent.
+     */
+    public void enqueueClosedReminderEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsClosedRecently()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueueClosedEmails(
+                        buildOwnerClosedReminderEmailContexts(session));
+                session.setClosedEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues submission reminder emails for selected respondents of an open
+     * feedback session.
+     */
+    public void enqueueSubmissionReminderEmails(
+            UUID feedbackSessionId, UUID[] userIdsToRemind, boolean sendCopyToInstructor, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
+        if (!feedbackSession.isOpened()) {
+            throw new InvalidFeedbackSessionStateException("Reminder email could not be sent out "
+                    + "as the feedback session is not open for submissions.");
+        }
+
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(feedbackSession.getCourseId());
+        List<FeedbackSessionParticipantReminderEmailContext> participantContexts = new ArrayList<>();
+        for (UUID userId : userIdsToRemind) {
+            User user = usersLogic.getUser(userId);
+            if (user == null) {
+                throw new EntityDoesNotExistException("User with ID " + userId + " not found");
+            }
+            if (!feedbackSession.getCourseId().equals(user.getCourseId())) {
+                throw new InvalidParametersException("User with ID "
+                        + userId + " does not belong to the same course as the feedback session");
+            }
+
+            Instant deadline = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, user);
+            participantContexts.add(buildParticipantReminderEmailContext(
+                    feedbackSession, user, deadline, coOwnerContacts));
+        }
+
+        List<FeedbackSessionPreviewReminderEmailContext> previewContexts = List.of();
+        if (sendCopyToInstructor) {
+            Instructor instructorToNotify = usersLogic.getInstructorByAccountId(accountId, feedbackSession.getCourseId());
+            if (instructorToNotify == null) {
+                throw new EntityDoesNotExistException("Instructor not found in course");
+            }
+            previewContexts = List.of(buildPreviewReminderEmailContext(feedbackSession, instructorToNotify));
+        }
+
+        feedbackSessionsEmailsLogic.enqueueSubmissionReminderEmails(participantContexts, previewContexts);
+    }
+
+    /**
+     * Publishes a feedback session and enqueues any immediate published emails.
+     */
+    public FeedbackSession publishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        FeedbackSession session = publishFeedbackSession(feedbackSessionId);
+        if (session.isPublishedEmailEnabled()) {
+            feedbackSessionsEmailsLogic.enqueuePublishedEmails(
+                    buildResultsParticipantEmailContexts(session),
+                    buildResultsPreviewEmailContexts(session));
+            session.setPublishedEmailSent(true);
+        }
+        return session;
+    }
+
+    /**
+     * Unpublishes a feedback session and enqueues unpublished emails.
+     */
+    public FeedbackSession unpublishFeedbackSessionAndEnqueueEmails(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        FeedbackSession session = unpublishFeedbackSession(feedbackSessionId);
+        if (session.isPublishedEmailEnabled()) {
+            feedbackSessionsEmailsLogic.enqueueUnpublishedEmails(
+                    buildResultsParticipantEmailContexts(session),
+                    buildResultsPreviewEmailContexts(session));
+        }
+        return session;
+    }
+
+    /**
+     * Enqueues published emails for all eligible sessions and marks them as sent.
+     */
+    public void enqueuePublishedEmailsForEligibleSessions() {
+        for (FeedbackSession session : getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent()) {
+            RequestTracer.checkRemainingTime();
+            try {
+                feedbackSessionsEmailsLogic.enqueuePublishedEmails(
+                        buildResultsParticipantEmailContexts(session),
+                        buildResultsPreviewEmailContexts(session));
+                session.setPublishedEmailSent(true);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+    }
+
+    /**
+     * Enqueues published result reminder emails for selected users of a published feedback session.
+     */
+    public void enqueuePublishedResultReminderEmails(UUID feedbackSessionId, UUID[] userIdsToRemind, UUID accountId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException, InvalidParametersException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
+        if (!feedbackSession.isPublished()) {
+            throw new InvalidFeedbackSessionStateException("Published email could not be resent "
+                    + "as the feedback session is not published.");
+        }
+
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(feedbackSession.getCourseId());
+        List<FeedbackSessionResultsParticipantEmailContext> participantContexts = new ArrayList<>();
+        boolean hasStudentRecipients = false;
+
+        for (UUID userId : userIdsToRemind) {
+            User user = usersLogic.getUser(userId);
+            if (user == null) {
+                throw new EntityDoesNotExistException("User with ID " + userId + " not found");
+            }
+            if (!feedbackSession.getCourseId().equals(user.getCourseId())) {
+                throw new InvalidParametersException("User with ID "
+                        + userId + " does not belong to the same course as the feedback session");
+            }
+
+            if (user instanceof Student) {
+                hasStudentRecipients = true;
+            }
+            participantContexts.add(buildResultsParticipantEmailContext(feedbackSession, user, coOwnerContacts));
+        }
+
+        List<FeedbackSessionResultsPreviewEmailContext> previewContexts = List.of();
+        if (hasStudentRecipients) {
+            Instructor instructorToNotify = usersLogic.getInstructorByAccountId(accountId, feedbackSession.getCourseId());
+            if (instructorToNotify == null) {
+                throw new EntityDoesNotExistException("Instructor not found in course");
+            }
+            previewContexts = List.of(buildResultsPreviewEmailContext(feedbackSession, instructorToNotify));
+        }
+
+        feedbackSessionsEmailsLogic.enqueuePublishedReminderEmails(participantContexts, previewContexts);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
@@ -163,38 +413,22 @@ public final class FeedbackSessionsLogic {
         String recipientName = studentsForEmail.isEmpty() ? null : studentsForEmail.get(0).getName();
         Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
 
-        Map<String, RecoverableCourseLinks> recoverableCourseLinksMap = new LinkedHashMap<>();
+        Map<String, CourseSessionLinks> recoverableCourseLinksMap = new LinkedHashMap<>();
 
         for (Student student : studentsForEmail) {
-            RequestTracer.checkRemainingTime();
             Course course = student.getCourse();
-            List<RecoverableSessionLink> recoverableSessionLinks = new ArrayList<>();
-
-            for (FeedbackSession session : getFeedbackSessionsForCourseStartingAfter(course.getId(), searchStartTime)) {
-                String submitUrl = null;
-                String resultsUrl = null;
-
-                if (session.isOpened() || session.isClosed()) {
-                    submitUrl = LinksUtil.getStudentSessionSubmitUrl(session.getId(), student.getRegKey());
-                }
-
-                if (session.isPublished()) {
-                    resultsUrl = LinksUtil.getStudentSessionResultsUrl(session.getId(), student.getRegKey());
-                }
-
-                if (submitUrl == null && resultsUrl == null) {
-                    continue;
-                }
-
-                recoverableSessionLinks.add(new RecoverableSessionLink(session.getName(), submitUrl, resultsUrl));
-            }
+            List<FeedbackSession> sessions = getFeedbackSessionsForCourseStartingAfter(course.getId(), searchStartTime)
+                    .stream()
+                    .filter(session -> session.isOpened() || session.isClosed() || session.isPublished())
+                    .toList();
+            List<SessionAccessLink> recoverableSessionLinks = buildSessionAccessLinks(student, sessions);
 
             if (recoverableSessionLinks.isEmpty()) {
                 continue;
             }
 
-            recoverableCourseLinksMap.put(course.getId(), new RecoverableCourseLinks(
-                    course.getId(), course.getName(), recoverableSessionLinks));
+            recoverableCourseLinksMap.put(course.getId(), new CourseSessionLinks(
+                    course.getId(), course.getName(), course.getTimeZone(), recoverableSessionLinks));
         }
 
         return new SessionLinksRecoveryContext(
@@ -202,6 +436,281 @@ public final class FeedbackSessionsLogic {
                 recipientName,
                 studentsForEmail.isEmpty(),
                 new ArrayList<>(recoverableCourseLinksMap.values()));
+    }
+
+    private FeedbackSessionSummaryEmailContext buildFeedbackSessionSummaryEmailContext(User user, EmailType emailType) {
+        if (emailType != EmailType.STUDENT_EMAIL_CHANGED
+                && emailType != EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                && emailType != EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED) {
+            throw new IllegalArgumentException("Unsupported email type: " + emailType);
+        }
+
+        Course course = user.getCourse();
+        List<FeedbackSession> sessions = getFeedbackSessionsForCourse(user.getCourseId()).stream()
+                .filter(session -> session.isOpenedEmailSent() || session.isPublishedEmailSent())
+                .toList();
+        List<SessionAccessLink> sessionLinks = buildSessionAccessLinks(user, sessions);
+        return new FeedbackSessionSummaryEmailContext(
+                user.getEmail(),
+                user.getName(),
+                course.getId(),
+                course.getName(),
+                usersLogic.getCoOwnerContacts(course.getId()),
+                user instanceof Instructor,
+                user.getAccount() == null,
+                getCourseJoinUrl(user.getUserType(), user.getRegKey()),
+                sessionLinks.isEmpty()
+                        ? List.of()
+                        : List.of(new CourseSessionLinks(
+                                course.getId(), course.getName(), course.getTimeZone(), sessionLinks)));
+    }
+
+    private List<SessionAccessLink> buildSessionAccessLinks(User user, List<FeedbackSession> sessions) {
+        return sessions.stream()
+                .sorted(Comparator.comparing(FeedbackSession::getName))
+                .map(session -> new SessionAccessLink(
+                        session.getName(),
+                        session.getEndTime(),
+                        session.isOpened() || session.isClosed()
+                                ? getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                : null,
+                        session.isPublished()
+                                ? getResultUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                : null))
+                .toList();
+    }
+
+    private List<FeedbackSessionParticipantReminderEmailContext> buildOpenedParticipantReminderEmailContexts(
+            FeedbackSession session) {
+        Course course = session.getCourse();
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
+        List<FeedbackSessionParticipantReminderEmailContext> contexts = new ArrayList<>();
+
+        if (isFeedbackSessionForUserTypeToAnswer(session, false)) {
+            for (Student student : usersLogic.getStudentsForCourse(course.getId())) {
+                Instant deadline = deadlineExtensionsLogic.getDeadlineForUser(session, student);
+                contexts.add(buildParticipantReminderEmailContext(session, student, deadline, coOwnerContacts));
+            }
+        }
+
+        if (isFeedbackSessionForUserTypeToAnswer(session, true)) {
+            for (Instructor instructor : usersLogic.getInstructorsForCourse(course.getId())) {
+                Instant deadline = deadlineExtensionsLogic.getDeadlineForUser(session, instructor);
+                contexts.add(buildParticipantReminderEmailContext(session, instructor, deadline, coOwnerContacts));
+            }
+        }
+
+        return contexts;
+    }
+
+    private List<FeedbackSessionResultsParticipantEmailContext> buildResultsParticipantEmailContexts(
+            FeedbackSession session) {
+        Course course = session.getCourse();
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
+        List<FeedbackSessionResultsParticipantEmailContext> contexts = new ArrayList<>();
+
+        if (isFeedbackSessionViewableToUserType(session, false)) {
+            for (Student student : usersLogic.getStudentsForCourse(course.getId())) {
+                contexts.add(buildResultsParticipantEmailContext(session, student, coOwnerContacts));
+            }
+        }
+
+        if (isFeedbackSessionViewableToUserType(session, true)) {
+            for (Instructor instructor : usersLogic.getInstructorsForCourse(course.getId())) {
+                contexts.add(buildResultsParticipantEmailContext(session, instructor, coOwnerContacts));
+            }
+        }
+
+        return contexts;
+    }
+
+    private List<FeedbackSessionOwnerReminderEmailContext> buildOwnerOpeningSoonReminderEmailContexts(
+            FeedbackSession session) {
+        String sessionEditUrl = LinksUtil.getInstructorSessionEditUrl(session.getId());
+        return usersLogic.getCoOwnersForCourse(session.getCourseId()).stream()
+                .map(coOwner -> buildOwnerReminderEmailContext(
+                        session,
+                        coOwner,
+                        sessionEditUrl,
+                        null,
+                        coOwner.isRegistered() ? null : LinksUtil.getInstructorCourseJoinUrl(coOwner.getRegKey())))
+                .toList();
+    }
+
+    private List<FeedbackSessionOwnerReminderEmailContext> buildOwnerClosedReminderEmailContexts(
+            FeedbackSession session) {
+        String reportUrl = LinksUtil.getInstructorSessionReportUrl(session.getId());
+        return usersLogic.getCoOwnersForCourse(session.getCourseId()).stream()
+                .map(coOwner -> buildOwnerReminderEmailContext(session, coOwner, null, reportUrl, null))
+                .toList();
+    }
+
+    private List<FeedbackSessionParticipantReminderEmailContext> buildClosingSoonParticipantReminderEmailContexts(
+            FeedbackSession session) {
+        Course course = session.getCourse();
+        Set<UUID> usersWithDeadlineExtensions = session.getDeadlineExtensions().stream()
+                .map(DeadlineExtension::getUserId)
+                .collect(Collectors.toSet());
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
+        List<FeedbackSessionParticipantReminderEmailContext> contexts = new ArrayList<>();
+
+        if (isFeedbackSessionForUserTypeToAnswer(session, false)) {
+            for (Student student : usersLogic.getStudentsForCourse(course.getId())) {
+                if (usersWithDeadlineExtensions.contains(student.getId())) {
+                    continue;
+                }
+                contexts.add(buildParticipantReminderEmailContext(
+                        session, student, session.getEndTime(), coOwnerContacts));
+            }
+        }
+
+        if (isFeedbackSessionForUserTypeToAnswer(session, true)) {
+            for (Instructor instructor : usersLogic.getInstructorsForCourse(course.getId())) {
+                if (usersWithDeadlineExtensions.contains(instructor.getId())) {
+                    continue;
+                }
+                contexts.add(buildParticipantReminderEmailContext(
+                        session, instructor, session.getEndTime(), coOwnerContacts));
+            }
+        }
+
+        return contexts;
+    }
+
+    private List<FeedbackSessionParticipantReminderEmailContext> buildClosingSoonDeadlineExtensionReminderEmailContexts(
+            FeedbackSession session, List<DeadlineExtension> deadlineExtensions) {
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(session.getCourseId());
+        List<FeedbackSessionParticipantReminderEmailContext> contexts = new ArrayList<>();
+
+        for (DeadlineExtension deadlineExtension : deadlineExtensions) {
+            User user = deadlineExtension.getUser();
+            if (user instanceof Student && !isFeedbackSessionForUserTypeToAnswer(session, false)) {
+                continue;
+            }
+            if (user instanceof Instructor && !isFeedbackSessionForUserTypeToAnswer(session, true)) {
+                continue;
+            }
+            contexts.add(buildParticipantReminderEmailContext(
+                    session, user, deadlineExtension.getEndTime(), coOwnerContacts));
+        }
+
+        return contexts;
+    }
+
+    private FeedbackSessionParticipantReminderEmailContext buildParticipantReminderEmailContext(
+            FeedbackSession session, User user, Instant deadline, List<EmailContact> coOwnerContacts) {
+        Course course = session.getCourse();
+        return new FeedbackSessionParticipantReminderEmailContext(
+                user.getEmail(),
+                user.getName(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                session.getName(),
+                deadline,
+                !session.getEndTime().equals(deadline),
+                session.getInstructionsString(),
+                getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey()),
+                user instanceof Instructor,
+                coOwnerContacts);
+    }
+
+    private FeedbackSessionResultsParticipantEmailContext buildResultsParticipantEmailContext(
+            FeedbackSession session, User user, List<EmailContact> coOwnerContacts) {
+        Course course = session.getCourse();
+        return new FeedbackSessionResultsParticipantEmailContext(
+                user.getEmail(),
+                user.getName(),
+                course.getId(),
+                course.getName(),
+                session.getName(),
+                getResultUrl(user.getUserType(), session.getId(), user.getRegKey()),
+                user instanceof Instructor,
+                coOwnerContacts);
+    }
+
+    private FeedbackSessionOwnerReminderEmailContext buildOwnerReminderEmailContext(
+            FeedbackSession session, Instructor coOwner, String sessionEditUrl, String reportUrl, String joinUrl) {
+        Course course = session.getCourse();
+        return new FeedbackSessionOwnerReminderEmailContext(
+                coOwner.getEmail(),
+                coOwner.getName(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                session.getName(),
+                session.getStartTime(),
+                session.getEndTime(),
+                session.getInstructionsString(),
+                sessionEditUrl,
+                reportUrl,
+                joinUrl);
+    }
+
+    private List<FeedbackSessionPreviewReminderEmailContext> buildReminderPreviewEmailContexts(FeedbackSession session) {
+        if (!isFeedbackSessionForUserTypeToAnswer(session, false)) {
+            return List.of();
+        }
+
+        Course course = session.getCourse();
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
+        return usersLogic.getCoOwnersForCourse(course.getId()).stream()
+                .map(coOwner -> new FeedbackSessionPreviewReminderEmailContext(
+                        coOwner.getEmail(),
+                        coOwner.getName(),
+                        course.getId(),
+                        course.getName(),
+                        course.getTimeZone(),
+                        session.getName(),
+                        session.getEndTime(),
+                        session.getInstructionsString(),
+                        coOwnerContacts))
+                .toList();
+    }
+
+    private FeedbackSessionPreviewReminderEmailContext buildPreviewReminderEmailContext(
+            FeedbackSession session, Instructor instructorToNotify) {
+        Course course = session.getCourse();
+        return new FeedbackSessionPreviewReminderEmailContext(
+                instructorToNotify.getEmail(),
+                instructorToNotify.getName(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                session.getName(),
+                session.getEndTime(),
+                session.getInstructionsString(),
+                usersLogic.getCoOwnerContacts(course.getId()));
+    }
+
+    private List<FeedbackSessionResultsPreviewEmailContext> buildResultsPreviewEmailContexts(FeedbackSession session) {
+        if (!isFeedbackSessionViewableToUserType(session, false)) {
+            return List.of();
+        }
+
+        Course course = session.getCourse();
+        List<EmailContact> coOwnerContacts = usersLogic.getCoOwnerContacts(course.getId());
+        return usersLogic.getCoOwnersForCourse(course.getId()).stream()
+                .map(coOwner -> new FeedbackSessionResultsPreviewEmailContext(
+                        coOwner.getEmail(),
+                        coOwner.getName(),
+                        course.getId(),
+                        course.getName(),
+                        session.getName(),
+                        coOwnerContacts))
+                .toList();
+    }
+
+    private FeedbackSessionResultsPreviewEmailContext buildResultsPreviewEmailContext(
+            FeedbackSession session, Instructor instructorToNotify) {
+        Course course = session.getCourse();
+        return new FeedbackSessionResultsPreviewEmailContext(
+                instructorToNotify.getEmail(),
+                instructorToNotify.getName(),
+                course.getId(),
+                course.getName(),
+                session.getName(),
+                usersLogic.getCoOwnerContacts(course.getId()));
     }
 
     private String getCourseJoinUrl(UserType userType, String regKey) {
@@ -458,6 +967,8 @@ public final class FeedbackSessionsLogic {
         session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
         session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
 
+        adjustFeedbackSessionEmailStatusAfterUpdate(session);
+
         validateFeedbackSession(session);
 
         return session;
@@ -683,6 +1194,11 @@ public final class FeedbackSessionsLogic {
             // also reset isClosingSoonEmailSent
             session.setClosingSoonEmailSent(
                     session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
+        }
+
+        // reset isPublishedEmailSent if the session has been published but is being un-published
+        if (session.isPublishedEmailSent() && !session.isPublished()) {
+            session.setPublishedEmailSent(false);
         }
     }
 

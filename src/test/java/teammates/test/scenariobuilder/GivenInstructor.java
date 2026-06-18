@@ -44,6 +44,13 @@ public class GivenInstructor extends GivenBase<Instructor> {
     }
 
     /**
+     * Sets the default course for the instructor.
+     */
+    public GivenInstructor defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets whether the instructor is displayed to students.
      */
     public GivenInstructor isDisplayedToStudents(boolean isDisplayedToStudents) {

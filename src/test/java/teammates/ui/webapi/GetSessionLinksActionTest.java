@@ -30,12 +30,11 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     @Test(groups = GroupNames.ACTION)
     public void getSessionLinksAction_adminForStudent_returnsStudentLinks() {
         var adminAccount = given.account("admin", a -> a.admin());
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias()));
-        var awaitingSession = given.feedbackSession("awaiting-session", fs -> fs.course(course.alias()).waitingToOpen());
-        var openSession = given.feedbackSession("open-session", fs -> fs.course(course.alias()).opened());
-        var closedSession = given.feedbackSession("closed-session", fs -> fs.course(course.alias()).closed());
-        var publishedSession = given.feedbackSession("published-session", fs -> fs.course(course.alias()).published());
+        var student = given.student("student", s -> s.defaultCourse());
+        var awaitingSession = given.feedbackSession("awaiting-session", fs -> fs.defaultCourse().waitingToOpen());
+        var openSession = given.feedbackSession("open-session", fs -> fs.defaultCourse().opened());
+        var closedSession = given.feedbackSession("closed-session", fs -> fs.defaultCourse().closed());
+        var publishedSession = given.feedbackSession("published-session", fs -> fs.defaultCourse().published());
         persistGivenData(given);
 
         SessionLinksData result = execute(getRequest(student.id().toString(), adminAccount.id()));
@@ -63,10 +62,9 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     @Test(groups = GroupNames.ACTION)
     public void getSessionLinksAction_adminForInstructor_returnsInstructorLinks() {
         var adminAccount = given.account("admin", a -> a.admin());
-        var course = given.course("course");
-        var instructor = given.instructor("instructor", i -> i.course(course.alias()));
-        var openSession = given.feedbackSession("open-session", fs -> fs.course(course.alias()).opened());
-        var publishedSession = given.feedbackSession("published-session", fs -> fs.course(course.alias()).published());
+        var instructor = given.instructor("instructor", i -> i.defaultCourse());
+        var openSession = given.feedbackSession("open-session", fs -> fs.defaultCourse().opened());
+        var publishedSession = given.feedbackSession("published-session", fs -> fs.defaultCourse().published());
         persistGivenData(given);
 
         SessionLinksData result = execute(getRequest(instructor.id().toString(), adminAccount.id()));
