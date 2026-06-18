@@ -1,13 +1,13 @@
 <div *tmIsLoading="isLoading">
-  @if (!hasJoined && !userId && validUrl) {
+  @if (!hasJoined && !accountEmail && validUrl) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-warning">
-        <h1 class="mb-0 h3">Not logged in</h1>
+        <h1 class="mb-0 h3">Not signed in</h1>
       </div>
-      <div class="card-body">You are not logged in. Please log in first.</div>
+      <div class="card-body">You are not signed in. Please sign in first.</div>
     </div>
   }
-  @if (userId && (!validUrl || hasJoined)) {
+  @if (accountEmail && (!validUrl || hasJoined)) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-warning">
         <h1 class="mb-0 h3">Invalid course join link</h1>
@@ -23,14 +23,14 @@
       }
     </div>
   }
-  @if (!hasJoined && userId && validUrl) {
+  @if (!hasJoined && accountEmail && validUrl) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-primary text-white">
-        <h1 class="mb-0 h3">Confirm your Google account</h1>
+        <h1 class="mb-0 h3">Confirm your account</h1>
       </div>
       <div class="card-body">
-        You are currently logged in as <strong id="user-id">{{ userId }}</strong
-        >. <br />If this is not you, please log out and log in using your own Google account. <br />If this is you,
+        You are currently signed in as <strong id="account-email">{{ accountEmail }}</strong
+        >. <br />If this is not you, please sign out and sign in using your own account. <br />If this is you,
         please confirm below to complete your registration.<br />
         <div class="text-center" style="margin-top: 20px">
           <button id="btn-confirm" class="btn btn-success" (click)="joinCourse()">Register for course</button>

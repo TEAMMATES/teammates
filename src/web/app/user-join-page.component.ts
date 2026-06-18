@@ -33,7 +33,7 @@ export class UserJoinPageComponent implements OnInit {
   validUrl = true;
   entityType = '';
   key = '';
-  userId = '';
+  accountEmail = '';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -49,7 +49,7 @@ export class UserJoinPageComponent implements OnInit {
           window.location.href = `${this.backendUrl}${auth.loginUrl}`;
           return;
         }
-        this.userId = auth.user.id;
+        this.accountEmail = auth.user.accountEmail;
 
         this.courseService.getJoinCourseStatus(this.key).subscribe({
           next: (resp: JoinStatus) => {
