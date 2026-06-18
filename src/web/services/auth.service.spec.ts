@@ -25,13 +25,13 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute getAuthUser', () => {
+  it('should execute GET on auth endpoint', () => {
     spyHttpRequestService.get.mockReturnValue(of({ loginUrl: '/login', masquerade: false }));
     service.getAuthUser();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
   });
 
-  it('should execute getAuthRegkeyValidity', () => {
+  it('should execute GET on auth regkey endpoint', () => {
     const key = 'key';
     const intent: Intent = Intent.FULL_DETAIL;
     const paramMap: Record<string, string> = { key, intent };
