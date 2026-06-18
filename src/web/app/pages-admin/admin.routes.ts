@@ -31,9 +31,6 @@ const routes: Routes = [
       import('./admin-account-verification-request-page/admin-account-verification-request-page.component').then(
         (m) => m.AdminAccountVerificationRequestPageComponent,
       ),
-    data: {
-      pageTitle: 'Account Verification Request',
-    },
   },
   {
     path: 'sessions',

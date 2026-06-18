@@ -3,11 +3,18 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import '@angular/compiler';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { AdminAccountVerificationRequestPageComponent } from './admin-account-verification-request-page.component';
+
+async function flushAsyncSubmission(): Promise<void> {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+}
 
 const mockPendingRequest: AccountVerificationRequest = {
   accountVerificationRequestId: 'test-id-123',
@@ -62,13 +69,16 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Test University');
     expect(fixture.nativeElement.textContent).toContain('Please verify my account.');
     expect(fixture.nativeElement.textContent).toContain('Request History For This Account');
-    expect(fixture.nativeElement.textContent).toContain('Mocked for now until the request-history endpoint is available.');
+    expect(fixture.nativeElement.textContent).toContain(
+      'The data shown here is mocked for demonstration purposes. It is not the actual request history for this account.',
+    );
     expect(fixture.nativeElement.textContent).toContain('Example Graduate School');
     expect(fixture.nativeElement.textContent).toContain('Example Teaching Institute');
     expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
       .toBe(false);
     expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
       .toBe(false);
+    expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeTruthy();
   });
 
   it('should disable actions for approved requests', async () => {
@@ -83,6 +93,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
       .toBe(true);
     expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
       .toBe(true);
+    expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeFalsy();
   });
 
   it('should disable actions for rejected requests', async () => {
@@ -97,6 +108,80 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
       .toBe(true);
     expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
       .toBe(true);
+    expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeFalsy();
+  });
+
+  it('should enter edit mode and disable approve/reject actions', async () => {
+    await setup();
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+
+    fixture.detectChanges();
+    (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    expect(component.isEditing()).toBe(true);
+    expect(fixture.debugElement.query(By.css('#btn-save-request-details'))).toBeTruthy();
+    expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
+      .toBe(true);
+    expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
+      .toBe(true);
+  });
+
+  it('should save inline edits and update the request', async () => {
+    await setup();
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    const saveSpy = vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(
+      of({ ...mockPendingRequest, name: 'Updated Instructor', comments: 'Updated comments' }),
+    );
+
+    fixture.detectChanges();
+    (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    const nameInput = fixture.debugElement.query(By.css('#request-name')).nativeElement as HTMLInputElement;
+    nameInput.value = 'Updated Instructor';
+    nameInput.dispatchEvent(new Event('input'));
+
+    const commentsInput = fixture.debugElement.query(By.css('#request-comments')).nativeElement as HTMLTextAreaElement;
+    commentsInput.value = 'Updated comments';
+    commentsInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    (fixture.debugElement.query(By.css('#btn-save-request-details')).nativeElement as HTMLButtonElement).click();
+    await flushAsyncSubmission();
+    fixture.detectChanges();
+
+    expect(saveSpy).toHaveBeenCalledWith('test-id-123', {
+      name: 'Updated Instructor',
+      email: 'test@example.com',
+      institute: 'Test University',
+      country: 'SG',
+      status: AccountVerificationRequestStatus.PENDING,
+      comments: 'Updated comments',
+    });
+    expect(component.accountVerificationRequest()?.name).toBe('Updated Instructor');
+    expect(component.accountVerificationRequest()?.comments).toBe('Updated comments');
+    expect(component.isEditing()).toBe(false);
+  });
+
+  it('should remain in edit mode when saving inline edits fails', async () => {
+    await setup();
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(
+      throwError(() => ({ error: { message: 'Update failed' }, status: 400 })),
+    );
+    const errorSpy = vi.spyOn(statusMessageService, 'showErrorToast');
+
+    fixture.detectChanges();
+    (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    (fixture.debugElement.query(By.css('#btn-save-request-details')).nativeElement as HTMLButtonElement).click();
+    await flushAsyncSubmission();
+    fixture.detectChanges();
+
+    expect(component.isEditing()).toBe(true);
+    expect(errorSpy).toHaveBeenCalledWith('Update failed');
   });
 
   it('should update state and show success toast on approve', async () => {

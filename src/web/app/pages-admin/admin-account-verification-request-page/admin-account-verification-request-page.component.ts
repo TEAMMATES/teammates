@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { AccountVerificationRequestUpdateRequest } from '../../../types/api-request';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { CountryNamePipe } from '../../pipes/country-name.pipe';
+import { RequestDetailsCardComponent } from './request-details-card.component';
 
 interface MockAccountRequestHistoryEntry {
   id: string;
@@ -22,7 +24,7 @@ interface MockAccountRequestHistoryEntry {
   selector: 'tm-admin-account-verification-request-page',
   templateUrl: './admin-account-verification-request-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LoadingSpinnerDirective, CountryNamePipe],
+  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent],
 })
 export class AdminAccountVerificationRequestPageComponent implements OnInit {
   private readonly accountService = inject(AccountService);
@@ -35,17 +37,35 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isLoading = signal(true);
   readonly isInvalidLink = signal(false);
   readonly accountVerificationRequest = signal<AccountVerificationRequest | null>(null);
-  readonly mockRequestHistory = signal<MockAccountRequestHistoryEntry[]>([]);
+  readonly mockHistoricalRequests = signal<MockAccountRequestHistoryEntry[]>([]);
+  readonly requestHistory = computed(() => {
+    const request = this.accountVerificationRequest();
+    if (!request) {
+      return [];
+    }
+
+    return [
+      {
+        id: request.accountVerificationRequestId,
+        institute: request.institute,
+        status: request.status,
+        submittedAt: request.createdAt,
+      },
+      ...this.mockHistoricalRequests(),
+    ];
+  });
+  readonly isEditing = signal(false);
   readonly isApproving = signal(false);
   readonly isRejecting = signal(false);
 
   readonly requestStatus = AccountVerificationRequestStatus;
+  readonly formatTimestampFn = (timestamp: number): string => this.formatTimestamp(timestamp);
 
   ngOnInit(): void {
     this.accountService.getAccountVerificationRequest(this.accountVerificationRequestId()).subscribe({
       next: (accountVerificationRequest: AccountVerificationRequest) => {
         this.accountVerificationRequest.set(accountVerificationRequest);
-        this.mockRequestHistory.set(this.buildMockRequestHistory(accountVerificationRequest));
+        this.mockHistoricalRequests.set(this.buildMockRequestHistory(accountVerificationRequest));
         this.isLoading.set(false);
       },
       error: () => {
@@ -57,7 +77,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
 
   approveRequest(): void {
     const accountVerificationRequest = this.accountVerificationRequest();
-    if (!accountVerificationRequest || !this.canTakeAction(accountVerificationRequest.status)) {
+    if (!accountVerificationRequest || !this.canTakeAction(accountVerificationRequest.status) || this.isEditing()) {
       return;
     }
 
@@ -81,7 +101,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
 
   rejectRequest(): void {
     const accountVerificationRequest = this.accountVerificationRequest();
-    if (!accountVerificationRequest || !this.canTakeAction(accountVerificationRequest.status)) {
+    if (!accountVerificationRequest || !this.canTakeAction(accountVerificationRequest.status) || this.isEditing()) {
       return;
     }
 
@@ -105,6 +125,39 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
     return status === AccountVerificationRequestStatus.PENDING && !this.isApproving() && !this.isRejecting();
   }
 
+  startEditing(): void {
+    if (!this.accountVerificationRequest()) {
+      return;
+    }
+    this.isEditing.set(true);
+  }
+
+  cancelEditing(): void {
+    this.isEditing.set(false);
+  }
+
+  async saveRequestDetails(updateRequest: AccountVerificationRequestUpdateRequest): Promise<void> {
+    const accountVerificationRequest = this.accountVerificationRequest();
+    if (!accountVerificationRequest) {
+      return;
+    }
+
+    try {
+      const updatedRequest = await firstValueFrom(
+        this.accountService.editAccountVerificationRequest(
+          accountVerificationRequest.accountVerificationRequestId,
+          updateRequest,
+        ),
+      );
+      this.accountVerificationRequest.set(updatedRequest);
+      this.isEditing.set(false);
+      this.statusMessageService.showSuccessToast('Account verification request was successfully updated.');
+    } catch (error) {
+      const errorResponse = error as ErrorMessageOutput;
+      this.statusMessageService.showErrorToast(errorResponse.error.message);
+    }
+  }
+
   getStatusBadgeClass(status: AccountVerificationRequestStatus): string {
     if (status === AccountVerificationRequestStatus.APPROVED) {
       return 'badge bg-success-subtle text-success-emphasis';
@@ -124,12 +177,6 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
     accountVerificationRequest: AccountVerificationRequest,
   ): MockAccountRequestHistoryEntry[] {
     return [
-      {
-        id: accountVerificationRequest.accountVerificationRequestId,
-        institute: accountVerificationRequest.institute,
-        status: accountVerificationRequest.status,
-        submittedAt: accountVerificationRequest.createdAt,
-      },
       {
         id: 'history-approved-request',
         institute: 'Example Graduate School',
