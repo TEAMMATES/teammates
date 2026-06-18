@@ -332,13 +332,6 @@ public final class CoursesLogic {
         return coursesDb.getTeamsForCourse(courseId);
     }
 
-    /**
-     * Sorts the courses list alphabetically by id.
-     */
-    public static void sortById(List<Course> courses) {
-        courses.sort(Comparator.comparing(Course::getId));
-    }
-
     private void validateTeam(Team team) throws InvalidParametersException {
         if (!team.isValid()) {
             throw new InvalidParametersException(team.getInvalidityInfo());
