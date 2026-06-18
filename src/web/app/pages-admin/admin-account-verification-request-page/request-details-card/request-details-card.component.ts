@@ -69,7 +69,7 @@ export class RequestDetailsCardComponent {
       submission: {
         action: async () => {
           await this.submitEdits()(toAccountVerificationRequestUpdateRequest(this.draftModel(), this.request().status));
-          this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
+          this.requestForm().reset();
         },
       },
     },
