@@ -74,10 +74,12 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     );
     expect(fixture.nativeElement.textContent).toContain('Example Graduate School');
     expect(fixture.nativeElement.textContent).toContain('Example Teaching Institute');
-    expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(false);
-    expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(false);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(false);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(false);
     expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeTruthy();
   });
 
@@ -89,10 +91,12 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     fixture.detectChanges();
 
-    expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
-    expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
     expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeFalsy();
   });
 
@@ -104,10 +108,12 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     fixture.detectChanges();
 
-    expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
-    expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
     expect(fixture.debugElement.query(By.css('#btn-edit-request-details'))).toBeFalsy();
   });
 
@@ -121,18 +127,20 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     expect(component.isEditing()).toBe(true);
     expect(fixture.debugElement.query(By.css('#btn-save-request-details'))).toBeTruthy();
-    expect((fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
-    expect((fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled)
-      .toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
+    expect(
+      (fixture.debugElement.query(By.css('#btn-reject-request')).nativeElement as HTMLButtonElement).disabled,
+    ).toBe(true);
   });
 
   it('should save inline edits and update the request', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
-    const saveSpy = vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(
-      of({ ...mockPendingRequest, name: 'Updated Instructor', comments: 'Updated comments' }),
-    );
+    const saveSpy = vi
+      .spyOn(accountService, 'editAccountVerificationRequest')
+      .mockReturnValue(of({ ...mockPendingRequest, name: 'Updated Instructor', comments: 'Updated comments' }));
 
     fixture.detectChanges();
     (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
@@ -174,6 +182,11 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     fixture.detectChanges();
     (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    const commentsInput = fixture.debugElement.query(By.css('#request-comments')).nativeElement as HTMLTextAreaElement;
+    commentsInput.value = 'Changed before failing save';
+    commentsInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
     (fixture.debugElement.query(By.css('#btn-save-request-details')).nativeElement as HTMLButtonElement).click();

@@ -88,13 +88,15 @@
           }
         </div>
 
-        <div class="col-12 d-flex flex-wrap justify-content-between align-items-center gap-3 pt-2">
-          <div class="text-body-secondary small">
-            @if (requestForm().dirty()) {
-              Unsaved changes
+        <div class="col-12 pt-2">
+          <div class="small mb-2 text-end">
+            @if (requestForm().invalid()) {
+              <span class="text-danger">Resolve validation errors before saving.</span>
+            } @else if (requestForm().dirty()) {
+              <span class="text-body-secondary">Unsaved changes.</span>
             }
           </div>
-          <div class="d-flex gap-2">
+          <div class="d-flex justify-content-end gap-2">
             <button type="button" class="btn btn-light" [disabled]="requestForm().submitting()" (click)="cancel()">
               Cancel
             </button>
@@ -102,7 +104,7 @@
               id="btn-save-request-details"
               type="submit"
               class="btn btn-primary"
-              [disabled]="requestForm().submitting()"
+              [disabled]="requestForm().submitting() || requestForm().invalid() || !requestForm().dirty()"
             >
               Save Changes
             </button>
