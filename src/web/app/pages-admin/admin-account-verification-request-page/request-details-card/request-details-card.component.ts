@@ -3,13 +3,21 @@ import { FormField, FormRoot, email, form, maxLength, required } from '@angular/
 import { CountryService } from '../../../../services/country.service';
 import { AccountVerificationRequestUpdateRequest } from '../../../../types/api-request';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
-import { SearchableComboboxComponent, ComboboxOption } from '../../../components/searchable-combobox/searchable-combobox.component';
+import {
+  SearchableComboboxComponent,
+  ComboboxOption,
+} from '../../../components/searchable-combobox/searchable-combobox.component';
 import { CountryNamePipe } from '../../../pipes/country-name.pipe';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
 } from '../account-verification-request-draft';
+import {
+  EMAIL_MAX_LENGTH,
+  INSTITUTE_NAME_MAX_LENGTH,
+  STUDENT_NAME_MAX_LENGTH,
+} from '../../../../types/field-validator';
 
 /**
  * Request details card with view and edit modes.
@@ -42,23 +50,25 @@ export class RequestDetailsCardComponent {
     this.draftModel,
     (draft) => {
       required(draft.name, { message: 'Name is required.' });
-      maxLength(draft.name, 100, { message: 'Name must be at most 100 characters.' });
+      maxLength(draft.name, STUDENT_NAME_MAX_LENGTH, {
+        message: `Name must be at most ${STUDENT_NAME_MAX_LENGTH} characters.`,
+      });
 
       required(draft.email, { message: 'Email is required.' });
+      maxLength(draft.email, EMAIL_MAX_LENGTH, { message: `Email must be at most ${EMAIL_MAX_LENGTH} characters.` });
       email(draft.email, { message: 'Enter a valid email address.' });
 
       required(draft.institute, { message: 'Institute is required.' });
-      maxLength(draft.institute, 100, { message: 'Institute must be at most 100 characters.' });
+      maxLength(draft.institute, INSTITUTE_NAME_MAX_LENGTH, {
+        message: `Institute must be at most ${INSTITUTE_NAME_MAX_LENGTH} characters.`,
+      });
 
       required(draft.country, { message: 'Country is required.' });
-      maxLength(draft.comments, 1000, { message: 'Comments must be at most 1000 characters.' });
     },
     {
       submission: {
         action: async () => {
-          await this.submitEdits()(
-            toAccountVerificationRequestUpdateRequest(this.draftModel(), this.request().status),
-          );
+          await this.submitEdits()(toAccountVerificationRequestUpdateRequest(this.draftModel(), this.request().status));
           this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
         },
       },
