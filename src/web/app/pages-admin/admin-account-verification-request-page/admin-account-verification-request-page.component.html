@@ -26,24 +26,16 @@
               [disabled]="!canTakeAction(request.status) || isEditing()"
               (click)="approveRequest()"
             >
-              @if (isApproving()) {
-                Approving...
-              } @else {
-                Approve
-              }
+              Approve
             </button>
             <button
               id="btn-reject-request"
               type="button"
-              class="btn btn-outline-danger"
+              class="btn btn-danger"
               [disabled]="!canTakeAction(request.status) || isEditing()"
               (click)="rejectRequest()"
             >
-              @if (isRejecting()) {
-                Rejecting...
-              } @else {
-                Reject
-              }
+              Reject
             </button>
           </div>
         </div>
@@ -64,7 +56,7 @@
         <div class="col-12 col-xl-6">
           <div class="card h-100">
             <div class="card-header">
-              <h2 class="h5 mb-0">Additional Context</h2>
+              <h2 class="h5">Additional Context</h2>
             </div>
             <div class="card-body">
               <div class="d-flex flex-column gap-3">
@@ -78,15 +70,13 @@
                   </p>
                 </div>
 
-                @for (historyEntry of requestHistory(); track historyEntry.id) {
+                @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
                   <div class="border rounded p-3">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                       <div class="fw-semibold">{{ historyEntry.institute }}</div>
                       <span [class]="getStatusBadgeClass(historyEntry.status)">{{ historyEntry.status }}</span>
                     </div>
-                    <div class="text-body-secondary small">
-                      Submitted {{ formatTimestamp(historyEntry.submittedAt) }}
-                    </div>
+                    <div class="text-body-secondary small">Submitted {{ formatTimestamp(historyEntry.createdAt) }}</div>
                   </div>
                 }
               </div>

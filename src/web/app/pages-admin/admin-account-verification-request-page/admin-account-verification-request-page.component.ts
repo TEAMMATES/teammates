@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
@@ -10,12 +10,26 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { RequestDetailsCardComponent } from './request-details-card/request-details-card.component';
 
-interface MockAccountRequestHistoryEntry {
-  id: string;
-  institute: string;
-  status: AccountVerificationRequestStatus;
-  submittedAt: number;
-}
+const mockRequestHistory: AccountVerificationRequest[] = [
+  {
+    accountVerificationRequestId: 'history-approved-request',
+    institute: 'Example Graduate School',
+    status: AccountVerificationRequestStatus.APPROVED,
+    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 48,
+    email: 'instructor@teammates.tmt',
+    name: 'instructor',
+    country: 'SG',
+  },
+  {
+    accountVerificationRequestId: 'history-rejected-request',
+    institute: 'Example Teaching Institute',
+    status: AccountVerificationRequestStatus.REJECTED,
+    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 180,
+    email: 'instructor@teammates.tmt',
+    name: 'instructor',
+    country: 'SG',
+  },
+];
 
 /**
  * Review page for a single account verification request.
@@ -37,26 +51,10 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isLoading = signal(true);
   readonly isInvalidLink = signal(false);
   readonly accountVerificationRequest = signal<AccountVerificationRequest | null>(null);
-  readonly mockHistoricalRequests = signal<MockAccountRequestHistoryEntry[]>([]);
-  readonly requestHistory = computed(() => {
-    const request = this.accountVerificationRequest();
-    if (!request) {
-      return [];
-    }
+  readonly historicalRequests = signal<AccountVerificationRequest[]>(mockRequestHistory);
 
-    return [
-      {
-        id: request.accountVerificationRequestId,
-        institute: request.institute,
-        status: request.status,
-        submittedAt: request.createdAt,
-      },
-      ...this.mockHistoricalRequests(),
-    ];
-  });
   readonly isEditing = signal(false);
-  readonly isApproving = signal(false);
-  readonly isRejecting = signal(false);
+  readonly isApprovingOrRejecting = signal(false);
 
   readonly requestStatus = AccountVerificationRequestStatus;
   readonly formatTimestampFn = (timestamp: number): string => this.formatTimestamp(timestamp);
@@ -65,7 +63,6 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
     this.accountService.getAccountVerificationRequest(this.accountVerificationRequestId()).subscribe({
       next: (accountVerificationRequest: AccountVerificationRequest) => {
         this.accountVerificationRequest.set(accountVerificationRequest);
-        this.mockHistoricalRequests.set(this.buildMockRequestHistory(accountVerificationRequest));
         this.isLoading.set(false);
       },
       error: () => {
@@ -81,7 +78,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       return;
     }
 
-    this.isApproving.set(true);
+    this.isApprovingOrRejecting.set(true);
     this.accountService
       .approveAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
       .subscribe({
@@ -90,11 +87,11 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
           this.statusMessageService.showSuccessToast(
             `Account verification request was successfully approved. Email has been sent to ${updatedRequest.email}.`,
           );
-          this.isApproving.set(false);
+          this.isApprovingOrRejecting.set(false);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          this.isApproving.set(false);
+          this.isApprovingOrRejecting.set(false);
         },
       });
   }
@@ -105,24 +102,24 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       return;
     }
 
-    this.isRejecting.set(true);
+    this.isApprovingOrRejecting.set(true);
     this.accountService
       .rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
       .subscribe({
         next: (updatedRequest: AccountVerificationRequest) => {
           this.accountVerificationRequest.set(updatedRequest);
           this.statusMessageService.showSuccessToast('Account verification request was successfully rejected.');
-          this.isRejecting.set(false);
+          this.isApprovingOrRejecting.set(false);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          this.isRejecting.set(false);
+          this.isApprovingOrRejecting.set(false);
         },
       });
   }
 
   canTakeAction(status: AccountVerificationRequestStatus): boolean {
-    return status === AccountVerificationRequestStatus.PENDING && !this.isApproving() && !this.isRejecting();
+    return status === AccountVerificationRequestStatus.PENDING && !this.isApprovingOrRejecting();
   }
 
   startEditing(): void {
@@ -171,24 +168,5 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   formatTimestamp(timestamp: number): string {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return this.dateFormatService.formatDateDetailed(timestamp, timezone);
-  }
-
-  private buildMockRequestHistory(
-    accountVerificationRequest: AccountVerificationRequest,
-  ): MockAccountRequestHistoryEntry[] {
-    return [
-      {
-        id: 'history-approved-request',
-        institute: 'Example Graduate School',
-        status: AccountVerificationRequestStatus.APPROVED,
-        submittedAt: accountVerificationRequest.createdAt - 1000 * 60 * 60 * 24 * 48,
-      },
-      {
-        id: 'history-rejected-request',
-        institute: 'Example Teaching Institute',
-        status: AccountVerificationRequestStatus.REJECTED,
-        submittedAt: accountVerificationRequest.createdAt - 1000 * 60 * 60 * 24 * 180,
-      },
-    ];
   }
 }

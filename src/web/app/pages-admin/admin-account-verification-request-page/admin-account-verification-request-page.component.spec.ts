@@ -199,7 +199,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     expect(successSpy).toHaveBeenCalledWith(
       'Account verification request was successfully approved. Email has been sent to test@example.com.',
     );
-    expect(component.isApproving()).toBe(false);
+    expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
   it('should update state and show success toast on reject', async () => {
@@ -215,7 +215,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     expect(component.accountVerificationRequest()?.status).toBe(AccountVerificationRequestStatus.REJECTED);
     expect(successSpy).toHaveBeenCalledWith('Account verification request was successfully rejected.');
-    expect(component.isRejecting()).toBe(false);
+    expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
   it('should show error toast and reset state when approve fails', async () => {
@@ -231,7 +231,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     expect(component.accountVerificationRequest()?.status).toBe(AccountVerificationRequestStatus.PENDING);
     expect(errorSpy).toHaveBeenCalledWith('Approval failed');
-    expect(component.isApproving()).toBe(false);
+    expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
   it('should show error toast and reset state when reject fails', async () => {
@@ -247,7 +247,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
 
     expect(component.accountVerificationRequest()?.status).toBe(AccountVerificationRequestStatus.PENDING);
     expect(errorSpy).toHaveBeenCalledWith('Rejection failed');
-    expect(component.isRejecting()).toBe(false);
+    expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
   it('should render demo course timestamp only when present', async () => {

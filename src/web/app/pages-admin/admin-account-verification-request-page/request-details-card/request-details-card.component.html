@@ -1,8 +1,13 @@
 <div class="card h-100">
   <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-    <h2 class="h5 mb-0">Request Details</h2>
+    <h2 class="h5">Request Details</h2>
     @if (!isEditing() && isEditable()) {
-      <button id="btn-edit-request-details" type="button" class="btn btn-outline-primary btn-sm" (click)="editStarted.emit()">
+      <button
+        id="btn-edit-request-details"
+        type="button"
+        class="btn btn-outline-primary btn-sm"
+        (click)="editStarted.emit()"
+      >
         Edit
       </button>
     }
@@ -23,7 +28,9 @@
         </div>
 
         <div class="col-12 col-md-6">
-          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-email">Email</label>
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-email"
+            >Email</label
+          >
           <input id="request-email" type="email" class="form-control" [formField]="requestForm.email" />
           @if (requestForm.email().invalid() && requestForm.email().touched()) {
             <ul class="text-danger small mt-1 mb-0 ps-3">
@@ -99,11 +106,7 @@
               class="btn btn-primary"
               [disabled]="requestForm().submitting()"
             >
-              @if (requestForm().submitting()) {
-                Saving...
-              } @else {
-                Save Changes
-              }
+              Save Changes
             </button>
           </div>
         </div>
