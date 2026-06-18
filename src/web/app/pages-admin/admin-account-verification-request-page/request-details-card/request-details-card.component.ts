@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output } from '@angular/core';
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
 import { CountryService } from '../../../../services/country.service';
-import { AccountVerificationRequestUpdateRequest } from '../../../../types/api-request';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
 import {
   SearchableComboboxComponent,
@@ -11,7 +10,6 @@ import { CountryNamePipe } from '../../../pipes/country-name.pipe';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestDraft,
-  toAccountVerificationRequestUpdateRequest,
 } from '../account-verification-request-draft';
 import {
   EMAIL_MAX_LENGTH,
@@ -34,7 +32,7 @@ export class RequestDetailsCardComponent {
   readonly request = input.required<AccountVerificationRequest>();
   readonly isEditing = input(false);
   readonly formatTimestamp = input.required<(timestamp: number) => string>();
-  readonly submitEdits = input.required<(updateRequest: AccountVerificationRequestUpdateRequest) => Promise<void>>();
+  readonly submitDraft = input.required<(draft: AccountVerificationRequestDraft) => Promise<void>>();
 
   readonly editStarted = output<void>();
   readonly cancelRequested = output<void>();
@@ -68,7 +66,7 @@ export class RequestDetailsCardComponent {
     {
       submission: {
         action: async () => {
-          await this.submitEdits()(toAccountVerificationRequestUpdateRequest(this.draftModel(), this.request().status));
+          await this.submitDraft()(this.draftModel());
           this.requestForm().reset();
         },
       },
@@ -76,6 +74,11 @@ export class RequestDetailsCardComponent {
   );
   isEditable(): boolean {
     return this.request().status === AccountVerificationRequestStatus.PENDING;
+  }
+
+  startEditing(): void {
+    this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
+    this.editStarted.emit();
   }
 
   cancel(): void {

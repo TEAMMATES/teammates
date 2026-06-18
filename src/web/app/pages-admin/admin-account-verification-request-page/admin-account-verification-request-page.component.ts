@@ -4,10 +4,13 @@ import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { AccountVerificationRequestUpdateRequest } from '../../../types/api-request';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  AccountVerificationRequestDraft,
+  toAccountVerificationRequestUpdateRequest,
+} from './account-verification-request-draft';
 import { RequestDetailsCardComponent } from './request-details-card/request-details-card.component';
 
 const mockRequestHistory: AccountVerificationRequest[] = [
@@ -57,8 +60,8 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isApprovingOrRejecting = signal(false);
 
   readonly formatTimestampFn = (timestamp: number): string => this.formatTimestamp(timestamp);
-  readonly submitRequestDetails = (updateRequest: AccountVerificationRequestUpdateRequest): Promise<void> =>
-    this.saveRequestDetails(updateRequest);
+  readonly submitRequestDraft = (draft: AccountVerificationRequestDraft): Promise<void> =>
+    this.saveRequestDetails(draft);
 
   ngOnInit(): void {
     this.accountService.getAccountVerificationRequest(this.accountVerificationRequestId()).subscribe({
@@ -113,7 +116,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
     this.isEditing.set(false);
   }
 
-  async saveRequestDetails(updateRequest: AccountVerificationRequestUpdateRequest): Promise<void> {
+  async saveRequestDetails(draft: AccountVerificationRequestDraft): Promise<void> {
     const accountVerificationRequest = this.accountVerificationRequest();
     if (!accountVerificationRequest) {
       return;
@@ -123,7 +126,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       const updatedRequest = await firstValueFrom(
         this.accountService.editAccountVerificationRequest(
           accountVerificationRequest.accountVerificationRequestId,
-          updateRequest,
+          toAccountVerificationRequestUpdateRequest(draft, accountVerificationRequest.status),
         ),
       );
       this.accountVerificationRequest.set(updatedRequest);
