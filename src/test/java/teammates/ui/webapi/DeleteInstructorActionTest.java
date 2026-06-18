@@ -33,6 +33,21 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test(groups = GroupNames.ACTION)
+    public void deleteInstructorAction_instructorWithoutModifyPrivilege_throwsUnauthorizedAccessException() {
+        var requesterAccount = given.account("requester-account");
+        var course = given.course("course");
+        given.instructor("requester", i -> i.course(course.alias()).account(requesterAccount.alias()).noPrivileges());
+        var target = given.instructor("target", i -> i.course(course.alias()));
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.USER_ID, target.id().toString())
+                .withAccountAuth(requesterAccount.id());
+
+        assertActionThrows(UnauthorizedAccessException.class, request);
+    }
+
+    @Test(groups = GroupNames.ACTION)
     public void deleteInstructorAction_instructorNotInCourse_throwsUnauthorizedAccessException() {
         var requesterAccount = given.account("requester-account");
         var otherCourse = given.course("other-course");
