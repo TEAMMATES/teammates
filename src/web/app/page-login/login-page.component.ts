@@ -16,7 +16,7 @@ export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
 
-  @Input({ required: true }) nextUrl!: string;
+  @Input() nextUrl = '/';
 
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
