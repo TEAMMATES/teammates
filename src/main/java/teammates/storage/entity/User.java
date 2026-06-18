@@ -47,9 +47,6 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "accountId")
     private Account account;
 
-    @Column(insertable = false, updatable = false)
-    private UUID accountId;
-
     @Column(nullable = false, insertable = false, updatable = false)
     private String courseId;
 
@@ -103,15 +100,12 @@ public abstract class User extends BaseEntity {
     }
 
     public UUID getAccountId() {
-        return accountId;
+        Account account = getAccount();
+        return account != null ? account.getId() : null;
     }
 
-    /**
-     * Sets the account of the user.
-     */
     public void setAccount(Account account) {
         this.account = account;
-        this.accountId = account == null ? null : account.getId();
     }
 
     public String getCourseId() {
@@ -204,7 +198,7 @@ public abstract class User extends BaseEntity {
     }
 
     public boolean isRegistered() {
-        return this.account != null || this.accountId != null;
+        return getAccount() != null;
     }
 
 }
