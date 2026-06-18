@@ -13,7 +13,6 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     private Instructor newInstructor;
-    private String newInstructorDisplayedUserId;
 
     @Override
     protected void prepareTestData() {
@@ -21,7 +20,6 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETest.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
-        newInstructorDisplayedUserId = testData.accounts.get("ICJoinConf.instr.CS1101").getGoogleId();
     }
 
     @Test
@@ -45,7 +43,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newInstructorDisplayedUserId);
+        confirmationPage.verifyJoiningUser(newInstructorEmail);
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Already joined, no confirmation page");

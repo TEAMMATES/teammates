@@ -13,16 +13,12 @@ import teammates.storage.entity.Student;
  */
 public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     private Student newStudent;
-    private String newStudentEmail;
-    private String newStudentDisplayedUserId;
 
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json"));
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudentEmail = testData.accounts.get("alice.tmms").getEmail();
-        newStudentDisplayedUserId = testData.accounts.get("alice.tmms").getGoogleId();
     }
 
     @Test
@@ -31,6 +27,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
         String invalidKey = "invalidKey";
+        String newStudentEmail = newStudent.getEmail();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withCourseId(courseId)
@@ -48,7 +45,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withEntityType(Const.EntityType.STUDENT);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newStudentDisplayedUserId);
+        confirmationPage.verifyJoiningUser(newStudentEmail);
         confirmationPage.confirmJoinCourse(StudentHomePage.class);
 
         ______TS("Already joined, no confirmation page");
