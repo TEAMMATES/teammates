@@ -86,13 +86,6 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     /**
-     * Sanitize the given URL to prevent HTTP response splitting.
-     */
-    String getSanitizedRedirectUrl(String url) {
-        return url.replace("\r\n", "");
-    }
-
-    /**
      * Encodes the given query parameter value to be safely included in a URL.
      */
     String getEncodedQueryParam(String param) {

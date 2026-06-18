@@ -23,6 +23,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 
@@ -77,7 +78,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        String redirectUrl = resp.encodeRedirectURL(getSanitizedRedirectUrl(authResult.nextUrl));
+        String nextUrl = UrlHelper.getSafeRedirectUrl(authResult.nextUrl);
+        String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
