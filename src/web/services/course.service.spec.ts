@@ -48,7 +48,7 @@ describe('CourseService', () => {
 
   it('should execute GET when getting all courses as student', () => {
     service.getAllCoursesAsStudent();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSES, {});
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSES);
   });
 
   it('should execute GET when getting specific course as student', () => {
