@@ -13,6 +13,7 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     private Instructor newInstructor;
+    private String newInstructorAccountEmail;
 
     @Override
     protected void prepareTestData() {
@@ -20,6 +21,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETest.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
+        newInstructorAccountEmail = testData.accounts.get("ICJoinConf.instr.CS1101").getEmail();
     }
 
     @Test
@@ -27,12 +29,11 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     public void testAll() {
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
-        String newInstructorEmail = newInstructor.getAccountEmail();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newInstructorEmail);
+                joinLink, CourseJoinConfirmationPage.class, newInstructorAccountEmail);
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
                 + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
@@ -43,7 +44,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newInstructorEmail);
+        confirmationPage.verifyJoiningUser(newInstructorAccountEmail);
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Already joined, no confirmation page");
