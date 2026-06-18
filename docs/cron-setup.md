@@ -25,7 +25,6 @@ All schedules below use **UTC**. Configure your scheduler to use this timezone.
 | `/auto/feedbackSessionClosingSoonReminders` | Reminders for sessions closing in 24h           | Every hour at :06     |
 | `/auto/feedbackSessionClosedReminders`      | Emails for sessions that just closed            | Every hour at :08     |
 | `/auto/feedbackSessionPublishedReminders`   | Emails for sessions just published              | Every hour at :04     |
-| `/auto/cleanupFeedbackSessionLogs`          | Delete student activity logs older than 90 days | Every Sunday at 03:00 |
 
 ## Format 2: Copy-Paste (Unix Cron)
 
@@ -40,7 +39,6 @@ Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler
 6 * * * *     | /auto/feedbackSessionClosingSoonReminders
 8 * * * *     | /auto/feedbackSessionClosedReminders
 4 * * * *     | /auto/feedbackSessionPublishedReminders
-0 3 * * 0     | /auto/cleanupFeedbackSessionLogs
 ```
 
 ## Example: Google Cloud Scheduler
