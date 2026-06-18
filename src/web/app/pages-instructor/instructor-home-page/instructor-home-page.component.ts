@@ -12,7 +12,7 @@ import {
   AuthInfo,
   Course,
   CourseView,
-  Courses,
+  InstructorCourses,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessions,
@@ -321,21 +321,26 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         error: () => {},
       });
     this.courseService
-      .getInstructorCoursesThatAreActive()
+      .getAllCoursesAsInstructor('active')
       .pipe(
         finalize(() => {
           this.hasCoursesLoaded = true;
         }),
       )
       .subscribe({
-        next: (courses: Courses) => {
-          courses.courses.forEach((courseView: CourseView) => {
-            this.allCoursesList.push(courseView.course);
-            this.initializeCourseTabModule(courseView);
+        next: (courses) => {
+          courses.courses.forEach((course) => {
+            this.allCoursesList.push(course);
+            this.initializeCourseTabModule({
+              course,
+              instructorPermissions: courses.instructorPermissions[course.courseId] ?? {
+                canModifyCourse: false,
+                canModifyStudent: false,
+                canModifyInstructor: false,
+              },
+            });
           });
-          this.isNewUser = !courses.courses.some(
-            (courseView: CourseView) => !/-demo\d*$/.test(courseView.course.courseId),
-          );
+          this.isNewUser = !courses.courses.some((course) => !/-demo\d*$/.test(course.courseId));
           this.sortCoursesBy(this.instructorCoursesSortBy);
         },
         error: (resp: ErrorMessageOutput) => {
@@ -344,8 +349,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         },
       });
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
-      next: (resp: Courses) => {
-        this.allCoursesList.push(...resp.courses.map((courseView: CourseView) => courseView.course));
+      next: (resp: InstructorCourses) => {
+        this.allCoursesList.push(...resp.courses);
       },
       error: (resp: ErrorMessageOutput) => {
         this.hasCoursesLoadingFailed = true;

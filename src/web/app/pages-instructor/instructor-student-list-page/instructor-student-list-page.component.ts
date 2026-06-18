@@ -7,15 +7,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import {
-  Course,
-  CourseView,
-  Courses,
-  InstructorPermissionSet,
-  InstructorPrivilege,
-  Student,
-  Students,
-} from '../../../types/api-output';
+import { Course, InstructorPermissionSet, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -95,9 +87,8 @@ export class InstructorStudentListPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (courses: Courses) => {
-          courses.courses.forEach((courseView: CourseView) => {
-            const course = courseView.course;
+        next: (courses) => {
+          courses.courses.forEach((course) => {
             const courseTab: CourseTab = {
               course,
               studentList: [],

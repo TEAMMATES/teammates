@@ -11,7 +11,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AuthInfo, Course, Courses, Institute, JoinState, Students } from '../../../types/api-output';
+import { AuthInfo, Course, InstructorCourses, Institute, JoinState, Students } from '../../../types/api-output';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -348,13 +348,13 @@ describe('InstructorCoursesPageComponent', () => {
 
     const courseSpy = vi
       .spyOn(courseService, 'getAllCoursesAsInstructor')
-      .mockImplementation((courseStatus: string): Observable<Courses> => {
+      .mockImplementation((courseStatus: string): Observable<InstructorCourses> => {
         if (courseStatus === 'active') {
-          return of({ courses: [{ course: courseCS1231 }, { course: courseCS3281 }, { course: courseCS3282 }] });
+          return of({ courses: [courseCS1231, courseCS3281, courseCS3282], instructorPermissions: {} });
         }
 
         // softDeleted
-        return of({ courses: [{ course: courseST4234 }] });
+        return of({ courses: [courseST4234], instructorPermissions: {} });
       });
 
     component.loadInstructorCourses();
