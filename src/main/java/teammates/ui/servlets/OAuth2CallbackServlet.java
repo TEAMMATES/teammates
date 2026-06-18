@@ -45,7 +45,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             loginHandler = getLoginHandler(LoginMethod.GOOGLE);
         }
 
-        AuthResult authResult = loginHandler.handleCallback(req, resp, null);
+        AuthResult authResult = loginHandler.handleCallback(req, resp, state);
         if (authResult == null) {
             return;
         }
@@ -103,6 +103,15 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String decryptedState = StringHelper.decrypt(encryptedState);
             return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
+            if (Config.isDevServerLoginEnabled()) {
+                try {
+                    return JsonUtils.fromJson(encryptedState, AuthState.class);
+                } catch (Exception devServerException) {
+                    logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
+                    return null;
+                }
+            }
+
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
             return null;
         }
