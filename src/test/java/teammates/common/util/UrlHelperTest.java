@@ -3,6 +3,8 @@ package teammates.common.util;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.isSafeRedirectUrl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,14 +17,6 @@ import teammates.test.BaseTestCase;
  * SUT: {@link UrlHelper}.
  */
 public class UrlHelperTest extends BaseTestCase {
-
-    private boolean isSafeRedirectUrl(String url) {
-        return UrlHelper.isSafeRedirectUrl(url);
-    }
-
-    private String encodeQueryParam(String param) {
-        return UrlHelper.encodeQueryParam(param);
-    }
 
     @Test
     public void testIsSafeRedirectUrl_relativeUrl_returnsTrue() {

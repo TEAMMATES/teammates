@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -22,10 +21,8 @@ import com.google.api.client.util.store.MemoryDataStoreFactory;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.UrlHelper;
 
 /**
  * Common servlet class that serves user authentication-related functions.
@@ -84,21 +81,6 @@ abstract class AuthServlet extends HttpServlet {
         cookie.setHttpOnly(true);
         cookie.setMaxAge((int) Const.COOKIE_VALIDITY_PERIOD.toSeconds()); // one week
         return cookie;
-    }
-
-    /**
-     * Logs the given error message and prints it in the HTTP response.
-     */
-    void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        HttpResponseHelper.logAndPrintError(req, resp, status, message);
-    }
-
-    /**
-     * Encodes the given query parameter value to be safely included in a URL.
-     */
-    String encodeQueryParam(String param) {
-        return UrlHelper.encodeQueryParam(param);
     }
 
     /**

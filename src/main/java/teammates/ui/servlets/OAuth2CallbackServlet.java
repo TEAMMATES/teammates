@@ -1,5 +1,7 @@
 package teammates.ui.servlets;
 
+import static teammates.common.util.HttpResponseHelper.logAndPrintError;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
