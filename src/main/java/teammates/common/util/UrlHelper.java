@@ -43,11 +43,11 @@ public final class UrlHelper {
 
         try {
             URI uri = new URI(url);
-            if (!uri.isAbsolute()) {
-                return isSafeRelativeRedirectUrl(url);
+            if (uri.isAbsolute()) {
+                return isSafeAbsoluteRedirectUrl(uri);
             }
 
-            return isAllowedAbsoluteRedirectUrl(uri);
+            return isSafeRelativeRedirectUrl(url);
         } catch (URISyntaxException e) {
             return false;
         }
@@ -58,7 +58,7 @@ public final class UrlHelper {
                 && !url.startsWith("//");
     }
 
-    private static boolean isAllowedAbsoluteRedirectUrl(URI uri) throws URISyntaxException {
+    private static boolean isSafeAbsoluteRedirectUrl(URI uri) throws URISyntaxException {
         if (!isHttp(uri) && !isHttps(uri)) {
             return false;
         }
