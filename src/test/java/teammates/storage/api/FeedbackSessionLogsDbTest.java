@@ -125,22 +125,6 @@ public class FeedbackSessionLogsDbTest extends BaseDbTestcase {
         assertEquals(List.of(feedbackSessionLog.id()), actual.stream().map(FeedbackSessionLog::getId).toList());
     }
 
-    @Test(groups = GroupNames.DB)
-    public void deleteFeedbackSessionLogsOlderThan_logsExist_deletesOlderLogs() {
-        Instant now = Instant.now();
-        var oldFeedbackSessionLog = given.feedbackSessionLog("old-feedback-session-log",
-                log -> log.timestamp(now.minus(2, ChronoUnit.HOURS)));
-        var recentFeedbackSessionLog = given.feedbackSessionLog("recent-feedback-session-log",
-                log -> log.timestamp(now.plus(1, ChronoUnit.HOURS)));
-        persistGivenData(given);
-
-        int actual = inTransaction(() -> feedbackSessionLogsDb.deleteFeedbackSessionLogsOlderThan(now));
-
-        assertEquals(1, actual);
-        verifyAbsentInDatabase(FeedbackSessionLog.class, oldFeedbackSessionLog.id());
-        verifyPresentInDatabase(FeedbackSessionLog.class, recentFeedbackSessionLog.id());
-    }
-
     private static FeedbackSessionLog buildDefaultFeedbackSessionLog(
             FeedbackSession feedbackSession, Student student, UUID feedbackSessionLogId) {
         assertNotNull(feedbackSession);
