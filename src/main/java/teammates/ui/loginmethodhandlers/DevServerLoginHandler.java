@@ -9,10 +9,8 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.UrlHelper;
-import teammates.ui.output.LoginMethod;
 
 /**
  * Login handler for dev server login
@@ -29,10 +27,8 @@ public class DevServerLoginHandler implements LoginMethodHandler {
             return;
         }
 
-        AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
-        String redirectUrl = resp.encodeRedirectURL("/devServerLogin?state="
-                + UrlHelper.encodeQueryParam(JsonUtils.toCompactJson(state)));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
+        String redirectUrl = resp.encodeRedirectURL("devServerLogin?nextUrl=" + UrlHelper.encodeQueryParam(nextUrl));
 
         resp.sendRedirect(redirectUrl);
     }
