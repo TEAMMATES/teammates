@@ -21,12 +21,12 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
   imports: [LoadingSpinnerDirective],
 })
 export class UserJoinPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private courseService = inject(CourseService);
-  private navigationService = inject(NavigationService);
-  private authService = inject(AuthService);
-  private simpleModalService = inject(SimpleModalService);
-  private ngbModal = inject(NgbModal);
+  private readonly route = inject(ActivatedRoute);
+  private readonly courseService = inject(CourseService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly authService = inject(AuthService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly ngbModal = inject(NgbModal);
 
   isLoading = true;
   hasJoined = false;
