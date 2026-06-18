@@ -18,9 +18,9 @@ public class UserInfo {
     public UUID accountId;
 
     /**
-     * The user's email address.
+     * The user's account email address.
      */
-    public String email;
+    public String accountEmail;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -42,10 +42,10 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String googleId, UUID accountId, String email) {
+    public UserInfo(String googleId, UUID accountId, String accountEmail) {
         this.id = googleId;
         this.accountId = accountId;
-        this.email = email;
+        this.accountEmail = accountEmail;
     }
 
     public String getId() {
@@ -56,8 +56,8 @@ public class UserInfo {
         return accountId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
     public boolean getIsAdmin() {

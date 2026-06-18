@@ -602,7 +602,7 @@ export interface User extends ApiOutput {
 export interface UserInfo {
   id: string;
   accountId: string;
-  email: string;
+  accountEmail: string;
   isAdmin: boolean;
   isInstructor: boolean;
   isStudent: boolean;
