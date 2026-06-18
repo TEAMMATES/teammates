@@ -11,11 +11,7 @@ import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestDraft,
 } from '../account-verification-request-draft';
-import {
-  EMAIL_MAX_LENGTH,
-  INSTITUTE_NAME_MAX_LENGTH,
-  STUDENT_NAME_MAX_LENGTH,
-} from '../../../../types/field-validator';
+import { EMAIL_MAX_LENGTH, INSTITUTE_NAME_MAX_LENGTH, PERSON_NAME_MAX_LENGTH } from '../../../../types/field-validator';
 
 /**
  * Request details card with view and edit modes.
@@ -48,8 +44,8 @@ export class RequestDetailsCardComponent {
     this.draftModel,
     (draft) => {
       required(draft.name, { message: 'Name is required.' });
-      maxLength(draft.name, STUDENT_NAME_MAX_LENGTH, {
-        message: `Name must be at most ${STUDENT_NAME_MAX_LENGTH} characters.`,
+      maxLength(draft.name, PERSON_NAME_MAX_LENGTH, {
+        message: `Name must be at most ${PERSON_NAME_MAX_LENGTH} characters.`,
       });
 
       required(draft.email, { message: 'Email is required.' });
