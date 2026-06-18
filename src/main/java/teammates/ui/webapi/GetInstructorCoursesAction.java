@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,42 +10,21 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.CourseViewData;
-import teammates.ui.output.CoursesData;
 import teammates.ui.output.InstructorCoursePermissionsData;
+import teammates.ui.output.InstructorCoursesData;
 
 /**
- * Gets all courses for the instructor, and filtered by active and soft-deleted.
- * Or gets all courses for the student he belongs to.
+ * Gets all courses for the logged-in instructor, filtered by active or soft-deleted status.
  */
-public class GetCoursesAction extends LoggedInAction {
+public class GetInstructorCoursesAction extends LoggedInAction {
+
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // No additional access control needed as both students and instructors can access this action
-        // as the courses returned are filtered based on the user.
+        // Courses are filtered to those where the user is an instructor.
     }
 
     @Override
     public JsonResult execute() {
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        switch (entityType) {
-        case Const.EntityType.STUDENT:
-            return getStudentCourses();
-        case Const.EntityType.INSTRUCTOR:
-            return getInstructorCourses();
-        default:
-            throw new InvalidHttpParameterException("Error: invalid entity type");
-        }
-    }
-
-    private JsonResult getStudentCourses() {
-        List<Course> courses = logic.getCoursesForStudentAccount(requestContext.getAccount());
-        CoursesData coursesData = new CoursesData(courses);
-
-        return new JsonResult(coursesData);
-    }
-
-    private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
         List<Instructor> instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
@@ -67,21 +45,19 @@ public class GetCoursesAction extends LoggedInAction {
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         CoursesLogic.sortById(courses);
-        CoursesData coursesData = new CoursesData(courses);
-        List<CourseViewData> coursesDataList = coursesData.getCourses();
 
-        coursesDataList.sort(Comparator.comparing(courseData -> courseData.getCourse().getCourseId()));
-        coursesDataList.forEach(courseData -> {
-            Instructor instructor = courseIdToInstructor.get(courseData.getCourse().getCourseId());
+        Map<String, InstructorCoursePermissionsData> permissionsByCourseId = new HashMap<>();
+        for (Course course : courses) {
+            Instructor instructor = courseIdToInstructor.get(course.getId());
             if (instructor == null) {
-                return;
+                continue;
             }
-            courseData.setInstructorPermissions(new InstructorCoursePermissionsData(
+            permissionsByCourseId.put(course.getId(), new InstructorCoursePermissionsData(
                     logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE),
                     logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
                     logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
-        });
+        }
 
-        return new JsonResult(coursesData);
+        return new JsonResult(new InstructorCoursesData(courses, permissionsByCourseId));
     }
 }

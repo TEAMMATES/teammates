@@ -14,6 +14,7 @@ import {
   Course,
   CourseView,
   Courses,
+  InstructorCourses,
   DeadlineExtensions,
   FeedbackQuestion,
   FeedbackQuestions,
@@ -238,21 +239,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return new Promise<void>(
       (_resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: unknown) => void) => {
         this.courseService
-          .getInstructorCoursesThatAreActive()
+          .getAllCoursesAsInstructor('active')
           .pipe(
             finalize(() => {
               this.sessionEditFormModel.isCopying = false;
             }),
           )
-          .subscribe((courses: Courses) => {
+          .subscribe((courses) => {
             this.failedToCopySessions = {};
             this.coursesOfModifiedSession = [];
             this.modifiedSession = {};
             const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
             modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-            modalRef.componentInstance.courseCandidates = courses.courses.map(
-              (courseView: CourseView) => courseView.course,
-            );
+            modalRef.componentInstance.courseCandidates = courses.courses;
             modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
             modalRef.result
