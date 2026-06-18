@@ -1,5 +1,6 @@
 package teammates.ui.request;
 
+import teammates.common.util.FieldValidator;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
@@ -13,6 +14,9 @@ public class CourseBasicRequest extends BasicRequest {
     public void validate() throws InvalidHttpRequestBodyException {
         validateTrue(courseName != null, "Course name should not be null");
         validateTrue(timeZone != null, "Time zone should not be null");
+
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(timeZone);
+        validateTrue(timeZoneErrorMessage.isEmpty(), timeZoneErrorMessage);
     }
 
     public String getCourseName() {
