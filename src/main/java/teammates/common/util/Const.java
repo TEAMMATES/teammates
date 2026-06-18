@@ -317,7 +317,8 @@ public final class Const {
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
         public static final String DEMO_COURSE = URI_PREFIX + "/demo/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
-        public static final String COURSES = URI_PREFIX + "/courses";
+        public static final String INSTRUCTOR_COURSES = URI_PREFIX + "/instructor/courses";
+        public static final String STUDENT_COURSES = URI_PREFIX + "/student/courses";
         public static final String INSTITUTES = URI_PREFIX + "/institutes";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";

@@ -21,12 +21,11 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseView,
-  Courses,
+  InstructorCoursePermissions,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessions,
   AuthInfo,
-  Institutes,
   JoinState,
   MessageOutput,
   ResponseVisibleSetting,
@@ -179,25 +178,33 @@ export class InstructorCoursesPageComponent implements OnInit {
         ),
       )
       .subscribe({
-        next: ({
-          activeCourses,
-          softDeletedCourses,
-          institutes,
-        }: {
-          activeCourses: Courses;
-          softDeletedCourses: Courses;
-          institutes: Institutes;
-        }) => {
-          activeCourses.courses.forEach((courseView: CourseView) => {
-            this.allCoursesList.push(courseView.course);
-            this.activeCoursesList.push(courseView.course);
-            this.activeCourses.push(this.buildCourseModel(courseView));
+        next: ({ activeCourses, softDeletedCourses, institutes }) => {
+          activeCourses.courses.forEach((course) => {
+            this.allCoursesList.push(course);
+            this.activeCoursesList.push(course);
+            this.activeCourses.push(
+              this.buildCourseModel(
+                course,
+                activeCourses.instructorPermissions[course.courseId] ?? {
+                  canModifyCourse: false,
+                  canModifyStudent: false,
+                  canModifyInstructor: false,
+                },
+              ),
+            );
           });
           this.activeCoursesDefaultSort();
 
-          softDeletedCourses.courses.forEach((courseView: CourseView) => {
-            this.allCoursesList.push(courseView.course);
-            const softDeletedCourse: CourseModel = this.buildCourseModel(courseView);
+          softDeletedCourses.courses.forEach((course: Course) => {
+            this.allCoursesList.push(course);
+            const softDeletedCourse: CourseModel = this.buildCourseModel(
+              course,
+              softDeletedCourses.instructorPermissions[course.courseId] ?? {
+                canModifyCourse: false,
+                canModifyStudent: false,
+                canModifyInstructor: false,
+              },
+            );
             this.softDeletedCourses.push(softDeletedCourse);
             this.deletedCoursesDefaultSort();
             if (!softDeletedCourse.canModifyCourse) {
@@ -228,12 +235,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Builds a CourseModel from a Course object.
    */
-  private buildCourseModel(courseView: CourseView): CourseModel {
+  private buildCourseModel(course: Course, permissions: InstructorCoursePermissions | undefined): CourseModel {
     return {
-      course: courseView.course,
-      canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
-      canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
-      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
+      course,
+      canModifyCourse: permissions?.canModifyCourse ?? false,
+      canModifyStudent: permissions?.canModifyStudent ?? false,
+      canModifyInstructor: permissions?.canModifyInstructor ?? false,
       isLoadingCourseStats: false,
     };
   }
