@@ -115,4 +115,5 @@ export enum ResourceEndpoints {
   SEARCH_INSTRUCTORS = "/webapi/search/instructors",
   SEARCH_STUDENTS = "/webapi/search/students",
   USAGE_STATISTICS = "/webapi/usagestats",
+  CONFIG = "/webapi/config",
 }
