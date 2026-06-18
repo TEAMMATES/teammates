@@ -27,7 +27,6 @@ import {
   AuthInfo,
   Course,
   CourseView,
-  InstructorCourses,
   FeedbackSessionView,
   FeedbackSessions,
   Instructor,

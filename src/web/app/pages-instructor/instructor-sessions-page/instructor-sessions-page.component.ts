@@ -12,7 +12,6 @@ import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-perma
 import { CourseService } from '../../../services/course.service';
 import {
   Course,
-  InstructorCourses,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionView,

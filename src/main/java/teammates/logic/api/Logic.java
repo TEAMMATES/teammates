@@ -443,6 +443,16 @@ public class Logic {
     }
 
     /**
+     * Gets courses for the instructor account, mapped to the course-level permissions for each course.
+     *
+     * @throws InvalidParametersException if the course status is invalid.
+     */
+    public Map<Course, InstructorPermissionSet> getCoursesForInstructorAccount(UUID accountId, String courseStatus)
+            throws InvalidParametersException {
+        return coursesLogic.getCoursesForInstructorAccount(accountId, courseStatus);
+    }
+
+    /**
      * Creates a course and an associated instructor for the course.
      *
      * @param courseCreator      the account of the instructor creating the course.

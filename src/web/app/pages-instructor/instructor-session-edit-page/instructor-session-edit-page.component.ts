@@ -13,8 +13,6 @@ import { VisibilityStateMachine } from '../../../services/visibility-state-machi
 import {
   Course,
   CourseView,
-  Courses,
-  InstructorCourses,
   DeadlineExtensions,
   FeedbackQuestion,
   FeedbackQuestions,
