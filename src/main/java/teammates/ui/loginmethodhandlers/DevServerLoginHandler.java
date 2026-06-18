@@ -12,6 +12,7 @@ import teammates.common.util.Config;
 import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
 import teammates.ui.output.LoginMethod;
 
@@ -31,8 +32,9 @@ public class DevServerLoginHandler implements LoginMethodHandler {
         }
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
+        String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
         String redirectUrl = resp.encodeRedirectURL("/devServerLogin?state="
-                + UrlHelper.encodeQueryParam(JsonUtils.toCompactJson(state)));
+                + UrlHelper.encodeQueryParam(encryptedState));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
 
         resp.sendRedirect(redirectUrl);
