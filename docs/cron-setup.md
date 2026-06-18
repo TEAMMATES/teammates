@@ -18,13 +18,13 @@ All schedules below use **UTC**. Configure your scheduler to use this timezone.
 
 ## Format 1: Human-Readable Schedule
 
-| Endpoint                                    | Description                                     | Schedule (UTC)        |
-| ------------------------------------------- | ----------------------------------------------- | --------------------- |
-| `/auto/feedbackSessionOpenedReminders`      | Emails for sessions that just opened            | Every hour at :02     |
-| `/auto/feedbackSessionOpeningSoonReminders` | Emails for sessions opening in 24h              | Every hour at :11     |
-| `/auto/feedbackSessionClosingSoonReminders` | Reminders for sessions closing in 24h           | Every hour at :06     |
-| `/auto/feedbackSessionClosedReminders`      | Emails for sessions that just closed            | Every hour at :08     |
-| `/auto/feedbackSessionPublishedReminders`   | Emails for sessions just published              | Every hour at :04     |
+| Endpoint                                    | Description                           | Schedule (UTC)    |
+| ------------------------------------------- | ------------------------------------- | ----------------- |
+| `/auto/feedbackSessionOpenedReminders`      | Emails for sessions that just opened  | Every hour at :02 |
+| `/auto/feedbackSessionOpeningSoonReminders` | Emails for sessions opening in 24h    | Every hour at :11 |
+| `/auto/feedbackSessionClosingSoonReminders` | Reminders for sessions closing in 24h | Every hour at :06 |
+| `/auto/feedbackSessionClosedReminders`      | Emails for sessions that just closed  | Every hour at :08 |
+| `/auto/feedbackSessionPublishedReminders`   | Emails for sessions just published    | Every hour at :04 |
 
 ## Format 2: Copy-Paste (Unix Cron)
 
