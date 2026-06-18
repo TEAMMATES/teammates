@@ -19,7 +19,7 @@ public class DevServerLoginServlet extends AuthServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            resp.sendError(HttpStatus.SC_FORBIDDEN);
             return;
         }
 
