@@ -26,6 +26,16 @@ const routes: Routes = [
     },
   },
   {
+    path: 'account-verification-requests/:accountVerificationRequestId',
+    loadComponent: () =>
+      import('./admin-account-verification-request-page/admin-account-verification-request-page.component').then(
+        (m) => m.AdminAccountVerificationRequestPageComponent,
+      ),
+    data: {
+      pageTitle: 'Account Verification Request',
+    },
+  },
+  {
     path: 'sessions',
     loadComponent: () =>
       import('./admin-sessions-page/admin-sessions-page.component').then((m) => m.AdminSessionsPageComponent),
