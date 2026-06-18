@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Course;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -18,26 +17,20 @@ public class UpdateCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyCanModifyCourse(requestContext, courseId);
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
         String courseTimeZone = courseUpdateRequest.getTimeZone();
-
-        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
-        if (!timeZoneErrorMessage.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
-        }
-
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String courseName = courseUpdateRequest.getCourseName();
 
         try {
             Course updatedCourse = logic.updateCourse(courseId, courseName, courseTimeZone);
             return new JsonResult(new CourseData(updatedCourse));
-
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException edee) {
