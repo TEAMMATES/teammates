@@ -124,7 +124,7 @@
         </div>
         <div class="col-12">
           <div class="text-body-secondary small text-uppercase fw-semibold">Submitted At</div>
-          <div>{{ formatTimestamp()(request().createdAt) }}</div>
+          <div>{{ formatTimestamp(request().createdAt) }}</div>
         </div>
         <div class="col-12">
           <div class="text-body-secondary small text-uppercase fw-semibold">Comments</div>
@@ -133,7 +133,7 @@
         @if (request().createdDemoCourseAt) {
           <div class="col-12">
             <div class="text-body-secondary small text-uppercase fw-semibold">Demo Course Created</div>
-            <div>{{ formatTimestamp()(request().createdDemoCourseAt!) }}</div>
+            <div>{{ formatTimestamp(request().createdDemoCourseAt!) }}</div>
           </div>
         }
       </div>

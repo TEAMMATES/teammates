@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output } from '@angular/core';
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
 import { CountryService } from '../../../../services/country.service';
+import { DateFormatService } from '../../../../services/date-format.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
 import {
   SearchableComboboxComponent,
@@ -24,10 +25,11 @@ import { EMAIL_MAX_LENGTH, INSTITUTE_NAME_MAX_LENGTH, PERSON_NAME_MAX_LENGTH } f
 })
 export class RequestDetailsCardComponent {
   private readonly countryService = inject(CountryService);
+  private readonly dateFormatService = inject(DateFormatService);
 
   readonly request = input.required<AccountVerificationRequest>();
   readonly isEditing = input(false);
-  readonly formatTimestamp = input.required<(timestamp: number) => string>();
+  readonly timezone = input.required<string>();
   readonly submitDraft = input.required<(draft: AccountVerificationRequestDraft) => Promise<void>>();
 
   readonly editStarted = output<void>();
@@ -80,5 +82,9 @@ export class RequestDetailsCardComponent {
   cancel(): void {
     this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
     this.cancelRequested.emit();
+  }
+
+  formatTimestamp(timestamp: number): string {
+    return this.dateFormatService.formatDateDetailed(timestamp, this.timezone());
   }
 }

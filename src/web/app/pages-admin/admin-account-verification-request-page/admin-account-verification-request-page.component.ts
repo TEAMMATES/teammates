@@ -59,7 +59,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isEditing = signal(false);
   readonly isApprovingOrRejecting = signal(false);
 
-  readonly formatTimestampFn = (timestamp: number): string => this.formatTimestamp(timestamp);
+  readonly timezone = this.timezoneService.guessTimezone() || 'UTC';
   readonly submitRequestDraft = (draft: AccountVerificationRequestDraft): Promise<void> =>
     this.saveRequestDetails(draft);
 
@@ -149,8 +149,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   }
 
   formatTimestamp(timestamp: number): string {
-    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    return this.dateFormatService.formatDateDetailed(timestamp, timezone);
+    return this.dateFormatService.formatDateDetailed(timestamp, this.timezone);
   }
 
   private runStatusTransition(
