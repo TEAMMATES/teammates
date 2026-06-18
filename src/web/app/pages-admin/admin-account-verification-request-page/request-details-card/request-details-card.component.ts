@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output } from '@angular/core';
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
-import { CountryService } from '../../../services/country.service';
-import { AccountVerificationRequestUpdateRequest } from '../../../types/api-request';
-import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
-import { SearchableComboboxComponent, ComboboxOption } from '../../components/searchable-combobox/searchable-combobox.component';
-import { CountryNamePipe } from '../../pipes/country-name.pipe';
+import { CountryService } from '../../../../services/country.service';
+import { AccountVerificationRequestUpdateRequest } from '../../../../types/api-request';
+import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
+import { SearchableComboboxComponent, ComboboxOption } from '../../../components/searchable-combobox/searchable-combobox.component';
+import { CountryNamePipe } from '../../../pipes/country-name.pipe';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
-} from './account-verification-request-draft';
+} from '../account-verification-request-draft';
 
 /**
  * Request details card with view and edit modes.

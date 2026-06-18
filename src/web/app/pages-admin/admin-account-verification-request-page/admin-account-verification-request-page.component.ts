@@ -8,7 +8,7 @@ import { AccountVerificationRequestUpdateRequest } from '../../../types/api-requ
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { RequestDetailsCardComponent } from './request-details-card.component';
+import { RequestDetailsCardComponent } from './request-details-card/request-details-card.component';
 
 interface MockAccountRequestHistoryEntry {
   id: string;
