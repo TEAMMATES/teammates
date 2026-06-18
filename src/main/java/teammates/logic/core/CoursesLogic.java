@@ -4,9 +4,7 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -189,7 +187,7 @@ public final class CoursesLogic {
 
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
         instructors.forEach(i -> courseIdToInstructor.put(i.getCourseId(), i));
-        Map<Course, InstructorPermissionSet> result = new LinkedHashMap<>();
+        Map<Course, InstructorPermissionSet> result = new HashMap<>();
         courses.forEach(course -> {
             Instructor instructor = courseIdToInstructor.get(course.getId());
             InstructorPermissionSet permissions = instructor == null

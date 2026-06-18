@@ -60,7 +60,7 @@ export class CourseService {
    * Gets all course data for a student by calling API.
    */
   getAllCoursesAsStudent(): Observable<Courses> {
-    return this.httpRequestService.get(ResourceEndpoints.STUDENT_COURSES, {});
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_COURSES);
   }
 
   /**
