@@ -25,6 +25,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 
 /**
  * Common servlet class that serves user authentication-related functions.
@@ -91,6 +92,13 @@ abstract class AuthServlet extends HttpServlet {
     void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
             throws IOException {
         HttpResponseHelper.logAndPrintError(req, resp, status, message);
+    }
+
+    /**
+     * Encodes the given query parameter value to be safely included in a URL.
+     */
+    String encodeQueryParam(String param) {
+        return UrlHelper.encodeQueryParam(param);
     }
 
     /**

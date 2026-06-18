@@ -50,8 +50,4 @@ public class DevServerLoginServlet extends AuthServlet {
         resp.sendRedirect(redirectUrl);
     }
 
-    private String encodeQueryParam(String param) {
-        return UrlHelper.encodeQueryParam(param);
-    }
-
 }
