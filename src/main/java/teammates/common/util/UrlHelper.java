@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 public final class UrlHelper {
 
     private static final String DEFAULT_REDIRECT_URL = "/";
+    private static final int HTTPS_PORT = 443;
+    private static final int HTTP_PORT = 80;
 
     private UrlHelper() {
       // utility class
@@ -57,9 +59,7 @@ public final class UrlHelper {
     }
 
     private static boolean isAllowedAbsoluteRedirectUrl(URI uri) throws URISyntaxException {
-        String scheme = uri.getScheme();
-        if (scheme == null
-                || !"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
+        if (!isHttp(uri) && !isHttps(uri)) {
             return false;
         }
 
@@ -68,10 +68,12 @@ public final class UrlHelper {
     }
 
     private static boolean isSameOrigin(URI firstUri, URI secondUri) {
-        return firstUri.getScheme().equalsIgnoreCase(secondUri.getScheme())
-                && firstUri.getHost() != null
-                && firstUri.getHost().equalsIgnoreCase(secondUri.getHost())
-                && getPort(firstUri) == getPort(secondUri);
+        boolean isSameScheme = firstUri.getScheme().equalsIgnoreCase(secondUri.getScheme());
+        boolean isSameHost = firstUri.getHost() != null
+                && firstUri.getHost().equalsIgnoreCase(secondUri.getHost());
+        boolean isSamePort = getPort(firstUri) == getPort(secondUri);
+
+        return isSameScheme && isSameHost && isSamePort;
     }
 
     private static int getPort(URI uri) {
@@ -79,7 +81,15 @@ public final class UrlHelper {
             return uri.getPort();
         }
 
-        return "https".equalsIgnoreCase(uri.getScheme()) ? 443 : 80;
+        return isHttps(uri) ? HTTPS_PORT : HTTP_PORT;
+    }
+
+    private static boolean isHttp(URI uri) {
+        return "http".equalsIgnoreCase(uri.getScheme());
+    }
+
+    private static boolean isHttps(URI uri) {
+        return "https".equalsIgnoreCase(uri.getScheme());
     }
 
 }
