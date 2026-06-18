@@ -1121,10 +1121,6 @@ public class Logic {
      *
      * <p>
      * Fails silently if the student does not exist.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * User ID is non-null.
      */
     public void deleteStudentCascade(UUID userId) {
         usersLogic.deleteStudentCascade(userId);
