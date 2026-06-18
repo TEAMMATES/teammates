@@ -42,7 +42,8 @@ public class LoginServlet extends AuthServlet {
 
         if (Config.isDevServerLoginEnabled()) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
-            String redirectUrl = resp.encodeRedirectURL("/devServerLogin?nextUrl=" + getEncodedQueryParam(nextUrl));
+            String redirectUrl = resp.encodeRedirectURL(
+                    "/devServerLogin?nextUrl=" + UrlHelper.encodeQueryParam(nextUrl));
             resp.sendRedirect(redirectUrl);
             return;
         }

@@ -44,10 +44,14 @@ public class DevServerLoginServlet extends AuthServlet {
 
         String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter("nextUrl"));
 
-        email = getEncodedQueryParam(email);
-        nextUrl = getEncodedQueryParam(nextUrl);
+        email = encodeQueryParam(email);
+        nextUrl = encodeQueryParam(nextUrl);
         String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
         resp.sendRedirect(redirectUrl);
+    }
+
+    private String encodeQueryParam(String param) {
+        return UrlHelper.encodeQueryParam(param);
     }
 
 }

@@ -156,14 +156,6 @@ public class OAuth2CallbackServlet extends AuthServlet {
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
     }
 
-    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        resp.setStatus(status);
-        resp.getWriter().print(message);
-
-        log.request(req, status, message);
-    }
-
     private static final class AuthResult {
         private final Provider provider;
         private final String subject;

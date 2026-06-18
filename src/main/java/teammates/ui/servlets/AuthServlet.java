@@ -1,14 +1,13 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -23,6 +22,7 @@ import com.google.api.client.util.store.MemoryDataStoreFactory;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 
@@ -86,10 +86,11 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     /**
-     * Encodes the given query parameter value to be safely included in a URL.
+     * Logs the given error message and prints it in the HTTP response.
      */
-    String getEncodedQueryParam(String param) {
-        return URLEncoder.encode(param, StandardCharsets.UTF_8);
+    void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
+            throws IOException {
+        HttpResponseHelper.logAndPrintError(req, resp, status, message);
     }
 
     /**

@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,6 +18,10 @@ public class UrlHelperTest extends BaseTestCase {
 
     private boolean isSafeRedirectUrl(String url) {
         return UrlHelper.isSafeRedirectUrl(url);
+    }
+
+    private String encodeQueryParam(String param) {
+        return UrlHelper.encodeQueryParam(param);
     }
 
     @Test
@@ -65,6 +70,13 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl(null));
         assertFalse(isSafeRedirectUrl("https://[invalid"));
         assertFalse(isSafeRedirectUrl("web/instructor/home"));
+    }
+
+    @Test
+    public void testEncodeQueryParam() {
+        assertEquals("normal", encodeQueryParam("normal"));
+        assertEquals("with+spaces", encodeQueryParam("with spaces"));
+        assertEquals("with%2Fspecial%3Fchars%26", encodeQueryParam("with/special?chars&"));
     }
 
 }
