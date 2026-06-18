@@ -27,7 +27,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     public void testAll() {
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
-        String newInstructorEmail = newInstructor.getEmail();
+        String newInstructorEmail = newInstructor.getAccountEmail();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);

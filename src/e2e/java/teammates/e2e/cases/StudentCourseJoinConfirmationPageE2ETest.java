@@ -27,7 +27,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
         String invalidKey = "invalidKey";
-        String newStudentEmail = newStudent.getEmail();
+        String newStudentEmail = newStudent.getAccountEmail();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withCourseId(courseId)
