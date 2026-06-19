@@ -90,7 +90,7 @@ public class FeedbackContributionQuestionStatisticsCalculatorTest extends BaseSt
                         student("alice").getId());
 
         assertEquals(normalizedValues.get(response("alice-self").getId()).intValue(), 120);
-        assertEquals(normalizedValues.get(response("bob-charlie").getId()).intValue(), 110);
+        assertEquals(normalizedValues.get(response("bob-charlie").getId()).intValue(), 119);
         assertFalse(normalizedValues.containsKey(response("charlie-self").getId()));
     }
 

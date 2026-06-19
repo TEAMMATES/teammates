@@ -140,7 +140,10 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
                 continue;
             }
 
-            int normalizedValue = teamResult.normalizedClaimed[giverIndex][responseRecipientIndex];
+            boolean isSelfResponse = giverUserId.equals(recipientUserId);
+            int normalizedValue = isSelfResponse
+                    ? teamResult.normalizedClaimed[giverIndex][responseRecipientIndex]
+                    : teamResult.normalizedPeerContributionRatio[giverIndex][responseRecipientIndex];
             normalizedValues.put(responseId, normalizedValue);
         }
         return normalizedValues;
