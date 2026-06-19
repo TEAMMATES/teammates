@@ -17,6 +17,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 
 /**
@@ -30,12 +31,7 @@ public class LoginServlet extends AuthServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
-
-        nextUrl = getSanitizedRedirectUrl(nextUrl);
+        String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter("nextUrl"));
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
@@ -46,7 +42,8 @@ public class LoginServlet extends AuthServlet {
 
         if (Config.isDevServerLoginEnabled()) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
-            String redirectUrl = resp.encodeRedirectURL("/devServerLogin?nextUrl=" + getEncodedQueryParam(nextUrl));
+            String redirectUrl = resp.encodeRedirectURL(
+                    "/devServerLogin?nextUrl=" + UrlHelper.encodeQueryParam(nextUrl));
             resp.sendRedirect(redirectUrl);
             return;
         }

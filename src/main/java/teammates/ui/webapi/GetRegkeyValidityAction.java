@@ -1,9 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 
@@ -19,39 +19,26 @@ public class GetRegkeyValidityAction extends PublicAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
-        boolean isValid = false;
-        String googleId = null;
+        User regKeyOwner = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            Student student = logic.getStudentByRegistrationKey(regKey);
-            if (student != null) {
-                isValid = true;
-                googleId = student.getGoogleId();
-            }
+            regKeyOwner = logic.getStudentByRegistrationKey(regKey);
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
-            Instructor instructor = logic.getInstructorByRegistrationKey(regKey);
-            if (instructor != null) {
-                isValid = true;
-                googleId = instructor.getGoogleId();
-            }
+            regKeyOwner = logic.getInstructorByRegistrationKey(regKey);
         }
 
-        boolean isUsed = false;
-        boolean isAllowedAccess = false;
-
-        if (isValid) {
-            if (StringHelper.isEmpty(googleId)) {
-                // If registration key has not been used, always allow access
-                isAllowedAccess = true;
-            } else {
-                isUsed = true;
-                // If the registration key has been used to register, the logged in user needs to match
-                // Block access to not logged in user and mismatched user
-                isAllowedAccess = googleId.equals(getCurrentUserGoogleId());
-            }
+        if (regKeyOwner == null) {
+            // The rest does not matter if regKeyOwner is null. (i.e. the regkey is invalid)
+            return new JsonResult(new RegkeyValidityData(false, false, false));
         }
 
-        return new JsonResult(new RegkeyValidityData(isValid, isUsed, isAllowedAccess));
+        UUID linkedAccountId = regKeyOwner.getAccountId();
+        boolean isUsed = linkedAccountId != null;
+        // If registration key has not been used, always allow access.
+        // Otherwise, the signed in user needs to match.
+        boolean isAllowedAccess = !isUsed || linkedAccountId.equals(getCurrentUserAccountId());
+
+        return new JsonResult(new RegkeyValidityData(true, isUsed, isAllowedAccess));
     }
 
 }
