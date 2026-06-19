@@ -333,7 +333,6 @@ describe('InstructorCoursesPageComponent', () => {
       loginUrl: '',
       masquerade: false,
       user: {
-        id: 'test-user',
         accountId: 'test-account-id',
         accountEmail: 'test@test.com',
         isAdmin: false,
