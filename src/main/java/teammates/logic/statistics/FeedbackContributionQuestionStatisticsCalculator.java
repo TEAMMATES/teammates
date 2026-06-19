@@ -153,8 +153,8 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
                 ? new ArrayList<>(teamIdToMembers.keySet())
                 : getTeamsForRecipient(bundle, recipientId);
         Map<UUID, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, teamIds);
-        Map<UUID, int[][]> teamSubmissionArray = getTeamSubmissionArray(teamIds, teamIdToMembers, teamResponses);
-        Map<UUID, TeamEvalResult> teamResults = getTeamResults(teamIds, teamSubmissionArray);
+        Map<UUID, int[][]> claimedValuesByTeam = getClaimedValuesByTeam(teamIds, teamIdToMembers, teamResponses);
+        Map<UUID, TeamEvalResult> teamResults = getTeamResults(teamIds, claimedValuesByTeam);
         return new ContributionComputationContext(teamIdToMembers, teamResults);
     }
 
@@ -190,46 +190,57 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
         return -1;
     }
 
-    private Map<UUID, TeamEvalResult> getTeamResults(List<UUID> teamIds, Map<UUID, int[][]> teamSubmissionArray) {
+    private Map<UUID, TeamEvalResult> getTeamResults(List<UUID> teamIds, Map<UUID, int[][]> claimedValuesByTeam) {
         Map<UUID, TeamEvalResult> teamResults = new LinkedHashMap<>();
         for (UUID teamId : teamIds) {
-            teamResults.put(teamId, new TeamEvalResult(teamSubmissionArray.get(teamId)));
+            teamResults.put(teamId, calculateTeamResult(claimedValuesByTeam.get(teamId)));
         }
         return teamResults;
     }
 
-    private Map<UUID, int[][]> getTeamSubmissionArray(
+    /**
+     * Calculates the normalized team contribution result from raw claimed values.
+     */
+    static TeamEvalResult calculateTeamResult(int[][] claimedValues) {
+        return new TeamEvalResult(claimedValues);
+    }
+
+    private Map<UUID, int[][]> getClaimedValuesByTeam(
             List<UUID> teamIds,
             Map<UUID, List<Student>> teamIdToMembers,
             Map<UUID, List<FeedbackResponse>> teamResponses) {
-        Map<UUID, int[][]> teamSubmissionArray = new LinkedHashMap<>();
+        Map<UUID, int[][]> claimedValuesByTeam = new LinkedHashMap<>();
         for (UUID teamId : teamIds) {
             List<Student> teamMembers = teamIdToMembers.getOrDefault(teamId, List.of());
-            int teamSize = teamMembers.size();
-            int[][] submissionArray = new int[teamSize][teamSize];
-            for (int i = 0; i < teamSize; i++) {
-                for (int j = 0; j < teamSize; j++) {
-                    submissionArray[i][j] = Const.POINTS_NOT_SUBMITTED;
-                }
-            }
-
-            for (FeedbackResponse response : teamResponses.getOrDefault(teamId, List.of())) {
-                UUID giverUserId = response.getGiver().getGiverUserId();
-                UUID recipientUserId = response.getRecipient().getRecipientUserId();
-                if (giverUserId == null || recipientUserId == null) {
-                    continue;
-                }
-                int giverIndex = indexOfStudent(teamMembers, giverUserId);
-                int recipientIndex = indexOfStudent(teamMembers, recipientUserId);
-                if (giverIndex == -1 || recipientIndex == -1) {
-                    continue;
-                }
-                int points = ((FeedbackContributionResponseDetails) response.getFeedbackResponseDetailsCopy()).getAnswer();
-                submissionArray[giverIndex][recipientIndex] = points;
-            }
-            teamSubmissionArray.put(teamId, submissionArray);
+            claimedValuesByTeam.put(teamId, buildClaimedValues(teamMembers, teamResponses.getOrDefault(teamId, List.of())));
         }
-        return teamSubmissionArray;
+        return claimedValuesByTeam;
+    }
+
+    private int[][] buildClaimedValues(List<Student> teamMembers, List<FeedbackResponse> teamResponses) {
+        int teamSize = teamMembers.size();
+        int[][] claimedValues = new int[teamSize][teamSize];
+        for (int i = 0; i < teamSize; i++) {
+            for (int j = 0; j < teamSize; j++) {
+                claimedValues[i][j] = Const.POINTS_NOT_SUBMITTED;
+            }
+        }
+
+        for (FeedbackResponse response : teamResponses) {
+            UUID giverUserId = response.getGiver().getGiverUserId();
+            UUID recipientUserId = response.getRecipient().getRecipientUserId();
+            if (giverUserId == null || recipientUserId == null) {
+                continue;
+            }
+            int giverIndex = indexOfStudent(teamMembers, giverUserId);
+            int recipientIndex = indexOfStudent(teamMembers, recipientUserId);
+            if (giverIndex == -1 || recipientIndex == -1) {
+                continue;
+            }
+            int points = ((FeedbackContributionResponseDetails) response.getFeedbackResponseDetailsCopy()).getAnswer();
+            claimedValues[giverIndex][recipientIndex] = points;
+        }
+        return claimedValues;
     }
 
     private Map<UUID, List<FeedbackResponse>> getTeamResponses(List<FeedbackResponse> responses, List<UUID> teamIds) {
