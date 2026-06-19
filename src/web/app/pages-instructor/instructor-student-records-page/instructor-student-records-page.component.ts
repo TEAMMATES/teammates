@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
@@ -81,7 +81,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
 
-    forkJoin({
+    combineLatest({
       feedbackSession: this.getFeedbackSessions(courseId),
       student: this.loadStudentRecords(studentId),
     })
