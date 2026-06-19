@@ -244,10 +244,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
     }
 
-    private Account ensureAccountExists(String subject, String email) {
-        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
-    }
-
     /**
      * Logs the current user out of the test environment.
      */
