@@ -41,8 +41,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
 
-        Account loggedInAccount = getTypicalAccount();
-        loggedInAccount.setEmail("acct.student@teammates.tmt");
+        Account loggedInAccount = getTypicalAccountForEmail("acct.student@teammates.tmt");
         inTransaction(() -> accountsDb.persistAccount(loggedInAccount));
 
         ______TS("failure: wrong key");
@@ -52,7 +51,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 () -> accountsLogic.joinCourse(wrongKey, loggedInAccount));
         assertEquals("No user with given registration key: " + wrongKey, ednee.getMessage());
 
-        ______TS("failure: googleID belongs to an existing student in the course");
+        ______TS("failure: account belongs to an existing student in the course");
 
         Account studentInCourseAccount = inTransaction(() -> accountsLogic.getAccount(studentInCourse.getAccountId()));
         EntityAlreadyExistsException eaee = assertThrowsInTransaction(EntityAlreadyExistsException.class,
@@ -70,14 +69,12 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: student joined but account already exists");
 
-        Account existingAccount = getTypicalAccount();
-        UUID existingAccountId = existingAccount.getId();
-        existingAccount.setEmail(student3YetToJoinCourse.getEmail());
+        Account existingAccount = getTypicalAccountForEmail(student3YetToJoinCourse.getEmail());
         inTransaction(() -> accountsDb.persistAccount(existingAccount));
 
         inTransaction(() -> accountsLogic.joinCourse(student3YetToJoinCourse.getRegKey(), existingAccount));
 
-        assertEquals(existingAccountId, inTransaction(() -> usersLogic.getStudentForEmail(
+        assertEquals(existingAccount.getId(), inTransaction(() -> usersLogic.getStudentForEmail(
                 student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getAccountId()));
 
         ______TS("failure: already joined");
@@ -92,8 +89,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
-        Account loggedInAccount = getTypicalAccount();
-        loggedInAccount.setEmail("acct.instr@teammates.tmt");
+        Account loggedInAccount = getTypicalAccountForEmail("acct.instr@teammates.tmt");
         inTransaction(() -> accountsDb.persistAccount(loggedInAccount));
 
         String[] key = new String[] {
@@ -101,7 +97,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor3YetToJoinCourse.getEmail()),
         };
 
-        ______TS("failure: googleID belongs to an existing instructor in the course");
+        ______TS("failure: account belongs to an existing instructor in the course");
 
         Account instructor1Account = inTransaction(() -> accountsLogic.getAccount(
                 typicalDataBundle.accounts.get("instructor1").getId()));
@@ -121,16 +117,14 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: instructor joined but account already exists");
 
-        Account existingAccount = getTypicalAccount();
-        UUID existingAccountId = existingAccount.getId();
-        existingAccount.setEmail(instructor3YetToJoinCourse.getEmail());
+        Account existingAccount = getTypicalAccountForEmail(instructor3YetToJoinCourse.getEmail());
         inTransaction(() -> accountsDb.persistAccount(existingAccount));
 
         inTransaction(() -> accountsLogic.joinCourse(key[1], existingAccount));
 
         joinedInstructor = inTransaction(() -> usersLogic.getInstructorForEmail(
                         instructor3YetToJoinCourse.getCourseId(), existingAccount.getEmail()));
-        assertEquals(existingAccountId, joinedInstructor.getAccountId());
+        assertEquals(existingAccount.getId(), joinedInstructor.getAccountId());
 
         ______TS("failure: instructor already joined");
 
@@ -140,9 +134,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("failure: key belongs to a different user");
 
-        Account otherAccount = getTypicalAccount();
-        otherAccount.setGoogleId("otherUserId");
-        otherAccount.setEmail("other@teammates.tmt");
+        Account otherAccount = getTypicalAccountForEmail("other@teammates.tmt");
         inTransaction(() -> accountsDb.persistAccount(otherAccount));
 
         eaee = assertThrowsInTransaction(EntityAlreadyExistsException.class,
@@ -161,5 +153,12 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private String getRegKeyForInstructor(String courseId, String email) {
         return inTransaction(() -> usersLogic.getInstructorForEmail(courseId, email).getRegKey());
+    }
+
+    private Account getTypicalAccountForEmail(String email) {
+        Account account = getTypicalAccount();
+        account.setEmail(email);
+        account.setGoogleId(email);
+        return account;
     }
 }
