@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackMissingResponse;
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -79,13 +80,13 @@ public class SessionResultsData implements ApiOutput {
                 giverEmail = null;
             }
         }
-        String giverName = SessionResultsUtils.getGiverNameOfResponse(response.getId(), responseGiver, bundle);
+        String giverName = getGiverNameOfResponse(response.getId(), responseGiver, bundle);
         String giverTeam = responseGiver.getTeamName();
         String giverSectionName = responseGiver.getSectionName();
 
         ResponseRecipient responseRecipient = response.getRecipient();
         String recipientEmail = null;
-        String recipientName = SessionResultsUtils.getRecipientNameOfResponse(response.getId(), responseRecipient, bundle);
+        String recipientName = getRecipientNameOfResponse(response.getId(), responseRecipient, bundle);
         String recipientTeam = responseRecipient.getTeamName();
         String recipientSectionName = responseRecipient.getSectionName();
 
@@ -97,7 +98,7 @@ public class SessionResultsData implements ApiOutput {
         List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<ResponseInstructorCommentData> instructorComments =
-                SessionResultsUtils.buildInstructorComments(responseInstructorComments, bundle);
+                buildInstructorComments(responseInstructorComments, bundle);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -152,13 +153,13 @@ public class SessionResultsData implements ApiOutput {
                 giverEmail = null;
             }
         }
-        String giverName = SessionResultsUtils.getGiverNameOfResponse(response.id(), responseGiver, bundle);
+        String giverName = getGiverNameOfResponse(response.id(), responseGiver, bundle);
         String giverTeam = responseGiver.getTeamName();
         String giverSectionName = responseGiver.getSectionName();
 
         ResponseRecipient responseRecipient = response.recipient();
         String recipientEmail = null;
-        String recipientName = SessionResultsUtils.getRecipientNameOfResponse(response.id(), responseRecipient, bundle);
+        String recipientName = getRecipientNameOfResponse(response.id(), responseRecipient, bundle);
         String recipientTeam = responseRecipient.getTeamName();
         String recipientSectionName = responseRecipient.getSectionName();
 
@@ -190,6 +191,35 @@ public class SessionResultsData implements ApiOutput {
                 .withParticipantComment(null)
                 .withInstructorComments(new ArrayList<>())
                 .build();
+    }
+
+    private static String getGiverNameOfResponse(UUID responseId,
+            ResponseGiver responseGiver, SessionResultsBundle bundle) {
+        if (bundle.isResponseGiverVisible(responseId)) {
+            return responseGiver.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonGiverName(responseGiver);
+        }
+    }
+
+    private static String getRecipientNameOfResponse(UUID responseId,
+            ResponseRecipient responseRecipient, SessionResultsBundle bundle) {
+        if (bundle.isResponseRecipientVisible(responseId, responseRecipient.getRecipientType())) {
+            return responseRecipient.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonRecipientName(responseRecipient);
+        }
+    }
+
+    private static List<ResponseInstructorCommentData> buildInstructorComments(
+            List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+        List<ResponseInstructorCommentData> outputs = new ArrayList<>();
+
+        for (ResponseInstructorComment comment : responseInstructorComments) {
+            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
+        }
+
+        return outputs;
     }
 
     public List<QuestionOutput> getQuestions() {

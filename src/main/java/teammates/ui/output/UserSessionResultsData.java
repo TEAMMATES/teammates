@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -110,7 +111,7 @@ public class UserSessionResultsData implements ApiOutput {
             giverTeam = giver.getTeamName();
         } else {
             giverName = removeAnonymousHash(
-                    SessionResultsUtils.getGiverNameOfResponse(response.getId(), giver, bundle));
+                    getGiverNameOfResponse(response.getId(), giver, bundle));
         }
 
         ResponseRecipient recipient = response.getRecipient();
@@ -130,7 +131,7 @@ public class UserSessionResultsData implements ApiOutput {
             recipientTeam = recipient.getTeamName();
         } else {
             recipientName = removeAnonymousHash(
-                    SessionResultsUtils.getRecipientNameOfResponse(response.getId(), recipient, bundle));
+                    getRecipientNameOfResponse(response.getId(), recipient, bundle));
             if (bundle.isResponseRecipientVisible(response.getId(), recipient.getRecipientType())) {
                 recipientTeam = recipient.getTeamName();
             }
@@ -139,7 +140,7 @@ public class UserSessionResultsData implements ApiOutput {
         List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<ResponseInstructorCommentData> instructorComments =
-                SessionResultsUtils.buildInstructorComments(responseInstructorComments, bundle);
+                buildInstructorComments(responseInstructorComments, bundle);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -163,6 +164,35 @@ public class UserSessionResultsData implements ApiOutput {
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
                 .build();
+    }
+
+    private static String getGiverNameOfResponse(UUID responseId,
+            ResponseGiver responseGiver, SessionResultsBundle bundle) {
+        if (bundle.isResponseGiverVisible(responseId)) {
+            return responseGiver.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonGiverName(responseGiver);
+        }
+    }
+
+    private static String getRecipientNameOfResponse(UUID responseId,
+            ResponseRecipient responseRecipient, SessionResultsBundle bundle) {
+        if (bundle.isResponseRecipientVisible(responseId, responseRecipient.getRecipientType())) {
+            return responseRecipient.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonRecipientName(responseRecipient);
+        }
+    }
+
+    private static List<ResponseInstructorCommentData> buildInstructorComments(
+            List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+        List<ResponseInstructorCommentData> outputs = new ArrayList<>();
+
+        for (ResponseInstructorComment comment : responseInstructorComments) {
+            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
+        }
+
+        return outputs;
     }
 
     private static String removeAnonymousHash(String identifier) {
