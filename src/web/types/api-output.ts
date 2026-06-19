@@ -453,11 +453,6 @@ export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics: string;
   allResponses: ResponseOutput[];
-  hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
-  responsesToSelf: ResponseOutput[];
-  responsesFromSelf: ResponseOutput[];
-  otherResponses: ResponseOutput[][];
 }
 
 export interface ReadNotification extends ApiOutput {
@@ -611,6 +606,21 @@ export interface UserInfo {
   isInstructor: boolean;
   isStudent: boolean;
   isMaintainer: boolean;
+}
+
+export interface UserQuestionOutput {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics: string;
+  hasResponseButNotVisibleForPreview: boolean;
+  hasCommentNotVisibleForPreview: boolean;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+}
+
+export interface UserSessionResults extends ApiOutput {
+  questions: UserQuestionOutput[];
 }
 
 export enum AccountVerificationRequestStatus {

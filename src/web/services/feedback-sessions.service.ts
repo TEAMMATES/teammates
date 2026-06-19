@@ -22,6 +22,7 @@ import {
   SessionLinksRecoveryResponse,
   SessionResults,
   SessionSubmission,
+  UserSessionResults,
   Student,
   Students,
 } from '../types/api-output';
@@ -435,7 +436,7 @@ export class FeedbackSessionsService {
     intent: Intent;
     key?: string;
     previewAs?: string;
-  }): Observable<SessionResults> {
+  }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
       intent: queryParams.intent,

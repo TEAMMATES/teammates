@@ -15,7 +15,8 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
-import teammates.ui.output.SessionResultsData;
+import teammates.ui.output.ResponseOutput;
+import teammates.ui.output.UserSessionResultsData;
 import teammates.ui.request.Intent;
 
 /**
@@ -55,8 +56,8 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         GetUserSessionResultsAction action = getAction(params);
         JsonResult result = getJsonResult(action);
 
-        SessionResultsData output = (SessionResultsData) result.getOutput();
-        SessionResultsData expectedResults = inTransaction(() -> SessionResultsData.initForUser(
+        UserSessionResultsData output = (UserSessionResultsData) result.getOutput();
+        UserSessionResultsData expectedResults = inTransaction(() -> UserSessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession, instructor, false),
                 instructor));
 
@@ -73,8 +74,8 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         action = getAction(params);
         result = getJsonResult(action);
 
-        output = (SessionResultsData) result.getOutput();
-        expectedResults = inTransaction(() -> SessionResultsData.initForUser(
+        output = (UserSessionResultsData) result.getOutput();
+        expectedResults = inTransaction(() -> UserSessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession, student, false),
                 student));
 
@@ -129,15 +130,15 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         verifyHttpParameterFailure(params);
     }
 
-    private boolean isSessionResultsDataEqual(SessionResultsData self, SessionResultsData other) {
-        List<SessionResultsData.QuestionOutput> thisQuestions = self.getQuestions();
-        List<SessionResultsData.QuestionOutput> otherQuestions = other.getQuestions();
+    private boolean isSessionResultsDataEqual(UserSessionResultsData self, UserSessionResultsData other) {
+        List<UserSessionResultsData.UserQuestionOutput> thisQuestions = self.getQuestions();
+        List<UserSessionResultsData.UserQuestionOutput> otherQuestions = other.getQuestions();
         if (thisQuestions.size() != otherQuestions.size()) {
             return false;
         }
         for (int i = 0; i < thisQuestions.size(); i++) {
-            SessionResultsData.QuestionOutput thisQuestion = thisQuestions.get(i);
-            SessionResultsData.QuestionOutput otherQuestion = otherQuestions.get(i);
+            UserSessionResultsData.UserQuestionOutput thisQuestion = thisQuestions.get(i);
+            UserSessionResultsData.UserQuestionOutput otherQuestion = otherQuestions.get(i);
             if (!isQuestionOutputEqual(thisQuestion, otherQuestion)) {
                 return false;
             }
@@ -145,16 +146,16 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         return true;
     }
 
-    private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
-            SessionResultsData.QuestionOutput other) {
+    private boolean isQuestionOutputEqual(UserSessionResultsData.UserQuestionOutput self,
+            UserSessionResultsData.UserQuestionOutput other) {
         if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(other.getFeedbackQuestion()))
                 || !self.getQuestionStatistics().equals(other.getQuestionStatistics())
                 || self.getHasResponseButNotVisibleForPreview() != other.getHasResponseButNotVisibleForPreview()
                 || self.getHasCommentNotVisibleForPreview() != other.getHasCommentNotVisibleForPreview()) {
             return false;
         }
-        List<SessionResultsData.ResponseOutput> thisResponses;
-        List<SessionResultsData.ResponseOutput> otherResponses;
+        List<ResponseOutput> thisResponses;
+        List<ResponseOutput> otherResponses;
         thisResponses = self.getAllResponses();
         otherResponses = other.getAllResponses();
         if (thisResponses.size() != otherResponses.size()) {
@@ -168,8 +169,8 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         return true;
     }
 
-    private boolean isResponseOutputEqual(SessionResultsData.ResponseOutput self,
-            SessionResultsData.ResponseOutput other) {
+    private boolean isResponseOutputEqual(ResponseOutput self,
+            ResponseOutput other) {
         return self.getGiver().equals(other.getGiver())
                 && self.getGiverTeam().equals(other.getGiverTeam())
                 && self.getGiverSection().equals(other.getGiverSection())
