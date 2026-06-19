@@ -75,6 +75,17 @@ describe('InstructorSearchPageComponent', () => {
     ],
   };
 
+  const basePrivilege: InstructorPermissionSet = {
+    canModifyCourse: true,
+    canModifySession: true,
+    canModifyStudent: true,
+    canModifyInstructor: true,
+    canViewStudent: true,
+    canModifySessionComments: true,
+    canViewSession: true,
+    canSubmitSession: true,
+  };
+
   beforeEach(async () => {
     spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
@@ -223,21 +234,12 @@ describe('InstructorSearchPageComponent', () => {
     ).toEqual(students.filter((s: Student) => s.sectionName === students[0].sectionName).length);
   });
 
-  it('should execute GET when fetching privileges', () => {
+  it('should call loadInstructorPrivilege once per course, not per section', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
       return of<InstructorPrivilege>({
         privileges: {
-          courseLevel: {
-            canModifyCourse: true,
-            canModifySession: true,
-            canModifyStudent: true,
-            canModifyInstructor: true,
-            canViewStudent: true,
-            canModifySessionComments: true,
-            canViewSession: true,
-            canSubmitSession: true,
-          },
+          courseLevel: basePrivilege,
           sectionLevel: {},
           sessionLevel: {},
         },
@@ -245,84 +247,83 @@ describe('InstructorSearchPageComponent', () => {
     });
     component.getPrivileges(coursesWithStudents);
 
-    for (const course of coursesWithStudents) {
+    // coursesWithStudents has 2 courses (CS3281 and CS3282), so we expect exactly 2 API calls
+    // Previously, the bug caused one call per section (CS3281 has 2 sections => 3 calls total)
+    const distinctCourseIds = Array.from(new Set(coursesWithStudents.map((c) => c.courseId)));
+    expect(spyHttpRequestService.get).toHaveBeenCalledTimes(distinctCourseIds.length);
+    for (const courseId of distinctCourseIds) {
       expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, {
-        courseid: course.courseId,
+        courseid: courseId,
       });
     }
   });
 
-  it('should combine privileges and course data correctly', () => {
-    const basePrivilege: InstructorPermissionSet = {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudent: true,
-      canModifySessionComments: true,
-      canViewSession: true,
-      canSubmitSession: true,
-    };
-    const mockPrivilegesArray: InstructorPrivilege[] = [
-      {
-        privileges: {
-          courseLevel: basePrivilege,
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudent: false,
-            canModifyStudent: true,
+  it('should use cached privileges on repeated calls for the same course', () => {
+    spyHttpRequestService.get.mockReturnValue(
+      of<InstructorPrivilege>({
+        privileges: { courseLevel: basePrivilege, sectionLevel: {}, sessionLevel: {} },
+      }),
+    );
+
+    // First call populates the cache
+    component.getPrivileges(coursesWithStudents);
+    const firstCallCount = spyHttpRequestService.get.mock.calls.length;
+
+    // Second call with the same courses should use the cache and make no new API calls
+    component.getPrivileges(coursesWithStudents);
+    expect(spyHttpRequestService.get).toHaveBeenCalledTimes(firstCallCount);
+  });
+
+  it('should combine privileges using course-keyed map correctly', () => {
+    const privilegeMap = new Map<string, InstructorPrivilege>([
+      [
+        'CS3281',
+        {
+          privileges: {
+            courseLevel: basePrivilege,
+            sectionLevel: {
+              'section-2': { ...basePrivilege, canViewStudent: false, canModifyStudent: false },
+            },
+            sessionLevel: {},
           },
-          sectionLevel: {},
-          sessionLevel: {},
         },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudent: true,
-            canModifyStudent: false,
+      ],
+      [
+        'CS3282',
+        {
+          privileges: {
+            courseLevel: { ...basePrivilege, canViewStudent: false, canModifyStudent: false },
+            sectionLevel: {},
+            sessionLevel: {},
           },
-          sectionLevel: {},
-          sessionLevel: {},
         },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudent: false,
-            canModifyStudent: false,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-    ];
-    component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
+      ],
+    ]);
+    component.combinePrivileges([coursesWithStudents, privilegeMap]);
 
-    const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
-    expect(course1Student1.isAllowedToViewStudentInSection).toEqual(true);
-    expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
+    // CS3281, Section 1 students — use courseLevel (canView: true, canModify: true)
+    const cs3281Section1Students = coursesWithStudents[0].students.filter(
+      (s: StudentListRowModel) => s.student.sectionId === 'section-1',
+    );
+    for (const studentModel of cs3281Section1Students) {
+      expect(studentModel.isAllowedToViewStudentInSection).toEqual(true);
+      expect(studentModel.isAllowedToModifyStudent).toEqual(true);
+    }
 
-    const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
-    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(false);
-    expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
+    // CS3281, Section 2 students — use sectionLevel override (canView: false, canModify: false)
+    const cs3281Section2Students = coursesWithStudents[0].students.filter(
+      (s: StudentListRowModel) => s.student.sectionId === 'section-2',
+    );
+    for (const studentModel of cs3281Section2Students) {
+      expect(studentModel.isAllowedToViewStudentInSection).toEqual(false);
+      expect(studentModel.isAllowedToModifyStudent).toEqual(false);
+    }
 
-    const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
-    expect(course1Student3.isAllowedToViewStudentInSection).toEqual(true);
-    expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
-
-    const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
-    expect(course2Student1.isAllowedToViewStudentInSection).toEqual(false);
-    expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
-
-    expect(mockPrivilegesArray.length).toEqual(0);
+    // CS3282 students — courseLevel (canView: false, canModify: false)
+    const cs3282Students = coursesWithStudents[1].students;
+    for (const studentModel of cs3282Students) {
+      expect(studentModel.isAllowedToViewStudentInSection).toEqual(false);
+      expect(studentModel.isAllowedToModifyStudent).toEqual(false);
+    }
   });
 });
