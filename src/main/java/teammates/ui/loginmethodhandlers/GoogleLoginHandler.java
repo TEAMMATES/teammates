@@ -1,5 +1,7 @@
 package teammates.ui.loginmethodhandlers;
 
+import static teammates.common.util.HttpResponseHelper.logAndPrintError;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
@@ -26,7 +28,6 @@ import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
-import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -140,14 +141,6 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         return new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
             .setAudience(List.of(Config.OIDC_GOOGLE_CLIENT_ID))
             .build();
-    }
-
-    /**
-     * Logs the given error message and prints it in the HTTP response.
-     */
-    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        HttpResponseHelper.logAndPrintError(req, resp, status, message);
     }
 
 }
