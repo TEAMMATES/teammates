@@ -149,7 +149,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
     private boolean isQuestionOutputEqual(UserSessionResultsData.UserQuestionOutput self,
             UserSessionResultsData.UserQuestionOutput other) {
         if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(other.getFeedbackQuestion()))
-                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())
+                || !JsonUtils.toJson(self.getQuestionStatistics()).equals(JsonUtils.toJson(other.getQuestionStatistics()))
                 || self.getHasResponseButNotVisibleForPreview() != other.getHasResponseButNotVisibleForPreview()
                 || self.getHasCommentNotVisibleForPreview() != other.getHasCommentNotVisibleForPreview()) {
             return false;

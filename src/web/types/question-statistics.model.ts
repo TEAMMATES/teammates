@@ -1,4 +1,4 @@
-import { ContributionStatistics, ContributionStatisticsEntry, FeedbackResponseDetails } from './api-output';
+import { FeedbackResponseDetails } from './api-output';
 
 /**
  * Holds some information of the feedback response.
@@ -36,15 +36,6 @@ export interface ConstsumRecipientsQuestionStatistics {
   totalPointsPerOption: Record<string, number>;
   averagePointsPerOption: Record<string, number>;
   averagePointsExcludingSelf: Record<string, number>;
-}
-
-export interface ContributionQuestionStatistics {
-  userIdToTeamName: Record<string, string>;
-  userIdToName: Record<string, string>;
-  userIdToEmail: Record<string, string>;
-  userIdToDiff: Record<string, number>;
-  questionOverallStatistics?: ContributionStatistics;
-  questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
 }
 
 export interface McqMsqPerRecipientStatistics {

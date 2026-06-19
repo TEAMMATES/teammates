@@ -39,17 +39,6 @@ export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
 }
 
-export interface ContributionStatistics {
-  results: { [index: string]: ContributionStatisticsEntry };
-}
-
-export interface ContributionStatisticsEntry {
-  claimed: number;
-  perceived: number;
-  claimedOthers: { [index: string]: number };
-  perceivedOthers: number[];
-}
-
 export interface Course extends ApiOutput {
   courseId: string;
   courseName: string;
@@ -77,6 +66,16 @@ export interface CourseSections extends ApiOutput {
 export interface CourseView extends ApiOutput {
   course: Course;
   instructorPermissions?: InstructorCoursePermissions;
+}
+
+export interface CourseWideRow {
+  teamName: string;
+  recipientName: string;
+  recipientEmail?: string;
+  claimed: number;
+  perceived: number;
+  diff: number;
+  ratingsReceived: number[];
 }
 
 export interface DeadlineExtension extends ApiOutput {
@@ -124,9 +123,18 @@ export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackRe
   answers: number[];
 }
 
+export interface FeedbackContributionCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  rows: CourseWideRow[];
+}
+
 export interface FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
   isZeroSum: boolean;
   isNotSureAllowed: boolean;
+}
+
+export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+  myView: RecipientView;
+  teamView: RecipientView;
 }
 
 export interface FeedbackContributionResponseDetails extends FeedbackResponseDetails {
@@ -204,12 +212,22 @@ export interface FeedbackQuestionRecipient extends ApiOutput {
   team: string;
 }
 
+export interface FeedbackQuestionRecipientResultsStatistics {
+  questionType: FeedbackQuestionType;
+  statisticsView: FeedbackQuestionResultsStatisticsView;
+}
+
 export interface FeedbackQuestionRecipients extends ApiOutput {
   recipients: FeedbackQuestionRecipient[];
 }
 
 export interface FeedbackQuestionResponses extends ApiOutput {
   questionResponses: { [index: string]: FeedbackResponse[] };
+}
+
+export interface FeedbackQuestionResultsStatistics {
+  questionType: FeedbackQuestionType;
+  statisticsView: FeedbackQuestionResultsStatisticsView;
 }
 
 export interface FeedbackQuestions extends ApiOutput {
@@ -451,7 +469,7 @@ export interface OngoingSessions extends ApiOutput {
 
 export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics: string;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
 }
 
@@ -463,6 +481,11 @@ export interface ReadNotification extends ApiOutput {
 
 export interface ReadNotifications extends ApiOutput {
   readNotifications: string[];
+}
+
+export interface RecipientView {
+  ofMe: number;
+  ofOthers: number[];
 }
 
 export interface RegenerateKey extends ApiOutput {
@@ -610,7 +633,7 @@ export interface UserInfo {
 
 export interface UserQuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics: string;
+  questionStatistics?: FeedbackQuestionRecipientResultsStatistics;
   hasResponseButNotVisibleForPreview: boolean;
   hasCommentNotVisibleForPreview: boolean;
   allResponses: ResponseOutput[];
@@ -642,6 +665,11 @@ export enum FeedbackConstantSumDistributePointsType {
   DISTRIBUTE_ALL_UNEVENLY = "All options",
   DISTRIBUTE_SOME_UNEVENLY = "At least some options",
   NONE = "None",
+}
+
+export enum FeedbackQuestionResultsStatisticsView {
+  COURSE_WIDE = "COURSE_WIDE",
+  RECIPIENT = "RECIPIENT",
 }
 
 export enum FeedbackQuestionType {

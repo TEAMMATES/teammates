@@ -6,11 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.FeedbackMissingResponse;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.common.util.Const;
+import teammates.logic.statistics.FeedbackQuestionResultsStatisticsFactory;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseGiver;
@@ -39,10 +45,14 @@ public class SessionResultsData implements ApiOutput {
                 bundle.getQuestionResponseMap();
 
         questionsWithResponses.forEach((question, responses) -> {
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
-            QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, null, bundle));
-            List<ResponseOutput> allResponses = buildResponses(responses, bundle);
+            FeedbackQuestionResultsStatistics questionStatistics =
+                    FeedbackQuestionResultsStatisticsFactory.calculateCourseWide(question, responses, bundle);
+            Map<UUID, Integer> normalizedContributionResponseValues =
+                    FeedbackQuestionResultsStatisticsFactory.calculateNormalizedContributionResponseValues(
+                            question, responses, bundle, null);
+            QuestionOutput qnOutput = new QuestionOutput(question, questionStatistics);
+            List<ResponseOutput> allResponses = buildResponses(responses, bundle,
+                    normalizedContributionResponseValues);
             qnOutput.allResponses.addAll(allResponses);
 
             List<FeedbackMissingResponse> missingResponses = bundle.getQuestionMissingResponseMap().get(question);
@@ -55,18 +65,25 @@ public class SessionResultsData implements ApiOutput {
     }
 
     private static List<ResponseOutput> buildResponses(
-            List<FeedbackResponse> responses, SessionResultsBundle bundle) {
+            List<FeedbackResponse> responses,
+            SessionResultsBundle bundle,
+            Map<UUID, Integer> normalizedContributionValues) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackResponse response : responses) {
-            output.add(buildSingleResponse(response, bundle));
+            output.add(buildSingleResponse(
+                    response,
+                    bundle,
+                    getResponseDetailsForResults(response, normalizedContributionValues)));
         }
 
         return output;
     }
 
     private static ResponseOutput buildSingleResponse(
-            FeedbackResponse response, SessionResultsBundle bundle) {
+            FeedbackResponse response,
+            SessionResultsBundle bundle,
+            FeedbackResponseDetails responseDetails) {
         ResponseGiver responseGiver = response.getGiver();
         String giverEmail = null;
         String userIdForModeration = null;
@@ -119,7 +136,7 @@ public class SessionResultsData implements ApiOutput {
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
                 .withRecipientSectionId(responseRecipient.getSectionId())
-                .withResponseDetails(response.getFeedbackResponseDetailsCopy())
+                .withResponseDetails(responseDetails)
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
                 .build();
@@ -226,16 +243,37 @@ public class SessionResultsData implements ApiOutput {
         return questions;
     }
 
+    private static FeedbackResponseDetails getResponseDetailsForResults(
+            FeedbackResponse response,
+            Map<UUID, Integer> normalizedContributionValues) {
+        if (response.getFeedbackQuestion().getQuestionType()
+                != FeedbackQuestionType.CONTRIB) {
+            return response.getFeedbackResponseDetailsCopy();
+        }
+
+        // Contribution responses are normalized for display
+        Integer normalizedValue = normalizedContributionValues.get(response.getId());
+        if (normalizedValue == null) {
+            return response.getFeedbackResponseDetailsCopy();
+        }
+
+        FeedbackContributionResponseDetails responseDetails = new FeedbackContributionResponseDetails();
+        responseDetails.setAnswer(normalizedValue);
+        return responseDetails;
+    }
+
     /**
      * API output format for questions in course-wide session results.
      */
     public static final class QuestionOutput {
 
         private final FeedbackQuestionData feedbackQuestion;
-        private final String questionStatistics;
+        @Nullable
+        private final FeedbackQuestionResultsStatistics questionStatistics;
         private final List<ResponseOutput> allResponses = new ArrayList<>();
 
-        private QuestionOutput(FeedbackQuestion feedbackQuestion, String questionStatistics) {
+        private QuestionOutput(FeedbackQuestion feedbackQuestion,
+                @Nullable FeedbackQuestionResultsStatistics questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestion);
             this.questionStatistics = questionStatistics;
         }
@@ -244,7 +282,8 @@ public class SessionResultsData implements ApiOutput {
             return feedbackQuestion;
         }
 
-        public String getQuestionStatistics() {
+        @Nullable
+        public FeedbackQuestionResultsStatistics getQuestionStatistics() {
             return questionStatistics;
         }
 

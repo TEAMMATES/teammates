@@ -8,9 +8,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.statistics.FeedbackQuestionRecipientResultsStatistics;
 import teammates.common.util.Const;
+import teammates.logic.statistics.FeedbackQuestionResultsStatisticsFactory;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseGiver;
@@ -48,9 +53,10 @@ public class UserSessionResultsData implements ApiOutput {
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
 
-            String questionStatistics = hasResponseButNotVisibleForPreview
-                    ? ""
-                    : questionDetails.getQuestionResultStatisticsJson(question, user.getId(), bundle);
+            FeedbackQuestionRecipientResultsStatistics questionStatistics = hasResponseButNotVisibleForPreview
+                    ? null
+                    : FeedbackQuestionResultsStatisticsFactory.calculateForRecipient(
+                            question, responses, bundle, user.getId());
             UserQuestionOutput qnOutput = new UserQuestionOutput(question,
                     questionStatistics,
                     hasResponseButNotVisibleForPreview,
@@ -64,7 +70,11 @@ public class UserSessionResultsData implements ApiOutput {
                     boolean isUserGiver = Objects.equals(user, response.getGiver().getGiverUser());
                     boolean isUserRecipient = Objects.equals(user, response.getRecipient().getRecipientUser());
 
-                    ResponseOutput responseOutput = buildSingleResponseForUser(response, bundle, user);
+                    ResponseOutput responseOutput = buildSingleResponseForUser(
+                            response,
+                            bundle,
+                            user,
+                            response.getFeedbackResponseDetailsCopy());
 
                     if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
@@ -91,7 +101,10 @@ public class UserSessionResultsData implements ApiOutput {
     }
 
     private static ResponseOutput buildSingleResponseForUser(
-            FeedbackResponse response, SessionResultsBundle bundle, User user) {
+            FeedbackResponse response,
+            SessionResultsBundle bundle,
+            User user,
+            FeedbackResponseDetails responseDetails) {
         Objects.requireNonNull(user);
 
         ResponseGiver giver = response.getGiver();
@@ -160,7 +173,7 @@ public class UserSessionResultsData implements ApiOutput {
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
                 .withRecipientSectionId(recipient.getSectionId())
-                .withResponseDetails(response.getFeedbackResponseDetailsCopy())
+                .withResponseDetails(responseDetails)
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
                 .build();
@@ -210,7 +223,8 @@ public class UserSessionResultsData implements ApiOutput {
     public static final class UserQuestionOutput {
 
         private final FeedbackQuestionData feedbackQuestion;
-        private final String questionStatistics;
+        @Nullable
+        private final FeedbackQuestionRecipientResultsStatistics questionStatistics;
         private final boolean hasResponseButNotVisibleForPreview;
         private final boolean hasCommentNotVisibleForPreview;
 
@@ -219,7 +233,8 @@ public class UserSessionResultsData implements ApiOutput {
         private final List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        private UserQuestionOutput(FeedbackQuestion feedbackQuestion, String questionStatistics,
+        private UserQuestionOutput(FeedbackQuestion feedbackQuestion,
+                @Nullable FeedbackQuestionRecipientResultsStatistics questionStatistics,
                 boolean hasResponseButNotVisibleForPreview, boolean hasCommentNotVisibleForPreview) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestion);
             this.questionStatistics = questionStatistics;
@@ -231,7 +246,8 @@ public class UserSessionResultsData implements ApiOutput {
             return feedbackQuestion;
         }
 
-        public String getQuestionStatistics() {
+        @Nullable
+        public FeedbackQuestionRecipientResultsStatistics getQuestionStatistics() {
             return questionStatistics;
         }
 

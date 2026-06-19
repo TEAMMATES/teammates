@@ -4,6 +4,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
+  FeedbackQuestionRecipientResultsStatistics,
+  FeedbackQuestionResultsStatistics,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -67,7 +69,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     createdAtTimestamp: 0,
   };
   @Input() isDisplayOnly = false;
-  @Input() statistics = '';
+  @Input() statistics?: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics;
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;

@@ -38,7 +38,7 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -504,7 +504,7 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,

@@ -1,10 +1,5 @@
 @if (QuestionDetailsTypeChecker.isContrib(questionDetails) && ResponseDetailsTypeChecker.isContrib(responseDetails)) {
-  <tm-contribution-question-response
-    [responseDetails]="responseDetails"
-    [statistics]="statistics"
-    [giverUserId]="giverUserId"
-    [recipientUserId]="recipientUserId"
-  ></tm-contribution-question-response>
+  <tm-contribution-question-response [responseDetails]="responseDetails"></tm-contribution-question-response>
 }
 
 @if (
