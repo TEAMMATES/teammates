@@ -2,8 +2,19 @@
   <p>All dates are displayed in {{ timezone }} time.</p>
 </div>
 @if (notificationTabs.length > 0) {
-  <div class="row mb-3">
-    <div class="col-12">
+  <div class="row mb-3 align-items-center">
+    <div class="col-6">
+      @if (hasUnreadNotifications) {
+        <button
+          id="mark-all-read-btn"
+          class="btn btn-primary"
+          (click)="markAllNotificationsAsRead()"
+        >
+          Mark All as Read
+        </button>
+      }
+    </div>
+    <div class="col-6">
       <div class="float-end">
         <strong class="d-inline"> Sort By: </strong>
         <div class="btn-group" data-toggle="buttons">

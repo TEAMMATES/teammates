@@ -212,7 +212,8 @@ export interface InstructorUpdateRequest extends BasicRequest {
 }
 
 export interface MarkNotificationAsReadRequest extends BasicRequest {
-  notificationId: string;
+  notificationId?: string;
+  notificationIds?: string[];
 }
 
 export interface NotificationBasicRequest extends BasicRequest {

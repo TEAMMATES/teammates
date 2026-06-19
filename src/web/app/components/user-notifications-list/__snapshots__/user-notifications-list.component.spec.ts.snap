@@ -23,10 +23,14 @@ exports[`UserNotificationsListComponent > should snap when all loaded notificati
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-3"
+    class="row mb-3 align-items-center"
   >
     <div
-      class="col-12"
+      class="col-6"
+    >
+    </div>
+    <div
+      class="col-6"
     >
       <div
         class="float-end"
@@ -232,10 +236,20 @@ exports[`UserNotificationsListComponent > should snap when it loads the provided
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-3"
+    class="row mb-3 align-items-center"
   >
     <div
-      class="col-12"
+      class="col-6"
+    >
+      <button
+        class="btn btn-primary"
+        id="mark-all-read-btn"
+      >
+         Mark All as Read 
+      </button>
+    </div>
+    <div
+      class="col-6"
     >
       <div
         class="float-end"
@@ -413,10 +427,20 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-3"
+    class="row mb-3 align-items-center"
   >
     <div
-      class="col-12"
+      class="col-6"
+    >
+      <button
+        class="btn btn-primary"
+        id="mark-all-read-btn"
+      >
+         Mark All as Read 
+      </button>
+    </div>
+    <div
+      class="col-6"
     >
       <div
         class="float-end"
@@ -595,10 +619,20 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-3"
+    class="row mb-3 align-items-center"
   >
     <div
-      class="col-12"
+      class="col-6"
+    >
+      <button
+        class="btn btn-primary"
+        id="mark-all-read-btn"
+      >
+         Mark All as Read 
+      </button>
+    </div>
+    <div
+      class="col-6"
     >
       <div
         class="float-end"

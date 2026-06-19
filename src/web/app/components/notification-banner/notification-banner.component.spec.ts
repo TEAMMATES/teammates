@@ -111,7 +111,7 @@ describe('NotificationBannerComponent', () => {
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
-          readNotifications: [request.notificationId],
+          readNotifications: [request.notificationId!],
         });
       });
     const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
@@ -135,7 +135,7 @@ describe('NotificationBannerComponent', () => {
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
-          readNotifications: [request.notificationId],
+          readNotifications: [request.notificationId!],
         });
       });
     const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {

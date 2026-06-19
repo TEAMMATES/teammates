@@ -126,7 +126,7 @@ describe('UserNotificationsListComponent', () => {
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
-          readNotifications: [request.notificationId],
+          readNotifications: [request.notificationId!],
         });
       });
     const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
@@ -141,6 +141,32 @@ describe('UserNotificationsListComponent', () => {
     expect(messageSpy).toHaveBeenCalledTimes(1);
     // check that it is no longer expanded
     expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
+  });
+
+  it('should mark all notifications as read when mark all as read button is clicked', () => {
+    const apiSpy = vi
+      .spyOn(notificationService, 'markNotificationAsRead')
+      .mockImplementation((request: MarkNotificationAsReadRequest) => {
+        expect(request.notificationIds).toEqual([testNotificationOne.notificationId, testNotificationTwo.notificationId]);
+        return of({
+          readNotifications: request.notificationIds!,
+        });
+      });
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('All notifications marked as read.');
+    });
+
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
+    fixture.detectChanges();
+
+    const markAllReadBtn = fixture.debugElement.query(By.css('#mark-all-read-btn')).nativeElement;
+    expect(markAllReadBtn).toBeTruthy();
+
+    markAllReadBtn.click();
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notificationTabs[0].isRead).toBeTruthy();
+    expect(component.notificationTabs[1].isRead).toBeTruthy();
   });
 
   it('should collapse an expanded tab when the header is clicked', () => {

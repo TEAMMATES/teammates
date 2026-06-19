@@ -71,6 +71,35 @@ export class UserNotificationsListComponent implements OnInit {
     this.loadNotifications();
   }
 
+  get hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some((tab) => !tab.isRead);
+  }
+
+  markAllNotificationsAsRead(): void {
+    const unreadTabs = this.notificationTabs.filter((tab) => !tab.isRead);
+    if (unreadTabs.length === 0) {
+      return;
+    }
+    const notificationIds = unreadTabs.map((tab) => tab.notification.notificationId);
+
+    this.notificationService
+      .markNotificationAsRead({
+        notificationIds,
+      })
+      .subscribe({
+        next: () => {
+          unreadTabs.forEach((tab) => {
+            tab.isRead = true;
+            tab.hasTabExpanded = false;
+          });
+          this.statusMessageService.showSuccessToast('All notifications marked as read.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+  }
+
   loadNotifications(): void {
     this.hasLoadingFailed = false;
     this.isLoadingNotifications = true;
