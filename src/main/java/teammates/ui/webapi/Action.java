@@ -111,11 +111,6 @@ public abstract class Action {
         return account == null ? null : account.getId();
     }
 
-    String getCurrentUserGoogleId() {
-        Account account = getCurrentAccount();
-        return account == null ? null : account.getGoogleId();
-    }
-
     /**
      * Returns the first value for the specified parameter in the HTTP request, or null if such parameter is not found.
      */

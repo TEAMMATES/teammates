@@ -26,12 +26,12 @@ public class SendErrorReportAction extends PublicAction {
      * Gets the user error report that will be sent to the system admin.
      */
     public String getUserErrorReportLogMessage(ErrorReportRequest report) {
-        String user = getCurrentUserGoogleId();
-        if (user == null) {
-            user = "Non-logged in user";
+        String email = getCurrentAccount() == null ? null : getCurrentAccount().getEmail();
+        if (email == null) {
+            email = "Non-signed in user";
         }
         return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
-                + "USER: " + user + System.lineSeparator()
+                + "USER: " + email + System.lineSeparator()
                 + "REQUEST ID: " + report.getRequestId() + System.lineSeparator()
                 + "SUBJECT: " + report.getSubject() + System.lineSeparator()
                 + "CONTENT: " + report.getContent();
