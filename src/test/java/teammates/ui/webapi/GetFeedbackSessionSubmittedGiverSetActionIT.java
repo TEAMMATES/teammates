@@ -44,10 +44,9 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
     @Override
     protected void testExecute() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.getGoogleId();
         FeedbackSession fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructorId);
+        loginAsInstructor(instructor1OfCourse1);
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();

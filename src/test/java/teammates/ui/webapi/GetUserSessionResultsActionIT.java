@@ -44,7 +44,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         FeedbackSession accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[] {

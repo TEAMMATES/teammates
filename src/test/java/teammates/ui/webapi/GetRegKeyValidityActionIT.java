@@ -76,7 +76,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
+        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1"));
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -108,7 +108,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isUsed());
         assertTrue(output.isAllowedAccess());
 
-        loginAsInstructor(instructor1.getGoogleId());
+        loginAsInstructor(instructor1);
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -160,7 +160,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Any logged in user for an unused regkey; should be valid/unused/allowed");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
+        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1"));
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
