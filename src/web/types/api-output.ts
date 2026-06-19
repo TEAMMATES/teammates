@@ -365,6 +365,11 @@ export interface InstructorCoursePermissions extends ApiOutput {
   canModifyInstructor: boolean;
 }
 
+export interface InstructorCourses extends ApiOutput {
+  courses: Course[];
+  instructorPermissions: { [index: string]: InstructorCoursePermissions };
+}
+
 export interface InstructorFeedbackSessionPermissions extends ApiOutput {
   canModifySession: boolean;
   canSubmitSession: boolean;

@@ -41,7 +41,7 @@ import {
   SessionVisibleSetting,
   Student,
   Students,
-  Courses,
+  InstructorCourses,
 } from '../../../types/api-output';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
@@ -78,10 +78,6 @@ describe('InstructorSessionEditPageComponent', () => {
     course: testCourse1,
   };
 
-  const testCourse2View: CourseView = {
-    course: testCourse2,
-  };
-
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionId: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b',
     courseId: 'testId1',
@@ -108,8 +104,9 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackSessions: [testFeedbackSessionView],
   };
 
-  const testCourses: Courses = {
-    courses: [testCourse2View],
+  const testCourses: InstructorCourses = {
+    courses: [testCourse2],
+    instructorPermissions: {},
   };
 
   const testFeedbackQuestion1: FeedbackQuestion = {
@@ -727,7 +724,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
     component.courseId = testCourse1.courseId;
-    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(testCourses));
+    vi.spyOn(courseService, 'getAllCoursesAsInstructor').mockReturnValue(of(testCourses));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSession));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
@@ -741,7 +738,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
-    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2View.course);
+    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/instructor/sessions/fbd91470-8378-4b43-9f82-0b81fb2e9f1b/edit',

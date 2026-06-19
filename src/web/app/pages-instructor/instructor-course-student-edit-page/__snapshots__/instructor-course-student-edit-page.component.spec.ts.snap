@@ -3,8 +3,8 @@
 exports[`InstructorCourseStudentEditPageComponent > should snap when student is still loading 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
+  PERSON_NAME_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
-  STUDENT_NAME_MAX_LENGTH={[Function Number]}
   TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm="undefined"
@@ -50,8 +50,8 @@ exports[`InstructorCourseStudentEditPageComponent > should snap when student is 
 exports[`InstructorCourseStudentEditPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
+  PERSON_NAME_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
-  STUDENT_NAME_MAX_LENGTH={[Function Number]}
   TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm="undefined"
@@ -97,8 +97,8 @@ exports[`InstructorCourseStudentEditPageComponent > should snap with default fie
 exports[`InstructorCourseStudentEditPageComponent > should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
+  PERSON_NAME_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
-  STUDENT_NAME_MAX_LENGTH={[Function Number]}
   TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm={[Function FormGroup]}

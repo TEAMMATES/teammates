@@ -7,7 +7,7 @@ import { AccountService } from '../../../../services/account.service';
 import { CountryService } from '../../../../services/country.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import {
-  STUDENT_NAME_MAX_LENGTH,
+  PERSON_NAME_MAX_LENGTH,
   INSTITUTE_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
   NAME_REGEX,
@@ -30,7 +30,7 @@ export class InstructorRequestFormComponent {
   private readonly countryService = inject(CountryService);
 
   // Create members to be accessed in template
-  readonly STUDENT_NAME_MAX_LENGTH!: number;
+  readonly PERSON_NAME_MAX_LENGTH!: number;
   readonly INSTITUTION_NAME_MAX_LENGTH!: number;
   readonly EMAIL_MAX_LENGTH!: number;
 
@@ -42,7 +42,7 @@ export class InstructorRequestFormComponent {
   arf = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+      Validators.maxLength(PERSON_NAME_MAX_LENGTH),
       Validators.pattern(NAME_REGEX),
     ]),
     institution: new FormControl('', [
@@ -73,7 +73,7 @@ export class InstructorRequestFormComponent {
   serverErrorMessage = '';
 
   constructor() {
-    this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+    this.PERSON_NAME_MAX_LENGTH = PERSON_NAME_MAX_LENGTH;
     this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTE_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
   }

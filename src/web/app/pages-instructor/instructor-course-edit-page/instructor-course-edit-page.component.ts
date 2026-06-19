@@ -27,7 +27,6 @@ import {
   AuthInfo,
   Course,
   CourseView,
-  Courses,
   FeedbackSessionView,
   FeedbackSessions,
   Instructor,
@@ -703,12 +702,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.isCopyingInstructor = true;
     const courseTabModels: CourseTabModel[] = [];
 
-    forkJoin([this.courseService.getAllCoursesAsInstructor('active')]).subscribe({
-      next: (values: Courses[]) => {
-        const activeCourses: Courses = values[0];
-
-        activeCourses.courses.forEach((courseView: CourseView) => {
-          const course: Course = courseView.course;
+    this.courseService.getAllCoursesAsInstructor('active').subscribe({
+      next: (activeCourses) => {
+        activeCourses.courses.forEach((course) => {
           if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
             const model: CourseTabModel = this.getDefaultCourseTab({
               courseId: course.courseId,

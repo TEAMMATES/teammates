@@ -10,8 +10,7 @@ public class DeleteStudentsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyCanModifyStudentInCourse(requestContext, courseId);
     }
 
     @Override

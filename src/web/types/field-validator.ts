@@ -16,9 +16,9 @@ export const COURSE_ID_MAX_LENGTH: number = ApiConst.COURSE_ID_MAX_LENGTH;
 export const COURSE_NAME_MAX_LENGTH: number = ApiConst.COURSE_NAME_MAX_LENGTH;
 
 /**
- * Max length for the 'Student Name' field.
+ * Max length for the 'Student Name' or 'Instructor Name' field.
  */
-export const STUDENT_NAME_MAX_LENGTH: number = ApiConst.STUDENT_NAME_MAX_LENGTH;
+export const PERSON_NAME_MAX_LENGTH: number = ApiConst.PERSON_NAME_MAX_LENGTH;
 
 /**
  * Max length for the 'Section Name' field.

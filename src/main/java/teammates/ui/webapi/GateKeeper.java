@@ -291,14 +291,53 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies the user has privileges to modify the specified course.
+     */
+    void verifyCanModifyCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+        verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+    }
+
+    /**
      * Verifies the logged-in user has privilege to modify the specified instructor.
      */
     void verifyCanModifyInstructor(RequestContext requestContext, UUID instructorId)
             throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
         Instructor instructor = logic.getInstructor(instructorId);
         verifyNotNull(instructor, "instructor");
         verifyInstructorHasPrivilege(requestContext, instructor.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+    }
+
+    /**
+     * Verifies the logged-in user has privilege to modify the specified student.
+     */
+    void verifyCanModifyStudent(RequestContext requestContext, UUID studentId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+        Student student = logic.getStudent(studentId);
+        verifyNotNull(student, "student");
+        verifyInstructorHasPrivilege(requestContext, student.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+    }
+
+    /**
+     * Verifies the logged-in user has privilege to modify students in the specified course.
+     */
+    void verifyCanModifyStudentInCourse(RequestContext requestContext, String courseId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+        verifyInstructorHasPrivilege(requestContext, courseId,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     /**
