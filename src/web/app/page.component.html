@@ -43,7 +43,7 @@
     </ul>
     @if (!isFetchingAuthDetails) {
       <ul class="nav navbar-nav pull-right">
-        @if (!user) {
+        @if (!accountEmail) {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
             <button
               class="bg-transparent btn btn-link nav-link dropdown-toggle"
@@ -68,7 +68,7 @@
               tabindex="0"
               ngbDropdownToggle
             >
-              {{ user }}
+              {{ accountEmail }}
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
               @if (isStudent) {
