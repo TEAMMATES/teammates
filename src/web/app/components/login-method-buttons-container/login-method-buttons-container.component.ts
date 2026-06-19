@@ -14,8 +14,12 @@ export class LoginMethodButtonsContainerComponent {
   readonly nextUrl = input('/');
   readonly supportedLoginMethods = input<ReadonlySet<LoginMethod>>(new Set());
 
-  protected readonly LoginMethod: typeof LoginMethod = LoginMethod;
+  protected readonly LoginMethod: typeof LoginMethod;
   private readonly backendLoginUrl = `${environment.backendUrl}/login`;
+
+  constructor() {
+    this.LoginMethod = LoginMethod;
+  }
 
   isSupported(method: LoginMethod): boolean {
     return this.supportedLoginMethods().has(method);
