@@ -2,7 +2,7 @@
 <p>
   This page allows you to find when your students have accessed or submitted a particular feedback session or viewed
   session results. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the
-  course. The earliest date you can search for is <b>{{ STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD }} days</b> before today.
+  course.
 </p>
 <hr />
 
@@ -59,7 +59,6 @@
         <tm-datetimepicker
           id="logs-from-datetimepicker"
           [timestamp]="formModel.logsStartTimestamp"
-          [minTimestamp]="earliestSearchTimestamp"
           [maxTimestamp]="formModel.logsEndTimestamp"
           [timeZone]="course.timeZone"
           (timestampChange)="triggerModelChange('logsStartTimestamp', $event)"

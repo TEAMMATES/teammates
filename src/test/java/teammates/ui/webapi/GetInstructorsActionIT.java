@@ -44,7 +44,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         ______TS("Typical Success Case with FULL_DETAIL");
         String[] params = new String[] {
@@ -98,7 +98,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void courseNotFound_loggedInAsInstructor_fullDetailIntent() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
@@ -111,7 +111,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void courseNotFound_loggedInAsStudent_intentUndefined() {
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
@@ -150,7 +150,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void instructor_invalidIntent_shouldFailParameterCheck() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
@@ -163,7 +163,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void instructor_fullDetailIntent_canAccessOwnCourse() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
@@ -176,7 +176,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void student_intentUndefined_canAccessOwnCourse() {
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, student.getCourseId(),
@@ -192,7 +192,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
 
         assertNotEquals(otherStudent.getCourse(), student.getCourse());
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, otherStudent.getCourseId(),

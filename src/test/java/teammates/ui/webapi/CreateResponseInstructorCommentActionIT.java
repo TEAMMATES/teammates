@@ -43,7 +43,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         ______TS("Successful case: instructor result comment");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1InSession2");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
@@ -74,7 +74,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
 
         ______TS("instructor access response to give result comments");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         verifyCanAccess(submissionParamsStudentToStudents);
     }
 

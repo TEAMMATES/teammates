@@ -106,9 +106,9 @@ public abstract class Action {
         return requestContext.getAccount();
     }
 
-    String getCurrentUserGoogleId() {
+    UUID getCurrentUserAccountId() {
         Account account = getCurrentAccount();
-        return account == null ? null : account.getGoogleId();
+        return account == null ? null : account.getId();
     }
 
     /**

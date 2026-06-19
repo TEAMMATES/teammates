@@ -87,7 +87,7 @@ export class PageComponent implements OnInit {
   NotificationTargetUser!: typeof NotificationTargetUser;
 
   isFetchingAuthDetails = false;
-  user = '';
+  accountEmail = '';
   isStudent = false;
   isInstructor = false;
   isAdmin = false;
@@ -154,9 +154,9 @@ export class PageComponent implements OnInit {
         next: (authInfo: AuthInfo) => {
           const user = authInfo.user;
           if (user) {
-            this.user = user.id;
+            this.accountEmail = user.accountEmail;
             if (authInfo.masquerade) {
-              this.user += ' (M)';
+              this.accountEmail += ' (M)';
             }
             this.isStudent = user.isStudent;
             this.isInstructor = user.isInstructor;

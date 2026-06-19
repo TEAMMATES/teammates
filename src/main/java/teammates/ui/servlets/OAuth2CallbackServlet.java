@@ -1,5 +1,7 @@
 package teammates.ui.servlets;
 
+import static teammates.common.util.HttpResponseHelper.logAndPrintError;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -23,6 +25,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 
@@ -77,7 +80,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        String redirectUrl = resp.encodeRedirectURL(getSanitizedRedirectUrl(authResult.nextUrl));
+        String nextUrl = UrlHelper.getSafeRedirectUrl(authResult.nextUrl);
+        String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
@@ -152,14 +156,6 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
-    }
-
-    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        resp.setStatus(status);
-        resp.getWriter().print(message);
-
-        log.request(req, status, message);
     }
 
     private static final class AuthResult {

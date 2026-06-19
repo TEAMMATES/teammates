@@ -68,7 +68,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private Instructor loginInstructor(String instructorId) {
         Instructor instructor = getInstructor(instructorId);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         return instructor;
     }
 
@@ -88,7 +88,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private Student loginStudent(String studentId) {
         Student student = getStudent(studentId);
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
         return student;
     }
 

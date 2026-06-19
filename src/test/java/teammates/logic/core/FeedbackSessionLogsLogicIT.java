@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -110,22 +109,6 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 course.getId(), null, null, endTime.plusSeconds(3600), endTime.plusSeconds(7200)));
 
         assertEquals(expectedLogs, actualLogs);
-    }
-
-    @Test(groups = GroupNames.INTEGRATION)
-    public void test_deleteFeedbackSessionLogsOlderThan_success() {
-        Course course = typicalDataBundle.courses.get("course1");
-        Instant cutoffTime = Instant.parse("2012-01-01T14:30:00Z");
-
-        int deletedCount = inTransaction(() -> fslLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime));
-
-        List<FeedbackSessionLog> remainingLogs = inTransaction(() -> fslLogic.getOrderedFeedbackSessionLogs(
-                course.getId(), null, null,
-                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z")));
-
-        assertEquals(deletedCount, 7);
-        assertEquals(remainingLogs.size(), 0);
-        assertTrue(remainingLogs.stream().allMatch(log -> !log.getTimestamp().isBefore(cutoffTime)));
     }
 
 }

@@ -46,7 +46,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor otherInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         ______TS("Typical Success Case fetching privilege of self");
         String[] params = new String[] {

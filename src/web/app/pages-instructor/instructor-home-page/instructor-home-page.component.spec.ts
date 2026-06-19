@@ -11,7 +11,7 @@ import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref'
 import { SessionsTableRowModel } from '../../components/sessions-table/sessions-table-model';
 import {
   Course,
-  Courses,
+  InstructorCourses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
@@ -208,11 +208,12 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should load courses of the current instructor', () => {
-    const activeCourses: Courses = {
-      courses: [{ course: testCourse1 }, { course: testCourse2 }],
+    const activeCourses: InstructorCourses = {
+      courses: [testCourse1, testCourse2],
+      instructorPermissions: {},
     };
 
-    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
+    vi.spyOn(courseService, 'getAllCoursesAsInstructor').mockReturnValue(of(activeCourses));
     component.loadCourses();
 
     expect(component.hasCoursesLoaded).toBeTruthy();

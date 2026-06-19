@@ -45,7 +45,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         ______TS("Typical Success Case with only course id, logged in as instructor");
         String[] params = new String[] {
@@ -66,7 +66,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
 
         logoutUser();
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         ______TS("Typical Success Case with course id and team id, logged in as student");
         params = new String[] {
@@ -102,7 +102,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         verifyCanAccess(params);
 
@@ -113,7 +113,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.TEAM_ID, student.getTeamId().toString(),
         };
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         verifyCanAccess(params);
 

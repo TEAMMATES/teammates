@@ -54,7 +54,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         FeedbackQuestion typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(fq1.getId()));
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        loginAsInstructor(instructor1ofCourse1);
 
         ______TS("Not enough parameters");
 
@@ -121,7 +121,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
 
         ______TS("non-existent feedback question");
 
-        loginAsInstructor(instructor1OfCourse1.getAccount().getGoogleId());
+        loginAsInstructor(instructor1OfCourse1);
 
         verifyCannotAccess(Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000");
 
