@@ -389,4 +389,36 @@ describe('SessionResultPageComponent', () => {
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
   });
+
+  it('should toggle hideSelfResponses when checkbox is changed', () => {
+    component.questions = [
+      {
+        feedbackQuestion: testFeedbackQuestion,
+        questionStatistics: 'stats',
+        allResponses: [],
+        responsesToSelf: [],
+        responsesFromSelf: [],
+        otherResponses: [],
+        isLoading: false,
+        isLoaded: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
+      },
+    ];
+    component.intent = Intent.STUDENT_RESULT;
+    component.isCourseLoading = false;
+    component.isFeedbackSessionDetailsLoading = false;
+    component.isFeedbackSessionResultsLoading = false;
+
+    fixture.detectChanges();
+
+    const checkbox = fixture.debugElement.nativeElement.querySelector('#hide-self-responses-checkbox');
+    expect(checkbox).toBeTruthy();
+
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(component.hideSelfResponses).toBe(true);
+  });
 });

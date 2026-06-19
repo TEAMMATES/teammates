@@ -3,6 +3,7 @@
 exports[`QuestionResponsePanelComponent > should snap with feedback session with questions 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
@@ -414,6 +415,7 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
 exports[`QuestionResponsePanelComponent > should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
@@ -705,6 +707,7 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
 exports[`QuestionResponsePanelComponent > should snap with questions and responses when previewing results 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}

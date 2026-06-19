@@ -126,12 +126,26 @@
           </div>
         </div>
       }
+      @if (questions.length > 0 && intent === Intent.STUDENT_RESULT) {
+        <div class="my-3 form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="hide-self-responses-checkbox"
+            (change)="onHideSelfResponsesChange($event)"
+          />
+          <label class="form-check-label" for="hide-self-responses-checkbox">
+            Hide my own responses (to others)
+          </label>
+        </div>
+      }
       <tm-question-response-panel
         [questions]="questions"
         [session]="session"
         [intent]="intent"
         [regKey]="key"
         [previewAsPerson]="previewAs"
+        [hideSelfResponses]="hideSelfResponses"
       ></tm-question-response-panel>
     </div>
   </tm-loading-retry>

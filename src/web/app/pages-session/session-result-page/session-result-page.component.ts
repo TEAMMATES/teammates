@@ -96,6 +96,7 @@ export class SessionResultPageComponent implements OnInit {
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   isPreviewHintExpanded = false;
+  hideSelfResponses = false;
 
   isCourseLoading = true;
   isFeedbackSessionDetailsLoading = true;
@@ -390,6 +391,11 @@ export class SessionResultPageComponent implements OnInit {
         feedbackSessionId: this.feedbackSessionId,
       })
       .subscribe();
+  }
+
+  onHideSelfResponsesChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.hideSelfResponses = target.checked;
   }
 
   protected isSessionPublished(): boolean {

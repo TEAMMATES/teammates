@@ -615,4 +615,44 @@ describe('QuestionResponsePanelComponent', () => {
 
     expect(fixture.nativeElement.querySelector('#question-1-responses')).toBeTruthy();
   });
+
+  it('should not show own responses if hideSelfResponses is true', () => {
+    component.session = testFeedbackSession;
+    component.questions = [
+      {
+        feedbackQuestion: testQuestion4,
+        questionStatistics: '',
+        allResponses: [],
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-7',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: '-',
+            recipientTeam: 'None',
+            recipientSection: '-',
+            responseDetails: {
+              answer: 'Yes',
+              questionType: 'TEXT',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        otherResponses: [[]],
+        isLoading: false,
+        isLoaded: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
+      },
+    ];
+    component.hideSelfResponses = true;
+
+    fixture.detectChanges();
+
+    const ownResponsesDiv = fixture.nativeElement.querySelector('.given-responses');
+    expect(ownResponsesDiv).toBeFalsy();
+  });
 });
