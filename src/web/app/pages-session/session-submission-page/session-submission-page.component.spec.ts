@@ -470,7 +470,6 @@ describe('SessionSubmissionPageComponent', () => {
     masquerade: false,
     loginUrl: 'http://localhost:8080/auth',
     user: {
-      id: 'user-id',
       accountId: 'account-id',
       accountEmail: 'user@teammates.tmt',
       isAdmin: false,

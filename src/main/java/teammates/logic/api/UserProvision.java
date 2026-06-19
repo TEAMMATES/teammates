@@ -85,7 +85,7 @@ public class UserProvision {
 
         Account account = authContext.account();
 
-        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId(), account.getEmail());
+        UserInfo userInfo = new UserInfo(account.getId(), account.getEmail());
         userInfo.isAdmin = authContext.isAdmin();
         userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty()
                 || accountVerificationsLogic.hasAnyApprovedVerificationRequest(account.getId());

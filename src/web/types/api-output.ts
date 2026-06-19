@@ -605,7 +605,6 @@ export interface User extends ApiOutput {
 }
 
 export interface UserInfo {
-  id: string;
   accountId: string;
   accountEmail: string;
   isAdmin: boolean;

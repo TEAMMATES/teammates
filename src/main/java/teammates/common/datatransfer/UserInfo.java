@@ -8,11 +8,6 @@ import java.util.UUID;
 public class UserInfo {
 
     /**
-     * The user's Google ID.
-     */
-    public String id;
-
-    /**
      * The user's account ID.
      */
     public UUID accountId;
@@ -42,14 +37,9 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String googleId, UUID accountId, String accountEmail) {
-        this.id = googleId;
+    public UserInfo(UUID accountId, String accountEmail) {
         this.accountId = accountId;
         this.accountEmail = accountEmail;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public UUID getAccountId() {
