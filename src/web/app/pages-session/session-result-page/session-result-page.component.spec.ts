@@ -287,11 +287,7 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/front',
-      `You are trying to access TEAMMATES using the account ${component.accountEmail}, which
-                        is not linked to this TEAMMATES account. If you used a different account to
-                        join/access TEAMMATES before, please use that account to access TEAMMATES. If you
-                        cannot remember which account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
+      `You are signed in as ${component.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
     );
   });
 

@@ -181,7 +181,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             next: (resp: RegkeyValidity) => {
               if (resp.isAllowedAccess) {
                 if (resp.isUsed) {
-                  // The logged in user matches the registration key; redirect to the logged in URL
+                  // The signed in user matches the registration key; redirect to the signed in URL
                   this.navigationService.navigateByURL(
                     `/web/${this.entityType}/sessions/${this.feedbackSessionId}/submission`,
                   );
@@ -192,14 +192,10 @@ export class SessionSubmissionPageComponent implements OnInit {
               } else if (resp.isValid) {
                 // At this point, registration key must already be used, otherwise access would be granted
                 if (this.accountEmail) {
-                  // Registration key belongs to another user who is not the logged in user
+                  // Registration key belongs to another user who is not the signed in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    `You are trying to access TEAMMATES using the account ${this.accountEmail}, which
-                        is not linked to this TEAMMATES account. If you used a different account to
-                        join/access TEAMMATES before, please use that account to access TEAMMATES. If you
-                        cannot remember which account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
+                    `You are signed in as ${this.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
                   );
                 } else {
                   this.loadFeedbackSession(true, auth);
@@ -220,7 +216,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             },
           });
         } else if (this.accountEmail) {
-          // Load information based on logged in user
+          // Load information based on signed in user
           // This will also cover moderation/preview cases
           this.loadFeedbackSession(false, auth);
         } else {
