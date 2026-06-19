@@ -2,6 +2,8 @@ package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,9 +41,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
 
-        String loggedInGoogleId = "AccLogicT.student.id";
         Account loggedInAccount = getTypicalAccount();
-        loggedInAccount.setGoogleId(loggedInGoogleId);
         loggedInAccount.setEmail("acct.student@teammates.tmt");
         inTransaction(() -> accountsDb.persistAccount(loggedInAccount));
 
@@ -62,22 +62,23 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: student joins course");
 
+        UUID loggedInAccountId = loggedInAccount.getId();
         inTransaction(() -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(), loggedInAccount));
 
-        assertEquals(loggedInGoogleId, inTransaction(() -> usersLogic.getStudentForEmail(
-                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getGoogleId()));
+        assertEquals(loggedInAccountId, inTransaction(() -> usersLogic.getStudentForEmail(
+                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getAccountId()));
 
         ______TS("success: student joined but account already exists");
 
         Account existingAccount = getTypicalAccount();
-        existingAccount.setGoogleId("existingAccountId");
+        UUID existingAccountId = existingAccount.getId();
         existingAccount.setEmail(student3YetToJoinCourse.getEmail());
         inTransaction(() -> accountsDb.persistAccount(existingAccount));
 
         inTransaction(() -> accountsLogic.joinCourse(student3YetToJoinCourse.getRegKey(), existingAccount));
 
-        assertEquals("existingAccountId", inTransaction(() -> usersLogic.getStudentForEmail(
-                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getGoogleId()));
+        assertEquals(existingAccountId, inTransaction(() -> usersLogic.getStudentForEmail(
+                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getAccountId()));
 
         ______TS("failure: already joined");
 
@@ -91,9 +92,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
-        String loggedInGoogleId = "AccLogicT.instr.id";
         Account loggedInAccount = getTypicalAccount();
-        loggedInAccount.setGoogleId(loggedInGoogleId);
         loggedInAccount.setEmail("acct.instr@teammates.tmt");
         inTransaction(() -> accountsDb.persistAccount(loggedInAccount));
 
@@ -113,17 +112,17 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: instructor joins course");
 
+        UUID loggedInAccountId = loggedInAccount.getId();
         inTransaction(() -> accountsLogic.joinCourse(key[0], loggedInAccount));
 
         Instructor joinedInstructor = inTransaction(() -> usersLogic.getInstructorForEmail(
                         instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()));
-        assertEquals(loggedInGoogleId, joinedInstructor.getGoogleId());
+        assertEquals(loggedInAccountId, joinedInstructor.getAccountId());
 
         ______TS("success: instructor joined but account already exists");
 
-        String existingAccountId = "existingAccountId";
         Account existingAccount = getTypicalAccount();
-        existingAccount.setGoogleId(existingAccountId);
+        UUID existingAccountId = existingAccount.getId();
         existingAccount.setEmail(instructor3YetToJoinCourse.getEmail());
         inTransaction(() -> accountsDb.persistAccount(existingAccount));
 
@@ -131,7 +130,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         joinedInstructor = inTransaction(() -> usersLogic.getInstructorForEmail(
                         instructor3YetToJoinCourse.getCourseId(), existingAccount.getEmail()));
-        assertEquals("existingAccountId", joinedInstructor.getGoogleId());
+        assertEquals(existingAccountId, joinedInstructor.getAccountId());
 
         ______TS("failure: instructor already joined");
 
