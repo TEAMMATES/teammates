@@ -12,7 +12,7 @@ import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.SessionResultsData;
+import teammates.ui.output.UserSessionResultsData;
 import teammates.ui.request.Intent;
 
 /**
@@ -87,6 +87,6 @@ public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
         }
 
         SessionResultsBundle bundle = logic.getSessionResultsForUser(feedbackSession, user, isPreviewResults);
-        return new JsonResult(SessionResultsData.initForUser(bundle, user));
+        return new JsonResult(UserSessionResultsData.initForUser(bundle, user));
     }
 }
