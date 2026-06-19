@@ -144,4 +144,13 @@ describe('CopySessionModalComponent', () => {
     component.select(courseId);
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
+
+  it('should detect when new session name is identical to source session name while copying to same course', () => {
+    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
+    component.sessionToCopyName = feedbackSessionToCopy.feedbackSessionName;
+    component.sessionToCopyCourseId = courseSessionIn.courseId;
+    component.copyToCourseSet.add(courseSessionIn.courseId);
+
+    expect(component.isNewFeedbackSessionNameSameAsSource).toBe(true);
+  });
 });

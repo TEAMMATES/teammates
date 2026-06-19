@@ -26,6 +26,9 @@ export class CopySessionModalComponent {
   @Input()
   sessionToCopyCourseId = '';
 
+  @Input()
+  sessionToCopyName = '';
+
   newFeedbackSessionName = '';
   copyToCourseSet: Set<string> = new Set<string>();
 
@@ -38,6 +41,14 @@ export class CopySessionModalComponent {
    */
   get isNewFeedbackSessionNameValid(): boolean {
     return this.newFeedbackSessionName.trim().length > 0;
+  }
+
+  /**
+   * Whether the new session name is identical to the source session name when copying to the same course.
+   */
+  get isNewFeedbackSessionNameSameAsSource(): boolean {
+    return this.copyToCourseSet.has(this.sessionToCopyCourseId) &&
+      this.newFeedbackSessionName.trim().toLowerCase() === this.sessionToCopyName.trim().toLowerCase();
   }
 
   /**

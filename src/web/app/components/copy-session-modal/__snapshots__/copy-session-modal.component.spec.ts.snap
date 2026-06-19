@@ -8,6 +8,7 @@ exports[`CopySessionModalComponent > should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   newFeedbackSessionName=""
   sessionToCopyCourseId=""
+  sessionToCopyName=""
 >
   <div
     class="modal-header"
@@ -64,6 +65,16 @@ exports[`CopySessionModalComponent > should snap with default fields 1`] = `
             />
              The field "Name for copied session" should not be empty. 
           </div>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The session name must be different if you are copying to the same course. 
+          </div>
           <span>
             64 characters left
           </span>
@@ -99,6 +110,7 @@ exports[`CopySessionModalComponent > should snap with some session and courses c
   courseCandidates={[Function Array]}
   newFeedbackSessionName={[Function String]}
   sessionToCopyCourseId={[Function String]}
+  sessionToCopyName=""
 >
   <div
     class="modal-header"
@@ -154,6 +166,16 @@ exports[`CopySessionModalComponent > should snap with some session and courses c
               class="fa fa-exclamation-circle"
             />
              The field "Name for copied session" should not be empty. 
+          </div>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The session name must be different if you are copying to the same course. 
           </div>
           <span>
             52 characters left

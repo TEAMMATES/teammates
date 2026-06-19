@@ -29,6 +29,13 @@
           <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
           The field "Name for copied session" should not be empty.
         </div>
+        <div
+          [hidden]="!isNewFeedbackSessionNameSameAsSource"
+          class="invalid-field"
+        >
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          The session name must be different if you are copying to the same course.
+        </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       @for (course of courseCandidates; track course) {
@@ -61,7 +68,7 @@
     type="button"
     class="btn btn-primary"
     (click)="copy()"
-    [disabled]="!isNewFeedbackSessionNameValid || copyToCourseSet.size < 1"
+    [disabled]="!isNewFeedbackSessionNameValid || copyToCourseSet.size < 1 || isNewFeedbackSessionNameSameAsSource"
   >
     Copy
   </button>

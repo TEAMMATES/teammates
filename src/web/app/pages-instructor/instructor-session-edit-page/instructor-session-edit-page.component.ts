@@ -250,6 +250,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.modifiedSession = {};
             const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
             modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
+            modalRef.componentInstance.sessionToCopyName = this.feedbackSessionName;
             modalRef.componentInstance.courseCandidates = courses.courses.map(
               (courseView: CourseView) => courseView.course,
             );

@@ -387,6 +387,7 @@ export class SessionsTableComponent implements OnInit {
     const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
+    modalRef.componentInstance.sessionToCopyName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
 
