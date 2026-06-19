@@ -4,7 +4,7 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
 <tm-instructor-request-form
   EMAIL_MAX_LENGTH={[Function Number]}
   INSTITUTION_NAME_MAX_LENGTH={[Function Number]}
-  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  PERSON_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
   comments={[Function FormControl]}

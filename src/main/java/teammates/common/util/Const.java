@@ -36,7 +36,6 @@ public final class Const {
     public static final Duration FEEDBACK_SESSION_REMINDER_EMAIL_REDUNDANCY_WINDOW = Duration.ofHours(2);
     public static final Duration FEEDBACK_SESSION_EVENT_EMAIL_LOOKBACK_WINDOW = Duration.ofDays(2);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
-    public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
@@ -317,7 +316,8 @@ public final class Const {
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
         public static final String DEMO_COURSE = URI_PREFIX + "/demo/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
-        public static final String COURSES = URI_PREFIX + "/courses";
+        public static final String INSTRUCTOR_COURSES = URI_PREFIX + "/instructor/courses";
+        public static final String STUDENT_COURSES = URI_PREFIX + "/student/courses";
         public static final String INSTITUTES = URI_PREFIX + "/institutes";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
@@ -378,8 +378,6 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionClosingSoonReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
-        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP =
-                URI_PREFIX + "/cleanupFeedbackSessionLogs";
     }
 
     /**

@@ -30,11 +30,10 @@ describe('CourseService', () => {
   it('should execute GET on courses endpoint with course status as an instructor', () => {
     const courseStatus = 'active';
     const paramMap: { [key: string]: string } = {
-      entitytype: 'instructor',
       coursestatus: courseStatus,
     };
     service.getAllCoursesAsInstructor(courseStatus);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_COURSES, paramMap);
   });
 
   it('should execute GET on course endpoint with course id as an instructor', () => {
@@ -48,11 +47,8 @@ describe('CourseService', () => {
   });
 
   it('should execute GET when getting all courses as student', () => {
-    const paramMap: { [key: string]: string } = {
-      entitytype: 'student',
-    };
     service.getAllCoursesAsStudent();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSES);
   });
 
   it('should execute GET when getting specific course as student', () => {
@@ -63,15 +59,6 @@ describe('CourseService', () => {
     };
     service.getCourseAsStudent(courseId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
-  });
-
-  it('should execute GET when getting all active instructor courses', () => {
-    const paramMap: Record<string, string> = {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    };
-    service.getInstructorCoursesThatAreActive();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
   });
 
   it('should execute POST to create course', () => {

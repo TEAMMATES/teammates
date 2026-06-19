@@ -4,16 +4,19 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
@@ -38,6 +41,7 @@ public final class CoursesLogic {
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
     private InstitutesLogic institutesLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -47,10 +51,12 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstitutesLogic institutesLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstitutesLogic institutesLogic,
+            InstructorPermissionsLogic instructorPermissionsLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
         this.institutesLogic = institutesLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -162,6 +168,34 @@ public final class CoursesLogic {
                 .map(Instructor::getCourse)
                 .filter(course -> course.isCourseDeleted())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns courses for the given instructor account mapped to their course-level permissions.
+     *
+     * @throws InvalidParametersException if the course status is invalid.
+     */
+    public Map<Course, InstructorPermissionSet> getCoursesForInstructorAccount(UUID accountId, String courseStatus)
+            throws InvalidParametersException {
+        List<Instructor> instructors = usersLogic.getInstructorsByAccountId(accountId);
+
+        List<Course> courses = switch (courseStatus) {
+        case Const.CourseStatus.ACTIVE -> getCoursesForInstructors(instructors);
+        case Const.CourseStatus.SOFT_DELETED -> getSoftDeletedCoursesForInstructors(instructors);
+        default -> throw new InvalidParametersException("Error: invalid course status");
+        };
+
+        Map<String, Instructor> courseIdToInstructor = new HashMap<>();
+        instructors.forEach(i -> courseIdToInstructor.put(i.getCourseId(), i));
+        Map<Course, InstructorPermissionSet> result = new HashMap<>();
+        courses.forEach(course -> {
+            Instructor instructor = courseIdToInstructor.get(course.getId());
+            InstructorPermissionSet permissions = instructor == null
+                    ? new InstructorPermissionSet()
+                    : instructorPermissionsLogic.getInstructorPrivileges(instructor).getCourseLevelPrivileges();
+            result.put(course, permissions);
+        });
+        return result;
     }
 
     /**
@@ -294,13 +328,6 @@ public final class CoursesLogic {
      */
     public List<Team> getTeamsForCourse(String courseId) {
         return coursesDb.getTeamsForCourse(courseId);
-    }
-
-    /**
-     * Sorts the courses list alphabetically by id.
-     */
-    public static void sortById(List<Course> courses) {
-        courses.sort(Comparator.comparing(Course::getId));
     }
 
     private void validateTeam(Team team) throws InvalidParametersException {

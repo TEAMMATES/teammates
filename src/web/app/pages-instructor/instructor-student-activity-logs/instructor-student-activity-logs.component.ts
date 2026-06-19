@@ -10,7 +10,6 @@ import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { ApiConst } from '../../../types/api-const';
 import {
   Course,
   FeedbackSession,
@@ -85,7 +84,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   private readonly statusMessageService = inject(StatusMessageService);
 
   LOGS_DATE_TIME_FORMAT = 'ddd, DD MMM YYYY hh:mm:ss A';
-  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;
   LOG_TYPES: LogType[] = [
     { label: 'Session Access', value: FeedbackSessionLogType.ACCESS },
     { label: 'Session Submission', value: FeedbackSessionLogType.SUBMISSION },
@@ -114,7 +112,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     creationTimestamp: 0,
     deletionTimestamp: 0,
   };
-  earliestSearchTimestamp = 0;
   latestSearchTimestamp = 0;
   studentLogsMap: Map<string, FeedbackSessionLog[]> = new Map();
   students: Student[] = [];
@@ -138,11 +135,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   loadControlPanel(): void {
     const now: moment.Moment = moment.tz(this.course.timeZone || this.timezoneService.guessTimezone());
 
-    this.earliestSearchTimestamp = now
-      .clone()
-      .subtract(this.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD, 'days')
-      .startOf('day')
-      .valueOf();
     this.latestSearchTimestamp = now.clone().add(1, 'day').startOf('day').valueOf();
 
     // The default search window spans from the start of the day to the end of the day.

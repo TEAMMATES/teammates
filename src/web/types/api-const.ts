@@ -4,7 +4,7 @@
 export enum ApiConst {
   COURSE_ID_MAX_LENGTH = 64,
   COURSE_NAME_MAX_LENGTH = 80,
-  STUDENT_NAME_MAX_LENGTH = 100,
+  PERSON_NAME_MAX_LENGTH = 100,
   SECTION_NAME_MAX_LENGTH = 60,
   TEAM_NAME_MAX_LENGTH = 60,
   EMAIL_MAX_LENGTH = 254,
@@ -20,7 +20,6 @@ export enum ApiConst {
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED = -999,
   NO_VALUE = -2147483648,
   LOGS_RETENTION_PERIOD = 30,
-  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = 90,
   SEARCH_QUERY_SIZE_LIMIT = 50,
 }
 
@@ -74,7 +73,8 @@ export enum ResourceEndpoints {
   COURSE = "/webapi/course",
   BIN_COURSE = "/webapi/bin/course",
   COURSE_SECTIONS = "/webapi/course/sections",
-  COURSES = "/webapi/courses",
+  INSTRUCTOR_COURSES = "/webapi/instructor/courses",
+  STUDENT_COURSES = "/webapi/student/courses",
   DEMO_COURSE = "/webapi/demo/course",
   INSTITUTES = "/webapi/institutes",
   INSTRUCTORS = "/webapi/instructors",
