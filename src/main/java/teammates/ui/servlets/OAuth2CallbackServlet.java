@@ -41,7 +41,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         LoginMethodHandler loginHandler;
-        if (!Config.isDevServerLoginEnabled()) {
+        if (Config.isDevServerLoginEnabled()) {
             loginHandler = getLoginHandler(LoginMethod.DEV_SERVER);
         } else {
             loginHandler = getLoginHandler(LoginMethod.GOOGLE);
