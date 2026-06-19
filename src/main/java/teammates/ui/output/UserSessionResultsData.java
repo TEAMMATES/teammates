@@ -110,13 +110,12 @@ public class UserSessionResultsData implements ApiOutput {
             giverTeam = giver.getTeamName();
         } else {
             giverName = removeAnonymousHash(
-                    SessionResultsData.getGiverNameOfResponse(response.getId(), giver, bundle));
+                    SessionResultsUtils.getGiverNameOfResponse(response.getId(), giver, bundle));
         }
 
         ResponseRecipient recipient = response.getRecipient();
         boolean isUserRecipient = Objects.equals(user, recipient.getRecipientUser());
         boolean isUserTeamRecipient = false;
-        boolean isRecipientVisible = bundle.isResponseRecipientVisible(response.getId(), recipient.getRecipientType());
         if (user instanceof Student student) {
             isUserTeamRecipient = Objects.equals(student.getTeam(), recipient.getRecipientTeam());
         }
@@ -131,8 +130,8 @@ public class UserSessionResultsData implements ApiOutput {
             recipientTeam = recipient.getTeamName();
         } else {
             recipientName = removeAnonymousHash(
-                    SessionResultsData.getRecipientNameOfResponse(response.getId(), recipient, bundle));
-            if (isRecipientVisible) {
+                    SessionResultsUtils.getRecipientNameOfResponse(response.getId(), recipient, bundle));
+            if (bundle.isResponseRecipientVisible(response.getId(), recipient.getRecipientType())) {
                 recipientTeam = recipient.getTeamName();
             }
         }
@@ -140,10 +139,11 @@ public class UserSessionResultsData implements ApiOutput {
         List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<ResponseInstructorCommentData> instructorComments =
-                SessionResultsData.buildInstructorComments(responseInstructorComments, bundle);
+                SessionResultsUtils.buildInstructorComments(responseInstructorComments, bundle);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
+                .withIsMissingResponse(false)
                 .withResponseId(response.getId().toString())
                 .withGiver(giverName)
                 .withGiverUserId(giver.getGiverUserId())
