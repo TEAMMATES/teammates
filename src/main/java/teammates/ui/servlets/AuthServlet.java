@@ -1,20 +1,15 @@
 package teammates.ui.servlets;
 
-import java.io.IOException;
 import java.util.Map;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.UrlHelper;
 import teammates.ui.loginmethodhandlers.DevServerLoginHandler;
 import teammates.ui.loginmethodhandlers.GoogleLoginHandler;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
@@ -53,21 +48,6 @@ abstract class AuthServlet extends HttpServlet {
      */
     LoginMethodHandler getLoginHandler(LoginMethod method) {
         return LOGIN_HANDLERS.get(method);
-    }
-
-    /**
-     * Logs the given error message and prints it in the HTTP response.
-     */
-    void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        HttpResponseHelper.logAndPrintError(req, resp, status, message);
-    }
-
-    /**
-     * Encodes the given query parameter value to be safely included in a URL.
-     */
-    String encodeQueryParam(String param) {
-        return UrlHelper.encodeQueryParam(param);
     }
 
 }
