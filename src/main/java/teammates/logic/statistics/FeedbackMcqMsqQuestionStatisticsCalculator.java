@@ -243,6 +243,8 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
                         FeedbackMcqMsqCourseWideStatistics.McqMsqPerRecipientRow r =
                                 new FeedbackMcqMsqCourseWideStatistics.McqMsqPerRecipientRow();
                         r.setRecipientName(response.getRecipient().getDisplayName());
+                        r.setRecipientEmail(response.getRecipient().isRecipientUser()
+                                ? response.getRecipient().getRecipientUser().getEmail() : null);
                         r.setRecipientTeam(response.getRecipient().getTeamName());
                         for (String label : optionLabels) {
                             r.getResponseCountPerOption().put(label, 0);

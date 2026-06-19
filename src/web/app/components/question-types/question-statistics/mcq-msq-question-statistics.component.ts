@@ -79,7 +79,7 @@ export class McqMsqQuestionStatisticsComponent implements OnChanges {
 
       this.perRecipientRowsData = stats.perRecipientRows.map((row) => [
         { value: row.recipientTeam },
-        { value: row.recipientName },
+        { value: row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '') },
         ...optionLabels.map((label) => ({ value: row.responseCountPerOption[label] ?? 0 })),
         { value: row.total.toFixed(2) },
         { value: row.average.toFixed(2) },

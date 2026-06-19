@@ -114,6 +114,8 @@ public class FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsS
      */
     public static class McqMsqPerRecipientRow {
         private String recipientName;
+        @Nullable
+        private String recipientEmail;
         private String recipientTeam;
         private Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
         private double total;
@@ -125,6 +127,15 @@ public class FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsS
 
         public void setRecipientName(String recipientName) {
             this.recipientName = recipientName;
+        }
+
+        @Nullable
+        public String getRecipientEmail() {
+            return recipientEmail;
+        }
+
+        public void setRecipientEmail(@Nullable String recipientEmail) {
+            this.recipientEmail = recipientEmail;
         }
 
         public String getRecipientTeam() {

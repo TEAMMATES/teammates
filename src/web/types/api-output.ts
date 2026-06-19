@@ -451,6 +451,7 @@ export interface McqMsqOptionRow {
 
 export interface McqMsqPerRecipientRow {
   recipientName: string;
+  recipientEmail?: string;
   recipientTeam: string;
   responseCountPerOption: { [index: string]: number };
   total: number;
