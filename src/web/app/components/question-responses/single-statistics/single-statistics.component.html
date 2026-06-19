@@ -54,17 +54,8 @@
     [isStudent]="isStudent"
   ></tm-rank-recipients-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isMsq(question)) {
-  <tm-msq-question-statistics
-    [responses]="ResponseOutputCaster.msq(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-msq-question-statistics>
-}
-@if (QuestionDetailsTypeChecker.isMcq(question)) {
-  <tm-mcq-question-statistics
-    [responses]="ResponseOutputCaster.mcq(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-mcq-question-statistics>
+@if (QuestionDetailsTypeChecker.isMcq(question) || QuestionDetailsTypeChecker.isMsq(question)) {
+  @if (QuestionStatisticsTypeChecker.isMcqMsqCourseWide(statistics)) {
+    <tm-mcq-msq-question-statistics [statistics]="statistics" [isStudent]="isStudent"></tm-mcq-msq-question-statistics>
+  }
 }
