@@ -15,7 +15,7 @@ import { TeammatesRouterDirective } from '../../../teammates-router/teammates-ro
 @Component({
   selector: 'tm-contribution-course-wide-question-statistics',
   templateUrl: './contribution-course-wide-question-statistics.component.html',
-  imports: [ContributionComponent, ContributionRatingsListComponent, TeammatesRouterDirective, SortableTableComponent],
+  imports: [TeammatesRouterDirective, SortableTableComponent],
 })
 export class ContributionCourseWideQuestionStatisticsComponent implements OnChanges {
   @Input({ required: true }) statistics!: FeedbackContributionCourseWideStatistics;

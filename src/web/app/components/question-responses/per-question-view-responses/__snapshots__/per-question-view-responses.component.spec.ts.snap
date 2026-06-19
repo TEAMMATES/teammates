@@ -25,7 +25,7 @@ exports[`PerQuestionViewResponsesComponent > should snap response with comments 
   showRecipient={[Function Boolean]}
   sortBy="0"
   sortOrder={[Function Number]}
-  statistics=""
+  statistics="undefined"
   tableComparatorService={[Function _TableComparatorService]}
   updateCommentEvent={[Function EventEmitter_]}
 >
