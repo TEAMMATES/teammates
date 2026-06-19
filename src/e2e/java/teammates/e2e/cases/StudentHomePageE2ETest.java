@@ -49,9 +49,9 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     private List<String> getAllVisibleCourseIds() {
         List<String> courseIds = new ArrayList<>();
 
-        UUID studentIdWithVisibleCourses = testData.students.get("SHome.student").getId();
+        UUID studentAccountIdWithVisibleCourses = testData.accounts.get("SHome.student").getId();
         for (Student student : testData.students.values()) {
-            if (studentIdWithVisibleCourses.equals(student.getId())) {
+            if (studentAccountIdWithVisibleCourses.equals(student.getAccountId())) {
                 courseIds.add(student.getCourseId());
             }
         }
