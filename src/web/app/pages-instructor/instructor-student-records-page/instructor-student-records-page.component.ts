@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
-import { combineLatest, Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
@@ -50,11 +50,11 @@ interface SessionTab {
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private studentService = inject(StudentService);
-  private tableComparatorService = inject(TableComparatorService);
-  private statusMessageService = inject(StatusMessageService);
-  private commentService = inject(InstructorCommentService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly studentService = inject(StudentService);
+  private readonly tableComparatorService = inject(TableComparatorService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly commentService = inject(InstructorCommentService);
 
   @Input({ required: true }) courseId!: string;
   @Input({ required: true }) userId!: string;
@@ -81,20 +81,20 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
 
-    combineLatest({
+    forkJoin({
       feedbackSession: this.getFeedbackSessions(courseId),
       student: this.loadStudentRecords(studentId),
     })
       .pipe(
-        mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student.sectionId);
+        mergeMap(({ feedbackSession }) => {
+          return this.getFeedbackSessionResults(feedbackSession);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
       )
       .subscribe({
-        next: ({ feedbackSession, results }: { results: SessionResults; feedbackSession: FeedbackSession }) => {
+        next: ({ feedbackSession, results }) => {
           this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
           results.questions.forEach((questions: QuestionOutput) => {
             return this.preprocessComments(
@@ -139,17 +139,14 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   }
 
   /**
-   * Fetches the full detail result of the given feedback session in the current course
-   * grouped by the student's section ID.
+   * Fetches the full detail result of the given feedback session in the current course.
    */
   private getFeedbackSessionResults(
     feedbackSession: FeedbackSession,
-    groupBySectionId: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
-        groupBySection: groupBySectionId,
       })
       .pipe(
         map((results: SessionResults) => {

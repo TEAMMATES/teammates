@@ -1370,14 +1370,11 @@ public class Logic {
      * @param feedbackSession the feedback session
      * @param instructor the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
-     * @param sectionId if not null, will only return partial bundle for the section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
-        return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructor, questionId, sectionId, isNoSpecificSection);
+            FeedbackSession feedbackSession, Instructor instructor, @Nullable UUID questionId) {
+        return feedbackResponsesLogic.getSessionResults(feedbackSession, instructor, questionId);
     }
 
     /**
