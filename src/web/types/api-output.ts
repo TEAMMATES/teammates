@@ -141,8 +141,8 @@ export interface FeedbackContributionResponseDetails extends FeedbackResponseDet
 
 export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
   hasAssignedWeights: boolean;
-  mcqWeights: number[];
-  mcqOtherWeight: number;
+  mcqWeights: (number | null)[];
+  mcqOtherWeight: number | null;
   mcqChoices: string[];
   otherEnabled: boolean;
   questionDropdownEnabled: boolean;
@@ -159,8 +159,8 @@ export interface FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
   msqChoices: string[];
   otherEnabled: boolean;
   hasAssignedWeights: boolean;
-  msqWeights: number[];
-  msqOtherWeight: number;
+  msqWeights: (number | null)[];
+  msqOtherWeight: number | null;
   generateOptionsFor: QuestionRecipientType;
   maxSelectableChoices: number;
   minSelectableChoices: number;

@@ -45,6 +45,10 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
     this.hasAnswers = stats.hasAnswers;
   }
 
+  private getDisplayWeight(weight: number | null | undefined): string {
+    return weight === null || weight === undefined ? '-' : String(weight);
+  }
+
   private getTableData(stats: MsqQuestionStatistics): void {
     this.summaryColumnsData = [
       { header: 'Choice', sortBy: SortBy.MSQ_CHOICE },
@@ -57,10 +61,10 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
     this.summaryRowsData = Object.keys(stats.answerFrequency).map((key: string) => {
       return [
         { value: key },
-        { value: stats.weightPerOption[key] === 0 ? 0 : stats.weightPerOption[key] || '-' },
+        { value: stats.weightPerOption[key] === 0 ? 0 : stats.weightPerOption[key] ?? '-' },
         { value: stats.answerFrequency[key] },
         { value: stats.percentagePerOption[key] },
-        { value: stats.weightedPercentagePerOption[key] === 0 ? 0 : stats.weightedPercentagePerOption[key] || '-' },
+        { value: stats.weightedPercentagePerOption[key] === 0 ? 0 : stats.weightedPercentagePerOption[key] ?? '-' },
       ];
     });
 
@@ -69,7 +73,7 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
       ...Object.keys(stats.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${stats.weightPerOption[key].toFixed(2)}]`,
+          header: `${key} [${this.getDisplayWeight(stats.weightPerOption[key])}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -89,9 +93,10 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
             value: stats.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: stats.perRecipientResponses[key].total.toFixed(2) },
-        { value: stats.perRecipientResponses[key].average.toFixed(2) },
+        { value: this.getDisplayWeight(stats.perRecipientResponses[key].total) },
+        { value: this.getDisplayWeight(stats.perRecipientResponses[key].average) },
       ];
     });
   }
 }
+

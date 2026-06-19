@@ -5,6 +5,10 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
  * Abstract class for MCQ/MSQ question detail.
  */
 export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeedbackQuestionDetails {
+  private getDisplayValue(val: number | null | undefined): string {
+    return val === null || val === undefined ? '-' : String(val);
+  }
+
   protected getQuestionCsvStatsFrom(
     statsCalculation: McqMsqQuestionStatistics,
     hasAssignedWeights: boolean,
@@ -23,10 +27,10 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
         if (hasAssignedWeights) {
           statsRows.push([
             answer,
-            String(statsCalculation.weightPerOption[answer]),
+            this.getDisplayValue(statsCalculation.weightPerOption[answer]),
             String(statsCalculation.answerFrequency[answer]),
             String(statsCalculation.percentagePerOption[answer]),
-            String(statsCalculation.weightedPercentagePerOption[answer]),
+            this.getDisplayValue(statsCalculation.weightedPercentagePerOption[answer]),
           ]);
         } else {
           statsRows.push([
@@ -48,7 +52,7 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
       'Team',
       'Recipient Name',
       ...Object.keys(statsCalculation.weightPerOption).map(
-        (choice: string) => `${choice} [${statsCalculation.weightPerOption[choice]}]`,
+        (choice: string) => `${choice} [${this.getDisplayValue(statsCalculation.weightPerOption[choice])}]`,
       ),
       'Total',
       'Average',
@@ -64,11 +68,12 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
           ...Object.keys(statsCalculation.weightPerOption).map((choice: string) =>
             String(recipientResponses.responses[choice]),
           ),
-          String(recipientResponses.total),
-          String(recipientResponses.average),
+          this.getDisplayValue(recipientResponses.total),
+          this.getDisplayValue(recipientResponses.average),
         ]);
       });
 
     return statsRows;
   }
 }
+
