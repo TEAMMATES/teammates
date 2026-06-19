@@ -15,7 +15,7 @@ public final class UrlHelper {
     private static final int HTTP_PORT = 80;
 
     private UrlHelper() {
-      // utility class
+        // utility class
     }
 
     /**

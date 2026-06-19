@@ -1,5 +1,8 @@
 package teammates.ui.servlets;
 
+import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.getSafeRedirectUrl;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 

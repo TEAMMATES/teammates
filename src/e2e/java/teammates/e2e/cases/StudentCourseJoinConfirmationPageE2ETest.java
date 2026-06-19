@@ -13,16 +13,14 @@ import teammates.storage.entity.Student;
  */
 public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     private Student newStudent;
-    private String newStudentEmail;
-    private String newStudentDisplayedUserId;
+    private String newStudentAccountEmail;
 
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json"));
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudentEmail = testData.accounts.get("alice.tmms").getEmail();
-        newStudentDisplayedUserId = testData.accounts.get("alice.tmms").getGoogleId();
+        newStudentAccountEmail = testData.accounts.get("alice.tmms").getEmail();
     }
 
     @Test
@@ -36,7 +34,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newStudentEmail);
+                joinLink, CourseJoinConfirmationPage.class, newStudentAccountEmail);
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
                 + "entered the URL incorrectly or the URL may correspond to a/an student that does not exist.");
@@ -48,7 +46,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withEntityType(Const.EntityType.STUDENT);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newStudentDisplayedUserId);
+        confirmationPage.verifyJoiningUser(newStudentAccountEmail);
         confirmationPage.confirmJoinCourse(StudentHomePage.class);
 
         ______TS("Already joined, no confirmation page");

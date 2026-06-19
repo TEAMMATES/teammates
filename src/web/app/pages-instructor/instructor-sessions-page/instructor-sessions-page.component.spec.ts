@@ -15,7 +15,7 @@ import { RecycleBinFeedbackSessionRowModel } from '../../components/sessions-rec
 import { SessionsTableRowModel } from '../../components/sessions-table/sessions-table-model';
 import {
   Course,
-  Courses,
+  InstructorCourses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
@@ -166,11 +166,12 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should load courses of the current instructor', () => {
-    const activeCourses: Courses = {
-      courses: [{ course: testCourse1 }, { course: testCourse2 }],
+    const activeCourses: InstructorCourses = {
+      courses: [testCourse1, testCourse2],
+      instructorPermissions: {},
     };
 
-    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
+    vi.spyOn(courseService, 'getAllCoursesAsInstructor').mockReturnValue(of(activeCourses));
     component.loadCandidatesCourse();
 
     expect(component.courseCandidates[0].courseId).toEqual('CS1231');

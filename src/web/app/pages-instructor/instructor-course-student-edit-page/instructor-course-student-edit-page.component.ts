@@ -12,7 +12,7 @@ import { StudentService } from '../../../services/student.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import {
-  STUDENT_NAME_MAX_LENGTH,
+  PERSON_NAME_MAX_LENGTH,
   SECTION_NAME_MAX_LENGTH,
   TEAM_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
@@ -38,7 +38,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
 
-  readonly STUDENT_NAME_MAX_LENGTH!: number;
+  readonly PERSON_NAME_MAX_LENGTH!: number;
   readonly SECTION_NAME_MAX_LENGTH!: number;
   readonly TEAM_NAME_MAX_LENGTH!: number;
   readonly EMAIL_MAX_LENGTH!: number;
@@ -59,7 +59,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   emailFieldSubscription?: Subscription;
 
   constructor() {
-    this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+    this.PERSON_NAME_MAX_LENGTH = PERSON_NAME_MAX_LENGTH;
     this.SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
     this.TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
@@ -130,7 +130,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.editForm = new UntypedFormGroup({
       'student-name': new UntypedFormControl(this.student.name, [
         Validators.required,
-        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+        Validators.maxLength(PERSON_NAME_MAX_LENGTH),
       ]),
       'section-name': new UntypedFormControl(this.student.sectionName, [
         Validators.required,

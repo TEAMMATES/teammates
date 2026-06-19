@@ -93,7 +93,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
-        loginAsStudent(student1.getGoogleId());
+        loginAsStudent(student1);
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,

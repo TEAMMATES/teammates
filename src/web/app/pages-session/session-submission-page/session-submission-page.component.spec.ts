@@ -472,7 +472,7 @@ describe('SessionSubmissionPageComponent', () => {
     user: {
       id: 'user-id',
       accountId: 'account-id',
-      email: 'user@teammates.tmt',
+      accountEmail: 'user@teammates.tmt',
       isAdmin: false,
       isInstructor: false,
       isStudent: true,
@@ -593,7 +593,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with user that is logged in and using session link', () => {
     component.key = 'reg-key';
-    component.loggedInUser = 'alice';
+    component.accountEmail = 'alice@example.com';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -601,7 +601,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with user that is not logged in and using session link', () => {
     component.key = 'reg-key';
-    component.loggedInUser = '';
+    component.accountEmail = '';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -611,7 +611,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.courseId = 'test.exa-demo';
     component.feedbackSessionName = 'First team feedback session';
     component.key = 'reg-key';
-    component.loggedInUser = 'logged-in-user';
+    component.accountEmail = 'account@example.com';
     component.personName = 'person name';
     component.personEmail = 'person@email.com';
     component.courseName = 'Course name';
@@ -669,7 +669,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
     expect(component.key).toEqual(testQueryParams.key);
-    expect(component.loggedInUser).toEqual(testInfo.user?.id);
+    expect(component.accountEmail).toEqual(testInfo.user?.accountEmail);
   });
 
   it('should verify allowed access with used reg key', () => {
@@ -703,11 +703,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/front',
-      `You are trying to access TEAMMATES using the Google account user-id, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
+      `You are signed in as ${component.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
     );
   });
 

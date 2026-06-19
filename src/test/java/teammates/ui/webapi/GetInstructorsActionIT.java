@@ -111,7 +111,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void courseNotFound_loggedInAsStudent_intentUndefined() {
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
@@ -176,7 +176,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test(groups = GroupNames.INTEGRATION)
     public void student_intentUndefined_canAccessOwnCourse() {
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, student.getCourseId(),
@@ -192,7 +192,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
 
         assertNotEquals(otherStudent.getCourse(), student.getCourse());
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, otherStudent.getCourseId(),

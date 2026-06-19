@@ -12,8 +12,6 @@ import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-perma
 import { CourseService } from '../../../services/course.service';
 import {
   Course,
-  Courses,
-  CourseView,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionView,
@@ -194,15 +192,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadCandidatesCourse(): void {
     this.isCoursesLoading = true;
     this.courseService
-      .getInstructorCoursesThatAreActive()
+      .getAllCoursesAsInstructor('active')
       .pipe(
         finalize(() => {
           this.isCoursesLoading = false;
         }),
       )
       .subscribe({
-        next: (courses: Courses) => {
-          this.courseCandidates = courses.courses.map((courseView: CourseView) => courseView.course);
+        next: (courses) => {
+          this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
         },

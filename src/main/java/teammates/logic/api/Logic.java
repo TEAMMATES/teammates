@@ -420,26 +420,13 @@ public class Logic {
     }
 
     /**
-     * Gets courses associated with instructors.
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Gets courses for the instructor account, mapped to the course-level permissions for each course.
      *
-     * @return Courses the given instructors is in except for courses in Recycle
-     *         Bin.
+     * @throws InvalidParametersException if the course status is invalid.
      */
-    public List<Course> getCoursesForInstructors(List<Instructor> instructorsList) {
-        return coursesLogic.getCoursesForInstructors(instructorsList);
-    }
-
-    /**
-     * Gets courses associated with instructors that are soft deleted.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Courses in Recycle Bin that the given instructors is in.
-     */
-    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructorsList) {
-        return coursesLogic.getSoftDeletedCoursesForInstructors(instructorsList);
+    public Map<Course, InstructorPermissionSet> getCoursesForInstructorAccount(UUID accountId, String courseStatus)
+            throws InvalidParametersException {
+        return coursesLogic.getCoursesForInstructorAccount(accountId, courseStatus);
     }
 
     /**
@@ -1134,10 +1121,6 @@ public class Logic {
      *
      * <p>
      * Fails silently if the student does not exist.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * User ID is non-null.
      */
     public void deleteStudentCascade(UUID userId) {
         usersLogic.deleteStudentCascade(userId);
@@ -1647,13 +1630,6 @@ public class Logic {
             FeedbackSession feedbackSession, User user,
             FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
         return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, user, logType, timestamp);
-    }
-
-    /**
-     * Deletes feedback session logs older than the given cutoff time.
-     */
-    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
-        return feedbackSessionLogsLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
     }
 
     /**

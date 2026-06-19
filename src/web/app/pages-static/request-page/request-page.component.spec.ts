@@ -13,7 +13,7 @@ const loggedInAuthInfo: AuthInfo = {
   user: {
     id: 'test@example.com',
     accountId: 'acc1',
-    email: 'user@teammates.tmt',
+    accountEmail: 'user@teammates.tmt',
     isAdmin: false,
     isInstructor: false,
     isStudent: false,

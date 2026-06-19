@@ -200,9 +200,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
-    protected void loginAsStudent(String userId) {
+    protected void loginAsStudent(Student student) {
+        String studentEmail = student.getAccount().getEmail();
+        String subject = student.getAccount().getSubject();
         inTransaction(() -> {
-            Account account = ensureAccountExists(userId);
+            Account account = ensureAccountExists(subject, studentEmail);
             mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
@@ -233,7 +235,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
     private Account ensureAccountExists(String userId) {
         String email = userId.contains("@") ? userId : userId + "@example.com";
-        String subject = userId;
+        return ensureAccountExists(userId, email);
+    }
+
+    private Account ensureAccountExists(String subject, String email) {
         return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
     }
 
@@ -347,7 +352,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("Students cannot access");
         Student student = createTypicalStudent(course, "inaccessibleforstudents@teammates.tmt");
 
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student);
         verifyCannotAccess(params);
 
     }
@@ -465,7 +470,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams) {
         ______TS("course students can access");
         Student student = createTypicalStudent(course, "accessibleforstudentsofthesamecourse@teammates.tmt");
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student);
         verifyCanAccess(submissionParams);
     }
 
@@ -476,7 +481,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "inaccessibleforstudentsofothercourse-other@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
-        loginAsStudent(otherStudent.getAccount().getGoogleId());
+        loginAsStudent(otherStudent);
         verifyCannotAccess(submissionParams);
     }
 

@@ -50,7 +50,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student2 = typicalBundle.students.get("student2InCourse1");
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1);
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure();
@@ -84,7 +84,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals(FeedbackSessionLogType.ACCESS, persistedAccessLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Success case: typical submission");
-        loginAsStudent(student2.getAccount().getGoogleId());
+        loginAsStudent(student2);
 
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
@@ -126,7 +126,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
         };
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1);
         verifyCanAccess(params);
 
         params = new String[] {
