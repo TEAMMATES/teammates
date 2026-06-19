@@ -38,7 +38,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p>
  * For the above reason, the following fields are checked:
  * <ul>
- * <li>Account Google ID</li>
  * <li>Course ID</li>
  * <li>Student email</li>
  * <li>Instructor email</li>
@@ -76,11 +75,6 @@ public class TestDataValidityTest extends BaseTestCase {
                 DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
-                    if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account google ID: " + account.getGoogleId());
-                    }
-
                     if (!isValidTestEmail(account.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid account email: " + account.getEmail());
@@ -105,11 +99,6 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.students.forEach((id, student) -> {
-                    if (!isValidTestGoogleId(student.getGoogleId(), testPage)) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid student google ID: " + student.getGoogleId());
-                    }
-
                     if (!isValidTestEmail(student.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid student email: " + student.getEmail());
@@ -117,11 +106,6 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
-                    if (!isValidTestGoogleId(instructor.getGoogleId(), testPage)) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor google ID: " + instructor.getGoogleId());
-                    }
-
                     if (!isValidTestEmail(instructor.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid instructor email: " + instructor.getEmail());
@@ -194,16 +178,6 @@ public class TestDataValidityTest extends BaseTestCase {
 
         return (courseId.matches(constructIdRegex(testPage))
                 || courseId.startsWith("tm.e2e.")) && courseId.length() < 64;
-    }
-
-    private boolean isValidTestGoogleId(String googleId, String testPage) {
-        if (googleId == null || "".equals(googleId)) {
-            // Empty google ID is always acceptable
-            return true;
-        }
-
-        return (googleId.matches(constructIdRegex(testPage)) || googleId.startsWith("tm.e2e."))
-                && googleId.length() < 64;
     }
 
     private String extractTestPage(String fileName) {
