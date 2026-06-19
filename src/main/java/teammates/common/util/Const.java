@@ -136,9 +136,6 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
-        public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
-        public static final String IS_NO_SPECIFIC_SECTION = "isnospecificsection";
-
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
