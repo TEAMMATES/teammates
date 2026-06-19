@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'tm-login-method-buttons-container',
   templateUrl: './login-method-buttons-container.component.html',
-  styleUrls: ['./login-method-buttons-container.component.scss'],
   imports: [GoogleLoginButtonComponent, DevServerLoginButtonComponent],
 })
 export class LoginMethodButtonsContainerComponent {
