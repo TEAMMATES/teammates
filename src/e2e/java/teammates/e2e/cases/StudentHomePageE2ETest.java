@@ -2,6 +2,7 @@ package teammates.e2e.cases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
@@ -48,8 +49,9 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     private List<String> getAllVisibleCourseIds() {
         List<String> courseIds = new ArrayList<>();
 
+        UUID studentIdWithVisibleCourses = testData.students.get("SHome.student").getId();
         for (Student student : testData.students.values()) {
-            if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
+            if (studentIdWithVisibleCourses.equals(student.getId())) {
                 courseIds.add(student.getCourseId());
             }
         }
