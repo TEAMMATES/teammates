@@ -402,17 +402,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             return;
           }
           const responses: QuestionOutput = resp.questions[0];
-          const missingRespMap: Map<string, ResponseOutput> = new Map();
-          const tmpMap: Map<string, ResponseOutput> = new Map();
-          responses.allResponses.forEach((response: ResponseOutput) =>
-            response.isMissingResponse
-              ? missingRespMap.set(response.responseId, response)
-              : tmpMap.set(response.responseId, response),
-          );
-          tmpMap.forEach((response: ResponseOutput) => this.questionsModel[questionId].responses.push(response));
-          missingRespMap.forEach((response: ResponseOutput) =>
-            this.questionsModel[questionId].responses.push(response),
-          );
+          this.questionsModel[questionId].responses.push(...responses.allResponses);
           this.questionsModel[questionId].statistics = responses.questionStatistics;
           this.preprocessComments(responses.allResponses, responses.feedbackQuestion.showResponsesTo);
           this.questionsModel[questionId].errorMessage = '';
