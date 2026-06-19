@@ -51,7 +51,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_typicalCase_shouldPass() {
-        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1"));
 
         Course course1 = typicalBundle.courses.get("course1");
 

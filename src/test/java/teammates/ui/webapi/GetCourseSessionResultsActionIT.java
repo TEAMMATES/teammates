@@ -39,7 +39,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[] {

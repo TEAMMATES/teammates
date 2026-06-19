@@ -64,7 +64,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         assertTrue(output.getQuestions().stream().anyMatch(question -> !question.getResponses().isEmpty()));
 
         ______TS("Instructor submission data contains instructor questions and recipients");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         action = getAction(buildParams(session, Intent.INSTRUCTOR_SUBMISSION));
         output = getOutput(action);
 
@@ -120,7 +120,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         ______TS("Instructor submission access");
         String[] instructorSubmissionParams = buildParams(session, Intent.INSTRUCTOR_SUBMISSION);
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         verifyCanAccess(instructorSubmissionParams);
         verifyInaccessibleForInstructorsOfOtherCourses(course, instructorSubmissionParams);
     }
