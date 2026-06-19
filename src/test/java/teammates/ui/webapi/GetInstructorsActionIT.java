@@ -99,7 +99,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     public void courseNotFound_loggedInAsInstructor_fullDetailIntent() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor);
-        
+
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
