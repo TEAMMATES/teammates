@@ -2,8 +2,6 @@ package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -61,10 +59,9 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: student joins course");
 
-        UUID loggedInAccountId = loggedInAccount.getId();
         inTransaction(() -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(), loggedInAccount));
 
-        assertEquals(loggedInAccountId, inTransaction(() -> usersLogic.getStudentForEmail(
+        assertEquals(loggedInAccount.getId(), inTransaction(() -> usersLogic.getStudentForEmail(
                 student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getAccountId()));
 
         ______TS("success: student joined but account already exists");
@@ -108,12 +105,11 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: instructor joins course");
 
-        UUID loggedInAccountId = loggedInAccount.getId();
         inTransaction(() -> accountsLogic.joinCourse(key[0], loggedInAccount));
 
         Instructor joinedInstructor = inTransaction(() -> usersLogic.getInstructorForEmail(
                         instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()));
-        assertEquals(loggedInAccountId, joinedInstructor.getAccountId());
+        assertEquals(loggedInAccount.getId(), joinedInstructor.getAccountId());
 
         ______TS("success: instructor joined but account already exists");
 
