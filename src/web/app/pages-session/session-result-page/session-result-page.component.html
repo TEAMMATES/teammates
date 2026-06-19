@@ -35,22 +35,22 @@
   <div class="row">
     <div class="col-12">
       <div class="alert alert-primary" role="alert">
-        @if (loggedInUser) {
+        @if (accountEmail) {
           <div>
-            You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{
-              loggedInUser
+            You are viewing feedback results as {{ personName }}. If you wish to link your account ({{
+              accountEmail
             }}) with this user,
             <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
               >click here</a
             >.
           </div>
         }
-        @if (!loggedInUser) {
+        @if (!accountEmail) {
           <div>
             You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are
-            currently open and view results without logging in. To access other features you need to
+            currently open and view results without signing in. To access other features you need to
             <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
-              >log in using a Google account</a
+              >Sign in using an account</a
             >
             (recommended).
           </div>
