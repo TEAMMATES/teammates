@@ -56,7 +56,7 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
       return;
     }
 
-    const newWeights: number[] = this.model.msqWeights.slice();
+    const newWeights: (number | null)[] = this.model.msqWeights.slice();
     const newOptions: string[] = this.model.msqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
@@ -69,8 +69,8 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
   /**
    * Displays new Msq weight at specified index.
    */
-  onMsqWeightEntered(event: number, index: number): void {
-    const newWeights: number[] = this.model.msqWeights.slice();
+  onMsqWeightEntered(event: number | null, index: number): void {
+    const newWeights: (number | null)[] = this.model.msqWeights.slice();
     newWeights[index] = event;
     this.triggerModelChange('msqWeights', newWeights);
   }
@@ -83,7 +83,7 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     newOptions.push('');
     const fieldsToUpdate: Partial<FeedbackMsqQuestionDetails> = { msqChoices: newOptions };
     if (this.model.hasAssignedWeights) {
-      const newWeights: number[] = this.model.msqWeights.slice();
+      const newWeights: (number | null)[] = this.model.msqWeights.slice();
       newWeights.push(0);
       fieldsToUpdate.msqWeights = newWeights;
     }
@@ -98,7 +98,7 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     newOptions.splice(event, 1);
     const fieldsToUpdate: Partial<FeedbackMsqQuestionDetails> = { msqChoices: newOptions };
     if (this.model.hasAssignedWeights) {
-      const newWeights: number[] = this.model.msqWeights.slice();
+      const newWeights: (number | null)[] = this.model.msqWeights.slice();
       newWeights.splice(event, 1);
       fieldsToUpdate.msqWeights = newWeights;
     }

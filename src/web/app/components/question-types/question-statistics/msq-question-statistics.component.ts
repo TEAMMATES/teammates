@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -16,7 +17,7 @@ import { MsqQuestionStatistics, Response } from '../../../../types/question-stat
 @Component({
   selector: 'tm-msq-question-statistics',
   templateUrl: './msq-question-statistics.component.html',
-  imports: [SortableTableComponent],
+  imports: [SortableTableComponent, NgbTooltip],
 })
 export class MsqQuestionStatisticsComponent implements OnChanges {
   @Input()
@@ -40,12 +41,12 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    const stats = calculateMsqQuestionStatistics(this.question, this.responses);
-    this.getTableData(stats);
+    const stats: MsqQuestionStatistics = calculateMsqQuestionStatistics(this.question, this.responses);
     this.hasAnswers = stats.hasAnswers;
-  }
+    if (!this.hasAnswers) {
+      return;
+    }
 
-  private getTableData(stats: MsqQuestionStatistics): void {
     this.summaryColumnsData = [
       { header: 'Choice', sortBy: SortBy.MSQ_CHOICE },
       { header: 'Weight', sortBy: SortBy.MSQ_WEIGHT },
@@ -69,7 +70,7 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
       ...Object.keys(stats.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${stats.weightPerOption[key].toFixed(2)}]`,
+          header: `${key} [${stats.weightPerOption[key] !== null && stats.weightPerOption[key] !== undefined ? stats.weightPerOption[key].toFixed(2) : '-'}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -89,8 +90,8 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
             value: stats.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: stats.perRecipientResponses[key].total.toFixed(2) },
-        { value: stats.perRecipientResponses[key].average.toFixed(2) },
+        { value: stats.perRecipientResponses[key].total !== null ? stats.perRecipientResponses[key].total.toFixed(2) : '-' },
+        { value: stats.perRecipientResponses[key].average !== null ? stats.perRecipientResponses[key].average.toFixed(2) : '-' },
       ];
     });
   }

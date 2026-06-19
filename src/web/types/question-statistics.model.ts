@@ -50,8 +50,8 @@ export interface ContributionQuestionStatistics {
 export interface McqMsqPerRecipientStatistics {
   recipient: string;
   recipientEmail?: string;
-  total: number;
-  average: number;
+  total: number | null;
+  average: number | null;
   recipientTeam: string;
   responses: Record<string, number>;
 }
@@ -59,8 +59,8 @@ export interface McqMsqPerRecipientStatistics {
 export interface McqMsqQuestionStatistics {
   answerFrequency: Record<string, number>;
   percentagePerOption: Record<string, number>;
-  weightPerOption: Record<string, number>;
-  weightedPercentagePerOption: Record<string, number>;
+  weightPerOption: Record<string, number | null>;
+  weightedPercentagePerOption: Record<string, number | null>;
   perRecipientResponses: Record<string, McqMsqPerRecipientStatistics>;
 }
 

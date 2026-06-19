@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -16,7 +17,7 @@ import { McqQuestionStatistics, Response } from '../../../../types/question-stat
 @Component({
   selector: 'tm-mcq-question-statistics',
   templateUrl: './mcq-question-statistics.component.html',
-  imports: [SortableTableComponent],
+  imports: [SortableTableComponent, NgbTooltip],
 })
 export class McqQuestionStatisticsComponent implements OnChanges {
   @Input()
@@ -67,7 +68,7 @@ export class McqQuestionStatisticsComponent implements OnChanges {
       { header: 'Recipient Name', sortBy: SortBy.MCQ_RECIPIENT_NAME },
       ...Object.keys(stats.weightPerOption).map((key: string) => {
         return {
-          header: `${key}[${stats.weightPerOption[key].toFixed(2)}]`,
+          header: `${key} [${stats.weightPerOption[key] !== null && stats.weightPerOption[key] !== undefined ? stats.weightPerOption[key].toFixed(2) : '-'}]`,
           sortBy: SortBy.MCQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -87,8 +88,8 @@ export class McqQuestionStatisticsComponent implements OnChanges {
             value: stats.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: stats.perRecipientResponses[key].total.toFixed(2) },
-        { value: stats.perRecipientResponses[key].average.toFixed(2) },
+        { value: stats.perRecipientResponses[key].total !== null ? stats.perRecipientResponses[key].total.toFixed(2) : '-' },
+        { value: stats.perRecipientResponses[key].average !== null ? stats.perRecipientResponses[key].average.toFixed(2) : '-' },
       ];
     });
   }

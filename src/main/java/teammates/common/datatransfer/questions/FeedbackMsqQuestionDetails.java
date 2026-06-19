@@ -49,7 +49,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private boolean otherEnabled;
     private boolean hasAssignedWeights;
     private List<Double> msqWeights;
-    private double msqOtherWeight;
+    private Double msqOtherWeight;
     private QuestionRecipientType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
@@ -67,7 +67,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.minSelectableChoices = Const.POINTS_NO_VALUE;
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
-        this.msqOtherWeight = 0;
+        this.msqOtherWeight = null;
     }
 
     @Override
@@ -146,26 +146,26 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
             // In that case, trigger this error.
-            if (!hasAssignedWeights && (!msqWeights.isEmpty() || msqOtherWeight != 0)) {
+            if (!hasAssignedWeights && (!msqWeights.isEmpty() || (msqOtherWeight != null && msqOtherWeight != 0))) {
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weight is enabled, but other option is disabled, and msqOtherWeight is not 0
             // In that case, trigger this error.
-            if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
+            if (hasAssignedWeights && !otherEnabled && msqOtherWeight != null && msqOtherWeight != 0) {
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
                 msqWeights.stream()
-                        .filter(weight -> weight < 0)
+                        .filter(weight -> weight != null && weight < 0)
                         .forEach(weight -> errors.add(MSQ_ERROR_INVALID_WEIGHT));
             }
 
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
-            if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
+            if (hasAssignedWeights && otherEnabled && msqOtherWeight != null && msqOtherWeight < 0) {
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
@@ -313,11 +313,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqWeights = msqWeights;
     }
 
-    public double getMsqOtherWeight() {
+    public Double getMsqOtherWeight() {
         return msqOtherWeight;
     }
 
-    public void setMsqOtherWeight(double msqOtherWeight) {
+    public void setMsqOtherWeight(Double msqOtherWeight) {
         this.msqOtherWeight = msqOtherWeight;
     }
 
@@ -357,7 +357,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 && Objects.equals(getQuestionText(), other.getQuestionText())
                 && otherEnabled == other.otherEnabled
                 && hasAssignedWeights == other.hasAssignedWeights
-                && Double.compare(msqOtherWeight, other.msqOtherWeight) == 0
+                && Objects.equals(msqOtherWeight, other.msqOtherWeight)
                 && generateOptionsFor == other.generateOptionsFor
                 && maxSelectableChoices == other.maxSelectableChoices
                 && minSelectableChoices == other.minSelectableChoices

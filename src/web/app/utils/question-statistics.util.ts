@@ -225,7 +225,7 @@ export function calculateMcqQuestionStatistics(
   if (question.hasAssignedWeights) {
     for (let i = 0; i < question.mcqChoices.length; i += 1) {
       const option: string = question.mcqChoices[i];
-      const weight: number = question.mcqWeights[i];
+      const weight: number | null = question.mcqWeights[i];
       stats.weightPerOption[option] = weight;
     }
     if (question.otherEnabled) {
@@ -234,13 +234,20 @@ export function calculateMcqQuestionStatistics(
 
     let totalWeightedResponseCount = 0;
     for (const answer of Object.keys(stats.answerFrequency)) {
-      const weight: number = stats.weightPerOption[answer];
+      const weight: number | null = stats.weightPerOption[answer];
+      if (weight === null || weight === undefined) {
+        continue;
+      }
       const weightedAnswer: number = weight * stats.answerFrequency[answer];
       totalWeightedResponseCount += weightedAnswer;
     }
 
     for (const answer of Object.keys(stats.weightPerOption)) {
-      const weight: number = stats.weightPerOption[answer];
+      const weight: number | null = stats.weightPerOption[answer];
+      if (weight === null || weight === undefined) {
+        stats.weightedPercentagePerOption[answer] = null;
+        continue;
+      }
       const frequency: number = stats.answerFrequency[answer];
       const weightedPercentage: number =
         totalWeightedResponseCount === 0 ? 0 : 100 * ((frequency * weight) / totalWeightedResponseCount);
@@ -278,23 +285,43 @@ export function calculateMcqQuestionStatistics(
       perRecipientResponse[response.recipient][answer] += 1;
     }
 
+    const areAllOptionWeightsNull: boolean = question.mcqWeights.every((weight) => weight === null) &&
+      (!question.otherEnabled || question.mcqOtherWeight === null);
+
     for (const recipient of Object.keys(perRecipientResponse)) {
+      if (areAllOptionWeightsNull) {
+        stats.perRecipientResponses[recipient] = {
+          recipient,
+          recipientEmail: recipientEmails[recipient],
+          total: null,
+          average: null,
+          recipientTeam: recipientToTeam[recipient],
+          responses: perRecipientResponse[recipient],
+        };
+        continue;
+      }
+
       const responses: Record<string, number> = perRecipientResponse[recipient];
       let total = 0;
       let numOfResponsesForRecipient = 0;
       for (const answer of Object.keys(responses)) {
         const responseCount: number = responses[answer];
-        const weight: number = stats.weightPerOption[answer];
+        const weight: number | null = stats.weightPerOption[answer];
+        if (weight === null || weight === undefined) {
+          continue;
+        }
         total += responseCount * weight;
         numOfResponsesForRecipient += responseCount;
       }
       const average = numOfResponsesForRecipient ? total / numOfResponsesForRecipient : 0;
+      const totalVal = numOfResponsesForRecipient ? +total.toFixed(5) : null;
+      const averageVal = numOfResponsesForRecipient ? +average.toFixed(2) : null;
 
       stats.perRecipientResponses[recipient] = {
         recipient,
         recipientEmail: recipientEmails[recipient],
-        total: +total.toFixed(5),
-        average: +average.toFixed(2),
+        total: totalVal,
+        average: averageVal,
         recipientTeam: recipientToTeam[recipient],
         responses: perRecipientResponse[recipient],
       };
@@ -338,7 +365,7 @@ export function calculateMsqQuestionStatistics(
   if (question.hasAssignedWeights) {
     for (let i = 0; i < question.msqChoices.length; i += 1) {
       const option: string = question.msqChoices[i];
-      const weight: number = question.msqWeights[i];
+      const weight: number | null = question.msqWeights[i];
       stats.weightPerOption[option] = weight;
     }
     if (question.otherEnabled) {
@@ -347,13 +374,20 @@ export function calculateMsqQuestionStatistics(
 
     let totalWeightedResponseCount = 0;
     for (const answer of Object.keys(stats.answerFrequency)) {
-      const weight: number = stats.weightPerOption[answer];
+      const weight: number | null = stats.weightPerOption[answer];
+      if (weight === null || weight === undefined) {
+        continue;
+      }
       const weightedAnswer: number = weight * stats.answerFrequency[answer];
       totalWeightedResponseCount += weightedAnswer;
     }
 
     for (const answer of Object.keys(stats.weightPerOption)) {
-      const weight: number = stats.weightPerOption[answer];
+      const weight: number | null = stats.weightPerOption[answer];
+      if (weight === null || weight === undefined) {
+        stats.weightedPercentagePerOption[answer] = null;
+        continue;
+      }
       const frequency: number = stats.answerFrequency[answer];
       const weightedPercentage: number =
         totalWeightedResponseCount === 0 ? 0 : 100 * ((frequency * weight) / totalWeightedResponseCount);
@@ -399,23 +433,43 @@ export function calculateMsqQuestionStatistics(
     updateResponseCountPerOptionForMsqResponse(question, response.responseDetails, perRecipientResponse[email]);
   }
 
+  const areAllOptionWeightsNull: boolean = question.msqWeights.every((weight) => weight === null) &&
+    (!question.otherEnabled || question.msqOtherWeight === null);
+
   for (const recipient of Object.keys(perRecipientResponse)) {
+    if (areAllOptionWeightsNull) {
+      stats.perRecipientResponses[recipient] = {
+        recipient: recipientNames[recipient],
+        recipientEmail: recipientEmails[recipient],
+        total: null,
+        average: null,
+        recipientTeam: recipientToTeam[recipient],
+        responses: perRecipientResponse[recipient],
+      };
+      continue;
+    }
+
     const responses: Record<string, number> = perRecipientResponse[recipient];
     let total = 0;
     let numOfResponsesForRecipient = 0;
     for (const answer of Object.keys(responses)) {
       const responseCount: number = responses[answer];
-      const weight: number = stats.weightPerOption[answer];
+      const weight: number | null = stats.weightPerOption[answer];
+      if (weight === null || weight === undefined) {
+        continue;
+      }
       total += responseCount * weight;
       numOfResponsesForRecipient += responseCount;
     }
     const average = numOfResponsesForRecipient ? total / numOfResponsesForRecipient : 0;
+    const totalVal = numOfResponsesForRecipient ? +total.toFixed(5) : null;
+    const averageVal = numOfResponsesForRecipient ? +average.toFixed(2) : null;
 
     stats.perRecipientResponses[recipient] = {
       recipient: recipientNames[recipient],
       recipientEmail: recipientEmails[recipient],
-      total: +total.toFixed(5),
-      average: +average.toFixed(2),
+      total: totalVal,
+      average: averageVal,
       recipientTeam: recipientToTeam[recipient],
       responses: perRecipientResponse[recipient],
     };

@@ -11,6 +11,10 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
   ): string[][] {
     const statsRows: string[][] = [];
 
+    const getDisplayValue = (val: number | null | undefined): string => {
+      return val === null || val === undefined ? '-' : String(val);
+    };
+
     if (hasAssignedWeights) {
       statsRows.push(['Choice', 'Weight', 'Response Count', 'Percentage (%)', 'Weighted Percentage (%)']);
     } else {
@@ -23,10 +27,10 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
         if (hasAssignedWeights) {
           statsRows.push([
             answer,
-            String(statsCalculation.weightPerOption[answer]),
+            getDisplayValue(statsCalculation.weightPerOption[answer]),
             String(statsCalculation.answerFrequency[answer]),
             String(statsCalculation.percentagePerOption[answer]),
-            String(statsCalculation.weightedPercentagePerOption[answer]),
+            getDisplayValue(statsCalculation.weightedPercentagePerOption[answer]),
           ]);
         } else {
           statsRows.push([
@@ -48,7 +52,7 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
       'Team',
       'Recipient Name',
       ...Object.keys(statsCalculation.weightPerOption).map(
-        (choice: string) => `${choice} [${statsCalculation.weightPerOption[choice]}]`,
+        (choice: string) => `${choice} [${getDisplayValue(statsCalculation.weightPerOption[choice])}]`,
       ),
       'Total',
       'Average',
@@ -64,8 +68,8 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
           ...Object.keys(statsCalculation.weightPerOption).map((choice: string) =>
             String(recipientResponses.responses[choice]),
           ),
-          String(recipientResponses.total),
-          String(recipientResponses.average),
+          getDisplayValue(recipientResponses.total),
+          getDisplayValue(recipientResponses.average),
         ]);
       });
 

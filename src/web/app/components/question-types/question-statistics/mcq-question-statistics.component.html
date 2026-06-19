@@ -12,6 +12,10 @@
       @if (question.hasAssignedWeights) {
         <div class="col-sm-12 table-responsive" style="margin-top: 20px">
           <strong class="text-color-gray"> Per Recipient Statistics </strong>
+          <span
+            ngbTooltip="Format: Option Label [Weight of option], e.g. Option 1 [1.0]"
+            class="fa fa-info-circle"
+          ></span>
           <div class="mb-4">
             <tm-sortable-table
               [columns]="perRecipientColumnsData"

@@ -23,8 +23,8 @@ export class FeedbackMsqQuestionDetailsImpl
   maxSelectableChoices: number = NO_VALUE;
   minSelectableChoices: number = NO_VALUE;
   hasAssignedWeights = false;
-  msqWeights: number[] = [];
-  msqOtherWeight = 0;
+  msqWeights: (number | null)[] = [];
+  msqOtherWeight: number | null = null;
   questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MSQ;
 

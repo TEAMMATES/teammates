@@ -29,7 +29,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     private boolean hasAssignedWeights;
     private List<Double> mcqWeights;
-    private double mcqOtherWeight;
+    private Double mcqOtherWeight;
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private boolean questionDropdownEnabled;
@@ -46,7 +46,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.questionDropdownEnabled = false;
-        this.mcqOtherWeight = 0;
+        this.mcqOtherWeight = null;
         this.generateOptionsFor = QuestionRecipientType.NONE;
     }
 
@@ -100,13 +100,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
             // In that case, trigger this error.
-            if (!hasAssignedWeights && (!mcqWeights.isEmpty() || mcqOtherWeight != 0)) {
+            if (!hasAssignedWeights && (!mcqWeights.isEmpty() || (mcqOtherWeight != null && mcqOtherWeight != 0))) {
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are enabled, but other option is disabled, and mcqOtherWeight is not 0
             // In that case, trigger this error.
-            if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
+            if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != null && mcqOtherWeight != 0) {
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             }
 
@@ -114,13 +114,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // trigger this error.
             if (hasAssignedWeights && !mcqWeights.isEmpty()) {
                 mcqWeights.stream()
-                        .filter(weight -> weight < 0)
+                        .filter(weight -> weight != null && weight < 0)
                         .forEach(weight -> errors.add(MCQ_ERROR_INVALID_WEIGHT));
             }
 
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
-            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) {
+            if (hasAssignedWeights && otherEnabled && mcqOtherWeight != null && mcqOtherWeight < 0) {
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             }
 
@@ -177,11 +177,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqWeights = mcqWeights;
     }
 
-    public double getMcqOtherWeight() {
+    public Double getMcqOtherWeight() {
         return mcqOtherWeight;
     }
 
-    public void setMcqOtherWeight(double mcqOtherWeight) {
+    public void setMcqOtherWeight(Double mcqOtherWeight) {
         this.mcqOtherWeight = mcqOtherWeight;
     }
 
@@ -232,7 +232,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return getQuestionType() == other.getQuestionType()
                 && Objects.equals(getQuestionText(), other.getQuestionText())
                 && hasAssignedWeights == other.hasAssignedWeights
-                && Double.compare(mcqOtherWeight, other.mcqOtherWeight) == 0
+                && Objects.equals(mcqOtherWeight, other.mcqOtherWeight)
                 && otherEnabled == other.otherEnabled
                 && questionDropdownEnabled == other.questionDropdownEnabled
                 && generateOptionsFor == other.generateOptionsFor
