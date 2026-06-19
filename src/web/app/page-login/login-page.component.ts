@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
 import { Config, LoginMethod } from '../../types/api-output';
 import { finalize } from 'rxjs';
@@ -11,29 +11,31 @@ import { LoginMethodButtonsContainerComponent } from '../components/login-method
   styleUrls: ['./login-page.component.scss'],
   templateUrl: './login-page.component.html',
   imports: [LoadingSpinnerDirective, LoginMethodButtonsContainerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
 
-  @Input() nextUrl = '/';
+  readonly nextUrl = input('/');
 
-  isLoadingLoginMethods = true;
-  loginMethods: Set<LoginMethod> = new Set();
+  readonly isLoadingLoginMethods = signal(true);
+  readonly loginMethods = signal<ReadonlySet<LoginMethod>>(new Set());
 
   ngOnInit(): void {
-    this.isLoadingLoginMethods = true;
+    this.isLoadingLoginMethods.set(true);
     this.configService
       .getConfig()
       .pipe(
         finalize(() => {
-          this.isLoadingLoginMethods = false;
+          this.isLoadingLoginMethods.set(false);
         }),
       )
       .subscribe({
         next: (config: Config) => {
-          this.loginMethods = new Set(config.loginMethods);
-          if (this.loginMethods.size === 0) {
+          const loginMethods = new Set(config.loginMethods);
+          this.loginMethods.set(loginMethods);
+          if (loginMethods.size === 0) {
             // Should not happen as backend should have at least one login method configured.
             this.statusMessageService.showWarningToast(
               'No login methods are currently supported. Please contact the administrator.',

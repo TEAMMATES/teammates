@@ -21,7 +21,8 @@ describe('LoginMethodButtonsContainerComponent', () => {
   });
 
   it('should build login URL for selected login method', () => {
-    component.nextUrl = '/web/student/home';
+    fixture.componentRef.setInput('nextUrl', '/web/student/home');
+    fixture.detectChanges();
     const getCompleteLoginUrl = component as unknown as { getCompleteLoginUrl: (method: LoginMethod) => string };
 
     expect(getCompleteLoginUrl.getCompleteLoginUrl(LoginMethod.GOOGLE)).toBe(
@@ -30,7 +31,7 @@ describe('LoginMethodButtonsContainerComponent', () => {
   });
 
   it('should log in with selected login method when rendered button is clicked', () => {
-    component.supportedLoginMethods = new Set([LoginMethod.GOOGLE]);
+    fixture.componentRef.setInput('supportedLoginMethods', new Set([LoginMethod.GOOGLE]));
     const loginSpy = vi.spyOn(component, 'login').mockReturnValue();
     fixture.detectChanges();
 
@@ -42,7 +43,8 @@ describe('LoginMethodButtonsContainerComponent', () => {
   });
 
   it('should support login method sets', () => {
-    component.supportedLoginMethods = new Set([LoginMethod.DEV_SERVER]);
+    fixture.componentRef.setInput('supportedLoginMethods', new Set([LoginMethod.DEV_SERVER]));
+    fixture.detectChanges();
 
     expect(component.isSupported(LoginMethod.DEV_SERVER)).toBeTruthy();
     expect(component.isSupported(LoginMethod.GOOGLE)).toBeFalsy();

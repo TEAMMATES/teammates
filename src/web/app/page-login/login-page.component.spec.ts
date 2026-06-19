@@ -13,7 +13,7 @@ describe('LoginPageComponent', () => {
 
     fixture = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
-    component.nextUrl = '/web/front';
+    fixture.componentRef.setInput('nextUrl', '/web/front');
     fixture.detectChanges();
   });
 
@@ -22,9 +22,10 @@ describe('LoginPageComponent', () => {
   });
 
   it('should use the route-bound nextUrl input', () => {
-    component.nextUrl = '/web/instructor/home';
+    fixture.componentRef.setInput('nextUrl', '/web/instructor/home');
+    fixture.detectChanges();
 
-    expect(component.nextUrl).toBe('/web/instructor/home');
+    expect(component.nextUrl()).toBe('/web/instructor/home');
   });
 });
 
@@ -40,7 +41,7 @@ describe('LoginPageComponent snapshot', () => {
 
   it('should match snapshot with login methods loaded', () => {
     vi.spyOn(configService, 'getConfig').mockReturnValue(of({ loginMethods: ['google'] } as Config));
-    fixture.componentInstance.nextUrl = '/web/front';
+    fixture.componentRef.setInput('nextUrl', '/web/front');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
