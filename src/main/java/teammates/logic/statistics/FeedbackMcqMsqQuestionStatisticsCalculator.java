@@ -2,8 +2,10 @@ package teammates.logic.statistics;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -30,7 +32,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
     public FeedbackMcqMsqCourseWideStatistics calculateCourseWide(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle) {
         FeedbackQuestionDetails details = question.getQuestionDetailsCopy();
-        List<String> optionLabels = buildOptionLabels(details);
+        List<String> optionLabels = buildOptionLabels(details, responses);
         Map<String, Double> weightMap = isWeighted(details) ? buildWeightMap(details) : Map.of();
         Map<String, Integer> counts = buildFrequencyCounts(optionLabels, details, responses);
         int totalAnswerCount = counts.values().stream().mapToInt(Integer::intValue).sum();
@@ -50,7 +52,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
     public FeedbackMcqMsqRecipientStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
         FeedbackQuestionDetails details = question.getQuestionDetailsCopy();
-        List<String> optionLabels = buildOptionLabels(details);
+        List<String> optionLabels = buildOptionLabels(details, responses);
         Map<String, Double> weightMap = isWeighted(details) ? buildWeightMap(details) : Map.of();
         Map<String, Integer> counts = buildFrequencyCounts(optionLabels, details, responses);
         int totalAnswerCount = counts.values().stream().mapToInt(Integer::intValue).sum();
@@ -73,17 +75,42 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
         throw new IllegalArgumentException("Unsupported question type: " + details.getClass());
     }
 
-    private List<String> buildOptionLabels(FeedbackQuestionDetails details) {
+    private List<String> buildOptionLabels(FeedbackQuestionDetails details, List<FeedbackResponse> responses) {
+        QuestionRecipientType generateOptionsFor;
         List<String> labels;
         boolean otherEnabled;
         if (details instanceof FeedbackMcqQuestionDetails mcq) {
+            generateOptionsFor = mcq.getGenerateOptionsFor();
             labels = new ArrayList<>(mcq.getMcqChoices());
             otherEnabled = mcq.isOtherEnabled();
         } else if (details instanceof FeedbackMsqQuestionDetails msq) {
+            generateOptionsFor = msq.getGenerateOptionsFor();
             labels = new ArrayList<>(msq.getMsqChoices());
             otherEnabled = msq.isOtherEnabled();
         } else {
             throw new IllegalArgumentException("Unsupported question type: " + details.getClass());
+        }
+        if (generateOptionsFor != QuestionRecipientType.NONE) {
+            // Choices are generated at runtime and not persisted; derive labels from responses.
+            Set<String> seen = new LinkedHashSet<>();
+            for (FeedbackResponse response : responses) {
+                if (details instanceof FeedbackMcqQuestionDetails) {
+                    FeedbackMcqResponseDetails rd =
+                            (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+                    if (!rd.isOther()) {
+                        seen.add(rd.getAnswer());
+                    }
+                } else if (details instanceof FeedbackMsqQuestionDetails) {
+                    FeedbackMsqResponseDetails rd =
+                            (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+                    for (String answer : rd.getAnswers()) {
+                        if (!MSQ_ANSWER_NONE_OF_THE_ABOVE.equals(answer)) {
+                            seen.add(answer);
+                        }
+                    }
+                }
+            }
+            labels = new ArrayList<>(seen);
         }
         if (otherEnabled) {
             labels.add("Other");
