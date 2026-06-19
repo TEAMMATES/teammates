@@ -189,9 +189,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(Instructor instructor) {
+        String instructorSubject = instructor.getAccount().getSubject();
         String instructorEmail = instructor.getAccount().getEmail();
         inTransaction(() -> {
-            Account account = ensureAccountExists(instructorEmail);
+            Account account = ensureAccountExists(instructorSubject, instructorEmail);
             mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
@@ -235,6 +236,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     private Account ensureAccountExists(String userId) {
         String email = userId.contains("@") ? userId : userId + "@example.com";
         String subject = userId;
+        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
+    }
+
+    private Account ensureAccountExists(String subject, String email) {
         return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
     }
 
