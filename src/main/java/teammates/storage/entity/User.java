@@ -106,6 +106,10 @@ public abstract class User extends BaseEntity {
         return accountId;
     }
 
+    public String getAccountEmail() {
+        return account == null ? null : account.getEmail();
+    }
+
     /**
      * Sets the account of the user.
      */
