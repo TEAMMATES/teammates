@@ -66,7 +66,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
 
         logoutUser();
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         ______TS("Typical Success Case with course id and team id, logged in as student");
         params = new String[] {
@@ -113,7 +113,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.TEAM_ID, student.getTeamId().toString(),
         };
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         verifyCanAccess(params);
 

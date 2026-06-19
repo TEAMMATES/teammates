@@ -63,7 +63,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student);
 
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
@@ -102,7 +102,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1);
         verifyCannotAccess(params);
 
         ______TS("Accessible for authenticated instructor when published");

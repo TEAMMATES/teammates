@@ -68,7 +68,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         verifyAccessibleForInstructorsOfTheSameCourse(course, params);
         verifyInaccessibleForInstructorsOfOtherCourses(course, params);
 
-        loginAsStudent(typicalBundle.students.get("student1InCourse1").getGoogleId());
+        loginAsStudent(typicalBundle.students.get("student1InCourse1"));
         verifyCannotAccess(params);
 
         verifyInaccessibleForStudentsOfOtherCourse(course, params);

@@ -43,7 +43,7 @@
     </ul>
     @if (!isFetchingAuthDetails) {
       <ul class="nav navbar-nav pull-right">
-        @if (!user) {
+        @if (!accountEmail) {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
             <button
               class="bg-transparent btn btn-link nav-link dropdown-toggle"
@@ -51,13 +51,11 @@
               tabindex="0"
               ngbDropdownToggle
             >
-              Login
+              Sign in
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
-              <a class="dropdown-item" id="student-login-btn" tmRouterLink="/web/student/home">Student Login</a>
-              <a class="dropdown-item" id="instructor-login-btn" tmRouterLink="/web/instructor/home"
-                >Instructor Login</a
-              >
+              <a class="dropdown-item" id="student-login-btn" tmRouterLink="/web/student/home">As Student</a>
+              <a class="dropdown-item" id="instructor-login-btn" tmRouterLink="/web/instructor/home">As Instructor</a>
             </div>
           </li>
         } @else {
@@ -68,7 +66,7 @@
               tabindex="0"
               ngbDropdownToggle
             >
-              {{ user }}
+              {{ accountEmail }}
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
               @if (isStudent) {
@@ -92,7 +90,7 @@
                 id="logout-btn"
                 style="cursor: pointer"
                 (click)="logout()"
-                >Log Out</a
+                >Sign out</a
               >
             </div>
           </li>

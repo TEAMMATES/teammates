@@ -3,6 +3,7 @@
 exports[`SessionResultPageComponent > should snap when previewing results 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -24,7 +25,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   isPreviewHintExpanded="false"
   key=""
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail={[Function String]}
@@ -150,6 +150,7 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
 exports[`SessionResultPageComponent > should snap when session results failed to load 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -171,7 +172,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -199,11 +199,11 @@ exports[`SessionResultPageComponent > should snap when session results failed to
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
@@ -301,6 +301,7 @@ exports[`SessionResultPageComponent > should snap when session results failed to
 exports[`SessionResultPageComponent > should snap with an open feedback session with no questions 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -322,7 +323,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -350,11 +350,11 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
@@ -449,6 +449,7 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
 exports[`SessionResultPageComponent > should snap with default fields 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -470,7 +471,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -498,11 +498,11 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
@@ -597,6 +597,7 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
 exports[`SessionResultPageComponent > should snap with session details and results are loading 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -618,7 +619,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -646,11 +646,11 @@ exports[`SessionResultPageComponent > should snap with session details and resul
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
@@ -677,6 +677,7 @@ exports[`SessionResultPageComponent > should snap with session details and resul
 exports[`SessionResultPageComponent > should snap with session details loaded and results are loading 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -698,7 +699,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -726,11 +726,11 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
         role="alert"
       >
         <div>
-           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
@@ -825,6 +825,7 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
 exports[`SessionResultPageComponent > should snap with user that is logged in and using session link 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail={[Function String]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -846,7 +847,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -874,7 +874,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
+           You are viewing feedback results as alice. If you wish to link your account (alice@example.com) with this user, 
           <a
             href="#"
             id="join-course-btn"
@@ -974,6 +974,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
 exports[`SessionResultPageComponent > should snap with user that is not logged in and using session link 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseId=""
@@ -995,7 +996,6 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -1023,11 +1023,11 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without signing in. To access other features you need to 
           <a
             href="#"
           >
-            log in using a Google account
+            Sign in using an account
           </a>
            (recommended). 
         </div>
