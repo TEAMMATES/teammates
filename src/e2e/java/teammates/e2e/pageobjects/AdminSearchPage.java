@@ -172,7 +172,7 @@ public class AdminSearchPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
-                    .getAttribute("innerHTML")).contains(instructor.getGoogleId())
+                    .getAttribute("innerHTML")).contains(instructor.getEmail())
                     || removeSpanFromText(columns.get(1)
                     .getAttribute("innerHTML")).contains(instructor.getName()))) {
                 return row;
