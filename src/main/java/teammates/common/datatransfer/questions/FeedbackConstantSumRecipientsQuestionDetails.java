@@ -3,9 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.FeedbackConstantSumQuestionDetailsHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -29,12 +27,6 @@ public class FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQuesti
         this.points = 100;
         this.forceUnevenDistribution = false;
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        return "";
     }
 
     @Override
