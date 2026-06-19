@@ -28,7 +28,7 @@ const feedbackSessionResultsMissingResponsesShown: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -423,7 +423,7 @@ Multiline test.`,
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -547,7 +547,7 @@ Multiline test.`,
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -656,7 +656,7 @@ Multiline test.`,
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -708,7 +708,7 @@ Multiline test.`,
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,

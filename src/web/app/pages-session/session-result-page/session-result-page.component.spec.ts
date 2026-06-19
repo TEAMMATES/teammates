@@ -343,7 +343,7 @@ describe('SessionResultPageComponent', () => {
     };
     const testFeedbackQuestionModel: FeedbackQuestionModel = {
       feedbackQuestion: testFeedbackQuestion,
-      questionStatistics: 'stats',
+      questionStatistics: undefined,
       allResponses: [],
       responsesToSelf: [],
       responsesFromSelf: [],
@@ -357,7 +357,7 @@ describe('SessionResultPageComponent', () => {
       questions: [
         {
           feedbackQuestion: testFeedbackQuestion,
-          questionStatistics: 'stats',
+          questionStatistics: undefined,
           allResponses: [],
           hasResponseButNotVisibleForPreview: false,
           hasCommentNotVisibleForPreview: false,

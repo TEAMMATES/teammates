@@ -36,7 +36,7 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [],
     },
     {
@@ -62,7 +62,7 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [],
     },
     {
@@ -89,7 +89,7 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [],
     },
   ],

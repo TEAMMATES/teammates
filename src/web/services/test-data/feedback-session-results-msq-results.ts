@@ -41,7 +41,7 @@ const feedbackSessionResultsMsqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -133,7 +133,7 @@ const feedbackSessionResultsMsqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -261,7 +261,7 @@ const feedbackSessionResultsMsqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,

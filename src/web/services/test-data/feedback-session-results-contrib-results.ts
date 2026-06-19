@@ -1,4 +1,5 @@
 import type {
+  FeedbackContributionCourseWideStatistics,
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackTextResponseDetails,
@@ -6,6 +7,7 @@ import type {
 } from '../../types/api-output';
 import {
   FeedbackQuestionType,
+  FeedbackQuestionResultsStatisticsView,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
@@ -39,50 +41,48 @@ const feedbackSessionResultsContribResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: `{
-  "results": {
-    "${student2UserId}": {
-      "claimed": -999,
-      "perceived": 75,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        75,
-        -9999,
-        -9999
-      ]
-    },
-    "${student1UserId}": {
-      "claimed": 95,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        -9999,
-        -9999,
-        -9999
-      ]
-    },
-    "${student4UserId}": {
-      "claimed": -999,
-      "perceived": 122,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        122,
-        -9999,
-        -9999
-      ]
-    },
-    "${student3UserId}": {
-      "claimed": -999,
-      "perceived": 103,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        103,
-        -9999,
-        -9999
-      ]
-    }
-  }
-}`,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.CONTRIB,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            teamName: `Team 1.1</td></div>'"`,
+            recipientName: `student1 In Course1</td></div>'"`,
+            recipientEmail: `student1InCourse1@gmail.tmt`,
+            claimed: 95,
+            perceived: -9999,
+            diff: -9999,
+            ratingsReceived: [-9999, -9999, -9999],
+          },
+          {
+            teamName: `Team 1.1</td></div>'"`,
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            claimed: -999,
+            perceived: 75,
+            diff: -9999,
+            ratingsReceived: [75, -9999, -9999],
+          },
+          {
+            teamName: `Team 1.1</td></div>'"`,
+            recipientName: `student3 In Course1`,
+            recipientEmail: `student3InCourse1@gmail.tmt`,
+            claimed: -999,
+            perceived: 103,
+            diff: -9999,
+            ratingsReceived: [103, -9999, -9999],
+          },
+          {
+            teamName: `Team 1.1</td></div>'"`,
+            recipientName: `student4 In Course1`,
+            recipientEmail: `student4InCourse1@gmail.tmt`,
+            claimed: -999,
+            perceived: 122,
+            diff: -9999,
+            ratingsReceived: [122, -9999, -9999],
+          },
+        ],
+      } as FeedbackContributionCourseWideStatistics,
       allResponses: [
         {
           isMissingResponse: false,

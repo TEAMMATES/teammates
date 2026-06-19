@@ -40,7 +40,7 @@ const feedbackSessionResultsC1S1S1: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -94,7 +94,7 @@ const feedbackSessionResultsC1S1S1: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -136,7 +136,7 @@ const feedbackSessionResultsC1S1S1: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -571,7 +571,7 @@ Multiline test.`,
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -689,7 +689,7 @@ Multiline test.`,
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,

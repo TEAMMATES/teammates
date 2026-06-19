@@ -272,7 +272,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
                   this.questionsModel[question.feedbackQuestionId] = {
                     question,
                     responses: [],
-                    statistics: '',
+                    statistics: undefined,
                     hasPopulated: false,
                     isTabExpanded: false,
                   };

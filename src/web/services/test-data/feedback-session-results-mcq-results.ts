@@ -41,7 +41,7 @@ const feedbackSessionResultsMcqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -185,7 +185,7 @@ const feedbackSessionResultsMcqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -307,7 +307,7 @@ const feedbackSessionResultsMcqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -429,7 +429,7 @@ const feedbackSessionResultsMcqResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
