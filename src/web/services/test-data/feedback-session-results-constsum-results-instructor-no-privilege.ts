@@ -38,11 +38,6 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
       },
       questionStatistics: ``,
       allResponses: [],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -69,11 +64,6 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
       },
       questionStatistics: ``,
       allResponses: [],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -101,11 +91,6 @@ const feedbackSessionResultsConstsumResultsInstructorNoPrivilege: SessionResults
       },
       questionStatistics: ``,
       allResponses: [],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

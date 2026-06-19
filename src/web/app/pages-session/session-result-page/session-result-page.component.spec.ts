@@ -23,8 +23,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
-  SessionResults,
   RegkeyValidity,
+  UserSessionResults,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -353,7 +353,7 @@ describe('SessionResultPageComponent', () => {
       hasResponseButNotVisibleForPreview: false,
       hasCommentNotVisibleForPreview: false,
     };
-    const testSessionResults: SessionResults = {
+    const testSessionResults: UserSessionResults = {
       questions: [
         {
           feedbackQuestion: testFeedbackQuestion,
