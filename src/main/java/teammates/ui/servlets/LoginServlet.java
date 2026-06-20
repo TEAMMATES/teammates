@@ -1,5 +1,7 @@
 package teammates.ui.servlets;
 
+import static teammates.common.util.HttpResponseHelper.logAndPrintError;
+
 import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,8 +52,8 @@ public class LoginServlet extends AuthServlet {
             redirectUrl = resp.encodeRedirectURL(redirectUrl);
             resp.sendRedirect(redirectUrl);
         } catch (Exception e) {
-            log.severe("Error during login", e);
-            resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "An error occurred during login");
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                    "An error occurred during login: " + e.getMessage());
         }
     }
 
