@@ -16,12 +16,7 @@
           }
           @if (canUserSeeResponses(question)) {
             <div class="other-responses">
-              <tm-single-statistics
-                [question]="question.feedbackQuestion.questionDetails"
-                [responses]="question.allResponses"
-                [statistics]="question.questionStatistics"
-                [isStudent]="true"
-              ></tm-single-statistics>
+              <tm-single-statistics [statistics]="question.questionStatistics"></tm-single-statistics>
               @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType)) {
                 <div>
                   <p style="color: gray; font-size: small">
