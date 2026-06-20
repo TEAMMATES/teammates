@@ -127,14 +127,14 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    public void execute_instructorSearchGoogleId_matchOnlyStudentsInCourse() {
+    public void execute_instructorSearch_matchOnlyStudentsInCourse() {
         loginAsInstructor(instructor1OfCourse1);
-        String[] googleIdParams = new String[] {
+        String[] params = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        SearchStudentsAction a = getAction(googleIdParams);
+        SearchStudentsAction a = getAction(params);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
         assertEquals(3, response.getStudents().size());

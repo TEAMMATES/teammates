@@ -31,7 +31,7 @@ public class CreateFeedbackSessionAction extends LoggedInAction {
                     getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
         Instructor instructor = getInstructorFromRequest(courseId);
         if (instructor == null) {
-            throw new EntityNotFoundException("Failed to find instructor with the given courseId and googleId.");
+            throw new EntityNotFoundException("Failed to find instructor with the given courseId.");
         }
 
         try {

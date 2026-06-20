@@ -102,7 +102,6 @@ public final class AccountsLogic {
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
         // TODO: Account name will be removed, use a generic "User" for now.
-        // googleId will be removed as well.
         Account account = new Account(provider, subject, tenantId, "User", email);
         return validateThenPersistAccount(account);
     }
