@@ -55,13 +55,14 @@ export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges 
       const displayName = row.isCurrentRecipient
         ? 'You'
         : row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '');
+      const hasResponses = row.pointsReceived.length > 0;
       return [
         { value: row.recipientTeam },
         { value: displayName },
         { value: row.pointsReceived.join(', ') },
-        { value: row.total },
-        { value: row.average },
-        { value: row.averageExcludingSelf ?? '' },
+        { value: hasResponses ? row.total : '-' },
+        { value: hasResponses ? row.average : '-' },
+        { value: row.averageExcludingSelf ?? '-' },
       ];
     });
   }

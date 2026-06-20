@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
@@ -34,6 +35,10 @@ public class FeedbackConstsumOptionsQuestionStatisticsCalculator implements
     @Override
     public FeedbackConstsumOptionsStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
+        if (question.getRecipientType() == QuestionRecipientType.NONE) {
+            // Constant sum options questions with no specific recipient do not have recipient-specific statistics
+            return null;
+        }
         Objects.requireNonNull(recipient, "Recipient user cannot be null for recipient-specific statistics calculation");
         ResponseRecipient recipientUser = new ResponseRecipient(recipient);
         Team team = recipient instanceof Student student ? student.getTeam() : null;
