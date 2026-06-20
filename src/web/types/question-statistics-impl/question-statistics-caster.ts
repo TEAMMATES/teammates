@@ -3,6 +3,7 @@ import {
   FeedbackContributionRecipientStatistics,
   FeedbackMcqMsqCourseWideStatistics,
   FeedbackMcqMsqRecipientStatistics,
+  FeedbackNumScaleStatistics,
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
@@ -28,6 +29,16 @@ export class QuestionStatisticsTypeChecker {
     );
   }
 
+  static isNumscale(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackNumScaleStatistics {
+    return s?.questionType === FeedbackQuestionType.NUMSCALE;
+  }
+
+  static isMcqMsq(
+    s: FeedbackQuestionResultsStatistics | undefined,
+  ): s is FeedbackMcqMsqCourseWideStatistics | FeedbackMcqMsqRecipientStatistics {
+    return s?.questionType === FeedbackQuestionType.MCQ || s?.questionType === FeedbackQuestionType.MSQ;
+  }
+
   static isMcqMsqCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqCourseWideStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
@@ -40,6 +51,10 @@ export class QuestionStatisticsTypeChecker {
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
     );
+  }
+
+  static isRubric(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
+    return s?.questionType === FeedbackQuestionType.RUBRIC;
   }
 
   static isRubricCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
