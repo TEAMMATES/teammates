@@ -14,7 +14,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 
 const DEFAULT_ACCOUNT: Account = {
   accountId: '63375cd0-db90-4e54-b7db-81ba478bdcbc',
-  googleId: 'alice.google',
   name: 'Alice',
   email: 'alice@example.com',
   instructors: [
