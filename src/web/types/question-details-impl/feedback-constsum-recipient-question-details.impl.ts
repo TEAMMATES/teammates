@@ -1,13 +1,12 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
+  ConstsumRecipientRow,
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumRecipientsQuestionDetails,
-  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
-import { Response } from '../question-statistics.model';
-import { calculateConstsumRecipientsQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumRecipientsQuestionDetails}.
@@ -35,37 +34,22 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter(
-        (response) => !response.isMissingResponse,
-      ) as unknown as Response<FeedbackConstantSumRecipientsResponseDetails>[];
-    const recipientType = question.feedbackQuestion.recipientType;
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isConstsumRecipients(stats) || stats.rows.length === 0) {
       return [];
     }
 
-    const statsCalculation = calculateConstsumRecipientsQuestionStatistics(responses, recipientType);
+    const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Total Points', 'Average Points', 'Points Received'];
+    const dataRows: string[][] = stats.rows.map((row: ConstsumRecipientRow) => [
+      row.recipientTeam,
+      row.recipientName,
+      row.recipientEmail ?? '',
+      String(row.total),
+      String(row.average),
+      ...row.pointsReceived.map(String),
+    ]);
 
-    statsRows.push(['Team', 'Recipient', 'Recipient Email', 'Total Points', 'Average Points', 'Points Received']);
-
-    Object.keys(statsCalculation.pointsPerOption)
-      .sort()
-      .forEach((recipient: string) => {
-        statsRows.push([
-          statsCalculation.emailToTeamName[recipient],
-          statsCalculation.emailToName[recipient],
-          recipient,
-          String(statsCalculation.totalPointsPerOption[recipient]),
-          String(statsCalculation.averagePointsPerOption[recipient]),
-          ...statsCalculation.pointsPerOption[recipient].map(String),
-        ]);
-      });
-
-    return statsRows;
+    return [header, ...dataRows];
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

@@ -16,6 +16,10 @@ import teammates.storage.entity.User;
  * Dispatcher for backend-owned results statistics calculation.
  */
 public final class FeedbackQuestionResultsStatisticsFactory {
+    private static final FeedbackConstsumOptionsQuestionStatisticsCalculator CONSTSUM_OPTIONS_CALCULATOR =
+            new FeedbackConstsumOptionsQuestionStatisticsCalculator();
+    private static final FeedbackConstsumRecipientsQuestionStatisticsCalculator CONSTSUM_RECIPIENTS_CALCULATOR =
+            new FeedbackConstsumRecipientsQuestionStatisticsCalculator();
     private static final FeedbackContributionQuestionStatisticsCalculator CONTRIBUTION_CALCULATOR =
             new FeedbackContributionQuestionStatisticsCalculator();
     private static final FeedbackMcqMsqQuestionStatisticsCalculator MCQ_MSQ_CALCULATOR =
@@ -35,6 +39,8 @@ public final class FeedbackQuestionResultsStatisticsFactory {
     public static FeedbackQuestionResultsStatistics calculateCourseWide(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle) {
         return switch (question.getQuestionType()) {
+        case CONSTSUM_OPTIONS -> CONSTSUM_OPTIONS_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        case CONSTSUM_RECIPIENTS -> CONSTSUM_RECIPIENTS_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case NUMSCALE -> NUMSCALE_CALCULATOR.calculateCourseWide(question, responses, bundle);
@@ -49,6 +55,10 @@ public final class FeedbackQuestionResultsStatisticsFactory {
     public static FeedbackQuestionResultsStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
         return switch (question.getQuestionType()) {
+        case CONSTSUM_OPTIONS ->
+                CONSTSUM_OPTIONS_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
+        case CONSTSUM_RECIPIENTS ->
+                CONSTSUM_RECIPIENTS_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
         case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
         case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
         case NUMSCALE -> NUMSCALE_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);

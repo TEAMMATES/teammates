@@ -27,8 +27,8 @@ Question 1,How important are the following factors to you? Give points according
 
 Summary Statistics
 Option,Total Points,Average Points,Points Received
-Fun,101,50.5,20,81
 Grades,99,49.5,19,80
+Fun,101,50.5,20,81
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Grades,Fun,Giver's Comment
@@ -43,8 +43,8 @@ Question 2,Split points among the teams
 
 Summary Statistics
 Team,Recipient,Recipient Email,Total Points,Average Points,Points Received
-,"Team 1.1</td></div>'""","Team 1.1</td></div>'""",80,80,80
-,Team 1.2,Team 1.2,20,20,20
+,"Team 1.1</td></div>'""",,80,80,80
+,Team 1.2,,20,20,20
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comment

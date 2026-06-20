@@ -12,20 +12,11 @@
     ></tm-contribution-course-wide-question-statistics>
   }
 }
-@if (QuestionDetailsTypeChecker.isConstSumOptions(question)) {
-  <tm-constsum-options-question-statistics
-    [responses]="ResponseOutputCaster.constSumOptions(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-constsum-options-question-statistics>
+@if (QuestionStatisticsTypeChecker.isConstsumOptions(statistics)) {
+  <tm-constsum-options-question-statistics [statistics]="statistics"></tm-constsum-options-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isConstSumRecipients(question)) {
-  <tm-constsum-recipients-question-statistics
-    [responses]="ResponseOutputCaster.constSumRecipients(responsesToUse)"
-    [question]="question"
-    [recipientType]="recipientType"
-    [isStudent]="isStudent"
-  ></tm-constsum-recipients-question-statistics>
+@if (QuestionStatisticsTypeChecker.isConstsumRecipients(statistics)) {
+  <tm-constsum-recipients-question-statistics [statistics]="statistics"></tm-constsum-recipients-question-statistics>
 }
 @if (QuestionStatisticsTypeChecker.isNumscale(statistics)) {
   <tm-num-scale-question-statistics [statistics]="statistics"></tm-num-scale-question-statistics>

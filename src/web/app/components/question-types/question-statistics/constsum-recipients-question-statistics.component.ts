@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
@@ -7,12 +6,11 @@ import {
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
 import {
-  FeedbackConstantSumRecipientsQuestionDetails,
-  FeedbackConstantSumRecipientsResponseDetails,
-  QuestionRecipientType,
+  ConstsumRecipientRow,
+  FeedbackConstsumRecipientsStatistics,
+  FeedbackQuestionResultsStatisticsView,
+  FeedbackQuestionType,
 } from '../../../../types/api-output';
-import { calculateConstsumRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
-import { ConstsumRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for constsum recipients questions.
@@ -24,15 +22,12 @@ import { ConstsumRecipientsQuestionStatistics, Response } from '../../../../type
 })
 export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges {
   @Input()
-  question: FeedbackConstantSumRecipientsQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
-  @Input()
-  responses: Response<FeedbackConstantSumRecipientsResponseDetails>[] = [];
-  @Input()
-  recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
-  @Input()
-  isStudent = false;
+  statistics: FeedbackConstsumRecipientsStatistics = {
+    questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+    statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+    rows: [],
+  };
 
-  // enum
   SortBy!: typeof SortBy;
 
   columnsData: ColumnData[] = [];
@@ -43,11 +38,10 @@ export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges 
   }
 
   ngOnChanges(): void {
-    const stats = calculateConstsumRecipientsQuestionStatistics(this.responses, this.recipientType);
-    this.getTableData(stats);
+    this.buildTableData();
   }
 
-  private getTableData(stats: ConstsumRecipientsQuestionStatistics): void {
+  private buildTableData(): void {
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
@@ -57,15 +51,18 @@ export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges 
       { header: 'Average Excluding Self', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
     ];
 
-    this.rowsData = Object.keys(stats.pointsPerOption).map((recipient: string) => [
-      { value: stats.emailToTeamName[recipient] },
-      {
-        value: stats.emailToName[recipient] + (stats.emailToTeamName[recipient] ? ` (${recipient})` : ''),
-      },
-      { value: stats.pointsPerOption[recipient].join(', ') },
-      { value: stats.totalPointsPerOption[recipient] },
-      { value: stats.averagePointsPerOption[recipient] },
-      { value: stats.averagePointsExcludingSelf[recipient] },
-    ]);
+    this.rowsData = this.statistics.rows.map((row: ConstsumRecipientRow) => {
+      const displayName = row.isCurrentRecipient
+        ? 'You'
+        : row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '');
+      return [
+        { value: row.recipientTeam },
+        { value: displayName },
+        { value: row.pointsReceived.join(', ') },
+        { value: row.total },
+        { value: row.average },
+        { value: row.averageExcludingSelf ?? '' },
+      ];
+    });
   }
 }

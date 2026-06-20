@@ -1,13 +1,12 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
+  ConstsumOptionRow,
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumOptionsQuestionDetails,
-  FeedbackConstantSumOptionsResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
-import { calculateConstsumOptionsQuestionStatistics } from '../../app/utils/question-statistics.util';
-import { Response } from '../question-statistics.model';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumOptionsQuestionDetails}.
@@ -43,35 +42,20 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackConstantSumOptionsQuestionDetails;
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter(
-        (response) => !response.isMissingResponse,
-      ) as unknown as Response<FeedbackConstantSumOptionsResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isConstsumOptions(stats) || stats.options.length === 0) {
       return [];
     }
 
-    const statsCalculation = calculateConstsumOptionsQuestionStatistics(questionDetails, responses);
+    const header: string[] = ['Option', 'Total Points', 'Average Points', 'Points Received'];
+    const dataRows: string[][] = stats.options.map((row: ConstsumOptionRow) => [
+      row.option,
+      String(row.total),
+      String(row.average),
+      ...row.pointsReceived.map(String),
+    ]);
 
-    statsRows.push(['Option', 'Total Points', 'Average Points', 'Points Received']);
-
-    Object.keys(statsCalculation.pointsPerOption)
-      .sort()
-      .forEach((option: string) => {
-        statsRows.push([
-          option,
-          String(statsCalculation.totalPointsPerOption[option]),
-          String(statsCalculation.averagePointsPerOption[option]),
-          ...statsCalculation.pointsPerOption[option].map(String),
-        ]);
-      });
-
-    return statsRows;
+    return [header, ...dataRows];
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

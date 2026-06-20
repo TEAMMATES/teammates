@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -18,6 +19,9 @@ import teammates.common.datatransfer.statistics.FeedbackMcqMsqCourseWideStatisti
 import teammates.common.datatransfer.statistics.FeedbackMcqMsqRecipientStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseRecipient;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 
 /**
@@ -51,10 +55,20 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
     @Override
     public FeedbackMcqMsqRecipientStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
+        Objects.requireNonNull(recipient, "Recipient user cannot be null for recipient-specific statistics calculation");
+        ResponseRecipient recipientUser = new ResponseRecipient(recipient);
+        Team team = recipient instanceof Student student ? student.getTeam() : null;
+        ResponseRecipient recipientTeam = team != null ? new ResponseRecipient(team) : null;
+
+        List<FeedbackResponse> recipientResponses = responses.stream()
+                .filter(r -> r.getRecipient().equals(recipientUser)
+                        || recipientTeam != null && recipientTeam.equals(r.getRecipient()))
+                .toList();
+
         FeedbackQuestionDetails details = question.getQuestionDetailsCopy();
-        List<String> optionLabels = buildOptionLabels(details, responses);
+        List<String> optionLabels = buildOptionLabels(details, recipientResponses);
         Map<String, Double> weightMap = isWeighted(details) ? buildWeightMap(details) : Map.of();
-        Map<String, Integer> counts = buildFrequencyCounts(optionLabels, details, responses);
+        Map<String, Integer> counts = buildFrequencyCounts(optionLabels, details, recipientResponses);
         int totalAnswerCount = counts.values().stream().mapToInt(Integer::intValue).sum();
 
         FeedbackMcqMsqRecipientStatistics statistics =

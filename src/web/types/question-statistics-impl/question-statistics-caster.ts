@@ -1,4 +1,6 @@
 import {
+  FeedbackConstsumOptionsStatistics,
+  FeedbackConstsumRecipientsStatistics,
   FeedbackContributionCourseWideStatistics,
   FeedbackContributionRecipientStatistics,
   FeedbackMcqMsqCourseWideStatistics,
@@ -27,6 +29,18 @@ export class QuestionStatisticsTypeChecker {
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       s.questionType === FeedbackQuestionType.CONTRIB
     );
+  }
+
+  static isConstsumOptions(
+    s: FeedbackQuestionResultsStatistics | undefined,
+  ): s is FeedbackConstsumOptionsStatistics {
+    return s?.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS;
+  }
+
+  static isConstsumRecipients(
+    s: FeedbackQuestionResultsStatistics | undefined,
+  ): s is FeedbackConstsumRecipientsStatistics {
+    return s?.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   }
 
   static isNumscale(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackNumScaleStatistics {
