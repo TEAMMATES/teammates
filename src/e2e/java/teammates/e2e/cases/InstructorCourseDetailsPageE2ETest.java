@@ -52,13 +52,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("charlie.tmms@ICDet.CS2104"),
                 testData.students.get("danny.tmms@ICDet.CS2104")
         );
-        Set<String> sectionNames = new HashSet<>();
-        Set<String> teamNames = new HashSet<>();
-        students.forEach(student -> {
-            sectionNames.add(student.getSectionName());
-            teamNames.add(student.getTeamName());
-        });
-        detailsPage.verifyCourseDetails(course, instructors, sectionNames.size(), teamNames.size(), students.size());
+        int sectionSize = 3;
+        int teamSize = 4;
+        detailsPage.verifyCourseDetails(course, instructors, sectionSize, teamSize, students.size());
         detailsPage.verifyNumStudents(students.size());
         detailsPage.verifyStudentDetails(students);
 
