@@ -1,8 +1,4 @@
-import {
-  FeedbackQuestion,
-  FeedbackQuestionResultsStatistics,
-  ResponseOutput,
-} from '../../../types/api-output';
+import { FeedbackQuestion, FeedbackQuestionResultsStatistics, ResponseOutput } from '../../../types/api-output';
 
 /**
  * Feedback question model.

@@ -27,18 +27,14 @@ export class QuestionStatisticsTypeChecker {
     );
   }
 
-  static isMcqMsqCourseWide(
-    s: FeedbackQuestionResultsStatistics | undefined,
-  ): s is FeedbackMcqMsqCourseWideStatistics {
+  static isMcqMsqCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqCourseWideStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
       (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
     );
   }
 
-  static isMcqMsqRecipient(
-    s: FeedbackQuestionResultsStatistics | undefined,
-  ): s is FeedbackMcqMsqRecipientStatistics {
+  static isMcqMsqRecipient(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqRecipientStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
