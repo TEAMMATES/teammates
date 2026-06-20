@@ -40,12 +40,15 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return;
         }
 
-        LoginMethodHandler loginHandler;
-        if (Config.isDevServerLoginEnabled()) {
-            loginHandler = getLoginHandler(LoginMethod.DEV_SERVER);
-        } else {
-            loginHandler = getLoginHandler(LoginMethod.GOOGLE);
+        LoginMethod method = state.getMethod();
+
+        if (!Config.isSupportedLoginMethod(method)) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST,
+                    "Valid but unsupported login method: " + method);
+            return;
         }
+
+        LoginMethodHandler loginHandler = getLoginHandler(method);
 
         AuthResult authResult = loginHandler.handleCallback(req, resp, state);
         if (authResult == null) {
@@ -109,5 +112,4 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return null;
         }
     }
-
 }
