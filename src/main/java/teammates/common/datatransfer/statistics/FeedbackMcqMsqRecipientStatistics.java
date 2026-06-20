@@ -8,13 +8,13 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 /**
  * Recipient-specific MCQ/MSQ statistics for session results.
  */
-public class FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+public class FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionResultsStatistics {
     private boolean hasAnswers;
     private boolean hasWeights;
     private List<FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow> rows = new ArrayList<>();
 
     public FeedbackMcqMsqRecipientStatistics(FeedbackQuestionType questionType) {
-        super(questionType);
+        super(questionType, FeedbackQuestionResultsStatisticsView.RECIPIENT);
     }
 
     public boolean isHasAnswers() {

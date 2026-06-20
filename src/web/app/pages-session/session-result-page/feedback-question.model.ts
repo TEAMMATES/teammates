@@ -1,15 +1,11 @@
-import {
-  FeedbackQuestion,
-  FeedbackQuestionRecipientResultsStatistics,
-  ResponseOutput,
-} from '../../../types/api-output';
+import { FeedbackQuestion, FeedbackQuestionResultsStatistics, ResponseOutput } from '../../../types/api-output';
 
 /**
  * Feedback question model.
  */
 export interface FeedbackQuestionModel {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics?: FeedbackQuestionRecipientResultsStatistics;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
   responsesToSelf: ResponseOutput[];
   responsesFromSelf: ResponseOutput[];
