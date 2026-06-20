@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,8 +62,6 @@ import teammates.ui.request.StudentUpdateRequest;
  */
 public final class UsersLogic {
 
-    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
-            "Please use different team names in different sections.";
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
             "You are trying enroll more than %s students in section \"%s\".";
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
@@ -905,12 +902,11 @@ public final class UsersLogic {
 
         updateStudentCascade(student, updateRequest.getEmail(), updateRequest.getName(), team, updateRequest.getComments());
 
-        // Validate section limit and team name violations.
+        // Validate section limits.
         // Precondition: this is executed within a transaction; throwing an exception
         // here will roll back all changes.
         List<Student> studentsInCourse = getStudentsForCourse(student.getCourseId());
-        String errorMessage = getSectionInvalidityInfo(studentsInCourse)
-                + getTeamInvalidityInfo(studentsInCourse);
+        String errorMessage = getSectionInvalidityInfo(studentsInCourse);
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
@@ -975,10 +971,9 @@ public final class UsersLogic {
             }
         }
 
-        // Validate section limit and team name violations.
+        // Validate section limit violations.
         // Precondition: this is executed within a transaction; throwing an exception here will roll back all changes.
-        String errorMessage = getSectionInvalidityInfo(studentsInCourse.values())
-                + getTeamInvalidityInfo(studentsInCourse.values());
+        String errorMessage = getSectionInvalidityInfo(studentsInCourse.values());
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
@@ -1043,39 +1038,6 @@ public final class UsersLogic {
             errorMessage.add(String.format(
                     ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
                     Const.SECTION_SIZE_LIMIT));
-        }
-
-        return errorMessage.toString();
-    }
-
-    private String getTeamInvalidityInfo(Collection<Student> studentList) {
-        StringJoiner errorMessage = new StringJoiner(" ");
-        Map<String, Set<String>> teamToSectionsMap = new HashMap<>();
-        for (Student student : studentList) {
-            String teamName = student.getTeamName();
-            assert teamName != null : "Team name should not be null";
-            String sectionName = student.getSectionName();
-            assert sectionName != null : "Section name should not be null";
-            teamToSectionsMap.computeIfAbsent(teamName, k -> new HashSet<>()).add(sectionName);
-        }
-
-        teamToSectionsMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> {
-                    if (entry.getValue().size() > 1) {
-                        List<String> sectionStrings = entry.getValue().stream()
-                                .sorted()
-                                .map(section -> String.format("\"%s\"", section))
-                                .toList();
-                        errorMessage.add(String.format(
-                                "Team \"%s\" is detected in Sections %s.",
-                                entry.getKey(),
-                                String.join(", ", sectionStrings)));
-                    }
-                });
-
-        if (errorMessage.length() > 0) {
-            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
         return errorMessage.toString();
