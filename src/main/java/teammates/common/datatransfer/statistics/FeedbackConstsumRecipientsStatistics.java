@@ -69,7 +69,7 @@ public class FeedbackConstsumRecipientsStatistics extends FeedbackQuestionResult
             this.recipientTeam = recipientTeam;
         }
 
-        public boolean isIsCurrentRecipient() {
+        public boolean isCurrentRecipient() {
             return isCurrentRecipient;
         }
 

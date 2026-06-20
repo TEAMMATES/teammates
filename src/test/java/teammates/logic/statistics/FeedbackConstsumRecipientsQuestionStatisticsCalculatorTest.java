@@ -164,7 +164,7 @@ public class FeedbackConstsumRecipientsQuestionStatisticsCalculatorTest extends 
 
         ConstsumRecipientRow row = rows.get(0);
         assertEquals(row.getRecipientName(), "Alice");
-        assertTrue(row.isIsCurrentRecipient());
+        assertTrue(row.isCurrentRecipient());
         assertEquals(row.getTotal(), 100);
         assertEquals(row.getAverageExcludingSelf(), 70.0);
     }
