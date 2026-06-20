@@ -33,6 +33,12 @@ export class QuestionStatisticsTypeChecker {
     return s?.questionType === FeedbackQuestionType.NUMSCALE;
   }
 
+  static isMcqMsq(
+    s: FeedbackQuestionResultsStatistics | undefined,
+  ): s is FeedbackMcqMsqCourseWideStatistics | FeedbackMcqMsqRecipientStatistics {
+    return s?.questionType === FeedbackQuestionType.MCQ || s?.questionType === FeedbackQuestionType.MSQ;
+  }
+
   static isMcqMsqCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqCourseWideStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&

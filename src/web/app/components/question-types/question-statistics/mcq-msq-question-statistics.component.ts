@@ -5,7 +5,7 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackMcqMsqCourseWideStatistics } from '../../../../types/api-output';
+import { FeedbackMcqMsqCourseWideStatistics, FeedbackMcqMsqRecipientStatistics } from '../../../../types/api-output';
 import { QuestionStatisticsTypeChecker } from '../../../../types/question-statistics-impl/question-statistics-caster';
 
 /**
@@ -18,9 +18,7 @@ import { QuestionStatisticsTypeChecker } from '../../../../types/question-statis
 })
 export class McqMsqQuestionStatisticsComponent implements OnChanges {
   @Input()
-  statistics: FeedbackMcqMsqCourseWideStatistics | undefined;
-  @Input()
-  isStudent = false;
+  statistics: FeedbackMcqMsqCourseWideStatistics | FeedbackMcqMsqRecipientStatistics | undefined;
 
   // enum
   SortBy!: typeof SortBy;
@@ -60,7 +58,11 @@ export class McqMsqQuestionStatisticsComponent implements OnChanges {
       { value: row.weightedPercentage === 0 ? 0 : (row.weightedPercentage ?? '-') },
     ]);
 
-    if (stats.hasWeights && stats.perRecipientRows.length > 0) {
+    if (
+      QuestionStatisticsTypeChecker.isMcqMsqCourseWide(stats) &&
+      stats.hasWeights &&
+      stats.perRecipientRows.length > 0
+    ) {
       const optionLabels = stats.rows.map((r) => r.option);
 
       this.perRecipientColumnsData = [
