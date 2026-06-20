@@ -19,7 +19,6 @@ import { TeammatesRouterDirective } from '../../../teammates-router/teammates-ro
 })
 export class ContributionCourseWideQuestionStatisticsComponent implements OnChanges {
   @Input({ required: true }) statistics!: FeedbackContributionCourseWideStatistics;
-  @Input() displayContributionStats = true;
 
   QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
   Sections!: typeof Sections;

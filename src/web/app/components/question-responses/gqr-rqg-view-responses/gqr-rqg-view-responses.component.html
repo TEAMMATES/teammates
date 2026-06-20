@@ -30,10 +30,7 @@
                       </div>
                       <div class="card-body top-padded-small">
                         <tm-single-statistics
-                          [responses]="question.allResponses"
-                          [question]="question.feedbackQuestion.questionDetails"
                           [statistics]="question.questionStatistics"
-                          [recipientType]="question.feedbackQuestion.recipientType"
                           [displayContributionStats]="false"
                         ></tm-single-statistics>
                       </div>
@@ -126,10 +123,7 @@
               <div class="card-body top-padded-small table-responsive">
                 @if (showStatistics) {
                   <tm-single-statistics
-                    [responses]="question.questionOutput.allResponses"
-                    [question]="question.questionOutput.feedbackQuestion.questionDetails"
                     [statistics]="question.questionOutput.questionStatistics"
-                    [recipientType]="question.questionOutput.feedbackQuestion.recipientType"
                     [displayContributionStats]="false"
                   ></tm-single-statistics>
                 }

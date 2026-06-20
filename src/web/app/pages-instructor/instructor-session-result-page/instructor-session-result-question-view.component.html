@@ -44,12 +44,7 @@
             <div class="stats-table">
               @if (showStatistics) {
                 <tm-single-statistics
-                  [question]="question.question.questionDetails"
                   [statistics]="question.statistics"
-                  [responses]="question.responses"
-                  [recipientType]="question.question.recipientType"
-                  [section]="section"
-                  [sectionType]="sectionType"
                 ></tm-single-statistics>
               }
             </div>

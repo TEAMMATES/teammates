@@ -1,12 +1,10 @@
-@if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
+@if (displayContributionStats && QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
   <tm-contribution-recipient-question-statistics
-    [displayContributionStats]="displayContributionStats"
     [statistics]="statistics"
   ></tm-contribution-recipient-question-statistics>
 }
-@if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
+@if (displayContributionStats && QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
   <tm-contribution-course-wide-question-statistics
-    [displayContributionStats]="displayContributionStats"
     [statistics]="statistics"
   ></tm-contribution-course-wide-question-statistics>
 }
