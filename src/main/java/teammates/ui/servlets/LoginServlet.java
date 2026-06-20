@@ -45,7 +45,14 @@ public class LoginServlet extends AuthServlet {
             loginHandler = getLoginHandler(LoginMethod.GOOGLE);
         }
 
-        loginHandler.handleLogin(req, resp, nextUrl);
+        try {
+            String redirectUrl = loginHandler.handleLogin(req, nextUrl);
+            redirectUrl = resp.encodeRedirectURL(redirectUrl);
+            resp.sendRedirect(redirectUrl);
+        } catch (Exception e) {
+            log.severe("Error during login", e);
+            resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "An error occurred during login");
+        }
     }
 
     private boolean isLoginNeeded(HttpServletRequest req) {

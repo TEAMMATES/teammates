@@ -53,13 +53,15 @@ public class OAuth2CallbackServlet extends AuthServlet {
         String logMessage;
         String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
         try {
-            AuthResult authResult = loginHandler.handleCallback(req, resp, state);
+            AuthResult authResult = loginHandler.handleCallback(req, state);
             cookie = getLoginCookie(authResult);
             logMessage = "Login successful";
         } catch (Exception e) {
             cookie = failLogin(req);
             logMessage = "Login failed";
             nextUrl = UrlHelper.DEFAULT_REDIRECT_URL;
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                    "An error occurred during login: " + e.getMessage());
         }
 
         String redirectUrl = resp.encodeRedirectURL(nextUrl);

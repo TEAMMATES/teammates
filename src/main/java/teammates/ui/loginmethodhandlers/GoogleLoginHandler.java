@@ -1,14 +1,11 @@
 package teammates.ui.loginmethodhandlers;
 
-import static teammates.common.util.HttpResponseHelper.logAndPrintError;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
@@ -47,7 +44,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     private static final List<String> SCOPES = Arrays.asList("openid", "email");
 
     @Override
-    public void handleLogin(HttpServletRequest req, HttpServletResponse resp, String nextUrl) throws IOException {
+    public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, InvalidAuthStateException {
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.GOOGLE);
         GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
@@ -55,12 +52,11 @@ public class GoogleLoginHandler implements LoginMethodHandler {
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
 
-        resp.sendRedirect(authorizationUrl.build());
+        return authorizationUrl.build();
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state)
-            throws IOException, InvalidAuthStateException {
+    public AuthResult handleCallback(HttpServletRequest req, AuthState state) throws IOException, InvalidAuthStateException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
@@ -69,23 +65,19 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         AuthorizationCodeResponseUrl responseUrl =
                 new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
-            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
             throw new InvalidAuthStateException("Error in Google OAuth2 callback: " + responseUrl.getError());
         }
 
         String code = responseUrl.getCode();
         if (code == null) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
             throw new InvalidAuthStateException("Missing authorization code");
         }
 
         String sessionId = state.sessionId();
         if (!sessionId.equals(req.getSession().getId())) {
-            // Invalid session ID
-            log.warning(String.format("Different session ID: expected %s, got %s",
-                    sessionId, req.getSession().getId()));
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
-            throw new InvalidAuthStateException("Invalid session ID");
+            String message = String.format("Different session ID: expected %s, got %s",
+                    sessionId, req.getSession().getId());
+            throw new InvalidAuthStateException(message);
         }
 
         String redirectUri = getRedirectUri(req);
@@ -96,13 +88,10 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         try {
             GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
             if (idToken == null) {
-                logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token");
                 throw new InvalidAuthStateException("Invalid ID token");
             }
             payload = idToken.getPayload();
         } catch (GeneralSecurityException | IOException e) {
-            log.warning("Failed to verify ID token", e);
-            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to verify ID token");
             throw new InvalidAuthStateException("Failed to verify ID token", e);
         }
 
