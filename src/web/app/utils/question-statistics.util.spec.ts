@@ -4,8 +4,6 @@ import {
   RankOptionsQuestionStatistics,
   RankRecipientsQuestionStatistics,
   Response,
-  RubricPerRecipientStats,
-  RubricQuestionStatistics,
 } from '../../types/question-statistics.model';
 import {
   FeedbackConstantSumOptionsQuestionDetails,
@@ -15,8 +13,6 @@ import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
   QuestionRecipientType,
 } from '../../types/api-output';
 import {
@@ -25,12 +21,10 @@ import {
   calculateNumScaleQuestionStatistics,
   calculateRankOptionsQuestionStatistics,
   calculateRankRecipientsQuestionStatistics,
-  calculateRubricQuestionStatistics,
 } from './question-statistics.util';
 import constsumOptionQuestionResponses from '../components/question-types/question-statistics/test-data/constsum-option-question-responses';
 import numScaleQuestionResponses from '../components/question-types/question-statistics/test-data/num-scale-question-responses';
 import rankOptionQuestionResponses from '../components/question-types/question-statistics/test-data/rank-option-question-responses';
-import rubricQuestionResponses from '../components/question-types/question-statistics/test-data/rubric-question-responses';
 
 describe('Question Statistics Utility Functions', () => {
   describe('calculateConstsumOptionsQuestionStatistics', () => {
@@ -590,90 +584,4 @@ describe('Question Statistics Utility Functions', () => {
     });
   });
 
-  describe('calculateRubricQuestionStatistics', () => {
-    it('should calculate responses correctly', () => {
-      const question: FeedbackRubricQuestionDetails = {
-        questionType: FeedbackQuestionType.RUBRIC,
-        rubricSubQuestions: ['Question1', 'Question2', 'Question3'],
-        rubricChoices: ['Yes', 'No'],
-        hasAssignedWeights: true,
-        rubricWeightsForEachCell: [
-          [0.2, 0.8],
-          [0.1, 0.9],
-          [0.4, 0.6],
-        ],
-        rubricDescriptions: [
-          ['', ''],
-          ['', ''],
-          ['', ''],
-        ],
-        questionText: 'test question text',
-      };
-      const responses: Response<FeedbackRubricResponseDetails>[] = rubricQuestionResponses.responses;
-
-      const stats: RubricQuestionStatistics = calculateRubricQuestionStatistics(question, responses, false);
-
-      const expectedPercentages: number[][] = [
-        [75, 25],
-        [50, 50],
-        [100, 0],
-      ];
-
-      const expectedPercentagesExceptSelf: number[][] = [
-        [100, 0],
-        [50, 50],
-        [100, 0],
-      ];
-
-      const expectedWeightAverage: number[] = [0.35, 0.5, 0.4];
-
-      const expectedWeightAverageExcludeSelf: number[] = [0.2, 0.5, 0.4];
-
-      expect(stats.percentages).toEqual(expectedPercentages);
-      expect(stats.percentagesExcludeSelf).toEqual(expectedPercentagesExceptSelf);
-      expect(stats.subQuestionWeightAverage).toEqual(expectedWeightAverage);
-      expect(stats.subQuestionWeightAverageExcludeSelf).toEqual(expectedWeightAverageExcludeSelf);
-    });
-
-    it('should calculate responses correctly when there are no weights', () => {
-      const question: FeedbackRubricQuestionDetails = {
-        questionType: FeedbackQuestionType.RUBRIC,
-        rubricSubQuestions: ['Question1', 'Question2', 'Question3'],
-        rubricChoices: ['Yes', 'No'],
-        hasAssignedWeights: false,
-        rubricWeightsForEachCell: [
-          [1, 1],
-          [1, 1],
-          [1, 1],
-        ],
-        rubricDescriptions: [
-          ['', ''],
-          ['', ''],
-          ['', ''],
-        ],
-        questionText: 'test question text',
-      };
-      const responses: Response<FeedbackRubricResponseDetails>[] = rubricQuestionResponses.responses;
-
-      const stats: RubricQuestionStatistics = calculateRubricQuestionStatistics(question, responses, false);
-
-      const expectedPercentages: number[][] = [
-        [75, 25],
-        [50, 50],
-        [100, 0],
-      ];
-
-      const expectedPercentagesExceptSelf: number[][] = [
-        [100, 0],
-        [50, 50],
-        [100, 0],
-      ];
-
-      const expectedPerRecpientStatsMap: Record<string, RubricPerRecipientStats> = {};
-
-      expect(stats.percentages).toEqual(expectedPercentages);
-      expect(stats.percentagesExcludeSelf).toEqual(expectedPercentagesExceptSelf);
-      expect(stats.perRecipientStatsMap).toEqual(expectedPerRecpientStatsMap);
-    });
-  });
 });

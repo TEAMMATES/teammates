@@ -34,11 +34,9 @@
   ></tm-num-scale-question-statistics>
 }
 @if (QuestionDetailsTypeChecker.isRubric(question)) {
-  <tm-rubric-question-statistics
-    [responses]="ResponseOutputCaster.rubric(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-rubric-question-statistics>
+  @if (QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) || QuestionStatisticsTypeChecker.isRubricRecipient(statistics)) {
+    <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
+  }
 }
 @if (QuestionDetailsTypeChecker.isRankOptions(question)) {
   <tm-rank-options-question-statistics

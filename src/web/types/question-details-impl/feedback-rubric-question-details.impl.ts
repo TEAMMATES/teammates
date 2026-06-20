@@ -3,12 +3,12 @@ import { StringHelper } from '../../services/string-helper';
 import {
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
+  FeedbackRubricStatistics,
   QuestionOutput,
+  RubricPerRecipientStats,
+  RubricSubQuestionRow,
 } from '../api-output';
-import { NO_VALUE } from '../feedback-response-details';
-import { Response, RubricPerRecipientStats } from '../question-statistics.model';
-import { calculateRubricQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackRubricQuestionDetails}.
@@ -44,116 +44,93 @@ export class FeedbackRubricQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-
-    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackRubricQuestionDetails;
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackRubricResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isRubricCourseWide(stats)) {
       return [];
     }
+    return this.buildCsvStats(stats);
+  }
 
-    const statsCalculation = calculateRubricQuestionStatistics(questionDetails, responses, false);
+  private buildCsvStats(stats: FeedbackRubricStatistics): string[][] {
+    const statsRows: string[][] = [];
 
-    const header: string[] = ['', ...statsCalculation.choices];
-    if (statsCalculation.hasWeights) {
+    const header: string[] = ['', ...stats.choices];
+    if (stats.hasWeights) {
       header.push('Average');
     }
     statsRows.push(header);
 
-    statsCalculation.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
+    stats.rows.forEach((row: RubricSubQuestionRow, questionIndex: number) => {
       const currRow: string[] = [
-        `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
-        ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-          return `${statsCalculation.percentages[questionIndex][choiceIndex]}% \
-(${statsCalculation.answers[questionIndex][choiceIndex]}) \
-${
-  statsCalculation.hasWeights ? `[${this.getDisplayWeight(statsCalculation.weights[questionIndex][choiceIndex])}]` : ''
-}`;
+        `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${row.subQuestion}`,
+        ...row.cells.map((cell) => {
+          const weightStr = cell.weight == null ? '' : ` [${cell.weight}]`;
+          return `${cell.percentage}% (${cell.count})${weightStr}`;
         }),
       ];
-      if (statsCalculation.hasWeights) {
-        currRow.push(this.getDisplayWeight(statsCalculation.subQuestionWeightAverage[questionIndex]));
+      if (stats.hasWeights) {
+        currRow.push(this.getDisplayWeight(row.weightAverage));
       }
       statsRows.push(currRow);
     });
 
-    if (!statsCalculation.hasWeights) {
+    if (!stats.hasWeights || stats.perRecipientStats.length === 0) {
       return statsRows;
     }
 
-    // generate per recipient stats
-    statsRows.push([], ['Per Recipient Statistics (Per Criterion)']);
+    statsRows.push(
+      [],
+      ['Per Recipient Statistics (Per Criterion)'],
+      ['Team', 'Recipient Name', 'Recipient Email', 'Sub Question', ...stats.choices, 'Total', 'Average'],
+    );
 
-    statsRows.push([
-      'Team',
-      'Recipient Name',
-      'Recipient Email',
-      'Sub Question',
-      ...statsCalculation.choices,
-      'Total',
-      'Average',
-    ]);
-
-    Object.values(statsCalculation.perRecipientStatsMap)
-      .sort(
-        (a: RubricPerRecipientStats, b: RubricPerRecipientStats) =>
-          a.recipientTeam.localeCompare(b.recipientTeam) || a.recipientName.localeCompare(b.recipientName),
-      )
+    [...stats.perRecipientStats]
+      .sort((a: RubricPerRecipientStats, b: RubricPerRecipientStats) => {
+        const teamCmp = a.recipientTeam.localeCompare(b.recipientTeam);
+        return teamCmp === 0 ? a.recipientName.localeCompare(b.recipientName) : teamCmp;
+      })
       .forEach((perRecipientStats: RubricPerRecipientStats) => {
-        this.rubricSubQuestions.forEach((subQuestion: string, questionIndex: number) => {
+        perRecipientStats.perCriterionRows.forEach((criterionRow, questionIndex) => {
           statsRows.push([
             perRecipientStats.recipientTeam,
             perRecipientStats.recipientName,
             perRecipientStats.recipientEmail ?? '',
-            `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
-            ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-              return `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
-(${perRecipientStats.answers[questionIndex][choiceIndex]}) \
-[${this.getDisplayWeight(statsCalculation.weights[questionIndex][choiceIndex])}]`;
+            `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${criterionRow.subQuestion}`,
+            ...criterionRow.cells.map((cell) => {
+              const weightStr = cell.weight == null ? '' : ` [${cell.weight}]`;
+              return `${cell.percentage}% (${cell.count})${weightStr}`;
             }),
-            this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]),
-            this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]),
+            this.getDisplayWeight(criterionRow.total),
+            this.getDisplayWeight(criterionRow.average),
           ]);
         });
       });
 
-    // generate overall recipient stats
-    statsRows.push([], ['Per Recipient Statistics (Overall)']);
+    statsRows.push(
+      [],
+      ['Per Recipient Statistics (Overall)'],
+      ['Team', 'Recipient Name', 'Recipient Email', ...stats.choices, 'Total', 'Average', 'Per Criterion Average'],
+    );
 
-    statsRows.push([
-      'Team',
-      'Recipient Name',
-      'Recipient Email',
-      ...statsCalculation.choices,
-      'Total',
-      'Average',
-      'Per Criterion Average',
-    ]);
-
-    Object.values(statsCalculation.perRecipientStatsMap)
-      .sort(
-        (a: RubricPerRecipientStats, b: RubricPerRecipientStats) =>
-          a.recipientTeam.localeCompare(b.recipientTeam) || a.recipientName.localeCompare(b.recipientName),
-      )
+    [...stats.perRecipientStats]
+      .sort((a: RubricPerRecipientStats, b: RubricPerRecipientStats) => {
+        const teamCmp = a.recipientTeam.localeCompare(b.recipientTeam);
+        return teamCmp === 0 ? a.recipientName.localeCompare(b.recipientName) : teamCmp;
+      })
       .forEach((perRecipientStats: RubricPerRecipientStats) => {
-        const perCriterionAverage: string = perRecipientStats.subQuestionWeightAverage
-          .map((val: number) => this.getDisplayWeight(val))
+        const perCriterionAverage: string = perRecipientStats.subQuestionAverages
+          .map((val: number | null) => this.getDisplayWeight(val))
           .toString();
         statsRows.push([
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ?? '',
-          ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-            return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
-(${perRecipientStats.answersSum[choiceIndex]}) \
-[${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`;
+          ...perRecipientStats.overallCells.map((cell) => {
+            const weightStr = cell.weight == null ? '' : ` [${cell.weight}]`;
+            return `${cell.percentage}% (${cell.count})${weightStr}`;
           }),
-          this.getDisplayWeight(perRecipientStats.overallWeightedSum),
-          this.getDisplayWeight(perRecipientStats.overallWeightAverage),
+          this.getDisplayWeight(perRecipientStats.overallTotal),
+          this.getDisplayWeight(perRecipientStats.overallAverage),
           perCriterionAverage,
         ]);
       });
@@ -169,7 +146,7 @@ ${
     return true;
   }
 
-  private getDisplayWeight(weight: number): string {
-    return weight === null || weight === NO_VALUE ? '-' : String(weight);
+  private getDisplayWeight(weight: number | null | undefined): string {
+    return weight == null ? '-' : String(weight);
   }
 }

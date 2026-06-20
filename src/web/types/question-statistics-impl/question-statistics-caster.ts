@@ -6,6 +6,7 @@ import {
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
+  FeedbackRubricStatistics,
 } from '../api-output';
 
 export class QuestionStatisticsTypeChecker {
@@ -38,6 +39,20 @@ export class QuestionStatisticsTypeChecker {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
+    );
+  }
+
+  static isRubricCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
+      s.questionType === FeedbackQuestionType.RUBRIC
+    );
+  }
+
+  static isRubricRecipient(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
+      s.questionType === FeedbackQuestionType.RUBRIC
     );
   }
 }
