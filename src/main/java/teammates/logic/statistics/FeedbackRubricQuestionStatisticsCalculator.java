@@ -20,6 +20,7 @@ import teammates.common.datatransfer.statistics.FeedbackRubricStatistics.RubricP
 import teammates.common.datatransfer.statistics.FeedbackRubricStatistics.RubricSubQuestionRow;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * Calculates rubric question statistics for results pages.
@@ -135,15 +136,8 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
                 continue;
             }
             String key = response.getRecipient().getKey();
-            PerRecipientAccumulator acc = accumulators.computeIfAbsent(key, k -> {
-                String email = response.getRecipient().isRecipientUser()
-                        ? response.getRecipient().getRecipientUser().getEmail() : null;
-                return new PerRecipientAccumulator(
-                        response.getRecipient().getDisplayName(),
-                        email,
-                        response.getRecipient().getTeamName(),
-                        numSubQ, numChoices);
-            });
+            PerRecipientAccumulator acc = accumulators.computeIfAbsent(key,
+                    k -> new PerRecipientAccumulator(response.getRecipient(), numSubQ, numChoices));
 
             FeedbackRubricResponseDetails rd =
                     (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
@@ -170,9 +164,10 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
         List<RubricPerRecipientStats> result = new ArrayList<>();
         for (PerRecipientAccumulator acc : accumulators.values()) {
             RubricPerRecipientStats stats = new RubricPerRecipientStats();
-            stats.setRecipientName(acc.recipientName);
-            stats.setRecipientEmail(acc.recipientEmail);
-            stats.setRecipientTeam(acc.recipientTeam);
+            stats.setRecipientName(acc.recipient.getDisplayName());
+            stats.setRecipientEmail(acc.recipient.isRecipientUser()
+                    ? acc.recipient.getRecipientUser().getEmail() : null);
+            stats.setRecipientTeam(acc.recipient.getTeamName());
             stats.setPerCriterionRows(buildPerCriterionRows(subQuestions, weights, acc));
             stats.setOverallCells(buildOverallCells(choiceWeightsAverage, acc.answers));
             stats.setOverallTotal(overallTotal(acc));
@@ -335,19 +330,13 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
     }
 
     private static class PerRecipientAccumulator {
-        final String recipientName;
-        @Nullable
-        final String recipientEmail;
-        final String recipientTeam;
+        final ResponseRecipient recipient;
         final int[][] answers;
         final boolean[] areSubQWeightsAllNull;
         final double[] subQTotalChosenWeight;
 
-        PerRecipientAccumulator(String recipientName, @Nullable String recipientEmail,
-                String recipientTeam, int numSubQ, int numChoices) {
-            this.recipientName = recipientName;
-            this.recipientEmail = recipientEmail;
-            this.recipientTeam = recipientTeam;
+        PerRecipientAccumulator(ResponseRecipient recipient, int numSubQ, int numChoices) {
+            this.recipient = recipient;
             this.answers = new int[numSubQ][numChoices];
             this.areSubQWeightsAllNull = new boolean[numSubQ];
             Arrays.fill(this.areSubQWeightsAllNull, true);
