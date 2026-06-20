@@ -140,6 +140,19 @@ export interface FeedbackContributionResponseDetails extends FeedbackResponseDet
   answer: number;
 }
 
+export interface FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
+  perRecipientRows: McqMsqPerRecipientRow[];
+}
+
+export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
+}
+
 export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
   hasAssignedWeights: boolean;
   mcqWeights: number[];
@@ -425,6 +438,23 @@ export interface JoinLink extends ApiOutput {
 
 export interface JoinStatus extends ApiOutput {
   hasJoined: boolean;
+}
+
+export interface McqMsqOptionRow {
+  option: string;
+  weight?: number;
+  count: number;
+  percentage: number;
+  weightedPercentage?: number;
+}
+
+export interface McqMsqPerRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  responseCountPerOption: { [index: string]: number };
+  total: number;
+  average: number;
 }
 
 export interface MessageOutput extends ApiOutput {

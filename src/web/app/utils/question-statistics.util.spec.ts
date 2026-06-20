@@ -11,8 +11,6 @@ import {
   FeedbackConstantSumOptionsQuestionDetails,
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
-  FeedbackMcqQuestionDetails,
-  FeedbackMsqQuestionDetails,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
@@ -24,16 +22,12 @@ import {
 import {
   calculateConstsumOptionsQuestionStatistics,
   calculateConstsumRecipientsQuestionStatistics,
-  calculateMcqQuestionStatistics,
-  calculateMsqQuestionStatistics,
   calculateNumScaleQuestionStatistics,
   calculateRankOptionsQuestionStatistics,
   calculateRankRecipientsQuestionStatistics,
   calculateRubricQuestionStatistics,
 } from './question-statistics.util';
 import constsumOptionQuestionResponses from '../components/question-types/question-statistics/test-data/constsum-option-question-responses';
-import mcqQuestionResponses from '../components/question-types/question-statistics/test-data/mcq-question-responses';
-import msqQuestionResponses from '../components/question-types/question-statistics/test-data/msq-question-responses';
 import numScaleQuestionResponses from '../components/question-types/question-statistics/test-data/num-scale-question-responses';
 import rankOptionQuestionResponses from '../components/question-types/question-statistics/test-data/rank-option-question-responses';
 import rubricQuestionResponses from '../components/question-types/question-statistics/test-data/rubric-question-responses';
@@ -289,240 +283,6 @@ describe('Question Statistics Utility Functions', () => {
       expect(stats.totalPointsPerOption).toEqual(expectedTotalPointsPerOption);
       expect(stats.averagePointsPerOption).toEqual(expectedAveragePointsPerOption);
       expect(stats.averagePointsExcludingSelf).toEqual(expectedAveragePointsExcludingSelf);
-    });
-  });
-
-  describe('calculateMcqQuestionStatistics', () => {
-    it('should calculate statistics correctly', () => {
-      const question: FeedbackMcqQuestionDetails = {
-        questionType: FeedbackQuestionType.MCQ,
-        questionText: 'Which option do you prefer?',
-        mcqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: false,
-        hasAssignedWeights: true,
-        mcqWeights: [1, 2, 3],
-        mcqOtherWeight: 0,
-        questionDropdownEnabled: false,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-      };
-      const responses = mcqQuestionResponses.responsesNoOther;
-      const stats = calculateMcqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 2,
-        optionB: 1,
-        optionC: 0,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 66.67,
-        optionB: 33.33,
-        optionC: 0,
-      };
-      const expectedWeightPerOption: Record<string, number> = {
-        optionA: 1,
-        optionB: 2,
-        optionC: 3,
-      };
-      const expectedWeightedPrecentagePerOption: Record<string, number> = {
-        optionA: 50,
-        optionB: 50,
-        optionC: 0,
-      };
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.weightPerOption).toEqual(expectedWeightPerOption);
-      expect(stats.weightedPercentagePerOption).toEqual(expectedWeightedPrecentagePerOption);
-    });
-
-    it('should calculate statistics correctly when other is enabled', () => {
-      const question: FeedbackMcqQuestionDetails = {
-        questionType: FeedbackQuestionType.MCQ,
-        questionText: 'Which option do you prefer?',
-        mcqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: true,
-        hasAssignedWeights: true,
-        mcqWeights: [1, 2, 3],
-        mcqOtherWeight: 4,
-        questionDropdownEnabled: false,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-      };
-      const responses = mcqQuestionResponses.responsesWithOther;
-      const stats = calculateMcqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 1,
-        optionB: 1,
-        optionC: 0,
-        Other: 1,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 33.33,
-        optionB: 33.33,
-        optionC: 0,
-        Other: 33.33,
-      };
-      const expectedWeightPerOption: Record<string, number> = {
-        optionA: 1,
-        optionB: 2,
-        optionC: 3,
-        Other: 4,
-      };
-      const expectedWeightedPrecentagePerOption: Record<string, number> = {
-        optionA: 14.29,
-        optionB: 28.57,
-        optionC: 0,
-        Other: 57.14,
-      };
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.weightPerOption).toEqual(expectedWeightPerOption);
-      expect(stats.weightedPercentagePerOption).toEqual(expectedWeightedPrecentagePerOption);
-    });
-
-    it('should calculate statistics correctly when there are no assigned weights', () => {
-      const question: FeedbackMcqQuestionDetails = {
-        questionType: FeedbackQuestionType.MCQ,
-        questionText: 'Which option do you prefer?',
-        mcqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        mcqWeights: [],
-        mcqOtherWeight: 0,
-        questionDropdownEnabled: false,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-      };
-      const responses = mcqQuestionResponses.responsesNoOther;
-      const stats = calculateMcqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 2,
-        optionB: 1,
-        optionC: 0,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 66.67,
-        optionB: 33.33,
-        optionC: 0,
-      };
-      const expectedPerRecipientResponses = {};
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.perRecipientResponses).toEqual(expectedPerRecipientResponses);
-    });
-
-    it('should calculate statistics correctly when other is enabled and no assigned weights', () => {
-      const question: FeedbackMcqQuestionDetails = {
-        questionType: FeedbackQuestionType.MCQ,
-        questionText: 'Which option do you prefer?',
-        mcqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: true,
-        hasAssignedWeights: false,
-        mcqWeights: [],
-        mcqOtherWeight: 0,
-        questionDropdownEnabled: false,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-      };
-      const responses = mcqQuestionResponses.responsesWithOther;
-      const stats = calculateMcqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 1,
-        optionB: 1,
-        optionC: 0,
-        Other: 1,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 33.33,
-        optionB: 33.33,
-        optionC: 0,
-        Other: 33.33,
-      };
-      const expectedPerRecipientResponses = {};
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.perRecipientResponses).toEqual(expectedPerRecipientResponses);
-    });
-  });
-
-  describe('calculateMsqQuestionStatistics', () => {
-    it('should calculate statistics correctly', () => {
-      const question: FeedbackMsqQuestionDetails = {
-        questionType: FeedbackQuestionType.MSQ,
-        questionText: 'Which options do you prefer?',
-        msqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: false,
-        hasAssignedWeights: true,
-        msqWeights: [1, 2, 3],
-        msqOtherWeight: 0,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-        maxSelectableChoices: 3,
-        minSelectableChoices: 1,
-      };
-      const responses = msqQuestionResponses.responsesNoOther;
-      const stats = calculateMsqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 2,
-        optionB: 1,
-        optionC: 0,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 66.67,
-        optionB: 33.33,
-        optionC: 0,
-      };
-      const expectedWeightPerOption: Record<string, number> = {
-        optionA: 1,
-        optionB: 2,
-        optionC: 3,
-      };
-      const expectedWeightedPrecentagePerOption: Record<string, number> = {
-        optionA: 50,
-        optionB: 50,
-        optionC: 0,
-      };
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.weightPerOption).toEqual(expectedWeightPerOption);
-      expect(stats.weightedPercentagePerOption).toEqual(expectedWeightedPrecentagePerOption);
-    });
-
-    it('should calculate statistics correctly when there are no weights', () => {
-      const question: FeedbackMsqQuestionDetails = {
-        questionType: FeedbackQuestionType.MSQ,
-        questionText: 'Which options do you prefer?',
-        msqChoices: ['optionA', 'optionB', 'optionC'],
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        msqWeights: [],
-        msqOtherWeight: 0,
-        generateOptionsFor: QuestionRecipientType.STUDENTS,
-        maxSelectableChoices: 3,
-        minSelectableChoices: 1,
-      };
-      const responses = msqQuestionResponses.responsesNoOther;
-      const stats = calculateMsqQuestionStatistics(question, responses);
-
-      const expectedAnswerFrequency: Record<string, number> = {
-        optionA: 2,
-        optionB: 1,
-        optionC: 0,
-      };
-      const expectedPercentagePerOption: Record<string, number> = {
-        optionA: 66.67,
-        optionB: 33.33,
-        optionC: 0,
-      };
-      const expectedPerRecipientResponses = {};
-
-      expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
-      expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
-      expect(stats.perRecipientResponses).toEqual(expectedPerRecipientResponses);
     });
   });
 

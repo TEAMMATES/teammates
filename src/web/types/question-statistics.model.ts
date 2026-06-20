@@ -38,29 +38,6 @@ export interface ConstsumRecipientsQuestionStatistics {
   averagePointsExcludingSelf: Record<string, number>;
 }
 
-export interface McqMsqPerRecipientStatistics {
-  recipient: string;
-  recipientEmail?: string;
-  total: number;
-  average: number;
-  recipientTeam: string;
-  responses: Record<string, number>;
-}
-
-export interface McqMsqQuestionStatistics {
-  answerFrequency: Record<string, number>;
-  percentagePerOption: Record<string, number>;
-  weightPerOption: Record<string, number>;
-  weightedPercentagePerOption: Record<string, number>;
-  perRecipientResponses: Record<string, McqMsqPerRecipientStatistics>;
-}
-
-export type McqQuestionStatistics = McqMsqQuestionStatistics;
-
-export interface MsqQuestionStatistics extends McqMsqQuestionStatistics {
-  hasAnswers: boolean;
-}
-
 export interface NumScaleRecipientStatistics {
   responses: { answer: number; isSelf: boolean }[];
   max?: number;
