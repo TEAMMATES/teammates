@@ -321,9 +321,9 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
     }
 
     private static boolean isSelfResponse(FeedbackResponse response) {
-        UUID giverUserId = response.getGiver().getGiverUserId();
-        UUID recipientUserId = response.getRecipient().getRecipientUserId();
-        return giverUserId != null && giverUserId.equals(recipientUserId);
+        String giverKey = response.getGiver().getKey();
+        String recipientKey = response.getRecipient().getKey();
+        return giverKey.equals(recipientKey);
     }
 
     private static double roundToTwoDecimals(double value) {
