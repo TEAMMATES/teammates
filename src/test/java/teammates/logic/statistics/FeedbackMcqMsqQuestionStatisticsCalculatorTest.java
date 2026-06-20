@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -123,7 +122,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                UUID.randomUUID());
+                null);
 
         assertTrue(statistics.isHasWeights());
         assertEquals(statistics.getRows().size(), 3);
@@ -276,7 +275,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                UUID.randomUUID());
+                null);
 
         assertTrue(statistics.isHasWeights());
         assertEquals(statistics.getRows().size(), 3);

@@ -1,12 +1,12 @@
 package teammates.logic.statistics;
 
 import java.util.List;
-import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.User;
 
 /**
  * Calculates backend-owned question statistics for results pages.
@@ -28,5 +28,5 @@ public interface FeedbackQuestionStatisticsCalculator<
      * Calculates recipient-specific statistics for a question.
      */
     R calculateForRecipient(
-            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId);
+            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient);
 }

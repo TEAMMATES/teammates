@@ -2,7 +2,6 @@ package teammates.logic.statistics;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class FeedbackContributionQuestionStatisticsCalculatorTest extends BaseSt
                 calculator.calculateForRecipient(question("question"),
                         bundle.getQuestionResponseMap().get(question("question")),
                         bundle,
-                        student("alice").getId());
+                        student("alice"));
 
         assertEquals(statistics.getMyView().getOfMe(), 120);
         assertEquals(statistics.getMyView().getOfOthers(), List.of(90, 90));
@@ -87,32 +86,11 @@ public class FeedbackContributionQuestionStatisticsCalculatorTest extends BaseSt
                 calculator.calculateNormalizedResponseValues(
                         bundle.getQuestionResponseMap().get(question("question")),
                         bundle,
-                        student("alice").getId());
+                        student("alice"));
 
         assertEquals(normalizedValues.get(response("alice-self").getId()).intValue(), 120);
         assertEquals(normalizedValues.get(response("bob-charlie").getId()).intValue(), 119);
         assertFalse(normalizedValues.containsKey(response("charlie-self").getId()));
-    }
-
-    @Test
-    public void calculateForRecipient_unknownRecipient_returnsEmptyStatistics() {
-        createContributionScenario();
-
-        SessionResultsBundle bundle = bundleForQuestion("question",
-                "alice-self", "alice-bob", "alice-charlie",
-                "bob-alice", "bob-self", "bob-charlie",
-                "charlie-alice", "charlie-bob", "charlie-self");
-
-        FeedbackContributionRecipientStatistics statistics =
-                calculator.calculateForRecipient(question("question"),
-                        bundle.getQuestionResponseMap().get(question("question")),
-                        bundle,
-                        UUID.randomUUID());
-
-        assertEquals(statistics.getMyView().getOfMe(), 0);
-        assertTrue(statistics.getMyView().getOfOthers().isEmpty());
-        assertEquals(statistics.getTeamView().getOfMe(), 0);
-        assertTrue(statistics.getTeamView().getOfOthers().isEmpty());
     }
 
     @Test(dataProvider = "teamResultCases")

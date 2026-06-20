@@ -8,7 +8,6 @@
   },
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
       "email": "fnumscaleqn.instructor@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
@@ -16,7 +15,6 @@
       "subject": "fnumscaleqn.instructor@gmail.tmt"
     },
     "tm.e2e.FNumScaleQn.alice.tmms": {
-      "googleId": "tm.e2e.FNumScaleQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "fnumscaleqn.alice.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",

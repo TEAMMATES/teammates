@@ -95,13 +95,11 @@ public class AccountsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void upsertAccount_accountExists_returnsExistingAccount() {
         var existingAccount = given.account("account", a -> a
-                .googleId("original-google-id")
                 .email("original@example.com")
                 .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
         persistGivenData(given);
 
         Account updatedAccount = new Account(
-                "should-not-update-google-id",
                 Provider.TEAMMATES_DEV,
                 "shared-subject",
                 null,
@@ -148,7 +146,6 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     private static Account buildDefaultAccount(UUID accountId) {
         Account account = new Account(
-                accountId.toString(),
                 Provider.TEAMMATES_DEV,
                 "subject",
                 "tenant-id",

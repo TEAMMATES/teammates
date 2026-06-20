@@ -9,7 +9,6 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
 
@@ -70,19 +69,7 @@ public class GetInstructorsAction extends LoggedInAction {
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
-            // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (requestContext.isAdmin()
-                    || logic.hasInstructorPermissions(getInstructorFromRequest(courseId),
-                            Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
-                data = new InstructorsData();
-
-                for (Instructor instructor : instructorsOfCourse) {
-                    InstructorData instructorData = new InstructorData(instructor);
-                    data.getInstructors().add(instructorData);
-                }
-            } else {
-                data = new InstructorsData(instructorsOfCourse);
-            }
+            data = new InstructorsData(instructorsOfCourse);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
         }

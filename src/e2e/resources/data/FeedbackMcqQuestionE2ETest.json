@@ -9,7 +9,6 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FMcqQn.instructor",
       "name": "Teammates Test",
       "email": "fmcqqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -17,7 +16,6 @@
     },
     "tm.e2e.FMcqQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FMcqQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "fmcqqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -25,7 +23,6 @@
     },
     "tm.e2e.FMcqQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FMcqQn.benny.tmms",
       "name": "Benny Charles",
       "email": "fmcqqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",

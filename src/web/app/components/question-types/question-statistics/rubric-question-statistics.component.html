@@ -1,47 +1,44 @@
 <div>
   <div class="row">
     <div class="col-sm-4 text-color-gray mt-2">
-      <strong>
-        Response Summary
-        @if (isStudent) {
-          <span>(of received responses) </span>
-        }
-      </strong>
+      <strong> Response Summary </strong>
       <span
         container="body"
         [ngbTooltip]="
           'Format: Response percentage (Response count)' +
-          (stats.hasWeights ? '[Weight of option]' : '') +
+          (statistics.hasWeights ? '[Weight of option]' : '') +
           ', e.g. 50% (2) ' +
-          (stats.hasWeights ? '[1.0]' : '')
+          (statistics.hasWeights ? '[1.0]' : '')
         "
         class="fa fa-info-circle"
       ></span>
     </div>
-    <div class="col-sm-8 form-check" style="text-align: right">
-      <label class="form-check-label">
-        <input
-          id="exclude-self-checkbox"
-          type="checkbox"
-          [(ngModel)]="excludeSelf"
-          (ngModelChange)="getTableData(stats)"
-          class="form-check-input"
-        />
-        <span
-          container="body"
-          class="ngb-tooltip-class"
-          ngbTooltip="Excludes giver's responses to himself/herself from statistics"
-          >Exclude self evaluation</span
-        >
-      </label>
-    </div>
+    @if (statistics.rowsExcludeSelf.length > 0) {
+      <div class="col-sm-8 form-check" style="text-align: right">
+        <label class="form-check-label">
+          <input
+            id="exclude-self-checkbox"
+            type="checkbox"
+            [(ngModel)]="excludeSelf"
+            (ngModelChange)="getTableData(statistics)"
+            class="form-check-input"
+          />
+          <span
+            container="body"
+            class="ngb-tooltip-class"
+            ngbTooltip="Excludes giver's responses to himself/herself from statistics"
+            >Exclude self evaluation</span
+          >
+        </label>
+      </div>
+    }
   </div>
   <div class="row mb-4">
     <div id="rubric-statistics" class="col-sm-12 table-responsive">
       <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData"></tm-sortable-table>
     </div>
   </div>
-  @if (stats.isWeightStatsVisible) {
+  @if (statistics.hasWeights && statistics.perRecipientStats.length > 0) {
     <div class="row">
       <div class="col-sm-4 text-color-gray">
         <strong> Per Recipient Statistics (Per Criterion) </strong>

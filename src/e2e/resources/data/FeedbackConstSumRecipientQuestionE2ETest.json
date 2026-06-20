@@ -9,7 +9,6 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FCSumRcptQn.instructor",
       "name": "Teammates Test",
       "email": "fcsumrcptqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -17,7 +16,6 @@
     },
     "tm.e2e.FCSumRcptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FCSumRcptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "fcsumrcptqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -25,7 +23,6 @@
     },
     "tm.e2e.FCSumRcptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FCSumRcptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "fcsumrcptqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -33,7 +30,6 @@
     },
     "tm.e2e.FCSumRcptQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.FCSumRcptQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "fcsumrcptqn.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -41,7 +37,6 @@
     },
     "tm.e2e.FCSumRcptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.FCSumRcptQn.danny.tmms",
       "name": "Danny Engrid",
       "email": "fcsumrcptqn.danny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",

@@ -8,7 +8,6 @@
   },
   "accounts": {
     "SCDet.instr": {
-      "googleId": "tm.e2e.SCDet.instr",
       "name": "Instructor",
       "email": "scdet.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
@@ -16,7 +15,6 @@
       "subject": "scdet.instr@gmail.tmt"
     },
     "SCDet.alice": {
-      "googleId": "tm.e2e.SCDet.alice",
       "email": "scdet.alice@gmail.tmt",
       "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002",

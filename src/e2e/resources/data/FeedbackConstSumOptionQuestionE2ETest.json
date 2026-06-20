@@ -9,7 +9,6 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FCSumOptQn.instructor",
       "name": "Teammates Test",
       "email": "fcsumoptqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -17,7 +16,6 @@
     },
     "tm.e2e.FCSumOptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FCSumOptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "fcsumoptqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -25,7 +23,6 @@
     },
     "tm.e2e.FCSumOptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FCSumOptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "fcsumoptqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",

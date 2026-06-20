@@ -14,7 +14,6 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "alice@teammates.tmt",
       "name": "Alice",
       "email": "alice@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -22,7 +21,6 @@
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tanaka@teammates.tmt",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -30,7 +28,6 @@
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "elena@teammates.tmt",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -38,7 +35,6 @@
     },
     "instructor4": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "marcus.okonkwo@teammates.tmt",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -46,7 +42,6 @@
     },
     "instructor5": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "priya.sharma@teammates.tmt",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -54,7 +49,6 @@
     },
     "instructor6": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "googleId": "lars.eriksson@teammates.tmt",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -62,7 +56,6 @@
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "googleId": "mei.lin.chen@teammates.tmt",
       "name": "Mei Lin Chen",
       "email": "mei.lin.chen@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -70,7 +63,6 @@
     },
     "student2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "googleId": "carlos.silva@teammates.tmt",
       "name": "Carlos Silva",
       "email": "carlos.silva@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -78,7 +70,6 @@
     },
     "student3": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "googleId": "fatima.alrashid@teammates.tmt",
       "name": "Fatima Al-Rashid",
       "email": "fatima.alrashid@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -86,7 +77,6 @@
     },
     "student4": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "googleId": "kenji.yamamoto@teammates.tmt",
       "name": "Kenji Yamamoto",
       "email": "kenji.yamamoto@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -94,7 +84,6 @@
     },
     "student5": {
       "id": "00000000-0000-4000-8000-000000000105",
-      "googleId": "olga.petrov@teammates.tmt",
       "name": "Olga Petrov",
       "email": "olga.petrov@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -102,7 +91,6 @@
     },
     "student6": {
       "id": "00000000-0000-4000-8000-000000000106",
-      "googleId": "raj.patel@teammates.tmt",
       "name": "Raj Patel",
       "email": "raj.patel@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -110,7 +98,6 @@
     },
     "student7": {
       "id": "00000000-0000-4000-8000-000000000107",
-      "googleId": "sofia.andersson@teammates.tmt",
       "name": "Sofia Andersson",
       "email": "sofia.andersson@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -118,7 +105,6 @@
     },
     "student8": {
       "id": "00000000-0000-4000-8000-000000000108",
-      "googleId": "david.okafor@teammates.tmt",
       "name": "David Okafor",
       "email": "david.okafor@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -126,7 +112,6 @@
     },
     "student11": {
       "id": "00000000-0000-4000-8000-000000000111",
-      "googleId": "liam.obrien@teammates.tmt",
       "name": "Liam O'Brien",
       "email": "liam.obrien@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -134,7 +119,6 @@
     },
     "student12": {
       "id": "00000000-0000-4000-8000-000000000112",
-      "googleId": "anya.ivanova@teammates.tmt",
       "name": "Anya Ivanova",
       "email": "anya.ivanova@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -142,7 +126,6 @@
     },
     "student13": {
       "id": "00000000-0000-4000-8000-000000000113",
-      "googleId": "tariq.hassan@teammates.tmt",
       "name": "Tariq Hassan",
       "email": "tariq.hassan@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -150,7 +133,6 @@
     },
     "student14": {
       "id": "00000000-0000-4000-8000-000000000114",
-      "googleId": "sakura.ito@teammates.tmt",
       "name": "Sakura Ito",
       "email": "sakura.ito@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -158,7 +140,6 @@
     },
     "student15": {
       "id": "00000000-0000-4000-8000-000000000115",
-      "googleId": "nadia.kowalski@teammates.tmt",
       "name": "Nadia Kowalski",
       "email": "nadia.kowalski@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -166,7 +147,6 @@
     },
     "student16": {
       "id": "00000000-0000-4000-8000-000000000116",
-      "googleId": "chen.wei@teammates.tmt",
       "name": "Chen Wei",
       "email": "chen.wei@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -174,7 +154,6 @@
     },
     "student17": {
       "id": "00000000-0000-4000-8000-000000000117",
-      "googleId": "isabella.martinez@teammates.tmt",
       "name": "Isabella Martinez",
       "email": "isabella.martinez@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -182,7 +161,6 @@
     },
     "student18": {
       "id": "00000000-0000-4000-8000-000000000118",
-      "googleId": "kwame.asante@teammates.tmt",
       "name": "Kwame Asante",
       "email": "kwame.asante@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -190,7 +168,6 @@
     },
     "student21": {
       "id": "00000000-0000-4000-8000-000000000121",
-      "googleId": "amara.diallo@teammates.tmt",
       "name": "Amara Diallo",
       "email": "amara.diallo@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -198,7 +175,6 @@
     },
     "student22": {
       "id": "00000000-0000-4000-8000-000000000122",
-      "googleId": "viktor.novak@teammates.tmt",
       "name": "Viktor Novak",
       "email": "viktor.novak@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -206,7 +182,6 @@
     },
     "student23": {
       "id": "00000000-0000-4000-8000-000000000123",
-      "googleId": "zara.osman@teammates.tmt",
       "name": "Zara Osman",
       "email": "zara.osman@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -214,7 +189,6 @@
     },
     "student24": {
       "id": "00000000-0000-4000-8000-000000000124",
-      "googleId": "tomas.herrera@teammates.tmt",
       "name": "Tomas Herrera",
       "email": "tomas.herrera@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -222,7 +196,6 @@
     },
     "student25": {
       "id": "00000000-0000-4000-8000-000000000125",
-      "googleId": "ingrid.mueller@teammates.tmt",
       "name": "Ingrid Mueller",
       "email": "ingrid.mueller@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -230,7 +203,6 @@
     },
     "student26": {
       "id": "00000000-0000-4000-8000-000000000126",
-      "googleId": "ravi.krishnan@teammates.tmt",
       "name": "Ravi Krishnan",
       "email": "ravi.krishnan@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -238,7 +210,6 @@
     },
     "student27": {
       "id": "00000000-0000-4000-8000-000000000127",
-      "googleId": "chloe.dubois@teammates.tmt",
       "name": "Chloe Dubois",
       "email": "chloe.dubois@teammates.tmt",
       "provider": "TEAMMATES_DEV",
@@ -246,7 +217,6 @@
     },
     "student28": {
       "id": "00000000-0000-4000-8000-000000000128",
-      "googleId": "jian.li@teammates.tmt",
       "name": "Jian Li",
       "email": "jian.li@teammates.tmt",
       "provider": "TEAMMATES_DEV",

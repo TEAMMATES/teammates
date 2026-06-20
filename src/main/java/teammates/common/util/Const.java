@@ -139,7 +139,6 @@ public final class Const {
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
-        public static final String STUDENT_ID = "googleid";
         public static final String ACCOUNT_ID = "accountid";
         public static final String ACCOUNT_EMAIL = "accountemail";
         public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
