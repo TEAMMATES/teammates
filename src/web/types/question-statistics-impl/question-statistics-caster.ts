@@ -47,6 +47,10 @@ export class QuestionStatisticsTypeChecker {
     );
   }
 
+  static isRubric(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
+    return s?.questionType === FeedbackQuestionType.RUBRIC;
+  }
+
   static isRubricCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
