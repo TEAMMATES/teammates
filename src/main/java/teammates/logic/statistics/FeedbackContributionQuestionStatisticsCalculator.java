@@ -72,12 +72,7 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
     @Override
     public FeedbackContributionRecipientStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
-        if (recipient != null && !(recipient instanceof Student)) {
-            // recipient can only be a student for contribution questions
-            return new FeedbackContributionRecipientStatistics();
-        }
-
-        Student recipientStudent = recipient != null ? (Student) recipient : null;
+        Student recipientStudent = recipient instanceof Student s ? s : null;
         ContributionComputationContext context = buildContext(bundle, responses, recipientStudent);
         FeedbackContributionRecipientStatistics statistics = new FeedbackContributionRecipientStatistics();
 
