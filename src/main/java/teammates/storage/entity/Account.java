@@ -77,7 +77,7 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
+    public Account(Provider provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setProvider(provider);
         this.setSubject(subject);

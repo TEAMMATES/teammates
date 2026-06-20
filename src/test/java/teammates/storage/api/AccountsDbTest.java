@@ -100,7 +100,6 @@ public class AccountsDbTest extends BaseDbTestcase {
         persistGivenData(given);
 
         Account updatedAccount = new Account(
-                "should-not-update-google-id",
                 Provider.TEAMMATES_DEV,
                 "shared-subject",
                 null,
@@ -147,7 +146,6 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     private static Account buildDefaultAccount(UUID accountId) {
         Account account = new Account(
-                accountId.toString(),
                 Provider.TEAMMATES_DEV,
                 "subject",
                 "tenant-id",

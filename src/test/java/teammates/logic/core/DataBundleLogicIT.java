@@ -72,7 +72,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Account actualInstructorAccount = dataBundle.accounts.get("instructor1");
         Account expectedInstructorAccount = new Account(
-                "idOfInstructor1", Provider.TEAMMATES_DEV, "idOfInstructor1", null,
+                Provider.TEAMMATES_DEV, "idOfInstructor1", "tenant-id",
                 "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         assertEquals(expectedInstructorAccount, actualInstructorAccount);
@@ -82,7 +82,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
         Account expectedStudentAccount = new Account(
-                "idOfStudent1", Provider.TEAMMATES_DEV, "idOfStudent1", null,
+                Provider.TEAMMATES_DEV, "idOfStudent1", "tenant-id",
                 "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         assertEquals(expectedStudentAccount, actualStudentAccount);

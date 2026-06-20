@@ -54,13 +54,12 @@ public final class GivenAccount extends GivenBase<Account> {
     }
 
     private Account defaultAccount(UUID accountId) {
-        String googleId = accountId.toString();
         Provider provider = Provider.TEAMMATES_DEV;
         String subject = "sub:" + accountId.toString();
         String tenantId = Account.NO_TENANT;
         String name = "name:" + accountId.toString();
         String email = accountId.toString() + "@teammates.tmt";
-        Account a = new Account(googleId, provider, subject, tenantId, name, email);
+        Account a = new Account(provider, subject, tenantId, name, email);
         a.setId(accountId);
         return a;
     }
