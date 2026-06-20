@@ -1,5 +1,6 @@
 package teammates.logic.statistics;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -163,7 +164,7 @@ public class FeedbackConstsumRecipientsQuestionStatisticsCalculatorTest extends 
 
         ConstsumRecipientRow row = rows.get(0);
         assertEquals(row.getRecipientName(), "Alice");
-        assertEquals(row.isIsCurrentRecipient(), true);
+        assertTrue(row.isIsCurrentRecipient());
         assertEquals(row.getTotal(), 100);
         assertEquals(row.getAverageExcludingSelf(), 70.0);
     }

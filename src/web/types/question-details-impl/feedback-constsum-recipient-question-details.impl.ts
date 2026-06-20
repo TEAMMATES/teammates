@@ -39,7 +39,14 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl
       return [];
     }
 
-    const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Total Points', 'Average Points', 'Points Received'];
+    const header: string[] = [
+      'Team',
+      'Recipient',
+      'Recipient Email',
+      'Total Points',
+      'Average Points',
+      'Points Received',
+    ];
     const dataRows: string[][] = stats.rows.map((row: ConstsumRecipientRow) => [
       row.recipientTeam,
       row.recipientName,

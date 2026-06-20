@@ -129,10 +129,10 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
         assertEquals(statistics.getRows().size(), 3);
         // Only alice's response (r1: optionA) should be counted, not bob's or charlie's
         FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionA =
-                statistics.getRows().stream().filter(r -> r.getOption().equals("optionA")).findFirst().orElseThrow();
+                statistics.getRows().stream().filter(r -> "optionA".equals(r.getOption())).findFirst().orElseThrow();
         assertEquals(optionA.getCount(), 1);
         FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionB =
-                statistics.getRows().stream().filter(r -> r.getOption().equals("optionB")).findFirst().orElseThrow();
+                statistics.getRows().stream().filter(r -> "optionB".equals(r.getOption())).findFirst().orElseThrow();
         assertEquals(optionB.getCount(), 0);
     }
 
@@ -290,10 +290,10 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
         assertEquals(statistics.getRows().size(), 3);
         // Only alice's response (r1: optionA) should be counted, not bob's (optionA + optionB)
         FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionA =
-                statistics.getRows().stream().filter(r -> r.getOption().equals("optionA")).findFirst().orElseThrow();
+                statistics.getRows().stream().filter(r -> "optionA".equals(r.getOption())).findFirst().orElseThrow();
         assertEquals(optionA.getCount(), 1);
         FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionB =
-                statistics.getRows().stream().filter(r -> r.getOption().equals("optionB")).findFirst().orElseThrow();
+                statistics.getRows().stream().filter(r -> "optionB".equals(r.getOption())).findFirst().orElseThrow();
         assertEquals(optionB.getCount(), 0);
     }
 

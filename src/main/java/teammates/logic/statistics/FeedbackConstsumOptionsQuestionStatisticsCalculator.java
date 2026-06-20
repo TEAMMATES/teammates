@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.storage.entity.ResponseRecipient;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.statistics.FeedbackConstsumOptionsStatistics;
@@ -16,6 +15,7 @@ import teammates.common.datatransfer.statistics.FeedbackConstsumOptionsStatistic
 import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatisticsView;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;

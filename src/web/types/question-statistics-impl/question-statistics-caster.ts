@@ -31,9 +31,7 @@ export class QuestionStatisticsTypeChecker {
     );
   }
 
-  static isConstsumOptions(
-    s: FeedbackQuestionResultsStatistics | undefined,
-  ): s is FeedbackConstsumOptionsStatistics {
+  static isConstsumOptions(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackConstsumOptionsStatistics {
     return s?.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS;
   }
 
