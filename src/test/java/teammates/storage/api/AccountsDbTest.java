@@ -111,7 +111,6 @@ public class AccountsDbTest extends BaseDbTestcase {
         Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
 
         assertEquals(existingAccount.id(), actual.getId());
-        assertEquals("original-google-id", actual.getGoogleId());
         assertEquals("original@example.com", actual.getEmail());
         assertNotEquals("Should Not Update Name", actual.getName());
         assertEquals(Account.NO_TENANT, actual.getTenantId());

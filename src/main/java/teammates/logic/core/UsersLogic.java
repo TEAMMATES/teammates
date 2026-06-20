@@ -663,7 +663,7 @@ public final class UsersLogic {
 
     /**
      * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * visibility according to the logged-in user's role. This is used by admin to
      * search students in the whole system.
      * @return an empty list if no result is found
      */

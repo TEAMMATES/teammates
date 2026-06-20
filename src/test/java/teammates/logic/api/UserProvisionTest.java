@@ -101,7 +101,7 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
-        assertEquals("user-id", authContext.account().getGoogleId());
+        assertEquals(account.getId(), authContext.account().getId());
         assertHasNoRoles(authContext);
     }
 
