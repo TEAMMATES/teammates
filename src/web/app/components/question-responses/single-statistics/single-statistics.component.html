@@ -27,19 +27,14 @@
     [isStudent]="isStudent"
   ></tm-constsum-recipients-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isNumscale(question)) {
-  <tm-num-scale-question-statistics
-    [responses]="ResponseOutputCaster.numscale(responsesToUse)"
-    [isStudent]="isStudent"
-  ></tm-num-scale-question-statistics>
+@if (QuestionStatisticsTypeChecker.isNumscale(statistics)) {
+  <tm-num-scale-question-statistics [statistics]="statistics"></tm-num-scale-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRubric(question)) {
-  @if (
-    QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) ||
-    QuestionStatisticsTypeChecker.isRubricRecipient(statistics)
-  ) {
-    <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
-  }
+@if (
+  QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) ||
+  QuestionStatisticsTypeChecker.isRubricRecipient(statistics)
+) {
+  <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
 }
 @if (QuestionDetailsTypeChecker.isRankOptions(question)) {
   <tm-rank-options-question-statistics

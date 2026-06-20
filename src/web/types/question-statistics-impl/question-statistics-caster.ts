@@ -3,6 +3,7 @@ import {
   FeedbackContributionRecipientStatistics,
   FeedbackMcqMsqCourseWideStatistics,
   FeedbackMcqMsqRecipientStatistics,
+  FeedbackNumScaleStatistics,
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
@@ -26,6 +27,10 @@ export class QuestionStatisticsTypeChecker {
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       s.questionType === FeedbackQuestionType.CONTRIB
     );
+  }
+
+  static isNumscale(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackNumScaleStatistics {
+    return s?.questionType === FeedbackQuestionType.NUMSCALE;
   }
 
   static isMcqMsqCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqCourseWideStatistics {

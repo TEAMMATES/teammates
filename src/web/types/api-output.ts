@@ -196,6 +196,20 @@ export interface FeedbackNumericalScaleResponseDetails extends FeedbackResponseD
   answer: number;
 }
 
+export interface FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistics {
+  rows: NumScaleRecipientRow[];
+}
+
+export interface NumScaleRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  average: number | null;
+  min: number | null;
+  max: number | null;
+  averageExcludingSelf: number | null;
+}
+
 export interface FeedbackQuestion extends ApiOutput {
   feedbackQuestionId: string;
   questionBrief: string;
