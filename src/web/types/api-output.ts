@@ -3,7 +3,6 @@
 
 export interface Account extends ApiOutput {
   accountId: string;
-  googleId: string;
   name: string;
   email: string;
   instructors: Instructor[];
