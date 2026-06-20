@@ -95,7 +95,6 @@ public class AccountsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void upsertAccount_accountExists_returnsExistingAccount() {
         var existingAccount = given.account("account", a -> a
-                .googleId("original-google-id")
                 .email("original@example.com")
                 .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
         persistGivenData(given);

@@ -24,14 +24,6 @@ public final class GivenAccount extends GivenBase<Account> {
     }
 
     /**
-     * Sets the googleId for the account.
-     */
-    public GivenAccount googleId(String googleId) {
-        entity.setGoogleId(googleId);
-        return this;
-    }
-
-    /**
      * Gets the admin account.
      */
     public GivenAccount admin() {

@@ -79,7 +79,6 @@ public class Account extends BaseEntity {
 
     public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
-        this.setGoogleId(googleId);
         this.setProvider(provider);
         this.setSubject(subject);
         this.setTenantId(tenantId);
@@ -133,10 +132,6 @@ public class Account extends BaseEntity {
     public static String normalizeTenantId(String tenantId) {
         String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
         return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }
 
     public String getName() {
@@ -195,7 +190,6 @@ public class Account extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
