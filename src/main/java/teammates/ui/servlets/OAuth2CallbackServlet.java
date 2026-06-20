@@ -19,6 +19,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
+import teammates.ui.exception.InvalidAuthStateException;
 import teammates.ui.loginmethodhandlers.AuthResult;
 import teammates.ui.loginmethodhandlers.AuthState;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
@@ -35,16 +36,18 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        AuthState state = getAuthStateFromCallback(req, resp);
-        if (state == null) {
+        AuthState state;
+        try {
+            state = getAuthStateFromCallback(req);
+        } catch (InvalidAuthStateException e) {
+            rejectLogin(req, resp, "Invalid authentication state: " + e.getMessage());
             return;
         }
 
         LoginMethod method = state.loginMethod();
 
         if (!Config.isSupportedLoginMethod(method)) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST,
-                    "Valid but unsupported login method: " + method);
+            rejectLogin(req, resp, "Valid but unsupported login method: " + method);
             return;
         }
 
@@ -57,7 +60,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             cookie = getLoginCookie(authResult);
             logMessage = "Login successful";
         } catch (Exception e) {
-            cookie = failLogin(req);
+            cookie = invalidateLogin(req);
             logMessage = "Login failed";
             nextUrl = UrlHelper.DEFAULT_REDIRECT_URL;
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
@@ -89,7 +92,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
     }
 
-    private Cookie failLogin(HttpServletRequest req) {
+    private void rejectLogin(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException {
+        resp.addCookie(invalidateLogin(req));
+        logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, message);
+    }
+
+    private Cookie invalidateLogin(HttpServletRequest req) {
         req.getSession().invalidate();
         return getLoginInvalidationCookie();
     }
@@ -97,23 +105,21 @@ public class OAuth2CallbackServlet extends AuthServlet {
     /**
      * Extracts and validates the encrypted state parameter from the OAuth2 callback.
      *
-     * @return the decrypted AuthState object, or null if the state parameter is invalid.
+     * @return the decrypted AuthState object.
+     * @throws InvalidAuthStateException if the state parameter is missing or invalid.
      */
-    private AuthState getAuthStateFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private AuthState getAuthStateFromCallback(HttpServletRequest req)
+            throws IOException, InvalidAuthStateException {
         String encryptedState = req.getParameter("state");
         if (encryptedState == null) {
-            resp.addCookie(failLogin(req));
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing or invalid state parameter");
-            return null;
+            throw new InvalidAuthStateException("Missing or invalid state parameter");
         }
 
         try {
             String decryptedState = StringHelper.decrypt(encryptedState);
             return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
-            resp.addCookie(failLogin(req));
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
-            return null;
+            throw new InvalidAuthStateException("Failed to parse state parameter");
         }
     }
 }
