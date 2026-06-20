@@ -38,19 +38,6 @@ export interface ConstsumRecipientsQuestionStatistics {
   averagePointsExcludingSelf: Record<string, number>;
 }
 
-export interface NumScaleRecipientStatistics {
-  responses: { answer: number; isSelf: boolean }[];
-  max?: number;
-  min?: number;
-  average?: number;
-  averageExcludingSelf?: number;
-}
-
-export interface NumScaleQuestionStatistics {
-  teamToRecipientToScores: Record<string, Record<string, NumScaleRecipientStatistics>>;
-  recipientEmails: Record<string, string>;
-}
-
 export interface RankOptionsQuestionStatistics {
   ranksReceivedPerOption: Record<string, number[]>;
   rankPerOption: Record<string, number>;

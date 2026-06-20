@@ -1,7 +1,6 @@
 import {
   ConstsumOptionsQuestionStatistics,
   ConstsumRecipientsQuestionStatistics,
-  NumScaleQuestionStatistics,
   RankOptionsQuestionStatistics,
   RankRecipientsQuestionStatistics,
   Response,
@@ -10,7 +9,6 @@ import {
   FeedbackConstantSumOptionsQuestionDetails,
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -98,55 +96,6 @@ export function calculateConstsumRecipientsQuestionStatistics(
       stats.averagePointsExcludingSelf[recipient] = +(
         answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)
       ).toFixed(2);
-    }
-  }
-
-  return stats;
-}
-
-export function calculateNumScaleQuestionStatistics(
-  responses: Response<FeedbackNumericalScaleResponseDetails>[],
-): NumScaleQuestionStatistics {
-  const stats: NumScaleQuestionStatistics = {
-    teamToRecipientToScores: {},
-    recipientEmails: {},
-  };
-
-  for (const response of responses) {
-    const { giver }: { giver: string } = response;
-    const { recipient }: { recipient: string } = response;
-    const { recipientTeam }: { recipientTeam: string } = response;
-    stats.teamToRecipientToScores[recipientTeam] = stats.teamToRecipientToScores[recipientTeam] ?? {};
-    stats.teamToRecipientToScores[recipientTeam][recipient] = stats.teamToRecipientToScores[recipientTeam][
-      recipient
-    ] ?? { responses: [] };
-    stats.teamToRecipientToScores[recipientTeam][recipient].responses.push({
-      answer: response.responseDetails.answer,
-      isSelf: giver === recipient,
-    });
-
-    stats.recipientEmails[recipient] = stats.recipientEmails[recipient] ?? response.recipientEmail ?? '';
-  }
-
-  for (const team of Object.keys(stats.teamToRecipientToScores)) {
-    for (const recipient of Object.keys(stats.teamToRecipientToScores[team])) {
-      const recipientStats = stats.teamToRecipientToScores[team][recipient];
-      const answersAsArray: number[] = recipientStats.responses.map((resp) => resp.answer);
-      recipientStats.max = Math.max(...answersAsArray);
-      recipientStats.min = Math.min(...answersAsArray);
-      const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;
-      recipientStats.average = +average.toFixed(2); // Show integers without dp, truncate fractions to 2dp
-
-      const answersExcludingSelfAsArray: number[] = recipientStats.responses
-        .filter((resp: { answer: number; isSelf: boolean }) => !resp.isSelf)
-        .map((resp: { answer: number; isSelf: boolean }) => resp.answer);
-      if (answersExcludingSelfAsArray.length) {
-        const averageExcludingSelf: number =
-          answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0) / answersExcludingSelfAsArray.length;
-        recipientStats.averageExcludingSelf = +averageExcludingSelf.toFixed(2);
-      } else {
-        recipientStats.averageExcludingSelf = 0;
-      }
     }
   }
 

@@ -18,12 +18,10 @@ import {
 import {
   calculateConstsumOptionsQuestionStatistics,
   calculateConstsumRecipientsQuestionStatistics,
-  calculateNumScaleQuestionStatistics,
   calculateRankOptionsQuestionStatistics,
   calculateRankRecipientsQuestionStatistics,
 } from './question-statistics.util';
 import constsumOptionQuestionResponses from '../components/question-types/question-statistics/test-data/constsum-option-question-responses';
-import numScaleQuestionResponses from '../components/question-types/question-statistics/test-data/num-scale-question-responses';
 import rankOptionQuestionResponses from '../components/question-types/question-statistics/test-data/rank-option-question-responses';
 
 describe('Question Statistics Utility Functions', () => {
@@ -277,44 +275,6 @@ describe('Question Statistics Utility Functions', () => {
       expect(stats.totalPointsPerOption).toEqual(expectedTotalPointsPerOption);
       expect(stats.averagePointsPerOption).toEqual(expectedAveragePointsPerOption);
       expect(stats.averagePointsExcludingSelf).toEqual(expectedAveragePointsExcludingSelf);
-    });
-  });
-
-  describe('calculateNumScaleQuestionStatistics', () => {
-    it('should calculate statistics correctly', () => {
-      const responses = numScaleQuestionResponses.responses;
-      const stats = calculateNumScaleQuestionStatistics(responses);
-
-      const team = 'Instructors';
-      const recipient = 'Instructor';
-      expect(stats.teamToRecipientToScores[team][recipient].min).toEqual(1);
-      expect(stats.teamToRecipientToScores[team][recipient].max).toEqual(5);
-      expect(stats.teamToRecipientToScores[team][recipient].average).toEqual(2.67);
-      expect(stats.teamToRecipientToScores[team][recipient].averageExcludingSelf).toEqual(2.67);
-    });
-
-    it('should calculate statistics correctly if responses are zero', () => {
-      const responses = numScaleQuestionResponses.responsesAtZero;
-      const stats = calculateNumScaleQuestionStatistics(responses);
-
-      const team = 'Instructors';
-      const recipient = 'Instructor';
-      expect(stats.teamToRecipientToScores[team][recipient].min).toEqual(0);
-      expect(stats.teamToRecipientToScores[team][recipient].max).toEqual(0);
-      expect(stats.teamToRecipientToScores[team][recipient].average).toEqual(0);
-      expect(stats.teamToRecipientToScores[team][recipient].averageExcludingSelf).toEqual(0);
-    });
-
-    it('should calculate statistics correctly if self-response exists', () => {
-      const responses = numScaleQuestionResponses.responsesWithSelf;
-      const stats = calculateNumScaleQuestionStatistics(responses);
-
-      const team = 'Instructors';
-      const recipient = 'Instructor';
-      expect(stats.teamToRecipientToScores[team][recipient].min).toEqual(2);
-      expect(stats.teamToRecipientToScores[team][recipient].max).toEqual(5);
-      expect(stats.teamToRecipientToScores[team][recipient].average).toEqual(3.5);
-      expect(stats.teamToRecipientToScores[team][recipient].averageExcludingSelf).toEqual(3);
     });
   });
 
