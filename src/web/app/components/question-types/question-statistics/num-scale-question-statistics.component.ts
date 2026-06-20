@@ -7,8 +7,8 @@ import {
 } from '../../sortable-table/sortable-table.component';
 import {
   FeedbackNumScaleStatistics,
-  FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
+  FeedbackQuestionResultsStatisticsView,
   NumScaleRecipientRow,
 } from '../../../../types/api-output';
 
@@ -54,7 +54,9 @@ export class NumScaleQuestionStatisticsComponent implements OnChanges {
     }
 
     this.rowsData = this.statistics.rows.map((row: NumScaleRecipientRow) => {
-      const recipientDisplay = row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '');
+      const recipientDisplay = row.isCurrentRecipient
+        ? 'You'
+        : row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '');
       const cells: SortableTableCellData[] = [
         { value: row.recipientTeam },
         { value: recipientDisplay },

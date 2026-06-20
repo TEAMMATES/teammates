@@ -488,6 +488,7 @@ export interface NumScaleRecipientRow {
   recipientName: string;
   recipientEmail?: string;
   recipientTeam: string;
+  isCurrentRecipient: boolean;
   average?: number;
   min?: number;
   max?: number;

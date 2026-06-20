@@ -5,7 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
+import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
@@ -44,11 +45,17 @@ public class FeedbackNumScaleQuestionStatisticsCalculator implements
                 .filter(r -> r.getRecipient().equals(recipientUser)
                         || recipientTeam != null && recipientTeam.equals(r.getRecipient()))
                 .toList();
-        return calculate(recipientResponses, FeedbackQuestionResultsStatisticsView.RECIPIENT);
+        return calculate(recipientResponses, FeedbackQuestionResultsStatisticsView.RECIPIENT, recipientUser);
     }
 
     private FeedbackNumScaleStatistics calculate(
             List<FeedbackResponse> responses, FeedbackQuestionResultsStatisticsView view) {
+        return calculate(responses, view, null);
+    }
+
+    private FeedbackNumScaleStatistics calculate(
+            List<FeedbackResponse> responses, FeedbackQuestionResultsStatisticsView view,
+            @Nullable ResponseRecipient selfRecipient) {
         Map<String, Accumulator> accumulators = new LinkedHashMap<>();
 
         for (FeedbackResponse response : responses) {
@@ -78,23 +85,25 @@ public class FeedbackNumScaleQuestionStatisticsCalculator implements
             }
         }
 
+        String selfKey = selfRecipient != null ? selfRecipient.getKey() : null;
         List<NumScaleRecipientRow> rows = accumulators.values().stream()
                 .sorted(Comparator.comparing((Accumulator a) -> a.recipient.getTeamName())
                         .thenComparing(a -> a.recipient.getDisplayName()))
-                .map(FeedbackNumScaleQuestionStatisticsCalculator::buildRow)
-                .collect(Collectors.toList());
+                .map(acc -> buildRow(acc, selfKey != null && selfKey.equals(acc.recipient.getKey())))
+                .toList();
 
         FeedbackNumScaleStatistics statistics = new FeedbackNumScaleStatistics(view);
         statistics.setRows(rows);
         return statistics;
     }
 
-    private static NumScaleRecipientRow buildRow(Accumulator acc) {
+    private static NumScaleRecipientRow buildRow(Accumulator acc, boolean isSelf) {
         NumScaleRecipientRow row = new NumScaleRecipientRow();
         row.setRecipientName(acc.recipient.getDisplayName());
         row.setRecipientEmail(acc.recipient.isRecipientUser()
                 ? acc.recipient.getRecipientUser().getEmail() : null);
         row.setRecipientTeam(acc.recipient.getTeamName());
+        row.setIsCurrentRecipient(isSelf);
         if (acc.count > 0) {
             row.setAverage(roundToTwoDecimals(acc.sum / acc.count));
             row.setMin(acc.min);

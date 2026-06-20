@@ -37,6 +37,7 @@ public class FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistic
         @Nullable
         private String recipientEmail;
         private String recipientTeam;
+        private boolean isCurrentRecipient;
         @Nullable
         private Double average;
         @Nullable
@@ -69,6 +70,14 @@ public class FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistic
 
         public void setRecipientTeam(String recipientTeam) {
             this.recipientTeam = recipientTeam;
+        }
+
+        public boolean isIsCurrentRecipient() {
+            return isCurrentRecipient;
+        }
+
+        public void setIsCurrentRecipient(boolean isCurrentRecipient) {
+            this.isCurrentRecipient = isCurrentRecipient;
         }
 
         @Nullable
