@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -19,6 +18,7 @@ import teammates.common.datatransfer.statistics.FeedbackMcqMsqCourseWideStatisti
 import teammates.common.datatransfer.statistics.FeedbackMcqMsqRecipientStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.User;
 
 /**
  * Calculates MCQ/MSQ question statistics for results pages.
@@ -50,7 +50,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
 
     @Override
     public FeedbackMcqMsqRecipientStatistics calculateForRecipient(
-            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
+            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
         FeedbackQuestionDetails details = question.getQuestionDetailsCopy();
         List<String> optionLabels = buildOptionLabels(details, responses);
         Map<String, Double> weightMap = isWeighted(details) ? buildWeightMap(details) : Map.of();

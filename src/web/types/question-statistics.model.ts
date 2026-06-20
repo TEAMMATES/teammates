@@ -66,36 +66,3 @@ export interface RankRecipientsQuestionStatistics {
   rankPerOptionInTeam: Record<string, number>;
   rankPerOptionInTeamExcludeSelf: Record<string, number>;
 }
-
-export interface RubricQuestionStatistics {
-  subQuestions: string[];
-  choices: string[];
-  hasWeights: boolean;
-  weights: number[][];
-  answers: number[][];
-  isWeightStatsVisible: boolean;
-
-  percentages: number[][];
-  subQuestionWeightAverage: number[];
-  answersExcludeSelf: number[][];
-  percentagesExcludeSelf: number[][];
-  subQuestionWeightAverageExcludeSelf: number[];
-
-  perRecipientStatsMap: Record<string, RubricPerRecipientStats>;
-}
-
-export interface RubricPerRecipientStats {
-  recipientName: string;
-  recipientEmail?: string;
-  recipientTeam: string;
-  answers: number[][];
-  answersSum: number[];
-  percentages: number[][];
-  percentagesAverage: number[];
-  weightsAverage: number[];
-  areSubQuestionChosenWeightsAllNull: boolean[];
-  subQuestionTotalChosenWeight: number[];
-  subQuestionWeightAverage: number[];
-  overallWeightedSum: number;
-  overallWeightAverage: number;
-}

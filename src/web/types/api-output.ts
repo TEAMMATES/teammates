@@ -290,6 +290,15 @@ export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
   answer: number[];
 }
 
+export interface FeedbackRubricStatistics extends FeedbackQuestionResultsStatistics {
+  subQuestions: string[];
+  choices: string[];
+  hasWeights: boolean;
+  rows: RubricSubQuestionRow[];
+  rowsExcludeSelf: RubricSubQuestionRow[];
+  perRecipientStats: RubricPerRecipientStats[];
+}
+
 export interface FeedbackSession extends ApiOutput {
   feedbackSessionId: string;
   courseId: string;
@@ -555,6 +564,36 @@ export interface ResponseOutput {
   responseDetails: FeedbackResponseDetails;
   participantComment?: string;
   instructorComments: ResponseInstructorComment[];
+}
+
+export interface RubricChoiceCell {
+  percentage: number;
+  count: number;
+  weight?: number;
+}
+
+export interface RubricPerCriterionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  total?: number;
+  average?: number;
+}
+
+export interface RubricPerRecipientStats {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  perCriterionRows: RubricPerCriterionRow[];
+  overallCells: RubricChoiceCell[];
+  overallTotal?: number;
+  overallAverage?: number;
+  subQuestionAverages: number[];
+}
+
+export interface RubricSubQuestionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  weightAverage?: number;
 }
 
 export interface SessionLinks extends ApiOutput {

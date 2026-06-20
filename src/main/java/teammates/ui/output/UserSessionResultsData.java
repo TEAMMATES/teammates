@@ -56,7 +56,7 @@ public class UserSessionResultsData implements ApiOutput {
             FeedbackQuestionResultsStatistics questionStatistics = hasResponseButNotVisibleForPreview
                     ? null
                     : FeedbackQuestionResultsStatisticsFactory.calculateForRecipient(
-                            question, responses, bundle, user.getId());
+                            question, responses, bundle, user);
             UserQuestionOutput qnOutput = new UserQuestionOutput(question,
                     questionStatistics,
                     hasResponseButNotVisibleForPreview,
