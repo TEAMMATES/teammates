@@ -413,29 +413,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         });
     }
 
-    private String getTeamName(String participantEmail) {
-        return students.stream()
-                .filter(s -> s.getEmail().equals(participantEmail))
-                .findFirst()
-                .map(Student::getTeamName)
-                .orElse(null);
-    }
-
-    private Map<String, List<FeedbackResponse>> getResponsesByTeam(FeedbackQuestion question, boolean isGiver) {
-        Map<String, List<FeedbackResponse>> userToResponses = isGiver
-                ? questionToGiverToResponses.get(question)
-                : questionToRecipientToResponses.get(question);
-
-        Map<String, List<FeedbackResponse>> teamResponses = new HashMap<>();
-        for (Map.Entry<String, List<FeedbackResponse>> entry : userToResponses.entrySet()) {
-            String user = entry.getKey();
-            String team = getTeamName(user);
-            List<FeedbackResponse> responses = entry.getValue();
-            teamResponses.computeIfAbsent(team, k -> new ArrayList<>()).addAll(responses);
-        }
-        return teamResponses;
-    }
-
     private Map<String, List<FeedbackResponse>> addMissingResponseToMap(
             Map<String, List<FeedbackResponse>> map,
             FeedbackResponse missingResponse, String key) {

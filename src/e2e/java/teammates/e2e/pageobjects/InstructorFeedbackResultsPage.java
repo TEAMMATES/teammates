@@ -327,8 +327,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyStatistics(questionPanel, question, responses, instructors, students);
     }
 
-
-
     private void verifyStatistics(WebElement questionPanel, FeedbackQuestion question,
                                   List<FeedbackResponse> responses,
                                   Collection<Instructor> instructors,
