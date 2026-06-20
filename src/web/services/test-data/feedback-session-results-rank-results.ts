@@ -38,7 +38,7 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -474,11 +474,6 @@ const feedbackSessionResultsRankResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -509,7 +504,7 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -594,11 +589,6 @@ const feedbackSessionResultsRankResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

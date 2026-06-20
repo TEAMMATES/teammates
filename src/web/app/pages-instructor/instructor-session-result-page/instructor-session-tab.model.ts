@@ -1,4 +1,10 @@
-import { CourseSection, FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
+import {
+  CourseSection,
+  FeedbackQuestion,
+  FeedbackQuestionResultsStatistics,
+  QuestionOutput,
+  ResponseOutput,
+} from '../../../types/api-output';
 
 // NO_SPECIFIC_SECTION_ID and NO_SPECIFIC_SECTION_NAME are used to represent instructors and general recipients not associated with any section.
 export const NO_SPECIFIC_SECTION_ID = 'No Specific Section';
@@ -21,7 +27,7 @@ export interface SectionTabModel {
 export interface QuestionTabModel {
   question: FeedbackQuestion;
   responses: ResponseOutput[];
-  statistics: string; // TODO will define types later
+  statistics?: FeedbackQuestionResultsStatistics;
   hasPopulated: boolean;
   errorMessage?: string;
   isTabExpanded: boolean;

@@ -59,7 +59,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         ______TS("edit email and resend links");
         String newEmail = "new.email@gmail.tmt";
         student.setEmail(newEmail);
-        student.setGoogleId(null);
+        student.setAccount(null);
         editPage.editStudentEmailAndResendLinks(newEmail);
 
         editPage.verifyStatusMessage("Student has been updated and email sent");

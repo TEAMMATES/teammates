@@ -283,7 +283,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
           showRecipientNameTo: [],
           customNumberOfEntitiesToGiveFeedbackTo: 0,
         },
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [
           {
             responseId: 'feedbackQuestionId%bob@example.com%bob@example.com',
@@ -324,11 +324,6 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             isMissingResponse: false,
           },
         ],
-        hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
-        responsesToSelf: [],
-        responsesFromSelf: [],
-        otherResponses: [],
       },
     ],
     hasPopulated: true,
@@ -361,7 +356,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [
       showRecipientNameTo: [],
       customNumberOfEntitiesToGiveFeedbackTo: 0,
     },
-    questionStatistics: '',
+    questionStatistics: undefined,
     allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
     responsesToSelf: [
       {

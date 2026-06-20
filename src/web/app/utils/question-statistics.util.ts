@@ -1,7 +1,6 @@
 import {
   ConstsumOptionsQuestionStatistics,
   ConstsumRecipientsQuestionStatistics,
-  ContributionQuestionStatistics,
   McqQuestionStatistics,
   MsqQuestionStatistics,
   NumScaleQuestionStatistics,
@@ -12,12 +11,9 @@ import {
   RubricQuestionStatistics,
 } from '../../types/question-statistics.model';
 import {
-  ContributionStatistics,
-  ContributionStatisticsEntry,
   FeedbackConstantSumOptionsQuestionDetails,
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
-  FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
@@ -31,7 +27,6 @@ import {
   QuestionRecipientType,
 } from '../../types/api-output';
 import {
-  CONTRIBUTION_POINT_NOT_SUBMITTED,
   MSQ_ANSWER_NONE_OF_THE_ABOVE,
   NO_VALUE,
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
@@ -118,80 +113,6 @@ export function calculateConstsumRecipientsQuestionStatistics(
       stats.averagePointsExcludingSelf[recipient] = +(
         answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)
       ).toFixed(2);
-    }
-  }
-
-  return stats;
-}
-
-export function calculateContributionQuestionStatistics(
-  responses: Response<FeedbackContributionResponseDetails>[],
-  statistics: string,
-  isStudent: boolean,
-): ContributionQuestionStatistics {
-  const stats: ContributionQuestionStatistics = {
-    userIdToTeamName: {},
-    userIdToName: {},
-    userIdToEmail: {},
-    userIdToDiff: {},
-    questionOverallStatistics: {
-      results: {},
-    },
-    questionStatisticsForStudent: {
-      claimed: 0,
-      perceived: 0,
-      claimedOthers: {},
-      claimedOthersValues: [],
-      perceivedOthers: [],
-    },
-  };
-
-  if (!statistics) {
-    return stats;
-  }
-
-  const statisticsObject: ContributionStatistics = JSON.parse(statistics);
-  if (isStudent) {
-    const results: ContributionStatisticsEntry[] = Object.values(statisticsObject.results);
-    if (results.length) {
-      stats.questionStatisticsForStudent = {
-        ...results[0],
-        claimedOthersValues: Object.values(results[0].claimedOthers).sort((a: number, b: number) => b - a),
-      };
-    }
-  } else {
-    for (const response of responses) {
-      // the recipientId will always exist for contribution question when viewing by instructors
-      if (!response.recipientUserId) {
-        continue;
-      }
-
-      if (!stats.userIdToTeamName[response.recipientUserId]) {
-        stats.userIdToTeamName[response.recipientUserId] = response.recipientTeam;
-      }
-      if (!stats.userIdToName[response.recipientUserId]) {
-        stats.userIdToName[response.recipientUserId] = response.recipient;
-      }
-      if (response.recipientEmail && !stats.userIdToEmail[response.recipientUserId]) {
-        stats.userIdToEmail[response.recipientUserId] = response.recipientEmail;
-      }
-    }
-
-    stats.questionOverallStatistics = statisticsObject;
-
-    for (const userId of Object.keys(stats.userIdToName)) {
-      const statisticsForUser: ContributionStatisticsEntry | undefined =
-        stats.questionOverallStatistics.results[userId];
-      if (!statisticsForUser) {
-        continue;
-      }
-      const { claimed }: { claimed: number } = statisticsForUser;
-      const { perceived }: { perceived: number } = statisticsForUser;
-      if (claimed < 0 || perceived < 0) {
-        stats.userIdToDiff[userId] = CONTRIBUTION_POINT_NOT_SUBMITTED;
-      } else {
-        stats.userIdToDiff[userId] = perceived - claimed;
-      }
     }
   }
 

@@ -23,8 +23,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
-  SessionResults,
   RegkeyValidity,
+  UserSessionResults,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -56,7 +56,6 @@ describe('SessionResultPageComponent', () => {
     loginUrl: '/login',
     masquerade: false,
     user: {
-      id: 'user-id',
       accountEmail: 'account@teammates.tmt',
       isAdmin: false,
       isInstructor: true,
@@ -344,7 +343,7 @@ describe('SessionResultPageComponent', () => {
     };
     const testFeedbackQuestionModel: FeedbackQuestionModel = {
       feedbackQuestion: testFeedbackQuestion,
-      questionStatistics: 'stats',
+      questionStatistics: undefined,
       allResponses: [],
       responsesToSelf: [],
       responsesFromSelf: [],
@@ -354,11 +353,11 @@ describe('SessionResultPageComponent', () => {
       hasResponseButNotVisibleForPreview: false,
       hasCommentNotVisibleForPreview: false,
     };
-    const testSessionResults: SessionResults = {
+    const testSessionResults: UserSessionResults = {
       questions: [
         {
           feedbackQuestion: testFeedbackQuestion,
-          questionStatistics: 'stats',
+          questionStatistics: undefined,
           allResponses: [],
           hasResponseButNotVisibleForPreview: false,
           hasCommentNotVisibleForPreview: false,

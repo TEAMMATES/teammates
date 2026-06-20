@@ -128,7 +128,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
 
     @Test(groups = GroupNames.INTEGRATION)
     public void execute_instructorSearchGoogleId_matchOnlyStudentsInCourse() {
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1);
         String[] googleIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -142,7 +142,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
 
     @Test(groups = GroupNames.INTEGRATION)
         public void execute_searchWithoutSearchService_shouldSucceed() {
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1);
         String[] params = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,

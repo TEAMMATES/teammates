@@ -580,7 +580,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, UUID sectionId, boolean isNoSpecificSection, User user,
+            boolean isCourseWide, User user,
             CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
@@ -684,7 +684,7 @@ public final class FeedbackResponsesLogic {
         if (isCourseWide && user instanceof Instructor instructor) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedQuestions,
-                    existingResponses, roster, sectionId, isNoSpecificSection);
+                    existingResponses, roster);
         }
         RequestTracer.checkRemainingTime();
 
@@ -700,13 +700,10 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSession the feedback session
      * @param instructor the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
-     * @param sectionId if not null, will only return partial bundle for the section
-     * @param isNoSpecificSection true if the section is the default section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
+            FeedbackSession feedbackSession, Instructor instructor, @Nullable UUID questionId) {
 
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
@@ -719,18 +716,15 @@ public final class FeedbackResponsesLogic {
 
         // load response(s)
         List<FeedbackResponse> allResponses;
-        // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(
-                    feedbackSession, courseId, sectionId, isNoSpecificSection);
+            allResponses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionId, isNoSpecificSection);
+            allResponses = frDb.getResponsesForQuestion(questionId);
         }
 
         RequestTracer.checkRemainingTime();
 
-        return buildResultsBundle(true, sectionId, isNoSpecificSection,
-                instructor, roster, allQuestions, allResponses, false);
+        return buildResultsBundle(true, instructor, roster, allQuestions, allResponses, false);
     }
 
     /**
@@ -769,7 +763,7 @@ public final class FeedbackResponsesLogic {
             allResponses.addAll(viewableResponses);
         }
 
-        return buildResultsBundle(false, null, false, user, roster, allQuestions, allResponses, isPreviewResults);
+        return buildResultsBundle(false, user, roster, allQuestions, allResponses, isPreviewResults);
     }
 
     /**
@@ -806,14 +800,12 @@ public final class FeedbackResponsesLogic {
      * @param relatedQuestions the relevant questions
      * @param existingResponses existing responses
      * @param courseRoster the course roster
-     * @param sectionId if not null, will only build missing responses for the section
      * @return a list of missing responses for the session.
      */
     private List<FeedbackMissingResponse> buildMissingResponses(
             Instructor instructor, Map<UUID, Boolean> responseGiverVisibilityTable,
             Map<UUID, Boolean> responseRecipientVisibilityTable, List<FeedbackQuestion> relatedQuestions,
-            List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable UUID sectionId,
-            boolean isNoSpecificSection) {
+            List<FeedbackResponse> existingResponses, CourseRoster courseRoster) {
 
         // get all possible giver recipient pairs
         Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap =
@@ -849,21 +841,6 @@ public final class FeedbackResponsesLogic {
                 ResponseGiver giver = giverRecipientEntry.getKey();
 
                 for (ResponseRecipient recipient : giverRecipientEntry.getValue()) {
-                    UUID giverSectionId = giver.getSectionId();
-                    UUID recipientSectionId = recipient.getSectionId();
-                    if (isNoSpecificSection && giverSectionId != null && recipientSectionId != null) {
-                        // if isNoSpecificSection is true, either giver or recipient needs
-                        // to not have a section
-                        continue;
-                    }
-
-                    if (sectionId != null
-                            && !sectionId.equals(giverSectionId)
-                            && !sectionId.equals(recipientSectionId)) {
-                        // if sectionId is specified, either giver or recipient needs to be in the section
-                        continue;
-                    }
-
                     // recipient
                     FeedbackMissingResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
@@ -1061,75 +1038,6 @@ public final class FeedbackResponsesLogic {
     List<FeedbackResponse> getFeedbackResponsesForSession(
             FeedbackSession feedbackSession, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
-    }
-
-    /**
-     * Gets all responses given to/from a section in a feedback session in a course.
-     *
-     * @param feedbackSession the session
-     * @param courseId the course ID of the session
-     * @param sectionId if null, will retrieve all responses in the session
-     * @param isNoSpecificSection true if filtering for no specific section
-     * @return a list of responses
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
-        List<FeedbackResponse> responses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
-        if (sectionId == null && !isNoSpecificSection) {
-            return responses;
-        } else {
-            return filterResponsesBySection(responses, sectionId, isNoSpecificSection);
-        }
-    }
-
-    /**
-     * Gets all responses given to/from a section for a question.
-     *
-     * @param feedbackQuestionId the question UUID
-     * @param sectionId if null, will retrieve all responses for the question
-     * @param isNoSpecificSection true if filtering for no specific section
-     * @return a list of responses
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID feedbackQuestionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
-        List<FeedbackResponse> responses = frDb.getResponsesForQuestion(feedbackQuestionId);
-        if (sectionId == null && !isNoSpecificSection) {
-            return responses;
-        } else {
-            return filterResponsesBySection(responses, sectionId, isNoSpecificSection);
-        }
-    }
-
-    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
-            UUID sectionId, boolean isNoSpecificSection) {
-        List<FeedbackResponse> filteredResponses = new ArrayList<>();
-        for (FeedbackResponse response : responses) {
-            ResponseGiver giver = response.getGiver();
-            ResponseRecipient recipient = response.getRecipient();
-
-            UUID giverSectionId = giver.getSectionId();
-            UUID recipientSectionId = recipient.getSectionId();
-
-            boolean isGiverInSection;
-            if (isNoSpecificSection) {
-                isGiverInSection = giverSectionId == null;
-            } else {
-                isGiverInSection = giverSectionId != null && giverSectionId.equals(sectionId);
-            }
-
-            boolean isRecipientInSection;
-            if (isNoSpecificSection) {
-                isRecipientInSection = recipientSectionId == null;
-            } else {
-                isRecipientInSection = recipientSectionId != null && recipientSectionId.equals(sectionId);
-            }
-
-            if (isGiverInSection || isRecipientInSection) {
-                filteredResponses.add(response);
-            }
-        }
-
-        return filteredResponses;
     }
 
     /**

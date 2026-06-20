@@ -40,7 +40,7 @@ const feedbackSessionResultsAllResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -71,11 +71,6 @@ const feedbackSessionResultsAllResults: SessionResults = {
           ],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -97,7 +92,7 @@ const feedbackSessionResultsAllResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -117,11 +112,6 @@ const feedbackSessionResultsAllResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -142,7 +132,7 @@ const feedbackSessionResultsAllResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -517,11 +507,6 @@ Multiline test.`,
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -542,7 +527,7 @@ Multiline test.`,
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: true,
@@ -630,11 +615,6 @@ Multiline test.`,
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -655,7 +635,7 @@ Multiline test.`,
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -759,11 +739,6 @@ Multiline test.`,
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

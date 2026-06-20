@@ -32,7 +32,6 @@ export class AdminAccountsPageComponent implements OnInit {
 
   accountInfo: Account = {
     accountId: '',
-    googleId: '',
     name: '',
     email: '',
     students: [],

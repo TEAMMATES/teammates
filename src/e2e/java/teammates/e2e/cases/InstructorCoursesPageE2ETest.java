@@ -237,7 +237,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 teams.add(student.getTeamName());
                 numTeams++;
             }
-            if (student.getGoogleId() == null || student.getGoogleId().isEmpty()) {
+            if (!student.isRegistered()) {
                 numUnregistered++;
             }
             numStudents++;

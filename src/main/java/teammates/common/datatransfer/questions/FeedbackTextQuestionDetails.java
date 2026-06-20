@@ -3,11 +3,9 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -30,13 +28,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = null;
         shouldAllowRichText = true;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        // Statistics are calculated in the frontend as they depend on the responses being filtered.
-        return "";
     }
 
     @Override

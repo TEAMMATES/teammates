@@ -57,7 +57,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
                 "Test Student", "test@email.com", team.getName(),
                 team.getSection().getName(), "Test Comment");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,

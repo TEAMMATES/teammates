@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { of } from 'rxjs';
-import { concatMap, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
@@ -19,6 +19,7 @@ import {
 } from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
@@ -30,8 +31,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  ContributionStatistics,
-  ContributionStatisticsEntry,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionView,
@@ -93,6 +92,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly feedbackSessionActionsService = inject(FeedbackSessionActionsService);
   private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly feedbackResponsesService = inject(FeedbackResponsesService);
   private readonly courseService = inject(CourseService);
   private readonly fileSaveService = inject(FileSaveService);
   private readonly studentService = inject(StudentService);
@@ -272,7 +272,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
                   this.questionsModel[question.feedbackQuestionId] = {
                     question,
                     responses: [],
-                    statistics: '',
+                    statistics: undefined,
                     hasPopulated: false,
                     isTabExpanded: false,
                   };
@@ -389,47 +389,22 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
 
-    const missingRespMap: Map<string, ResponseOutput> = new Map();
-    const tmpMap: Map<string, ResponseOutput> = new Map();
-
-    if (this.hasSectionsLoadingFailed) {
-      // the page would not render properly
-      return;
-    }
-    of(...Object.keys(this.sectionsModel))
-      .pipe(
-        concatMap((sectionId: string) => {
-          return this.feedbackSessionsService.getCourseSessionResults({
-            questionId,
-            feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
-            isNoSpecificSection: this.isNoSpecificSection(sectionId),
-          });
-        }),
-      )
+    this.feedbackSessionsService
+      .getCourseSessionResults({
+        questionId,
+        feedbackSessionId: this.session.feedbackSessionId,
+      })
       .subscribe({
         next: (resp: SessionResults) => {
           if (!resp.questions.length) {
+            this.questionsModel[questionId].errorMessage = '';
+            this.questionsModel[questionId].hasPopulated = true;
             return;
           }
           const responses: QuestionOutput = resp.questions[0];
-          responses.allResponses.forEach((response: ResponseOutput) =>
-            response.isMissingResponse
-              ? missingRespMap.set(response.responseId, response)
-              : tmpMap.set(response.responseId, response),
-          );
-          this.questionsModel[questionId].statistics = this.mergeStatistics(
-            this.questionsModel[questionId].statistics,
-            responses.questionStatistics,
-          );
-
+          this.questionsModel[questionId].responses.push(...responses.allResponses);
+          this.questionsModel[questionId].statistics = responses.questionStatistics;
           this.preprocessComments(responses.allResponses, responses.feedbackQuestion.showResponsesTo);
-        },
-        complete: () => {
-          tmpMap.forEach((response: ResponseOutput) => this.questionsModel[questionId].responses.push(response));
-          missingRespMap.forEach((response: ResponseOutput) =>
-            this.questionsModel[questionId].responses.push(response),
-          );
           this.questionsModel[questionId].errorMessage = '';
           this.questionsModel[questionId].hasPopulated = true;
         },
@@ -461,21 +436,25 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
-        isNoSpecificSection: this.isNoSpecificSection(sectionId),
       })
       .subscribe({
         next: (resp: SessionResults) => {
-          this.sectionsModel[sectionId].questions = resp.questions;
-
           // sort questions by question number
           resp.questions.sort(
             (a: QuestionOutput, b: QuestionOutput) =>
               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
           );
           resp.questions.forEach((question: QuestionOutput) => {
+            question.allResponses = question.allResponses.filter((response: ResponseOutput) =>
+              this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+                response,
+                sectionId,
+                InstructorSessionResultSectionType.EITHER,
+              ),
+            );
             this.preprocessComments(question.allResponses, question.feedbackQuestion.showResponsesTo);
           });
+          this.sectionsModel[sectionId].questions = resp.questions;
         },
         complete: () => {
           this.sectionsModel[sectionId].hasPopulated = true;
@@ -494,10 +473,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   private getSectionName(sectionId: string): string {
     return this.sectionsModel[sectionId]?.section.sectionName ?? sectionId;
-  }
-
-  private isNoSpecificSection(sectionId: string): boolean {
-    return sectionId === NO_SPECIFIC_SECTION_ID;
   }
 
   /**
@@ -743,37 +718,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-  }
-
-  /**
-   * Merges the existing statistics with the new statistics.
-   *
-   * Since only statistics for contribution question is calculated on the backend,
-   * the merging logic is based on contribution question statistics only.
-   */
-  private mergeStatistics(prevStats: string, newStats: string): string {
-    if (prevStats === '') {
-      return newStats;
-    }
-    if (newStats === '') {
-      return prevStats;
-    }
-
-    // Only statistics for contribution question is calculated on the backend.
-    const prevStatsJSON: ContributionStatistics = JSON.parse(prevStats);
-    const newStatsJSON: ContributionStatistics = JSON.parse(newStats);
-    for (const email of Object.keys(newStatsJSON.results)) {
-      const newStatsEntryForEmail: ContributionStatisticsEntry = newStatsJSON.results[email];
-      const { claimed }: { claimed: number } = newStatsEntryForEmail;
-      const { perceived }: { perceived: number } = newStatsEntryForEmail;
-      if (claimed < 0 && perceived < 0) {
-        continue;
-      }
-      // If new entry has submitted stats, overwrite the old data
-      prevStatsJSON.results[email] = newStatsEntryForEmail;
-    }
-
-    return JSON.stringify(prevStatsJSON);
   }
 
   navigateToIndividualSessionResultPage(): void {

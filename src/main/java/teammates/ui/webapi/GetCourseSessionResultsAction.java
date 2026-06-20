@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -26,9 +25,6 @@ public class GetCourseSessionResultsAction extends LoggedInAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        UUID selectedSection = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        Optional<Boolean> isNoSpecificSection =
-                getNullableBooleanRequestParamValue(Const.ParamsNames.IS_NO_SPECIFIC_SECTION);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -36,8 +32,7 @@ public class GetCourseSessionResultsAction extends LoggedInAction {
         }
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor,
-                questionId, selectedSection, isNoSpecificSection.orElse(false));
+        SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor, questionId);
 
         return new JsonResult(SessionResultsData.init(bundle));
     }

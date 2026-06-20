@@ -45,7 +45,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         ______TS("Typical Success Case with only course id, logged in as instructor");
         String[] params = new String[] {
@@ -102,7 +102,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         verifyCanAccess(params);
 

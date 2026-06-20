@@ -1,9 +1,10 @@
 import {
-  ContributionStatistics,
+  FeedbackContributionCourseWideStatistics,
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumOptionsQuestionDetails,
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackContributionResponseDetails,
+  FeedbackQuestionResultsStatisticsView,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
@@ -366,7 +367,7 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
 export const EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL: QuestionTabModel = {
   question: EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL,
   responses: EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT,
-  statistics: '',
+  statistics: undefined,
   hasPopulated: true,
   isTabExpanded: true,
 };
@@ -721,7 +722,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
 export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL: QuestionTabModel = {
   question: EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
   responses: EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT,
-  statistics: '',
+  statistics: undefined,
   hasPopulated: true,
   isTabExpanded: true,
 };
@@ -938,51 +939,56 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-/**
- * Structure for example of contribution statistics
- */
-export const EXAMPLE_CONTRIBUTION_STATISTICS: ContributionStatistics = {
-  results: {
-    'alice@gmail.com': {
+export const EXAMPLE_CONTRIBUTION_STATISTICS: FeedbackContributionCourseWideStatistics = {
+  questionType: FeedbackQuestionType.CONTRIB,
+  statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+  rows: [
+    {
+      teamName: 'Team 1',
+      recipientName: 'Alice',
+      recipientEmail: 'alice@gmail.com',
       claimed: -999,
       perceived: -9999,
-      claimedOthers: {
-        'bob@gmail.com': 90,
-        'emma@gmail.com': 110,
-      },
-      perceivedOthers: [],
+      diff: -9999,
+      ratingsReceived: [],
     },
-    'bob@gmail.com': {
+    {
+      teamName: 'Team 1',
+      recipientName: 'Bob',
+      recipientEmail: 'bob@gmail.com',
       claimed: 100,
       perceived: 92,
-      claimedOthers: {},
-      perceivedOthers: [109, 90, 78, -9999],
+      diff: -8,
+      ratingsReceived: [109, 90, 78, -9999],
     },
-    'charles@gmail.com': {
+    {
+      teamName: 'Team 1',
+      recipientName: 'Charles',
+      recipientEmail: 'charles@gmail.com',
       claimed: -999,
       perceived: -9999,
-      claimedOthers: {
-        'bob@gmail.com': 78,
-        'emma@gmail.com': 122,
-      },
-      perceivedOthers: [],
+      diff: -9999,
+      ratingsReceived: [],
     },
-    'david@gmail.com': {
+    {
+      teamName: 'Team 1',
+      recipientName: 'David',
+      recipientEmail: 'david@gmail.com',
       claimed: -999,
       perceived: -9999,
-      claimedOthers: {
-        'bob@gmail.com': 109,
-        'emma@gmail.com': 91,
-      },
-      perceivedOthers: [],
+      diff: -9999,
+      ratingsReceived: [],
     },
-    'emma@gmail.com': {
+    {
+      teamName: 'Team 2',
+      recipientName: 'Emma',
+      recipientEmail: 'emma@gmail.com',
       claimed: 110,
       perceived: 108,
-      claimedOthers: {},
-      perceivedOthers: [122, 110, 91, -9999],
+      diff: -2,
+      ratingsReceived: [122, 110, 91, -9999],
     },
-  },
+  ],
 };
 /**
  * Structure for example of team contribution question tab model
@@ -990,7 +996,7 @@ export const EXAMPLE_CONTRIBUTION_STATISTICS: ContributionStatistics = {
 export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL: QuestionTabModel = {
   question: EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL,
   responses: EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT,
-  statistics: JSON.stringify(EXAMPLE_CONTRIBUTION_STATISTICS),
+  statistics: EXAMPLE_CONTRIBUTION_STATISTICS,
   hasPopulated: true,
   isTabExpanded: true,
 };
@@ -1200,7 +1206,7 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
 export const EXAMPLE_RUBRIC_QUESTION_QUESTION_TAB_MODEL: QuestionTabModel = {
   question: EXAMPLE_RUBRIC_QUESTION_MODEL,
   responses: EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT,
-  statistics: '',
+  statistics: undefined,
   hasPopulated: true,
   isTabExpanded: true,
 };
@@ -1388,7 +1394,7 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
 export const EXAMPLE_RANK_RECIPIENT_QUESTION_TAB_MODEL: QuestionTabModel = {
   question: EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL,
   responses: EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT,
-  statistics: '',
+  statistics: undefined,
   hasPopulated: true,
   isTabExpanded: true,
 };

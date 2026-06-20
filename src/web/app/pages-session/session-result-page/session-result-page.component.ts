@@ -22,8 +22,8 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
-  QuestionOutput,
   RegkeyValidity,
+  UserQuestionOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -311,11 +311,11 @@ export class SessionResultPageComponent implements OnInit {
       .subscribe({
         next: (sessionResults) => {
           sessionResults.questions.sort(
-            (a: QuestionOutput, b: QuestionOutput) =>
+            (a: UserQuestionOutput, b: UserQuestionOutput) =>
               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
           );
 
-          this.questions = sessionResults.questions.map((question: QuestionOutput) => ({
+          this.questions = sessionResults.questions.map((question: UserQuestionOutput) => ({
             feedbackQuestion: question.feedbackQuestion,
             questionStatistics: question.questionStatistics,
             allResponses: question.allResponses,

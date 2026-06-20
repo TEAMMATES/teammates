@@ -1,7 +1,7 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
+  FeedbackContributionCourseWideStatistics,
   FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
@@ -10,8 +10,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../feedback-response-details';
-import { Response } from '../question-statistics.model';
-import { calculateContributionQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
  * Concrete implementation of {@link FeedbackContributionQuestionDetails}.
@@ -33,15 +31,11 @@ export class FeedbackContributionQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackContributionResponseDetails>[];
-
-    const statsCalculation = calculateContributionQuestionStatistics(responses, question.questionStatistics, false);
-    if (!statsCalculation.questionOverallStatistics) {
+    if (!question.questionStatistics) {
       return [];
     }
+    const statistics = question.questionStatistics as FeedbackContributionCourseWideStatistics;
+    const statsRows: string[][] = [];
 
     statsRows.push([
       'In the points given below, an equal share is equal to 100 points. ' +
@@ -61,31 +55,27 @@ export class FeedbackContributionQuestionDetailsImpl
       claimedStr: string;
       perceivedStr: string;
       ratingsReceivedStr: string[];
-    }[] = [];
-    for (const userId of Object.keys(statsCalculation.userIdToName)) {
-      const teamName: string = statsCalculation.userIdToTeamName[userId];
-      const name: string = statsCalculation.userIdToName[userId];
-      const email: string = statsCalculation.userIdToEmail[userId] ?? '';
-      const claimed: number = statsCalculation.questionOverallStatistics.results[userId].claimed;
+    }[] = statistics.rows.map((row) => {
+      const claimed: number = row.claimed;
       const claimedStr: string = this.getContributionPointToText(claimed);
-      const perceived: number = statsCalculation.questionOverallStatistics.results[userId].perceived;
+      const perceived: number = row.perceived;
       const perceivedStr: string = this.getContributionPointToText(perceived);
-      const ratingsReceivedStr: string[] = statsCalculation.questionOverallStatistics.results[userId].perceivedOthers
+      const ratingsReceivedStr: string[] = row.ratingsReceived
         .concat()
         .sort((a: number, b: number) => b - a)
         .map(this.getContributionPointToText);
       if (ratingsReceivedStr.length === 0) {
         ratingsReceivedStr[0] = 'N/A';
       }
-      stats.push({
-        teamName,
-        name,
-        email,
+      return {
+        teamName: row.teamName,
+        name: row.recipientName,
+        email: row.recipientEmail ?? '',
         claimedStr,
         perceivedStr,
         ratingsReceivedStr,
-      });
-    }
+      };
+    });
     // sort by team then name
     stats.sort((a: { teamName: string; name: string }, b: { teamName: string; name: string }): number => {
       return a.teamName.localeCompare(b.teamName) || a.name.localeCompare(b.name);

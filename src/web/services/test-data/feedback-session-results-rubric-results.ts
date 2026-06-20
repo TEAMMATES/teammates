@@ -44,7 +44,7 @@ const feedbackSessionResultsRubricResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -354,11 +354,6 @@ const feedbackSessionResultsRubricResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -390,7 +385,7 @@ const feedbackSessionResultsRubricResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -700,11 +695,6 @@ const feedbackSessionResultsRubricResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

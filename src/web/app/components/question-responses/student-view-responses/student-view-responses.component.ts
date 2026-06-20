@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  FeedbackQuestionRecipientResultsStatistics,
+  FeedbackQuestionResultsStatistics,
   FeedbackQuestion,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -53,7 +55,7 @@ export class StudentViewResponsesComponent implements OnInit {
     showRecipientNameTo: [],
   };
   @Input() responses: ResponseOutput[] = [];
-  @Input() statistics = '';
+  @Input() statistics?: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics;
   @Input() isSelfResponses = false;
   @Input() timezone = 'UTC';
 

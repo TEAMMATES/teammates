@@ -184,7 +184,7 @@ describe('QuestionResponsePanelComponent', () => {
 
   const testFeedbackQuestionModel: FeedbackQuestionModel = {
     feedbackQuestion: testQuestion1,
-    questionStatistics: '',
+    questionStatistics: undefined,
     allResponses: [],
     responsesToSelf: [],
     responsesFromSelf: [],
@@ -217,7 +217,7 @@ describe('QuestionResponsePanelComponent', () => {
     component.questions = [
       {
         feedbackQuestion: testQuestion1,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [],
         responsesFromSelf: [
@@ -246,7 +246,7 @@ describe('QuestionResponsePanelComponent', () => {
       },
       {
         feedbackQuestion: testQuestion2,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [
           {
@@ -302,7 +302,7 @@ describe('QuestionResponsePanelComponent', () => {
       },
       {
         feedbackQuestion: testQuestion3,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [],
         responsesFromSelf: [
@@ -349,7 +349,7 @@ describe('QuestionResponsePanelComponent', () => {
     component.questions = [
       {
         feedbackQuestion: testQuestionAnonymousResponse1,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [
           {
             isMissingResponse: false,
@@ -447,7 +447,7 @@ describe('QuestionResponsePanelComponent', () => {
       },
       {
         feedbackQuestion: testQuestionAnonymousResponse2,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [
           {
             isMissingResponse: false,
@@ -498,7 +498,7 @@ describe('QuestionResponsePanelComponent', () => {
     component.questions = [
       {
         feedbackQuestion: testQuestion1,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [],
         responsesFromSelf: [],
@@ -510,7 +510,7 @@ describe('QuestionResponsePanelComponent', () => {
       },
       {
         feedbackQuestion: testQuestion3,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [],
         responsesFromSelf: [
@@ -548,7 +548,7 @@ describe('QuestionResponsePanelComponent', () => {
       },
       {
         feedbackQuestion: testQuestion4,
-        questionStatistics: '',
+        questionStatistics: undefined,
         allResponses: [],
         responsesToSelf: [],
         responsesFromSelf: [

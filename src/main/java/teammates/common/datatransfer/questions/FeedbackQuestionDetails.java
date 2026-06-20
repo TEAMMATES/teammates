@@ -1,12 +1,10 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackQuestion;
@@ -47,12 +45,6 @@ public abstract class FeedbackQuestionDetails {
         this.questionType = questionType;
         this.questionText = questionText;
     }
-
-    /**
-    * Get question result statistics as JSON string.
-    */
-    public abstract String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle);
 
     /**
      * Checks whether the changes to the question details require deletion of corresponding responses.
