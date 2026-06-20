@@ -31,7 +31,8 @@ public class DevServerLoginHandler implements LoginMethodHandler {
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
         String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
-        String redirectUrl = "/devServerLogin?state=" + UrlHelper.encodeQueryParam(encryptedState);
+        String redirectUrl = String.format("/devServerLogin?state=%s",
+                UrlHelper.encodeQueryParam(encryptedState));
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
 
