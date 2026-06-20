@@ -110,6 +110,7 @@ public class BaseTestCase {
      * The entity fields can be changed using setter methods if needed.
      * New entity generator functions for tests should be added here, and follow the
      * same naming convention.
+     * Subject is randomly generated to avoid conflicts during account creation.
      *
      * <p>Example usage:
      * Account account = getTypicalAccount();
@@ -118,7 +119,7 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account(Provider.TEAMMATES_DEV, "google-id",
+        return new Account(Provider.TEAMMATES_DEV, UUID.randomUUID().toString(),
                 "tenant-id", "name", "email@teammates.com");
     }
 
