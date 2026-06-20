@@ -200,16 +200,6 @@ export interface FeedbackNumScaleStatistics extends FeedbackQuestionResultsStati
   rows: NumScaleRecipientRow[];
 }
 
-export interface NumScaleRecipientRow {
-  recipientName: string;
-  recipientEmail?: string;
-  recipientTeam: string;
-  average: number | null;
-  min: number | null;
-  max: number | null;
-  averageExcludingSelf: number | null;
-}
-
 export interface FeedbackQuestion extends ApiOutput {
   feedbackQuestionId: string;
   questionBrief: string;
@@ -492,6 +482,16 @@ export interface Notification extends ApiOutput {
 
 export interface Notifications extends ApiOutput {
   notifications: Notification[];
+}
+
+export interface NumScaleRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  average?: number;
+  min?: number;
+  max?: number;
+  averageExcludingSelf?: number;
 }
 
 export interface OngoingSession {
