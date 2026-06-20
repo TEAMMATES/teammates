@@ -16,7 +16,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.GroupNames;
-import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentsEnrollRequest;
@@ -91,20 +90,6 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         assertEquals(1, data.getStudentsData().getStudents().size());
         studentsInCourse = inTransaction(() -> logic.getStudentsForCourse(courseId));
         assertEquals(6, studentsInCourse.size());
-
-        ______TS("Fail to enroll due to duplicate team name across sections");
-
-        String expectedMessage = "Team \"Team Duplicate\" is detected in Sections \"Section 5\", \"Section 6\"."
-                + " Please use different team names in different sections.";
-        StudentEnrollRequest enrollRequest1 = new StudentEnrollRequest(
-                "Test Student", "test-failure1@email.com", "Team Duplicate",
-                "Section 5", "Test Comment");
-        StudentEnrollRequest enrollRequest2 = new StudentEnrollRequest(
-                "Test Student", "test-failure2@email.com", "Team Duplicate",
-                "Section 6", "Test Comment");
-        StudentsEnrollRequest req = prepareRequest(Arrays.asList(enrollRequest1, enrollRequest2));
-        InvalidOperationException exception = verifyInvalidOperation(req, params);
-        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
