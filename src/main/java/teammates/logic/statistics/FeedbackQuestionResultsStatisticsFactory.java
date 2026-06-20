@@ -9,6 +9,8 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Dispatcher for backend-owned results statistics calculation.
@@ -42,11 +44,11 @@ public final class FeedbackQuestionResultsStatisticsFactory {
      * Calculates recipient-specific statistics.
      */
     public static FeedbackQuestionResultsStatistics calculateForRecipient(
-            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
+            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
         return switch (question.getQuestionType()) {
-        case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
-        case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
-        case RUBRIC -> RUBRIC_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
+        case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
+        case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
+        case RUBRIC -> RUBRIC_CALCULATOR.calculateForRecipient(question, responses, bundle, recipient);
         default -> null;
         };
     }
@@ -55,11 +57,11 @@ public final class FeedbackQuestionResultsStatisticsFactory {
      * Calculates normalized contribution response values keyed by response ID.
      */
     public static Map<UUID, Integer> calculateNormalizedContributionResponseValues(
-            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
+            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, Student recipient) {
         if (question.getQuestionType() != FeedbackQuestionType.CONTRIB) {
             return Map.of();
         }
 
-        return CONTRIBUTION_CALCULATOR.calculateNormalizedResponseValues(responses, bundle, recipientId);
+        return CONTRIBUTION_CALCULATOR.calculateNormalizedResponseValues(responses, bundle, recipient);
     }
 }

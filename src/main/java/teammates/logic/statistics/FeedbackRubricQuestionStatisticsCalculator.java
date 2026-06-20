@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 
 import jakarta.annotation.Nullable;
 
@@ -21,6 +21,9 @@ import teammates.common.datatransfer.statistics.FeedbackRubricStatistics.RubricS
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseRecipient;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.storage.entity.User;
 
 /**
  * Calculates rubric question statistics for results pages.
@@ -41,10 +44,20 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
     @Override
     public FeedbackRubricStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle,
-            UUID recipientId) {
+            User recipient) {
         FeedbackRubricQuestionDetails details =
                 (FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy();
-        return calculate(details, responses, FeedbackQuestionResultsStatisticsView.RECIPIENT);
+
+        Objects.requireNonNull(recipient, "Recipient user cannot be null for recipient-specific statistics calculation");
+        ResponseRecipient recipientUser = new ResponseRecipient(recipient);
+        Team team = recipient instanceof Student student ? student.getTeam() : null;
+        ResponseRecipient recipientTeam = team != null ? new ResponseRecipient(team) : null;
+
+        List<FeedbackResponse> recipientResponses = responses.stream()
+                .filter(r -> r.getRecipient().equals(recipientUser)
+                        || recipientTeam != null && recipientTeam.equals(r.getRecipient()))
+                .toList();
+        return calculate(details, recipientResponses, FeedbackQuestionResultsStatisticsView.RECIPIENT);
     }
 
     private FeedbackRubricStatistics calculate(

@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Calculates contribution question statistics for results pages.
@@ -70,18 +71,25 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
 
     @Override
     public FeedbackContributionRecipientStatistics calculateForRecipient(
-            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
-        ContributionComputationContext context = buildContext(bundle, responses, recipientId);
+            FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, User recipient) {
+        if (recipient != null && !(recipient instanceof Student)) {
+            // recipient can only be a student for contribution questions
+            return new FeedbackContributionRecipientStatistics();
+        }
+
+        Student recipientStudent = recipient != null ? (Student) recipient : null;
+        ContributionComputationContext context = buildContext(bundle, responses, recipientStudent);
         FeedbackContributionRecipientStatistics statistics = new FeedbackContributionRecipientStatistics();
 
-        Student recipient = getStudentByUserId(bundle, recipientId);
-        if (recipient == null) {
+        if (recipientStudent == null) {
+            // no recipient means we are calculating for the entire course,
+            // so we don't have recipient-specific stats to compute
             return statistics;
         }
 
-        TeamEvalResult teamResult = context.teamResults.get(recipient.getTeamId());
-        List<Student> teamMembers = context.teamIdToMembers.get(recipient.getTeamId());
-        int recipientIndex = teamMembers == null ? -1 : indexOfStudent(teamMembers, recipientId);
+        TeamEvalResult teamResult = context.teamResults.get(recipientStudent.getTeamId());
+        List<Student> teamMembers = context.teamIdToMembers.get(recipientStudent.getTeamId());
+        int recipientIndex = teamMembers == null ? -1 : indexOfStudent(teamMembers, recipientStudent.getId());
         if (teamResult == null || recipientIndex < 0) {
             return statistics;
         }
@@ -119,8 +127,8 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
      * Returns normalized contribution values for each response in the given result context.
      */
     public Map<UUID, Integer> calculateNormalizedResponseValues(
-            List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
-        ContributionComputationContext context = buildContext(bundle, responses, recipientId);
+            List<FeedbackResponse> responses, SessionResultsBundle bundle, Student recipient) {
+        ContributionComputationContext context = buildContext(bundle, responses, recipient);
         Map<UUID, Integer> normalizedValues = new HashMap<>();
 
         for (FeedbackResponse response : responses) {
@@ -150,11 +158,11 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
     }
 
     private ContributionComputationContext buildContext(
-            SessionResultsBundle bundle, List<FeedbackResponse> responses, UUID recipientId) {
+            SessionResultsBundle bundle, List<FeedbackResponse> responses, Student recipient) {
         Map<UUID, List<Student>> teamIdToMembers = getTeamIdToMembers(bundle);
-        List<UUID> teamIds = recipientId == null
+        List<UUID> teamIds = recipient == null
                 ? new ArrayList<>(teamIdToMembers.keySet())
-                : getTeamsForRecipient(bundle, recipientId);
+                : List.of(recipient.getTeamId());
         Map<UUID, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, teamIds);
         Map<UUID, int[][]> claimedValuesByTeam = getClaimedValuesByTeam(teamIds, teamIdToMembers, teamResponses);
         Map<UUID, TeamEvalResult> teamResults = getTeamResults(teamIds, claimedValuesByTeam);
@@ -167,21 +175,6 @@ public class FeedbackContributionQuestionStatisticsCalculator implements
             teamIdToMembers.computeIfAbsent(student.getTeamId(), key -> new ArrayList<>()).add(student);
         }
         return teamIdToMembers;
-    }
-
-    private List<UUID> getTeamsForRecipient(SessionResultsBundle bundle, UUID recipientId) {
-        Student student = getStudentByUserId(bundle, recipientId);
-        if (student == null || student.getTeamId() == null) {
-            return List.of();
-        }
-        return List.of(student.getTeamId());
-    }
-
-    private Student getStudentByUserId(SessionResultsBundle bundle, UUID studentId) {
-        return bundle.getRoster().getStudents().stream()
-                .filter(student -> Objects.equals(student.getId(), studentId))
-                .findFirst()
-                .orElse(null);
     }
 
     private int indexOfStudent(List<Student> students, UUID studentId) {

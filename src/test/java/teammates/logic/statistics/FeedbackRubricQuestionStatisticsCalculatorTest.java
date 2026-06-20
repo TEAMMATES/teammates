@@ -8,7 +8,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -228,12 +227,15 @@ public class FeedbackRubricQuestionStatisticsCalculatorTest extends BaseStatisti
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                UUID.randomUUID());
+                student("alice"));
 
         assertEquals(statistics.getStatisticsView(), FeedbackQuestionResultsStatisticsView.RECIPIENT);
         assertEquals(statistics.getRows().size(), 2);
         assertEquals(statistics.getRowsExcludeSelf().size(), 2);
         assertEquals(statistics.getPerRecipientStats().size(), 0);
+        // rows should include r1 (choice0) and r2 (choice1) → total 2
+        assertEquals(statistics.getRows().get(0).getCells().get(0).getCount(), 1);
+        assertEquals(statistics.getRows().get(0).getCells().get(1).getCount(), 1);
     }
 
     @Test
@@ -245,7 +247,7 @@ public class FeedbackRubricQuestionStatisticsCalculatorTest extends BaseStatisti
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                UUID.randomUUID());
+                student("alice"));
 
         // perRecipientStats only built for COURSE_WIDE view
         assertEquals(statistics.getPerRecipientStats().size(), 0);
@@ -258,13 +260,14 @@ public class FeedbackRubricQuestionStatisticsCalculatorTest extends BaseStatisti
         rubricResponse("rSelf", "alice", "alice", Arrays.asList(0, 0));
         SessionResultsBundle bundle = bundleForQuestion("question", "r1", "r2", "rSelf");
 
+        // Pass alice's UUID; responses to alice: r1(alice→alice), rSelf(alice→alice), r2(bob→alice)
         FeedbackRubricStatistics statistics = calculator.calculateForRecipient(
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                UUID.randomUUID());
+                student("alice"));
 
-        // rows includes all: r1(alice→alice, choice0) + rSelf(alice→alice, choice0) + r2(bob→alice, choice1)
+        // rows includes all to alice: r1(choice0) + rSelf(choice0) + r2(choice1)
         // → SQ1 choice0 count = 2, SQ1 choice1 count = 1
         assertEquals(statistics.getRows().get(0).getCells().get(0).getCount(), 2);
         assertEquals(statistics.getRows().get(0).getCells().get(1).getCount(), 1);
