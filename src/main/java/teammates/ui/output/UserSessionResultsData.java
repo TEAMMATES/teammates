@@ -13,7 +13,7 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.statistics.FeedbackQuestionRecipientResultsStatistics;
+import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.common.util.Const;
 import teammates.logic.statistics.FeedbackQuestionResultsStatisticsFactory;
 import teammates.storage.entity.FeedbackQuestion;
@@ -53,7 +53,7 @@ public class UserSessionResultsData implements ApiOutput {
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
 
-            FeedbackQuestionRecipientResultsStatistics questionStatistics = hasResponseButNotVisibleForPreview
+            FeedbackQuestionResultsStatistics questionStatistics = hasResponseButNotVisibleForPreview
                     ? null
                     : FeedbackQuestionResultsStatisticsFactory.calculateForRecipient(
                             question, responses, bundle, user.getId());
@@ -224,7 +224,7 @@ public class UserSessionResultsData implements ApiOutput {
 
         private final FeedbackQuestionData feedbackQuestion;
         @Nullable
-        private final FeedbackQuestionRecipientResultsStatistics questionStatistics;
+        private final FeedbackQuestionResultsStatistics questionStatistics;
         private final boolean hasResponseButNotVisibleForPreview;
         private final boolean hasCommentNotVisibleForPreview;
 
@@ -234,7 +234,7 @@ public class UserSessionResultsData implements ApiOutput {
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
         private UserQuestionOutput(FeedbackQuestion feedbackQuestion,
-                @Nullable FeedbackQuestionRecipientResultsStatistics questionStatistics,
+                @Nullable FeedbackQuestionResultsStatistics questionStatistics,
                 boolean hasResponseButNotVisibleForPreview, boolean hasCommentNotVisibleForPreview) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestion);
             this.questionStatistics = questionStatistics;
@@ -247,7 +247,7 @@ public class UserSessionResultsData implements ApiOutput {
         }
 
         @Nullable
-        public FeedbackQuestionRecipientResultsStatistics getQuestionStatistics() {
+        public FeedbackQuestionResultsStatistics getQuestionStatistics() {
             return questionStatistics;
         }
 

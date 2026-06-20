@@ -131,7 +131,7 @@ export interface FeedbackContributionQuestionDetails extends FeedbackQuestionDet
   isNotSureAllowed: boolean;
 }
 
-export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionResultsStatistics {
   myView: RecipientView;
   teamView: RecipientView;
 }
@@ -147,7 +147,7 @@ export interface FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResu
   perRecipientRows: McqMsqPerRecipientRow[];
 }
 
-export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionResultsStatistics {
   hasAnswers: boolean;
   hasWeights: boolean;
   rows: McqMsqOptionRow[];
@@ -222,11 +222,6 @@ export interface FeedbackQuestionRecipient extends ApiOutput {
   identifier: string;
   section: string;
   team: string;
-}
-
-export interface FeedbackQuestionRecipientResultsStatistics {
-  questionType: FeedbackQuestionType;
-  statisticsView: FeedbackQuestionResultsStatisticsView;
 }
 
 export interface FeedbackQuestionRecipients extends ApiOutput {
@@ -662,7 +657,7 @@ export interface UserInfo {
 
 export interface UserQuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics?: FeedbackQuestionRecipientResultsStatistics;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   hasResponseButNotVisibleForPreview: boolean;
   hasCommentNotVisibleForPreview: boolean;
   allResponses: ResponseOutput[];

@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackQuestionDetails,
-  FeedbackQuestionRecipientResultsStatistics,
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionType,
   QuestionRecipientType,
@@ -54,7 +53,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   };
   @Input() recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
   @Input() isStudent = false;
-  @Input() statistics?: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics;
+  @Input() statistics?: FeedbackQuestionResultsStatistics;
   @Input() displayContributionStats = true;
   @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;

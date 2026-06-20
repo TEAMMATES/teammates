@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.statistics.FeedbackQuestionRecipientResultsStatistics;
 import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -39,7 +38,7 @@ public final class FeedbackQuestionResultsStatisticsFactory {
     /**
      * Calculates recipient-specific statistics.
      */
-    public static FeedbackQuestionRecipientResultsStatistics calculateForRecipient(
+    public static FeedbackQuestionResultsStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
         return switch (question.getQuestionType()) {
         case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
