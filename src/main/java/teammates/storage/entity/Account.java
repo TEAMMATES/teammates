@@ -135,10 +135,6 @@ public class Account extends BaseEntity {
         return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
     }
 
-    public String getGoogleId() {
-        return googleId;
-    }
-
     public void setGoogleId(String googleId) {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }

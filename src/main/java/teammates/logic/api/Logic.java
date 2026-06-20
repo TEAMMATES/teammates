@@ -357,9 +357,9 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(Provider provider, String subject, String tenantId, String email, String googleId)
+    public Account createAccount(Provider provider, String subject, String tenantId, String email)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return accountsLogic.createAccount(provider, subject, tenantId, email, googleId);
+        return accountsLogic.createAccount(provider, subject, tenantId, email);
     }
 
     /**
@@ -1094,7 +1094,7 @@ public class Logic {
     /**
      * Search for students. Preconditions: all parameters are non-null.
      *
-     * @param instructors a list of Instructors associated to a googleId,
+     * @param instructors a list of Instructors associated to an account,
      *                    used for filtering of search result
      * @return an empty list if no match is found
      */
@@ -1105,7 +1105,7 @@ public class Logic {
     /**
      * This method should be used by admin only since the searching does not
      * restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin
+     * visibility according to the logged-in user's role. This is used by admin
      * to
      * search students in the whole system.
      *
