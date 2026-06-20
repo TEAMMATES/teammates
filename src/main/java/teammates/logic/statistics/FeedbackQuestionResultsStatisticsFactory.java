@@ -17,6 +17,8 @@ import teammates.storage.entity.FeedbackResponse;
 public final class FeedbackQuestionResultsStatisticsFactory {
     private static final FeedbackContributionQuestionStatisticsCalculator CONTRIBUTION_CALCULATOR =
             new FeedbackContributionQuestionStatisticsCalculator();
+    private static final FeedbackMcqMsqQuestionStatisticsCalculator MCQ_MSQ_CALCULATOR =
+            new FeedbackMcqMsqQuestionStatisticsCalculator();
 
     private FeedbackQuestionResultsStatisticsFactory() {
         // utility class
@@ -27,11 +29,11 @@ public final class FeedbackQuestionResultsStatisticsFactory {
      */
     public static FeedbackQuestionResultsStatistics calculateCourseWide(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle) {
-        if (question.getQuestionType() != FeedbackQuestionType.CONTRIB) {
-            return null;
-        }
-
-        return CONTRIBUTION_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        return switch (question.getQuestionType()) {
+        case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        default -> null;
+        };
     }
 
     /**
@@ -39,11 +41,11 @@ public final class FeedbackQuestionResultsStatisticsFactory {
      */
     public static FeedbackQuestionRecipientResultsStatistics calculateForRecipient(
             FeedbackQuestion question, List<FeedbackResponse> responses, SessionResultsBundle bundle, UUID recipientId) {
-        if (question.getQuestionType() != FeedbackQuestionType.CONTRIB) {
-            return null;
-        }
-
-        return CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
+        return switch (question.getQuestionType()) {
+        case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
+        case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateForRecipient(question, responses, bundle, recipientId);
+        default -> null;
+        };
     }
 
     /**

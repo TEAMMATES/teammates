@@ -1,6 +1,8 @@
 import {
   FeedbackContributionCourseWideStatistics,
   FeedbackContributionRecipientStatistics,
+  FeedbackMcqMsqCourseWideStatistics,
+  FeedbackMcqMsqRecipientStatistics,
   FeedbackQuestionRecipientResultsStatistics,
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
@@ -23,6 +25,24 @@ export class QuestionStatisticsTypeChecker {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       s.questionType === FeedbackQuestionType.CONTRIB
+    );
+  }
+
+  static isMcqMsqCourseWide(
+    s: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics | undefined,
+  ): s is FeedbackMcqMsqCourseWideStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
+      (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
+    );
+  }
+
+  static isMcqMsqRecipient(
+    s: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics | undefined,
+  ): s is FeedbackMcqMsqRecipientStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
+      (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
     );
   }
 }

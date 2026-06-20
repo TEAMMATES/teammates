@@ -1,22 +1,26 @@
-@if (responses.length && !isStudent) {
-  <div id="mcq-statistics">
+@if (statistics && !isStudent && statistics.hasAnswers) {
+  <div id="mcq-msq-statistics">
     <div class="row">
       <div class="col-sm-4 text-color-gray mt-2">
         <strong> Response Summary </strong>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12 table-responsive mb-4">
-        <tm-sortable-table [columns]="summaryColumnsData" [rows]="summaryRowsData"></tm-sortable-table>
+    <div class="row mb-4">
+      <div class="col-sm-12 table-responsive">
+        <tm-sortable-table
+          [rows]="summaryRowsData"
+          [columns]="summaryColumnsData"
+          [initialSortBy]="SortBy.MCQ_MSQ_PERCENTAGE"
+        ></tm-sortable-table>
       </div>
-      @if (question.hasAssignedWeights) {
+      @if (hasPerRecipientData) {
         <div class="col-sm-12 table-responsive" style="margin-top: 20px">
           <strong class="text-color-gray"> Per Recipient Statistics </strong>
           <div class="mb-4">
             <tm-sortable-table
-              [columns]="perRecipientColumnsData"
               [rows]="perRecipientRowsData"
-              [initialSortBy]="SortBy.MCQ_WEIGHT_AVERAGE"
+              [columns]="perRecipientColumnsData"
+              [initialSortBy]="SortBy.MCQ_MSQ_WEIGHT_AVERAGE"
             ></tm-sortable-table>
           </div>
         </div>

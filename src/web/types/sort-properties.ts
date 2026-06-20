@@ -150,102 +150,52 @@ export enum SortBy {
   /**
    * Option text
    */
-  MCQ_CHOICE,
+  MCQ_MSQ_CHOICE,
 
   /**
    * Weight assigned to the option
    */
-  MCQ_WEIGHT,
+  MCQ_MSQ_WEIGHT,
 
   /**
    * Number of selection of that option
    */
-  MCQ_RESPONSE_COUNT,
+  MCQ_MSQ_RESPONSE_COUNT,
 
   /**
    * Percentage of selection of that option
    */
-  MCQ_PERCENTAGE,
+  MCQ_MSQ_PERCENTAGE,
 
   /**
    * Weighted percentage of selection of that option
    */
-  MCQ_WEIGHTED_PERCENTAGE,
+  MCQ_MSQ_WEIGHTED_PERCENTAGE,
 
   /**
    * Recipient's Team
    */
-  MCQ_TEAM,
+  MCQ_MSQ_TEAM,
 
   /**
    * Recipient's Name
    */
-  MCQ_RECIPIENT_NAME,
+  MCQ_MSQ_RECIPIENT_NAME,
 
   /**
    * Number of times option chosen
    */
-  MCQ_OPTION_SELECTED_TIMES,
+  MCQ_MSQ_OPTION_SELECTED_TIMES,
 
   /**
    * Sum of weight of options
    */
-  MCQ_WEIGHT_TOTAL,
+  MCQ_MSQ_WEIGHT_TOTAL,
 
   /**
    * Average of weights
    */
-  MCQ_WEIGHT_AVERAGE,
-
-  /**
-   * Option text
-   */
-  MSQ_CHOICE,
-
-  /**
-   * Weight assigned to the option
-   */
-  MSQ_WEIGHT,
-
-  /**
-   * Number of selection of that option
-   */
-  MSQ_RESPONSE_COUNT,
-
-  /**
-   * Percentage of selection of that option
-   */
-  MSQ_PERCENTAGE,
-
-  /**
-   * Weighted percentage of selection of that option
-   */
-  MSQ_WEIGHTED_PERCENTAGE,
-
-  /**
-   * Recipient's Team
-   */
-  MSQ_TEAM,
-
-  /**
-   * Recipient's Name
-   */
-  MSQ_RECIPIENT_NAME,
-
-  /**
-   * Number of times option chosen
-   */
-  MSQ_OPTION_SELECTED_TIMES,
-
-  /**
-   * Sum of weight of options
-   */
-  MSQ_WEIGHT_TOTAL,
-
-  /**
-   * Average of weights
-   */
-  MSQ_WEIGHT_AVERAGE,
+  MCQ_MSQ_WEIGHT_AVERAGE,
 
   /**
    * Option to rank
