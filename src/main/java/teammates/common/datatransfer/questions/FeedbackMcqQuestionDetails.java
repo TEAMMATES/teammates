@@ -3,9 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -48,13 +46,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.questionDropdownEnabled = false;
         this.mcqOtherWeight = 0;
         this.generateOptionsFor = QuestionRecipientType.NONE;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        // Statistics are calculated in the frontend as they depend on the responses being filtered.
-        return "";
     }
 
     @Override

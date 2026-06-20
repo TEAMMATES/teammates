@@ -2,18 +2,20 @@ import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackQuestionDetails,
+  FeedbackQuestionResultsStatistics,
   FeedbackQuestionType,
   QuestionRecipientType,
   ResponseOutput,
 } from '../../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
+import { QuestionStatisticsTypeChecker } from '../../../../types/question-statistics-impl/question-statistics-caster';
 import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ConstsumOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-recipients-question-statistics.component';
-import { ContributionQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-question-statistics.component';
-import { McqQuestionStatisticsComponent } from '../../question-types/question-statistics/mcq-question-statistics.component';
-import { MsqQuestionStatisticsComponent } from '../../question-types/question-statistics/msq-question-statistics.component';
+import { ContributionCourseWideQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-course-wide-question-statistics.component';
+import { ContributionRecipientQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-recipient-question-statistics.component';
+import { McqMsqQuestionStatisticsComponent } from '../../question-types/question-statistics/mcq-msq-question-statistics.component';
 import { NumScaleQuestionStatisticsComponent } from '../../question-types/question-statistics/num-scale-question-statistics.component';
 import { RankOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-options-question-statistics.component';
 import { RankRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-recipients-question-statistics.component';
@@ -26,21 +28,22 @@ import { RubricQuestionStatisticsComponent } from '../../question-types/question
   selector: 'tm-single-statistics',
   templateUrl: './single-statistics.component.html',
   imports: [
-    ContributionQuestionStatisticsComponent,
+    ContributionCourseWideQuestionStatisticsComponent,
+    ContributionRecipientQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
     NumScaleQuestionStatisticsComponent,
     RubricQuestionStatisticsComponent,
     RankOptionsQuestionStatisticsComponent,
     RankRecipientsQuestionStatisticsComponent,
-    MsqQuestionStatisticsComponent,
-    McqQuestionStatisticsComponent,
+    McqMsqQuestionStatisticsComponent,
   ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
-  private feedbackResponsesService = inject(FeedbackResponsesService);
+  private readonly feedbackResponsesService = inject(FeedbackResponsesService);
 
   readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
+  readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker;
   readonly ResponseOutputCaster: typeof ResponseOutputCaster;
 
   @Input() responses: ResponseOutput[] = [];
@@ -50,7 +53,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   };
   @Input() recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
   @Input() isStudent = false;
-  @Input() statistics = '';
+  @Input() statistics?: FeedbackQuestionResultsStatistics;
   @Input() displayContributionStats = true;
   @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -59,6 +62,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
 
   constructor() {
     this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+    this.QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
     this.ResponseOutputCaster = ResponseOutputCaster;
   }
 

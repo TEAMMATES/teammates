@@ -2,21 +2,19 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { StringHelper } from '../../../../services/string-helper';
-import { NO_VALUE } from '../../../../types/feedback-response-details';
+import {
+  FeedbackQuestionType,
+  FeedbackQuestionResultsStatisticsView,
+  FeedbackRubricStatistics,
+  RubricPerRecipientStats,
+  RubricSubQuestionRow,
+} from '../../../../types/api-output';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails } from '../../../../types/api-output';
-import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import {
-  Response,
-  RubricPerRecipientStats,
-  RubricQuestionStatistics,
-} from '../../../../types/question-statistics.model';
-import { calculateRubricQuestionStatistics } from '../../../utils/question-statistics.util';
 
 /**
  * Statistics for rubric questions.
@@ -28,11 +26,16 @@ import { calculateRubricQuestionStatistics } from '../../../utils/question-stati
 })
 export class RubricQuestionStatisticsComponent implements OnChanges {
   @Input()
-  question: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
-  @Input()
-  responses: Response<FeedbackRubricResponseDetails>[] = [];
-  @Input()
-  isStudent = false;
+  statistics: FeedbackRubricStatistics = {
+    questionType: FeedbackQuestionType.RUBRIC,
+    statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+    subQuestions: [],
+    choices: [],
+    hasWeights: false,
+    rows: [],
+    rowsExcludeSelf: [],
+    perRecipientStats: [],
+  };
 
   excludeSelf = false;
 
@@ -43,83 +46,40 @@ export class RubricQuestionStatisticsComponent implements OnChanges {
   perRecipientOverallColumnsData: ColumnData[] = [];
   perRecipientOverallRowsData: SortableTableCellData[][] = [];
 
-  stats: RubricQuestionStatistics = {
-    subQuestions: [],
-    choices: [],
-    hasWeights: false,
-    weights: [],
-    answers: [],
-    isWeightStatsVisible: false,
-    percentages: [],
-    subQuestionWeightAverage: [],
-    answersExcludeSelf: [],
-    percentagesExcludeSelf: [],
-    subQuestionWeightAverageExcludeSelf: [],
-    perRecipientStatsMap: {},
-  };
-
   ngOnChanges(): void {
-    this.stats = calculateRubricQuestionStatistics(this.question, this.responses, this.isStudent);
-    this.getTableData(this.stats);
+    this.getTableData(this.statistics);
   }
 
-  getTableData(stats: RubricQuestionStatistics): void {
+  getTableData(stats: FeedbackRubricStatistics): void {
+    const activeRows: RubricSubQuestionRow[] = this.excludeSelf ? stats.rowsExcludeSelf : stats.rows;
+    const showWeights = stats.hasWeights;
+
     this.summaryColumnsData = [
       { header: 'Question', sortBy: SortBy.RUBRIC_SUBQUESTION },
       ...stats.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
-    if (stats.isWeightStatsVisible) {
+    if (showWeights) {
       this.summaryColumnsData.push({ header: 'Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE });
     }
 
-    this.summaryRowsData = stats.subQuestions.map((subQuestion: string, questionIndex: number) => {
+    this.summaryRowsData = activeRows.map((row: RubricSubQuestionRow, questionIndex: number) => {
       const currRow: SortableTableCellData[] = [
-        { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
-        ...stats.choices.map((_: string, choiceIndex: number) => {
-          if (this.excludeSelf) {
-            return {
-              value:
-                `${stats.percentagesExcludeSelf[questionIndex][choiceIndex]}%` +
-                ` (${stats.answersExcludeSelf[questionIndex][choiceIndex]})` +
-                `${
-                  stats.isWeightStatsVisible
-                    ? ` [${this.getDisplayWeight(stats.weights[questionIndex][choiceIndex])}]`
-                    : ''
-                }`,
-            };
-          }
-          return {
-            value:
-              `${stats.percentages[questionIndex][choiceIndex]}%` +
-              ` (${stats.answers[questionIndex][choiceIndex]})` +
-              `${
-                stats.isWeightStatsVisible
-                  ? ` [${this.getDisplayWeight(stats.weights[questionIndex][choiceIndex])}]`
-                  : ''
-              }`,
-          };
+        { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${row.subQuestion}` },
+        ...row.cells.map((cell) => {
+          const weightStr = showWeights && cell.weight != null ? ` [${cell.weight}]` : '';
+          return { value: `${cell.percentage}% (${cell.count})${weightStr}` };
         }),
       ];
-      if (stats.isWeightStatsVisible) {
-        if (this.excludeSelf) {
-          currRow.push({
-            value: this.getDisplayWeight(stats.subQuestionWeightAverageExcludeSelf[questionIndex]),
-          });
-        } else {
-          currRow.push({
-            value: this.getDisplayWeight(stats.subQuestionWeightAverage[questionIndex]),
-          });
-        }
+      if (showWeights) {
+        currRow.push({ value: this.getDisplayWeight(row.weightAverage) });
       }
-
       return currRow;
     });
 
-    if (!stats.isWeightStatsVisible) {
+    if (!showWeights || stats.perRecipientStats.length === 0) {
       return;
     }
 
-    // generate per recipient tables if weight is enabled
     this.perRecipientPerCriterionColumnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
@@ -130,8 +90,8 @@ export class RubricQuestionStatisticsComponent implements OnChanges {
     ];
 
     this.perRecipientPerCriterionRowsData = [];
-    Object.values(stats.perRecipientStatsMap).forEach((perRecipientStats: RubricPerRecipientStats) => {
-      stats.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
+    stats.perRecipientStats.forEach((perRecipientStats: RubricPerRecipientStats) => {
+      perRecipientStats.perCriterionRows.forEach((criterionRow, questionIndex) => {
         this.perRecipientPerCriterionRowsData.push([
           { value: perRecipientStats.recipientTeam },
           {
@@ -139,17 +99,15 @@ export class RubricQuestionStatisticsComponent implements OnChanges {
               perRecipientStats.recipientName +
               (perRecipientStats.recipientEmail ? ` (${perRecipientStats.recipientEmail})` : ''),
           },
-          { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
-          ...stats.choices.map((_: string, choiceIndex: number) => {
-            return {
-              value:
-                `${perRecipientStats.percentages[questionIndex][choiceIndex]}%` +
-                ` (${perRecipientStats.answers[questionIndex][choiceIndex]})` +
-                ` [${this.getDisplayWeight(stats.weights[questionIndex][choiceIndex])}]`,
-            };
+          {
+            value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${criterionRow.subQuestion}`,
+          },
+          ...criterionRow.cells.map((cell) => {
+            const weightStr = cell.weight != null ? ` [${cell.weight}]` : '';
+            return { value: `${cell.percentage}% (${cell.count})${weightStr}` };
           }),
-          { value: this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]) },
-          { value: this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]) },
+          { value: this.getDisplayWeight(criterionRow.total) },
+          { value: this.getDisplayWeight(criterionRow.average) },
         ]);
       });
     });
@@ -165,30 +123,26 @@ export class RubricQuestionStatisticsComponent implements OnChanges {
     ];
 
     this.perRecipientOverallRowsData = [];
-    Object.values(stats.perRecipientStatsMap).forEach((perRecipientStats: RubricPerRecipientStats) => {
-      const perCriterionAverage: string = perRecipientStats.subQuestionWeightAverage
-        .map((val: number) => this.getDisplayWeight(val))
+    stats.perRecipientStats.forEach((perRecipientStats: RubricPerRecipientStats) => {
+      const perCriterionAverage: string = perRecipientStats.subQuestionAverages
+        .map((val: number | null) => this.getDisplayWeight(val))
         .toString();
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
         { value: perRecipientStats.recipientEmail },
-        ...stats.choices.map((_: string, choiceIndex: number) => {
-          return {
-            value:
-              `${perRecipientStats.percentagesAverage[choiceIndex]}%` +
-              ` (${perRecipientStats.answersSum[choiceIndex]})` +
-              ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
-          };
+        ...perRecipientStats.overallCells.map((cell) => {
+          const weightStr = cell.weight != null ? ` [${cell.weight}]` : '';
+          return { value: `${cell.percentage}% (${cell.count})${weightStr}` };
         }),
-        { value: this.getDisplayWeight(perRecipientStats.overallWeightedSum) },
-        { value: this.getDisplayWeight(perRecipientStats.overallWeightAverage) },
+        { value: this.getDisplayWeight(perRecipientStats.overallTotal) },
+        { value: this.getDisplayWeight(perRecipientStats.overallAverage) },
         { value: perCriterionAverage },
       ]);
     });
   }
 
-  private getDisplayWeight(weight: number): string {
-    return weight === null || weight === NO_VALUE ? '-' : String(weight);
+  private getDisplayWeight(weight: number | null | undefined): string {
+    return weight == null ? '-' : String(weight);
   }
 }

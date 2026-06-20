@@ -1,4 +1,4 @@
-@if (isStudent && displayContributionStats && questionStatisticsForStudent) {
+@if (displayContributionStats) {
   <div>
     <div class="card" style="margin-top: 20px">
       <div class="card-header bg-primary text-white">Comparison of Work Distribution</div>
@@ -13,13 +13,11 @@
             </span>
           </div>
           <div id="own-view-me" class="col-sm-2">
-            <strong>of me:</strong>&nbsp;<tm-contribution
-              [value]="questionStatisticsForStudent.claimed"
-            ></tm-contribution>
+            <strong>of me:</strong>&nbsp;<tm-contribution [value]="statistics.myView.ofMe"></tm-contribution>
           </div>
           <div id="own-view-others" class="col-sm-8">
             <strong>of others:</strong>&nbsp;
-            @for (other of questionStatisticsForStudent.claimedOthersValues; track other; let i = $index) {
+            @for (other of statistics.myView.ofOthers; track other; let i = $index) {
               <span>
                 @if (i !== 0) {
                   <span>,&nbsp;</span>
@@ -43,11 +41,11 @@
             >
               <strong>of me:&nbsp;</strong>
             </span>
-            <tm-contribution [value]="questionStatisticsForStudent.perceived"></tm-contribution>
+            <tm-contribution [value]="statistics.teamView.ofMe"></tm-contribution>
           </div>
           <div id="team-view-others" class="col-sm-8">
             <strong>of others:</strong>&nbsp;
-            @for (other of questionStatisticsForStudent.perceivedOthers; track other; let i = $index) {
+            @for (other of statistics.teamView.ofOthers; track other; let i = $index) {
               <span>
                 @if (i !== 0) {
                   <span>,&nbsp;</span>
@@ -57,29 +55,6 @@
             }
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-}
-@if (!isStudent && displayContributionStats && questionOverallStatistics && responses.length) {
-  <div>
-    <div class="row">
-      <div class="col-sm-4 text-color-gray">
-        <strong> Response Summary </strong>
-      </div>
-      <div class="col-sm-8" style="text-align: right">
-        [<a
-          tmRouterLink="/web/instructor/help"
-          [queryParams]="{ questionId: QuestionsSectionQuestions.CONTRIBUTION, section: Sections.questions }"
-          rel="noopener noreferrer"
-          target="_blank"
-          >How do I interpret/use these values?</a
-        >]
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col-sm-12 table-responsive">
-        <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
       </div>
     </div>
   </div>

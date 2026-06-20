@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ContributionStatistics, FeedbackContributionResponseDetails } from '../../../../types/api-output';
+import { FeedbackContributionResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_EQUAL_SHARE,
@@ -19,9 +19,6 @@ import {
 })
 export class ContributionQuestionResponseComponent implements OnInit {
   @Input() responseDetails: FeedbackContributionResponseDetails = DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
-  @Input() statistics = '';
-  @Input() giverUserId = '';
-  @Input() recipientUserId = '';
 
   answer = 100;
 
@@ -39,16 +36,5 @@ export class ContributionQuestionResponseComponent implements OnInit {
 
   ngOnInit(): void {
     this.answer = this.responseDetails.answer;
-    if (this.statistics && this.giverUserId && this.recipientUserId) {
-      const statisticsObject: ContributionStatistics = JSON.parse(this.statistics);
-      const giverStats = statisticsObject.results[this.giverUserId];
-      if (giverStats) {
-        if (this.giverUserId === this.recipientUserId) {
-          this.answer = giverStats.claimed;
-        } else if (giverStats.claimedOthers[this.recipientUserId] !== undefined) {
-          this.answer = giverStats.claimedOthers[this.recipientUserId];
-        }
-      }
-    }
   }
 }

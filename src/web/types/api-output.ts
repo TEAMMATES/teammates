@@ -3,7 +3,6 @@
 
 export interface Account extends ApiOutput {
   accountId: string;
-  googleId: string;
   name: string;
   email: string;
   instructors: Instructor[];
@@ -39,17 +38,6 @@ export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
 }
 
-export interface ContributionStatistics {
-  results: { [index: string]: ContributionStatisticsEntry };
-}
-
-export interface ContributionStatisticsEntry {
-  claimed: number;
-  perceived: number;
-  claimedOthers: { [index: string]: number };
-  perceivedOthers: number[];
-}
-
 export interface Course extends ApiOutput {
   courseId: string;
   courseName: string;
@@ -77,6 +65,16 @@ export interface CourseSections extends ApiOutput {
 export interface CourseView extends ApiOutput {
   course: Course;
   instructorPermissions?: InstructorCoursePermissions;
+}
+
+export interface CourseWideRow {
+  teamName: string;
+  recipientName: string;
+  recipientEmail?: string;
+  claimed: number;
+  perceived: number;
+  diff: number;
+  ratingsReceived: number[];
 }
 
 export interface DeadlineExtension extends ApiOutput {
@@ -124,13 +122,35 @@ export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackRe
   answers: number[];
 }
 
+export interface FeedbackContributionCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  rows: CourseWideRow[];
+}
+
 export interface FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
   isZeroSum: boolean;
   isNotSureAllowed: boolean;
 }
 
+export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionResultsStatistics {
+  myView: RecipientView;
+  teamView: RecipientView;
+}
+
 export interface FeedbackContributionResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
+  perRecipientRows: McqMsqPerRecipientRow[];
+}
+
+export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
 }
 
 export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
@@ -212,6 +232,11 @@ export interface FeedbackQuestionResponses extends ApiOutput {
   questionResponses: { [index: string]: FeedbackResponse[] };
 }
 
+export interface FeedbackQuestionResultsStatistics {
+  questionType: FeedbackQuestionType;
+  statisticsView: FeedbackQuestionResultsStatisticsView;
+}
+
 export interface FeedbackQuestions extends ApiOutput {
   questions: FeedbackQuestion[];
 }
@@ -263,6 +288,15 @@ export interface FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
 export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
   answer: number[];
+}
+
+export interface FeedbackRubricStatistics extends FeedbackQuestionResultsStatistics {
+  subQuestions: string[];
+  choices: string[];
+  hasWeights: boolean;
+  rows: RubricSubQuestionRow[];
+  rowsExcludeSelf: RubricSubQuestionRow[];
+  perRecipientStats: RubricPerRecipientStats[];
 }
 
 export interface FeedbackSession extends ApiOutput {
@@ -410,6 +444,23 @@ export interface JoinStatus extends ApiOutput {
   hasJoined: boolean;
 }
 
+export interface McqMsqOptionRow {
+  option: string;
+  weight?: number;
+  count: number;
+  percentage: number;
+  weightedPercentage?: number;
+}
+
+export interface McqMsqPerRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  responseCountPerOption: { [index: string]: number };
+  total: number;
+  average: number;
+}
+
 export interface MessageOutput extends ApiOutput {
   message: string;
 }
@@ -451,13 +502,8 @@ export interface OngoingSessions extends ApiOutput {
 
 export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics: string;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
-  hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
-  responsesToSelf: ResponseOutput[];
-  responsesFromSelf: ResponseOutput[];
-  otherResponses: ResponseOutput[][];
 }
 
 export interface ReadNotification extends ApiOutput {
@@ -468,6 +514,11 @@ export interface ReadNotification extends ApiOutput {
 
 export interface ReadNotifications extends ApiOutput {
   readNotifications: string[];
+}
+
+export interface RecipientView {
+  ofMe: number;
+  ofOthers: number[];
 }
 
 export interface RegenerateKey extends ApiOutput {
@@ -513,6 +564,36 @@ export interface ResponseOutput {
   responseDetails: FeedbackResponseDetails;
   participantComment?: string;
   instructorComments: ResponseInstructorComment[];
+}
+
+export interface RubricChoiceCell {
+  percentage: number;
+  count: number;
+  weight?: number;
+}
+
+export interface RubricPerCriterionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  total?: number;
+  average?: number;
+}
+
+export interface RubricPerRecipientStats {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  perCriterionRows: RubricPerCriterionRow[];
+  overallCells: RubricChoiceCell[];
+  overallTotal?: number;
+  overallAverage?: number;
+  subQuestionAverages: number[];
+}
+
+export interface RubricSubQuestionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  weightAverage?: number;
 }
 
 export interface SessionLinks extends ApiOutput {
@@ -613,6 +694,21 @@ export interface UserInfo {
   isMaintainer: boolean;
 }
 
+export interface UserQuestionOutput {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
+  hasResponseButNotVisibleForPreview: boolean;
+  hasCommentNotVisibleForPreview: boolean;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+}
+
+export interface UserSessionResults extends ApiOutput {
+  questions: UserQuestionOutput[];
+}
+
 export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
@@ -632,6 +728,11 @@ export enum FeedbackConstantSumDistributePointsType {
   DISTRIBUTE_ALL_UNEVENLY = "All options",
   DISTRIBUTE_SOME_UNEVENLY = "At least some options",
   NONE = "None",
+}
+
+export enum FeedbackQuestionResultsStatisticsView {
+  COURSE_WIDE = "COURSE_WIDE",
+  RECIPIENT = "RECIPIENT",
 }
 
 export enum FeedbackQuestionType {

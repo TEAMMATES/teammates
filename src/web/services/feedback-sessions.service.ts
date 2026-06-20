@@ -22,6 +22,7 @@ import {
   SessionLinksRecoveryResponse,
   SessionResults,
   SessionSubmission,
+  UserSessionResults,
   Student,
   Students,
 } from '../types/api-output';
@@ -32,7 +33,6 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * Handles sessions related logic provision.
@@ -359,8 +359,6 @@ export class FeedbackSessionsService {
 
   /**
    * Download session results.
-   *
-   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   downloadSessionResults(
     feedbackSessionId: string,
@@ -373,16 +371,9 @@ export class FeedbackSessionsService {
       sectionNameForCsv?: string;
     },
   ): Observable<string> {
-    const isNoSpecificSection = sectionOptions?.groupBySectionId
-      ? sectionOptions.groupBySectionId === NO_SPECIFIC_SECTION_ID
-      : undefined;
-    const groupBySectionId =
-      sectionOptions?.groupBySectionId === NO_SPECIFIC_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
-      groupBySection: groupBySectionId,
-      isNoSpecificSection: isNoSpecificSection,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
@@ -399,29 +390,14 @@ export class FeedbackSessionsService {
 
   /**
    * Retrieves course-wide results for a feedback session.
-   *
-   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
-  getCourseSessionResults(queryParams: {
-    feedbackSessionId: string;
-    questionId?: string;
-    groupBySection?: string;
-    isNoSpecificSection?: boolean;
-  }): Observable<SessionResults> {
+  getCourseSessionResults(queryParams: { feedbackSessionId: string; questionId?: string }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
     };
 
     if (queryParams.questionId) {
       paramMap['questionid'] = queryParams.questionId;
-    }
-
-    if (queryParams.groupBySection) {
-      paramMap['frgroupbysection'] = queryParams.groupBySection;
-    }
-
-    if (queryParams.isNoSpecificSection !== undefined) {
-      paramMap['isnospecificsection'] = queryParams.isNoSpecificSection.toString();
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
@@ -435,7 +411,7 @@ export class FeedbackSessionsService {
     intent: Intent;
     key?: string;
     previewAs?: string;
-  }): Observable<SessionResults> {
+  }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
       intent: queryParams.intent,

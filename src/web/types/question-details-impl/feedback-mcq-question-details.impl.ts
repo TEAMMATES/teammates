@@ -1,13 +1,6 @@
 import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
-import {
-  FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackQuestionType,
-  QuestionOutput,
-  QuestionRecipientType,
-} from '../api-output';
-import { Response } from '../question-statistics.model';
-import { calculateMcqQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { FeedbackMcqQuestionDetails, FeedbackQuestionType, QuestionOutput, QuestionRecipientType } from '../api-output';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackMcqQuestionDetails}.
@@ -39,22 +32,11 @@ export class FeedbackMcqQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackMcqQuestionDetails;
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackMcqResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isMcqMsqCourseWide(stats) || stats.rows.length === 0) {
       return [];
     }
-
-    const statsCalculation = calculateMcqQuestionStatistics(questionDetails, responses);
-
-    statsRows.push(...this.getQuestionCsvStatsFrom(statsCalculation, questionDetails.hasAssignedWeights));
-
-    return statsRows;
+    return this.getQuestionCsvStatsFrom(stats);
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

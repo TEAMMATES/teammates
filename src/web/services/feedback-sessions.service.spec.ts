@@ -116,19 +116,6 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
   });
 
-  it('should call get with section ID when grouping course feedback session results by section', () => {
-    const paramMap: Record<string, string> = {
-      fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
-      frgroupbysection: '1b5d916f-f81d-4bc9-a6bf-6f9f6f81f102',
-    };
-
-    service.getCourseSessionResults({
-      feedbackSessionId: paramMap['fsid'],
-      groupBySection: paramMap['frgroupbysection'],
-    });
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
-  });
-
   it('should call get when retrieving user feedback session results', () => {
     const paramMap: Record<string, string> = {
       fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',

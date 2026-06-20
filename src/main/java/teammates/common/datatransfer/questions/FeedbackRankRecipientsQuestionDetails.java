@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -21,13 +19,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     public FeedbackRankRecipientsQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        // Statistics are calculated in the frontend as they depend on the responses being filtered.
-        return "";
     }
 
     @Override

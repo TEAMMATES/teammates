@@ -34,7 +34,6 @@
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ASearch.instr1",
       "name": "Instructor1 of Course1",
       "email": "asearch.instructor1@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -42,7 +41,6 @@
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
       "email": "asearch.instructor2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -50,7 +48,6 @@
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
       "email": "asearch.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -58,7 +55,6 @@
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "googleId": "tm.e2e.ASearch.unregisteredinstructor1",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor1@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -66,7 +62,6 @@
     },
     "unregisteredInstructor2": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "googleId": "tm.e2e.ASearch.unregisteredinstructor2",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -74,7 +69,6 @@
     },
     "unregisteredInstructor3": {
       "id": "00000000-0000-4000-8000-000000000105",
-      "googleId": "tm.e2e.ASearch.unregisteredinstructor3",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor3@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -82,7 +76,6 @@
     },
     "unregisteredInstructor4": {
       "id": "00000000-0000-4000-8000-000000000106",
-      "googleId": "tm.e2e.ASearch.unregisteredinstructor4",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor4@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -90,7 +83,6 @@
     },
     "unregisteredInstructor5": {
       "id": "00000000-0000-4000-8000-000000000107",
-      "googleId": "tm.e2e.ASearch.unregisteredinstructor5",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor5@gmail.tmt",
       "provider": "TEAMMATES_DEV",

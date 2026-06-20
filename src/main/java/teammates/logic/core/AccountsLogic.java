@@ -78,8 +78,7 @@ public final class AccountsLogic {
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
 
-        String googleId = email;
-        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
+        Account account = new Account(provider, subject, tenantId, "User", email);
 
         try {
             validateAccount(account);
@@ -97,15 +96,13 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(Provider provider, String subject, @Nullable String tenantId, String email, String googleId)
+    public Account createAccount(Provider provider, String subject, @Nullable String tenantId, String email)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
-        Objects.requireNonNull(googleId);
         // TODO: Account name will be removed, use a generic "User" for now.
-        // googleId will be removed as well.
-        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
+        Account account = new Account(provider, subject, tenantId, "User", email);
         return validateThenPersistAccount(account);
     }
 

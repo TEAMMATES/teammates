@@ -9,7 +9,6 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FRankOptQn.instructor",
       "name": "Teammates Test",
       "email": "frankoptqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -17,7 +16,6 @@
     },
     "tm.e2e.FRankOptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FRankOptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "frankoptqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -25,7 +23,6 @@
     },
     "tm.e2e.FRankOptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FRankOptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "frankoptqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -33,7 +30,6 @@
     },
     "tm.e2e.FRankOptQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.FRankOptQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "frankoptqn.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -41,7 +37,6 @@
     },
     "tm.e2e.FRankOptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.FRankOptQn.danny.tmms",
       "name": "Danny Engrid",
       "email": "frankoptqn.danny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",

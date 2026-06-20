@@ -1,4 +1,5 @@
 import type {
+  FeedbackContributionCourseWideStatistics,
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackTextResponseDetails,
@@ -6,6 +7,7 @@ import type {
 } from '../../types/api-output';
 import {
   FeedbackQuestionType,
+  FeedbackQuestionResultsStatisticsView,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
@@ -37,16 +39,21 @@ const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: `{
-  "results": {
-    "${student3UserId}": {
-      "claimed": 100,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": []
-    }
-  }
-}`,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.CONTRIB,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            teamName: `Team 2`,
+            recipientName: `student3 In Course With Sections`,
+            recipientEmail: `student3InCourseWithSections@gmail.tmt`,
+            claimed: 100,
+            perceived: -9999,
+            diff: -9999,
+            ratingsReceived: [],
+          },
+        ],
+      } as FeedbackContributionCourseWideStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -89,11 +96,6 @@ const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

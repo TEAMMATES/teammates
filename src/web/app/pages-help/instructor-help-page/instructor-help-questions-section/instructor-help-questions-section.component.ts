@@ -36,7 +36,7 @@ import {
 } from './instructor-help-questions-data';
 import { QuestionsSectionQuestions } from './questions-section-questions';
 import {
-  ContributionStatistics,
+  FeedbackContributionCourseWideStatistics,
   FeedbackConstantSumOptionsQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackSession,
@@ -102,7 +102,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleDistributedPointRecipientModel: QuestionEditFormModel;
   readonly exampleTeamContributionQuestionModel: QuestionEditFormModel;
   readonly exampleTeamContributionResponseOutput: ResponseOutput[];
-  readonly exampleContributionStatistics: ContributionStatistics;
+  readonly exampleContributionStatistics: FeedbackContributionCourseWideStatistics;
   readonly exampleTeamContributionQuestionTabModel: QuestionTabModel;
   readonly exampleTeamContributionQuestions: Record<string, QuestionTabModel>;
   readonly exampleRubricQuestionModel: QuestionEditFormModel;

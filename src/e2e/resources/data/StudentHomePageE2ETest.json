@@ -8,7 +8,6 @@
   },
   "accounts": {
     "SHome.instr": {
-      "googleId": "tm.e2e.SHome.instr",
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
@@ -16,7 +15,6 @@
       "subject": "shome.instr@gmail.tmt"
     },
     "SHome.student": {
-      "googleId": "tm.e2e.SHome.student",
       "name": "Alice B",
       "email": "shome.student@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
