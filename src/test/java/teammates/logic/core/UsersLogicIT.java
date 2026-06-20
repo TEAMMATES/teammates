@@ -55,8 +55,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
             account = getTypicalAccount();
             account = accountsLogic.createAccount(
-                    account.getProvider(), account.getSubject(), account.getTenantId(),
-                    account.getEmail(), account.getGoogleId());
+                    account.getProvider(), account.getSubject(), account.getTenantId(), account.getEmail());
         });
     }
 
