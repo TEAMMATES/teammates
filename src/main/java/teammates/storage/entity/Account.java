@@ -16,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.Provider;
@@ -49,9 +48,6 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String tenantId;
 
-    @NaturalId
-    private String googleId;
-
     @Column(nullable = false)
     private String name;
 
@@ -77,9 +73,8 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
+    public Account(Provider provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
-        this.setGoogleId(googleId);
         this.setProvider(provider);
         this.setSubject(subject);
         this.setTenantId(tenantId);
@@ -133,10 +128,6 @@ public class Account extends BaseEntity {
     public static String normalizeTenantId(String tenantId) {
         String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
         return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }
 
     public String getName() {
@@ -195,7 +186,6 @@ public class Account extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
@@ -222,7 +212,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
+        return "Account [id=" + id + ", name=" + name + ", email=" + email
                 + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }

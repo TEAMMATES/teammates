@@ -93,7 +93,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_validCookie_returnsLoggedInAccountContext() throws Exception {
-        Account account = createAccount("user-id", "user@example.com");
+        Account account = createAccount("user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
@@ -107,7 +107,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_loggedInRequestWithRegKey_returnsLoggedInAccountContext() throws Exception {
-        Account account = createAccount("user-id", "user@example.com");
+        Account account = createAccount("user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         req.addParam(Const.ParamsNames.REGKEY, "registration-key");
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
@@ -121,7 +121,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_adminCookie_returnsAdminContext() throws Exception {
-        Account account = createAccount("admin-id", "admin@example.com");
+        Account account = createAccount("admin@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(account.getEmail()));
@@ -135,7 +135,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_maintainerCookie_returnsMaintainerContext() throws Exception {
-        Account account = createAccount("maintainer-id", "maintainer@example.com");
+        Account account = createAccount("maintainer@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(account.getEmail()));
@@ -149,7 +149,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
-        Account account = createAccount("user-id", "user@example.com");
+        Account account = createAccount("user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, account.getId().toString());
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
@@ -162,8 +162,8 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void getAuthContextFromRequest_adminMasquerade_returnsTargetAccountContext() throws Exception {
-        Account adminAccount = createAccount("admin-id", "admin@example.com");
-        Account targetAccount = createAccount("target-id", "target@example.com");
+        Account adminAccount = createAccount("admin@example.com");
+        Account targetAccount = createAccount("target@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(adminAccount);
         req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, targetAccount.getId().toString());
         when(mockAccountsLogic.getAccount(adminAccount.getId())).thenReturn(adminAccount);
@@ -196,9 +196,9 @@ public class UserProvisionTest extends BaseTestCase {
         return req;
     }
 
-    private static Account createAccount(String googleId, String email) {
+    private static Account createAccount(String email) {
         Account account = new Account(
-                googleId, Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
+                Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
                 "Test User", email);
         account.setId(UUID.randomUUID());
         return account;
