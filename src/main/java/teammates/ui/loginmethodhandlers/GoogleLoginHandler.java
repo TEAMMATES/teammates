@@ -77,7 +77,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
             return null;
         }
 
-        String sessionId = state.getSessionId();
+        String sessionId = state.sessionId();
         if (!sessionId.equals(req.getSession().getId())) {
             // Invalid session ID
             log.warning(String.format("Different session ID: expected %s, got %s",
@@ -130,7 +130,6 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         }
         GenericUrl url = new GenericUrl(requestUrl);
         url.setRawPath("/oauth2callback");
-        url.set("ngsw-bypass", "true");
         return url.build();
     }
 

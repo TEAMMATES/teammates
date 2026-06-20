@@ -54,7 +54,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
             return null;
         }
 
-        String sessionId = state.getSessionId();
+        String sessionId = state.sessionId();
         if (!sessionId.equals(req.getSession().getId())) {
             // Invalid session ID
             log.warning(String.format("Different session ID: expected %s, got %s",

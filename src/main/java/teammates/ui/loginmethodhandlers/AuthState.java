@@ -6,28 +6,16 @@ import teammates.ui.output.LoginMethod;
 
 /**
  * Represents the state object to be persisted during the callback.
+ *
+ * @param nextUrl the URL to redirect to after successful authentication
+ * @param sessionId the session ID to validate against during callback
+ * @param loginMethod the login method used for authentication
  */
-public class AuthState {
-    private final String nextUrl;
-    private final String sessionId;
-    private final LoginMethod method;
+public record AuthState(String nextUrl, String sessionId, LoginMethod loginMethod) {
 
     @JsonCreator
-    public AuthState(String nextUrl, String sessionId, LoginMethod method) {
-        this.nextUrl = nextUrl;
-        this.sessionId = sessionId;
-        this.method = method;
+    public AuthState {
+        // For Jackson deserialization
     }
 
-    public String getNextUrl() {
-        return nextUrl;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public LoginMethod getMethod() {
-        return method;
-    }
 }

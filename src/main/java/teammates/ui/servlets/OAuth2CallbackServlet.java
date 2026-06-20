@@ -40,7 +40,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return;
         }
 
-        LoginMethod method = state.getMethod();
+        LoginMethod method = state.loginMethod();
 
         if (!Config.isSupportedLoginMethod(method)) {
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST,
@@ -61,7 +61,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             try {
                 HibernateUtil.beginTransaction();
                 Account account = accountsLogic.createOrGetAccount(
-                        authResult.getProvider(), authResult.getSubject(), authResult.getTenantId(), authResult.getEmail());
+                        authResult.provider(), authResult.subject(), authResult.tenantId(), authResult.email());
                 HibernateUtil.commitTransaction();
 
                 UserInfoCookie uic = new UserInfoCookie(account.getId());
@@ -69,7 +69,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 logMessage = "Login successful";
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
-                log.warning("Failed to create or get account for " + authResult.getEmail(), e);
+                log.warning("Failed to create or get account for " + authResult.email(), e);
                 req.getSession().invalidate();
 
                 cookie = getLoginInvalidationCookie();
@@ -82,7 +82,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        String nextUrl = UrlHelper.getSafeRedirectUrl(state.getNextUrl());
+        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
         String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
