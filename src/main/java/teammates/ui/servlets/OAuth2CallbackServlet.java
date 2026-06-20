@@ -69,7 +69,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 logMessage = "Login successful";
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
-                log.warning("Failed to create or get account for " + authResult.getTenantId(), e);
+                log.warning("Failed to create or get account for " + authResult.getEmail(), e);
                 req.getSession().invalidate();
 
                 cookie = getLoginInvalidationCookie();
