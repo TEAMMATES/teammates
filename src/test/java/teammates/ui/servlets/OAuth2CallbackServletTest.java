@@ -90,10 +90,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     public void doGet_unsupportedLoginMethod_returnsBadRequest() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(() -> Config.isSupportedLoginMethod(LoginMethod.GOOGLE)).thenReturn(false);
-
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
             servlet.doGet(req, resp);
         }
 
@@ -104,10 +101,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     public void doGet_unsupportedLoginMethod_invalidatesLoginCookie() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(() -> Config.isSupportedLoginMethod(LoginMethod.GOOGLE)).thenReturn(false);
-
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
             servlet.doGet(req, resp);
         }
 
@@ -119,7 +113,9 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
         servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
 
-        servlet.doGet(req, resp);
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
+            servlet.doGet(req, resp);
+        }
 
         assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, resp.getStatus());
     }
@@ -129,7 +125,9 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
         servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
 
-        servlet.doGet(req, resp);
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
+            servlet.doGet(req, resp);
+        }
 
         assertLoginCookieInvalidated(resp);
     }
@@ -139,7 +137,9 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
         servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
 
-        servlet.doGet(req, resp);
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
+            servlet.doGet(req, resp);
+        }
 
         assertEquals("/", resp.getRedirectUrl());
     }
@@ -150,11 +150,9 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         LoginMethodHandler loginHandler = mockSuccessfulLoginHandler();
         AccountsLogic accountsLogic = mockSuccessfulAccountsLogic();
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS));
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true);
                 MockedStatic<AccountsLogic> mockAccountsLogic = mockStatic(AccountsLogic.class);
                 MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
-            mockConfig.when(() -> Config.isSupportedLoginMethod(LoginMethod.GOOGLE)).thenReturn(true);
             mockAccountsLogic.when(AccountsLogic::inst).thenReturn(accountsLogic);
             mockHibernateUtil.when(HibernateUtil::beginTransaction).thenAnswer(invocation -> null);
             mockHibernateUtil.when(HibernateUtil::commitTransaction).thenAnswer(invocation -> null);
@@ -164,6 +162,13 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         }
 
         assertEquals("/web/instructor/home", resp.getRedirectUrl());
+    }
+
+    private static MockedStatic<Config> mockSupportedLoginMethod(LoginMethod loginMethod, boolean isSupported) {
+        MockedStatic<Config> mockConfig = mockStatic(Config.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS));
+        mockConfig.when(() -> Config.isSupportedLoginMethod(loginMethod)).thenReturn(isSupported);
+        return mockConfig;
     }
 
     private static String getEncryptedState(LoginMethod loginMethod) {
