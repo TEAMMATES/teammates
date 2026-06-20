@@ -289,8 +289,8 @@ public class FeedbackRubricQuestionStatisticsCalculatorTest extends BaseStatisti
 
         // rSelf: teamA rates teamA (SQ1→choice0) — should be excluded from rowsExcludeSelf
         // rOther: teamB rates teamA (SQ1→choice1) — should remain
-        assertEquals(statistics.getRows().get(0).getCells().get(0).getCount(), 1);      // rSelf in rows
-        assertEquals(statistics.getRows().get(0).getCells().get(1).getCount(), 1);      // rOther in rows
+        assertEquals(statistics.getRows().get(0).getCells().get(0).getCount(), 1); // rSelf in rows
+        assertEquals(statistics.getRows().get(0).getCells().get(1).getCount(), 1); // rOther in rows
         assertEquals(statistics.getRowsExcludeSelf().get(0).getCells().get(0).getCount(), 0); // rSelf excluded
         assertEquals(statistics.getRowsExcludeSelf().get(0).getCells().get(1).getCount(), 1); // rOther kept
     }

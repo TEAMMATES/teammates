@@ -1,10 +1,12 @@
 import type {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
+  FeedbackRubricStatistics,
   FeedbackTextResponseDetails,
   SessionResults,
 } from '../../types/api-output';
 import {
+  FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -44,7 +46,184 @@ const feedbackSessionResultsRubricResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: undefined,
+      // Actual rubric responses for Q1:
+      //   student1→student1: [0,1] (SQ1:Yes, SQ2:No)
+      //   student1→student3: [0,0] (SQ1:Yes, SQ2:Yes)
+      //   student1→student4: [-1,0] (SQ1:not-chosen, SQ2:Yes)
+      //   student1→student2: [1,0] (SQ1:No, SQ2:Yes)
+      // SQ1 totals: Yes=2, No=1 → 66.67%/33.33%; SQ2 totals: Yes=3, No=1 → 75%/25%
+      // Self-response: student1→student1 excluded from rowsExcludeSelf
+      questionStatistics: {
+        questionType: FeedbackQuestionType.RUBRIC,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        subQuestions: [`This student has done a good job.`, `This student has tried his/her best.`],
+        choices: [`Yes`, `No`],
+        hasWeights: true,
+        rows: [
+          {
+            subQuestion: `This student has done a good job.`,
+            cells: [
+              { count: 2, percentage: 66.67, weight: 1.25 },
+              { count: 1, percentage: 33.33, weight: -1.7 },
+            ],
+            weightAverage: 0.27,
+          },
+          {
+            subQuestion: `This student has tried his/her best.`,
+            cells: [
+              { count: 3, percentage: 75, weight: 1.25 },
+              { count: 1, percentage: 25, weight: -1.7 },
+            ],
+            weightAverage: 0.51,
+          },
+        ],
+        rowsExcludeSelf: [
+          {
+            subQuestion: `This student has done a good job.`,
+            cells: [
+              { count: 1, percentage: 50, weight: 1.25 },
+              { count: 1, percentage: 50, weight: -1.7 },
+            ],
+            weightAverage: -0.22,
+          },
+          {
+            subQuestion: `This student has tried his/her best.`,
+            cells: [
+              { count: 3, percentage: 100, weight: 1.25 },
+              { count: 0, percentage: 0, weight: -1.7 },
+            ],
+            weightAverage: 1.25,
+          },
+        ],
+        perRecipientStats: [
+          {
+            recipientName: `student1 In Course1</td></div>'"`,
+            recipientEmail: `student1InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 1, percentage: 100, weight: -1.7 },
+                ],
+                total: -1.7,
+                average: -1.7,
+              },
+            ],
+            overallCells: [
+              { count: 1, percentage: 50, weight: 1.25 },
+              { count: 1, percentage: 50, weight: -1.7 },
+            ],
+            overallTotal: -0.45,
+            overallAverage: -0.22,
+            subQuestionAverages: [1.25, -1.7],
+          },
+          {
+            recipientName: `student3 In Course1`,
+            recipientEmail: `student3InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+            ],
+            overallCells: [
+              { count: 2, percentage: 100, weight: 1.25 },
+              { count: 0, percentage: 0, weight: -1.7 },
+            ],
+            overallTotal: 2.5,
+            overallAverage: 1.25,
+            subQuestionAverages: [1.25, 1.25],
+          },
+          {
+            recipientName: `student4 In Course1`,
+            recipientEmail: `student4InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+            ],
+            overallCells: [
+              { count: 1, percentage: 100, weight: 1.25 },
+              { count: 0, percentage: 0, weight: -1.7 },
+            ],
+            overallTotal: 1.25,
+            overallAverage: 1.25,
+            subQuestionAverages: [null, 1.25],
+          },
+          {
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 1, percentage: 100, weight: -1.7 },
+                ],
+                total: -1.7,
+                average: -1.7,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: -1.7 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+            ],
+            overallCells: [
+              { count: 1, percentage: 50, weight: 1.25 },
+              { count: 1, percentage: 50, weight: -1.7 },
+            ],
+            overallTotal: -0.45,
+            overallAverage: -0.22,
+            subQuestionAverages: [-1.7, 1.25],
+          },
+        ],
+      } as FeedbackRubricStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -385,7 +564,144 @@ const feedbackSessionResultsRubricResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: undefined,
+      // Actual rubric responses for Q2:
+      //   student1→student2: [0,-1] (SQ1:Yes, SQ2:not-chosen)
+      //   student3→student4: [0,-1] (SQ1:Yes, SQ2:not-chosen)
+      //   student2→student3: [1,-1] (SQ1:No, SQ2:not-chosen)
+      // SQ1: Yes=2, No=1 → 66.67%/33.33%; SQ2: no responses
+      questionStatistics: {
+        questionType: FeedbackQuestionType.RUBRIC,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        subQuestions: [`This student has done a good job.`, `This student has tried his/her best.`],
+        choices: [`Yes`, `No`],
+        hasWeights: true,
+        rows: [
+          {
+            subQuestion: `This student has done a good job.`,
+            cells: [
+              { count: 2, percentage: 66.67, weight: 1.25 },
+              { count: 1, percentage: 33.33, weight: 1 },
+            ],
+            weightAverage: 1.17,
+          },
+          {
+            subQuestion: `This student has tried his/her best.`,
+            cells: [
+              { count: 0, percentage: 0, weight: 1.25 },
+              { count: 0, percentage: 0, weight: 1 },
+            ],
+          },
+        ],
+        rowsExcludeSelf: [
+          {
+            subQuestion: `This student has done a good job.`,
+            cells: [
+              { count: 2, percentage: 66.67, weight: 1.25 },
+              { count: 1, percentage: 33.33, weight: 1 },
+            ],
+            weightAverage: 1.17,
+          },
+          {
+            subQuestion: `This student has tried his/her best.`,
+            cells: [
+              { count: 0, percentage: 0, weight: 1.25 },
+              { count: 0, percentage: 0, weight: 1 },
+            ],
+          },
+        ],
+        perRecipientStats: [
+          {
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: 1 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: 1 },
+                ],
+              },
+            ],
+            overallCells: [
+              { count: 1, percentage: 100, weight: 1.25 },
+              { count: 0, percentage: 0, weight: 1 },
+            ],
+            overallTotal: 1.25,
+            overallAverage: 1.25,
+            subQuestionAverages: [1.25, null],
+          },
+          {
+            recipientName: `student4 In Course1`,
+            recipientEmail: `student4InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 1, percentage: 100, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: 1 },
+                ],
+                total: 1.25,
+                average: 1.25,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: 1 },
+                ],
+              },
+            ],
+            overallCells: [
+              { count: 1, percentage: 100, weight: 1.25 },
+              { count: 0, percentage: 0, weight: 1 },
+            ],
+            overallTotal: 1.25,
+            overallAverage: 1.25,
+            subQuestionAverages: [1.25, null],
+          },
+          {
+            recipientName: `student3 In Course1`,
+            recipientEmail: `student3InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            perCriterionRows: [
+              {
+                subQuestion: `This student has done a good job.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 1, percentage: 100, weight: 1 },
+                ],
+                total: 1,
+                average: 1,
+              },
+              {
+                subQuestion: `This student has tried his/her best.`,
+                cells: [
+                  { count: 0, percentage: 0, weight: 1.25 },
+                  { count: 0, percentage: 0, weight: 1 },
+                ],
+              },
+            ],
+            overallCells: [
+              { count: 0, percentage: 0, weight: 1.25 },
+              { count: 1, percentage: 100, weight: 1 },
+            ],
+            overallTotal: 1,
+            overallAverage: 1,
+            subQuestionAverages: [1, null],
+          },
+        ],
+      } as FeedbackRubricStatistics,
       allResponses: [
         {
           isMissingResponse: false,
