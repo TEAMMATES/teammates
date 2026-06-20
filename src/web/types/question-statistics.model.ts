@@ -22,19 +22,3 @@ export interface Response<R extends FeedbackResponseDetails> {
   recipientSection: string;
   responseDetails: R;
 }
-
-export interface RankOptionsQuestionStatistics {
-  ranksReceivedPerOption: Record<string, number[]>;
-  rankPerOption: Record<string, number>;
-}
-
-export interface RankRecipientsQuestionStatistics {
-  emailToTeamName: Record<string, string>;
-  emailToName: Record<string, string>;
-  ranksReceivedPerOption: Record<string, number[]>;
-  selfRankPerOption: Record<string, number>;
-  rankPerOption: Record<string, number>;
-  rankPerOptionExcludeSelf: Record<string, number>;
-  rankPerOptionInTeam: Record<string, number>;
-  rankPerOptionInTeamExcludeSelf: Record<string, number>;
-}

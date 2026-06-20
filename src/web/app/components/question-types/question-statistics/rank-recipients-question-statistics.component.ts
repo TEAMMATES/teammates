@@ -5,9 +5,12 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackRankRecipientsResponseDetails, QuestionRecipientType } from '../../../../types/api-output';
-import { RankRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
-import { calculateRankRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
+import {
+  FeedbackQuestionType,
+  FeedbackRankRecipientsStatistics,
+  FeedbackQuestionResultsStatisticsView,
+  RankRecipientsRow,
+} from '../../../../types/api-output';
 
 /**
  * Statistics for rank recipients questions.
@@ -19,11 +22,11 @@ import { calculateRankRecipientsQuestionStatistics } from '../../../utils/questi
 })
 export class RankRecipientsQuestionStatisticsComponent implements OnChanges {
   @Input()
-  responses: Response<FeedbackRankRecipientsResponseDetails>[] = [];
-  @Input()
-  isStudent = false;
-  @Input()
-  recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
+  statistics: FeedbackRankRecipientsStatistics = {
+    questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+    rows: [],
+  };
 
   // enum
   SortBy!: typeof SortBy;
@@ -36,11 +39,10 @@ export class RankRecipientsQuestionStatisticsComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    const stats = calculateRankRecipientsQuestionStatistics(this.responses, this.recipientType);
-    this.getTableData(stats);
+    this.buildTableData();
   }
 
-  private getTableData(stats: RankRecipientsQuestionStatistics): void {
+  private buildTableData(): void {
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.RANK_RECIPIENTS_TEAM },
       { header: 'Recipient', sortBy: SortBy.RANK_RECIPIENTS_RECIPIENT },
@@ -52,18 +54,17 @@ export class RankRecipientsQuestionStatisticsComponent implements OnChanges {
       { header: 'Team Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF },
     ];
 
-    this.rowsData = Object.keys(stats.ranksReceivedPerOption).map((key: string) => {
+    this.rowsData = this.statistics.rows.map((row: RankRecipientsRow) => {
+      const displayName = row.recipientName + (row.recipientEmail ? ` (${row.recipientEmail})` : '');
       return [
-        { value: stats.emailToTeamName[key] },
-        {
-          value: stats.emailToName[key] + (key === stats.emailToName[key] ? '' : ` (${key})`),
-        },
-        { value: stats.ranksReceivedPerOption[key].join(', ') },
-        { value: stats.selfRankPerOption[key] || '-' },
-        { value: stats.rankPerOption[key] || '-' },
-        { value: stats.rankPerOptionExcludeSelf[key] || '-' },
-        { value: stats.rankPerOptionInTeam[key] || '-' },
-        { value: stats.rankPerOptionInTeamExcludeSelf[key] || '-' },
+        { value: row.recipientTeam },
+        { value: displayName },
+        { value: row.ranksReceived.join(', ') },
+        { value: row.selfRank ?? '-' },
+        { value: row.overallRank ?? '-' },
+        { value: row.rankExcludingSelf ?? '-' },
+        { value: row.rankInTeam ?? '-' },
+        { value: row.rankInTeamExcludingSelf ?? '-' },
       ];
     });
   }

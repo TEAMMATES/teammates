@@ -26,6 +26,10 @@ public final class FeedbackQuestionResultsStatisticsFactory {
             new FeedbackMcqMsqQuestionStatisticsCalculator();
     private static final FeedbackNumScaleQuestionStatisticsCalculator NUMSCALE_CALCULATOR =
             new FeedbackNumScaleQuestionStatisticsCalculator();
+    private static final FeedbackRankOptionsQuestionStatisticsCalculator RANK_OPTIONS_CALCULATOR =
+            new FeedbackRankOptionsQuestionStatisticsCalculator();
+    private static final FeedbackRankRecipientsQuestionStatisticsCalculator RANK_RECIPIENTS_CALCULATOR =
+            new FeedbackRankRecipientsQuestionStatisticsCalculator();
     private static final FeedbackRubricQuestionStatisticsCalculator RUBRIC_CALCULATOR =
             new FeedbackRubricQuestionStatisticsCalculator();
 
@@ -44,6 +48,8 @@ public final class FeedbackQuestionResultsStatisticsFactory {
         case CONTRIB -> CONTRIBUTION_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case MCQ, MSQ -> MCQ_MSQ_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case NUMSCALE -> NUMSCALE_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        case RANK_OPTIONS -> RANK_OPTIONS_CALCULATOR.calculateCourseWide(question, responses, bundle);
+        case RANK_RECIPIENTS -> RANK_RECIPIENTS_CALCULATOR.calculateCourseWide(question, responses, bundle);
         case RUBRIC -> RUBRIC_CALCULATOR.calculateCourseWide(question, responses, bundle);
         default -> null;
         };

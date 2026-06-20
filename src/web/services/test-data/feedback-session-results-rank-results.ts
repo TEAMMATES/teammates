@@ -1,8 +1,10 @@
 import type {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
+  FeedbackRankOptionsStatistics,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
+  FeedbackRankRecipientsStatistics,
   FeedbackTextResponseDetails,
   SessionResults,
 } from '../../types/api-output';
@@ -38,7 +40,53 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: undefined,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+        rows: [
+          {
+            recipientName: `student1 In Course1</td></div>'"`,
+            recipientEmail: `student1InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            ranksReceived: [4],
+            selfRank: 4,
+            overallRank: 4,
+            rankInTeam: 4,
+          },
+          {
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            ranksReceived: [3, 2],
+            selfRank: 2,
+            overallRank: 1,
+            rankExcludingSelf: 3,
+            rankInTeam: 1,
+            rankInTeamExcludingSelf: 3,
+          },
+          {
+            recipientName: `student3 In Course1`,
+            recipientEmail: `student3InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            ranksReceived: [2, 3],
+            selfRank: 3,
+            overallRank: 1,
+            rankExcludingSelf: 1,
+            rankInTeam: 1,
+            rankInTeamExcludingSelf: 1,
+          },
+          {
+            recipientName: `student4 In Course1`,
+            recipientEmail: `student4InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            ranksReceived: [4, 3, 1],
+            selfRank: 3,
+            overallRank: 3,
+            rankExcludingSelf: 2,
+            rankInTeam: 3,
+            rankInTeamExcludingSelf: 2,
+          },
+        ],
+      } as FeedbackRankRecipientsStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -504,7 +552,16 @@ const feedbackSessionResultsRankResults: SessionResults = {
         questionDescription: ``,
         customNumberOfEntitiesToGiveFeedbackTo: 0,
       },
-      questionStatistics: undefined,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+        options: [
+          { option: `Quality of work`, ranksReceived: [2, 3, 1, 4, 1], overallRank: 3 },
+          { option: `Quality of progress reports`, ranksReceived: [2, 3], overallRank: 4 },
+          { option: `Time management`, ranksReceived: [1, 2, 3, 2], overallRank: 2 },
+          { option: `Teamwork and communication`, ranksReceived: [1, 1, 4, 1], overallRank: 1 },
+          { option: `Friendliness of teammates`, ranksReceived: [] },
+        ],
+      } as FeedbackRankOptionsStatistics,
       allResponses: [
         {
           isMissingResponse: false,

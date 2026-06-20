@@ -1,16 +1,12 @@
-@if (QuestionDetailsTypeChecker.isContrib(question)) {
-  @if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
-    <tm-contribution-recipient-question-statistics
-      [displayContributionStats]="displayContributionStats"
-      [statistics]="statistics"
-    ></tm-contribution-recipient-question-statistics>
-  }
-  @if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
-    <tm-contribution-course-wide-question-statistics
-      [displayContributionStats]="displayContributionStats"
-      [statistics]="statistics"
-    ></tm-contribution-course-wide-question-statistics>
-  }
+@if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
+  <tm-contribution-recipient-question-statistics
+    [statistics]="statistics"
+  ></tm-contribution-recipient-question-statistics>
+}
+@if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
+  <tm-contribution-course-wide-question-statistics
+    [statistics]="statistics"
+  ></tm-contribution-course-wide-question-statistics>
 }
 @if (QuestionStatisticsTypeChecker.isConstsumOptions(statistics)) {
   <tm-constsum-options-question-statistics [statistics]="statistics"></tm-constsum-options-question-statistics>
@@ -24,19 +20,11 @@
 @if (QuestionStatisticsTypeChecker.isRubric(statistics)) {
   <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRankOptions(question)) {
-  <tm-rank-options-question-statistics
-    [responses]="ResponseOutputCaster.rankOptions(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-rank-options-question-statistics>
+@if (QuestionStatisticsTypeChecker.isRankOptions(statistics)) {
+  <tm-rank-options-question-statistics [statistics]="statistics"></tm-rank-options-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRankRecipients(question)) {
-  <tm-rank-recipients-question-statistics
-    [responses]="ResponseOutputCaster.rankRecipients(responsesToUse)"
-    [recipientType]="recipientType"
-    [isStudent]="isStudent"
-  ></tm-rank-recipients-question-statistics>
+@if (QuestionStatisticsTypeChecker.isRankRecipients(statistics)) {
+  <tm-rank-recipients-question-statistics [statistics]="statistics"></tm-rank-recipients-question-statistics>
 }
 @if (QuestionStatisticsTypeChecker.isMcqMsq(statistics)) {
   <tm-mcq-msq-question-statistics [statistics]="statistics"></tm-mcq-msq-question-statistics>

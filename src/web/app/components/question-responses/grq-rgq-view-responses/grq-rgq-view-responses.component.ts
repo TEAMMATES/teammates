@@ -43,7 +43,6 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
   @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam = true;
-  @Input() showStatistics = true;
   @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',

@@ -279,6 +279,10 @@ export interface FeedbackRankOptionsResponseDetails extends FeedbackResponseDeta
   answers: number[];
 }
 
+export interface FeedbackRankOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: RankOptionsOptionRow[];
+}
+
 export interface FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
   minOptionsToBeRanked: number;
   maxOptionsToBeRanked: number;
@@ -290,6 +294,10 @@ export interface FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuest
 
 export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackRankRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: RankRecipientsRow[];
 }
 
 export interface FeedbackResponse extends ApiOutput {
@@ -545,6 +553,24 @@ export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
+}
+
+export interface RankOptionsOptionRow {
+  option: string;
+  ranksReceived: number[];
+  overallRank: number;
+}
+
+export interface RankRecipientsRow {
+  recipientName: string;
+  recipientEmail: string;
+  recipientTeam: string;
+  ranksReceived: number[];
+  selfRank: number;
+  overallRank: number;
+  rankExcludingSelf: number;
+  rankInTeam: number;
+  rankInTeamExcludingSelf: number;
 }
 
 export interface ReadNotification extends ApiOutput {

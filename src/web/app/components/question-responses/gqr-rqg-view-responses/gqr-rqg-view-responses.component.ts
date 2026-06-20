@@ -2,7 +2,6 @@ import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
-  FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -19,7 +18,6 @@ import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.compone
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 import { PerQuestionViewResponsesComponent } from '../per-question-view-responses/per-question-view-responses.component';
-import { SingleStatisticsComponent } from '../single-statistics/single-statistics.component';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 interface QuestionTab {
@@ -39,7 +37,6 @@ interface QuestionTab {
     NgbCollapse,
     PanelChevronComponent,
     QuestionTextWithInfoComponent,
-    SingleStatisticsComponent,
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
@@ -54,7 +51,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam = true;
-  @Input() showStatistics = true;
   @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
@@ -85,7 +81,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
-  teamsToQuestions: Record<string, QuestionOutput[]> = {};
 
   ngOnInit(): void {
     this.filterResponses();
@@ -97,7 +92,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   private filterResponses(): void {
     this.responsesToShow = {};
-    this.teamsToQuestions = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
     this.userToEmail = {};
@@ -200,49 +194,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             questionOutput: questionCopy,
             isTabExpanded: this.isExpandAll,
           });
-        }
-      }
-    }
-
-    for (const team of Object.keys(this.teamExpanded)) {
-      for (const question of this.responses) {
-        if (
-          question.feedbackQuestion.questionType === FeedbackQuestionType.CONTRIB ||
-          question.feedbackQuestion.questionType === FeedbackQuestionType.TEXT
-        ) {
-          // Should not display anything for contribution and text questions
-          continue;
-        }
-        const questionCopy: QuestionOutput = structuredClone(question);
-        questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
-          if (response.isMissingResponse) {
-            // Missing response is meaningless for team statistics
-            return false;
-          }
-          if (this.isGqr && team !== response.giverTeam) {
-            return false;
-          }
-          if (!this.isGqr && team !== response.recipientTeam) {
-            return false;
-          }
-
-          const shouldDisplayBasedOnSection: boolean =
-            this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
-              response,
-              this.section,
-              this.sectionType,
-            );
-
-          if (!shouldDisplayBasedOnSection) {
-            return false;
-          }
-
-          return true;
-        });
-
-        if (questionCopy.allResponses.length) {
-          this.teamsToQuestions[team] = this.teamsToQuestions[team] || [];
-          this.teamsToQuestions[team].push(questionCopy);
         }
       }
     }
