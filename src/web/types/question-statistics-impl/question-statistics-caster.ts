@@ -9,6 +9,8 @@ import {
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
+  FeedbackRankOptionsStatistics,
+  FeedbackRankRecipientsStatistics,
   FeedbackRubricStatistics,
 } from '../api-output';
 
@@ -63,6 +65,14 @@ export class QuestionStatisticsTypeChecker {
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
     );
+  }
+
+  static isRankOptions(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRankOptionsStatistics {
+    return s?.questionType === FeedbackQuestionType.RANK_OPTIONS;
+  }
+
+  static isRankRecipients(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRankRecipientsStatistics {
+    return s?.questionType === FeedbackQuestionType.RANK_RECIPIENTS;
   }
 
   static isRubric(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackRubricStatistics {

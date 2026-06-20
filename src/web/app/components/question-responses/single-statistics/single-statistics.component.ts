@@ -9,7 +9,6 @@ import {
 } from '../../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
 import { QuestionStatisticsTypeChecker } from '../../../../types/question-statistics-impl/question-statistics-caster';
-import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ConstsumOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-recipients-question-statistics.component';
@@ -44,7 +43,6 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
 
   readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
   readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker;
-  readonly ResponseOutputCaster: typeof ResponseOutputCaster;
 
   @Input() responses: ResponseOutput[] = [];
   @Input() question: FeedbackQuestionDetails = {
@@ -63,7 +61,6 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   constructor() {
     this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
     this.QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
-    this.ResponseOutputCaster = ResponseOutputCaster;
   }
 
   ngOnInit(): void {

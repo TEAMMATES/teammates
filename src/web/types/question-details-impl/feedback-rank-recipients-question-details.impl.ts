@@ -2,12 +2,10 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
-  FeedbackRankRecipientsResponseDetails,
   QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { Response } from '../question-statistics.model';
-import { calculateRankRecipientsQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackRankRecipientsQuestionDetails}.
@@ -31,26 +29,12 @@ export class FeedbackRankRecipientsQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const emptyStr = '-';
-
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter(
-        (response) => !response.isMissingResponse,
-      ) as unknown as Response<FeedbackRankRecipientsResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isRankRecipients(stats) || stats.rows.length === 0) {
       return [];
     }
 
-    const statsCalculation = calculateRankRecipientsQuestionStatistics(
-      responses,
-      question.feedbackQuestion.recipientType,
-    );
-
-    statsRows.push([
+    const rows: string[][] = [[
       'Team',
       'Recipient',
       'Recipient Email',
@@ -60,33 +44,23 @@ export class FeedbackRankRecipientsQuestionDetailsImpl
       'Team Rank',
       'Team Rank Excluding Self',
       'Ranks Received',
-    ]);
+    ]];
 
-    Object.keys(statsCalculation.ranksReceivedPerOption)
-      .sort()
-      .forEach((recipient: string) => {
-        statsRows.push([
-          statsCalculation.emailToTeamName[recipient],
-          statsCalculation.emailToName[recipient],
-          recipient,
-          statsCalculation.selfRankPerOption[recipient]
-            ? String(statsCalculation.selfRankPerOption[recipient])
-            : emptyStr,
-          statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
-          statsCalculation.rankPerOptionExcludeSelf[recipient]
-            ? String(statsCalculation.rankPerOptionExcludeSelf[recipient])
-            : emptyStr,
-          statsCalculation.rankPerOptionInTeam[recipient]
-            ? String(statsCalculation.rankPerOptionInTeam[recipient])
-            : emptyStr,
-          statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]
-            ? String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient])
-            : emptyStr,
-          ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
-        ]);
-      });
-
-    return statsRows;
+    const dash = '-';
+    for (const row of stats.rows) {
+      rows.push([
+        row.recipientTeam,
+        row.recipientName,
+        row.recipientEmail ?? '',
+        row.selfRank == null ? dash : String(row.selfRank),
+        row.overallRank == null ? dash : String(row.overallRank),
+        row.rankExcludingSelf == null ? dash : String(row.rankExcludingSelf),
+        row.rankInTeam == null ? dash : String(row.rankInTeam),
+        row.rankInTeamExcludingSelf == null ? dash : String(row.rankInTeamExcludingSelf),
+        ...row.ranksReceived.map(String),
+      ]);
+    }
+    return rows;
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {
