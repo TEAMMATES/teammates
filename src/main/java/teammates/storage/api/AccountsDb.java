@@ -66,8 +66,8 @@ public final class AccountsDb {
      */
     public Account upsertAccount(Account account) {
         String sql = """
-                INSERT INTO accounts (id, created_at, email, google_id, name, provider, subject, tenant_id, updated_at)
-                VALUES (:id, CURRENT_TIMESTAMP, :email, :googleId, :name, :provider, :subject, :tenantId,
+                INSERT INTO accounts (id, created_at, email, name, provider, subject, tenant_id, updated_at)
+                VALUES (:id, CURRENT_TIMESTAMP, :email, :name, :provider, :subject, :tenantId,
                         CURRENT_TIMESTAMP)
                 ON CONFLICT (provider, subject, tenant_id)
                 DO UPDATE SET updated_at = accounts.updated_at
