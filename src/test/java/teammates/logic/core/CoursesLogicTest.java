@@ -180,7 +180,7 @@ public class CoursesLogicTest extends BaseTestCase {
                 eq(false),
                 eq("Course Creator"),
                 eq(InstructorPermissionRole.COOWNER),
-                argThat(account -> account.getGoogleId().equals(instructorGoogleId)));
+                argThat(account -> account.getId().equals(courseCreator.getId())));
     }
 
     @Test

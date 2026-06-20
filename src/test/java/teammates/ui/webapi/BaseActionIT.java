@@ -749,9 +749,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(course.getId(), email));
         if (instructor == null) {
             instructor = inTransaction(() -> {
-                String googleId = email;
                 String subject = email;
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email);
                 return logic.createInstructor(course, "instructor-name", email, true, "display-name",
                         InstructorPermissionRole.CUSTOM, account);
             });
@@ -778,9 +777,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
                 Student createdStudent = logic.createStudent(course, team, "student-name", email, "");
 
-                String googleId = email;
                 String subject = email;
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email);
                 createdStudent.setAccount(account);
                 return createdStudent;
             });
