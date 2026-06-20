@@ -113,19 +113,27 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
     }
 
     @Test
-    public void calculateForRecipientMcq_withWeights_returnsRowsWithoutPerRecipientBreakdown() {
+    public void calculateForRecipientMcq_withWeights_filtersToRecipientAndReturnsNoPerRecipientBreakdown() {
         createMcqScenario(true, false);
 
+        // r1: alice→alice (optionA), r2: bob→bob (optionA), r3: charlie→charlie (optionB)
         SessionResultsBundle bundle = bundleForQuestion("question", "r1", "r2", "r3");
 
         FeedbackMcqMsqRecipientStatistics statistics = calculator.calculateForRecipient(
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                null);
+                student("alice"));
 
         assertTrue(statistics.isHasWeights());
         assertEquals(statistics.getRows().size(), 3);
+        // Only alice's response (r1: optionA) should be counted, not bob's or charlie's
+        FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionA =
+                statistics.getRows().stream().filter(r -> "optionA".equals(r.getOption())).findFirst().orElseThrow();
+        assertEquals(optionA.getCount(), 1);
+        FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionB =
+                statistics.getRows().stream().filter(r -> "optionB".equals(r.getOption())).findFirst().orElseThrow();
+        assertEquals(optionB.getCount(), 0);
     }
 
     @Test(dataProvider = "optionRowCases")
@@ -266,19 +274,27 @@ public class FeedbackMcqMsqQuestionStatisticsCalculatorTest extends BaseStatisti
     }
 
     @Test
-    public void calculateForRecipientMsq_withWeights_returnsRowsWithoutPerRecipientBreakdown() {
+    public void calculateForRecipientMsq_withWeights_filtersToRecipientAndReturnsNoPerRecipientBreakdown() {
         createMsqScenario(true);
 
+        // r1: alice→alice ([optionA]); r2: bob→bob ([optionA, optionB])
         SessionResultsBundle bundle = bundleForQuestion("question", "r1", "r2");
 
         FeedbackMcqMsqRecipientStatistics statistics = calculator.calculateForRecipient(
                 question("question"),
                 bundle.getQuestionResponseMap().get(question("question")),
                 bundle,
-                null);
+                student("alice"));
 
         assertTrue(statistics.isHasWeights());
         assertEquals(statistics.getRows().size(), 3);
+        // Only alice's response (r1: optionA) should be counted, not bob's (optionA + optionB)
+        FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionA =
+                statistics.getRows().stream().filter(r -> "optionA".equals(r.getOption())).findFirst().orElseThrow();
+        assertEquals(optionA.getCount(), 1);
+        FeedbackMcqMsqCourseWideStatistics.McqMsqOptionRow optionB =
+                statistics.getRows().stream().filter(r -> "optionB".equals(r.getOption())).findFirst().orElseThrow();
+        assertEquals(optionB.getCount(), 0);
     }
 
     @Test(dataProvider = "accumulateCases")

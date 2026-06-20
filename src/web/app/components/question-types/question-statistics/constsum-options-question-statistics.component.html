@@ -1,11 +1,10 @@
-@if (responses.length) {
+@if (statistics.options.length) {
   <div>
     <div class="row">
       <div class="col-sm-4 text-color-gray mt-2">
-        @if (isStudent) {
+        @if (statistics.statisticsView === 'RECIPIENT') {
           <strong>Summary of responses received by you</strong>
-        }
-        @if (!isStudent) {
+        } @else {
           <strong>Response Summary</strong>
         }
       </div>

@@ -38,6 +38,24 @@ export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
 }
 
+export interface ConstsumOptionRow {
+  option: string;
+  pointsReceived: number[];
+  total: number;
+  average: number;
+}
+
+export interface ConstsumRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  isCurrentRecipient: boolean;
+  pointsReceived: number[];
+  total: number;
+  average: number;
+  averageExcludingSelf?: number;
+}
+
 export interface Course extends ApiOutput {
   courseId: string;
   courseName: string;
@@ -120,6 +138,14 @@ export interface FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQu
 
 export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
+}
+
+export interface FeedbackConstsumOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: ConstsumOptionRow[];
+}
+
+export interface FeedbackConstsumRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: ConstsumRecipientRow[];
 }
 
 export interface FeedbackContributionCourseWideStatistics extends FeedbackQuestionResultsStatistics {

@@ -23,21 +23,6 @@ export interface Response<R extends FeedbackResponseDetails> {
   responseDetails: R;
 }
 
-export interface ConstsumOptionsQuestionStatistics {
-  pointsPerOption: Record<string, number[]>;
-  totalPointsPerOption: Record<string, number>;
-  averagePointsPerOption: Record<string, number>;
-}
-
-export interface ConstsumRecipientsQuestionStatistics {
-  emailToTeamName: Record<string, string>;
-  emailToName: Record<string, string>;
-  pointsPerOption: Record<string, number[]>;
-  totalPointsPerOption: Record<string, number>;
-  averagePointsPerOption: Record<string, number>;
-  averagePointsExcludingSelf: Record<string, number>;
-}
-
 export interface RankOptionsQuestionStatistics {
   ranksReceivedPerOption: Record<string, number[]>;
   rankPerOption: Record<string, number>;

@@ -8,42 +8,39 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
 /**
- * Numerical scale question statistics for session results (shared for both course-wide and per-recipient views).
+ * Constant sum recipients question statistics for session results (shared for both course-wide and per-recipient views).
  */
-public class FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistics {
-    private List<NumScaleRecipientRow> rows = new ArrayList<>();
+public class FeedbackConstsumRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+    private List<ConstsumRecipientRow> rows = new ArrayList<>();
 
-    public FeedbackNumScaleStatistics() {
-        super(FeedbackQuestionType.NUMSCALE);
+    public FeedbackConstsumRecipientsStatistics() {
+        super(FeedbackQuestionType.CONSTSUM_RECIPIENTS);
     }
 
-    public FeedbackNumScaleStatistics(FeedbackQuestionResultsStatisticsView view) {
-        super(FeedbackQuestionType.NUMSCALE, view);
+    public FeedbackConstsumRecipientsStatistics(FeedbackQuestionResultsStatisticsView view) {
+        super(FeedbackQuestionType.CONSTSUM_RECIPIENTS, view);
     }
 
-    public List<NumScaleRecipientRow> getRows() {
+    public List<ConstsumRecipientRow> getRows() {
         return rows;
     }
 
-    public void setRows(List<NumScaleRecipientRow> rows) {
+    public void setRows(List<ConstsumRecipientRow> rows) {
         this.rows = rows;
     }
 
     /**
-     * One row in the numerical scale summary table, corresponding to one recipient.
+     * One row in the constant sum recipients summary table, corresponding to one recipient.
      */
-    public static class NumScaleRecipientRow {
+    public static class ConstsumRecipientRow {
         private String recipientName;
         @Nullable
         private String recipientEmail;
         private String recipientTeam;
         private boolean isCurrentRecipient;
-        @Nullable
-        private Double average;
-        @Nullable
-        private Double min;
-        @Nullable
-        private Double max;
+        private List<Integer> pointsReceived = new ArrayList<>();
+        private int total;
+        private double average;
         @Nullable
         private Double averageExcludingSelf;
 
@@ -80,31 +77,28 @@ public class FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistic
             this.isCurrentRecipient = isCurrentRecipient;
         }
 
-        @Nullable
-        public Double getAverage() {
+        public List<Integer> getPointsReceived() {
+            return pointsReceived;
+        }
+
+        public void setPointsReceived(List<Integer> pointsReceived) {
+            this.pointsReceived = pointsReceived;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public double getAverage() {
             return average;
         }
 
-        public void setAverage(@Nullable Double average) {
+        public void setAverage(double average) {
             this.average = average;
-        }
-
-        @Nullable
-        public Double getMin() {
-            return min;
-        }
-
-        public void setMin(@Nullable Double min) {
-            this.min = min;
-        }
-
-        @Nullable
-        public Double getMax() {
-            return max;
-        }
-
-        public void setMax(@Nullable Double max) {
-            this.max = max;
         }
 
         @Nullable

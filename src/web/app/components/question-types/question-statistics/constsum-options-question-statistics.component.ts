@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
@@ -7,11 +6,11 @@ import {
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
 import {
-  FeedbackConstantSumOptionsQuestionDetails,
-  FeedbackConstantSumOptionsResponseDetails,
+  ConstsumOptionRow,
+  FeedbackConstsumOptionsStatistics,
+  FeedbackQuestionResultsStatisticsView,
+  FeedbackQuestionType,
 } from '../../../../types/api-output';
-import { calculateConstsumOptionsQuestionStatistics } from '../../../utils/question-statistics.util';
-import { ConstsumOptionsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for constsum options questions.
@@ -22,13 +21,12 @@ import { ConstsumOptionsQuestionStatistics, Response } from '../../../../types/q
   imports: [SortableTableComponent],
 })
 export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
-  // enum
   @Input()
-  question: FeedbackConstantSumOptionsQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
-  @Input()
-  responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = [];
-  @Input()
-  isStudent = false;
+  statistics: FeedbackConstsumOptionsStatistics = {
+    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+    statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+    options: [],
+  };
 
   SortBy!: typeof SortBy;
 
@@ -40,11 +38,10 @@ export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    const stats = calculateConstsumOptionsQuestionStatistics(this.question, this.responses);
-    this.getTableData(stats);
+    this.buildTableData();
   }
 
-  private getTableData(stats: ConstsumOptionsQuestionStatistics): void {
+  private buildTableData(): void {
     this.columnsData = [
       { header: 'Option', sortBy: SortBy.CONSTSUM_OPTIONS_OPTION },
       { header: 'Points Received' },
@@ -52,11 +49,11 @@ export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
       { header: 'Average Points', sortBy: SortBy.CONSTSUM_OPTIONS_POINTS },
     ];
 
-    this.rowsData = Object.keys(stats.pointsPerOption).map((option: string) => [
-      { value: option },
-      { value: stats.pointsPerOption[option].join(', ') },
-      { value: stats.totalPointsPerOption[option] },
-      { value: stats.averagePointsPerOption[option] },
+    this.rowsData = this.statistics.options.map((row: ConstsumOptionRow) => [
+      { value: row.option },
+      { value: row.pointsReceived.join(', ') },
+      { value: row.total },
+      { value: row.average },
     ]);
   }
 }
