@@ -62,14 +62,22 @@ public class GoogleLoginHandler implements LoginMethodHandler {
             buf.append('?').append(req.getQueryString());
         }
 
-        AuthorizationCodeResponseUrl responseUrl =
-                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
+        AuthorizationCodeResponseUrl responseUrl;
+        try {
+            responseUrl = new AuthorizationCodeResponseUrl(
+                    buf.toString().replaceFirst("^http://", "https://"));
+        } catch (IllegalArgumentException e) {
+            // Malformed Google callback URL.
+            throw new InvalidAuthStateException("Invalid Google callback URL", e);
+        }
+
         if (responseUrl.getError() != null) {
             throw new InvalidAuthStateException("Error in Google OAuth2 callback: " + responseUrl.getError());
         }
 
         String code = responseUrl.getCode();
         if (code == null) {
+            // Should not happen if there is no error, but just in case.
             throw new InvalidAuthStateException("Missing authorization code");
         }
 

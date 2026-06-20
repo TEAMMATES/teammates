@@ -119,7 +119,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String decryptedState = StringHelper.decrypt(encryptedState);
             return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
-            throw new InvalidAuthStateException("Failed to parse state parameter");
+            throw new InvalidAuthStateException("Failed to parse state parameter", e);
         }
     }
 }
