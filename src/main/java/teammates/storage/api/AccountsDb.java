@@ -77,7 +77,6 @@ public final class AccountsDb {
         return HibernateUtil.createNativeQuery(sql, Account.class)
                 .setParameter("id", account.getId())
                 .setParameter("email", account.getEmail())
-                .setParameter("googleId", account.getGoogleId())
                 .setParameter("name", account.getName())
                 .setParameter("provider", account.getProvider().name())
                 .setParameter("subject", account.getSubject())
