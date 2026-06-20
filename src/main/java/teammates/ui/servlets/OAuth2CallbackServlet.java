@@ -49,40 +49,19 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         LoginMethodHandler loginHandler = getLoginHandler(method);
-
-        AuthResult authResult = loginHandler.handleCallback(req, resp, state);
-        if (authResult == null) {
-            return;
-        }
-
         Cookie cookie;
         String logMessage;
-        if (authResult.isValid()) {
-            try {
-                HibernateUtil.beginTransaction();
-                Account account = accountsLogic.createOrGetAccount(
-                        authResult.provider(), authResult.subject(), authResult.tenantId(), authResult.email());
-                HibernateUtil.commitTransaction();
-
-                UserInfoCookie uic = new UserInfoCookie(account.getId());
-                cookie = getLoginCookie(uic);
-                logMessage = "Login successful";
-            } catch (Exception e) {
-                HibernateUtil.rollbackTransaction();
-                log.warning("Failed to create or get account for " + authResult.email(), e);
-                req.getSession().invalidate();
-
-                cookie = getLoginInvalidationCookie();
-                logMessage = "Login failed";
-            }
-        } else {
-            req.getSession().invalidate();
-
-            cookie = getLoginInvalidationCookie();
+        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
+        try {
+            AuthResult authResult = loginHandler.handleCallback(req, resp, state);
+            cookie = getLoginCookie(authResult);
+            logMessage = "Login successful";
+        } catch (Exception e) {
+            cookie = failLogin(req);
             logMessage = "Login failed";
+            nextUrl = UrlHelper.DEFAULT_REDIRECT_URL;
         }
 
-        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
         String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
@@ -90,6 +69,27 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         resp.addCookie(cookie);
         resp.sendRedirect(redirectUrl);
+    }
+
+    private Cookie getLoginCookie(AuthResult authResult) {
+        try {
+            HibernateUtil.beginTransaction();
+            Account account = accountsLogic.createOrGetAccount(
+                    authResult.provider(), authResult.subject(), authResult.tenantId(), authResult.email());
+            HibernateUtil.commitTransaction();
+
+            UserInfoCookie userInfoCookie = new UserInfoCookie(account.getId());
+            return getLoginCookie(userInfoCookie);
+        } catch (Exception e) {
+            log.warning("Failed to create or get account for " + authResult.email(), e);
+            HibernateUtil.rollbackTransaction();
+            throw e;
+        }
+    }
+
+    private Cookie failLogin(HttpServletRequest req) {
+        req.getSession().invalidate();
+        return getLoginInvalidationCookie();
     }
 
     /**
@@ -100,6 +100,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
     private AuthState getAuthStateFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String encryptedState = req.getParameter("state");
         if (encryptedState == null) {
+            resp.addCookie(failLogin(req));
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing or invalid state parameter");
             return null;
         }
@@ -108,6 +109,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String decryptedState = StringHelper.decrypt(encryptedState);
             return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
+            resp.addCookie(failLogin(req));
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
             return null;
         }

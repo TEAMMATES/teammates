@@ -31,6 +31,7 @@ import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.ui.exception.InvalidAuthStateException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -58,7 +59,8 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state)
+            throws IOException, InvalidAuthStateException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
@@ -68,13 +70,13 @@ public class GoogleLoginHandler implements LoginMethodHandler {
                 new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
-            return null;
+            throw new InvalidAuthStateException("Error in Google OAuth2 callback: " + responseUrl.getError());
         }
 
         String code = responseUrl.getCode();
         if (code == null) {
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
-            return null;
+            throw new InvalidAuthStateException("Missing authorization code");
         }
 
         String sessionId = state.sessionId();
@@ -83,7 +85,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
             log.warning(String.format("Different session ID: expected %s, got %s",
                     sessionId, req.getSession().getId()));
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
-            return null;
+            throw new InvalidAuthStateException("Invalid session ID");
         }
 
         String redirectUri = getRedirectUri(req);
@@ -95,13 +97,13 @@ public class GoogleLoginHandler implements LoginMethodHandler {
             GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
             if (idToken == null) {
                 logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token");
-                return null;
+                throw new InvalidAuthStateException("Invalid ID token");
             }
             payload = idToken.getPayload();
         } catch (GeneralSecurityException | IOException e) {
             log.warning("Failed to verify ID token", e);
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to verify ID token");
-            return null;
+            throw new InvalidAuthStateException("Failed to verify ID token", e);
         }
 
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail());

@@ -12,16 +12,9 @@ import teammates.common.datatransfer.Provider;
  * @param tenantId the tenant ID for multi-tenant providers
  * @param email the email of the authenticated user
  */
-public record AuthResult(Provider provider, String subject, @Nullable String tenantId, String email) {
-
-    /**
-     * Checks if the authentication result is valid (i.e., has all required fields).
-     */
-    public boolean isValid() {
-        boolean hasProvider = provider != null;
-        boolean hasEmail = email != null;
-        boolean hasSubject = subject != null;
-        return hasProvider && hasEmail && hasSubject;
-    }
-
+public record AuthResult(
+        Provider provider,
+        String subject,
+        @Nullable String tenantId,
+        String email) {
 }

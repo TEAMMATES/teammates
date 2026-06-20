@@ -14,6 +14,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
+import teammates.ui.exception.InvalidAuthStateException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -41,17 +42,18 @@ public class DevServerLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException {
+    public AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state)
+            throws IOException, InvalidAuthStateException {
         if (!Config.isDevServerLoginEnabled()) {
             resp.sendError(HttpStatus.SC_FORBIDDEN);
-            return null;
+            throw new InvalidAuthStateException("Dev server login is not enabled");
         }
 
         String email = req.getParameter("email");
         if (email == null) {
             log.warning("Missing email parameter in dev server login callback");
             resp.sendError(HttpStatus.SC_BAD_REQUEST);
-            return null;
+            throw new InvalidAuthStateException("Missing email parameter in dev server login callback");
         }
 
         String sessionId = state.sessionId();
@@ -60,7 +62,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
             log.warning(String.format("Different session ID: expected %s, got %s",
                     sessionId, req.getSession().getId()));
             HttpResponseHelper.logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid session ID");
-            return null;
+            throw new InvalidAuthStateException("Invalid session ID");
         }
 
         return new AuthResult(Provider.TEAMMATES_DEV, email, null, email);

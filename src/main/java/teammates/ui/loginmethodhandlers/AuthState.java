@@ -11,7 +11,10 @@ import teammates.ui.output.LoginMethod;
  * @param sessionId the session ID to validate against during callback
  * @param loginMethod the login method used for authentication
  */
-public record AuthState(String nextUrl, String sessionId, LoginMethod loginMethod) {
+public record AuthState(
+        String nextUrl,
+        String sessionId,
+        LoginMethod loginMethod) {
 
     @JsonCreator
     public AuthState {

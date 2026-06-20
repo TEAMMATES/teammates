@@ -5,6 +5,8 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import teammates.ui.exception.InvalidAuthStateException;
+
 /**
  * Interface for handling different login methods.
  */
@@ -17,5 +19,6 @@ public interface LoginMethodHandler {
     /**
      * Handles the callback from the login method by retrieving the authentication result.
      */
-    AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state) throws IOException;
+    AuthResult handleCallback(HttpServletRequest req, HttpServletResponse resp, AuthState state)
+            throws IOException, InvalidAuthStateException;
 }
