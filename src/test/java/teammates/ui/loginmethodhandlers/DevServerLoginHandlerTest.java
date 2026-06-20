@@ -19,22 +19,21 @@ import teammates.ui.exception.InvalidAuthStateException;
 import teammates.ui.output.LoginMethod;
 
 /**
- * SUT: {@link DevServerLoginHandler} and {@link GoogleLoginHandler}.
+ * SUT: {@link DevServerLoginHandler}.
  */
-public class LoginMethodHandlersTest extends BaseTestCase {
+public class DevServerLoginHandlerTest extends BaseTestCase {
 
     private static final String OAUTH_CALLBACK_URL = "http://localhost:8080/oauth2callback";
+
     private DevServerLoginHandler devServerLoginHandler;
-    private GoogleLoginHandler googleLoginHandler;
 
     @BeforeMethod
     public void setUpMethod() {
         devServerLoginHandler = new DevServerLoginHandler();
-        googleLoginHandler = new GoogleLoginHandler();
     }
 
     @Test
-    public void devServerHandleLogin_loginDisabled_throwsInvalidAuthStateException() {
+    public void handleLogin_loginDisabled_throwsInvalidAuthStateException() {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "/login");
 
         try (MockedStatic<Config> ignored = mockDevServerLoginEnabled(false)) {
@@ -44,7 +43,7 @@ public class LoginMethodHandlersTest extends BaseTestCase {
     }
 
     @Test
-    public void devServerHandleCallback_loginDisabled_throwsInvalidAuthStateException() {
+    public void handleCallback_loginDisabled_throwsInvalidAuthStateException() {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         AuthState state = new AuthState("/", "1234", LoginMethod.DEV_SERVER);
 
@@ -55,7 +54,7 @@ public class LoginMethodHandlersTest extends BaseTestCase {
     }
 
     @Test
-    public void devServerHandleCallback_missingEmail_throwsInvalidAuthStateException() {
+    public void handleCallback_missingEmail_throwsInvalidAuthStateException() {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         AuthState state = new AuthState("/", "1234", LoginMethod.DEV_SERVER);
 
@@ -66,7 +65,7 @@ public class LoginMethodHandlersTest extends BaseTestCase {
     }
 
     @Test
-    public void devServerHandleCallback_differentSessionId_throwsInvalidAuthStateException() {
+    public void handleCallback_differentSessionId_throwsInvalidAuthStateException() {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         req.addParam("email", "student@example.com");
         AuthState state = new AuthState("/", "different-session-id", LoginMethod.DEV_SERVER);
@@ -78,36 +77,7 @@ public class LoginMethodHandlersTest extends BaseTestCase {
     }
 
     @Test
-    public void googleHandleCallback_errorResponse_throwsInvalidAuthStateException() {
-        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
-        req.setQueryString("error=access_denied");
-        AuthState state = new AuthState("/", "1234", LoginMethod.GOOGLE);
-
-        assertThrows(InvalidAuthStateException.class,
-                () -> googleLoginHandler.handleCallback(req, state));
-    }
-
-    @Test
-    public void googleHandleCallback_invalidCallbackUrl_throwsInvalidAuthStateException() {
-        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
-        AuthState state = new AuthState("/", "1234", LoginMethod.GOOGLE);
-
-        assertThrows(InvalidAuthStateException.class,
-                () -> googleLoginHandler.handleCallback(req, state));
-    }
-
-    @Test
-    public void googleHandleCallback_differentSessionId_throwsInvalidAuthStateException() {
-        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
-        req.setQueryString("code=authorization-code");
-        AuthState state = new AuthState("/", "different-session-id", LoginMethod.GOOGLE);
-
-        assertThrows(InvalidAuthStateException.class,
-                () -> googleLoginHandler.handleCallback(req, state));
-    }
-
-    @Test
-    public void devServerHandleCallback_validCallback_returnsAuthResult() throws Exception {
+    public void handleCallback_validCallback_returnsAuthResult() throws Exception {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         req.addParam("email", "student@example.com");
         AuthState state = new AuthState("/", "1234", LoginMethod.DEV_SERVER);
