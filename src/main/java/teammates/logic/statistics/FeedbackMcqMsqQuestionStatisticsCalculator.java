@@ -233,7 +233,7 @@ public class FeedbackMcqMsqQuestionStatisticsCalculator implements
         Map<String, FeedbackMcqMsqCourseWideStatistics.McqMsqPerRecipientRow> rowsByKey = new LinkedHashMap<>();
 
         for (FeedbackResponse response : responses) {
-            if (response.getRecipient().getRecipientUserId() == null) {
+            if (response.getRecipient().isNoSpecificRecipient()) {
                 continue;
             }
 
