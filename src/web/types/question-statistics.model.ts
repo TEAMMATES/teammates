@@ -66,4 +66,3 @@ export interface RankRecipientsQuestionStatistics {
   rankPerOptionInTeam: Record<string, number>;
   rankPerOptionInTeamExcludeSelf: Record<string, number>;
 }
-

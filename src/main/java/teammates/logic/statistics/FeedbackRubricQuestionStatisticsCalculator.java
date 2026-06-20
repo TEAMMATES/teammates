@@ -174,7 +174,7 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
             stats.setRecipientEmail(acc.recipientEmail);
             stats.setRecipientTeam(acc.recipientTeam);
             stats.setPerCriterionRows(buildPerCriterionRows(subQuestions, weights, acc));
-            stats.setOverallCells(buildOverallCells(weights, choiceWeightsAverage, acc.answers));
+            stats.setOverallCells(buildOverallCells(choiceWeightsAverage, acc.answers));
             stats.setOverallTotal(overallTotal(acc));
             stats.setOverallAverage(overallAverage(acc, weights));
             stats.setSubQuestionAverages(buildSubQuestionAverages(weights, acc.answers, subQuestions.size()));
@@ -198,8 +198,7 @@ public class FeedbackRubricQuestionStatisticsCalculator implements
         return rows;
     }
 
-    private static List<RubricChoiceCell> buildOverallCells(
-            List<List<Double>> weights, List<Double> choiceWeightsAverage, int[][] answers) {
+    private static List<RubricChoiceCell> buildOverallCells(List<Double> choiceWeightsAverage, int[][] answers) {
         int numChoices = answers.length == 0 ? 0 : answers[0].length;
         int[] colSums = columnSums(answers);
         int total = 0;

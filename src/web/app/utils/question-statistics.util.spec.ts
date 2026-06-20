@@ -583,5 +583,4 @@ describe('Question Statistics Utility Functions', () => {
       expect(stats.rankPerOptionInTeamExcludeSelf[delta]).toBe(2);
     });
   });
-
 });

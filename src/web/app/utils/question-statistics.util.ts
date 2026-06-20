@@ -16,9 +16,7 @@ import {
   FeedbackRankRecipientsResponseDetails,
   QuestionRecipientType,
 } from '../../types/api-output';
-import {
-  RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
-} from '../../types/feedback-response-details';
+import { RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../types/feedback-response-details';
 
 export function calculateConstsumOptionsQuestionStatistics(
   question: FeedbackConstantSumOptionsQuestionDetails,
@@ -364,4 +362,3 @@ function calculateRankPerOptionInTeam(
       return { ...rankPerOptionInTeam, ...rankPerOptionInEachTeam };
     }, {});
 }
-

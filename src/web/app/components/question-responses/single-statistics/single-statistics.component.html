@@ -34,7 +34,10 @@
   ></tm-num-scale-question-statistics>
 }
 @if (QuestionDetailsTypeChecker.isRubric(question)) {
-  @if (QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) || QuestionStatisticsTypeChecker.isRubricRecipient(statistics)) {
+  @if (
+    QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) ||
+    QuestionStatisticsTypeChecker.isRubricRecipient(statistics)
+  ) {
     <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
   }
 }
