@@ -403,7 +403,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                      Collection<Instructor> instructors,
                                      Collection<Student> students) {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
-        List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
+        List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-msq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
         verifyTableBodyValuesIgnoreOrder(statisticsTables.get(1), getMcqPerRecipientStatistics(
                 question, responsesToUse, students, instructors));

@@ -131,13 +131,26 @@ export interface FeedbackContributionQuestionDetails extends FeedbackQuestionDet
   isNotSureAllowed: boolean;
 }
 
-export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionResultsStatistics {
   myView: RecipientView;
   teamView: RecipientView;
 }
 
 export interface FeedbackContributionResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
+  perRecipientRows: McqMsqPerRecipientRow[];
+}
+
+export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
 }
 
 export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
@@ -209,11 +222,6 @@ export interface FeedbackQuestionRecipient extends ApiOutput {
   identifier: string;
   section: string;
   team: string;
-}
-
-export interface FeedbackQuestionRecipientResultsStatistics {
-  questionType: FeedbackQuestionType;
-  statisticsView: FeedbackQuestionResultsStatisticsView;
 }
 
 export interface FeedbackQuestionRecipients extends ApiOutput {
@@ -427,6 +435,23 @@ export interface JoinStatus extends ApiOutput {
   hasJoined: boolean;
 }
 
+export interface McqMsqOptionRow {
+  option: string;
+  weight?: number;
+  count: number;
+  percentage: number;
+  weightedPercentage?: number;
+}
+
+export interface McqMsqPerRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  responseCountPerOption: { [index: string]: number };
+  total: number;
+  average: number;
+}
+
 export interface MessageOutput extends ApiOutput {
   message: string;
 }
@@ -632,7 +657,7 @@ export interface UserInfo {
 
 export interface UserQuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics?: FeedbackQuestionRecipientResultsStatistics;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   hasResponseButNotVisibleForPreview: boolean;
   hasCommentNotVisibleForPreview: boolean;
   allResponses: ResponseOutput[];

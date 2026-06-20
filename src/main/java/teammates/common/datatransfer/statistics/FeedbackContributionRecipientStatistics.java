@@ -8,12 +8,12 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 /**
  * Recipient-specific contribution statistics for session results.
  */
-public class FeedbackContributionRecipientStatistics extends FeedbackQuestionRecipientResultsStatistics {
+public class FeedbackContributionRecipientStatistics extends FeedbackQuestionResultsStatistics {
     private RecipientView myView = new RecipientView();
     private RecipientView teamView = new RecipientView();
 
     public FeedbackContributionRecipientStatistics() {
-        super(FeedbackQuestionType.CONTRIB);
+        super(FeedbackQuestionType.CONTRIB, FeedbackQuestionResultsStatisticsView.RECIPIENT);
     }
 
     public RecipientView getMyView() {

@@ -1,7 +1,8 @@
 import {
   FeedbackContributionCourseWideStatistics,
   FeedbackContributionRecipientStatistics,
-  FeedbackQuestionRecipientResultsStatistics,
+  FeedbackMcqMsqCourseWideStatistics,
+  FeedbackMcqMsqRecipientStatistics,
   FeedbackQuestionResultsStatistics,
   FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
@@ -9,7 +10,7 @@ import {
 
 export class QuestionStatisticsTypeChecker {
   static isContributionCourseWide(
-    s: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics | undefined,
+    s: FeedbackQuestionResultsStatistics | undefined,
   ): s is FeedbackContributionCourseWideStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
@@ -18,11 +19,25 @@ export class QuestionStatisticsTypeChecker {
   }
 
   static isContributionRecipient(
-    s: FeedbackQuestionResultsStatistics | FeedbackQuestionRecipientResultsStatistics | undefined,
+    s: FeedbackQuestionResultsStatistics | undefined,
   ): s is FeedbackContributionRecipientStatistics {
     return (
       s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
       s.questionType === FeedbackQuestionType.CONTRIB
+    );
+  }
+
+  static isMcqMsqCourseWide(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqCourseWideStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.COURSE_WIDE &&
+      (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
+    );
+  }
+
+  static isMcqMsqRecipient(s: FeedbackQuestionResultsStatistics | undefined): s is FeedbackMcqMsqRecipientStatistics {
+    return (
+      s?.statisticsView === FeedbackQuestionResultsStatisticsView.RECIPIENT &&
+      (s.questionType === FeedbackQuestionType.MCQ || s.questionType === FeedbackQuestionType.MSQ)
     );
   }
 }

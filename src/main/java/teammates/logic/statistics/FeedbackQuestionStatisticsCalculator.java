@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.statistics.FeedbackQuestionRecipientResultsStatistics;
 import teammates.common.datatransfer.statistics.FeedbackQuestionResultsStatistics;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -17,7 +16,7 @@ import teammates.storage.entity.FeedbackResponse;
  */
 public interface FeedbackQuestionStatisticsCalculator<
         C extends FeedbackQuestionResultsStatistics,
-        R extends FeedbackQuestionRecipientResultsStatistics> {
+        R extends FeedbackQuestionResultsStatistics> {
 
     /**
      * Calculates course-wide statistics for a question.
