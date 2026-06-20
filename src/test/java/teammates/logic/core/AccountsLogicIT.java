@@ -154,6 +154,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
     private Account getTypicalAccountForEmail(String email) {
         Account account = getTypicalAccount();
         account.setEmail(email);
+        account.setSubject(email);
         return account;
     }
 }
