@@ -38,7 +38,7 @@ public class AccountVerificationRequestsLogicIT extends BaseTestCaseWithDatabase
                         AccountVerificationRequestStatus.PENDING, "comments");
         new Institute("institute", "SG").addAccountVerificationRequest(expectedAccountVerificationRequest);
         Account account = new Account(Provider.TEAMMATES_DEV, UUID.randomUUID().toString(),
-            "tenant-id", "name", "test@gmail.com");
+                "tenant-id", "name", "test@gmail.com");
         account.addAccountVerificationRequest(expectedAccountVerificationRequest);
         UUID id = expectedAccountVerificationRequest.getId();
         inTransaction(() -> {

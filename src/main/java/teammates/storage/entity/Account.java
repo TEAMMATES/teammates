@@ -16,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.Provider;
@@ -48,9 +47,6 @@ public class Account extends BaseEntity {
 
     @Column(nullable = false)
     private String tenantId;
-
-    @NaturalId
-    private String googleId;
 
     @Column(nullable = false)
     private String name;
@@ -216,7 +212,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
+        return "Account [id=" + id + ", name=" + name + ", email=" + email
                 + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }
