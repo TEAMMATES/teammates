@@ -35,5 +35,4 @@ export class SingleStatisticsComponent {
   readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
 
   @Input() statistics?: FeedbackQuestionResultsStatistics;
-  @Input() displayContributionStats = true;
 }

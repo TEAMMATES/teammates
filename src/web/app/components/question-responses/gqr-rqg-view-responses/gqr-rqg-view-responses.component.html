@@ -17,28 +17,7 @@
 
           <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
             <div class="card-body background-color-warning">
-              @if (teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length && showStatistics) {
-                <div>
-                  <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
-                  @for (question of teamsToQuestions[teamInfo.key]; track question) {
-                    <div id="team-statistics" class="card top-padded alert-primary-border">
-                      <div class="card-header alert alert-primary alert-no-bottom">
-                        <tm-question-text-with-info
-                          [questionNumber]="question.feedbackQuestion.questionNumber"
-                          [questionDetails]="question.feedbackQuestion.questionDetails"
-                        ></tm-question-text-with-info>
-                      </div>
-                      <div class="card-body top-padded-small">
-                        <tm-single-statistics
-                          [statistics]="question.questionStatistics"
-                          [displayContributionStats]="false"
-                        ></tm-single-statistics>
-                      </div>
-                    </div>
-                  }
-                </div>
-              }
-              <h3 class="top-padded">{{ teamInfo.key }} Detailed Responses</h3>
+
               @for (userInfo of teamInfo.value; track userInfo) {
                 <div>
                   <ng-container [ngTemplateOutlet]="userTab" [ngTemplateOutletContext]="{ userInfo: userInfo }">
@@ -121,12 +100,6 @@
 
             <div [ngbCollapse]="!question.isTabExpanded">
               <div class="card-body top-padded-small table-responsive">
-                @if (showStatistics) {
-                  <tm-single-statistics
-                    [statistics]="question.questionOutput.questionStatistics"
-                    [displayContributionStats]="false"
-                  ></tm-single-statistics>
-                }
                 <tm-per-question-view-responses
                   [responses]="question.questionOutput.allResponses"
                   [section]="section"

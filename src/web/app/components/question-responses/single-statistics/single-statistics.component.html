@@ -1,9 +1,9 @@
-@if (displayContributionStats && QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
+@if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
   <tm-contribution-recipient-question-statistics
     [statistics]="statistics"
   ></tm-contribution-recipient-question-statistics>
 }
-@if (displayContributionStats && QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
+@if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
   <tm-contribution-course-wide-question-statistics
     [statistics]="statistics"
   ></tm-contribution-course-wide-question-statistics>
