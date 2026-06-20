@@ -16,9 +16,7 @@
           }
           @if (canUserSeeResponses(question)) {
             <div class="other-responses">
-              <tm-single-statistics
-                [statistics]="question.questionStatistics"
-              ></tm-single-statistics>
+              <tm-single-statistics [statistics]="question.questionStatistics"></tm-single-statistics>
               @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType)) {
                 <div>
                   <p style="color: gray; font-size: small">

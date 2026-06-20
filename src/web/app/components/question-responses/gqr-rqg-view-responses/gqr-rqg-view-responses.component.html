@@ -17,7 +17,6 @@
 
           <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
             <div class="card-body background-color-warning">
-
               @for (userInfo of teamInfo.value; track userInfo) {
                 <div>
                   <ng-container [ngTemplateOutlet]="userTab" [ngTemplateOutletContext]="{ userInfo: userInfo }">

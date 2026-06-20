@@ -43,9 +43,7 @@
           <div class="card-body">
             <div class="stats-table">
               @if (showStatistics) {
-                <tm-single-statistics
-                  [statistics]="question.statistics"
-                ></tm-single-statistics>
+                <tm-single-statistics [statistics]="question.statistics"></tm-single-statistics>
               }
             </div>
             <div class="stats-table">

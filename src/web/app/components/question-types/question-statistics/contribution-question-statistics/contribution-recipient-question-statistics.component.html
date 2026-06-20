@@ -1,62 +1,62 @@
 <div>
   <div class="card" style="margin-top: 20px">
-      <div class="card-header bg-primary text-white">Comparison of Work Distribution</div>
-      <div class="card-body">
-        <div class="row" style="margin-bottom: 5px">
-          <div class="col-sm-2">
-            <span
-              class="ngb-tooltip-class"
-              ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception"
-            >
-              <strong>My view:</strong>
-            </span>
-          </div>
-          <div id="own-view-me" class="col-sm-2">
-            <strong>of me:</strong>&nbsp;<tm-contribution [value]="statistics.myView.ofMe"></tm-contribution>
-          </div>
-          <div id="own-view-others" class="col-sm-8">
-            <strong>of others:</strong>&nbsp;
-            @for (other of statistics.myView.ofOthers; track other; let i = $index) {
-              <span>
-                @if (i !== 0) {
-                  <span>,&nbsp;</span>
-                }
-                <tm-contribution [value]="other"></tm-contribution>
-              </span>
-            }
-            &nbsp;<a (click)="openHelpModal(contributionHelpModal)" [tmRouterLink]="" queryParamsHandling="preserve"
-              ><i class="fas fa-info-circle"></i
-            ></a>
-          </div>
+    <div class="card-header bg-primary text-white">Comparison of Work Distribution</div>
+    <div class="card-body">
+      <div class="row" style="margin-bottom: 5px">
+        <div class="col-sm-2">
+          <span
+            class="ngb-tooltip-class"
+            ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception"
+          >
+            <strong>My view:</strong>
+          </span>
         </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <strong>Team view:</strong>
-          </div>
-          <div id="team-view-me" class="col-sm-2">
-            <span
-              class="ngb-tooltip-class"
-              ngbTooltip="The average contribution the other members of your team attributed to you"
-            >
-              <strong>of me:&nbsp;</strong>
+        <div id="own-view-me" class="col-sm-2">
+          <strong>of me:</strong>&nbsp;<tm-contribution [value]="statistics.myView.ofMe"></tm-contribution>
+        </div>
+        <div id="own-view-others" class="col-sm-8">
+          <strong>of others:</strong>&nbsp;
+          @for (other of statistics.myView.ofOthers; track other; let i = $index) {
+            <span>
+              @if (i !== 0) {
+                <span>,&nbsp;</span>
+              }
+              <tm-contribution [value]="other"></tm-contribution>
             </span>
-            <tm-contribution [value]="statistics.teamView.ofMe"></tm-contribution>
-          </div>
-          <div id="team-view-others" class="col-sm-8">
-            <strong>of others:</strong>&nbsp;
-            @for (other of statistics.teamView.ofOthers; track other; let i = $index) {
-              <span>
-                @if (i !== 0) {
-                  <span>,&nbsp;</span>
-                }
-                <tm-contribution [value]="other"></tm-contribution>
-              </span>
-            }
-          </div>
+          }
+          &nbsp;<a (click)="openHelpModal(contributionHelpModal)" [tmRouterLink]="" queryParamsHandling="preserve"
+            ><i class="fas fa-info-circle"></i
+          ></a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Team view:</strong>
+        </div>
+        <div id="team-view-me" class="col-sm-2">
+          <span
+            class="ngb-tooltip-class"
+            ngbTooltip="The average contribution the other members of your team attributed to you"
+          >
+            <strong>of me:&nbsp;</strong>
+          </span>
+          <tm-contribution [value]="statistics.teamView.ofMe"></tm-contribution>
+        </div>
+        <div id="team-view-others" class="col-sm-8">
+          <strong>of others:</strong>&nbsp;
+          @for (other of statistics.teamView.ofOthers; track other; let i = $index) {
+            <span>
+              @if (i !== 0) {
+                <span>,&nbsp;</span>
+              }
+              <tm-contribution [value]="other"></tm-contribution>
+            </span>
+          }
         </div>
       </div>
     </div>
   </div>
+</div>
 <ng-template #contributionHelpModal>
   <h4>How do I interpret these results?</h4>
   <ul>

@@ -81,7 +81,8 @@ public class FeedbackRankOptionsQuestionStatisticsCalculator implements
         Map<Integer, Integer> mapping = new TreeMap<>();
         int normalized = 1;
         for (int rank : ranks.stream().filter(r -> r != Const.POINTS_NOT_SUBMITTED).sorted().distinct().toList()) {
-            mapping.put(rank, normalized++);
+            mapping.put(rank, normalized);
+            normalized++;
         }
         List<Integer> result = new ArrayList<>();
         for (int rank : ranks) {

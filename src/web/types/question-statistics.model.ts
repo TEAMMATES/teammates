@@ -22,4 +22,3 @@ export interface Response<R extends FeedbackResponseDetails> {
   recipientSection: string;
   responseDetails: R;
 }
-

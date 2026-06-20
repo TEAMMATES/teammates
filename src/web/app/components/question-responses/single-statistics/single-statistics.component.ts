@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  FeedbackQuestionResultsStatistics,
-} from '../../../../types/api-output';
+import { FeedbackQuestionResultsStatistics } from '../../../../types/api-output';
 import { QuestionStatisticsTypeChecker } from '../../../../types/question-statistics-impl/question-statistics-caster';
 import { ConstsumOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-recipients-question-statistics.component';
@@ -32,7 +30,11 @@ import { RubricQuestionStatisticsComponent } from '../../question-types/question
   ],
 })
 export class SingleStatisticsComponent {
-  readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
+  readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker;
 
   @Input() statistics?: FeedbackQuestionResultsStatistics;
+
+  constructor() {
+    this.QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
+  }
 }

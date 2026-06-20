@@ -1,9 +1,5 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  FeedbackQuestionType,
-  FeedbackRankRecipientsQuestionDetails,
-  QuestionOutput,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackRankRecipientsQuestionDetails, QuestionOutput } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
@@ -34,17 +30,19 @@ export class FeedbackRankRecipientsQuestionDetailsImpl
       return [];
     }
 
-    const rows: string[][] = [[
-      'Team',
-      'Recipient',
-      'Recipient Email',
-      'Self Rank',
-      'Overall Rank',
-      'Overall Rank Excluding Self',
-      'Team Rank',
-      'Team Rank Excluding Self',
-      'Ranks Received',
-    ]];
+    const rows: string[][] = [
+      [
+        'Team',
+        'Recipient',
+        'Recipient Email',
+        'Self Rank',
+        'Overall Rank',
+        'Overall Rank Excluding Self',
+        'Team Rank',
+        'Team Rank Excluding Self',
+        'Ranks Received',
+      ],
+    ];
 
     const dash = '-';
     for (const row of stats.rows) {

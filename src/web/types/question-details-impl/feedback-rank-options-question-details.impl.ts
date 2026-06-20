@@ -1,9 +1,5 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-  QuestionOutput,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails, QuestionOutput } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
@@ -43,11 +39,7 @@ export class FeedbackRankOptionsQuestionDetailsImpl
 
     const rows: string[][] = [['Option', 'Overall Rank', 'Ranks Received']];
     for (const row of stats.options) {
-      rows.push([
-        row.option,
-        row.overallRank != null ? String(row.overallRank) : '',
-        ...row.ranksReceived.map(String),
-      ]);
+      rows.push([row.option, row.overallRank != null ? String(row.overallRank) : '', ...row.ranksReceived.map(String)]);
     }
     return rows;
   }

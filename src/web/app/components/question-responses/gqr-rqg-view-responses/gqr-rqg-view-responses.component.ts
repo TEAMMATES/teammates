@@ -197,7 +197,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
         }
       }
     }
-
   }
 
   private isResponseSection(responseSectionId: string | null | undefined, sectionId: string): boolean {
