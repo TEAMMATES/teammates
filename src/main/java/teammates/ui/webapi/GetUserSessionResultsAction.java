@@ -3,90 +3,52 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.UserSessionResultsData;
-import teammates.ui.request.Intent;
 
 /**
  * Gets user-scoped feedback session results for instructor/student result views.
  */
-public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
+public class GetUserSessionResultsAction extends RegKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        boolean isPreview = getBooleanRequestParamValue(Const.ParamsNames.IS_PREVIEW);
 
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
-
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-
-        String courseId = feedbackSession.getCourseId();
-
-        switch (intent) {
-        case INSTRUCTOR_RESULT:
-            if (!isPreviewResults && !feedbackSession.isPublished()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
-            }
-            Instructor instructor = getInstructorOfCourseForResult(courseId);
-            checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
-            break;
-        case STUDENT_RESULT:
-            if (!isPreviewResults && !feedbackSession.isPublished()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
-            }
-            Student student = getStudentOfCourseForResult(courseId);
-            checkAccessControlForStudentFeedbackResult(student, feedbackSession);
-            break;
-        case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        if (isPreview) {
+            gateKeeper.verifyCanPreviewUserSessionResults(requestContext, feedbackSessionId);
+        } else {
+            gateKeeper.verifyCanViewUserSessionResults(requestContext, feedbackSessionId, userId);
         }
     }
 
     @Override
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        boolean isPreview = getBooleanRequestParamValue(Const.ParamsNames.IS_PREVIEW);
+        User user = getUser();
 
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
-
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
+        SessionResultsBundle bundle;
+        try {
+            bundle = logic.getSessionResultsForUser(feedbackSessionId, user, isPreview);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
-
-        String courseId = feedbackSession.getCourseId();
-        User user;
-
-        switch (intent) {
-        case INSTRUCTOR_RESULT:
-            user = getInstructorOfCourseForResult(courseId);
-            break;
-        case STUDENT_RESULT:
-            user = getStudentOfCourseForResult(courseId);
-            break;
-        case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-
-        SessionResultsBundle bundle = logic.getSessionResultsForUser(feedbackSession, user, isPreviewResults);
         return new JsonResult(UserSessionResultsData.initForUser(bundle, user));
     }
+
+    private User getUser() {
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        User user = logic.getUser(userId);
+        if (user == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+        return user;
+    }
+
 }

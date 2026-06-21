@@ -119,12 +119,14 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving user feedback session results', () => {
     const paramMap: Record<string, string> = {
       fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
-      intent: Intent.STUDENT_RESULT,
+      userid: 'student-user-id',
+      ispreview: 'false',
     };
 
     service.getUserSessionResults({
       feedbackSessionId: paramMap['fsid'],
-      intent: Intent.STUDENT_RESULT,
+      userId: paramMap['userid'],
+      isPreview: false,
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
   });

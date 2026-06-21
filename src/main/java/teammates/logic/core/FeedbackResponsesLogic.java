@@ -62,6 +62,7 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
     private FeedbackQuestionsLogic fqLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
     private ResponseInstructorCommentsLogic frcLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
 
@@ -77,11 +78,12 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb,
-            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic,
-            InstructorPermissionsLogic instructorPermissionsLogic) {
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackSessionsLogic feedbackSessionsLogic,
+            ResponseInstructorCommentsLogic frcLogic, InstructorPermissionsLogic instructorPermissionsLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.frcLogic = frcLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -730,13 +732,18 @@ public final class FeedbackResponsesLogic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @param feedbackSession the feedback session
+     * @param feedbackSessionId the feedback session ID
      * @param user the user viewing the feedback session
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
+            UUID feedbackSessionId, User user, boolean isPreviewResults) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
