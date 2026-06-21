@@ -32,7 +32,7 @@ import teammates.ui.request.StudentUpdateRequest;
 public final class EnrollmentLogic {
 
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
-            "You are trying enroll more than %s students in section \"%s\".";
+            "You are trying to enroll more than %s students in section \"%s\".";
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
             "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
