@@ -324,6 +324,7 @@ public final class Const {
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String OWN_STUDENT = URI_PREFIX + "/me/student";
+        public static final String OWN_TEAM_STUDENTS = URI_PREFIX + "/me/team/students";
         public static final String USER_KEY = URI_PREFIX + "/user/key";
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";

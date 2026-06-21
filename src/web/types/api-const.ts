@@ -86,6 +86,7 @@ export enum ResourceEndpoints {
   STUDENTS = "/webapi/students",
   STUDENT = "/webapi/student",
   OWN_STUDENT = "/webapi/me/student",
+  OWN_TEAM_STUDENTS = "/webapi/me/team/students",
   USER_KEY = "/webapi/user/key",
   SESSIONS_ONGOING = "/webapi/sessions/ongoing",
   SESSION = "/webapi/session",
