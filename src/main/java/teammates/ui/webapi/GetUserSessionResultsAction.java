@@ -35,8 +35,6 @@ public class GetUserSessionResultsAction extends RegKeyAction {
 
         SessionResultsBundle bundle;
         try {
-            // TODO: move user into the SessionResultsBundle. The bundle is currently generated based on the user
-            // so it makes sense for the bundle to also carry the user information instead of having it passed separately.
             bundle = logic.getSessionResultsForUser(feedbackSessionId, user, isPreview);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
