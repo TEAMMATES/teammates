@@ -124,9 +124,8 @@ public class EnrollmentLogicTest extends BaseLogicTest {
 
     @Test(groups = GroupNames.LOGIC)
     public void updateStudentEnrollment_emailUsedByInstructor_throwsEntityAlreadyExistsException() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()).email("student@test.com"));
-        var instructor = given.instructor("instructor", i -> i.course(course.alias())
+        given.student("student", s -> s.defaultCourse().email("student@test.com"));
+        var instructor = given.instructor("instructor", i -> i.defaultCourse()
                 .email("instructor@test.com"));
         persistGivenData(given);
 
@@ -139,9 +138,8 @@ public class EnrollmentLogicTest extends BaseLogicTest {
 
     @Test(groups = GroupNames.LOGIC)
     public void updateStudentEnrollment_emailUsedByAnotherStudent_throwsEntityAlreadyExistsException() {
-        var course = given.course("course");
-        given.student("student", s -> s.course(course.alias()).email("student@test.com"));
-        given.student("other", s -> s.course(course.alias()).email("other@test.com"));
+        given.student("student", s -> s.defaultCourse().email("student@test.com"));
+        given.student("other", s -> s.defaultCourse().email("other@test.com"));
         persistGivenData(given);
 
         StudentUpdateRequest request = new StudentUpdateRequest(
@@ -152,9 +150,25 @@ public class EnrollmentLogicTest extends BaseLogicTest {
     }
 
     @Test(groups = GroupNames.LOGIC)
+    public void updateStudentEnrollment_sectionExceedsLimit_throwsEnrollException() {
+        var fullSection = given.section("fullSection", s -> s.defaultCourse().name("Full Section"));
+        for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
+            final int idx = i;
+            given.student("fill" + idx, s -> s.defaultCourse().section(fullSection.alias()));
+        }
+        var targetStudent = given.student("target", s -> s.defaultCourse().email("target@test.com"));
+        persistGivenData(given);
+
+        StudentUpdateRequest request = new StudentUpdateRequest(
+                "Target", "target@test.com", "Team 1", "Full Section", "", false);
+
+        assertThrowsInTransaction(EnrollException.class,
+                () -> enrollmentLogic.updateStudentEnrollment(targetStudent.id(), request));
+    }
+
+    @Test(groups = GroupNames.LOGIC)
     public void updateStudentEnrollment_validRequest_updatesStudentTeamAndSection() {
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias())
+        var student = given.student("student", s -> s.defaultCourse()
                 .name("Old Name").email("old@test.com"));
         persistGivenData(given);
 
