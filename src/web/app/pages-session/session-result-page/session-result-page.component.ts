@@ -220,7 +220,7 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  private personName$(): Observable<Instructor | Student> {
+  private userDetails$(): Observable<Instructor | Student> {
     if (this.entityType === 'student' && this.previewAs) {
       return this.studentService.getStudent({ userId: this.previewAs });
     } else if (this.entityType === 'student') {
@@ -266,7 +266,7 @@ export class SessionResultPageComponent implements OnInit {
 
           this.logStudentView();
           this.loadCourseInfo();
-          this.personName$().subscribe({
+          this.userDetails$().subscribe({
             next: (user) => {
               this.userId = user.userId;
               this.personName = user.name;
