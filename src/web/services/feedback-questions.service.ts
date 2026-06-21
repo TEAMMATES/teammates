@@ -19,7 +19,7 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
 } from '../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
@@ -42,7 +42,7 @@ import { VisibilityControl } from '../types/visibility-control';
   providedIn: 'root',
 })
 export class FeedbackQuestionsService {
-  private httpRequestService = inject(HttpRequestService);
+  private readonly httpRequestService = inject(HttpRequestService);
 
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make
@@ -593,29 +593,10 @@ export class FeedbackQuestionsService {
   /**
    * Gets feedback questions.
    */
-  getFeedbackQuestions(queryParams: {
-    feedbackSessionId: string;
-    intent: Intent;
-    key?: string;
-    moderatedPerson?: string;
-    previewAs?: string;
-  }): Observable<FeedbackQuestions> {
+  getFeedbackQuestions(queryParams: { feedbackSessionId: string }): Observable<FeedbackQuestions> {
     const paramMap: Record<string, string> = {
-      intent: queryParams.intent,
       fsid: queryParams.feedbackSessionId,
     };
-
-    if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
-    }
-
-    if (queryParams.moderatedPerson) {
-      paramMap['moderatedperson'] = queryParams.moderatedPerson;
-    }
-
-    if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
-    }
 
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
   }

@@ -1325,28 +1325,9 @@ public class Logic {
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
      */
-    public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
-    }
-
-    /**
-     * Gets a list of all questions for the given session that
-     * students can view/submit.
-     */
-    public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSession);
-    }
-
-    /**
-     * Gets a {@code List} of all questions for the given session that
-     * instructor can view/submit.
-     */
-    public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
-            FeedbackSession feedbackSession, Instructor instructor) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor);
+    public List<FeedbackQuestion> getFeedbackQuestionsForSession(UUID feedbackSessionId) {
+        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionId);
     }
 
     /**

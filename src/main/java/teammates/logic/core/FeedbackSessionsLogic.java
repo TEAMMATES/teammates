@@ -924,7 +924,7 @@ public final class FeedbackSessionsLogic {
 
     private void copyFeedbackQuestions(UUID oldSessionId, FeedbackSession newFeedbackSession) {
         FeedbackSession oldFeedbackSession = getFeedbackSession(oldSessionId);
-        fqLogic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
+        fqLogic.getFeedbackQuestionsForSession(oldFeedbackSession.getId()).forEach(question -> {
             FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
             newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
             try {

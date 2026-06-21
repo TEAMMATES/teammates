@@ -186,14 +186,14 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertNotNull(retrievedFs);
         assertFalse(inTransaction(() -> fsLogic.getFeedbackSession(fs.getId()).getFeedbackQuestions().isEmpty()));
-        assertFalse(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
+        assertFalse(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs.getId())).isEmpty());
 
         // delete existing feedback session directly
         inTransaction(() -> fsLogic.deleteFeedbackSessionCascade(fs.getId()));
 
         // check deletion is cascaded
         assertNull(inTransaction(() -> fsLogic.getFeedbackSession(fs.getId())));
-        assertTrue(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
+        assertTrue(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs.getId())).isEmpty());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
