@@ -172,6 +172,39 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void getApprovedAccountVerificationRequest_approvedAndPendingRequests_returnsApproved() {
+        var account = given.account("account");
+        var institute = given.institute("institute");
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).pending());
+        var accountVerificationRequest = given.accountVerificationRequest("matching-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
+        persistGivenData(given);
+
+        AccountVerificationRequest actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedAccountVerificationRequest(
+                        account.id(), institute.id()));
+
+        assertNotNull(actual);
+        assertEquals(accountVerificationRequest.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getApprovedAccountVerificationRequest_noApprovedRequest_returnsNull() {
+        var account = given.account("account");
+        var institute = given.institute("institute");
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).pending());
+        persistGivenData(given);
+
+        AccountVerificationRequest actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedAccountVerificationRequest(
+                        account.id(), institute.id()));
+
+        assertNull(actual);
+    }
+
+    @Test(groups = GroupNames.DB)
     public void getCreatedAtTimestampsForTimeRange_accountVerificationRequestsExist_returnsTimestampsInRange() {
         given.accountVerificationRequest("account-request-1");
         given.accountVerificationRequest("account-request-2");

@@ -147,6 +147,19 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
+     * Gets the approved AccountVerificationRequest for the given account and institute, or null if none exists.
+     */
+    public AccountVerificationRequest getApprovedAccountVerificationRequest(UUID accountId, UUID instituteId) {
+        String jpql = "SELECT r FROM AccountVerificationRequest r"
+                + " WHERE r.accountId = :accountId AND r.instituteId = :instituteId AND r.status = :status";
+        TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(jpql, AccountVerificationRequest.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("instituteId", instituteId);
+        query.setParameter("status", AccountVerificationRequestStatus.APPROVED);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Gets createdAt timestamps of account verification requests created within the given time range.
      */
     public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {

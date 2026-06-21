@@ -253,6 +253,15 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Gets the verified name associated with the given account and institute, or null if none exists.
+     */
+    public String getVerifiedName(UUID accountId, UUID instituteId) {
+        AccountVerificationRequest request = accountVerificationRequestDb
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        return request == null ? null : request.getName();
+    }
+
+    /**
      * Returns true if the given account has an approved account verification request for the given institute.
      */
     public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {

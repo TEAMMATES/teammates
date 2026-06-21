@@ -211,4 +211,34 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         verify(accountVerificationRequestsDb).getAccountVerificationRequest(id);
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
     }
+
+    @Test
+    public void testGetVerifiedName_noMatchingRequest_returnsNull() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(null);
+
+        String actual = accountVerificationsLogic.getVerifiedName(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertNull(actual);
+    }
+
+    @Test
+    public void testGetVerifiedName_matchingRequest_returnsName() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        AccountVerificationRequest request = new AccountVerificationRequest(
+                "test@gmail.com", "verified name", AccountVerificationRequestStatus.APPROVED, "comments");
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(request);
+
+        String actual = accountVerificationsLogic.getVerifiedName(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertEquals("verified name", actual);
+    }
 }
