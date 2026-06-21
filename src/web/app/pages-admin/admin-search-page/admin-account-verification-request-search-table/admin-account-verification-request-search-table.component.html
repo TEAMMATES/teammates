@@ -66,7 +66,7 @@
                 </div>
               </td>
               <td [innerHtml]="accountVerificationRequest.email | highlighter: searchString : true"></td>
-              <td [innerHtml]="accountVerificationRequest.status | highlighter: searchString : true"></td>
+              <td>{{ accountVerificationRequest.status }}</td>
               <td [innerHtml]="accountVerificationRequest.institute | highlighter: searchString : true"></td>
               <td>{{ accountVerificationRequest.country | countryName }}</td>
               <td id="timestamp-box">{{ accountVerificationRequest.createdAtText }}</td>

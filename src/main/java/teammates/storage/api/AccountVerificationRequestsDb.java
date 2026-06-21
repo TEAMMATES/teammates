@@ -109,8 +109,7 @@ public final class AccountVerificationRequestsDb {
                 cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instituteJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
+                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar));
 
         cr.select(root)
                 .where(searchPredicate)
