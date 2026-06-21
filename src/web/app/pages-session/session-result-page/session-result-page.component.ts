@@ -220,47 +220,15 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  private loadPersonNameAndSessionResults(): void {
-    switch (this.intent) {
-      case Intent.STUDENT_RESULT:
-        if (this.previewAs) {
-          this.studentService.getStudent({ userId: this.previewAs }).subscribe((student: Student) => {
-            this.userId = student.userId;
-            this.personName = student.name;
-            this.personEmail = student.email;
-            this.loadFeedbackSessionResults();
-          });
-        } else {
-          this.studentService
-            .getOwnStudent({ courseId: this.courseId, regKey: this.key })
-            .subscribe((student: Student) => {
-              this.userId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
-              this.loadFeedbackSessionResults();
-            });
-        }
-        break;
-      case Intent.INSTRUCTOR_RESULT:
-        if (this.previewAs) {
-          this.instructorService.getInstructor({ userId: this.previewAs }).subscribe((instructor: Instructor) => {
-            this.userId = instructor.userId;
-            this.personName = instructor.name;
-            this.personEmail = instructor.email;
-            this.loadFeedbackSessionResults();
-          });
-        } else {
-          this.instructorService
-            .getOwnInstructor({ courseId: this.courseId, key: this.key })
-            .subscribe((instructor: Instructor) => {
-              this.userId = instructor.userId;
-              this.personName = instructor.name;
-              this.personEmail = instructor.email;
-              this.loadFeedbackSessionResults();
-            });
-        }
-        break;
-      default:
+  private personName$(): Observable<Instructor | Student> {
+    if (this.entityType === 'student' && this.previewAs) {
+      return this.studentService.getStudent({ userId: this.previewAs });
+    } else if (this.entityType === 'student') {
+      return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key });
+    } else if (this.previewAs) {
+      return this.instructorService.getInstructor({ userId: this.previewAs });
+    } else {
+      return this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key });
     }
   }
 
@@ -298,7 +266,14 @@ export class SessionResultPageComponent implements OnInit {
 
           this.logStudentView();
           this.loadCourseInfo();
-          this.loadPersonNameAndSessionResults();
+          this.personName$().subscribe({
+            next: (user) => {
+              this.userId = user.userId;
+              this.personName = user.name;
+              this.personEmail = user.email;
+              this.loadFeedbackSessionResults(user.userId);
+            },
+          });
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionResultsLoading = false;
@@ -307,16 +282,12 @@ export class SessionResultPageComponent implements OnInit {
       });
   }
 
-  private loadFeedbackSessionResults(): void {
-    if (!this.userId) {
-      return;
-    }
-
+  private loadFeedbackSessionResults(userId: string): void {
     this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService
       .getUserSessionResults({
         feedbackSessionId: this.feedbackSessionId,
-        userId: this.userId,
+        userId,
         isPreview: !!this.previewAs,
         key: this.key || undefined,
       })
