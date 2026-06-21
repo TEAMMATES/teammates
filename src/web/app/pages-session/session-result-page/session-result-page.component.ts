@@ -220,7 +220,7 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  private loadPersonName(): void {
+  private loadPersonNameAndSessionResults(): void {
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAs) {
@@ -298,7 +298,7 @@ export class SessionResultPageComponent implements OnInit {
 
           this.logStudentView();
           this.loadCourseInfo();
-          this.loadPersonName();
+          this.loadPersonNameAndSessionResults();
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionResultsLoading = false;
