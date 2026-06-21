@@ -324,6 +324,13 @@ public final class CoursesLogic {
     }
 
     /**
+     * Returns the team with the given name in the given section, or null if none exists.
+     */
+    public Team getTeamByName(UUID sectionId, String teamName) {
+        return coursesDb.getTeamByName(sectionId, teamName);
+    }
+
+    /**
      * Returns teams for a course.
      */
     public List<Team> getTeamsForCourse(String courseId) {

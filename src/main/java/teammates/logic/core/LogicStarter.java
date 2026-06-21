@@ -38,6 +38,7 @@ public class LogicStarter implements ServletContextListener {
         AccountsLogic accountsLogic = AccountsLogic.inst();
         AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        EnrollmentLogic enrollmentLogic = EnrollmentLogic.inst();
         InstitutesLogic institutesLogic = InstitutesLogic.inst();
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -83,6 +84,7 @@ public class LogicStarter implements ServletContextListener {
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
+        enrollmentLogic.initLogicDependencies(usersLogic, coursesLogic, fsLogic);
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,
                 fsLogic, frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
