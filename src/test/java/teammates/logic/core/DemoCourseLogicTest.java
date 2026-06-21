@@ -22,7 +22,7 @@ import teammates.test.GroupNames;
 /**
  * Tests for {@link DemoCourseLogic}.
  */
-public class DemoCourseLogicTest extends BaseLogicTestcase {
+public class DemoCourseLogicTest extends BaseLogicTest {
 
     private final DemoCourseLogic demoCourseLogic = DemoCourseLogic.inst();
     private final Logic logic = Logic.inst();

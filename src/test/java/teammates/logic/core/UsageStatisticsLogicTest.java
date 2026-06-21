@@ -16,7 +16,7 @@ import teammates.ui.output.UsageStatisticsData;
 /**
  * Tests for {@link UsageStatisticsLogic}.
  */
-public class UsageStatisticsLogicTest extends BaseLogicTestcase {
+public class UsageStatisticsLogicTest extends BaseLogicTest {
     private final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
 
     @Test(groups = GroupNames.LOGIC)

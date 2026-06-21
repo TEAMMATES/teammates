@@ -24,7 +24,7 @@ import teammates.ui.request.StudentUpdateRequest;
 /**
  * Tests for {@link EnrollmentLogic}.
  */
-public class EnrollmentLogicTest extends BaseLogicTestcase {
+public class EnrollmentLogicTest extends BaseLogicTest {
     private final EnrollmentLogic enrollmentLogic = EnrollmentLogic.inst();
 
     @Test(groups = GroupNames.LOGIC)
