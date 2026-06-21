@@ -107,14 +107,15 @@ public final class CoursesLogic {
             throw new InvalidParametersException("The institute for the course could not be found.");
         }
 
-        Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
-                timeZone, institute);
         VerifiedInstructorDetails verifiedInstructorDetails =
                 accountVerificationsLogic.getVerifiedInstructorDetails(courseCreator.getId(), institute.getId());
         if (verifiedInstructorDetails == null) {
             throw new InvalidParametersException("The instructor creating the course must have an approved "
                     + "account verification request for the institute.");
         }
+
+        Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
+                timeZone, institute);
 
         try {
             usersLogic.createInstructor(course, verifiedInstructorDetails.name(),

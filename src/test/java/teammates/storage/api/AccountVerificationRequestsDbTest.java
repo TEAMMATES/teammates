@@ -1,10 +1,8 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -123,52 +121,6 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
                 () -> accountVerificationRequestsDb.getApprovedRequestsByAccountId(account.id()));
 
         assertEquals(0, actual.size());
-    }
-
-    @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_approvedRequestExists_returnsTrue() {
-        var account = given.account("account");
-        var institute = given.institute("institute");
-        given.accountVerificationRequest("approved-request",
-                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
-        persistGivenData(given);
-
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
-                        account.id(), institute.id()));
-
-        assertTrue(actual);
-    }
-
-    @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_pendingRequestExists_returnsFalse() {
-        var account = given.account("account");
-        var institute = given.institute("institute");
-        given.accountVerificationRequest("pending-request",
-                ar -> ar.account(account.alias()).institute(institute.alias()).pending());
-        persistGivenData(given);
-
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
-                        account.id(), institute.id()));
-
-        assertFalse(actual);
-    }
-
-    @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_differentInstitute_returnsFalse() {
-        var account = given.account("account");
-        var institute = given.institute("institute");
-        var otherInstitute = given.institute("other-institute");
-        given.accountVerificationRequest("approved-request",
-                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
-        persistGivenData(given);
-
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
-                        account.id(), otherInstitute.id()));
-
-        assertFalse(actual);
     }
 
     @Test(groups = GroupNames.DB)

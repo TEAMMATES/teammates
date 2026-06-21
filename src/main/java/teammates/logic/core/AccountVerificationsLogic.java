@@ -266,7 +266,7 @@ public final class AccountVerificationsLogic {
      * Returns true if the given account has an approved account verification request for the given institute.
      */
     public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {
-        return accountVerificationRequestDb.hasApprovedRequestForAccountAndInstitute(accountId, instituteId);
+        return accountVerificationRequestDb.getApprovedAccountVerificationRequest(accountId, instituteId) != null;
     }
 
     /**
