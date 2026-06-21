@@ -7,6 +7,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
@@ -253,12 +254,12 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Gets the verified name associated with the given account and institute, or null if none exists.
+     * Gets the verified instructor details associated with the given account and institute, or null if none exists.
      */
-    public String getVerifiedName(UUID accountId, UUID instituteId) {
+    public VerifiedInstructorDetails getVerifiedInstructorDetails(UUID accountId, UUID instituteId) {
         AccountVerificationRequest request = accountVerificationRequestDb
                 .getApprovedAccountVerificationRequest(accountId, instituteId);
-        return request == null ? null : request.getName();
+        return request == null ? null : new VerifiedInstructorDetails(request.getName(), request.getEmail());
     }
 
     /**

@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -213,13 +214,14 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetVerifiedName_noMatchingRequest_returnsNull() {
+    public void testGetVerifiedInstructorDetails_noMatchingRequest_returnsNull() {
         UUID accountId = UUID.randomUUID();
         UUID instituteId = UUID.randomUUID();
         when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
                 .thenReturn(null);
 
-        String actual = accountVerificationsLogic.getVerifiedName(accountId, instituteId);
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
 
         verify(accountVerificationRequestsDb)
                 .getApprovedAccountVerificationRequest(accountId, instituteId);
@@ -227,7 +229,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetVerifiedName_matchingRequest_returnsName() {
+    public void testGetVerifiedInstructorDetails_matchingRequest_returnsNameAndEmail() {
         UUID accountId = UUID.randomUUID();
         UUID instituteId = UUID.randomUUID();
         AccountVerificationRequest request = new AccountVerificationRequest(
@@ -235,10 +237,12 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
                 .thenReturn(request);
 
-        String actual = accountVerificationsLogic.getVerifiedName(accountId, instituteId);
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
 
         verify(accountVerificationRequestsDb)
                 .getApprovedAccountVerificationRequest(accountId, instituteId);
-        assertEquals("verified name", actual);
+        assertEquals("verified name", actual.name());
+        assertEquals("test@gmail.com", actual.email());
     }
 }
