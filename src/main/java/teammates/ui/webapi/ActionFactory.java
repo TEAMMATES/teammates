@@ -82,6 +82,7 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.OWN_STUDENT, GET, GetOwnStudentAction.class);
+        map(ResourceURIs.OWN_TEAM_STUDENTS, GET, GetOwnTeamStudentsAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         // NOTIFICATION APIs

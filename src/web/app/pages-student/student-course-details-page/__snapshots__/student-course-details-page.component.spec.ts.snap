@@ -54,7 +54,7 @@ exports[`StudentCourseDetailsPageComponent > should snap when it fails to load 1
   isLoadingCourse={[Function Boolean]}
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
-  isLoadingTeammates="false"
+  isLoadingTeammates={[Function Boolean]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}
@@ -66,22 +66,21 @@ exports[`StudentCourseDetailsPageComponent > should snap when it fails to load 1
     <div
       aria-hidden="true"
     />
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><tm-loading-spinner>
     <div
-      class="row top-padded"
+      class="loading-container"
     >
       <div
-        class="col-md-10"
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
       >
-        <table>
-          <tbody>
-          </tbody>
-        </table>
+        Loading...
       </div>
     </div>
-  </div>
+  </tm-loading-spinner>
 </tm-student-course-details-page>
 `;
 
@@ -97,7 +96,7 @@ exports[`StudentCourseDetailsPageComponent > should snap with default fields 1`]
   isLoadingCourse={[Function Boolean]}
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
-  isLoadingTeammates="false"
+  isLoadingTeammates={[Function Boolean]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}
@@ -109,22 +108,21 @@ exports[`StudentCourseDetailsPageComponent > should snap with default fields 1`]
     <div
       aria-hidden="true"
     />
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><tm-loading-spinner>
     <div
-      class="row top-padded"
+      class="loading-container"
     >
       <div
-        class="col-md-10"
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
       >
-        <table>
-          <tbody>
-          </tbody>
-        </table>
+        Loading...
       </div>
     </div>
-  </div>
+  </tm-loading-spinner>
 </tm-student-course-details-page>
 `;
 

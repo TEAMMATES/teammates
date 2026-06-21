@@ -36,6 +36,7 @@ public enum ResourceEndpoints {
     STUDENTS(ResourceURIs.STUDENTS),
     STUDENT(ResourceURIs.STUDENT),
     OWN_STUDENT(ResourceURIs.OWN_STUDENT),
+    OWN_TEAM_STUDENTS(ResourceURIs.OWN_TEAM_STUDENTS),
     USER_KEY(ResourceURIs.USER_KEY),
     SESSIONS_ONGOING(ResourceURIs.SESSIONS_ONGOING),
     SESSION(ResourceURIs.SESSION),

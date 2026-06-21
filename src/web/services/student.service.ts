@@ -24,19 +24,24 @@ export class StudentService {
 
   /**
    * Get a list of students of a course by calling API.
-   * If teamId is provided, only students in that team will be returned.
-   * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(queryParams: { courseId: string; teamId?: string }): Observable<Students> {
+  getStudentsFromCourse(queryParams: { courseId: string }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
 
-    if (queryParams.teamId) {
-      paramsMap['teamid'] = queryParams.teamId;
-    }
-
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Get the list of students in the current student's own team by calling API.
+   */
+  getOwnTeamStudents(queryParams: { courseId: string }): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.OWN_TEAM_STUDENTS, paramsMap);
   }
 
   /**
