@@ -273,6 +273,10 @@ export class SessionResultPageComponent implements OnInit {
               this.personEmail = user.email;
               this.loadFeedbackSessionResults(user.userId);
             },
+            error: (resp: ErrorMessageOutput) => {
+              this.isFeedbackSessionResultsLoading = false;
+              this.handleError(resp);
+            },
           });
         },
         error: (resp: ErrorMessageOutput) => {
