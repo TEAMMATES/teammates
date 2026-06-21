@@ -15,6 +15,14 @@ import {
   AccountVerificationRequestRejectionRequest,
 } from '../types/api-request';
 
+export interface AccountVerificationRequestQueryParams {
+  instituteId?: string;
+  accountId?: string;
+  status?: AccountVerificationRequestStatus;
+  searchKey?: string;
+  limit?: number;
+}
+
 /**
  * Handles account related logic provision
  */
@@ -108,13 +116,27 @@ export class AccountService {
   }
 
   /**
-   * Gets pending account verification requests by calling API.
+   * Gets account verification requests by calling API.
    */
-  getPendingAccountVerificationRequests(): Observable<AccountVerificationRequests> {
-    const paramMap = {
-      status: AccountVerificationRequestStatus.PENDING,
-    };
-
+  getAccountVerificationRequests(
+    queryParams: AccountVerificationRequestQueryParams = {},
+  ): Observable<AccountVerificationRequests> {
+    const paramMap: Record<string, string> = {};
+    if (queryParams.instituteId) {
+      paramMap['instituteid'] = queryParams.instituteId;
+    }
+    if (queryParams.accountId) {
+      paramMap['accountid'] = queryParams.accountId;
+    }
+    if (queryParams.status) {
+      paramMap['status'] = queryParams.status;
+    }
+    if (queryParams.searchKey) {
+      paramMap['searchkey'] = queryParams.searchKey;
+    }
+    if (queryParams.limit !== undefined) {
+      paramMap['limit'] = String(queryParams.limit);
+    }
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
 

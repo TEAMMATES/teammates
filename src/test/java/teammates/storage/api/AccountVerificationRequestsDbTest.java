@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -67,7 +68,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getPendingAccountVerificationRequests_accountVerificationRequestsExist_returnsOnlyPending() {
+    public void getAccountVerificationRequests_statusFilter_returnsOnlyPending() {
         Instant now = Instant.now();
         var olderPendingRequest = given.accountVerificationRequest("older-pending-request",
                 ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
@@ -77,9 +78,30 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         persistGivenData(given);
 
         List<AccountVerificationRequest> actual =
-                inTransaction(accountVerificationRequestsDb::getPendingAccountVerificationRequests);
+                inTransaction(() -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(
+                                null, null, AccountVerificationRequestStatus.PENDING, null, null)));
 
         assertEquals(List.of(newerPendingRequest.id(), olderPendingRequest.id()),
+                actual.stream().map(AccountVerificationRequest::getId).toList());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountVerificationRequests_limitProvided_returnsLimitedResultsInCreatedAtDescendingOrder() {
+        Instant now = Instant.now();
+        var oldestRequest = given.accountVerificationRequest("oldest-request",
+                ar -> ar.pending().createdAt(now.minus(3, ChronoUnit.HOURS)));
+        var middleRequest = given.accountVerificationRequest("middle-request",
+                ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
+        var newestRequest = given.accountVerificationRequest("newest-request",
+                ar -> ar.pending().createdAt(now.minus(1, ChronoUnit.HOURS)));
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual =
+                inTransaction(() -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(null, null, null, null, 2)));
+
+        assertEquals(List.of(newestRequest.id(), middleRequest.id()),
                 actual.stream().map(AccountVerificationRequest::getId).toList());
     }
 
