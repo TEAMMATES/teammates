@@ -20,10 +20,10 @@ Before you begin, a basic familiarity with the following will help:
 - Java
 - Angular/TypeScript
 
-## Step 1: Fork and Clone the Repository
+## 1: Fork and Clone the Repository
 
 1. Install Git.
-2. Fork the project repository at [github.com/TEAMMATES/teammates](https://github.com/TEAMMATES/teammates) and clone your fork locally.
+2. Fork the [TEAMMATES Repository] [github.com/TEAMMATES/teammates](https://github.com/TEAMMATES/teammates) on Github and clone your fork locally.
 3. Add the main repository as a remote and fetch it:
 
 ```sh
@@ -40,14 +40,13 @@ git checkout master
 git branch -u upstream/master
 ```
 
-## Step 2: Install Tools
+## 2: Install Tools
 
-1. Install **Java JDK 21**.
-   - JDK 25 is also supported, as long as newer language features are not used.
-2. Install **Node.js** (minimum version 24).
+1. Install **Java JDK 21**. JDK 25 is also supported, avoid using newer language features.
+2. Install **Node.js** (Version 24 or later).
 3. Install [**Docker**](https://www.docker.com/get-started/).
 
-## Step 3: Configure the Project
+## 3: Configure the Project
 
 1. Generate the main config files:
 
@@ -81,7 +80,7 @@ npm ci
 
 **Verification:** A `node_modules` folder should appear in the project root.
 
-## Step 3: Run the Application
+## 4: Run the Application
 
 1. Start the database:
 
@@ -137,7 +136,7 @@ npm run start
 
 The frontend will be available at `http://localhost:4200`.
 
-## Step 4: Set up test accounts
+## 5: Set up test accounts
 
 To test TEAMMATES locally, you will need an instructor and a student account.
 
@@ -149,7 +148,7 @@ To test TEAMMATES locally, you will need an instructor and a student account.
 6. Use the registration link to activate the account.
 7. You now have access to all TEAMMATES features.
 
-## Step 5: Next Steps
+## 6: Next Steps
 
 Your environment is now ready. Here's what to do next:
 
