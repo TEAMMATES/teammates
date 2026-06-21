@@ -53,15 +53,17 @@ export class AdminHomePageComponent implements OnInit {
   }
 
   fetchAccountVerificationRequests(): void {
-    this.accountService.getAccountVerificationRequests({
-      status: AccountVerificationRequestStatus.PENDING,
-    }).subscribe({
-      next: (resp: AccountVerificationRequests) => {
-        this.accountReqs = this.formatAccountVerificationRequests(resp);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.accountService
+      .getAccountVerificationRequests({
+        status: AccountVerificationRequestStatus.PENDING,
+      })
+      .subscribe({
+        next: (resp: AccountVerificationRequests) => {
+          this.accountReqs = this.formatAccountVerificationRequests(resp);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 }

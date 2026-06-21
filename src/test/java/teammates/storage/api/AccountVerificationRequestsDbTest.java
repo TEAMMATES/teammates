@@ -89,7 +89,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getAccountVerificationRequests_limitProvided_returnsLimitedResultsInCreatedAtDescendingOrder() {
         Instant now = Instant.now();
-        var oldestRequest = given.accountVerificationRequest("oldest-request",
+        given.accountVerificationRequest("oldest-request",
                 ar -> ar.pending().createdAt(now.minus(3, ChronoUnit.HOURS)));
         var middleRequest = given.accountVerificationRequest("middle-request",
                 ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));

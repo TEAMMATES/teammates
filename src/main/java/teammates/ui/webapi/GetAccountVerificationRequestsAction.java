@@ -4,10 +4,10 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.util.Const;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.AccountVerificationRequestsData;
-import teammates.common.util.Const;
 
 /**
  * Action: Gets account verification requests.
