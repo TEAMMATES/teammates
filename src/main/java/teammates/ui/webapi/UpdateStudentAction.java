@@ -34,7 +34,7 @@ public class UpdateStudentAction extends LoggedInAction {
             } else {
                 logic.updateStudentEnrollment(studentId, updateRequest);
             }
-            return new JsonResult("Student update successfully");
+            return new JsonResult("Student updated successfully");
         } catch (EnrollException | EntityAlreadyExistsException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
