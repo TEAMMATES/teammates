@@ -121,7 +121,7 @@ public class UsersLogicTest extends BaseTestCase {
     @Test
     public void testGetUnregisteredStudentsForCourse_success() {
         Account registeredAccount = new Account(Provider.TEAMMATES_DEV, "valid-google-id", "validTenantId",
-                "student-name", "valid1-student@email.tmt");
+                "valid1-student@email.tmt");
         Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
         registeredStudent.setAccount(registeredAccount);
 

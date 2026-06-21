@@ -120,7 +120,7 @@ public class BaseTestCase {
      */
     protected Account getTypicalAccount() {
         return new Account(Provider.TEAMMATES_DEV, UUID.randomUUID().toString(),
-                "tenant-id", "name", "email@teammates.com");
+                "tenant-id", "email@teammates.com");
     }
 
     protected Notification getTypicalNotificationWithId() {

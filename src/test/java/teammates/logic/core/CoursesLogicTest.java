@@ -155,7 +155,6 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testCreateCourseAndInstructor_withCourseCreateRequest_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Account courseCreator = getTypicalAccount();
-        courseCreator.setName("Course Creator");
         courseCreator.setEmail("course-creator@email.tmt");
         CourseCreateRequest request = new CourseCreateRequest();
         UUID instituteId = UUID.randomUUID();
