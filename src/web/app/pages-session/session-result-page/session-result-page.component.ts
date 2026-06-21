@@ -85,6 +85,7 @@ export class SessionResultPageComponent implements OnInit {
   formattedSessionClosingTime = '';
   personName = '';
   personEmail = '';
+  userId = '';
   courseId = '';
   feedbackSessionName = '';
   @Input({ required: true }) feedbackSessionId!: string;
@@ -102,7 +103,6 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-  studentId: string | undefined = '';
 
   private readonly backendUrl: string = environment.backendUrl;
 
@@ -223,7 +223,7 @@ export class SessionResultPageComponent implements OnInit {
       case Intent.STUDENT_RESULT:
         if (this.previewAs) {
           this.studentService.getStudent({ userId: this.previewAs }).subscribe((student: Student) => {
-            this.studentId = student.userId;
+            this.userId = student.userId;
             this.personName = student.name;
             this.personEmail = student.email;
             this.loadFeedbackSessionResults();
@@ -232,7 +232,7 @@ export class SessionResultPageComponent implements OnInit {
           this.studentService
             .getOwnStudent({ courseId: this.courseId, regKey: this.key })
             .subscribe((student: Student) => {
-              this.studentId = student.userId;
+              this.userId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
               this.loadFeedbackSessionResults();
@@ -242,7 +242,7 @@ export class SessionResultPageComponent implements OnInit {
       case Intent.INSTRUCTOR_RESULT:
         if (this.previewAs) {
           this.instructorService.getInstructor({ userId: this.previewAs }).subscribe((instructor: Instructor) => {
-            this.studentId = instructor.userId;
+            this.userId = instructor.userId;
             this.personName = instructor.name;
             this.personEmail = instructor.email;
             this.loadFeedbackSessionResults();
@@ -251,7 +251,7 @@ export class SessionResultPageComponent implements OnInit {
           this.instructorService
             .getOwnInstructor({ courseId: this.courseId, key: this.key })
             .subscribe((instructor: Instructor) => {
-              this.studentId = instructor.userId;
+              this.userId = instructor.userId;
               this.personName = instructor.name;
               this.personEmail = instructor.email;
               this.loadFeedbackSessionResults();
@@ -306,7 +306,7 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSessionResults(): void {
-    if (!this.studentId) {
+    if (!this.userId) {
       return;
     }
 
@@ -314,7 +314,7 @@ export class SessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getUserSessionResults({
         feedbackSessionId: this.feedbackSessionId,
-        userId: this.studentId,
+        userId: this.userId,
         isPreview: !!this.previewAs,
         key: this.key || undefined,
       })
