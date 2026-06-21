@@ -4,7 +4,6 @@ import teammates.common.datatransfer.AuthContext;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.webapi.AuthType;
 
 /**
  * Handles operations related to authentication and authorization.
@@ -31,14 +30,14 @@ public final class AuthLogic {
      * course ID.
      *
      * <p>
-     * If the authentication type is REG_KEY, it returns the unregistered student
+     * If a valid registration key is present, it returns the unregistered student
      * from the authentication context.
      * Otherwise, it retrieves the student from the database linked to the account
      * and course ID.
      */
     public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredStudent(authContext);
+        if (authContext.regKeyUser() instanceof Student student) {
+            return student;
         }
 
         Account account = authContext.account();
@@ -54,14 +53,14 @@ public final class AuthLogic {
      * course ID.
      *
      * <p>
-     * If the authentication type is REG_KEY, it returns the unregistered instructor
+     * If a valid registration key is present, it returns the unregistered instructor
      * from the authentication context. Otherwise, it retrieves the instructor from
      * the database linked to the account
      * and course ID.
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredInstructor(authContext);
+        if (authContext.regKeyUser() instanceof Instructor instructor) {
+            return instructor;
         }
 
         Account account = authContext.account();
@@ -70,19 +69,5 @@ public final class AuthLogic {
         }
 
         return usersLogic.getInstructorByAccountId(account.getId(), courseId);
-    }
-
-    private Student getUnregisteredStudent(AuthContext authContext) {
-        if (authContext.regKeyUser() instanceof Student student) {
-            return student;
-        }
-        return null;
-    }
-
-    private Instructor getUnregisteredInstructor(AuthContext authContext) {
-        if (authContext.regKeyUser() instanceof Instructor instructor) {
-            return instructor;
-        }
-        return null;
     }
 }
