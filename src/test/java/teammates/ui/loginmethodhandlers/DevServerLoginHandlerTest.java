@@ -15,7 +15,7 @@ import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -37,7 +37,7 @@ public class DevServerLoginHandlerTest extends BaseTestCase {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "/login");
 
         try (MockedStatic<Config> ignored = mockDevServerLoginEnabled(false)) {
-            assertThrows(InvalidAuthStateException.class,
+            assertThrows(AuthException.class,
                     () -> devServerLoginHandler.handleLogin(req, "/"));
         }
     }
@@ -48,7 +48,7 @@ public class DevServerLoginHandlerTest extends BaseTestCase {
         AuthState state = new AuthState("/", "1234", LoginMethod.DEV_SERVER);
 
         try (MockedStatic<Config> ignored = mockDevServerLoginEnabled(false)) {
-            assertThrows(InvalidAuthStateException.class,
+            assertThrows(AuthException.class,
                     () -> devServerLoginHandler.handleCallback(req, state));
         }
     }
@@ -59,7 +59,7 @@ public class DevServerLoginHandlerTest extends BaseTestCase {
         AuthState state = new AuthState("/", "1234", LoginMethod.DEV_SERVER);
 
         try (MockedStatic<Config> ignored = mockDevServerLoginEnabled(true)) {
-            assertThrows(InvalidAuthStateException.class,
+            assertThrows(AuthException.class,
                     () -> devServerLoginHandler.handleCallback(req, state));
         }
     }
@@ -71,7 +71,7 @@ public class DevServerLoginHandlerTest extends BaseTestCase {
         AuthState state = new AuthState("/", "different-session-id", LoginMethod.DEV_SERVER);
 
         try (MockedStatic<Config> ignored = mockDevServerLoginEnabled(true)) {
-            assertThrows(InvalidAuthStateException.class,
+            assertThrows(AuthException.class,
                     () -> devServerLoginHandler.handleCallback(req, state));
         }
     }

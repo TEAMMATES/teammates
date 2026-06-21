@@ -12,7 +12,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -24,9 +24,9 @@ public class DevServerLoginHandler implements LoginMethodHandler {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, InvalidAuthStateException {
+    public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, AuthException {
         if (!Config.isDevServerLoginEnabled()) {
-            throw new InvalidAuthStateException("Dev server login is not enabled");
+            throw new AuthException("Dev server login is not enabled");
         }
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
@@ -40,21 +40,21 @@ public class DevServerLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, AuthState state) throws IOException, InvalidAuthStateException {
+    public AuthResult handleCallback(HttpServletRequest req, AuthState state) throws IOException, AuthException {
         if (!Config.isDevServerLoginEnabled()) {
-            throw new InvalidAuthStateException("Dev server login is not enabled");
+            throw new AuthException("Dev server login is not enabled");
         }
 
         String email = req.getParameter("email");
         if (email == null) {
-            throw new InvalidAuthStateException("Missing email parameter in dev server login callback");
+            throw new AuthException("Missing email parameter in dev server login callback");
         }
 
         String sessionId = state.sessionId();
         if (!sessionId.equals(req.getSession().getId())) {
             String message = String.format("Different session ID: expected %s, got %s",
                     sessionId, req.getSession().getId());
-            throw new InvalidAuthStateException(message);
+            throw new AuthException(message);
         }
 
         return new AuthResult(Provider.TEAMMATES_DEV, email, null, email);

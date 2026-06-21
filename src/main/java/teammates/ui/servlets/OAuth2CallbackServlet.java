@@ -19,7 +19,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.loginmethodhandlers.AuthResult;
 import teammates.ui.loginmethodhandlers.AuthState;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
@@ -39,7 +39,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         AuthState state;
         try {
             state = getAuthStateFromCallback(req);
-        } catch (InvalidAuthStateException e) {
+        } catch (AuthException e) {
             rejectLogin(req, resp, "Invalid authentication state: " + e.getMessage());
             return;
         }
@@ -106,20 +106,20 @@ public class OAuth2CallbackServlet extends AuthServlet {
      * Extracts and validates the encrypted state parameter from the OAuth2 callback.
      *
      * @return the decrypted AuthState object.
-     * @throws InvalidAuthStateException if the state parameter is missing or invalid.
+     * @throws AuthException if the state parameter is missing or invalid.
      */
     private AuthState getAuthStateFromCallback(HttpServletRequest req)
-            throws IOException, InvalidAuthStateException {
+            throws IOException, AuthException {
         String encryptedState = req.getParameter("state");
         if (encryptedState == null) {
-            throw new InvalidAuthStateException("Missing or invalid state parameter");
+            throw new AuthException("Missing or invalid state parameter");
         }
 
         try {
             String decryptedState = StringHelper.decrypt(encryptedState);
             return JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
-            throw new InvalidAuthStateException("Failed to parse state parameter", e);
+            throw new AuthException("Failed to parse state parameter", e);
         }
     }
 }

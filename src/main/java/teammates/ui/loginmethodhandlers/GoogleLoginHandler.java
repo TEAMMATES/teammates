@@ -28,7 +28,7 @@ import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -44,7 +44,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     private static final List<String> SCOPES = Arrays.asList("openid", "email");
 
     @Override
-    public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, InvalidAuthStateException {
+    public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, AuthException {
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.GOOGLE);
         GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
@@ -56,7 +56,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
     }
 
     @Override
-    public AuthResult handleCallback(HttpServletRequest req, AuthState state) throws IOException, InvalidAuthStateException {
+    public AuthResult handleCallback(HttpServletRequest req, AuthState state) throws IOException, AuthException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
@@ -68,24 +68,24 @@ public class GoogleLoginHandler implements LoginMethodHandler {
                     buf.toString().replaceFirst("^http://", "https://"));
         } catch (IllegalArgumentException e) {
             // Malformed Google callback URL.
-            throw new InvalidAuthStateException("Invalid Google callback URL", e);
+            throw new AuthException("Invalid Google callback URL", e);
         }
 
         if (responseUrl.getError() != null) {
-            throw new InvalidAuthStateException("Error in Google OAuth2 callback: " + responseUrl.getError());
+            throw new AuthException("Error in Google OAuth2 callback: " + responseUrl.getError());
         }
 
         String code = responseUrl.getCode();
         if (code == null) {
             // Should not happen if there is no error, but just in case.
-            throw new InvalidAuthStateException("Missing authorization code");
+            throw new AuthException("Missing authorization code");
         }
 
         String sessionId = state.sessionId();
         if (!sessionId.equals(req.getSession().getId())) {
             String message = String.format("Different session ID: expected %s, got %s",
                     sessionId, req.getSession().getId());
-            throw new InvalidAuthStateException(message);
+            throw new AuthException(message);
         }
 
         String redirectUri = getRedirectUri(req);
@@ -96,11 +96,11 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         try {
             GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
             if (idToken == null) {
-                throw new InvalidAuthStateException("Invalid ID token");
+                throw new AuthException("Invalid ID token");
             }
             payload = idToken.getPayload();
         } catch (GeneralSecurityException | IOException e) {
-            throw new InvalidAuthStateException("Failed to verify ID token", e);
+            throw new AuthException("Failed to verify ID token", e);
         }
 
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail());

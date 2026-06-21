@@ -31,7 +31,7 @@ import teammates.storage.entity.Account;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.loginmethodhandlers.AuthResult;
 import teammates.ui.loginmethodhandlers.AuthState;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
@@ -183,7 +183,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     private static LoginMethodHandler mockFailingLoginHandler() throws Exception {
         LoginMethodHandler loginHandler = mock(LoginMethodHandler.class);
         when(loginHandler.handleCallback(any(), any()))
-                .thenThrow(new InvalidAuthStateException("Callback failed"));
+                .thenThrow(new AuthException("Callback failed"));
         return loginHandler;
     }
 

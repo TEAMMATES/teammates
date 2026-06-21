@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -31,7 +31,7 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
         req.setQueryString("error=access_denied");
         AuthState state = new AuthState("/", "1234", LoginMethod.GOOGLE);
 
-        assertThrows(InvalidAuthStateException.class,
+        assertThrows(AuthException.class,
                 () -> googleLoginHandler.handleCallback(req, state));
     }
 
@@ -40,7 +40,7 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         AuthState state = new AuthState("/", "1234", LoginMethod.GOOGLE);
 
-        assertThrows(InvalidAuthStateException.class,
+        assertThrows(AuthException.class,
                 () -> googleLoginHandler.handleCallback(req, state));
     }
 
@@ -50,7 +50,7 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
         req.setQueryString("code=authorization-code");
         AuthState state = new AuthState("/", "different-session-id", LoginMethod.GOOGLE);
 
-        assertThrows(InvalidAuthStateException.class,
+        assertThrows(AuthException.class,
                 () -> googleLoginHandler.handleCallback(req, state));
     }
 }

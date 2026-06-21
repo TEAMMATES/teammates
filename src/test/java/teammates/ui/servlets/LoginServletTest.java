@@ -33,7 +33,7 @@ import teammates.storage.entity.Account;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
-import teammates.ui.exception.InvalidAuthStateException;
+import teammates.ui.exception.AuthException;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
 import teammates.ui.output.LoginMethod;
 
@@ -81,7 +81,7 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_loginHandlerThrows_returnsInternalServerError() throws Exception {
         when(loginHandler.handleLogin(any(), eq("/")))
-                .thenThrow(new InvalidAuthStateException("Login failed"));
+                .thenThrow(new AuthException("Login failed"));
 
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
