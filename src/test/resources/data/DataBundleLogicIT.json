@@ -14,14 +14,12 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "idOfInstructor1"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Student 1",
       "email": "student1@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "idOfStudent1"

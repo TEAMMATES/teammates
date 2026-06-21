@@ -34,56 +34,48 @@
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Instructor1 of Course1",
       "email": "asearch.instructor1@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.instructor1@gmail.tmt"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Instructor2 of Course1",
       "email": "asearch.instructor2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.instructor2@gmail.tmt"
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "name": "Student1 in course1",
       "email": "asearch.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.student@gmail.tmt"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor1@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.unregisteredinstructor1@gmail.tmt"
     },
     "unregisteredInstructor2": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.unregisteredinstructor2@gmail.tmt"
     },
     "unregisteredInstructor3": {
       "id": "00000000-0000-4000-8000-000000000105",
-      "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor3@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.unregisteredinstructor3@gmail.tmt"
     },
     "unregisteredInstructor4": {
       "id": "00000000-0000-4000-8000-000000000106",
-      "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor4@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.unregisteredinstructor4@gmail.tmt"
     },
     "unregisteredInstructor5": {
       "id": "00000000-0000-4000-8000-000000000107",
-      "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor5@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.unregisteredinstructor5@gmail.tmt"

@@ -8,7 +8,6 @@
   },
   "accounts": {
     "SCDet.instr": {
-      "name": "Instructor",
       "email": "scdet.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
@@ -16,7 +15,6 @@
     },
     "SCDet.alice": {
       "email": "scdet.alice@gmail.tmt",
-      "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
       "subject": "scdet.alice@gmail.tmt"

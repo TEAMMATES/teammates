@@ -9,42 +9,36 @@
   "accounts": {
     "instructor": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Teammates Test",
       "email": "frankrcptqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frankrcptqn.instructor@gmail.tmt"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Teammates Test 2",
       "email": "tmms.test2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tmms.test2@gmail.tmt"
     },
     "tm.e2e.FRankRcptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "name": "Alice Betsy",
       "email": "frankrcptqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frankrcptqn.alice.tmms@gmail.tmt"
     },
     "tm.e2e.FRankRcptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "name": "Benny Charles",
       "email": "frankrcptqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frankrcptqn.benny.tmms@gmail.tmt"
     },
     "tm.e2e.FRankRcptQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "name": "Charlie Davis",
       "email": "frankrcptqn.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frankrcptqn.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.FRankRcptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "name": "Danny Engrid",
       "email": "frankrcptqn.danny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frankrcptqn.danny.tmms@gmail.tmt"
