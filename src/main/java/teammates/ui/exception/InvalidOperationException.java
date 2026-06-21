@@ -1,10 +1,6 @@
 package teammates.ui.exception;
 
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InstructorUpdateException;
-import teammates.common.exception.InvalidFeedbackSessionStateException;
-import teammates.common.exception.InvalidVerificationRequestStateException;
 
 /**
  * Exception thrown when a normally valid operation is not valid due to factors outside of the operation itself,
@@ -22,19 +18,7 @@ public class InvalidOperationException extends Exception {
         super(cause.getMessage(), cause);
     }
 
-    public InvalidOperationException(EnrollException cause) {
-        super(cause.getMessage(), cause);
-    }
-
-    public InvalidOperationException(InstructorUpdateException cause) {
-        super(cause.getMessage(), cause);
-    }
-
-    public InvalidOperationException(InvalidFeedbackSessionStateException cause) {
-        super(cause.getMessage(), cause);
-    }
-
-    public InvalidOperationException(InvalidVerificationRequestStateException cause) {
+    public InvalidOperationException(Exception cause) {
         super(cause.getMessage(), cause);
     }
 

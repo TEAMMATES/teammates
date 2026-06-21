@@ -43,7 +43,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction,
                 .withParam(Const.ParamsNames.USER_ID, given.uuid("student").toString())
                 .withRequest(requestBody));
 
-        assertEquals(UpdateStudentAction.SUCCESSFUL_UPDATE_WITH_EMAIL, result.getMessage());
+        assertEquals("Student updated successfully", result.getMessage());
         List<EmailWrapper> queuedEmails = getQueuedEmails();
         assertEquals(1, queuedEmails.size());
         assertEquals(EmailType.STUDENT_EMAIL_CHANGED, queuedEmails.get(0).getType());
@@ -73,7 +73,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction,
                 .withParam(Const.ParamsNames.USER_ID, given.uuid("student").toString())
                 .withRequest(requestBody));
 
-        assertEquals(UpdateStudentAction.SUCCESSFUL_UPDATE, result.getMessage());
+        assertEquals("Student updated successfully", result.getMessage());
         assertEquals(0, getQueuedEmails().size());
     }
 

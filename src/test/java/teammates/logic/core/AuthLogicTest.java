@@ -16,7 +16,7 @@ import teammates.ui.webapi.AuthType;
 /**
  * Tests for {@link AuthLogic}.
  */
-public class AuthLogicTest extends BaseLogicTestcase {
+public class AuthLogicTest extends BaseLogicTest {
     private final AuthLogic authLogic = AuthLogic.inst();
 
     @Test(groups = GroupNames.LOGIC)

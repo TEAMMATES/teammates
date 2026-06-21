@@ -40,6 +40,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.DemoCourseLogic;
+import teammates.logic.core.EnrollmentLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
@@ -98,6 +99,7 @@ public class Logic {
     final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     final DemoCourseLogic demoCourseLogic = DemoCourseLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final EnrollmentLogic enrollmentLogic = EnrollmentLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
@@ -1010,11 +1012,12 @@ public class Logic {
     }
 
     /**
-     * Updates a student by student id and update request, and cascades to responses and comments if needed.
+     * Updates a student by student id and update request, cascading to responses and comments if needed,
+     * and validates that section limits are not exceeded.
      */
-    public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
+    public Student updateStudentEnrollment(UUID studentId, StudentUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
-        return usersLogic.updateStudent(studentId, updateRequest);
+        return enrollmentLogic.updateStudentEnrollment(studentId, updateRequest);
     }
 
     /**
@@ -1022,7 +1025,7 @@ public class Logic {
      */
     public Student updateStudentAndEnqueueSummaryEmail(UUID studentId, StudentUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
-        return usersLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
+        return enrollmentLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
     }
 
     /**
@@ -1030,7 +1033,7 @@ public class Logic {
      */
     public EnrollResults enrollStudents(Course course,
             List<StudentEnrollRequest> enrollRequests) throws EnrollException {
-        return usersLogic.enrollStudents(course, enrollRequests);
+        return enrollmentLogic.enrollStudents(course, enrollRequests);
     }
 
     /**
