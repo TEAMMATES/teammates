@@ -137,6 +137,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
         public static final String PREVIEWAS = "previewas";
+        public static final String IS_PREVIEW = "ispreview";
 
         public static final String USER_ID = "userid";
         public static final String ACCOUNT_ID = "accountid";

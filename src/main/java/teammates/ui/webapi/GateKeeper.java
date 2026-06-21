@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.RequestContext;
@@ -13,6 +14,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -180,6 +182,53 @@ final class GateKeeper {
         }
 
         throw new UnauthorizedAccessException("Not authorized to view this deadline extension.");
+    }
+
+    /**
+     * Verifies that the current user can preview user-scoped feedback session results.
+     */
+    void verifyCanPreviewUserSessionResults(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        verifyLoggedInUserPrivileges(requestContext);
+
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+
+        verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+    }
+
+    /**
+     * Verifies that the current user can view user-scoped feedback session results.
+     */
+    void verifyCanViewUserSessionResults(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+
+        if (!feedbackSession.isPublished()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet published.");
+        }
+
+        User user = logic.getUser(userId);
+        verifyNotNull(user, "user");
+
+        if (!feedbackSession.getCourseId().equals(user.getCourseId())) {
+            throw new UnauthorizedAccessException("User is not a member of this feedback session course.");
+        }
+
+        if (requestContext.getAccount() != null
+                && user.getAccount() != null
+                && Objects.equals(requestContext.getAccount(), user.getAccount())) {
+            return;
+        }
+
+        if (requestContext.getRegKeyUser() != null
+                && Objects.equals(requestContext.getRegKeyUser(), user)) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Not authorized to view this feedback session result.");
     }
 
     /**

@@ -1383,15 +1383,15 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @param feedbackSession the feedback session
+     * @param feedbackSessionId the feedback session ID
      * @param user the user viewing the feedback session
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
+            UUID feedbackSessionId, User user, boolean isPreviewResults) throws EntityDoesNotExistException {
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, user, isPreviewResults);
+                feedbackSessionId, user, isPreviewResults);
     }
 
     /**

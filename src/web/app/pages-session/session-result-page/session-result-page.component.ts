@@ -226,6 +226,7 @@ export class SessionResultPageComponent implements OnInit {
             this.studentId = student.userId;
             this.personName = student.name;
             this.personEmail = student.email;
+            this.loadFeedbackSessionResults();
           });
         } else {
           this.studentService
@@ -234,17 +235,28 @@ export class SessionResultPageComponent implements OnInit {
               this.studentId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
+              this.loadFeedbackSessionResults();
             });
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
-        (this.previewAs
-          ? this.instructorService.getInstructor({ userId: this.previewAs })
-          : this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key })
-        ).subscribe((instructor: Instructor) => {
-          this.personName = instructor.name;
-          this.personEmail = instructor.email;
-        });
+        if (this.previewAs) {
+          this.instructorService.getInstructor({ userId: this.previewAs }).subscribe((instructor: Instructor) => {
+            this.studentId = instructor.userId;
+            this.personName = instructor.name;
+            this.personEmail = instructor.email;
+            this.loadFeedbackSessionResults();
+          });
+        } else {
+          this.instructorService
+            .getOwnInstructor({ courseId: this.courseId, key: this.key })
+            .subscribe((instructor: Instructor) => {
+              this.studentId = instructor.userId;
+              this.personName = instructor.name;
+              this.personEmail = instructor.email;
+              this.loadFeedbackSessionResults();
+            });
+        }
         break;
       default:
     }
@@ -285,7 +297,6 @@ export class SessionResultPageComponent implements OnInit {
           this.logStudentView();
           this.loadCourseInfo();
           this.loadPersonName();
-          this.loadFeedbackSessionResults();
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionResultsLoading = false;
@@ -295,13 +306,17 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSessionResults(): void {
+    if (!this.studentId) {
+      return;
+    }
+
     this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService
       .getUserSessionResults({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
-        key: this.key,
-        previewAs: this.previewAs,
+        userId: this.studentId,
+        isPreview: !!this.previewAs,
+        key: this.key || undefined,
       })
       .pipe(
         finalize(() => {

@@ -408,21 +408,18 @@ export class FeedbackSessionsService {
    */
   getUserSessionResults(queryParams: {
     feedbackSessionId: string;
-    intent: Intent;
+    userId: string;
+    isPreview: boolean;
     key?: string;
-    previewAs?: string;
   }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
-      intent: queryParams.intent,
+      userid: queryParams.userId,
+      ispreview: String(queryParams.isPreview),
     };
 
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
-    }
-
-    if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);

@@ -336,11 +336,6 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should load session results and hydrate questions', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: false,
-      isValid: false,
-    };
     const testFeedbackQuestionModel: FeedbackQuestionModel = {
       feedbackQuestion: testFeedbackQuestion,
       questionStatistics: undefined,
@@ -368,8 +363,22 @@ describe('SessionResultPageComponent', () => {
       ],
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    component.key = '';
     vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
+    vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(
+      of({
+        name: 'student-name',
+        email: 'student@tmt.tmt',
+        courseId: '',
+        courseName: '',
+        institute: '',
+        userId: 'student-name-id',
+        sectionName: '',
+        sectionId: '',
+        teamName: '',
+        teamId: '',
+      }),
+    );
     const getResultsSpy = vi
       .spyOn(feedbackSessionService, 'getUserSessionResults')
       .mockReturnValue(of(testSessionResults));
@@ -377,9 +386,8 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
     expect(getResultsSpy).toHaveBeenLastCalledWith({
       feedbackSessionId: testQueryParams['fsid'],
-      intent: Intent.STUDENT_RESULT,
-      key: testQueryParams['key'],
-      previewAs: testQueryParams['previewAs'],
+      userId: 'student-name-id',
+      isPreview: false,
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
