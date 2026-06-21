@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -210,5 +211,38 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
                 accountVerificationsLogic.getAccountVerificationRequest(id);
         verify(accountVerificationRequestsDb).getAccountVerificationRequest(id);
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
+    }
+
+    @Test
+    public void testGetVerifiedInstructorDetails_noMatchingRequest_returnsNull() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(null);
+
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertNull(actual);
+    }
+
+    @Test
+    public void testGetVerifiedInstructorDetails_matchingRequest_returnsNameAndEmail() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        AccountVerificationRequest request = new AccountVerificationRequest(
+                "test@gmail.com", "verified name", AccountVerificationRequestStatus.APPROVED, "comments");
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(request);
+
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertEquals("verified name", actual.name());
+        assertEquals("test@gmail.com", actual.email());
     }
 }

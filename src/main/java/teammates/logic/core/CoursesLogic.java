@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -41,6 +42,7 @@ public final class CoursesLogic {
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
     private InstitutesLogic institutesLogic;
+    private AccountVerificationsLogic accountVerificationsLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private CoursesLogic() {
@@ -52,10 +54,12 @@ public final class CoursesLogic {
     }
 
     void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstitutesLogic institutesLogic,
+            AccountVerificationsLogic accountVerificationsLogic,
             InstructorPermissionsLogic instructorPermissionsLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
         this.institutesLogic = institutesLogic;
+        this.accountVerificationsLogic = accountVerificationsLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
@@ -103,12 +107,20 @@ public final class CoursesLogic {
             throw new InvalidParametersException("The institute for the course could not be found.");
         }
 
+        VerifiedInstructorDetails verifiedInstructorDetails =
+                accountVerificationsLogic.getVerifiedInstructorDetails(courseCreator.getId(), institute.getId());
+        if (verifiedInstructorDetails == null) {
+            throw new InvalidParametersException("The instructor creating the course must have an approved "
+                    + "account verification request for the institute.");
+        }
+
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, institute);
 
         try {
-            usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),
-                    false, courseCreator.getName(), InstructorPermissionRole.COOWNER,
+            usersLogic.createInstructor(course, verifiedInstructorDetails.name(),
+                    verifiedInstructorDetails.email(),
+                    false, verifiedInstructorDetails.name(), InstructorPermissionRole.COOWNER,
                     courseCreator);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             assert false : "Unexpected exception while trying to create instructor for a new course "
