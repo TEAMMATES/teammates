@@ -575,7 +575,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackQuestion> getQuestionsForSession(
             FeedbackSession feedbackSession, @Nullable UUID questionId) {
         if (questionId == null) {
-            return fqLogic.getFeedbackQuestionsForSession(feedbackSession);
+            return fqLogic.getFeedbackQuestionsForSession(feedbackSession.getId());
         }
         FeedbackQuestion fq = fqLogic.getFeedbackQuestion(questionId);
         return fq == null ? Collections.emptyList() : Collections.singletonList(fq);
@@ -750,7 +750,7 @@ public final class FeedbackResponsesLogic {
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession)
+        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession.getId())
                 .stream()
                 .filter(question -> isQuestionRelevantForUserResult(question, user))
                 .toList();

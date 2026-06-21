@@ -14,7 +14,6 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -63,7 +62,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questions);
 
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs.getId());
 
         assertEquals(questions.size(), actualQuestions.size());
         assertTrue(questions.containsAll(actualQuestions));
@@ -89,7 +88,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questions);
 
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs.getId());
 
         assertEquals(questions.size(), actualQuestions.size());
         assertTrue(questions.containsAll(actualQuestions));
@@ -193,80 +192,6 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         assertEquals(2, fq2.getQuestionNumber().intValue());
         assertEquals(3, fq3.getQuestionNumber().intValue());
         assertEquals(4, fq4.getQuestionNumber().intValue());
-    }
-
-    @Test
-    public void testGetFeedbackQuestionsForStudents_success() {
-        Course c = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
-
-        List<FeedbackQuestion> questionsTeam = List.of(fq1, fq2);
-        List<FeedbackQuestion> questionsStudent = List.of(fq3, fq4);
-
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
-
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.TEAMS)).thenReturn(questionsTeam);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS)).thenReturn(questionsStudent);
-
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForStudents(fs);
-
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(expectedQuestions));
-    }
-
-    @Test
-    public void testGetFeedbackQuestionsForInstructors_instructorIsCreator_success() {
-        Course c = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        Instructor instructor = mock(Instructor.class);
-        fs.setSessionCreator(instructor);
-        FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
-
-        List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
-        List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
-
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
-                .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
-
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, instructor);
-
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(expectedQuestions));
-    }
-
-    @Test
-    public void testGetFeedbackQuestionsForInstructors_instructorIsNotCreator_success() {
-        Course c = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        Instructor creator = mock(Instructor.class);
-        fs.setSessionCreator(creator);
-        Instructor instructor = mock(Instructor.class);
-        FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
-        FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
-
-        List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
-        List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
-
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
-                .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
-
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, instructor);
-
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(expectedQuestions));
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {
