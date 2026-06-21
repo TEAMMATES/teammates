@@ -9,7 +9,6 @@
   "accounts": {
     "instructorWithEvals": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Test Ins for Aut Sessions Reminder",
       "email": "autsesrem.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "autsesrem.instructor@gmail.tmt"

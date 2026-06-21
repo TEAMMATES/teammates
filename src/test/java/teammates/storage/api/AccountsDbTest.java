@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -103,14 +102,12 @@ public class AccountsDbTest extends BaseDbTestcase {
                 Provider.TEAMMATES_DEV,
                 "shared-subject",
                 null,
-                "Should Not Update Name",
                 "should-not-update@example.com");
 
         Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
 
         assertEquals(existingAccount.id(), actual.getId());
         assertEquals("original@example.com", actual.getEmail());
-        assertNotEquals("Should Not Update Name", actual.getName());
         assertEquals(Account.NO_TENANT, actual.getTenantId());
     }
 
@@ -149,7 +146,6 @@ public class AccountsDbTest extends BaseDbTestcase {
                 Provider.TEAMMATES_DEV,
                 "subject",
                 "tenant-id",
-                "Account Name",
                 "account@example.com");
         account.setId(accountId);
         return account;

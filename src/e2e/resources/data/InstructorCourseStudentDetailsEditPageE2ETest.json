@@ -9,14 +9,12 @@
   "accounts": {
     "ICSDetEdit.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Teammates Test",
       "email": "icsdetedit.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "icsdetedit.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "José Gómez",
       "email": "icsdetedit.jose.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "icsdetedit.jose.tmms@gmail.tmt"

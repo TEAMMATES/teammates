@@ -9,7 +9,6 @@
   "accounts": {
     "SNotifs.student": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Alice B",
       "email": "snotifs.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "snotifs.student@gmail.tmt"
