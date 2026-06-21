@@ -61,6 +61,8 @@ export class SessionResultPageComponent implements OnInit {
   // enum
   Intent!: typeof Intent;
 
+  retryAttempts!: number;
+
   session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -102,13 +104,13 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionDetailsLoading = true;
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
-  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
     this.Intent = Intent;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
+    this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
   }
 
   ngOnInit(): void {
