@@ -9,21 +9,18 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Teammates Test",
       "email": "isactlogs.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "isactlogs.instructor@gmail.tmt"
     },
     "alice.tmms@ISActLogs.CS2104": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Alice Betsy",
       "email": "isactlogs.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "isactlogs.alice.tmms@gmail.tmt"
     },
     "benny.tmms@ISActLogs.CS2104": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "name": "Benny Charles",
       "email": "isactlogs.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "isactlogs.benny.tmms@gmail.tmt"

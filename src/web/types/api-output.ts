@@ -3,7 +3,6 @@
 
 export interface Account extends ApiOutput {
   accountId: string;
-  name: string;
   email: string;
   instructors: Instructor[];
   students: Student[];
@@ -36,6 +35,24 @@ export interface AuthInfo extends ApiOutput {
 
 export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
+}
+
+export interface ConstsumOptionRow {
+  option: string;
+  pointsReceived: number[];
+  total: number;
+  average: number;
+}
+
+export interface ConstsumRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  isCurrentRecipient: boolean;
+  pointsReceived: number[];
+  total: number;
+  average: number;
+  averageExcludingSelf?: number;
 }
 
 export interface Course extends ApiOutput {
@@ -120,6 +137,14 @@ export interface FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQu
 
 export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
+}
+
+export interface FeedbackConstsumOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: ConstsumOptionRow[];
+}
+
+export interface FeedbackConstsumRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: ConstsumRecipientRow[];
 }
 
 export interface FeedbackContributionCourseWideStatistics extends FeedbackQuestionResultsStatistics {
@@ -253,6 +278,10 @@ export interface FeedbackRankOptionsResponseDetails extends FeedbackResponseDeta
   answers: number[];
 }
 
+export interface FeedbackRankOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: RankOptionsOptionRow[];
+}
+
 export interface FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
   minOptionsToBeRanked: number;
   maxOptionsToBeRanked: number;
@@ -264,6 +293,10 @@ export interface FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuest
 
 export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackRankRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: RankRecipientsRow[];
 }
 
 export interface FeedbackResponse extends ApiOutput {
@@ -519,6 +552,24 @@ export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
+}
+
+export interface RankOptionsOptionRow {
+  option: string;
+  ranksReceived: number[];
+  overallRank: number;
+}
+
+export interface RankRecipientsRow {
+  recipientName: string;
+  recipientEmail: string;
+  recipientTeam: string;
+  ranksReceived: number[];
+  selfRank: number;
+  overallRank: number;
+  rankExcludingSelf: number;
+  rankInTeam: number;
+  rankInTeamExcludingSelf: number;
 }
 
 export interface ReadNotification extends ApiOutput {

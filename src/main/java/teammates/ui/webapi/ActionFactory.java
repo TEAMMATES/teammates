@@ -82,6 +82,7 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.OWN_STUDENT, GET, GetOwnStudentAction.class);
+        map(ResourceURIs.OWN_TEAM_STUDENTS, GET, GetOwnTeamStudentsAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         // NOTIFICATION APIs
@@ -98,8 +99,6 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
-        map(ResourceURIs.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, GET, SearchAccountVerificationRequestsAction.class);
-
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);

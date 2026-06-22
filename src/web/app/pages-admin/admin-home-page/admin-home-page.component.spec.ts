@@ -19,9 +19,7 @@ describe('AdminHomePageComponent', () => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
     accountService = TestBed.inject(AccountService);
     component = fixture.componentInstance;
-    vi.spyOn(accountService, 'getPendingAccountVerificationRequests').mockReturnValue(
-      of({ accountVerificationRequests: [] }),
-    );
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of({ accountVerificationRequests: [] }));
     fixture.detectChanges();
   });
 

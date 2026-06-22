@@ -6,7 +6,6 @@ import { FeedbackQuestionsService } from '../../../../services/feedback-question
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-output';
-import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../../components/loading-spinner/loading-spinner.directive';
@@ -62,7 +61,6 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: model.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .subscribe({
         next: (response: FeedbackQuestions) => {

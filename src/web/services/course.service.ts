@@ -171,8 +171,8 @@ export class CourseService {
     const teams: Set<string> = new Set();
     const sections: Set<string> = new Set();
     students.forEach((student: Student) => {
-      teams.add(student.teamName);
-      sections.add(student.sectionName);
+      teams.add(student.teamId);
+      sections.add(student.sectionId);
     });
     return {
       numOfSections: sections.size,

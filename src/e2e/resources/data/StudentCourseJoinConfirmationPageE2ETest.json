@@ -8,14 +8,12 @@
   },
   "accounts": {
     "SCJoinConf.instr": {
-      "name": "Teammates Test",
       "email": "scjoinconf.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
       "subject": "scjoinconf.instr@gmail.tmt"
     },
     "alice.tmms": {
-      "name": "Alice B",
       "email": "scjoinconf.alice@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",

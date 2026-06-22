@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
@@ -216,10 +218,10 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Gets all pending account verification requests.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationRequestDb.getPendingAccountVerificationRequests();
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery query) {
+        return accountVerificationRequestDb.getAccountVerificationRequests(query);
     }
 
     /**
@@ -236,15 +238,6 @@ public final class AccountVerificationsLogic {
         accountVerificationRequestDb.removeAccountVerificationRequest(toDelete);
     }
 
-    /**
-     * Searches for account verification requests in the whole system.
-     *
-     * @return A list of {@link AccountVerificationRequest}, or an empty list if no match is found.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationRequestDb.searchAccountVerificationRequestsInWholeSystem(queryString);
-    }
-
     private void validateAccountVerificationRequest(
             AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
         if (!accountVerificationRequest.isValid()) {
@@ -253,10 +246,19 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Gets the verified instructor details associated with the given account and institute, or null if none exists.
+     */
+    public VerifiedInstructorDetails getVerifiedInstructorDetails(UUID accountId, UUID instituteId) {
+        AccountVerificationRequest request = accountVerificationRequestDb
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        return request == null ? null : new VerifiedInstructorDetails(request.getName(), request.getEmail());
+    }
+
+    /**
      * Returns true if the given account has an approved account verification request for the given institute.
      */
     public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {
-        return accountVerificationRequestDb.hasApprovedRequestForAccountAndInstitute(accountId, instituteId);
+        return accountVerificationRequestDb.getApprovedAccountVerificationRequest(accountId, instituteId) != null;
     }
 
     /**

@@ -52,8 +52,8 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     StudentsSectionQuestions.STUDENT_EDIT_DETAILS,
     StudentsSectionQuestions.STUDENT_VIEW_RESPONSES,
     StudentsSectionQuestions.STUDENT_SEARCH,
-    StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT,
-    StudentsSectionQuestions.STUDENT_CHANGE_ID,
+    StudentsSectionQuestions.STUDENT_ACCOUNT_SIGN_IN,
+    StudentsSectionQuestions.STUDENT_CHANGE_ACCOUNT_EMAIL,
   ];
 
   constructor() {

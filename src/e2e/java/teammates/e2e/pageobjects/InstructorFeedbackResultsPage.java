@@ -327,54 +327,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyStatistics(questionPanel, question, responses, instructors, students);
     }
 
-    public void verifyGqrViewStats(FeedbackQuestion question,
-                                   List<FeedbackResponse> responses,
-                                   boolean isGroupedByTeam,
-                                   Collection<Instructor> instructors,
-                                   Collection<Student> students) {
-        selectViewType(GQR_VIEW);
-
-        String giver = getIdentifier(responses.get(0).getGiver());
-        QuestionGiverType giverType = question.getGiverType();
-        verifyUserViewStats(giverType, giver, question, responses, instructors, students, isGroupedByTeam, true);
-    }
-
-    public void verifyRqgViewStats(FeedbackQuestion question,
-                                   List<FeedbackResponse> responses,
-                                   boolean isGroupedByTeam,
-                                   Collection<Instructor> instructors,
-                                   Collection<Student> students) {
-        selectViewType(RQG_VIEW);
-
-        String recipient = getIdentifier(responses.get(0).getRecipient());
-        QuestionRecipientType recipientType = question.getRecipientType();
-        verifyUserViewStats(recipientType, recipient, question, responses, instructors, students, isGroupedByTeam, false);
-    }
-
-    private void verifyUserViewStats(QuestionGiverType type, String user,
-                                     FeedbackQuestion question,
-                                     List<FeedbackResponse> responses,
-                                     Collection<Instructor> instructors,
-                                     Collection<Student> students,
-                                     boolean isGroupedByTeam,
-                                     boolean isGiver) {
-        WebElement panelWithStats = getPanelWithStats(type, user, question, instructors, students,
-                isGroupedByTeam, isGiver);
-        verifyStatistics(panelWithStats, question, responses, instructors, students);
-    }
-
-    private void verifyUserViewStats(QuestionRecipientType type, String user,
-                                     FeedbackQuestion question,
-                                     List<FeedbackResponse> responses,
-                                     Collection<Instructor> instructors,
-                                     Collection<Student> students,
-                                     boolean isGroupedByTeam,
-                                     boolean isGiver) {
-        WebElement panelWithStats = getPanelWithStats(type, user, question, instructors, students,
-                isGroupedByTeam, isGiver);
-        verifyStatistics(panelWithStats, question, responses, instructors, students);
-    }
-
     private void verifyStatistics(WebElement questionPanel, FeedbackQuestion question,
                                   List<FeedbackResponse> responses,
                                   Collection<Instructor> instructors,
@@ -466,72 +418,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
         verifyStatsHidden(questionPanel);
-    }
-
-    public void verifyGqrViewStatsHidden(FeedbackQuestion question,
-                                         String giver,
-                                         Collection<Instructor> instructors,
-                                         Collection<Student> students,
-                                         boolean isGroupedByTeam) {
-        selectViewType(GQR_VIEW);
-
-        QuestionGiverType giverType = question.getGiverType();
-        WebElement panelWithStats = getPanelWithStats(giverType, giver, question, instructors, students,
-                isGroupedByTeam, true);
-        verifyStatsHidden(panelWithStats);
-    }
-
-    public void verifyRqgViewStatsHidden(FeedbackQuestion question,
-                                         String recipient,
-                                         Collection<Instructor> instructors,
-                                         Collection<Student> students,
-                                         boolean isGroupedByTeam) {
-        selectViewType(RQG_VIEW);
-
-        QuestionRecipientType recipientType = question.getRecipientType();
-        WebElement panelWithStats = getPanelWithStats(recipientType, recipient, question, instructors, students,
-                isGroupedByTeam, false);
-        verifyStatsHidden(panelWithStats);
-    }
-
-    private WebElement getPanelWithStats(QuestionGiverType type, String user,
-                                         FeedbackQuestion question,
-                                         Collection<Instructor> instructors,
-                                         Collection<Student> students,
-                                         boolean isGroupedByTeam,
-                                         boolean isGiver) {
-        String section = getSection(type, user, students);
-        String team = getTeam(type, user, students);
-        String name = getName(type, user, instructors, students);
-        String header = getUserHeader(isGiver, name);
-        int qnNum = question.getQuestionNumber();
-        if (isGroupedByTeam) {
-            WebElement teamPanel = getUserParentPanel(section, team, true);
-            return getTeamStats(teamPanel, qnNum);
-        } else {
-            WebElement userPanel = getUserPanel(section, team, header, false);
-            return getQuestionPanel(userPanel, qnNum);
-        }
-    }
-
-    private WebElement getPanelWithStats(QuestionRecipientType type, String user,
-                                         FeedbackQuestion question,
-                                         Collection<Instructor> instructors,
-                                         Collection<Student> students,
-                                         boolean isGroupedByTeam,
-                                         boolean isGiver) {
-        String section = getSection(type, user, students);
-        String team = getTeam(type, user, students);
-        String name = getName(type, user, instructors, students);
-        String header = getUserHeader(isGiver, name);
-        int qnNum = question.getQuestionNumber();
-        if (isGroupedByTeam) {
-            WebElement teamPanel = getUserParentPanel(section, team, true);
-            return getTeamStats(teamPanel, qnNum);
-        } else {
-            WebElement userPanel = getUserPanel(section, team, header, false);
-            return getQuestionPanel(userPanel, qnNum);
-        }
     }
 
     private void verifyStatsHidden(WebElement panelWithStats) {
@@ -1093,17 +979,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return null;
         }
         throw new NoSuchElementException("Grouped responses not found for " + userName);
-    }
-
-    private WebElement getTeamStats(WebElement parentPanel, int qnNum) {
-        List<WebElement> teamStats = parentPanel.findElements(By.id("team-statistics"));
-
-        for (WebElement teamStat : teamStats) {
-            if (teamStat.getText().contains("Question " + qnNum)) {
-                return teamStat;
-            }
-        }
-        throw new RuntimeException("Team statistics not found for question " + qnNum);
     }
 
     private String getCommentGiver(WebElement commentField) {

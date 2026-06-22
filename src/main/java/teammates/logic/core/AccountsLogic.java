@@ -78,7 +78,7 @@ public final class AccountsLogic {
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
 
-        Account account = new Account(provider, subject, tenantId, "User", email);
+        Account account = new Account(provider, subject, tenantId, email);
 
         try {
             validateAccount(account);
@@ -101,8 +101,7 @@ public final class AccountsLogic {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
-        // TODO: Account name will be removed, use a generic "User" for now.
-        Account account = new Account(provider, subject, tenantId, "User", email);
+        Account account = new Account(provider, subject, tenantId, email);
         return validateThenPersistAccount(account);
     }
 

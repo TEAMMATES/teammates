@@ -264,7 +264,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.feedbackQuestionsService
             .getFeedbackQuestions({
               feedbackSessionId,
-              intent: Intent.FULL_DETAIL,
             })
             .subscribe({
               next: (feedbackQuestions: FeedbackQuestions) => {

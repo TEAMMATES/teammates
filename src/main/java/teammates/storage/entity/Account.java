@@ -49,9 +49,6 @@ public class Account extends BaseEntity {
     private String tenantId;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String email;
 
     @OneToMany(mappedBy = "account")
@@ -73,12 +70,11 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(Provider provider, String subject, String tenantId, String name, String email) {
+    public Account(Provider provider, String subject, String tenantId, String email) {
         this.setId(UUID.randomUUID());
         this.setProvider(provider);
         this.setSubject(subject);
         this.setTenantId(tenantId);
-        this.setName(name);
         this.setEmail(email);
     }
 
@@ -130,14 +126,6 @@ public class Account extends BaseEntity {
         return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = SanitizationHelper.sanitizeName(name);
-    }
-
     public String getEmail() {
         return email;
     }
@@ -186,7 +174,6 @@ public class Account extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
         return errors;
@@ -212,7 +199,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", name=" + name + ", email=" + email
+        return "Account [id=" + id + ", email=" + email
                 + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }

@@ -266,7 +266,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
             assertEquals(expectedAccount.getId(), actualAccount.getAccountId());
-            assertEquals(expectedAccount.getName(), actualAccount.getName());
             assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         } else if (expected instanceof Course) {
             Course expectedCourse = (Course) expected;

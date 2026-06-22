@@ -44,7 +44,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                     getAndValidateRequestBody(FeedbackResponsesRequest.class));
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
@@ -65,7 +65,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case INSTRUCTOR_RESULT, STUDENT_RESULT:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
     }
 
@@ -78,7 +78,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         List<FeedbackResponse> output;
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
 
         switch (intent) {
@@ -105,7 +105,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             }
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
 
         return new JsonResult(FeedbackQuestionResponsesData.createFromEntity(output));

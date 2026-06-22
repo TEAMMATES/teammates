@@ -61,6 +61,8 @@ export class SessionResultPageComponent implements OnInit {
   // enum
   Intent!: typeof Intent;
 
+  retryAttempts!: number;
+
   session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -85,6 +87,7 @@ export class SessionResultPageComponent implements OnInit {
   formattedSessionClosingTime = '';
   personName = '';
   personEmail = '';
+  userId = '';
   courseId = '';
   feedbackSessionName = '';
   @Input({ required: true }) feedbackSessionId!: string;
@@ -101,14 +104,13 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionDetailsLoading = true;
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
-  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-  studentId: string | undefined = '';
 
   private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
     this.Intent = Intent;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
+    this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
   }
 
   ngOnInit(): void {
@@ -218,35 +220,15 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  private loadPersonName(): void {
-    switch (this.intent) {
-      case Intent.STUDENT_RESULT:
-        if (this.previewAs) {
-          this.studentService.getStudent({ userId: this.previewAs }).subscribe((student: Student) => {
-            this.studentId = student.userId;
-            this.personName = student.name;
-            this.personEmail = student.email;
-          });
-        } else {
-          this.studentService
-            .getOwnStudent({ courseId: this.courseId, regKey: this.key })
-            .subscribe((student: Student) => {
-              this.studentId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
-            });
-        }
-        break;
-      case Intent.INSTRUCTOR_RESULT:
-        (this.previewAs
-          ? this.instructorService.getInstructor({ userId: this.previewAs })
-          : this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key })
-        ).subscribe((instructor: Instructor) => {
-          this.personName = instructor.name;
-          this.personEmail = instructor.email;
-        });
-        break;
-      default:
+  private userDetails$(): Observable<Instructor | Student> {
+    if (this.entityType === 'student' && this.previewAs) {
+      return this.studentService.getStudent({ userId: this.previewAs });
+    } else if (this.entityType === 'student') {
+      return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key });
+    } else if (this.previewAs) {
+      return this.instructorService.getInstructor({ userId: this.previewAs });
+    } else {
+      return this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key });
     }
   }
 
@@ -284,8 +266,18 @@ export class SessionResultPageComponent implements OnInit {
 
           this.logStudentView();
           this.loadCourseInfo();
-          this.loadPersonName();
-          this.loadFeedbackSessionResults();
+          this.userDetails$().subscribe({
+            next: (user) => {
+              this.userId = user.userId;
+              this.personName = user.name;
+              this.personEmail = user.email;
+              this.loadFeedbackSessionResults(user.userId);
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.isFeedbackSessionResultsLoading = false;
+              this.handleError(resp);
+            },
+          });
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionResultsLoading = false;
@@ -294,14 +286,14 @@ export class SessionResultPageComponent implements OnInit {
       });
   }
 
-  private loadFeedbackSessionResults(): void {
+  private loadFeedbackSessionResults(userId: string): void {
     this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService
       .getUserSessionResults({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
-        key: this.key,
-        previewAs: this.previewAs,
+        userId,
+        isPreview: !!this.previewAs,
+        key: this.key || undefined,
       })
       .pipe(
         finalize(() => {

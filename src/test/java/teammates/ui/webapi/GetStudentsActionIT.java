@@ -64,30 +64,6 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         assertNull(firstStudentInStudents.getKey());
         assertEquals(student.getName(), firstStudentInStudents.getName());
         assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
-
-        logoutUser();
-        loginAsStudent(student);
-
-        ______TS("Typical Success Case with course id and team id, logged in as student");
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.TEAM_ID, student.getTeamId().toString(),
-        };
-
-        getStudentsAction = getAction(params);
-        jsonResult = getJsonResult(getStudentsAction);
-        response = (StudentsData) jsonResult.getOutput();
-        students = response.getStudents();
-
-        Student expectedOtherTeamMember = typicalBundle.students.get("student2InCourse1");
-
-        assertEquals(4, students.size());
-
-        StudentData actualOtherTeamMember = students.get(1);
-
-        assertNull(actualOtherTeamMember.getKey());
-        assertEquals(expectedOtherTeamMember.getName(), actualOtherTeamMember.getName());
-        assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -103,17 +79,6 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         };
 
         loginAsInstructor(instructor);
-
-        verifyCanAccess(params);
-
-        ______TS("Student to view team members");
-
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.TEAM_ID, student.getTeamId().toString(),
-        };
-
-        loginAsStudent(student);
 
         verifyCanAccess(params);
 

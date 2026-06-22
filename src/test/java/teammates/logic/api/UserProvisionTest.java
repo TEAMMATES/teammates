@@ -198,8 +198,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static Account createAccount(String email) {
         Account account = new Account(
-                Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
-                "Test User", email);
+                Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id", email);
         account.setId(UUID.randomUUID());
         return account;
     }

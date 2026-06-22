@@ -9,14 +9,12 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Teammates Test",
       "email": "fmsqqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "fmsqqn.instructor@gmail.tmt"
     },
     "tm.e2e.FMsqQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Alice Betsy",
       "email": "fmsqqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "fmsqqn.alice.tmms@gmail.tmt"

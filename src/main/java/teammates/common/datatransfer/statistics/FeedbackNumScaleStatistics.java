@@ -72,7 +72,7 @@ public class FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistic
             this.recipientTeam = recipientTeam;
         }
 
-        public boolean isIsCurrentRecipient() {
+        public boolean isCurrentRecipient() {
             return isCurrentRecipient;
         }
 

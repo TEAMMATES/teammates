@@ -80,36 +80,6 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
     }
 
     /**
-     * Gets the student of the course for result.
-     *
-     * <p>This includes the student being previewed, if applicable.
-     */
-    Student getStudentOfCourseForResult(String courseId) {
-        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (previewAsPerson != null) {
-            return logic.getStudentOfCourse(courseId, previewAsPerson);
-        } else {
-            return getStudentFromRequest(courseId);
-        }
-    }
-
-    /**
-     * Gets the instructor of the course for result.
-     *
-     * <p>This includes the instructor being previewed, if applicable.
-     */
-    Instructor getInstructorOfCourseForResult(String courseId) {
-        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (previewAsPerson != null) {
-            return logic.getInstructorOfCourse(courseId, previewAsPerson);
-        } else {
-            return getInstructorFromRequest(courseId);
-        }
-    }
-
-    /**
      * Checks the access control for student feedback submission.
      */
     void checkAccessControlForStudentFeedbackSubmission(Student student, FeedbackSession feedbackSession)
@@ -133,27 +103,6 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
             if (!feedbackSession.isVisible()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
             }
-        }
-    }
-
-    /**
-     * Checks the access control for student feedback result.
-     */
-    void checkAccessControlForStudentFeedbackResult(
-            Student student, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
-        if (student == null) {
-            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-        }
-
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
-            if (!feedbackSession.isVisible()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
-            }
-        } else {
-            checkAccessControlForPreview(feedbackSession);
         }
     }
 
@@ -191,25 +140,6 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
 
         gateKeeper.verifyInstructorHasPrivilege(instructor,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION);
-    }
-
-    /**
-     * Checks the access control for instructor feedback result.
-     */
-    void checkAccessControlForInstructorFeedbackResult(
-            Instructor instructor, FeedbackSession feedbackSession) throws UnauthorizedAccessException {
-        if (instructor == null) {
-            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
-        }
-
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
-                    Const.InstructorPermissions.CAN_VIEW_SESSION);
-        } else {
-            checkAccessControlForPreview(feedbackSession);
-        }
     }
 
     private void checkAccessControlForPreview(FeedbackSession feedbackSession)

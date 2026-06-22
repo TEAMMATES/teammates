@@ -547,7 +547,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         finalize(() => {

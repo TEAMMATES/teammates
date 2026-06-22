@@ -7,6 +7,7 @@ import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
 import { TimezoneService } from './timezone.service';
 import { ResourceEndpoints } from '../types/api-const';
+import { AccountService } from './account.service';
 import {
   AccountVerificationRequest,
   AccountVerificationRequests,
@@ -29,6 +30,7 @@ import { Intent } from '../types/api-request';
   providedIn: 'root',
 })
 export class SearchService {
+  private accountService = inject(AccountService);
   private instructorService = inject(InstructorService);
   private httpRequestService = inject(HttpRequestService);
   private courseService = inject(CourseService);
@@ -50,7 +52,10 @@ export class SearchService {
     return forkJoin([
       this.searchStudents(searchKey, 'admin'),
       this.searchInstructors(searchKey),
-      this.searchAccountVerificationRequests(searchKey),
+      this.accountService.getAccountVerificationRequests({
+        searchKey,
+        limit: 50,
+      }),
     ]).pipe(
       map(
         (
@@ -97,13 +102,6 @@ export class SearchService {
       searchkey: searchKey,
     };
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
-  }
-
-  searchAccountVerificationRequests(searchKey: string): Observable<AccountVerificationRequests> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
 
   createStudentAccountSearchResults(
