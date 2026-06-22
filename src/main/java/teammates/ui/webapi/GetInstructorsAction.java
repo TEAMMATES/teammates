@@ -30,30 +30,30 @@ public class GetInstructorsAction extends LoggedInAction {
             throw new EntityNotFoundException("course not found");
         }
 
-        String intentStr = getRequestParamValue(Const.ParamsNames.INTENT);
+        Intent intent = getNullableEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
 
-        if (intentStr == null) {
+        if (intent == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
             gateKeeper.verifyStudentInCourse(requestContext, courseId);
-        } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
+        } else if (intent == Intent.FULL_DETAIL) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
             gateKeeper.verifyInstructorInCourse(requestContext, courseId);
         } else {
-            throw new InvalidHttpParameterException("unknown intent");
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
     }
 
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String intentStr = getRequestParamValue(Const.ParamsNames.INTENT);
+        Intent intent = getNullableEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         InstructorsData data;
 
         List<Instructor> instructorsOfCourse = logic.getInstructorsByCourse(courseId);
 
-        if (intentStr == null) {
+        if (intent == null) {
             instructorsOfCourse = instructorsOfCourse
                     .stream()
                     .filter(Instructor::isDisplayedToStudents)
@@ -67,11 +67,11 @@ public class GetInstructorsAction extends LoggedInAction {
                 i.setIsDisplayedToStudents(null);
                 i.setRole(null);
             });
-        } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
+        } else if (intent == Intent.FULL_DETAIL) {
             // get all instructors of a course without information hiding
             data = new InstructorsData(instructorsOfCourse);
         } else {
-            throw new InvalidHttpParameterException("unknown intent");
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
 
         return new JsonResult(data);

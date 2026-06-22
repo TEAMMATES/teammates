@@ -30,7 +30,7 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmi
         FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackSession session = question.getFeedbackSession();
         String courseId = question.getCourseId();
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -48,7 +48,7 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmi
             verifyResponseOwnershipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
     }
 

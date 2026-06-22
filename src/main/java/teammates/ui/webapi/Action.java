@@ -186,6 +186,25 @@ public abstract class Action {
     }
 
     /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as an enum.
+     */
+    <T extends Enum<T>> T getEnumRequestParamValue(String paramName, Class<T> enumType) {
+        String value = getNonNullRequestParamValue(paramName);
+        return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
+     * Returns the first value or null for the specified parameter expected to be present in the HTTP request as an enum.
+     */
+    <T extends Enum<T>> T getNullableEnumRequestParamValue(String paramName, Class<T> enumType) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return null;
+        }
+        return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
      * Returns the first value or null for the specified parameter expected to be present in the HTTP request as UUID.
      */
     UUID getNullableUuidRequestParamValue(String paramName) {
@@ -205,6 +224,18 @@ public abstract class Action {
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
                     "Expected UUID value for " + paramName + " parameter, but found: [" + uuid + "]", e);
+        }
+    }
+
+    /**
+     * Converts a request parameter to an enum value.
+     */
+    protected <T extends Enum<T>> T getEnumFromParam(String paramName, String value, Class<T> enumType) {
+        try {
+            return Enum.valueOf(enumType, value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Invalid value for " + paramName + " parameter: [" + value + "]", e);
         }
     }
 

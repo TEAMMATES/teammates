@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.NotificationsData;
 
@@ -55,11 +54,7 @@ public class GetNotificationsAction extends LoggedInAction {
     }
 
     private NotificationTargetUser parseTargetUser(String targetUserString) {
-        try {
-            return NotificationTargetUser.valueOf(targetUserString);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(
-                    String.format("Invalid notification target user: %s", targetUserString), e);
-        }
+        return getEnumFromParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, targetUserString,
+                NotificationTargetUser.class);
     }
 }

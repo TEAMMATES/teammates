@@ -51,12 +51,10 @@ public class GetFeedbackSessionLogsAction extends LoggedInAction {
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
 
         for (String fslType : fslTypes) {
-            try {
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType);
-                convertedFslTypes.add(convertedFslType);
-            } catch (IllegalArgumentException e) {
-                throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
-            }
+            FeedbackSessionLogType convertedFslType =
+                    getEnumFromParam(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, fslType,
+                            FeedbackSessionLogType.class);
+            convertedFslTypes.add(convertedFslType);
         }
 
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);

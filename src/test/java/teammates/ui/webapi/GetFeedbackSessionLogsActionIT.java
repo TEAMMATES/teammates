@@ -17,6 +17,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogsData;
 
@@ -114,6 +115,17 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyHttpParameterFailure(paramsInvalid4);
+
+        ______TS("Failure case: invalid log type");
+        String[] paramsInvalid5 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "INVALID",
+        };
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(paramsInvalid5);
+        assertEquals("Invalid value for " + Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE + " parameter: [INVALID]",
+                ihpe.getMessage());
 
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {

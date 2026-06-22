@@ -27,17 +27,7 @@ public class GetAccountVerificationRequestsAction extends AdminOnlyAction {
     }
 
     private AccountVerificationRequestStatus getNullableStatusRequestParamValue(String paramName) {
-        String value = getRequestParamValue(paramName);
-        if (value == null) {
-            return null;
-        }
-        try {
-            return AccountVerificationRequestStatus.valueOf(value.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(
-                    "Expected AccountVerificationRequestStatus value for " + paramName
-                    + " parameter, but found: [" + value + "]", e);
-        }
+        return getNullableEnumRequestParamValue(paramName, AccountVerificationRequestStatus.class);
     }
 
     private Integer getNullablePositiveIntRequestParamValue(String paramName) {

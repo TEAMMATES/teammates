@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
@@ -98,5 +99,20 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData result = execute(request);
 
         assertTrue(result.getNotifications().isEmpty());
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getNotificationsAction_invalidTargetUser_throwsInvalidHttpParameterException() {
+        var account = given.account("account");
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, "true")
+                .withParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, "INVALID")
+                .withAccountAuth(account.id());
+
+        InvalidHttpParameterException ihpe = assertActionThrows(InvalidHttpParameterException.class, request);
+        assertEquals("Invalid value for " + Const.ParamsNames.NOTIFICATION_TARGET_USER + " parameter: [INVALID]",
+                ihpe.getMessage());
     }
 }
