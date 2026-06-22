@@ -3,8 +3,10 @@ package teammates.ui.servlets;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
@@ -54,7 +56,8 @@ public class LoginServletTest extends BaseTestCase {
     public void setUpMethod() throws Exception {
         originalAccountsLogic = getAccountsLogic();
         loginHandler = mock(LoginMethodHandler.class);
-        servlet = new StubLoginServlet(loginHandler);
+        servlet = spy(new LoginServlet());
+        doReturn(loginHandler).when(servlet).getLoginHandler(any(LoginMethod.class));
         req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
         resp = new MockHttpServletResponse();
     }
@@ -95,7 +98,7 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_validCookieForExistingAccount_redirectsToNextUrl() throws Exception {
-        Account account = createAccount();
+        Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT, "user@example.com");
         req.addCookie(getAuthCookie(account.getId()));
         req.addParam("nextUrl", "/web/instructor/home");
         setAccountsLogic(mockAccountsLogicReturning(account));
@@ -150,13 +153,6 @@ public class LoginServletTest extends BaseTestCase {
         return new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue);
     }
 
-    private static Account createAccount() {
-        Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT,
-                "Test User", "user@example.com");
-        account.setId(UUID.randomUUID());
-        return account;
-    }
-
     private static AccountsLogic mockAccountsLogicReturning(Account account) {
         AccountsLogic accountsLogic = mock(AccountsLogic.class);
         when(accountsLogic.getAccount(any())).thenReturn(account);
@@ -175,17 +171,4 @@ public class LoginServletTest extends BaseTestCase {
         field.set(null, accountsLogic);
     }
 
-    private static class StubLoginServlet extends LoginServlet {
-
-        private final LoginMethodHandler loginHandler;
-
-        StubLoginServlet(LoginMethodHandler loginHandler) {
-            this.loginHandler = loginHandler;
-        }
-
-        @Override
-        LoginMethodHandler getLoginHandler(LoginMethod method) {
-            return loginHandler;
-        }
-    }
 }

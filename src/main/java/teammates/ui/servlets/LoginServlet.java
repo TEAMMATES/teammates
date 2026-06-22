@@ -27,7 +27,7 @@ public class LoginServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

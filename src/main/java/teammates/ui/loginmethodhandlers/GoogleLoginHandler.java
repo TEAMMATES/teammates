@@ -89,12 +89,11 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         }
 
         String redirectUri = getRedirectUri(req);
-        GoogleTokenResponse token = getGoogleAuthorizationFlow()
-                .newTokenRequest(code).setRedirectUri(redirectUri).execute();
+        GoogleTokenResponse token = requestToken(code, redirectUri);
 
         Payload payload;
         try {
-            GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
+            GoogleIdToken idToken = verifyIdToken(token.getIdToken());
             if (idToken == null) {
                 throw new AuthException("Invalid ID token");
             }
@@ -115,6 +114,11 @@ public class GoogleLoginHandler implements LoginMethodHandler {
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();
+    }
+
+    GoogleTokenResponse requestToken(String code, String redirectUri) throws IOException {
+        return getGoogleAuthorizationFlow()
+                .newTokenRequest(code).setRedirectUri(redirectUri).execute();
     }
 
     /**
@@ -139,6 +143,10 @@ public class GoogleLoginHandler implements LoginMethodHandler {
         return new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
             .setAudience(List.of(Config.OIDC_GOOGLE_CLIENT_ID))
             .build();
+    }
+
+    GoogleIdToken verifyIdToken(String idToken) throws GeneralSecurityException, IOException {
+        return getGoogleIdTokenVerifier().verify(idToken);
     }
 
 }

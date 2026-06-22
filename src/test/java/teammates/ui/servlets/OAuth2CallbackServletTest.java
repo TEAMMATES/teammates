@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-
-import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 
@@ -49,7 +49,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @BeforeMethod
     public void setUpMethod() {
-        servlet = new OAuth2CallbackServlet();
+        servlet = spy(new OAuth2CallbackServlet());
         req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         resp = new MockHttpServletResponse();
     }
@@ -111,7 +111,8 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     @Test
     public void doGet_callbackHandlerThrows_returnsInternalServerError() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
-        servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
+        LoginMethodHandler loginHandler = mockFailingLoginHandler();
+        doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
@@ -123,7 +124,8 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     @Test
     public void doGet_callbackHandlerThrows_invalidatesLoginCookie() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
-        servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
+        LoginMethodHandler loginHandler = mockFailingLoginHandler();
+        doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
@@ -135,7 +137,8 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     @Test
     public void doGet_callbackHandlerThrows_redirectsToDefaultUrl() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
-        servlet = new StubOAuth2CallbackServlet(mockFailingLoginHandler());
+        LoginMethodHandler loginHandler = mockFailingLoginHandler();
+        doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
@@ -156,7 +159,8 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
             mockAccountsLogic.when(AccountsLogic::inst).thenReturn(accountsLogic);
             mockHibernateUtil.when(HibernateUtil::beginTransaction).thenAnswer(invocation -> null);
             mockHibernateUtil.when(HibernateUtil::commitTransaction).thenAnswer(invocation -> null);
-            servlet = new StubOAuth2CallbackServlet(loginHandler);
+            servlet = spy(new OAuth2CallbackServlet());
+            doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
             servlet.doGet(req, resp);
         }
@@ -195,9 +199,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     }
 
     private static AccountsLogic mockSuccessfulAccountsLogic() {
-        Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT,
-                "Test User", "user@example.com");
-        account.setId(UUID.randomUUID());
+        Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT, "user@example.com");
         AccountsLogic accountsLogic = mock(AccountsLogic.class);
         when(accountsLogic.createOrGetAccount(Provider.GOOGLE, "google-subject", null, "user@example.com"))
                 .thenReturn(account);
@@ -217,17 +219,4 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         assertEquals(0, cookie.getMaxAge());
     }
 
-    private static class StubOAuth2CallbackServlet extends OAuth2CallbackServlet {
-
-        private final LoginMethodHandler loginHandler;
-
-        StubOAuth2CallbackServlet(LoginMethodHandler loginHandler) {
-            this.loginHandler = loginHandler;
-        }
-
-        @Override
-        LoginMethodHandler getLoginHandler(LoginMethod method) {
-            return loginHandler;
-        }
-    }
 }
