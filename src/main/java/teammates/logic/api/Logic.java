@@ -924,6 +924,13 @@ public class Logic {
     }
 
     /**
+     * Gets the instructors that should be displayed to students for the specified course.
+     */
+    public List<Instructor> getDisplayedInstructorsByCourse(String courseId) {
+        return usersLogic.getDisplayedInstructorsForCourse(courseId);
+    }
+
+    /**
      * Creates an instructor with the given attributes.
      *
      * @param account optional account to associate with the instructor at creation time

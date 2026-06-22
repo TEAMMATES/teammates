@@ -524,6 +524,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the instructors that should be displayed to students for the specified course.
+     */
+    public List<Instructor> getDisplayedInstructorsForCourse(String courseId) {
+        List<Instructor> instructorReturnList = usersDb.getInstructorsDisplayedToStudents(courseId);
+        sortByName(instructorReturnList);
+
+        return instructorReturnList;
+    }
+
+    /**
      * Regenerates the registration key for the user with {@code userId}.
      *
      * @return the user with the new registration key.
