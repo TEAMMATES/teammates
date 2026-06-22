@@ -227,7 +227,6 @@ npm run benchmark -- [path] [options]
 Options:
   path                       Endpoint path under /webapi. Default: ${DEFAULT_ENDPOINT}
   -p, --port <port>          Local server port. Default: ${DEFAULT_PORT}
-  -e, --ep <path>            Endpoint path. Useful when you prefer flags over positional args.
   -X, --request <method>     GET, POST, PUT, or DELETE. Default: ${DEFAULT_METHOD}
   -q name=value              Query parameter. Can be repeated.
   --data-urlencode name=value
@@ -240,17 +239,24 @@ Options:
   -a, --acc <email>          Account used to fetch AUTH-TOKEN via /webapi/cookie. Default: ${DEFAULT_ACCOUNT}
   -l, --label before|after   Save result to the fixed before or after slot under ${DEFAULT_OUTPUT_DIR}.
   --compare [before] [after] Compare saved benchmark results. Defaults to ${DEFAULT_COMPARE_BEFORE} and ${DEFAULT_COMPARE_AFTER}.
-  --bd <key>                 Backdoor key for --acc. Default: ${DEFAULT_BACKDOOR_KEY}
-  --csrf <key>               CSRF bypass key for --acc. Default: ${DEFAULT_CSRF_KEY}
   --entity <value>           Convenience alias for -q entitytype=<value>.
 
-Examples:
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -q entitytype=student
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -p 8081 -q entitytype=instructor -q isinrecyclebin=false
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -q entitytype=instructor -q isinrecyclebin=false -l before
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -q entitytype=instructor -q isinrecyclebin=false -l after
-  npm run benchmark -- --compare
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -X POST -H Content-Type=application/json -d '{"key":"value"}'
+Example workflow:
+  1. Save the baseline result
+     npm run benchmark -- ${DEFAULT_ENDPOINT} --entity instructor -q isinrecyclebin=false -l before
+
+  2. Save the optimized result
+     npm run benchmark -- ${DEFAULT_ENDPOINT} --entity instructor -q isinrecyclebin=false -l after
+
+  3. Compare before vs after
+     npm run benchmark -- --compare
+
+Other examples:
+  Student sessions
+     npm run benchmark -- ${DEFAULT_ENDPOINT} --entity student
+
+  POST with JSON
+     npm run benchmark -- ${DEFAULT_ENDPOINT} -X POST -H Content-Type=application/json -d '{"key":"value"}'
 `);
     process.exit(exitCode);
   }

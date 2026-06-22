@@ -5,7 +5,7 @@
  *
  * Usage:
  *   npm run benchmark -- [path] [options]
- * 
+ *
  * Help:
  *  npm run benchmark -- --help
  */
@@ -49,11 +49,6 @@ function parseArgs(argv) {
         args.baseUrl = BenchmarkUtils.buildLocalBaseUrl(BenchmarkUtils.parsePort(next));
         i += 1;
         break;
-      case '-e':
-      case '--ep':
-        args.endpoint = next;
-        i += 1;
-        break;
       case '-X':
       case '--request':
         args.method = next.toUpperCase();
@@ -66,14 +61,6 @@ function parseArgs(argv) {
       case '-a':
       case '--acc':
         args.account = next;
-        i += 1;
-        break;
-      case '--bd':
-        args.backdoorKey = next;
-        i += 1;
-        break;
-      case '--csrf':
-        args.csrfKey = next;
         i += 1;
         break;
       case '-l':
