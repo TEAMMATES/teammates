@@ -12,8 +12,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
-import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
@@ -62,17 +62,46 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
-     * Get all Account Verification Requests with {@code status} of 'pending'.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery queryObject) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountVerificationRequest> cr = cb.createQuery(AccountVerificationRequest.class);
         Root<AccountVerificationRequest> root = cr.from(AccountVerificationRequest.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (queryObject.status() != null) {
+            predicates.add(cb.equal(root.get("status"), queryObject.status()));
+        }
+        if (queryObject.accountId() != null) {
+            predicates.add(cb.equal(root.get("accountId"), queryObject.accountId()));
+        }
+        if (queryObject.instituteId() != null) {
+            predicates.add(cb.equal(root.get("instituteId"), queryObject.instituteId()));
+        }
+
+        String searchKey = queryObject.searchKey();
+        if (searchKey != null && !searchKey.trim().isEmpty()) {
+            char escapeChar = '\\';
+            String escapedQuery = escapeLikePattern(searchKey.toLowerCase(), escapeChar);
+            String wildcardQuery = "%" + escapedQuery + "%";
+            Join<AccountVerificationRequest, Institute> instituteJoin = root.join("institute");
+
+            predicates.add(cb.or(
+                    cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(instituteJoin.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar)));
+        }
+
         cr.select(root)
-                .where(cb.equal(root.get("status"), AccountVerificationRequestStatus.PENDING))
+                .where(predicates.toArray(new Predicate[0]))
                 .orderBy(cb.desc(root.get("createdAt")));
 
         TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(cr);
+        if (queryObject.limit() != null) {
+            query.setMaxResults(queryObject.limit());
+        }
         return query.getResultList();
     }
 
@@ -83,42 +112,6 @@ public final class AccountVerificationRequestsDb {
         if (accountVerificationRequest != null) {
             HibernateUtil.remove(accountVerificationRequest);
         }
-    }
-
-    /**
-     * Searches all account verification requests in the system.
-     *
-     * <p>This is used by admin to search account verification requests in the whole system.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-
-        if (queryString.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        char escapeChar = '\\';
-        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
-        String wildcardQuery = "%" + escapedQuery + "%";
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountVerificationRequest> cr = cb.createQuery(AccountVerificationRequest.class);
-        Root<AccountVerificationRequest> root = cr.from(AccountVerificationRequest.class);
-        Join<AccountVerificationRequest, Institute> instituteJoin = root.join("institute");
-
-        Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(instituteJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
-
-        cr.select(root)
-                .where(searchPredicate)
-                .orderBy(cb.desc(root.get("createdAt")));
-
-        TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(cr);
-        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
-        return query.getResultList();
     }
 
     /**

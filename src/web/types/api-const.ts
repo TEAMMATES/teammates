@@ -113,7 +113,6 @@ export enum ResourceEndpoints {
   JOIN_REMIND = "/webapi/join/remind",
   TIMEZONE = "/webapi/timezone",
   SESSION_LINKS_RECOVERY = "/webapi/sessionlinksrecovery",
-  SEARCH_ACCOUNT_VERIFICATION_REQUESTS = "/webapi/search/accountrequests",
   SEARCH_INSTRUCTORS = "/webapi/search/instructors",
   SEARCH_STUDENTS = "/webapi/search/students",
   USAGE_STATISTICS = "/webapi/usagestats",

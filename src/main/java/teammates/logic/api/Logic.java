@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
@@ -317,10 +318,10 @@ public class Logic {
     }
 
     /**
-     * Gets all pending account verification requests.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationsLogic.getPendingAccountVerificationRequests();
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery query) {
+        return accountVerificationsLogic.getAccountVerificationRequests(query);
     }
 
     /**
@@ -1579,15 +1580,6 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
         return feedbackSessionsLogic.getFeedbackSessionsClosedRecently();
-    }
-
-    /**
-     * This is used by admin to search account verification requests in the whole system.
-     *
-     * @return A list of matching {@link AccountVerificationRequest}s, or an empty list if no match is found.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationsLogic.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
     /**

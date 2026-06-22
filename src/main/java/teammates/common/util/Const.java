@@ -122,6 +122,7 @@ public final class Const {
 
         public static final String ACCOUNT_VERIFICATION_REQUEST_ID = "id";
         public static final String ACCOUNT_VERIFICATION_REQUEST_STATUS = "status";
+        public static final String INSTITUTE_ID = "instituteid";
 
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -152,6 +153,7 @@ public final class Const {
         public static final String ERROR = "error";
 
         public static final String SEARCH_KEY = "searchkey";
+        public static final String LIMIT = "limit";
 
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
@@ -342,7 +344,6 @@ public final class Const {
         public static final String SESSION_SUBMISSION = URI_PREFIX + "/session/submission";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/search/accountrequests";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";

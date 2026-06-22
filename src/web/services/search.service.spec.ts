@@ -195,17 +195,6 @@ describe('SearchService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   });
 
-  it('should execute GET when searching for account verification requests', () => {
-    service.searchAccountVerificationRequests('Account Verification Request');
-    const paramMap: { [key: string]: string } = {
-      searchkey: 'Account Verification Request',
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS,
-      paramMap,
-    );
-  });
-
   it('should join students accurately when calling as admin', () => {
     const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,

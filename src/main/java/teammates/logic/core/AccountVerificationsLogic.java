@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -217,10 +218,10 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Gets all pending account verification requests.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationRequestDb.getPendingAccountVerificationRequests();
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery query) {
+        return accountVerificationRequestDb.getAccountVerificationRequests(query);
     }
 
     /**
@@ -235,15 +236,6 @@ public final class AccountVerificationsLogic {
         AccountVerificationRequest toDelete = accountVerificationRequestDb.getAccountVerificationRequest(id);
 
         accountVerificationRequestDb.removeAccountVerificationRequest(toDelete);
-    }
-
-    /**
-     * Searches for account verification requests in the whole system.
-     *
-     * @return A list of {@link AccountVerificationRequest}, or an empty list if no match is found.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationRequestDb.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
     private void validateAccountVerificationRequest(
