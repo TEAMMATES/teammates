@@ -66,15 +66,30 @@
                   </div>
                 </div>
                 @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
-                  <div class="border rounded p-3">
+                  <a
+                    [tmRouterLink]="[
+                      '/web/admin/account-verification-requests',
+                      historyEntry.accountVerificationRequestId,
+                    ]"
+                    class="d-block border rounded p-3 text-body text-decoration-none"
+                    [class.border-primary]="
+                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
+                    "
+                    [class.bg-primary-subtle]="
+                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
+                    "
+                    [class.border-2]="
+                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
+                    "
+                    [class.bg-body]="historyEntry.accountVerificationRequestId !== request.accountVerificationRequestId"
+                  >
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                       <div class="fw-semibold">{{ historyEntry.institute }}</div>
                       <span [class]="getStatusBadgeClass(historyEntry.status)">{{ historyEntry.status }}</span>
                     </div>
+                    <div class="text-body-secondary small mb-1">{{ historyEntry.name }} ({{ historyEntry.email }})</div>
                     <div class="text-body-secondary small">Submitted {{ formatTimestamp(historyEntry.createdAt) }}</div>
-                  </div>
-                } @empty {
-                  <p class="mb-0 text-body-secondary">No other account verification requests were found.</p>
+                  </a>
                 }
               </div>
             </div>

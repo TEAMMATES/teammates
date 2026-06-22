@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { EMPTY, Observable, catchError, finalize, firstValueFrom, map, switchMap, tap } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
@@ -7,6 +7,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
@@ -20,9 +21,9 @@ import { RequestDetailsCardComponent } from './request-details-card/request-deta
   selector: 'tm-admin-account-verification-request-page',
   templateUrl: './admin-account-verification-request-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent],
+  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent, TeammatesRouterDirective],
 })
-export class AdminAccountVerificationRequestPageComponent implements OnInit {
+export class AdminAccountVerificationRequestPageComponent {
   private readonly accountService = inject(AccountService);
   private readonly dateFormatService = inject(DateFormatService);
   private readonly statusMessageService = inject(StatusMessageService);
@@ -42,32 +43,34 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly submitRequestDraft = (draft: AccountVerificationRequestDraft): Promise<void> =>
     this.saveRequestDetails(draft);
 
-  ngOnInit(): void {
-    this.accountService
-      .getAccountVerificationRequest(this.accountVerificationRequestId())
-      .pipe(
-        switchMap((accountVerificationRequest: AccountVerificationRequest) => {
-          this.accountVerificationRequest.set(accountVerificationRequest);
+  constructor() {
+    effect((onCleanup) => {
+      const requestId = this.accountVerificationRequestId();
+      this.isInvalidLink.set(false);
 
-          return this.accountService
-            .getAccountVerificationRequests({ accountId: accountVerificationRequest.accountId })
-            .pipe(
-              map((resp) => ({
-                historicalRequests: resp.accountVerificationRequests.filter(
-                  (request) =>
-                    request.accountVerificationRequestId !== accountVerificationRequest.accountVerificationRequestId,
-                ),
-              })),
-            );
-        }),
-        tap(({ historicalRequests }) => this.historicalRequests.set(historicalRequests)),
-        catchError(() => {
-          this.isInvalidLink.set(true);
-          return EMPTY;
-        }),
-        finalize(() => this.isLoading.set(false)),
-      )
-      .subscribe();
+      const subscription = this.accountService
+        .getAccountVerificationRequest(requestId)
+        .pipe(
+          switchMap((accountVerificationRequest: AccountVerificationRequest) => {
+            this.accountVerificationRequest.set(accountVerificationRequest);
+
+            return this.accountService
+              .getAccountVerificationRequests({ accountId: accountVerificationRequest.accountId })
+              .pipe(map((resp) => ({ historicalRequests: resp.accountVerificationRequests })));
+          }),
+          tap(({ historicalRequests }) => this.historicalRequests.set(historicalRequests)),
+          catchError(() => {
+            this.isInvalidLink.set(true);
+            this.accountVerificationRequest.set(null);
+            this.historicalRequests.set([]);
+            return EMPTY;
+          }),
+          finalize(() => this.isLoading.set(false)),
+        )
+        .subscribe();
+
+      onCleanup(() => subscription.unsubscribe());
+    });
   }
 
   approveRequest(): void {

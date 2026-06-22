@@ -109,7 +109,11 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Please verify my account.');
     expect(fixture.nativeElement.textContent).toContain('Request History For This Account');
     expect(fixture.nativeElement.textContent).toContain('Example Graduate School');
+    expect(fixture.nativeElement.textContent).toContain('Test Instructor (test@example.com)');
     expect(fixture.nativeElement.textContent).toContain('Example Teaching Institute');
+    expect(fixture.debugElement.queryAll(By.css('a[href*="/web/admin/account-verification-requests/"]')).length).toBe(
+      3,
+    );
     expect(
       (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
     ).toBe(false);
