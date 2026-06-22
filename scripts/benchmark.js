@@ -18,6 +18,8 @@
 const fs = require('node:fs');
 const { performance } = require('node:perf_hooks');
 
+const { ProgressBar } = require('./progress-bar');
+
 const DEFAULT_PORT = 8080;
 const DEFAULT_RUNS = 50;
 const DEFAULT_WARMUP = 5;
@@ -229,22 +231,37 @@ async function getLocalBackdoorCookie(baseUrl, args) {
 }
 
 async function runBenchmark(label, url, headers, method, body, runs, warmup) {
-  for (let i = 0; i < warmup; i += 1) {
-    await timedRequest(url, headers, method, body);
-  }
-
   const timings = [];
   let responseBytes = 0;
-  for (let i = 0; i < runs; i += 1) {
-    const result = await timedRequest(url, headers, method, body);
-    timings.push(result.durationMs);
-    responseBytes = result.responseBytes;
+  const progressBar = new ProgressBar();
+  const totalRequests = warmup + runs;
+  let completedRequests = 0;
+
+  progressBar.render(completedRequests, totalRequests);
+  try {
+    for (let i = 0; i < warmup; i += 1) {
+      await timedRequest(url, headers, method, body);
+      completedRequests += 1;
+      progressBar.render(completedRequests, totalRequests);
+    }
+
+    for (let i = 0; i < runs; i += 1) {
+      const result = await timedRequest(url, headers, method, body);
+      timings.push(result.durationMs);
+      responseBytes = result.responseBytes;
+      completedRequests += 1;
+      progressBar.render(completedRequests, totalRequests);
+    }
+  } finally {
+    progressBar.clear();
   }
 
   return {
     label,
     url: url.toString(),
+    method,
     runs,
+    warmup,
     responseBytes,
     ...summarize(timings),
   };
@@ -282,46 +299,30 @@ function summarize(values) {
   const sorted = [...values].sort((a, b) => a - b);
   return {
     min: sorted[0],
-    p50: percentile(sorted, 50),
-    p95: percentile(sorted, 95),
     max: sorted[sorted.length - 1],
     mean: sorted.reduce((sum, value) => sum + value, 0) / sorted.length,
   };
 }
 
-function percentile(sortedValues, percentileValue) {
-  if (sortedValues.length === 1) {
-    return sortedValues[0];
-  }
-  const index = (percentileValue / 100) * (sortedValues.length - 1);
-  const lower = Math.floor(index);
-  const upper = Math.ceil(index);
-  if (lower === upper) {
-    return sortedValues[lower];
-  }
-  const weight = index - lower;
-  return sortedValues[lower] * (1 - weight) + sortedValues[upper] * weight;
-}
-
-function printReport(result) {
+function printReport(result, args) {
   console.log('');
   console.log('API benchmark');
   console.log('=============');
+  console.log(`Method: ${result.method}`);
   console.log(`URL: ${result.url}`);
+  console.log(`Account: ${args.account}`);
+  console.log(`Warmup requests: ${result.warmup}`);
+  console.log(`Measured requests: ${result.runs}`);
   console.log('');
   console.table([formatResult(result)]);
 }
 
 function formatResult(result) {
   return {
-    version: result.label,
-    runs: result.runs,
     bytes: result.responseBytes,
     min: formatMs(result.min),
-    p50: formatMs(result.p50),
-    p95: formatMs(result.p95),
-    max: formatMs(result.max),
     mean: formatMs(result.mean),
+    max: formatMs(result.max),
   };
 }
 
@@ -331,7 +332,7 @@ function formatMs(value) {
 
 function printUsageAndExit(exitCode) {
   console.log(`Usage:
-node scripts/benchmark.js [path] [options]
+npm run benchmark -- [path] [options]
 
 Options:
   path                       Endpoint path under /webapi. Default: ${DEFAULT_ENDPOINT}
@@ -352,9 +353,9 @@ Options:
   --entity <value>           Convenience alias for -q entitytype=<value>.
 
 Examples:
-  npm run benchmark -- sessions -q entitytype=student
-  npm run benchmark -- sessions -p 8081 -q entitytype=instructor -q isinrecyclebin=false
-  npm run benchmark -- sessions -X POST -H Content-Type=application/json -d '{"key":"value"}'
+  npm run benchmark -- ${DEFAULT_ENDPOINT} -q entitytype=student
+  npm run benchmark -- ${DEFAULT_ENDPOINT} -p 8081 -q entitytype=instructor -q isinrecyclebin=false
+  npm run benchmark -- ${DEFAULT_ENDPOINT} -X POST -H Content-Type=application/json -d '{"key":"value"}'
 `);
   process.exit(exitCode);
 }
@@ -365,7 +366,7 @@ async function main() {
     const url = buildUrl(args.baseUrl, args);
     const headers = await getHeadersForBaseUrl(args.baseUrl, args);
     const result = await runBenchmark('current', url, headers, args.method, args.body, args.runs, args.warmup);
-    printReport(result);
+    printReport(result, args);
   } catch (error) {
     console.error(error.message);
     console.error('Run with --help for usage.');
