@@ -11,7 +11,8 @@
     "lint:eslint": "ng lint --cache",
     "lint:eslint:fix": "ng lint --fix --cache",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" --ignore-pattern \"src/web/dist/**/*\" --cache",
-    "lint": "npm-run-all -c lint:eslint lint:css format:check"
+    "lint": "npm-run-all -c lint:eslint lint:css format:check",
+    "benchmark": "node scripts/benchmark.js"
   },
   "private": true,
   "dependencies": {
