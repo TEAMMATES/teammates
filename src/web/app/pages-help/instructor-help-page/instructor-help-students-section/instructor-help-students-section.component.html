@@ -183,22 +183,19 @@
   <tm-instructor-help-panel
     class="instr-help-qn-first"
     #question
-    [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
-    [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"
+    [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_ACCOUNT_SIGN_IN)"
+    [id]="StudentsSectionQuestions.STUDENT_ACCOUNT_SIGN_IN"
     [section]="Sections.students"
-    headerText="Is it compulsory for students to use Google accounts?"
-    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]"
+    headerText="Is it compulsory for students to sign in with their accounts?"
+    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_ACCOUNT_SIGN_IN]"
   >
     <p>
-      Students can submit feedback and view results without having to log in to TEAMMATES, unless they choose to link
-      their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and
-      results. However, the following non-essential features are available only to users who have joined a TEAMMATES
-      course using a Google account:
+      Students can submit feedback and view results without having to sign in to TEAMMATES, unless they choose to link
+      their account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
+      However, the following non-essential feature(s) are available only to users who have joined a TEAMMATES course
+      using an account:
     </p>
     <ol>
-      <li>
-        Creating a profile page to share more information about them (e.g., a photo) with classmates and instructors
-      </li>
       <li>Viewing all the courses/sessions in a single page, without needing to use submission links to access each</li>
     </ol>
   </tm-instructor-help-panel>
@@ -206,18 +203,18 @@
   <tm-instructor-help-panel
     class="instr-help-qn-last"
     #question
-    [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
-    [id]="StudentsSectionQuestions.STUDENT_CHANGE_ID"
+    [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ACCOUNT_EMAIL)"
+    [id]="StudentsSectionQuestions.STUDENT_CHANGE_ACCOUNT_EMAIL"
     [section]="Sections.students"
-    headerText="How do I change the Google ID associated with a student?"
-    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]"
+    headerText="How do I change the account email associated with a student?"
+    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ACCOUNT_EMAIL]"
   >
     <p>
-      At the moment, there is no way for students to update their own (or instructors to update their students') Google
-      IDs.
+      At the moment, there is no way for students to update their own (or instructors to update their students') account
+      emails.
       <br />
       Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her
-      Google ID.
+      account email.
     </p>
   </tm-instructor-help-panel>
 </div>
