@@ -78,24 +78,22 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     course.hasInstructorsLoaded = false;
     course.hasLoadingFailed = false;
     course.instructorCandidates = [];
-    this.instructorService
-      .loadInstructors({ courseId: course.courseId })
-      .subscribe({
-        next: (response: Instructors) => {
-          response.instructors.forEach((i: Instructor) => {
-            const instructorToCopy: InstructorToCopyCandidateModel = {
-              instructor: i,
-              isSelected: false,
-            };
-            course.instructorCandidates.push(instructorToCopy);
-          });
-          course.hasInstructorsLoaded = true;
-        },
-        error: (resp: ErrorMessageOutput) => {
-          course.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    this.instructorService.loadInstructors({ courseId: course.courseId }).subscribe({
+      next: (response: Instructors) => {
+        response.instructors.forEach((i: Instructor) => {
+          const instructorToCopy: InstructorToCopyCandidateModel = {
+            instructor: i,
+            isSelected: false,
+          };
+          course.instructorCandidates.push(instructorToCopy);
+        });
+        course.hasInstructorsLoaded = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        course.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**

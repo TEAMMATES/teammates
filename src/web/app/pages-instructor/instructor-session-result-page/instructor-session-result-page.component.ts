@@ -314,26 +314,24 @@ export class InstructorSessionResultPageComponent implements OnInit {
             });
 
           // load all instructors in course
-          this.instructorService
-            .loadInstructors({ courseId: this.courseId })
-            .subscribe({
-              next: (instructors: Instructors) => {
-                this.allInstructorsInCourse = instructors.instructors;
+          this.instructorService.loadInstructors({ courseId: this.courseId }).subscribe({
+            next: (instructors: Instructors) => {
+              this.allInstructorsInCourse = instructors.instructors;
 
-                // sort the instructor list based on name
-                this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
-                  return a.name.localeCompare(b.name);
-                });
+              // sort the instructor list based on name
+              this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
+                return a.name.localeCompare(b.name);
+              });
 
-                // select the first instructor
-                if (this.allInstructorsInCourse.length >= 1) {
-                  this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
-                }
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            });
+              // select the first instructor
+              if (this.allInstructorsInCourse.length >= 1) {
+                this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
+              }
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionLoading = false;

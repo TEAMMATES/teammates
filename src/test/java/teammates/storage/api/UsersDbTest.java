@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;

@@ -11,9 +11,9 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;

@@ -289,9 +289,7 @@ export class SearchService {
 
   private getDistinctInstructors(distinctCourseIds: string[]): Observable<DistinctInstructorsMap> {
     return forkJoin(
-      distinctCourseIds.map((courseId: string) =>
-        this.instructorService.loadInstructors({ courseId }),
-      ),
+      distinctCourseIds.map((courseId: string) => this.instructorService.loadInstructors({ courseId })),
     ).pipe(
       map((instructorsArray: Instructors[]) => {
         const distinctInstructorsMap: DistinctInstructorsMap = {};

@@ -264,25 +264,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInstructors(): void {
     this.hasInstructorsLoadingFailed = false;
     this.isInstructorsLoading = true;
-    this.instructorService
-      .loadInstructors({ courseId: this.courseId })
-      .subscribe({
-        next: (resp: Instructors) => {
-          this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
-            originalInstructor: { ...i },
-            originalPanel: this.getInstructorEditPanelModel(i),
-            editPanel: this.getInstructorEditPanelModel(i),
-            isSavingInstructorEdit: false,
-          }));
-          this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
-            this.loadPermissionForInstructor(panel);
-          });
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.hasInstructorsLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    this.instructorService.loadInstructors({ courseId: this.courseId }).subscribe({
+      next: (resp: Instructors) => {
+        this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
+          originalInstructor: { ...i },
+          originalPanel: this.getInstructorEditPanelModel(i),
+          editPanel: this.getInstructorEditPanelModel(i),
+          isSavingInstructorEdit: false,
+        }));
+        this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
+          this.loadPermissionForInstructor(panel);
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasInstructorsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
@@ -792,9 +790,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * email addresses already exists in the course. Shows an error toast and returns false if the verification fails.
    */
   verifyInstructorsToCopy(instructors: Instructor[]): Observable<boolean> {
-    return forkJoin([
-      this.instructorService.loadInstructors({ courseId: this.courseId }),
-    ]).pipe(
+    return forkJoin([this.instructorService.loadInstructors({ courseId: this.courseId })]).pipe(
       map((values: [Instructors]) => {
         const allInstructorsAfterCopy: Instructor[] = instructors.concat(values[0].instructors);
         const emailSet: Set<string> = new Set();
