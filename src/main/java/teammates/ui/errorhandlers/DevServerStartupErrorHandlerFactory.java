@@ -26,10 +26,10 @@ public final class DevServerStartupErrorHandlerFactory {
     /**
      * Returns the matching {@link StartupErrorHandler} for the startup error.
      */
-    public static Optional<StartupErrorHandler> getHandler(Throwable t) {
+    public static Optional<StartupErrorHandler> getHandler(Exception e) {
         return ERROR_HANDLERS.stream()
                 .map(DevServerStartupErrorHandlerFactory::instantiate)
-                .filter(handler -> handler.canHandle(t))
+                .filter(handler -> handler.canHandle(e))
                 .findFirst();
     }
 

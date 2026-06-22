@@ -8,10 +8,10 @@ public interface StartupErrorHandler {
     /**
      * Returns whether this handler can format the given startup error.
      */
-    boolean canHandle(Throwable t);
+    boolean canHandle(Exception e);
 
     /**
      * Builds the dev-server-friendly message for the given startup error.
      */
-    String buildErrorMessage(Throwable t);
+    String buildErrorMessage(Exception e);
 }

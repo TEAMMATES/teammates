@@ -80,11 +80,11 @@ public final class Application {
 
         try {
             server.start();
-        } catch (Throwable t) {
+        } catch (Exception e) {
             stopServer(server);
-            DevServerStartupErrorHandler.throwIfHandled(t);
+            DevServerStartupErrorHandler.throwIfHandled(e);
             // Re-throw if the exception is not recognized as a dev server startup failure.
-            throw t;
+            throw e;
         }
 
         // By using the server.join() the server thread will join with the current thread.

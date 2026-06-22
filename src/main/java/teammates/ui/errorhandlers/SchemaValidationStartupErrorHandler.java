@@ -23,32 +23,32 @@ public final class SchemaValidationStartupErrorHandler implements StartupErrorHa
             "");
 
     @Override
-    public boolean canHandle(Throwable t) {
-        return findSchemaValidationFailure(t) != null;
+    public boolean canHandle(Exception e) {
+        return findSchemaValidationFailure(e) != null;
     }
 
     @Override
-    public String buildErrorMessage(Throwable t) {
-        return String.format(MESSAGE, getSchemaValidationMessage(t));
+    public String buildErrorMessage(Exception e) {
+        return String.format(MESSAGE, getSchemaValidationMessage(e));
     }
 
-    private static String getSchemaValidationMessage(Throwable t) {
-        Throwable schemaValidationFailure = findSchemaValidationFailure(t);
+    private static String getSchemaValidationMessage(Exception e) {
+        Exception schemaValidationFailure = findSchemaValidationFailure(e);
         if (schemaValidationFailure == null) {
-            return t.getMessage();
+            return e.getMessage();
         }
         return schemaValidationFailure.getMessage().trim();
     }
 
-    private static Throwable findSchemaValidationFailure(Throwable t) {
-        Throwable current = t;
+    private static Exception findSchemaValidationFailure(Exception e) {
+        Exception current = e;
         while (current != null) {
             String message = current.getMessage();
             if (current instanceof SchemaManagementException
                     || message != null && message.trim().startsWith(SCHEMA_VALIDATION_PREFIX)) {
                 return current;
             }
-            current = current.getCause();
+            current = (Exception) current.getCause();
         }
         return null;
     }

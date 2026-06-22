@@ -16,13 +16,13 @@ public final class DevServerStartupErrorHandler {
     /**
      * Throws a dev-server-friendly exception if a handler matches.
      */
-    public static void throwIfHandled(Throwable t) {
-        Optional<StartupErrorHandler> handler = DevServerStartupErrorHandlerFactory.getHandler(t);
+    public static void throwIfHandled(Exception e) {
+        Optional<StartupErrorHandler> handler = DevServerStartupErrorHandlerFactory.getHandler(e);
         if (handler.isEmpty()) {
             return;
         }
 
-        throw new DevServerStartupException(handler.get().buildErrorMessage(t));
+        throw new DevServerStartupException(handler.get().buildErrorMessage(e));
     }
 
 }
