@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorsData;
 
 /**
@@ -55,7 +56,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getInstructorsAction_withoutCourseId_throwsNullPointerException() {
+    public void getInstructorsAction_withoutCourseId_throwsUnauthorizedAccessException() {
         var requesterAccount = given.account("requester-account");
         given.instructor("requester", i -> i.account(requesterAccount.alias()).defaultCourse());
         persistGivenData(given);
@@ -64,6 +65,6 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                 .withAccountAuth(requesterAccount.id())
                 .withParam(Const.ParamsNames.SEARCH_KEY, "target");
 
-        assertActionThrows(NullPointerException.class, request);
+        assertActionThrows(UnauthorizedAccessException.class, request);
     }
 }
