@@ -23,12 +23,12 @@ export enum StudentsSectionQuestions {
   STUDENT_SEARCH = 'student-search',
 
   /**
-   * Is it compulsory for students to use Google accounts?
+   * Is it compulsory for students to sign in with their accounts?
    */
-  STUDENT_GOOGLE_ACCOUNT = 'student-google-account',
+  STUDENT_ACCOUNT_SIGN_IN = 'student-account-sign-in',
 
   /**
-   * How do I change the Google ID associated with a student?
+   * How do I change the account email associated with a student?
    */
-  STUDENT_CHANGE_ID = 'student-change-id',
+  STUDENT_CHANGE_ACCOUNT_EMAIL = 'student-change-account-email',
 }
