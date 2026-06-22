@@ -17,8 +17,8 @@ export class FeedbackMcqQuestionDetailsImpl
   implements FeedbackMcqQuestionDetails
 {
   hasAssignedWeights = false;
-  mcqWeights: number[] = [];
-  mcqOtherWeight = 0;
+  mcqWeights: (number | null)[] = [];
+  mcqOtherWeight: number | null = null;
   mcqChoices: string[] = [];
   otherEnabled = false;
   questionDropdownEnabled = false;
