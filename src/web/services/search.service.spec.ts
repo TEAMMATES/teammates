@@ -188,14 +188,6 @@ describe('SearchService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   });
 
-  it('should execute GET when searching for instructors', () => {
-    service.searchInstructors('Lee Wong');
-    const paramMap: { [key: string]: string } = {
-      searchkey: 'Lee Wong',
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
-  });
-
   it('should join students accurately when calling as admin', () => {
     const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,

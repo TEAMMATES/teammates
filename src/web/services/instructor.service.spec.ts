@@ -82,6 +82,15 @@ describe('InstructorService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });
 
+  it('should execute GET when searching instructors with limit', () => {
+    service.loadInstructors({ searchKey: 'Lee Wong', limit: 50 });
+    const paramMap: Record<string, string> = {
+      searchkey: 'Lee Wong',
+      limit: '50',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
+  });
+
   it('should execute GET when getting displayed instructors for a course', () => {
     service.loadDisplayedInstructors({ courseId: 'CS3281' });
     const paramMap: Record<string, string> = {

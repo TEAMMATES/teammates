@@ -14,6 +14,7 @@ import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -970,13 +971,12 @@ public class Logic {
     }
 
     /**
-     * Searches instructors in the whole system. Used by admin only.
+     * Gets instructors matching the specified query.
      *
-     * @return List of found instructors in the whole system. Returns an empty list
-     *         if no results are found.
+     * @return List of found instructors. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
-        return usersLogic.searchInstructorsInWholeSystem(queryString);
+    public List<Instructor> getInstructors(InstructorQuery query) {
+        return usersLogic.getInstructors(query);
     }
 
     /**
