@@ -72,16 +72,9 @@
                       historyEntry.accountVerificationRequestId,
                     ]"
                     class="d-block border rounded p-3 text-body text-decoration-none"
-                    [class.border-primary]="
-                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
-                    "
-                    [class.bg-primary-subtle]="
-                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
-                    "
-                    [class.border-2]="
-                      historyEntry.accountVerificationRequestId === request.accountVerificationRequestId
-                    "
-                    [class.bg-body]="historyEntry.accountVerificationRequestId !== request.accountVerificationRequestId"
+                    [class.border-primary]="isCurrentRequest(historyEntry)"
+                    [class.bg-primary-subtle]="isCurrentRequest(historyEntry)"
+                    [class.border-2]="isCurrentRequest(historyEntry)"
                   >
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                       <div class="fw-semibold">{{ historyEntry.institute }}</div>

@@ -149,6 +149,13 @@ export class AdminAccountVerificationRequestPageComponent {
     return this.dateFormatService.formatDateDetailed(timestamp, this.timezone);
   }
 
+  isCurrentRequest(accountVerificationRequest: AccountVerificationRequest): boolean {
+    const currentRequest = this.accountVerificationRequest();
+    return currentRequest
+      ? accountVerificationRequest.accountVerificationRequestId === currentRequest.accountVerificationRequestId
+      : false;
+  }
+
   private runStatusTransition(
     requestAction: Observable<AccountVerificationRequest>,
     getSuccessMessage: (updatedRequest: AccountVerificationRequest) => string,
