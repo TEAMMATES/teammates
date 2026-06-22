@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.testng.annotations.Test;
 
@@ -35,7 +36,10 @@ public class GetDisplayedInstructorsActionTest
         assertEquals(1, result.getInstructors().size());
         assertEquals(displayedInstructor.id(), result.getInstructors().get(0).getUserId());
         assertEquals(course.id(), result.getInstructors().get(0).getCourseId());
-        assertEquals(true, result.getInstructors().get(0).getIsDisplayedToStudents());
+        assertNull(result.getInstructors().get(0).getIsDisplayedToStudents());
+        assertNull(result.getInstructors().get(0).getRole());
+        assertNull(result.getInstructors().get(0).getJoinState());
+        assertNull(result.getInstructors().get(0).getAccountId());
     }
 
     @Test(groups = GroupNames.ACTION)

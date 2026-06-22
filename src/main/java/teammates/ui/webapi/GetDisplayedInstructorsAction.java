@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 
 /**
@@ -21,6 +22,11 @@ public class GetDisplayedInstructorsAction extends LoggedInAction {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        return new JsonResult(new InstructorsData(logic.getDisplayedInstructorsByCourse(courseId)));
+        InstructorsData instructorsData = new InstructorsData(logic.getDisplayedInstructorsByCourse(courseId));
+        for (InstructorData instructor : instructorsData.getInstructors()) {
+            instructor.hideInformationForStudent();
+        }
+
+        return new JsonResult(instructorsData);
     }
 }
