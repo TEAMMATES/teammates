@@ -64,12 +64,7 @@
                   <div class="text-body-secondary small text-uppercase fw-semibold mb-2">
                     Request History For This Account
                   </div>
-                  <p class="mb-0 text-body">
-                    The data shown here is mocked for demonstration purposes. It is not the actual request history for
-                    this account.
-                  </p>
                 </div>
-
                 @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
                   <div class="border rounded p-3">
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
@@ -78,6 +73,8 @@
                     </div>
                     <div class="text-body-secondary small">Submitted {{ formatTimestamp(historyEntry.createdAt) }}</div>
                   </div>
+                } @empty {
+                  <p class="mb-0 text-body-secondary">No other account verification requests were found.</p>
                 }
               </div>
             </div>

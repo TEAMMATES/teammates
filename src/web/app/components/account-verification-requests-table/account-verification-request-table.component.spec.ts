@@ -25,6 +25,7 @@ describe('AccountVerificationRequestTableComponent', () => {
 
   const accountVerificationRequestDetailsBuilder = createBuilder<AccountVerificationRequestTableRowModel>({
     id: '',
+    accountId: '',
     email: '',
     name: '',
     institute: '',
@@ -188,6 +189,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     };
     const mockAccountVerificationRequest: AccountVerificationRequest = {
       accountVerificationRequestId: '',
+      accountId: 'account-id',
       email: 'email',
       name: 'name',
       institute: 'institute',
@@ -221,6 +223,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     };
     const mockAccountVerificationRequest: AccountVerificationRequest = {
       accountVerificationRequestId: '',
+      accountId: 'account-id',
       email: 'email',
       name: 'name',
       institute: 'institute',
@@ -356,11 +359,11 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     const editedAccountVerificationRequest: AccountVerificationRequest = {
       accountVerificationRequestId: 'id',
+      accountId: 'account-id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
       country: '',
-
       name: 'new name',
       createdAt: 1,
       status: AccountVerificationRequestStatus.PENDING,
@@ -392,11 +395,11 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     const approvedRequest: AccountVerificationRequest = {
       accountVerificationRequestId: component.accountVerificationRequests[0].id,
+      accountId: component.accountVerificationRequests[0].accountId,
       comments: component.accountVerificationRequests[0].comments,
       email: component.accountVerificationRequests[0].email,
       institute: component.accountVerificationRequests[0].institute,
       country: '',
-
       name: component.accountVerificationRequests[0].name,
       createdAt: 1,
       status: AccountVerificationRequestStatus.APPROVED,
@@ -423,6 +426,7 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     const rejectedRequest: AccountVerificationRequest = {
       accountVerificationRequestId: component.accountVerificationRequests[0].id,
+      accountId: component.accountVerificationRequests[0].accountId,
       comments: component.accountVerificationRequests[0].comments,
       email: component.accountVerificationRequests[0].email,
       institute: component.accountVerificationRequests[0].institute,

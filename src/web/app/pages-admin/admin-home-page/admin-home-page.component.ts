@@ -36,6 +36,7 @@ export class AdminHomePageComponent implements OnInit {
     return requests.accountVerificationRequests.map((request) => {
       return {
         id: request.accountVerificationRequestId,
+        accountId: request.accountId,
         name: request.name,
         email: request.email,
         status: request.status,

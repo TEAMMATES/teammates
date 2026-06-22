@@ -34,6 +34,7 @@ describe('AdminAccountVerificationRequestSearchTableComponent', () => {
     comments: '',
     createdDemoCourseAtText: '',
     createdAtText: '',
+    accountId: '',
     showLinks: false,
   });
 
@@ -364,6 +365,7 @@ describe('AdminAccountVerificationRequestSearchTableComponent', () => {
 
     const editedAccountVerificationRequest: AccountVerificationRequest = {
       accountVerificationRequestId: 'id',
+      accountId: 'account-id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
@@ -399,6 +401,7 @@ describe('AdminAccountVerificationRequestSearchTableComponent', () => {
 
     const approvedRequest: AccountVerificationRequest = {
       accountVerificationRequestId: component.accountVerificationRequests[0].accountVerificationRequestId,
+      accountId: component.accountVerificationRequests[0].accountId,
       comments: component.accountVerificationRequests[0].comments,
       email: component.accountVerificationRequests[0].email,
       institute: component.accountVerificationRequests[0].institute,
@@ -429,6 +432,7 @@ describe('AdminAccountVerificationRequestSearchTableComponent', () => {
 
     const rejectedRequest: AccountVerificationRequest = {
       accountVerificationRequestId: component.accountVerificationRequests[0].accountVerificationRequestId,
+      accountId: component.accountVerificationRequests[0].accountId,
       comments: component.accountVerificationRequests[0].comments,
       email: component.accountVerificationRequests[0].email,
       institute: component.accountVerificationRequests[0].institute,
