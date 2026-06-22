@@ -143,6 +143,79 @@ A few things to keep in mind:
 
 ---
 
+## API Benchmarks
+
+Use the API benchmark script to check whether an optimization changes endpoint performance. The script targets the local backend server at `http://localhost:8080` by default, fetches an auth token using the local backdoor, and stores comparison results under `build/benchmark-results/`.
+
+Start the backend server before running benchmarks:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew serverRun
+```
+
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat serverRun
+```
+
+</tab>
+</tabs>
+
+### Comparing Before and After
+
+Run the same benchmark on each checkout. For example, to compare the `sessions` endpoint before and after an optimization:
+
+1. Check out the baseline commit or branch, start the backend server, then save the baseline result:
+
+   ```sh
+   npm run benchmark -- sessions --entity instructor -q isinrecyclebin=false -l before
+   ```
+
+2. Check out the optimized commit or branch, restart the backend server, then save the optimized result:
+
+   ```sh
+   npm run benchmark -- sessions --entity instructor -q isinrecyclebin=false -l after
+   ```
+
+3. Compare the saved results:
+
+   ```sh
+   npm run benchmark -- --compare
+   ```
+
+The comparison reports latency and throughput changes as improvement or decline percentages:
+
+```text
+Latency
+  mean  20.5 ms -> 5.0 ms (improved by 75.6%)
+
+Throughput
+  48.7 req/s -> 201.6 req/s (improved by 314.0%)
+```
+
+### Useful Options
+
+| Option                   | Purpose                                                |
+| ------------------------ | ------------------------------------------------------ |
+| `-q name=value`          | Add a query parameter. Can be repeated.                |
+| `--entity <value>`       | Shortcut for `-q entitytype=<value>`.                  |
+| `-r`, `--runs <n>`       | Number of measured requests. Default: `50`.            |
+| `-w`, `--warmup <n>`     | Number of warmup requests. Default: `5`.               |
+| `-p`, `--port <port>`    | Use a local backend port other than `8080`.            |
+| `-a`, `--acc <email>`    | Benchmark as another account.                          |
+| `-l before` or `after`   | Save the run to the fixed before or after result slot. |
+| `--compare`              | Compare the saved before and after results.            |
+| `-X`, `--request <verb>` | Use another HTTP method. Default: `GET`.               |
+| `-H`, `--header k=v`     | Add a request header. Can be repeated.                 |
+| `-d`, `--data <json>`    | Add a JSON request body for `POST` or `PUT`.           |
+
+---
+
 ## E2E Tests
 
 E2E tests are black-box tests that simulate user workflows on the fully built application. Accessibility tests are a subset of E2E tests that check for WCAG compliance using [axe-core](https://github.com/dequelabs/axe-core-maven-html/blob/develop/selenium/README.md).
