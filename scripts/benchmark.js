@@ -3,34 +3,30 @@
 /**
  * Benchmarks one API endpoint on a running TEAMMATES server.
  *
- * Start the version you want to measure, then run for example:
- *
- * npm run benchmark -- \
- *   sessions \
- *   -q entitytype=instructor \
- *   -r 100 \
- *   -w 10
- *
- * The --acc shortcut fetches an AUTH-TOKEN via the dev backdoor and is
- * intentionally restricted to localhost/127.0.0.1/::1 targets.
+ * Usage:
+ *   npm run benchmark -- [path] [options]
+ * 
+ * Help:
+ *  npm run benchmark -- --help
  */
 
 const fs = require('node:fs');
+const path = require('node:path');
 const { performance } = require('node:perf_hooks');
 
+const {
+  BenchmarkUtils,
+  DEFAULT_ACCOUNT,
+  DEFAULT_COMPARE_AFTER,
+  DEFAULT_COMPARE_BEFORE,
+  DEFAULT_ENDPOINT,
+  DEFAULT_METHOD,
+  DEFAULT_OUTPUT_DIR,
+  DEFAULT_PORT,
+  DEFAULT_RUNS,
+  DEFAULT_WARMUP,
+} = require('./benchmark-utils');
 const { ProgressBar } = require('./progress-bar');
-
-const DEFAULT_PORT = 8080;
-const DEFAULT_RUNS = 50;
-const DEFAULT_WARMUP = 5;
-const API_PREFIX = '/webapi';
-const DEFAULT_ENDPOINT = 'sessions';
-const DEFAULT_METHOD = 'GET';
-const DEFAULT_ACCOUNT = 'app.admin@gmail.com';
-const DEFAULT_BACKDOOR_KEY = 'samplekey';
-const DEFAULT_CSRF_KEY = 'samplekey';
-const AUTH_COOKIE_NAME = 'AUTH-TOKEN';
-const USER_COOKIE_ENDPOINT = '/webapi/cookie';
 
 function parseArgs(argv) {
   const args = {
@@ -38,7 +34,7 @@ function parseArgs(argv) {
     warmup: DEFAULT_WARMUP,
     endpoint: DEFAULT_ENDPOINT,
     method: DEFAULT_METHOD,
-    baseUrl: buildLocalBaseUrl(DEFAULT_PORT),
+    baseUrl: BenchmarkUtils.buildLocalBaseUrl(DEFAULT_PORT),
     account: DEFAULT_ACCOUNT,
     params: [],
     headers: [],
@@ -50,7 +46,7 @@ function parseArgs(argv) {
     switch (arg) {
       case '-p':
       case '--port':
-        args.baseUrl = buildLocalBaseUrl(parsePort(next));
+        args.baseUrl = BenchmarkUtils.buildLocalBaseUrl(BenchmarkUtils.parsePort(next));
         i += 1;
         break;
       case '-e':
@@ -80,6 +76,15 @@ function parseArgs(argv) {
         args.csrfKey = next;
         i += 1;
         break;
+      case '-l':
+      case '--label':
+        args.label = next;
+        i += 1;
+        break;
+      case '--compare':
+        args.compareFiles = BenchmarkUtils.getCompareFiles(argv, i);
+        i += args.compareFiles.consumed;
+        break;
       case '-d':
       case '--data':
         args.body = next;
@@ -91,27 +96,27 @@ function parseArgs(argv) {
         break;
       case '-r':
       case '--runs':
-        args.runs = parsePositiveInteger(next, '--runs');
+        args.runs = BenchmarkUtils.parsePositiveInteger(next, '--runs');
         i += 1;
         break;
       case '-w':
       case '--warmup':
-        args.warmup = parseNonNegativeInteger(next, '--warmup');
+        args.warmup = BenchmarkUtils.parseNonNegativeInteger(next, '--warmup');
         i += 1;
         break;
       case '-q':
       case '--data-urlencode':
-        args.params.push(parseNameValue(next, '-q'));
+        args.params.push(BenchmarkUtils.parseNameValue(next, '-q'));
         i += 1;
         break;
       case '-H':
       case '--header':
-        args.headers.push(parseNameValue(next, '--header'));
+        args.headers.push(BenchmarkUtils.parseNameValue(next, '--header'));
         i += 1;
         break;
       case '--help':
       case '-h':
-        printUsageAndExit(0);
+        BenchmarkUtils.printUsageAndExit(0);
         break;
       default:
         if (!arg.startsWith('-')) {
@@ -122,112 +127,19 @@ function parseArgs(argv) {
     }
   }
 
+  if (args.compareFiles) {
+    return args;
+  }
+
+  if (args.label && ![DEFAULT_COMPARE_BEFORE, DEFAULT_COMPARE_AFTER].includes(args.label)) {
+    throw new Error(`-l must be either ${DEFAULT_COMPARE_BEFORE} or ${DEFAULT_COMPARE_AFTER}.`);
+  }
+
   if (!['GET', 'POST', 'PUT', 'DELETE'].includes(args.method)) {
     throw new Error('-X must be one of GET, POST, PUT, DELETE.');
   }
 
   return args;
-}
-
-function buildLocalBaseUrl(port) {
-  return `http://localhost:${port}`;
-}
-
-function parsePort(value) {
-  const parsed = parsePositiveInteger(value, '--port');
-  if (parsed > 65535) {
-    throw new Error('--port must be between 1 and 65535.');
-  }
-  return parsed;
-}
-
-function parsePositiveInteger(value, flag) {
-  const parsed = Number.parseInt(value, 10);
-  if (!Number.isInteger(parsed) || parsed <= 0) {
-    throw new Error(`${flag} must be a positive integer.`);
-  }
-  return parsed;
-}
-
-function parseNonNegativeInteger(value, flag) {
-  const parsed = Number.parseInt(value, 10);
-  if (!Number.isInteger(parsed) || parsed < 0) {
-    throw new Error(`${flag} must be a non-negative integer.`);
-  }
-  return parsed;
-}
-
-function parseNameValue(value, flag) {
-  if (!value || !value.includes('=')) {
-    throw new Error(`${flag} must be in name=value format.`);
-  }
-  const index = value.indexOf('=');
-  return [value.slice(0, index), value.slice(index + 1)];
-}
-
-function buildUrl(baseUrl, args) {
-  const url = new URL(normalizeEndpoint(args.endpoint), withTrailingSlash(baseUrl));
-  for (const [name, value] of args.params) {
-    url.searchParams.set(name, value);
-  }
-  return url;
-}
-
-function normalizeEndpoint(endpoint) {
-  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  if (path === API_PREFIX || path.startsWith(`${API_PREFIX}/`)) {
-    return path;
-  }
-  return `${API_PREFIX}${path}`;
-}
-
-function withTrailingSlash(url) {
-  return url.endsWith('/') ? url : `${url}/`;
-}
-
-function buildHeaders(args, cookie) {
-  const headers = {
-    Accept: 'application/json',
-  };
-  if (cookie) {
-    headers.Cookie = cookie;
-  }
-  if (args.body) {
-    headers['Content-Type'] = 'application/json';
-  }
-  for (const [name, value] of args.headers) {
-    headers[name] = value;
-  }
-  return headers;
-}
-
-async function getHeadersForBaseUrl(baseUrl, args) {
-  const cookie = await getLocalBackdoorCookie(baseUrl, args);
-  return buildHeaders(args, `${AUTH_COOKIE_NAME}=${cookie}`);
-}
-
-async function getLocalBackdoorCookie(baseUrl, args) {
-  const url = new URL(USER_COOKIE_ENDPOINT, withTrailingSlash(baseUrl));
-  url.searchParams.set('accountemail', args.account);
-
-  const response = await fetchOrThrow(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Backdoor-Key': args.backdoorKey || DEFAULT_BACKDOOR_KEY,
-      'CSRF-Key': args.csrfKey || DEFAULT_CSRF_KEY,
-    },
-  });
-  const body = await response.text();
-  if (!response.ok) {
-    throw new Error(`Failed to get local backdoor cookie from ${url}: HTTP ${response.status}: ${body.slice(0, 500)}`);
-  }
-
-  const parsedBody = JSON.parse(body);
-  if (!parsedBody.message) {
-    throw new Error(`Backdoor cookie response from ${url} did not contain a message field.`);
-  }
-  return parsedBody.message;
 }
 
 async function runBenchmark(label, url, headers, method, body, runs, warmup) {
@@ -263,13 +175,13 @@ async function runBenchmark(label, url, headers, method, body, runs, warmup) {
     runs,
     warmup,
     responseBytes,
-    ...summarize(timings),
+    ...BenchmarkUtils.summarize(timings),
   };
 }
 
 async function timedRequest(url, headers, method, body) {
   const start = performance.now();
-  const response = await fetchOrThrow(url, {
+  const response = await BenchmarkUtils.fetchOrThrow(url, {
     method,
     headers,
     body: method === 'GET' || method === 'DELETE' ? undefined : body,
@@ -287,86 +199,127 @@ async function timedRequest(url, headers, method, body) {
   };
 }
 
-async function fetchOrThrow(url, options) {
-  try {
-    return await fetch(url, options);
-  } catch (error) {
-    throw new Error(`Could not connect to ${url}. Is the server running? (${error.message})`);
-  }
-}
-
-function summarize(values) {
-  const sorted = [...values].sort((a, b) => a - b);
-  return {
-    min: sorted[0],
-    max: sorted[sorted.length - 1],
-    mean: sorted.reduce((sum, value) => sum + value, 0) / sorted.length,
-  };
-}
-
 function printReport(result, args) {
-  console.log('');
-  console.log('API benchmark');
-  console.log('=============');
-  console.log(`Method: ${result.method}`);
-  console.log(`URL: ${result.url}`);
-  console.log(`Account: ${args.account}`);
-  console.log(`Warmup requests: ${result.warmup}`);
-  console.log(`Measured requests: ${result.runs}`);
-  console.log('');
-  console.table([formatResult(result)]);
+  console.log(
+    [
+      '',
+      'API benchmark',
+      '=============',
+      `${result.method} ${result.url}`,
+      `Runs: ${result.runs} measured, ${result.warmup} warmup`,
+      `Account: ${args.account}`,
+      '',
+      'Latency',
+      `  mean  ${BenchmarkUtils.formatMs(result.mean)}`,
+      `  min   ${BenchmarkUtils.formatMs(result.min)}`,
+      `  max   ${BenchmarkUtils.formatMs(result.max)}`,
+      '',
+      'Throughput',
+      `  ${BenchmarkUtils.formatReqPerSec(result.reqPerSec)}`,
+      '',
+      'Response',
+      `  ${result.responseBytes} bytes`,
+      '',
+      'Copy',
+      `  ${BenchmarkUtils.formatCopyLine(result)}`,
+    ].join('\n'),
+  );
 }
 
-function formatResult(result) {
+function writeResultFile(label, result, args) {
+  const resolvedPath = BenchmarkUtils.resolveResultFile(label);
+  const savedResult = {
+    version: 1,
+    label,
+    savedAt: new Date().toISOString(),
+    method: result.method,
+    url: result.url,
+    account: args.account,
+    runs: result.runs,
+    warmup: result.warmup,
+    responseBytes: result.responseBytes,
+    minMs: BenchmarkUtils.roundOneDecimal(result.min),
+    meanMs: BenchmarkUtils.roundOneDecimal(result.mean),
+    maxMs: BenchmarkUtils.roundOneDecimal(result.max),
+    reqPerSec: BenchmarkUtils.roundOneDecimal(result.reqPerSec),
+  };
+
+  fs.mkdirSync(path.dirname(resolvedPath), { recursive: true });
+  fs.writeFileSync(resolvedPath, `${JSON.stringify(savedResult, null, 2)}\n`);
+  return resolvedPath;
+}
+
+function readResultFile(filePath, outputDir = DEFAULT_OUTPUT_DIR) {
+  const resolvedPath = BenchmarkUtils.resolveResultFile(filePath, outputDir);
+  const result = JSON.parse(fs.readFileSync(resolvedPath, 'utf8'));
+  const requiredFields = ['method', 'url', 'runs', 'warmup', 'meanMs', 'minMs', 'maxMs', 'reqPerSec', 'responseBytes'];
+  for (const field of requiredFields) {
+    if (result[field] === undefined) {
+      throw new Error(`${resolvedPath} is missing benchmark field: ${field}`);
+    }
+  }
   return {
-    bytes: result.responseBytes,
-    min: formatMs(result.min),
-    mean: formatMs(result.mean),
-    max: formatMs(result.max),
+    ...result,
+    label: result.label || resolvedPath,
   };
 }
 
-function formatMs(value) {
-  return `${value.toFixed(1)} ms`;
-}
-
-function printUsageAndExit(exitCode) {
-  console.log(`Usage:
-npm run benchmark -- [path] [options]
-
-Options:
-  path                       Endpoint path under /webapi. Default: ${DEFAULT_ENDPOINT}
-  -p, --port <port>          Local server port. Default: ${DEFAULT_PORT}
-  -e, --ep <path>            Endpoint path. Useful when you prefer flags over positional args.
-  -X, --request <method>     GET, POST, PUT, or DELETE. Default: ${DEFAULT_METHOD}
-  -q name=value              Query parameter. Can be repeated.
-  --data-urlencode name=value
-                             Curl-style alias for -q.
-  -H, --header name=value    Request header. Can be repeated.
-  -d, --data <json>          Request body for POST/PUT.
-  --data-file <path>         Request body file for POST/PUT.
-  -r, --runs <n>             Measured requests. Default: ${DEFAULT_RUNS}
-  -w, --warmup <n>           Warmup requests. Default: ${DEFAULT_WARMUP}
-  -a, --acc <email>          Account used to fetch AUTH-TOKEN via /webapi/cookie. Default: ${DEFAULT_ACCOUNT}
-  --bd <key>                 Backdoor key for --acc. Default: ${DEFAULT_BACKDOOR_KEY}
-  --csrf <key>               CSRF bypass key for --acc. Default: ${DEFAULT_CSRF_KEY}
-  --entity <value>           Convenience alias for -q entitytype=<value>.
-
-Examples:
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -q entitytype=student
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -p 8081 -q entitytype=instructor -q isinrecyclebin=false
-  npm run benchmark -- ${DEFAULT_ENDPOINT} -X POST -H Content-Type=application/json -d '{"key":"value"}'
-`);
-  process.exit(exitCode);
+function printComparison(before, after) {
+  const lines = [
+    '',
+    'Benchmark comparison',
+    '====================',
+    'Before',
+    `  ${before.method} ${before.url}`,
+    `  Runs: ${before.runs} measured, ${before.warmup} warmup`,
+    '',
+    'After',
+    `  ${after.method} ${after.url}`,
+    `  Runs: ${after.runs} measured, ${after.warmup} warmup`,
+  ];
+  lines.push(
+    '',
+    'Latency',
+    `  mean  ${BenchmarkUtils.formatComparisonMs(before.meanMs, after.meanMs, false)}`,
+    `  min   ${BenchmarkUtils.formatComparisonMs(before.minMs, after.minMs, false)}`,
+    `  max   ${BenchmarkUtils.formatComparisonMs(before.maxMs, after.maxMs, false)}`,
+    '',
+    'Throughput',
+    `  ${BenchmarkUtils.formatComparisonReqPerSec(before.reqPerSec, after.reqPerSec, true)}`,
+    '',
+    'Response',
+    `  ${before.responseBytes} -> ${after.responseBytes} bytes`,
+  );
+  console.log(lines.join('\n'));
 }
 
 async function main() {
   try {
     const args = parseArgs(process.argv.slice(2));
-    const url = buildUrl(args.baseUrl, args);
-    const headers = await getHeadersForBaseUrl(args.baseUrl, args);
-    const result = await runBenchmark('current', url, headers, args.method, args.body, args.runs, args.warmup);
+    if (args.compareFiles) {
+      const before = readResultFile(args.compareFiles.files[0]);
+      const after = readResultFile(args.compareFiles.files[1]);
+      printComparison(before, after);
+      return;
+    }
+
+    const url = BenchmarkUtils.buildUrl(args.baseUrl, args);
+    const headers = await BenchmarkUtils.getHeadersForBaseUrl(args.baseUrl, args);
+    const result = await runBenchmark(
+      args.label || 'current',
+      url,
+      headers,
+      args.method,
+      args.body,
+      args.runs,
+      args.warmup,
+    );
     printReport(result, args);
+    if (args.label) {
+      const savedPath = writeResultFile(args.label, result, args);
+      console.log('');
+      console.log(`Saved: ${savedPath}`);
+    }
   } catch (error) {
     console.error(error.message);
     console.error('Run with --help for usage.');
