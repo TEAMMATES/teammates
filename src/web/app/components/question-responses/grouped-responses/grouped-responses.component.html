@@ -46,9 +46,6 @@
                   [class.color-neutral]="response.allResponses[0].isMissingResponse"
                   [responseDetails]="response.allResponses[0].responseDetails"
                   [questionDetails]="response.feedbackQuestion.questionDetails"
-                  [giverUserId]="response.allResponses[0].giverUserId!"
-                  [recipientUserId]="response.allResponses[0].recipientUserId!"
-                  [statistics]="response.questionStatistics"
                 ></tm-single-response>
                 @if (
                   !response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'

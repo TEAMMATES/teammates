@@ -51,9 +51,6 @@ export class SingleResponseComponent {
   };
 
   @Input() isStudentPage = false;
-  @Input() statistics = '';
-  @Input() giverUserId = '';
-  @Input() recipientUserId = '';
 
   constructor() {
     this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;

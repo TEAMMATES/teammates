@@ -9,22 +9,18 @@
   "accounts": {
     "InstFEP.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.InstFEP.instr",
-      "name": "Teammates Test",
       "email": "instfep.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.InstFEP.instr"
+      "subject": "instfep.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.InstFEP.jose.tmms",
-      "name": "José Gómez",
       "email": "instfep.jose.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.InstFEP.jose.tmms"
+      "subject": "instfep.jose.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "InstFEP.CS2104": {
       "id": "tm.e2e.InstFEP.CS2104",

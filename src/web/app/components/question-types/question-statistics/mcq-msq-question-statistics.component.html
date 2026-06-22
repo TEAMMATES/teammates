@@ -1,0 +1,34 @@
+@if (statistics && statistics.hasAnswers) {
+  <div id="mcq-msq-statistics">
+    <div class="row">
+      <div class="col-sm-4 text-color-gray mt-2">
+        @if (statistics.statisticsView === 'RECIPIENT') {
+          <strong>Summary of responses received by you</strong>
+        } @else {
+          <strong>Response Summary</strong>
+        }
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-sm-12 table-responsive">
+        <tm-sortable-table
+          [rows]="summaryRowsData"
+          [columns]="summaryColumnsData"
+          [initialSortBy]="SortBy.MCQ_MSQ_PERCENTAGE"
+        ></tm-sortable-table>
+      </div>
+      @if (hasPerRecipientData) {
+        <div class="col-sm-12 table-responsive" style="margin-top: 20px">
+          <strong class="text-color-gray"> Per Recipient Statistics </strong>
+          <div class="mb-4">
+            <tm-sortable-table
+              [rows]="perRecipientRowsData"
+              [columns]="perRecipientColumnsData"
+              [initialSortBy]="SortBy.MCQ_MSQ_WEIGHT_AVERAGE"
+            ></tm-sortable-table>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

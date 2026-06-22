@@ -3,10 +3,13 @@ import type {
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsQuestionDetails,
   FeedbackConstantSumRecipientsResponseDetails,
+  FeedbackConstsumOptionsStatistics,
+  FeedbackConstsumRecipientsStatistics,
   FeedbackTextResponseDetails,
   SessionResults,
 } from '../../types/api-output';
 import {
+  FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -39,7 +42,32 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            recipientName: `Team 1.1</td></div>'"`,
+            recipientEmail: undefined,
+            recipientTeam: ``,
+            isCurrentRecipient: false,
+            pointsReceived: [80],
+            total: 80,
+            average: 80,
+            averageExcludingSelf: undefined,
+          },
+          {
+            recipientName: `Team 1.2`,
+            recipientEmail: undefined,
+            recipientTeam: ``,
+            isCurrentRecipient: false,
+            pointsReceived: [20],
+            total: 20,
+            average: 20,
+            averageExcludingSelf: undefined,
+          },
+        ],
+      } as FeedbackConstsumRecipientsStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -76,11 +104,6 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -105,7 +128,62 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            recipientName: `student1 In Course1</td></div>'"`,
+            recipientEmail: `student1InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            isCurrentRecipient: false,
+            pointsReceived: [30],
+            total: 30,
+            average: 30,
+            averageExcludingSelf: undefined,
+          },
+          {
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            isCurrentRecipient: false,
+            pointsReceived: [20],
+            total: 20,
+            average: 20,
+            averageExcludingSelf: undefined,
+          },
+          {
+            recipientName: `student3 In Course1`,
+            recipientEmail: `student3InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            isCurrentRecipient: false,
+            pointsReceived: [30],
+            total: 30,
+            average: 30,
+            averageExcludingSelf: undefined,
+          },
+          {
+            recipientName: `student4 In Course1`,
+            recipientEmail: `student4InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            isCurrentRecipient: false,
+            pointsReceived: [10],
+            total: 10,
+            average: 10,
+            averageExcludingSelf: undefined,
+          },
+          {
+            recipientName: `student5 In Course1`,
+            recipientEmail: `student5InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.2`,
+            isCurrentRecipient: false,
+            pointsReceived: [10],
+            total: 10,
+            average: 10,
+            averageExcludingSelf: undefined,
+          },
+        ],
+      } as FeedbackConstsumRecipientsStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -378,11 +456,6 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -408,7 +481,24 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        options: [
+          {
+            option: `Grades`,
+            pointsReceived: [19, 80],
+            total: 99,
+            average: 49.5,
+          },
+          {
+            option: `Fun`,
+            pointsReceived: [20, 81],
+            total: 101,
+            average: 50.5,
+          },
+        ],
+      } as FeedbackConstsumOptionsStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -502,11 +592,6 @@ const feedbackSessionResultsConstsumResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

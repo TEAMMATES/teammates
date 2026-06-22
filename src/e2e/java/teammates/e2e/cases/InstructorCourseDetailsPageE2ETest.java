@@ -1,9 +1,7 @@
 package teammates.e2e.cases;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -42,7 +40,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage =
-                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getGoogleId());
+                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getEmail());
 
         ______TS("verify loaded details");
         List<Instructor> instructors = Arrays.asList(instructor1, testData.instructors.get("ICDet.instr2"));
@@ -52,13 +50,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("charlie.tmms@ICDet.CS2104"),
                 testData.students.get("danny.tmms@ICDet.CS2104")
         );
-        Set<String> sectionNames = new HashSet<>();
-        Set<String> teamNames = new HashSet<>();
-        students.forEach(student -> {
-            sectionNames.add(student.getSectionName());
-            teamNames.add(student.getTeamName());
-        });
-        detailsPage.verifyCourseDetails(course, instructors, sectionNames.size(), teamNames.size(), students.size());
+        int sectionSize = 3;
+        int teamSize = 4;
+        detailsPage.verifyCourseDetails(course, instructors, sectionSize, teamSize, students.size());
         detailsPage.verifyNumStudents(students.size());
         detailsPage.verifyStudentDetails(students);
 

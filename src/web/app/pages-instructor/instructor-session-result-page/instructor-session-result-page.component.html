@@ -21,11 +21,8 @@
                 <p class="form-control-static">
                   {{ session.feedbackSessionName }}
                   <a
-                    tmRouterLink="/web/instructor/sessions/edit"
-                    [queryParams]="{
-                      fsid: session.feedbackSessionId,
-                      editingMode: true,
-                    }"
+                    [tmRouterLink]="['/web/instructor/sessions', session.feedbackSessionId, 'edit']"
+                    [queryParams]="{ editingMode: true }"
                     aria-label="Edit feedback session"
                     ><i class="fas fa-edit"></i
                   ></a>
@@ -142,7 +139,6 @@
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
-        [showStatistics]="showStatistics"
         [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewCommentEventHandler($event)"
@@ -160,7 +156,6 @@
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
-        [showStatistics]="showStatistics"
         [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewCommentEventHandler($event)"
@@ -178,7 +173,6 @@
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
-        [showStatistics]="showStatistics"
         [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewCommentEventHandler($event)"
@@ -196,7 +190,6 @@
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
-        [showStatistics]="showStatistics"
         [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewCommentEventHandler($event)"

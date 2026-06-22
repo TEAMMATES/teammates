@@ -8,23 +8,19 @@
   },
   "accounts": {
     "SCDet.instr": {
-      "googleId": "tm.e2e.SCDet.instr",
-      "name": "Instructor",
-      "email": "tmms.test@gmail.tmt",
+      "email": "scdet.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SCDet.instr"
+      "subject": "scdet.instr@gmail.tmt"
     },
     "SCDet.alice": {
-      "googleId": "tm.e2e.SCDet.alice",
       "email": "scdet.alice@gmail.tmt",
-      "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SCDet.alice"
+      "subject": "scdet.alice@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "SCDet.CS2104": {
       "id": "tm.e2e.SCDet.CS2104",

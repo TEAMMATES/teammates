@@ -1,7 +1,7 @@
 <tm-loading-retry
   [shouldShowRetry]="hasStudentLoadingFailed"
   [message]="'Failed to load student'"
-  (retryEvent)="loadStudentEditDetails(studentId)"
+  (retryEvent)="loadStudentEditDetails(userId)"
 >
   <div *tmIsLoading="isStudentLoading">
     @if (student) {
@@ -31,7 +31,7 @@
                       {{ displayEmptyFieldMessage('Student Name') }}
                     </span>
                     <span [hidden]="!editForm.get('student-name')!.errors!['maxlength']">
-                      {{ displayExceedMaxLengthMessage('Student Name', STUDENT_NAME_MAX_LENGTH) }}
+                      {{ displayExceedMaxLengthMessage('Student Name', PERSON_NAME_MAX_LENGTH) }}
                     </span>
                   </div>
                 }

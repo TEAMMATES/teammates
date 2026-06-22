@@ -28,7 +28,7 @@ const feedbackSessionResultsSingleQuestion: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: undefined,
       allResponses: [
         {
           isMissingResponse: false,
@@ -403,11 +403,6 @@ Multiline test.`,
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

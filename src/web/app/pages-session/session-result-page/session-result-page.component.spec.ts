@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
@@ -23,8 +23,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
-  SessionResults,
   RegkeyValidity,
+  UserSessionResults,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -56,8 +56,7 @@ describe('SessionResultPageComponent', () => {
     loginUrl: '/login',
     masquerade: false,
     user: {
-      id: 'user-id',
-      email: 'user@teammates.tmt',
+      accountEmail: 'account@teammates.tmt',
       isAdmin: false,
       isInstructor: true,
       isStudent: false,
@@ -103,30 +102,12 @@ describe('SessionResultPageComponent', () => {
   const testQueryParams: Record<string, string> = {
     fsid: 'test-session-id',
     key: 'reg-key',
-    previewas: '',
+    previewAs: '',
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of(testQueryParams),
-            data: {
-              intent: Intent.STUDENT_RESULT,
-              pipe: () => {
-                return {
-                  subscribe: (fn: (value: unknown) => void) => fn(testQueryParams),
-                };
-              },
-            },
-          },
-        },
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionResultPageComponent);
@@ -136,6 +117,10 @@ describe('SessionResultPageComponent', () => {
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
+    component.feedbackSessionId = testQueryParams['fsid'];
+    component.key = testQueryParams['key'];
+    component.previewAs = testQueryParams['previewAs'];
+    component.intent = Intent.STUDENT_RESULT;
     // Set both loading flags to false initially for testing purposes only
     component.isCourseLoading = false;
     component.isFeedbackSessionDetailsLoading = false;
@@ -178,16 +163,16 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should snap with user that is logged in and using session link', () => {
-    component.regKey = 'session-link-key';
-    component.loggedInUser = 'alice';
+    component.key = 'session-link-key';
+    component.accountEmail = 'alice@example.com';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with user that is not logged in and using session link', () => {
-    component.regKey = 'session-link-key';
-    component.loggedInUser = '';
+    component.key = 'session-link-key';
+    component.accountEmail = '';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -218,8 +203,8 @@ describe('SessionResultPageComponent', () => {
 
   it('should snap when previewing results', () => {
     component.intent = Intent.STUDENT_RESULT;
-    component.regKey = '';
-    component.previewAsPerson = 'alice2@tmt.tmt';
+    component.key = '';
+    component.previewAs = 'alice2@tmt.tmt';
     component.personName = 'Alice2';
     component.personEmail = 'alice2@tmt.tmt';
     component.session = testFeedbackSession;
@@ -234,8 +219,8 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(component.feedbackSessionId).toEqual('test-session-id');
-    expect(component.regKey).toEqual('reg-key');
-    expect(component.loggedInUser).toEqual('user-id');
+    expect(component.key).toEqual('reg-key');
+    expect(component.accountEmail).toEqual('account@teammates.tmt');
   });
 
   it('should verify allowed access and used reg key', () => {
@@ -246,14 +231,12 @@ describe('SessionResultPageComponent', () => {
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateByURLWithParamEncoding').mockResolvedValue(true);
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result', {
-      fsid: 'test-session-id',
-    });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/test-session-id/result');
   });
 
   it('should load info and create log', () => {
@@ -303,11 +286,7 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/front',
-      `You are trying to access TEAMMATES using the Google account user-id, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
+      `You are signed in as ${component.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
     );
   });
 
@@ -343,8 +322,8 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate to join course when user click on join course link', () => {
-    component.regKey = 'reg-key';
-    component.loggedInUser = 'user';
+    component.key = 'reg-key';
+    component.accountEmail = 'account@example.com';
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
@@ -353,18 +332,13 @@ describe('SessionResultPageComponent', () => {
     btn.click();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: 'reg-key' });
   });
 
   it('should load session results and hydrate questions', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: false,
-      isValid: false,
-    };
     const testFeedbackQuestionModel: FeedbackQuestionModel = {
       feedbackQuestion: testFeedbackQuestion,
-      questionStatistics: 'stats',
+      questionStatistics: undefined,
       allResponses: [],
       responsesToSelf: [],
       responsesFromSelf: [],
@@ -374,11 +348,11 @@ describe('SessionResultPageComponent', () => {
       hasResponseButNotVisibleForPreview: false,
       hasCommentNotVisibleForPreview: false,
     };
-    const testSessionResults: SessionResults = {
+    const testSessionResults: UserSessionResults = {
       questions: [
         {
           feedbackQuestion: testFeedbackQuestion,
-          questionStatistics: 'stats',
+          questionStatistics: undefined,
           allResponses: [],
           hasResponseButNotVisibleForPreview: false,
           hasCommentNotVisibleForPreview: false,
@@ -389,8 +363,22 @@ describe('SessionResultPageComponent', () => {
       ],
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    component.key = '';
     vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
+    vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(
+      of({
+        name: 'student-name',
+        email: 'student@tmt.tmt',
+        courseId: '',
+        courseName: '',
+        institute: '',
+        userId: 'student-name-id',
+        sectionName: '',
+        sectionId: '',
+        teamName: '',
+        teamId: '',
+      }),
+    );
     const getResultsSpy = vi
       .spyOn(feedbackSessionService, 'getUserSessionResults')
       .mockReturnValue(of(testSessionResults));
@@ -398,9 +386,8 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
     expect(getResultsSpy).toHaveBeenLastCalledWith({
       feedbackSessionId: testQueryParams['fsid'],
-      intent: Intent.STUDENT_RESULT,
-      key: testQueryParams['key'],
-      previewAs: testQueryParams['previewas'],
+      userId: 'student-name-id',
+      isPreview: false,
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

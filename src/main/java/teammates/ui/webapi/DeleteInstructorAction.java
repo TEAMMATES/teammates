@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
-import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -15,18 +13,7 @@ public class DeleteInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
-        Instructor instructorToDelete = logic.getInstructor(userId);
-        if (instructorToDelete == null) {
-            throw new EntityNotFoundException("Instructor with user ID " + userId + " does not exist.");
-        }
-
-        //allow access to admins or instructor with modify permission
-        if (requestContext.isAdmin()) {
-            return;
-        }
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, instructorToDelete.getCourseId(),
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        gateKeeper.verifyCanModifyInstructor(requestContext, userId);
     }
 
     @Override

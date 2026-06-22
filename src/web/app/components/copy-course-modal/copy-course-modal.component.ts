@@ -5,7 +5,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CopyCourseModalResult } from './copy-course-modal-model';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Course, FeedbackSession } from '../../../types/api-output';
+import { Course, FeedbackSession, Institute } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
 
 interface Timezone {
@@ -42,13 +42,15 @@ export class CopyCourseModalComponent implements OnInit {
   @Input()
   allCourses: Course[] = [];
 
+  @Input()
+  institutes: Institute[] = [];
+
   fetchFeedbackSessionsEvent: EventEmitter<string> = new EventEmitter<string>();
 
   isCopyFromOtherSession = false;
   newCourseIdIsConflicting = false;
   newCourseIdTouched = false;
   newCourseNameTouched = false;
-  institutes: { id: string; name: string }[] = [];
   timezones: Timezone[] = [];
   newTimezone = '';
   newCourseId = '';
@@ -71,9 +73,6 @@ export class CopyCourseModalComponent implements OnInit {
       const sign: string = offset < 0 ? '-' : '+';
       return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
     });
-    const instituteMap: Map<string, string> = new Map();
-    this.allCourses.forEach((course: Course) => instituteMap.set(course.instituteId, course.institute));
-    this.institutes = Array.from(instituteMap, ([id, name]) => ({ id, name }));
     if (this.institutes.length) {
       this.newCourseInstituteId = this.institutes[0].id;
     }

@@ -145,7 +145,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testQuestionView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -182,7 +182,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGrqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -215,7 +215,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testRgqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -249,30 +249,25 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGqrView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
-        resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
 
         for (FeedbackQuestion question : questionToResponses.keySet()) {
             verifyGqrViewResponses(question, questionToGiverToResponses.get(question), isGroupedByTeam);
         }
-        verifyGqrViewStats(qn2, getResponsesByTeam(qn2, true), isGroupedByTeam);
 
         ______TS("GQR view: not grouped by team");
         isGroupedByTeam = false;
         resultsPage.includeGroupingByTeam(false);
 
         verifyGqrViewResponses(qn2, qn2GiverResponses, isGroupedByTeam);
-        verifyGqrViewStats(qn2, qn2GiverResponses, isGroupedByTeam);
 
         ______TS("GQR view: filter by section");
         resultsPage.filterBySectionEither(section);
-
-        verifyGqrViewStats(qn2, filteredQn2GiverResponses, isGroupedByTeam);
         resultsPage.unfilterResponses();
 
         ______TS("GQR view: with missing responses");
@@ -280,52 +275,34 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         verifyGqrViewResponses(qn2, qn2GiverResponsesWithMissing, isGroupedByTeam);
 
-        ______TS("GQR view: hide statistics");
-        resultsPage.includeStatistics(false);
-        for (String giver : qn2GiverResponses.keySet()) {
-            resultsPage.verifyGqrViewStatsHidden(qn2, giver, instructors, students, isGroupedByTeam);
-        }
-
         ______TS("GQR view: verify comments");
         resultsPage.verifyGqrViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
     private void testRqgView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
-        resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
 
         for (FeedbackQuestion question : questionToResponses.keySet()) {
             verifyRqgViewResponses(question, questionToRecipientToResponses.get(question), isGroupedByTeam);
         }
-        verifyRqgViewStats(qn2, getResponsesByTeam(qn2, false), isGroupedByTeam);
 
         ______TS("RQG view: not grouped by team");
         isGroupedByTeam = false;
         resultsPage.includeGroupingByTeam(false);
 
-        verifyRqgViewStats(qn2, qn2RecipientResponses, isGroupedByTeam);
-
         ______TS("RQG view: filter by section");
         resultsPage.filterBySectionEither(section);
-
-        verifyRqgViewStats(qn2, filteredQn2RecipientResponses, isGroupedByTeam);
         resultsPage.unfilterResponses();
 
         ______TS("RQG view: with missing responses");
         resultsPage.includeMissingResponses(true);
 
         verifyRqgViewResponses(qn2, qn2RecipientResponsesWithMissing, isGroupedByTeam);
-
-        ______TS("RQG view: hide statistics");
-        resultsPage.includeStatistics(false);
-        for (String recipient : qn2RecipientResponses.keySet()) {
-            resultsPage.verifyRqgViewStatsHidden(qn2, recipient, instructors, students, isGroupedByTeam);
-        }
 
         ______TS("RQG view: verify comments");
         resultsPage.verifyRqgViewComment(qn2, comment, responseWithComment, instructors, students, false);
@@ -339,7 +316,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId());
-        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getEmail());
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data
@@ -436,29 +413,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         });
     }
 
-    private String getTeamName(String participantEmail) {
-        return students.stream()
-                .filter(s -> s.getEmail().equals(participantEmail))
-                .findFirst()
-                .map(Student::getTeamName)
-                .orElse(null);
-    }
-
-    private Map<String, List<FeedbackResponse>> getResponsesByTeam(FeedbackQuestion question, boolean isGiver) {
-        Map<String, List<FeedbackResponse>> userToResponses = isGiver
-                ? questionToGiverToResponses.get(question)
-                : questionToRecipientToResponses.get(question);
-
-        Map<String, List<FeedbackResponse>> teamResponses = new HashMap<>();
-        for (Map.Entry<String, List<FeedbackResponse>> entry : userToResponses.entrySet()) {
-            String user = entry.getKey();
-            String team = getTeamName(user);
-            List<FeedbackResponse> responses = entry.getValue();
-            teamResponses.computeIfAbsent(team, k -> new ArrayList<>()).addAll(responses);
-        }
-        return teamResponses;
-    }
-
     private Map<String, List<FeedbackResponse>> addMissingResponseToMap(
             Map<String, List<FeedbackResponse>> map,
             FeedbackResponse missingResponse, String key) {
@@ -548,24 +502,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                                         boolean isGroupedByTeam) {
         for (Map.Entry<String, List<FeedbackResponse>> entry : recipientToResponses.entrySet()) {
             resultsPage.verifyRgqViewResponses(question, entry.getValue(), isGroupedByTeam,
-                    instructors, students);
-        }
-    }
-
-    private void verifyRqgViewStats(FeedbackQuestion question,
-                                    Map<String, List<FeedbackResponse>> responses,
-                                    boolean isGroupedByTeam) {
-        for (Map.Entry<String, List<FeedbackResponse>> entry : responses.entrySet()) {
-            resultsPage.verifyRqgViewStats(question, entry.getValue(), isGroupedByTeam,
-                    instructors, students);
-        }
-    }
-
-    private void verifyGqrViewStats(FeedbackQuestion question,
-                                    Map<String, List<FeedbackResponse>> responses,
-                                    boolean isGroupedByTeam) {
-        for (Map.Entry<String, List<FeedbackResponse>> entry : responses.entrySet()) {
-            resultsPage.verifyGqrViewStats(question, entry.getValue(), isGroupedByTeam,
                     instructors, students);
         }
     }

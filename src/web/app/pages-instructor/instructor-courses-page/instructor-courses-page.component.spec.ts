@@ -4,17 +4,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CourseModel, InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { InstituteService } from '../../../services/institute.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, Courses, JoinState, Students } from '../../../types/api-output';
+import { AuthInfo, Course, InstructorCourses, Institute, JoinState, Students } from '../../../types/api-output';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
+  let authService: AuthService;
   let courseService: CourseService;
+  let instituteService: InstituteService;
   let studentService: StudentService;
   let timezoneService: TimezoneService;
   let simpleModalService: SimpleModalService;
@@ -311,7 +315,9 @@ describe('InstructorCoursesPageComponent', () => {
 
     fixture = TestBed.createComponent(InstructorCoursesPageComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
     courseService = TestBed.inject(CourseService);
+    instituteService = TestBed.inject(InstituteService);
     studentService = TestBed.inject(StudentService);
     timezoneService = TestBed.inject(TimezoneService);
     simpleModalService = TestBed.inject(SimpleModalService);
@@ -323,15 +329,31 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
+    const mockAuthInfo: AuthInfo = {
+      loginUrl: '',
+      masquerade: false,
+      user: {
+        accountId: 'test-account-id',
+        accountEmail: 'test@test.com',
+        isAdmin: false,
+        isInstructor: true,
+        isStudent: false,
+        isMaintainer: false,
+      },
+    };
+    const mockInstitute: Institute = { id: 'test-institute-id', name: 'Test Institute', country: 'SG' };
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(mockAuthInfo));
+    vi.spyOn(instituteService, 'getVerifiedInstitutes').mockReturnValue(of({ institutes: [mockInstitute] }));
+
     const courseSpy = vi
       .spyOn(courseService, 'getAllCoursesAsInstructor')
-      .mockImplementation((courseStatus: string): Observable<Courses> => {
+      .mockImplementation((courseStatus: string): Observable<InstructorCourses> => {
         if (courseStatus === 'active') {
-          return of({ courses: [{ course: courseCS1231 }, { course: courseCS3281 }, { course: courseCS3282 }] });
+          return of({ courses: [courseCS1231, courseCS3281, courseCS3282], instructorPermissions: {} });
         }
 
         // softDeleted
-        return of({ courses: [{ course: courseST4234 }] });
+        return of({ courses: [courseST4234], instructorPermissions: {} });
       });
 
     component.loadInstructorCourses();
@@ -352,7 +374,7 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.softDeletedCourses[0].course.courseId).toEqual('ST4234');
     expect(component.softDeletedCourses[0].course.courseName).toEqual('Bayesian Statistics');
 
-    expect(component.courseFormModel.institutes).toEqual([{ id: 'test-institute-id', name: 'Test Institute' }]);
+    expect(component.courseFormModel.institutes).toEqual([mockInstitute]);
     expect(component.courseFormModel.course.institute).toEqual('Test Institute');
   });
 

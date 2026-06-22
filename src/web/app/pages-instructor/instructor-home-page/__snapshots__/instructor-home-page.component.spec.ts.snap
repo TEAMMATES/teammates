@@ -6,6 +6,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -17,6 +18,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -39,6 +41,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -85,6 +88,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -96,6 +100,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -118,6 +123,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -164,6 +170,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -175,6 +182,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -197,6 +205,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -310,6 +319,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -321,6 +331,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -343,6 +354,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -439,15 +451,13 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/enroll?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    href="/web/instructor/courses/CS1231/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/details?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/details"
+                    href="/web/instructor/courses/CS1231/details"
                   >
                      View / Edit 
                   </a>
@@ -471,8 +481,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS1231/edit"
                   >
                      View / Edit 
                   </a>
@@ -521,8 +530,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS1231/edit"
                   >
                      View / Edit 
                   </a>
@@ -753,8 +761,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                                 class="d-flex gap-1"
                               >
                                 <a
-                                  href="/web/instructor/sessions/edit?fsid=first-session-id&editingMode=true"
-                                  tmrouterlink="/web/instructor/sessions/edit"
+                                  href="/web/instructor/sessions/first-session-id/edit?editingMode=true"
                                 >
                                   <button
                                     class="btn btn-light btn-sm"
@@ -777,8 +784,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                                    Copy 
                                 </button>
                                 <a
-                                  href="/web/instructor/sessions/submission?fsid=first-session-id&editingMode=true"
-                                  tmrouterlink="/web/instructor/sessions/submission"
+                                  href="/web/instructor/sessions/first-session-id/submission?editingMode=true"
                                 >
                                   <button
                                     class="btn btn-light btn-sm"
@@ -806,15 +812,13 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?fsid=first-session-id"
-                                      tmrouterlink="/web/instructor/sessions/result"
+                                      href="/web/instructor/sessions/first-session-id/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?fsid=first-session-id"
-                                      tmrouterlink="/web/instructor/sessions/report"
+                                      href="/web/instructor/sessions/first-session-id/report"
                                     >
                                       View Results (course-wide)
                                     </a>
@@ -902,6 +906,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -913,6 +918,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -935,6 +941,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -1031,8 +1038,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/details?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/details"
+                    href="/web/instructor/courses/CS3281/details"
                   >
                      View / Edit 
                   </a>
@@ -1056,8 +1062,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -1106,8 +1111,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -1368,15 +1372,13 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?fsid=second-session-id"
-                                      tmrouterlink="/web/instructor/sessions/result"
+                                      href="/web/instructor/sessions/second-session-id/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?fsid=second-session-id"
-                                      tmrouterlink="/web/instructor/sessions/report"
+                                      href="/web/instructor/sessions/second-session-id/report"
                                     >
                                       View Results (course-wide)
                                     </a>
@@ -1553,15 +1555,13 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?fsid=first-session-id"
-                                      tmrouterlink="/web/instructor/sessions/result"
+                                      href="/web/instructor/sessions/first-session-id/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?fsid=first-session-id"
-                                      tmrouterlink="/web/instructor/sessions/report"
+                                      href="/web/instructor/sessions/first-session-id/report"
                                     >
                                       View Results (course-wide)
                                     </a>
@@ -1651,6 +1651,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -1662,6 +1663,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -1684,6 +1686,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -1780,15 +1783,13 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/enroll?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    href="/web/instructor/courses/CS3281/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/details?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/details"
+                    href="/web/instructor/courses/CS3281/details"
                   >
                      View / Edit 
                   </a>
@@ -1812,8 +1813,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -1862,8 +1862,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -1937,6 +1936,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -1948,6 +1948,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -1970,6 +1971,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -2066,15 +2068,13 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/enroll?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    href="/web/instructor/courses/CS3281/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/details?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/details"
+                    href="/web/instructor/courses/CS3281/details"
                   >
                      View / Edit 
                   </a>
@@ -2098,8 +2098,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -2148,8 +2147,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS3281"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS3281/edit"
                   >
                      View / Edit 
                   </a>
@@ -2223,6 +2221,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -2234,6 +2233,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -2256,6 +2256,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -2352,15 +2353,13 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/enroll?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/enroll"
+                    href="/web/instructor/courses/CS1231/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/details?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/details"
+                    href="/web/instructor/courses/CS1231/details"
                   >
                      View / Edit 
                   </a>
@@ -2384,8 +2383,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS1231/edit"
                   >
                      View / Edit 
                   </a>
@@ -2434,8 +2432,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    href="/web/instructor/courses/edit?courseid=CS1231"
-                    tmrouterlink="/web/instructor/courses/edit"
+                    href="/web/instructor/courses/CS1231/edit"
                   >
                      View / Edit 
                   </a>

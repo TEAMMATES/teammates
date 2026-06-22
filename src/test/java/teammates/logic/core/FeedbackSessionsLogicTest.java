@@ -28,6 +28,7 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -60,7 +61,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic);
+        DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = mock(FeedbackSessionEmailsLogic.class);
+        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic,
+                deadlineExtensionsLogic, feedbackSessionEmailsLogic);
     }
 
     @Test
@@ -89,22 +93,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         assertNull(result);
         verify(fsDb, times(1)).getFeedbackSession(nonExistentId);
-    }
-
-    @Test
-    public void testGetFeedbackSessionByNameAndCourse_sessionExists_success() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        String sessionName = session.getName();
-        String courseId = course.getId();
-
-        when(fsDb.getFeedbackSession(sessionName, courseId)).thenReturn(session);
-
-        FeedbackSession result = fsLogic.getFeedbackSession(sessionName, courseId);
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        verify(fsDb, times(1)).getFeedbackSession(sessionName, courseId);
     }
 
     @Test

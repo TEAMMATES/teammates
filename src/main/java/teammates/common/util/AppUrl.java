@@ -54,6 +54,15 @@ public class AppUrl {
     }
 
     /**
+     * Creates an AppUrl from a base URL and a relative URL template that may contain path placeholders
+     * (e.g. {@code {feedbackSessionId}}). Skips URI validation so placeholders are preserved for
+     * later substitution via {@code with*()} methods.
+     */
+    public static AppUrl fromParts(String baseUrl, String relativeUrl) {
+        return new AppUrl(baseUrl, relativeUrl, "", Collections.emptyList());
+    }
+
+    /**
      * Returns the first part of the URL, including the protocol and
      * authority (host name + port number if specified) but not the path.<br>
      * Example:
@@ -79,7 +88,8 @@ public class AppUrl {
     }
 
     public AppUrl withAccountId(UUID accountId) {
-        return withParam(Const.ParamsNames.ACCOUNT_ID, accountId.toString());
+        String newPath = relativeUrl.replace("{accountId}", accountId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withMasqueradeAccount(UUID accountId) {
@@ -95,23 +105,31 @@ public class AppUrl {
     }
 
     public AppUrl withCourseId(String courseId) {
-        return withParam(Const.ParamsNames.COURSE_ID, courseId);
+        String newPath = relativeUrl.replace("{courseId}", courseId);
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withFeedbackSessionId(UUID feedbackSessionId) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
+        String newPath = relativeUrl.replace("{feedbackSessionId}", feedbackSessionId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withUserId(UUID userId) {
-        return withParam(Const.ParamsNames.USER_ID, userId.toString());
+        String newPath = relativeUrl.replace("{userId}", userId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
+    }
+
+    public AppUrl withAccountVerificationRequestId(UUID accountVerificationRequestId) {
+        String newPath = relativeUrl.replace("{accountVerificationRequestId}", accountVerificationRequestId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withEntityType(String entityType) {
-        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
+        return withParam("entityType", entityType);
     }
 
     public AppUrl withPreviewAs(String previewAs) {
-        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
+        return withParam("previewAs", previewAs);
     }
 
     @Override

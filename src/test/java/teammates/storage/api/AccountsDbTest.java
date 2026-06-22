@@ -41,6 +41,77 @@ public class AccountsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void getAccountByAuthIdentity_accountExists_returnsAccount() {
+        var account = given.account("account", a -> a
+                .authIdentity(Provider.TEAMMATES_DEV, "account-subject", "tenant-id"));
+        persistGivenData(given);
+
+        Account actual = inTransaction(() -> accountsDb.getAccountByAuthIdentity(
+                Provider.TEAMMATES_DEV, "account-subject", "tenant-id"));
+
+        assertNotNull(actual);
+        assertEquals(account.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountByAuthIdentity_accountDoesNotExist_returnsNull() {
+        given.account("account", a -> a
+                .authIdentity(Provider.TEAMMATES_DEV, "account-subject", "tenant-id"));
+        persistGivenData(given);
+
+        Account actual = inTransaction(() -> accountsDb.getAccountByAuthIdentity(
+                Provider.TEAMMATES_DEV, "non-existent-subject", "tenant-id"));
+
+        assertNull(actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountByAuthIdentity_nullTenantId_matchesOnlyNullTenantId() {
+        var accountWithNullTenant = given.account("account-with-null-tenant", a -> a
+                .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
+        given.account("account-with-tenant", a -> a
+                .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", "tenant-id"));
+        persistGivenData(given);
+
+        Account actual = inTransaction(() -> accountsDb.getAccountByAuthIdentity(
+                Provider.TEAMMATES_DEV, "shared-subject", null));
+
+        assertNotNull(actual);
+        assertEquals(accountWithNullTenant.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountDoesNotExist_accountIsInserted() {
+        var accountId = given.uuid("account");
+        Account account = buildDefaultAccount(accountId);
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(account));
+
+        assertEquals(accountId, actual.getId());
+        verifyPresentInDatabase(Account.class, accountId);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountExists_returnsExistingAccount() {
+        var existingAccount = given.account("account", a -> a
+                .email("original@example.com")
+                .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
+        persistGivenData(given);
+
+        Account updatedAccount = new Account(
+                Provider.TEAMMATES_DEV,
+                "shared-subject",
+                null,
+                "should-not-update@example.com");
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
+
+        assertEquals(existingAccount.id(), actual.getId());
+        assertEquals("original@example.com", actual.getEmail());
+        assertEquals(Account.NO_TENANT, actual.getTenantId());
+    }
+
+    @Test(groups = GroupNames.DB)
     public void persistAccount_accountIsNew_accountIsPersisted() {
         var accountId = given.uuid("account");
         Account account = buildDefaultAccount(accountId);
@@ -72,11 +143,9 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     private static Account buildDefaultAccount(UUID accountId) {
         Account account = new Account(
-                accountId.toString(),
                 Provider.TEAMMATES_DEV,
                 "subject",
                 "tenant-id",
-                "Account Name",
                 "account@example.com");
         account.setId(accountId);
         return account;

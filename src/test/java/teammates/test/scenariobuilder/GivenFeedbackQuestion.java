@@ -178,6 +178,48 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
     }
 
     /**
+     * Students give feedback with no specific recipient.
+     */
+    public GivenFeedbackQuestion studentsToNone() {
+        return giverType(QuestionGiverType.STUDENTS).recipientType(QuestionRecipientType.NONE);
+    }
+
+    /**
+     * Students give feedback to themselves.
+     */
+    public GivenFeedbackQuestion studentsToSelf() {
+        return giverType(QuestionGiverType.STUDENTS).recipientType(QuestionRecipientType.SELF);
+    }
+
+    /**
+     * Students give feedback to their own team members, excluding themselves.
+     */
+    public GivenFeedbackQuestion studentsToOwnTeamExcludingSelf() {
+        return giverType(QuestionGiverType.STUDENTS).recipientType(QuestionRecipientType.OWN_TEAM_MEMBERS);
+    }
+
+    /**
+     * Students give feedback to teams in their section.
+     */
+    public GivenFeedbackQuestion studentsToTeamsInSection() {
+        return giverType(QuestionGiverType.STUDENTS).recipientType(QuestionRecipientType.TEAMS_IN_SAME_SECTION);
+    }
+
+    /**
+     * Teams give feedback to other teams in their section.
+     */
+    public GivenFeedbackQuestion teamsToTeamsInSection() {
+        return giverType(QuestionGiverType.TEAMS).recipientType(QuestionRecipientType.TEAMS_IN_SAME_SECTION);
+    }
+
+    /**
+     * Instructors give feedback to students.
+     */
+    public GivenFeedbackQuestion instructorsToStudents() {
+        return giverType(QuestionGiverType.INSTRUCTORS).recipientType(QuestionRecipientType.STUDENTS);
+    }
+
+    /**
      * Sets the number of entities each giver gives feedback to.
      */
     public GivenFeedbackQuestion numOfEntitiesToGiveFeedbackTo(int numOfEntitiesToGiveFeedbackTo) {

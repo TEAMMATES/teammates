@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.NotificationStyle;
@@ -25,7 +25,7 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -57,21 +57,23 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         String jsonString = FileHelper.readFile(pathToJsonFile);
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(jsonString);
 
-        ______TS("verify account requests deserialized correctly");
+        ______TS("verify account verification requests deserialized correctly");
 
-        AccountRequest actualAccountRequest = dataBundle.accountRequests.get("instructor1");
-        AccountRequest expectedAccountRequest = new AccountRequest("instr1@teammates.tmt", "Instructor 1",
-                AccountRequestStatus.REGISTERED, "These are some comments.");
-        expectedAccountRequest.setId(actualAccountRequest.getId());
-        expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
-        assertEquals(expectedAccountRequest, actualAccountRequest);
+        AccountVerificationRequest actualAccountVerificationRequest =
+                dataBundle.accountVerificationRequests.get("instructor1");
+        AccountVerificationRequest expectedAccountVerificationRequest =
+                new AccountVerificationRequest("instr1@teammates.tmt", "Instructor 1",
+                AccountVerificationRequestStatus.APPROVED, "These are some comments.");
+        expectedAccountVerificationRequest.setId(actualAccountVerificationRequest.getId());
+        expectedAccountVerificationRequest.setCreatedDemoCourseAt(Instant.parse("2015-02-14T00:00:00Z"));
+        assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
 
         ______TS("verify accounts deserialized correctly");
 
         Account actualInstructorAccount = dataBundle.accounts.get("instructor1");
         Account expectedInstructorAccount = new Account(
-                "idOfInstructor1", Provider.TEAMMATES_DEV, "idOfInstructor1", null,
-                "Instructor 1", "instr1@teammates.tmt");
+                Provider.TEAMMATES_DEV, "idOfInstructor1", "tenant-id",
+                "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         assertEquals(expectedInstructorAccount, actualInstructorAccount);
         assertEquals(1, actualInstructorAccount.getReadNotifications().size());
@@ -80,8 +82,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
         Account expectedStudentAccount = new Account(
-                "idOfStudent1", Provider.TEAMMATES_DEV, "idOfStudent1", null,
-                "Student 1", "student1@teammates.tmt");
+                Provider.TEAMMATES_DEV, "idOfStudent1", "tenant-id",
+                "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         assertEquals(expectedStudentAccount, actualStudentAccount);
         assertEquals(1, actualStudentAccount.getReadNotifications().size());
@@ -270,10 +272,10 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyPresentInDatabase(instructor1Account);
         verifyPresentInDatabase(student1Account);
 
-        ______TS("verify account request persisted correctly");
-        AccountRequest accountRequest = dataBundle.accountRequests.get("instructor1");
+        ______TS("verify account verification request persisted correctly");
+        AccountVerificationRequest accountVerificationRequest = dataBundle.accountVerificationRequests.get("instructor1");
 
-        verifyPresentInDatabase(accountRequest);
+        verifyPresentInDatabase(accountVerificationRequest);
 
         inTransaction(() -> dataBundleLogic.removeDataBundle(dataBundle));
 
@@ -320,9 +322,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyAbsentInDatabase(instructor1Account);
         verifyAbsentInDatabase(student1Account);
 
-        ______TS("verify account request removed correctly");
+        ______TS("verify account verification request removed correctly");
 
-        verifyAbsentInDatabase(accountRequest);
+        verifyAbsentInDatabase(accountVerificationRequest);
     }
 
 }

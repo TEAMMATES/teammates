@@ -86,9 +86,6 @@ The Logic API is represented by the following classes:
 - `Logic`: A [Facade](http://en.wikipedia.org/wiki/Facade_pattern) connecting to the various `*Logic` classes to handle business logic and access the `Storage` component.
 - `UserProvision`: Retrieves user information from request cookies.
 - `AuthProxy`: Provides authentication-related services.
-- `EmailGenerator`: Generates emails to be sent.
-- `EmailSender`: Sends emails using the provider configured in the build configuration.
-- `TaskQueuer`: Queues tasks for deferred execution.
 - `RecaptchaVerifier`: Verifies reCAPTCHA tokens.
 
 Many classes in this layer use environment-based implementations — connecting to real production services in staging/production and local alternatives in development.

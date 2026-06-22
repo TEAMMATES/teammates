@@ -4,15 +4,19 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
+import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { InstituteService } from '../../../services/institute.service';
 import {
+  AuthInfo,
   Course,
   CourseView,
-  Courses,
+  InstructorCourses,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessions,
+  Institute,
   InstructorCoursePermissions,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -77,7 +81,9 @@ export interface CourseTabModel {
   ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly courseService = inject(CourseService);
+  private readonly instituteService = inject(InstituteService);
 
   private static readonly coursesToLoad: number = 3;
   // enum
@@ -90,6 +96,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   // data
   courseTabModels: CourseTabModel[] = [];
   allCoursesList: Course[] = [];
+  verifiedInstitutes: Institute[] = [];
 
   hasCoursesLoaded = false;
   hasCoursesLoadingFailed = false;
@@ -172,6 +179,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         modalRef.componentInstance.oldCourseId = courseId;
         modalRef.componentInstance.oldCourseName = courseName;
         modalRef.componentInstance.allCourses = this.allCoursesList;
+        modalRef.componentInstance.institutes = this.verifiedInstitutes;
         modalRef.componentInstance.newTimeZone = timeZone;
         modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions.map(
           (sessionView: FeedbackSessionView) => sessionView.feedbackSession,
@@ -219,7 +227,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             }
 
             result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId, result.oldCourseId)
+              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId)
                 .pipe(
                   finalize(() => {
                     this.numberOfSessionsCopied += 1;
@@ -303,22 +311,36 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoaded = false;
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
+    this.authService
+      .getAuthUser()
+      .pipe(switchMap((authInfo: AuthInfo) => this.instituteService.getVerifiedInstitutes(authInfo.user!.accountId)))
+      .subscribe({
+        next: ({ institutes }) => {
+          this.verifiedInstitutes = institutes;
+        },
+        error: () => {},
+      });
     this.courseService
-      .getInstructorCoursesThatAreActive()
+      .getAllCoursesAsInstructor('active')
       .pipe(
         finalize(() => {
           this.hasCoursesLoaded = true;
         }),
       )
       .subscribe({
-        next: (courses: Courses) => {
-          courses.courses.forEach((courseView: CourseView) => {
-            this.allCoursesList.push(courseView.course);
-            this.initializeCourseTabModule(courseView);
+        next: (courses) => {
+          courses.courses.forEach((course) => {
+            this.allCoursesList.push(course);
+            this.initializeCourseTabModule({
+              course,
+              instructorPermissions: courses.instructorPermissions[course.courseId] ?? {
+                canModifyCourse: false,
+                canModifyStudent: false,
+                canModifyInstructor: false,
+              },
+            });
           });
-          this.isNewUser = !courses.courses.some(
-            (courseView: CourseView) => !/-demo\d*$/.test(courseView.course.courseId),
-          );
+          this.isNewUser = !courses.courses.some((course) => !/-demo\d*$/.test(course.courseId));
           this.sortCoursesBy(this.instructorCoursesSortBy);
         },
         error: (resp: ErrorMessageOutput) => {
@@ -327,8 +349,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         },
       });
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
-      next: (resp: Courses) => {
-        this.allCoursesList.push(...resp.courses.map((courseView: CourseView) => courseView.course));
+      next: (resp: InstructorCourses) => {
+        this.allCoursesList.push(...resp.courses);
       },
       error: (resp: ErrorMessageOutput) => {
         this.hasCoursesLoadingFailed = true;

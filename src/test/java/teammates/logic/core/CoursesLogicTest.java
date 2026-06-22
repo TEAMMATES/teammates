@@ -28,6 +28,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -52,13 +53,17 @@ public class CoursesLogicTest extends BaseTestCase {
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
     private InstitutesLogic institutesLogic;
+    private AccountVerificationsLogic accountVerificationsLogic;
 
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
         usersLogic = mock(UsersLogic.class);
         institutesLogic = mock(InstitutesLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, usersLogic, institutesLogic);
+        accountVerificationsLogic = mock(AccountVerificationsLogic.class);
+        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        coursesLogic.initLogicDependencies(
+                coursesDb, usersLogic, institutesLogic, accountVerificationsLogic, instructorPermissionsLogic);
     }
 
     @Test
@@ -149,10 +154,7 @@ public class CoursesLogicTest extends BaseTestCase {
     @Test
     public void testCreateCourseAndInstructor_withCourseCreateRequest_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        String instructorGoogleId = "creator-google-id";
         Account courseCreator = getTypicalAccount();
-        courseCreator.setGoogleId(instructorGoogleId);
-        courseCreator.setName("Course Creator");
         courseCreator.setEmail("course-creator@email.tmt");
         CourseCreateRequest request = new CourseCreateRequest();
         UUID instituteId = UUID.randomUUID();
@@ -164,6 +166,9 @@ public class CoursesLogicTest extends BaseTestCase {
         request.setInstituteId(instituteId);
 
         when(institutesLogic.getInstitute(instituteId)).thenReturn(institute);
+        when(accountVerificationsLogic.getVerifiedInstructorDetails(courseCreator.getId(), instituteId))
+                .thenReturn(new VerifiedInstructorDetails(
+                        "Verified Course Creator", "verified@email.tmt"));
         when(coursesDb.persistCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request);
@@ -174,12 +179,14 @@ public class CoursesLogicTest extends BaseTestCase {
         assertEquals("Institute", createdCourse.getInstitute().getName());
         verify(usersLogic, times(1)).createInstructor(
                 eq(createdCourse),
-                eq("Course Creator"),
-                eq("course-creator@email.tmt"),
+                eq("Verified Course Creator"),
+                eq("verified@email.tmt"),
                 eq(false),
-                eq("Course Creator"),
+                eq("Verified Course Creator"),
                 eq(InstructorPermissionRole.COOWNER),
-                argThat(account -> account.getGoogleId().equals(instructorGoogleId)));
+                argThat(account -> account.getId().equals(courseCreator.getId())));
+        verify(accountVerificationsLogic, times(1))
+                .getVerifiedInstructorDetails(courseCreator.getId(), instituteId);
     }
 
     @Test
@@ -198,9 +205,40 @@ public class CoursesLogicTest extends BaseTestCase {
                 + "it is not available as a choice. "
                 + "The value must be one of the values from the time zone dropdown selector.", ex.getMessage());
         verify(coursesDb, never()).persistCourse(any(Course.class));
+        verify(accountVerificationsLogic, never()).getVerifiedInstructorDetails(any(), any());
         verify(usersLogic, never()).createInstructor(
                 any(Course.class), anyString(), anyString(), anyBoolean(),
                 anyString(), any(InstructorPermissionRole.class), any());
+    }
+
+    @Test
+    public void testCreateCourseAndInstructor_noVerifiedInstructorDetails_throwInvalidParametersException()
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        Account courseCreator = getTypicalAccount();
+        CourseCreateRequest request = new CourseCreateRequest();
+        UUID instituteId = UUID.randomUUID();
+        Institute institute = new Institute("Institute", "SG");
+        institute.setId(instituteId);
+        request.setCourseId("course-id");
+        request.setCourseName("Course Name");
+        request.setTimeZone(Const.DEFAULT_TIME_ZONE);
+        request.setInstituteId(instituteId);
+
+        when(institutesLogic.getInstitute(instituteId)).thenReturn(institute);
+        when(accountVerificationsLogic.getVerifiedInstructorDetails(courseCreator.getId(), instituteId))
+                .thenReturn(null);
+        when(coursesDb.persistCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.createCourseAndInstructor(courseCreator, request));
+
+        assertEquals("The instructor creating the course must have an approved "
+                + "account verification request for the institute.", ex.getMessage());
+        verify(usersLogic, never()).createInstructor(
+                any(Course.class), anyString(), anyString(), anyBoolean(),
+                anyString(), any(InstructorPermissionRole.class), any());
+        verify(accountVerificationsLogic, times(1))
+                .getVerifiedInstructorDetails(courseCreator.getId(), instituteId);
     }
 
     @Test

@@ -43,7 +43,7 @@ public class GetHasResponsesActionIT extends BaseActionIT<GetHasResponsesAction>
 
         FeedbackQuestion fq = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId().toString(),

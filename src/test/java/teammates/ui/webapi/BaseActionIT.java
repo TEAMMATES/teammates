@@ -20,19 +20,19 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TaskWrapper;
 import teammates.logic.api.Logic;
-import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.email.AccountVerificationEmailsLogic;
+import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Institute;
@@ -49,6 +49,7 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
+import teammates.ui.request.SendEmailRequest;
 
 /**
  * Base class for all action tests.
@@ -68,7 +69,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     Logic logic = Logic.inst();
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    MockEmailSender mockEmailSender = new MockEmailSender();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -97,7 +97,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected T getAction(String body, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
-        mockEmailSender.clearEmails();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
         for (int i = 0; i < params.length; i = i + 2) {
             req.addParam(params[i], params[i + 1]);
@@ -113,8 +112,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         try {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
-            action.setTaskQueuer(mockTaskQueuer);
-            action.setEmailSender(mockEmailSender);
+            AccountVerificationEmailsLogic.inst().init(EmailQueueService.withTaskQueuer(mockTaskQueuer));
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -168,8 +166,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsAdmin() {
         inTransaction(() -> {
-            ensureAccountExists(Config.APP_ADMINS.get(0));
-            mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+            Account account = ensureAccountExists(Config.APP_ADMINS.get(0));
+            mockUserProvision.loginAsAdmin(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -180,8 +178,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsUnregistered(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -190,10 +188,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as an instructor
      * (without admin rights or student rights).
      */
-    protected void loginAsInstructor(String userId) {
+    protected void loginAsInstructor(Instructor instructor) {
+        String instructorSubject = instructor.getAccount().getSubject();
+        String instructorEmail = instructor.getAccount().getEmail();
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(instructorSubject, instructorEmail);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -202,10 +202,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
-    protected void loginAsStudent(String userId) {
+    protected void loginAsStudent(Student student) {
+        String studentEmail = student.getAccount().getEmail();
+        String subject = student.getAccount().getSubject();
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(subject, studentEmail);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -216,8 +218,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsStudentInstructor(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -227,24 +229,19 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsMaintainer() {
         inTransaction(() -> {
-            ensureAccountExists(Config.APP_MAINTAINERS.get(0));
-            mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+            Account account = ensureAccountExists(Config.APP_MAINTAINERS.get(0));
+            mockUserProvision.loginAsMaintainer(account);
             mockUserProvision.setLogic(logic);
         });
     }
 
-    private void ensureAccountExists(String googleId) {
-        // TODO: Get account should be by issuer and subject.
-        if (logic.getAccountForGoogleId(googleId) == null) {
-            String email = googleId.contains("@") ? googleId : googleId + "@example.com";
-            String subject = googleId;
-            String tenantId = "tenant-id";
-            try {
-                logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    private Account ensureAccountExists(String userId) {
+        String email = userId.contains("@") ? userId : userId + "@example.com";
+        return ensureAccountExists(userId, email);
+    }
+
+    private Account ensureAccountExists(String subject, String email) {
+        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
     }
 
     /**
@@ -357,7 +354,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("Students cannot access");
         Student student = createTypicalStudent(course, "inaccessibleforstudents@teammates.tmt");
 
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student);
         verifyCannotAccess(params);
 
     }
@@ -366,7 +363,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("Instructors cannot access");
         Instructor instructor = createTypicalInstructor(course, "inaccessibleforinstructors@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor);
         verifyCannotAccess(params);
 
     }
@@ -396,7 +393,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = createTypicalInstructor(course,
                 "inaccessiblewithoutmodifysessionprivilege@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor);
         verifyCannotAccess(submissionParams);
     }
 
@@ -406,7 +403,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = createTypicalInstructor(course,
                 "inaccessiblewithoutsubmitsessioninsectionsprivilege@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor);
         verifyCannotAccess(submissionParams);
     }
 
@@ -416,7 +413,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
         ______TS("without correct course privilege cannot access");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor);
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
@@ -445,7 +442,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
                 "accessibleforinstructorsofthesamecourse-otherinstructor@teammates.tmt");
 
-        loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
+        loginAsInstructor(instructorSameCourse);
         verifyCanAccess(submissionParams);
 
         verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
@@ -465,7 +462,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
                 "accessibleforinstructorsofothercourse-otherinstructor@teammates.tmt");
 
-        loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
+        loginAsInstructor(instructorOtherCourse);
         verifyCanAccess(submissionParams);
 
         verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
@@ -475,7 +472,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams) {
         ______TS("course students can access");
         Student student = createTypicalStudent(course, "accessibleforstudentsofthesamecourse@teammates.tmt");
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student);
         verifyCanAccess(submissionParams);
     }
 
@@ -486,7 +483,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "inaccessibleforstudentsofothercourse-other@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
-        loginAsStudent(otherStudent.getAccount().getGoogleId());
+        loginAsStudent(otherStudent);
         verifyCannotAccess(submissionParams);
     }
 
@@ -497,7 +494,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "inaccessibleforinstructorsofothercourses@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
-        loginAsInstructor(otherInstructor.getAccount().getGoogleId());
+        loginAsInstructor(otherInstructor);
         verifyCannotAccess(submissionParams);
     }
 
@@ -688,10 +685,36 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     /**
+     * Verifies that the executed action does not result in any email being queued.
+     */
+    protected void verifyNoEmailsQueued() {
+        assertTrue(getQueuedEmails().isEmpty());
+    }
+
+    /**
      * Returns the list of emails sent as part of the executed action.
      */
     protected List<EmailWrapper> getEmailsSent() {
-        return mockEmailSender.getEmailsSent();
+        return List.of();
+    }
+
+    /**
+     * Returns the list of tasks added as part of the executed action.
+     */
+    protected List<TaskWrapper> getTasksAdded() {
+        return mockTaskQueuer.getTasksAdded();
+    }
+
+    /**
+     * Returns the list of emails queued as part of the executed action.
+     */
+    protected List<EmailWrapper> getQueuedEmails() {
+        List<EmailWrapper> queuedEmails = new ArrayList<>();
+        for (TaskWrapper task : getTasksAdded()) {
+            SendEmailRequest request = (SendEmailRequest) task.getRequestBody();
+            queuedEmails.add(request.getEmail());
+        }
+        return queuedEmails;
     }
 
     /**
@@ -699,7 +722,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * being sent.
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
-        assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
+        assertEquals(emailCount, getEmailsSent().size());
+    }
+
+    /**
+     * Verifies that the executed action results in the specified number of emails being queued.
+     */
+    protected void verifyNumberOfEmailsQueued(int emailCount) {
+        assertEquals(emailCount, getQueuedEmails().size());
     }
 
     // TODO: createXX methods should be deprecated and replaced with proper test data builders.
@@ -719,10 +749,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(course.getId(), email));
         if (instructor == null) {
             instructor = inTransaction(() -> {
-                String googleId = email;
                 String subject = email;
-                String tenantId = "tenant-id";
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email);
                 return logic.createInstructor(course, "instructor-name", email, true, "display-name",
                         InstructorPermissionRole.CUSTOM, account);
             });
@@ -749,10 +777,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
                 Student createdStudent = logic.createStudent(course, team, "student-name", email, "");
 
-                String googleId = email;
                 String subject = email;
-                String tenantId = "tenant-id";
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email);
                 createdStudent.setAccount(account);
                 return createdStudent;
             });

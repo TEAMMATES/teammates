@@ -2,7 +2,16 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, CourseSections, CourseView, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import {
+  Course,
+  CourseSections,
+  CourseView,
+  Courses,
+  InstructorCourses,
+  JoinStatus,
+  MessageOutput,
+  Student,
+} from '../types/api-output';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 /**
@@ -26,12 +35,11 @@ export class CourseService {
   /**
    * Gets all course data for an instructor by calling API.
    */
-  getAllCoursesAsInstructor(courseStatus: string): Observable<Courses> {
+  getAllCoursesAsInstructor(courseStatus: 'active' | 'softDeleted'): Observable<InstructorCourses> {
     const paramMap: Record<string, string> = {
-      entitytype: 'instructor',
       coursestatus: courseStatus,
     };
-    return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_COURSES, paramMap);
   }
 
   /**
@@ -52,10 +60,7 @@ export class CourseService {
    * Gets all course data for a student by calling API.
    */
   getAllCoursesAsStudent(): Observable<Courses> {
-    const paramMap: Record<string, string> = {
-      entitytype: 'student',
-    };
-    return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_COURSES);
   }
 
   /**
@@ -70,16 +75,6 @@ export class CourseService {
       paramMap['key'] = regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
-  }
-
-  /**
-   * Get active instructor courses.
-   */
-  getInstructorCoursesThatAreActive(): Observable<Courses> {
-    return this.httpRequestService.get(ResourceEndpoints.COURSES, {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    });
   }
 
   /**
@@ -176,8 +171,8 @@ export class CourseService {
     const teams: Set<string> = new Set();
     const sections: Set<string> = new Set();
     students.forEach((student: Student) => {
-      teams.add(student.teamName);
-      sections.add(student.sectionName);
+      teams.add(student.teamId);
+      sections.add(student.sectionId);
     });
     return {
       numOfSections: sections.size,
@@ -189,8 +184,11 @@ export class CourseService {
   /**
    * Creates a demo course.
    */
-  createDemoCourse(queryParams: { accountRequestId: string; timezone: string }): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { id: queryParams.accountRequestId, timezone: queryParams.timezone };
+  createDemoCourse(queryParams: { accountVerificationRequestId: string; timezone: string }): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      id: queryParams.accountVerificationRequestId,
+      timezone: queryParams.timezone,
+    };
 
     return this.httpRequestService.post(ResourceEndpoints.DEMO_COURSE, paramMap);
   }

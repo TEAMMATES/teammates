@@ -11,9 +11,7 @@ public class DeleteCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, idOfCourseToDelete,
-                Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyCanModifyCourse(requestContext, idOfCourseToDelete);
     }
 
     @Override
@@ -21,6 +19,6 @@ public class DeleteCourseAction extends LoggedInAction {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         logic.deleteCourse(idOfCourseToDelete);
 
-        return new JsonResult(new MessageOutput("OK"));
+        return new JsonResult(new MessageOutput("Course is successfully deleted."));
     }
 }

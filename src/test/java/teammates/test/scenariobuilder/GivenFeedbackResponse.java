@@ -68,6 +68,13 @@ public final class GivenFeedbackResponse extends GivenBase<FeedbackResponse> {
     }
 
     /**
+     * Sets the default course for the response through a default feedback session and question.
+     */
+    public GivenFeedbackResponse defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets a student as the giver.
      */
     public GivenFeedbackResponse giverStudent(String studentAlias) {
@@ -277,6 +284,16 @@ public final class GivenFeedbackResponse extends GivenBase<FeedbackResponse> {
         if (entity.getFeedbackResponseDetailsCopy().getQuestionType() != entity.getFeedbackQuestion().getQuestionType()) {
             details(getDefaultResponseDetails(entity.getFeedbackQuestion().getQuestionType(), entity.getId()));
         }
+
+        String questionCourseId = entity.getFeedbackQuestion().getFeedbackSession().getCourseId();
+        ResponseGiver giver = entity.getGiver();
+        String giverCourseId = giver.isGiverTeam()
+                ? giver.getGiverTeam().getSection().getCourseId()
+                : giver.getGiverUser().getCourseId();
+        assert giverCourseId.equals(questionCourseId)
+                : "Giver's course '" + giverCourseId + "' does not match the feedback question's course '"
+                + questionCourseId + "'. Set the feedback question before the giver, or pre-create the giver "
+                + "in the correct course.";
 
         entity.getFeedbackQuestion().addFeedbackResponse(entity);
     }

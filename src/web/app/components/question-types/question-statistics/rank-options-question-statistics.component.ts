@@ -1,14 +1,16 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
-import { RankOptionsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
-import { calculateRankOptionsQuestionStatistics } from '../../../utils/question-statistics.util';
+import {
+  FeedbackQuestionType,
+  FeedbackRankOptionsStatistics,
+  FeedbackQuestionResultsStatisticsView,
+  RankOptionsOptionRow,
+} from '../../../../types/api-output';
 
 /**
  * Statistics for rank options questions.
@@ -20,11 +22,11 @@ import { calculateRankOptionsQuestionStatistics } from '../../../utils/question-
 })
 export class RankOptionsQuestionStatisticsComponent implements OnChanges {
   @Input()
-  question: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
-  @Input()
-  responses: Response<FeedbackRankOptionsResponseDetails>[] = [];
-  @Input()
-  isStudent = false;
+  statistics: FeedbackRankOptionsStatistics = {
+    questionType: FeedbackQuestionType.RANK_OPTIONS,
+    statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+    options: [],
+  };
 
   // enum
   SortBy!: typeof SortBy;
@@ -37,23 +39,20 @@ export class RankOptionsQuestionStatisticsComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    const stats = calculateRankOptionsQuestionStatistics(this.question, this.responses);
-    this.getTableData(stats);
+    this.buildTableData();
   }
 
-  private getTableData(stats: RankOptionsQuestionStatistics): void {
+  private buildTableData(): void {
     this.columnsData = [
       { header: 'Option', sortBy: SortBy.RANK_OPTIONS_OPTION },
       { header: 'Ranks Received' },
       { header: 'Overall Rank', sortBy: SortBy.RANK_OPTIONS_OVERALL_RANK },
     ];
 
-    this.rowsData = Object.keys(stats.ranksReceivedPerOption).map((key: string) => {
-      return [
-        { value: key },
-        { value: stats.ranksReceivedPerOption[key].join(', ') },
-        { value: stats.rankPerOption[key] ? stats.rankPerOption[key] : '' },
-      ];
-    });
+    this.rowsData = this.statistics.options.map((row: RankOptionsOptionRow) => [
+      { value: row.option },
+      { value: row.ranksReceived.join(', ') },
+      { value: row.overallRank ?? '-' },
+    ]);
   }
 }

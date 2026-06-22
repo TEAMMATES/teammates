@@ -40,7 +40,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         ______TS("typical: instructor accesses feedback stats of his/her course");
 

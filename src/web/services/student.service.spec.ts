@@ -108,19 +108,30 @@ describe('StudentService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_STUDENT, paramMap);
   });
 
-  it('should execute GET when getting students in a team by team ID', () => {
+  it('should execute GET when getting all students in a course', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
-      teamid: '00000000-0000-4000-8000-000000000001',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudentsFromCourse({
       courseId: paramMap['courseid'],
-      teamId: paramMap['teamid'],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
+  });
+
+  it('should execute GET when getting own team students', () => {
+    const paramMap: Record<string, string> = {
+      courseid: 'CS3281',
+    };
+    vi.spyOn(spyHttpRequestService, 'get');
+
+    service.getOwnTeamStudents({
+      courseId: paramMap['courseid'],
+    });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_TEAM_STUDENTS, paramMap);
   });
 
   it('should execute DELETE when deleting all students in a course', () => {

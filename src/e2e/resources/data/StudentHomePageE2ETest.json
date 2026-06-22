@@ -8,23 +8,19 @@
   },
   "accounts": {
     "SHome.instr": {
-      "googleId": "tm.e2e.SHome.instr",
-      "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SHome.instr"
+      "subject": "shome.instr@gmail.tmt"
     },
     "SHome.student": {
-      "googleId": "tm.e2e.SHome.student",
-      "name": "Alice B",
       "email": "shome.student@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SHome.student"
+      "subject": "shome.student@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "SHome.CS2104": {
       "id": "tm.e2e.SHome.CS2104",

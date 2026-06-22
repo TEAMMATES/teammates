@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
@@ -62,7 +61,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
   private ngbModal = inject(NgbModal);
-  private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
   private tableComparatorService = inject(TableComparatorService);
   private instructorService = inject(InstructorService);
@@ -85,7 +83,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId = '';
   courseName = '';
   feedbackSessionName = '';
-  feedbackSessionId = '';
+  @Input({ required: true }) feedbackSessionId!: string;
+  @Input() preselectNonSubmitters = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -118,12 +117,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.feedbackSessionId = queryParams['fsid'];
-      this.isAllYetToSubmitInstructorsSelected = queryParams['preselectnonsubmitters'] === 'true';
-      this.isAllYetToSubmitStudentsSelected = queryParams['preselectnonsubmitters'] === 'true';
-      this.loadFeedbackSessionAndIndividuals();
-    });
+    this.isAllYetToSubmitInstructorsSelected = this.preselectNonSubmitters === 'true';
+    this.isAllYetToSubmitStudentsSelected = this.preselectNonSubmitters === 'true';
+    this.loadFeedbackSessionAndIndividuals();
   }
 
   /**
@@ -140,7 +136,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackSessionView: FeedbackSessionView) => {

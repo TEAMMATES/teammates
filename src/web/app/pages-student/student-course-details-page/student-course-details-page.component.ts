@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -24,7 +23,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   private tableComparatorService = inject(TableComparatorService);
-  private route = inject(ActivatedRoute);
   private instructorService = inject(InstructorService);
   private studentService = inject(StudentService);
   private courseService = inject(CourseService);
@@ -61,7 +59,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     deletionTimestamp: 0,
   };
 
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
   instructorDetails: Instructor[] = [];
   teammateProfiles: Student[] = [];
 
@@ -79,12 +77,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Fetches relevant data to be displayed on page.
    */
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.loadStudent(queryParams['courseid']);
-      this.loadCourse(queryParams['courseid']);
-      this.loadInstructors(queryParams['courseid']);
-    });
+    this.loadStudent(this.courseId);
+    this.loadTeammates(this.courseId);
+    this.loadCourse(this.courseId);
+    this.loadInstructors(this.courseId);
   }
 
   /**
@@ -129,7 +125,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       .subscribe({
         next: (student: Student) => {
           this.student = student;
-          this.loadTeammates(courseId, student.teamId);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
@@ -142,12 +137,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Loads the teammates of the current student.
    *
    * @param courseId id of the course queried
-   * @param teamId team of current student
    */
-  loadTeammates(courseId: string, teamId: string): void {
+  loadTeammates(courseId: string): void {
     this.isLoadingTeammates = true;
     this.teammateProfiles = [];
-    this.studentService.getStudentsFromCourse({ courseId, teamId }).subscribe({
+    this.studentService.getOwnTeamStudents({ courseId }).subscribe({
       next: (students: Students) => {
         // No teammates
         if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {

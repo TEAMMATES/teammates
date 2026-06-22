@@ -20,9 +20,8 @@ const authInfoFor = (role: 'student' | 'instructor' | 'admin' | 'maintainer' | n
     loginUrl: '/login',
     masquerade: false,
     user: {
-      id: `test_${role}`,
       accountId: `acc_${role}`,
-      email: 'user@teammates.tmt',
+      accountEmail: 'user@teammates.tmt',
       isStudent: role === 'student',
       isInstructor: role === 'instructor',
       isAdmin: role === 'admin',

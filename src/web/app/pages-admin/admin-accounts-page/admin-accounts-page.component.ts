@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
@@ -23,7 +22,6 @@ import { LinkService } from '../../../services/link.service';
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private instructorService = inject(InstructorService);
   private studentService = inject(StudentService);
   private navigationService = inject(NavigationService);
@@ -34,19 +32,17 @@ export class AdminAccountsPageComponent implements OnInit {
 
   accountInfo: Account = {
     accountId: '',
-    googleId: '',
-    name: '',
     email: '',
     students: [],
     instructors: [],
   };
 
+  @Input({ required: true }) accountId!: string;
+
   isLoadingAccountInfo = false;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.loadAccountInfo(queryParams['accountid']);
-    });
+    this.loadAccountInfo(this.accountId);
   }
 
   /**

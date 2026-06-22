@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
@@ -42,6 +44,8 @@ public class UserProvision {
     private final UsersLogic usersLogic = UsersLogic.inst();
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+
+    private final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
 
     UserProvision() {
         // prevent initialization
@@ -82,9 +86,10 @@ public class UserProvision {
 
         Account account = authContext.account();
 
-        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId(), account.getEmail());
+        UserInfo userInfo = new UserInfo(account.getId(), account.getEmail());
         userInfo.isAdmin = authContext.isAdmin();
-        userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty();
+        userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty()
+                || accountVerificationsLogic.hasAnyApprovedVerificationRequest(account.getId());
         userInfo.isStudent = !usersLogic.getStudentsByAccountId(account.getId()).isEmpty();
         userInfo.isMaintainer = authContext.isMaintainer();
         return userInfo;
@@ -149,7 +154,8 @@ public class UserProvision {
     /**
      * Gets a valid masquerade account id from the request parameters.
      *
-     * @throws UnauthorizedAccessException if the masquerade account id is not a valid UUID
+     * @throws UnauthorizedAccessException if the masquerade account id is not a
+     *                                     valid UUID
      */
     protected UUID getValidMasqueradeAccountId(HttpServletRequest req) throws UnauthorizedAccessException {
         String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
@@ -202,6 +208,7 @@ public class UserProvision {
             throws UnauthorizedAccessException {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
+        User validRegKeyUser = null;
 
         if (isMasqueradeRequest(req)) {
             authType = AuthType.MASQUERADE;
@@ -218,10 +225,23 @@ public class UserProvision {
             }
         }
 
+        // If the request contains a registration key, include it in the auth context if
+        // 1. The registration key is valid, and
+        // 2. The user associated with the registration key is not already associated with another account
+        if (isRegKeyRequest(req)) {
+            String regKey = req.getParameter(Const.ParamsNames.REGKEY);
+            User regKeyUser = usersLogic.getUserByRegistrationKey(regKey);
+
+            if (regKeyUser != null
+                    && (regKeyUser.getAccount() == null || Objects.equals(effectiveAccount, regKeyUser.getAccount()))) {
+                validRegKeyUser = regKeyUser;
+            }
+        }
+
         return new AuthContext(
                 authType,
                 effectiveAccount,
-                null,
+                validRegKeyUser,
                 isAdminUser(effectiveAccount),
                 isMaintainerUser(effectiveAccount));
     }

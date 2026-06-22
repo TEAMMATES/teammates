@@ -10,12 +10,11 @@ import {
   CourseEditFormModel,
   DEFAULT_COURSE_FORM_MODEL,
   CourseAddFormModel,
-  InstituteOption,
 } from './course-edit-form-model';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSessions } from '../../../types/api-output';
+import { FeedbackSessions, Institute } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -121,7 +120,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
     return this.addModel ? this.addModel.isCopying : false;
   }
 
-  get institutes(): InstituteOption[] {
+  get institutes(): Institute[] {
     return this.addModel ? this.addModel.institutes : [];
   }
 
@@ -236,6 +235,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.isCopyFromOtherSession = true;
       modalRef.componentInstance.allCourses = this.addModel.allCourses;
       modalRef.componentInstance.activeCourses = this.addModel.activeCourses;
+      modalRef.componentInstance.institutes = this.addModel.institutes;
 
       modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe(
         (courseId: string) => {

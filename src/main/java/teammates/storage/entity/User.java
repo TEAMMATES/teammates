@@ -106,6 +106,10 @@ public abstract class User extends BaseEntity {
         return accountId;
     }
 
+    public String getAccountEmail() {
+        return account == null ? null : account.getEmail();
+    }
+
     /**
      * Sets the account of the user.
      */
@@ -181,26 +185,6 @@ public abstract class User extends BaseEntity {
         SecureRandom prng = new SecureRandom();
 
         return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
-    }
-
-    /**
-     * Returns google id of the user if account is not null.
-     */
-    public String getGoogleId() {
-        if (getAccount() != null) {
-            return getAccount().getGoogleId();
-        }
-
-        return null;
-    }
-
-    /**
-     * Sets google id of account if account and googleId provided is not null.
-     */
-    public void setGoogleId(String googleId) {
-        if (googleId != null && getAccount() != null) {
-            getAccount().setGoogleId(googleId);
-        }
     }
 
     public boolean isRegistered() {

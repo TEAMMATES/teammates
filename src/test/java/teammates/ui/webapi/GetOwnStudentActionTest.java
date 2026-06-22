@@ -25,7 +25,7 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         StudentData result = execute(request);
 
@@ -64,7 +64,7 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }

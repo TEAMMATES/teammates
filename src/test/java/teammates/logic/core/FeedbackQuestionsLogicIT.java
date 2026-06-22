@@ -70,7 +70,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6, fq7, fq8, fq9);
 
-        List<FeedbackQuestion> actualQuestions = inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(fs));
+        List<FeedbackQuestion> actualQuestions = inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(fs.getId()));
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));

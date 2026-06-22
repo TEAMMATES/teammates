@@ -65,7 +65,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getEmail());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -104,7 +104,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getEmail());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -512,54 +512,54 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         String[][] expectedRubricStats = {
                 {
                         formattedSubQns[0],
-                        "33.33% (1)",
-                        "33.33% (1)",
-                        "0% (0)",
-                        "0% (0)",
-                        "33.33% (1)",
+                        "33.33% (1) [1]",
+                        "33.33% (1) [2]",
+                        "0% (0) [3]",
+                        "0% (0) [4]",
+                        "33.33% (1) [5]",
                 },
                 {
                         formattedSubQns[1],
-                        "0% (0)",
-                        "0% (0)",
-                        "33.33% (1)",
-                        "0% (0)",
-                        "66.67% (2)",
+                        "0% (0) [0.01]",
+                        "0% (0) [0.02]",
+                        "33.33% (1) [0.03]",
+                        "0% (0) [0.04]",
+                        "66.67% (2) [0.05]",
                 },
                 {
                         formattedSubQns[2],
-                        "0% (0)",
-                        "0% (0)",
-                        "0% (0)",
-                        "66.67% (2)",
-                        "33.33% (1)",
+                        "0% (0) [2]",
+                        "0% (0) [1]",
+                        "0% (0) [0]",
+                        "66.67% (2) [-1]",
+                        "33.33% (1) [-2]",
                 },
         };
 
         String[][] expectedRubricStatsExcludingSelf = {
                 {
                         formattedSubQns[0],
-                        "50% (1)",
-                        "0% (0)",
-                        "0% (0)",
-                        "0% (0)",
-                        "50% (1)",
+                        "50% (1) [1]",
+                        "0% (0) [2]",
+                        "0% (0) [3]",
+                        "0% (0) [4]",
+                        "50% (1) [5]",
                 },
                 {
                         formattedSubQns[1],
-                        "0% (0)",
-                        "0% (0)",
-                        "0% (0)",
-                        "0% (0)",
-                        "100% (2)",
+                        "0% (0) [0.01]",
+                        "0% (0) [0.02]",
+                        "0% (0) [0.03]",
+                        "0% (0) [0.04]",
+                        "100% (2) [0.05]",
                 },
                 {
                         formattedSubQns[2],
-                        "0% (0)",
-                        "0% (0)",
-                        "0% (0)",
-                        "50% (1)",
-                        "50% (1)",
+                        "0% (0) [2]",
+                        "0% (0) [1]",
+                        "0% (0) [0]",
+                        "50% (1) [-1]",
+                        "50% (1) [-2]",
                 },
         };
 

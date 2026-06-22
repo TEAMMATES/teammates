@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ChangeDetectorRef, Component, Input, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap } from 'rxjs/operators';
@@ -14,7 +13,6 @@ import { VisibilityStateMachine } from '../../../services/visibility-state-machi
 import {
   Course,
   CourseView,
-  Courses,
   DeadlineExtensions,
   FeedbackQuestion,
   FeedbackQuestions,
@@ -83,7 +81,6 @@ import {
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
   private readonly studentService = inject(StudentService);
   private readonly courseService = inject(CourseService);
-  private readonly route = inject(ActivatedRoute);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   // enum
@@ -95,7 +92,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId = '';
   feedbackSessionName = '';
-  feedbackSessionId = '';
+  @Input({ required: true }) feedbackSessionId!: string;
+  @Input() editingMode = '';
   isEditingMode = false;
 
   courseName = '';
@@ -173,13 +171,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.feedbackSessionId = queryParams['fsid'];
-      this.isEditingMode = queryParams['editingMode'] === 'true';
+    this.isEditingMode = this.editingMode === 'true';
 
-      this.loadFeedbackSession();
-      this.loadFeedbackQuestions();
-    });
+    this.loadFeedbackSession();
+    this.loadFeedbackQuestions();
   }
 
   /**
@@ -191,7 +186,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackSessionView: FeedbackSessionView) => {
@@ -243,21 +237,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return new Promise<void>(
       (_resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: unknown) => void) => {
         this.courseService
-          .getInstructorCoursesThatAreActive()
+          .getAllCoursesAsInstructor('active')
           .pipe(
             finalize(() => {
               this.sessionEditFormModel.isCopying = false;
             }),
           )
-          .subscribe((courses: Courses) => {
+          .subscribe((courses) => {
             this.failedToCopySessions = {};
             this.coursesOfModifiedSession = [];
             this.modifiedSession = {};
             const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
             modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-            modalRef.componentInstance.courseCandidates = courses.courses.map(
-              (courseView: CourseView) => courseView.course,
-            );
+            modalRef.componentInstance.courseCandidates = courses.courses;
             modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
             modalRef.result
@@ -555,7 +547,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         finalize(() => {

@@ -5,9 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -33,13 +31,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         this.minScale = 1;
         this.maxScale = 5;
         this.step = 0.5;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        // Statistics are calculated in the frontend as they depend on the responses being filtered.
-        return "";
     }
 
     @Override

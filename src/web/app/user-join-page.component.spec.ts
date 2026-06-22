@@ -29,7 +29,7 @@ describe('UserJoinPageComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             queryParams: of({
-              entitytype: 'student',
+              entityType: 'student',
               key: 'key',
             }),
           },
@@ -59,7 +59,7 @@ describe('UserJoinPageComponent', () => {
 
   it('should snap if user is not logged in and has a valid url', () => {
     component.hasJoined = false;
-    component.userId = '';
+    component.accountEmail = '';
     component.validUrl = true;
     component.isLoading = false;
 
@@ -69,7 +69,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with invalid course join link', () => {
-    component.userId = 'user';
+    component.accountEmail = 'user@teammates.tmt';
     component.validUrl = false;
     component.isLoading = false;
 
@@ -79,7 +79,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with valid course join link that has been used', () => {
-    component.userId = 'user';
+    component.accountEmail = 'user@teammates.tmt';
     component.validUrl = true;
     component.hasJoined = true;
     component.isLoading = false;
@@ -91,7 +91,7 @@ describe('UserJoinPageComponent', () => {
 
   it('should snap with valid course join link that has not been used', () => {
     component.validUrl = true;
-    component.userId = 'user';
+    component.accountEmail = 'user@teammates.tmt';
     component.hasJoined = false;
     component.isLoading = false;
 
@@ -154,7 +154,7 @@ describe('UserJoinPageComponent', () => {
     const entityType = 'student';
     component.isLoading = false;
     component.hasJoined = false;
-    component.userId = 'user';
+    component.accountEmail = 'user@teammates.tmt';
     component.key = key;
     component.entityType = entityType;
     component.validUrl = true;
@@ -179,7 +179,7 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
-          email: 'user@teammates.tmt',
+          accountEmail: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -199,7 +199,7 @@ describe('UserJoinPageComponent', () => {
     component.ngOnInit();
 
     expect(component.hasJoined).toBeTruthy();
-    expect(component.userId).toEqual('user');
+    expect(component.accountEmail).toEqual('user@teammates.tmt');
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
@@ -210,7 +210,7 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
-          email: 'user@teammates.tmt',
+          accountEmail: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,

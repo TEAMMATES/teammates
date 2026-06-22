@@ -42,13 +42,13 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_UNLINK, PUT, UnlinkAccountAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, PUT, UpdateAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_APPROVAL, POST, ApproveAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, GET, GetAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, POST, CreateAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, DELETE, DeleteAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, PUT, UpdateAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUESTS, GET, GetAccountVerificationRequestsAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST_REJECTION, POST, RejectAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST_APPROVAL, POST, ApproveAccountVerificationRequestAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
@@ -56,8 +56,10 @@ public final class ActionFactory {
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.DEMO_COURSE, POST, CreateDemoCourseAction.class);
-        map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
+        map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
+        map(ResourceURIs.STUDENT_COURSES, GET, GetStudentCoursesAction.class);
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionsAction.class);
+        map(ResourceURIs.INSTITUTES, GET, GetInstitutesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.OWN_INSTRUCTOR, GET, GetOwnInstructorAction.class);
@@ -69,7 +71,6 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_GIVER_COMMENT, DELETE, DeleteFeedbackResponseGiverCommentAction.class);
         map(ResourceURIs.COURSE_SESSION_RESULTS, GET, GetCourseSessionResultsAction.class);
         map(ResourceURIs.USER_SESSION_RESULTS, GET, GetUserSessionResultsAction.class);
-        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
         map(ResourceURIs.CONFIG, GET, GetConfigAction.class);
 
         //STUDENTS APIs
@@ -81,6 +82,7 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.OWN_STUDENT, GET, GetOwnStudentAction.class);
+        map(ResourceURIs.OWN_TEAM_STUDENTS, GET, GetOwnTeamStudentsAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         // NOTIFICATION APIs
@@ -97,7 +99,7 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
-        map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
+        map(ResourceURIs.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, GET, SearchAccountVerificationRequestsAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
@@ -147,8 +149,6 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
-        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP, GET, CleanupFeedbackSessionLogsAction.class);
-
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
 

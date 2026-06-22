@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.StringHelper;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -34,11 +34,11 @@ public class AdminSearchPage extends AppPage {
     private static final int INSTRUCTOR_COL_INSTITUTE = 4;
     private static final int INSTRUCTOR_COL_OPTIONS = 5;
 
-    private static final int ACCOUNT_REQUEST_COL_NAME = 1;
-    private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
-    private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
-    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_NAME = 1;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL = 2;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE = 4;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_CREATED_AT = 6;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_CREATED_DEMO_COURSE_AT = 7;
 
     private static final String EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK = "Account Registration Link";
 
@@ -54,8 +54,8 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "show-instructor-links")
     private WebElement expandInstructorLinksButton;
 
-    @FindBy(id = "show-account-request-links")
-    private WebElement expandAccountRequestLinksButton;
+    @FindBy(id = "show-account-verification-request-links")
+    private WebElement expandAccountVerificationRequestLinksButton;
 
     @FindBy(id = "hide-student-links")
     private WebElement collapseStudentLinksButton;
@@ -63,8 +63,8 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
-    @FindBy(id = "hide-account-request-links")
-    private WebElement collapseAccountRequestLinksButton;
+    @FindBy(id = "hide-account-verification-request-links")
+    private WebElement collapseAccountVerificationRequestLinksButton;
 
     public AdminSearchPage(Browser browser) {
         super(browser);
@@ -111,13 +111,13 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void clickExpandAccountRequestLinks() {
-        click(expandAccountRequestLinksButton);
+    public void clickExpandAccountVerificationRequestLinks() {
+        click(expandAccountVerificationRequestLinksButton);
         waitUntilAnimationFinish();
     }
 
-    public void clickCollapseAccountRequestLinks() {
-        click(collapseAccountRequestLinksButton);
+    public void clickCollapseAccountVerificationRequestLinks() {
+        click(collapseAccountVerificationRequestLinksButton);
         waitUntilAnimationFinish();
     }
 
@@ -172,7 +172,7 @@ public class AdminSearchPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.size() >= 3 && (removeSpanFromText(columns.get(2)
-                    .getAttribute("innerHTML")).contains(instructor.getGoogleId())
+                    .getAttribute("innerHTML")).contains(instructor.getEmail())
                     || removeSpanFromText(columns.get(1)
                     .getAttribute("innerHTML")).contains(instructor.getName()))) {
                 return row;
@@ -201,17 +201,17 @@ public class AdminSearchPage extends AppPage {
         return getColumnLink(instructorRow, INSTRUCTOR_COL_OPTIONS);
     }
 
-    public WebElement getAccountRequestRow(AccountRequest accountRequest) {
-        String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute().getName();
+    public WebElement getAccountVerificationRequestRow(AccountVerificationRequest accountVerificationRequest) {
+        String email = accountVerificationRequest.getEmail();
+        String institute = accountVerificationRequest.getInstitute().getName();
         List<WebElement> rows = browser.driver.findElements(
-                By.cssSelector("tm-admin-account-request-search-table tbody tr"));
+                By.cssSelector("tm-admin-account-verification-request-search-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.size() >= ACCOUNT_REQUEST_COL_INSTITUTE
-                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+            if (columns.size() >= ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE
+                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
-                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
+                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE - 1)
                     .getAttribute("innerHTML")).contains(institute)) {
                 return row;
             }
@@ -219,33 +219,34 @@ public class AdminSearchPage extends AppPage {
         return null;
     }
 
-    public String getAccountRequestName(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_NAME);
+    public String getAccountVerificationRequestName(WebElement accountVerificationRequestRow) {
+        return getColumnText(accountVerificationRequestRow, ACCOUNT_VERIFICATION_REQUEST_COL_NAME);
     }
 
-    public String getAccountRequestEmail(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_EMAIL);
+    public String getAccountVerificationRequestEmail(WebElement accountVerificationRequestRow) {
+        return getColumnText(accountVerificationRequestRow, ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL);
     }
 
-    public String getAccountRequestInstitute(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_INSTITUTE);
+    public String getAccountVerificationRequestInstitute(WebElement accountVerificationRequestRow) {
+        return getColumnText(accountVerificationRequestRow, ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE);
     }
 
-    public String getAccountRequestCreatedAt(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_CREATED_AT);
+    public String getAccountVerificationRequestCreatedAt(WebElement accountVerificationRequestRow) {
+        return getColumnText(accountVerificationRequestRow, ACCOUNT_VERIFICATION_REQUEST_COL_CREATED_AT);
     }
 
-    public String getAccountRequestRegisteredAt(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_REGISTERED_AT);
+    public String getAccountVerificationRequestCreatedDemoCourseAt(WebElement accountVerificationRequestRow) {
+        return getColumnText(accountVerificationRequestRow, ACCOUNT_VERIFICATION_REQUEST_COL_CREATED_DEMO_COURSE_AT);
     }
 
-    public String getAccountRequestRegistrationLink(WebElement accountRequestRow) {
-        return getExpandedRowInputValue(accountRequestRow, EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK);
+    public String getAccountVerificationRequestRegistrationLink(WebElement accountVerificationRequestRow) {
+        return getExpandedRowInputValue(accountVerificationRequestRow, EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK);
     }
 
-    public void clickDeleteAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
+    public void clickDeleteAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement deleteButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='delete-account-verification-request-']"));
         scrollElementToCenter(deleteButton);
         waitForElementToBeClickable(deleteButton);
         deleteButton.click();
@@ -253,18 +254,20 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickApproveAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        waitForElementPresence(By.cssSelector("[id^='approve-account-request-']"));
-        WebElement approveButton = accountRequestRow.findElement(By.cssSelector("[id^='approve-account-request-']"));
+    public void clickApproveAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        waitForElementPresence(By.cssSelector("[id^='approve-account-verification-request-']"));
+        WebElement approveButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='approve-account-verification-request-']"));
         waitForElementToBeClickable(approveButton);
         approveButton.click();
         waitForPageToLoad();
     }
 
-    public void clickRejectAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+    public void clickRejectAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement rejectButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='reject-account-verification-request-']"));
         scrollElementToCenter(rejectButton);
         waitForElementToBeClickable(rejectButton);
         rejectButton.click();
@@ -275,9 +278,12 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickRejectAccountRequestWithReasonButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+    public void clickRejectAccountVerificationRequestWithReasonButton(
+                AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow =
+                getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement rejectButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='reject-account-verification-request-']"));
         scrollElementToCenter(rejectButton);
         waitForElementToBeClickable(rejectButton);
         rejectButton.click();
@@ -303,7 +309,7 @@ public class AdminSearchPage extends AppPage {
         writeToRichTextEditor(bodyInput, body);
     }
 
-    public void clickConfirmRejectAccountRequest() {
+    public void clickConfirmRejectAccountVerificationRequest() {
         WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
         WebElement clickReject = rejectionModal.findElement(By.cssSelector("[id^='btn-confirm-reject-request']"));
         clickReject.click();
@@ -317,9 +323,11 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickEditAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement editButton = accountRequestRow.findElement(By.cssSelector("[id^='edit-account-request-']"));
+    public void clickEditAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow =
+                getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement editButton =
+                accountVerificationRequestRow.findElement(By.cssSelector("[id^='edit-account-verification-request-']"));
         scrollElementToCenter(editButton);
         waitForElementToBeClickable(editButton);
         editButton.click();
@@ -347,16 +355,18 @@ public class AdminSearchPage extends AppPage {
         commentsInput.sendKeys(comments);
     }
 
-    public void clickSaveEditAccountRequestButton() {
+    public void clickSaveEditAccountVerificationRequestButton() {
         waitForElementVisibility(By.cssSelector("tm-edit-request-modal"));
         WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
         WebElement saveButton = editModal.findElement(By.cssSelector("[id^='btn-confirm-edit-request']"));
         saveButton.click();
     }
 
-    public void clickViewAccountRequestAndVerifyCommentsButton(AccountRequest accountRequest, String comments) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement viewCommentsButton = accountRequestRow.findElement(By.cssSelector("[id^='view-account-request-']"));
+    public void clickViewAccountVerificationRequestAndVerifyCommentsButton(
+            AccountVerificationRequest accountVerificationRequest, String comments) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement viewCommentsButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='view-account-verification-request-']"));
         scrollElementToCenter(viewCommentsButton);
         waitForElementToBeClickable(viewCommentsButton);
         viewCommentsButton.click();
@@ -442,49 +452,49 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
     }
 
-    public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        String actualName = getAccountRequestName(accountRequestRow);
-        String actualEmail = getAccountRequestEmail(accountRequestRow);
-        String actualInstitute = getAccountRequestInstitute(accountRequestRow);
-        String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
-        String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
+    public void verifyAccountVerificationRequestRowContent(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        String actualName = getAccountVerificationRequestName(accountVerificationRequestRow);
+        String actualEmail = getAccountVerificationRequestEmail(accountVerificationRequestRow);
+        String actualInstitute = getAccountVerificationRequestInstitute(accountVerificationRequestRow);
+        String actualCreatedAt = getAccountVerificationRequestCreatedAt(accountVerificationRequestRow);
+        String actualCreatedDemoCourseAt = getAccountVerificationRequestCreatedDemoCourseAt(accountVerificationRequestRow);
 
-        assertEquals(accountRequest.getName(), actualName);
-        assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute().getName(), actualInstitute);
+        assertEquals(accountVerificationRequest.getName(), actualName);
+        assertEquals(accountVerificationRequest.getEmail(), actualEmail);
+        assertEquals(accountVerificationRequest.getInstitute().getName(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
-        if (accountRequest.getRegisteredAt() == null) {
-            assertEquals("Not Registered Yet", actualRegisteredAt);
+        if (accountVerificationRequest.getCreatedDemoCourseAt() == null) {
+            assertEquals("Not Created Yet", actualCreatedDemoCourseAt);
         } else {
-            assertFalse(actualRegisteredAt.isBlank());
+            assertFalse(actualCreatedDemoCourseAt.isBlank());
         }
     }
 
-    public void verifyAccountRequestExpandedLinks(AccountRequest accountRequest) {
-        clickExpandAccountRequestLinks();
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
+    public void verifyAccountVerificationRequestExpandedLinks(AccountVerificationRequest accountVerificationRequest) {
+        clickExpandAccountVerificationRequestLinks();
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
+        String actualRegistrationLink = getAccountVerificationRequestRegistrationLink(accountVerificationRequestRow);
 
         assertFalse(actualRegistrationLink.isBlank());
     }
 
-    public void verifyLinkExpansionButtons(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+    public void verifyLinkExpansionButtons(AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
 
-        clickExpandAccountRequestLinks();
+        clickExpandAccountVerificationRequestLinks();
 
-        int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedAccountRequestRows, 0);
+        int numExpandedAccountVerificationRequestRows = getNumExpandedRows(accountVerificationRequestRow);
+        assertNotEquals(numExpandedAccountVerificationRequestRows, 0);
 
-        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedAccountRequestRows, 0);
+        numExpandedAccountVerificationRequestRows = getNumExpandedRows(accountVerificationRequestRow);
+        assertNotEquals(numExpandedAccountVerificationRequestRows, 0);
 
-        clickCollapseAccountRequestLinks();
+        clickCollapseAccountVerificationRequestLinks();
         waitUntilAnimationFinish();
 
-        numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertEquals(numExpandedAccountRequestRows, 0);
+        numExpandedAccountVerificationRequestRows = getNumExpandedRows(accountVerificationRequestRow);
+        assertEquals(numExpandedAccountVerificationRequestRows, 0);
     }
 
     public void verifyRegenerateInstructorKey() {

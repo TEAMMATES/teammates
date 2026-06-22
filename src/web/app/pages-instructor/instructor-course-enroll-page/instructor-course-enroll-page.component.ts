@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject, viewChild } from '@angular/core';
 import { type CellValue } from 'handsontable/common';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
@@ -49,7 +48,6 @@ interface EnrollResultPanel {
   ],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly feedbackSessionService = inject(FeedbackSessionsService);
   private readonly studentService = inject(StudentService);
@@ -63,7 +61,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
         more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
   SECTION_ERROR_MESSAGE = 'Section cannot be empty if the total number of students is more than 100. ';
-  TEAM_ERROR_MESSAGE = 'Duplicated team detected in different sections. ';
 
   COL_HEADERS = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   ENROLL_BATCH_SIZE = 50;
@@ -72,7 +69,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus!: typeof EnrollStatus;
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
   coursePresent?: boolean;
   isLoadingCourseEnrollPage = false;
   showEnrollResults?: boolean = false;
@@ -103,10 +100,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.getCourseEnrollPageData(queryParams['courseid']);
-    });
+    this.getCourseEnrollPageData(this.courseId);
   }
 
   private mapStudentsToRows(students: Student[] | undefined): string[][] {
@@ -172,7 +166,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.checkCompulsoryFields(studentEnrollRequests);
     this.checkEmailNotRepeated(studentEnrollRequests);
-    this.checkTeamsValid(studentEnrollRequests);
 
     if (this.invalidRowsIndex.size > 0) {
       this.setTableStyleBasedOnFieldChecks();
@@ -293,36 +286,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
     if (currentStudentChunk.length > 0) {
       this.allStudentChunks.push(currentStudentChunk);
-    }
-  }
-
-  private checkTeamsValid(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
-    const teamSectionMap: Map<string, string> = new Map();
-    const teamIndexMap: Map<string, number> = new Map();
-    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
-
-    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
-      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
-      if (request === undefined) {
-        return;
-      }
-
-      if (!teamSectionMap.has(request.team)) {
-        teamSectionMap.set(request.team, request.section);
-        teamIndexMap.set(request.team, key);
-        return;
-      }
-
-      if (teamSectionMap.get(request.team) !== request.section) {
-        this.invalidRowsIndex.add(key);
-        const firstIndex: number | undefined = teamIndexMap.get(request.team);
-        if (firstIndex !== undefined) {
-          this.invalidRowsIndex.add(firstIndex);
-        }
-      }
-    });
-    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
-      this.enrollErrorMessage += 'Found duplicated teams in different sections. ';
     }
   }
 
@@ -571,7 +534,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.feedbackSessionService.hasResponsesForAllFeedbackSessionsInCourse(courseid, 'instructor').subscribe({
       next: (resp: HasResponses) => {
         this.coursePresent = true;
-        this.courseId = courseid;
         if (resp.hasResponsesBySession === undefined) {
           return;
         }

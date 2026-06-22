@@ -139,7 +139,8 @@ public final class FeedbackQuestionsLogic {
 
         FeedbackQuestion createdQuestion = fqDb.persistFeedbackQuestion(feedbackQuestion);
 
-        List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
+        List<FeedbackQuestion> questionsBefore =
+                getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession().getId());
         questionsBefore.remove(createdQuestion);
 
         adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
@@ -158,16 +159,9 @@ public final class FeedbackQuestionsLogic {
     /**
      * Gets a {@link List} of every FeedbackQuestion in the given session.
      */
-    public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {
-
-        List<FeedbackQuestion> questions = fqDb.getFeedbackQuestionsForSession(feedbackSession.getId());
+    public List<FeedbackQuestion> getFeedbackQuestionsForSession(UUID feedbackSessionId) {
+        List<FeedbackQuestion> questions = fqDb.getFeedbackQuestionsForSession(feedbackSessionId);
         questions.sort(null);
-
-        // check whether the question numbers are consistent
-        if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
-            log.severe(feedbackSession.getCourseId() + ": " + feedbackSession.getName()
-                    + " has invalid question numbers");
-        }
 
         return questions;
     }
@@ -330,7 +324,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> previousQuestionsInSession = new ArrayList<>();
         if (oldQuestionNumber != newQuestionNumber) {
             // get questions in session before update
-            previousQuestionsInSession = getFeedbackQuestionsForSession(question.getFeedbackSession());
+            previousQuestionsInSession = getFeedbackQuestionsForSession(question.getFeedbackSession().getId());
         }
 
         // update question
@@ -395,24 +389,6 @@ public final class FeedbackQuestionsLogic {
             }
         }
         return false;
-    }
-
-    // TODO can be removed once we are sure that question numbers will be consistent
-    private boolean areQuestionNumbersConsistent(List<FeedbackQuestion> questions) {
-        Set<Integer> questionNumbersInSession = new HashSet<>();
-        for (FeedbackQuestion question : questions) {
-            if (!questionNumbersInSession.add(question.getQuestionNumber())) {
-                return false;
-            }
-        }
-
-        for (int i = 1; i <= questions.size(); i++) {
-            if (!questionNumbersInSession.contains(i)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -760,7 +736,7 @@ public final class FeedbackQuestionsLogic {
 
         int questionNumberToDelete = questionToDelete.getQuestionNumber();
         List<FeedbackQuestion> questionsToShiftQnNumber =
-                getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
+                getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession().getId());
 
         fqDb.removeFeedbackQuestion(questionToDelete);
 
@@ -800,7 +776,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
         for (FeedbackSession session : feedbackSessions) {
-            feedbackQuestions.addAll(getFeedbackQuestionsForSession(session));
+            feedbackQuestions.addAll(getFeedbackQuestionsForSession(session.getId()));
         }
 
         return feedbackQuestions
@@ -862,9 +838,7 @@ public final class FeedbackQuestionsLogic {
                     .toList();
             break;
         case SESSION_CREATOR:
-            FeedbackSession feedbackSession =
-                    feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
-            Instructor instructorGiver = feedbackSession.getSessionCreator();
+            Instructor instructorGiver = fq.getFeedbackSession().getSessionCreator();
             // If the instructorGiver is null, they have been deleted,
             // so we return an empty list of givers instead of a giver with null user.
             possibleGivers = instructorGiver != null

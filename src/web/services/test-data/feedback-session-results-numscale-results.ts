@@ -1,10 +1,12 @@
 import type {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
+  FeedbackNumScaleStatistics,
   FeedbackTextResponseDetails,
   SessionResults,
 } from '../../types/api-output';
 import {
+  FeedbackQuestionResultsStatisticsView,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -36,7 +38,30 @@ const feedbackSessionResultsNumscaleResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.NUMSCALE,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            recipientName: `Instructor1 Course1`,
+            recipientEmail: `instructor1@course1.tmt`,
+            recipientTeam: `Instructors`,
+            average: 4.5,
+            min: 4.5,
+            max: 4.5,
+            isCurrentRecipient: false,
+          },
+          {
+            recipientName: `Instructor2 Course1`,
+            recipientEmail: `instructor2@course1.tmt`,
+            recipientTeam: `Instructors`,
+            average: 1,
+            min: 1,
+            max: 1,
+            isCurrentRecipient: false,
+          },
+        ],
+      } as FeedbackNumScaleStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -94,11 +119,6 @@ const feedbackSessionResultsNumscaleResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       feedbackQuestion: {
@@ -122,7 +142,30 @@ const feedbackSessionResultsNumscaleResults: SessionResults = {
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         questionDescription: ``,
       },
-      questionStatistics: ``,
+      questionStatistics: {
+        questionType: FeedbackQuestionType.NUMSCALE,
+        statisticsView: FeedbackQuestionResultsStatisticsView.COURSE_WIDE,
+        rows: [
+          {
+            recipientName: `student1 In Course1</td></div>'"`,
+            recipientEmail: `student1InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            average: 3.5,
+            min: 3.5,
+            max: 3.5,
+            isCurrentRecipient: false,
+          },
+          {
+            recipientName: `student2 In Course1`,
+            recipientEmail: `student2InCourse1@gmail.tmt`,
+            recipientTeam: `Team 1.1</td></div>'"`,
+            average: 2,
+            min: 2,
+            max: 2,
+            isCurrentRecipient: false,
+          },
+        ],
+      } as FeedbackNumScaleStatistics,
       allResponses: [
         {
           isMissingResponse: false,
@@ -216,11 +259,6 @@ const feedbackSessionResultsNumscaleResults: SessionResults = {
           instructorComments: [],
         },
       ],
-      responsesToSelf: [],
-      responsesFromSelf: [],
-      otherResponses: [],
-      hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
 };

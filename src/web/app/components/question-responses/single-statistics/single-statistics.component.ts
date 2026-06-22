@@ -1,19 +1,11 @@
-import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
-import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
-import {
-  FeedbackQuestionDetails,
-  FeedbackQuestionType,
-  QuestionRecipientType,
-  ResponseOutput,
-} from '../../../../types/api-output';
-import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
-import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
-import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { Component, Input } from '@angular/core';
+import { FeedbackQuestionResultsStatistics } from '../../../../types/api-output';
+import { QuestionStatisticsTypeChecker } from '../../../../types/question-statistics-impl/question-statistics-caster';
 import { ConstsumOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-recipients-question-statistics.component';
-import { ContributionQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-question-statistics.component';
-import { McqQuestionStatisticsComponent } from '../../question-types/question-statistics/mcq-question-statistics.component';
-import { MsqQuestionStatisticsComponent } from '../../question-types/question-statistics/msq-question-statistics.component';
+import { ContributionCourseWideQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-course-wide-question-statistics.component';
+import { ContributionRecipientQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-recipient-question-statistics.component';
+import { McqMsqQuestionStatisticsComponent } from '../../question-types/question-statistics/mcq-msq-question-statistics.component';
 import { NumScaleQuestionStatisticsComponent } from '../../question-types/question-statistics/num-scale-question-statistics.component';
 import { RankOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-options-question-statistics.component';
 import { RankRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-recipients-question-statistics.component';
@@ -26,77 +18,23 @@ import { RubricQuestionStatisticsComponent } from '../../question-types/question
   selector: 'tm-single-statistics',
   templateUrl: './single-statistics.component.html',
   imports: [
-    ContributionQuestionStatisticsComponent,
+    ContributionCourseWideQuestionStatisticsComponent,
+    ContributionRecipientQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
     NumScaleQuestionStatisticsComponent,
     RubricQuestionStatisticsComponent,
     RankOptionsQuestionStatisticsComponent,
     RankRecipientsQuestionStatisticsComponent,
-    MsqQuestionStatisticsComponent,
-    McqQuestionStatisticsComponent,
+    McqMsqQuestionStatisticsComponent,
   ],
 })
-export class SingleStatisticsComponent implements OnInit, OnChanges {
-  private feedbackResponsesService = inject(FeedbackResponsesService);
+export class SingleStatisticsComponent {
+  readonly QuestionStatisticsTypeChecker: typeof QuestionStatisticsTypeChecker;
 
-  readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
-  readonly ResponseOutputCaster: typeof ResponseOutputCaster;
-
-  @Input() responses: ResponseOutput[] = [];
-  @Input() question: FeedbackQuestionDetails = {
-    questionType: FeedbackQuestionType.TEXT,
-    questionText: '',
-  };
-  @Input() recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
-  @Input() isStudent = false;
-  @Input() statistics = '';
-  @Input() displayContributionStats = true;
-  @Input() section = '';
-  @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-
-  responsesToUse: ResponseOutput[] = [];
+  @Input() statistics?: FeedbackQuestionResultsStatistics;
 
   constructor() {
-    this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
-    this.ResponseOutputCaster = ResponseOutputCaster;
-  }
-
-  ngOnInit(): void {
-    this.filterResponses();
-  }
-
-  ngOnChanges(): void {
-    this.filterResponses();
-  }
-
-  private filterResponses(): void {
-    this.responsesToUse = this.responses.filter((response: ResponseOutput) => {
-      if (response.isMissingResponse && this.question.questionType !== FeedbackQuestionType.CONTRIB) {
-        // Missing response is meaningless for statistics
-        // For contribution question statistics, need to keep the missing response
-        // to build the response summary
-        return false;
-      }
-
-      if (this.isUsingResponsesToSelf() && response.recipient !== 'You') {
-        return false;
-      }
-
-      return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
-        response,
-        this.section,
-        this.sectionType,
-      );
-    });
-  }
-
-  private isUsingResponsesToSelf(): boolean {
-    return (
-      this.isStudent &&
-      (this.question.questionType === FeedbackQuestionType.NUMSCALE ||
-        this.question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS ||
-        this.question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS)
-    );
+    this.QuestionStatisticsTypeChecker = QuestionStatisticsTypeChecker;
   }
 }

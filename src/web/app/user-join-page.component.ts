@@ -21,25 +21,25 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
   imports: [LoadingSpinnerDirective],
 })
 export class UserJoinPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private courseService = inject(CourseService);
-  private navigationService = inject(NavigationService);
-  private authService = inject(AuthService);
-  private simpleModalService = inject(SimpleModalService);
-  private ngbModal = inject(NgbModal);
+  private readonly route = inject(ActivatedRoute);
+  private readonly courseService = inject(CourseService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly authService = inject(AuthService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly ngbModal = inject(NgbModal);
 
   isLoading = true;
   hasJoined = false;
   validUrl = true;
   entityType = '';
   key = '';
-  userId = '';
+  accountEmail = '';
 
   private backendUrl: string = environment.backendUrl;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
-      this.entityType = queryParams['entitytype'];
+      this.entityType = queryParams['entityType'];
       this.key = queryParams['key'];
 
       const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
@@ -49,7 +49,7 @@ export class UserJoinPageComponent implements OnInit {
           window.location.href = `${this.backendUrl}${auth.loginUrl}`;
           return;
         }
-        this.userId = auth.user.id;
+        this.accountEmail = auth.user.accountEmail;
 
         this.courseService.getJoinCourseStatus(this.key).subscribe({
           next: (resp: JoinStatus) => {

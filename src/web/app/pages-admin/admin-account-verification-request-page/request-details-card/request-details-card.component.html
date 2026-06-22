@@ -1,0 +1,142 @@
+<div class="card h-100">
+  <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <h2 class="h5">Request Details</h2>
+    @if (!isEditing() && isEditable()) {
+      <button
+        id="btn-edit-request-details"
+        type="button"
+        class="btn btn-outline-primary btn-sm"
+        (click)="startEditing()"
+      >
+        Edit
+      </button>
+    }
+  </div>
+  <div class="card-body">
+    @if (isEditing()) {
+      <form class="row g-3" [formRoot]="requestForm">
+        <div class="col-12 col-md-6">
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-name">Name</label>
+          <input id="request-name" type="text" class="form-control" [formField]="requestForm.name" />
+          @if (requestForm.name().invalid() && requestForm.name().touched()) {
+            <ul class="text-danger small mt-1 mb-0 ps-3">
+              @for (error of requestForm.name().errors(); track $index) {
+                <li>{{ error.message }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-email"
+            >Email</label
+          >
+          <input id="request-email" type="email" class="form-control" [formField]="requestForm.email" />
+          @if (requestForm.email().invalid() && requestForm.email().touched()) {
+            <ul class="text-danger small mt-1 mb-0 ps-3">
+              @for (error of requestForm.email().errors(); track $index) {
+                <li>{{ error.message }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-institute">
+            Institute
+          </label>
+          <input id="request-institute" type="text" class="form-control" [formField]="requestForm.institute" />
+          @if (requestForm.institute().invalid() && requestForm.institute().touched()) {
+            <ul class="text-danger small mt-1 mb-0 ps-3">
+              @for (error of requestForm.institute().errors(); track $index) {
+                <li>{{ error.message }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-country">
+            Country
+          </label>
+          <tm-searchable-combobox
+            inputId="request-country"
+            placeholder="Search for a country or region..."
+            [options]="countryOptions"
+            [formField]="requestForm.country"
+          />
+          @if (requestForm.country().invalid() && requestForm.country().touched()) {
+            <ul class="text-danger small mt-1 mb-0 ps-3">
+              @for (error of requestForm.country().errors(); track $index) {
+                <li>{{ error.message }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="col-12">
+          <label class="form-label text-body-secondary small text-uppercase fw-semibold" for="request-comments">
+            Comments
+          </label>
+          <textarea id="request-comments" class="form-control" rows="5" [formField]="requestForm.comments"></textarea>
+        </div>
+
+        <div class="col-12 pt-2">
+          <div class="small mb-2 text-end">
+            @if (requestForm().invalid()) {
+              <span class="text-danger">Resolve validation errors before saving.</span>
+            } @else if (requestForm().dirty()) {
+              <span class="text-body-secondary">Unsaved changes.</span>
+            }
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-light" [disabled]="requestForm().submitting()" (click)="cancel()">
+              Cancel
+            </button>
+            <button
+              id="btn-save-request-details"
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="requestForm().submitting() || requestForm().invalid() || !requestForm().dirty()"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </form>
+    } @else {
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Name</div>
+          <div>{{ request().name }}</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Email</div>
+          <div>{{ request().email }}</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Institute</div>
+          <div>{{ request().institute }}</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Country</div>
+          <div>{{ request().country | countryName }}</div>
+        </div>
+        <div class="col-12">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Submitted At</div>
+          <div>{{ formatTimestamp(request().createdAt) }}</div>
+        </div>
+        <div class="col-12">
+          <div class="text-body-secondary small text-uppercase fw-semibold">Comments</div>
+          <p class="mb-0">{{ request().comments || 'No comments provided.' }}</p>
+        </div>
+        @if (request().createdDemoCourseAt) {
+          <div class="col-12">
+            <div class="text-body-secondary small text-uppercase fw-semibold">Demo Course Created</div>
+            <div>{{ formatTimestamp(request().createdDemoCourseAt!) }}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

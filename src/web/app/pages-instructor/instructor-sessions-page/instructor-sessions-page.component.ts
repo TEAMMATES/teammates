@@ -12,8 +12,6 @@ import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-perma
 import { CourseService } from '../../../services/course.service';
 import {
   Course,
-  Courses,
-  CourseView,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionView,
@@ -151,12 +149,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       .then((result: CopyFromOtherSessionsResult) => {
         this.coursesOfModifiedSession = [];
         this.modifiedSession = {};
-        this.copyFeedbackSession(
-          result.fromFeedbackSession,
-          result.newFeedbackSessionName,
-          result.copyToCourseId,
-          result.fromFeedbackSession.courseId,
-        )
+        this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
           .pipe(
             finalize(() => {
               this.isCopyOtherSessionLoading = false;
@@ -171,18 +164,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   this.modifiedTimestampsModal,
                   {
                     onClosed: () =>
-                      this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                        fsid: createdFeedbackSession.feedbackSessionId,
-                      }),
+                      this.navigationService.navigateByURL(
+                        `/web/instructor/sessions/${createdFeedbackSession.feedbackSessionId}/edit`,
+                      ),
                   },
                 );
               } else {
                 this.navigationService.navigateWithSuccessMessage(
-                  '/web/instructor/sessions/edit',
+                  `/web/instructor/sessions/${createdFeedbackSession.feedbackSessionId}/edit`,
                   'The feedback session has been copied. Please modify settings/questions as necessary.',
-                  {
-                    fsid: createdFeedbackSession.feedbackSessionId,
-                  },
                 );
               }
             },
@@ -202,15 +192,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadCandidatesCourse(): void {
     this.isCoursesLoading = true;
     this.courseService
-      .getInstructorCoursesThatAreActive()
+      .getAllCoursesAsInstructor('active')
       .pipe(
         finalize(() => {
           this.isCoursesLoading = false;
         }),
       )
       .subscribe({
-        next: (courses: Courses) => {
-          this.courseCandidates = courses.courses.map((courseView: CourseView) => courseView.course);
+        next: (courses) => {
+          this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
         },
@@ -337,9 +327,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               },
               complete: () => {
                 this.navigationService
-                  .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                    fsid: feedbackSession.feedbackSessionId,
-                  })
+                  .navigateByURL(`/web/instructor/sessions/${feedbackSession.feedbackSessionId}/edit`)
                   .then(() => {
                     this.statusMessageService.showSuccessToast(
                       'The feedback session has been added.' +

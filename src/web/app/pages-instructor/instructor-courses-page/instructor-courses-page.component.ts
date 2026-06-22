@@ -7,8 +7,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
+import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { InstituteService } from '../../../services/institute.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -19,10 +21,11 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseView,
-  Courses,
+  InstructorCoursePermissions,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessions,
+  AuthInfo,
   JoinState,
   MessageOutput,
   ResponseVisibleSetting,
@@ -85,6 +88,8 @@ export interface CourseModel {
 export class InstructorCoursesPageComponent implements OnInit {
   private ngbModal = inject(NgbModal);
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  private instituteService = inject(InstituteService);
   private statusMessageService = inject(StatusMessageService);
   private courseService = inject(CourseService);
   private studentService = inject(StudentService);
@@ -161,59 +166,81 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCoursesList = [];
     this.allCoursesList = [];
 
-    forkJoin({
-      activeCourses: this.courseService.getAllCoursesAsInstructor('active'),
-      softDeletedCourses: this.courseService.getAllCoursesAsInstructor('softDeleted'),
-    }).subscribe({
-      next: ({ activeCourses, softDeletedCourses }: { activeCourses: Courses; softDeletedCourses: Courses }) => {
-        activeCourses.courses.forEach((courseView: CourseView) => {
-          this.allCoursesList.push(courseView.course);
-          this.activeCoursesList.push(courseView.course);
-          this.activeCourses.push(this.buildCourseModel(courseView));
-        });
-        this.activeCoursesDefaultSort();
+    this.authService
+      .getAuthUser()
+      .pipe(
+        switchMap((authInfo: AuthInfo) =>
+          forkJoin({
+            activeCourses: this.courseService.getAllCoursesAsInstructor('active'),
+            softDeletedCourses: this.courseService.getAllCoursesAsInstructor('softDeleted'),
+            institutes: this.instituteService.getVerifiedInstitutes(authInfo.user!.accountId),
+          }),
+        ),
+      )
+      .subscribe({
+        next: ({ activeCourses, softDeletedCourses, institutes }) => {
+          activeCourses.courses.forEach((course) => {
+            this.allCoursesList.push(course);
+            this.activeCoursesList.push(course);
+            this.activeCourses.push(
+              this.buildCourseModel(
+                course,
+                activeCourses.instructorPermissions[course.courseId] ?? {
+                  canModifyCourse: false,
+                  canModifyStudent: false,
+                  canModifyInstructor: false,
+                },
+              ),
+            );
+          });
+          this.activeCoursesDefaultSort();
 
-        softDeletedCourses.courses.forEach((courseView: CourseView) => {
-          this.allCoursesList.push(courseView.course);
-          const softDeletedCourse: CourseModel = this.buildCourseModel(courseView);
-          this.softDeletedCourses.push(softDeletedCourse);
-          this.deletedCoursesDefaultSort();
-          if (!softDeletedCourse.canModifyCourse) {
-            this.canDeleteAll = false;
-            this.canRestoreAll = false;
+          softDeletedCourses.courses.forEach((course: Course) => {
+            this.allCoursesList.push(course);
+            const softDeletedCourse: CourseModel = this.buildCourseModel(
+              course,
+              softDeletedCourses.instructorPermissions[course.courseId] ?? {
+                canModifyCourse: false,
+                canModifyStudent: false,
+                canModifyInstructor: false,
+              },
+            );
+            this.softDeletedCourses.push(softDeletedCourse);
+            this.deletedCoursesDefaultSort();
+            if (!softDeletedCourse.canModifyCourse) {
+              this.canDeleteAll = false;
+              this.canRestoreAll = false;
+            }
+          });
+
+          this.isLoadingCourses = false;
+
+          this.courseFormModel.activeCourses = this.activeCoursesList;
+          this.courseFormModel.allCourses = this.allCoursesList;
+          this.courseFormModel.institutes = institutes.institutes;
+
+          if (this.courseFormModel.institutes.length) {
+            this.courseFormModel.course.instituteId = this.courseFormModel.institutes[0].id;
+            this.courseFormModel.course.institute = this.courseFormModel.institutes[0].name;
           }
-        });
-
-        this.isLoadingCourses = false;
-
-        this.courseFormModel.activeCourses = this.activeCoursesList;
-        this.courseFormModel.allCourses = this.allCoursesList;
-        const instituteMap: Map<string, string> = new Map();
-        this.allCoursesList.forEach((course: Course) => instituteMap.set(course.instituteId, course.institute));
-        this.courseFormModel.institutes = Array.from(instituteMap, ([id, name]) => ({ id, name }));
-
-        if (this.courseFormModel.institutes.length) {
-          this.courseFormModel.course.instituteId = this.courseFormModel.institutes[0].id;
-          this.courseFormModel.course.institute = this.courseFormModel.institutes[0].name;
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.isLoadingCourses = false;
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.isLoadingCourses = false;
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
    * Builds a CourseModel from a Course object.
    */
-  private buildCourseModel(courseView: CourseView): CourseModel {
+  private buildCourseModel(course: Course, permissions: InstructorCoursePermissions | undefined): CourseModel {
     return {
-      course: courseView.course,
-      canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
-      canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
-      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
+      course,
+      canModifyCourse: permissions?.canModifyCourse ?? false,
+      canModifyStudent: permissions?.canModifyStudent ?? false,
+      canModifyInstructor: permissions?.canModifyInstructor ?? false,
       isLoadingCourseStats: false,
     };
   }
@@ -315,6 +342,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         modalRef.componentInstance.oldCourseId = courseId;
         modalRef.componentInstance.oldCourseName = courseName;
         modalRef.componentInstance.allCourses = this.allCoursesList;
+        modalRef.componentInstance.institutes = this.courseFormModel.institutes;
         modalRef.componentInstance.newTimeZone = timeZone;
         modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions.map(
           (sessionView: FeedbackSessionView) => sessionView.feedbackSession,
@@ -362,7 +390,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             }
 
             result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-              this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
+              this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone)
                 .pipe(
                   finalize(() => {
                     this.numberOfSessionsCopied += 1;
@@ -428,11 +456,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     fromFeedbackSession: FeedbackSession,
     newCourseId: string,
     newTimeZone: string,
-    oldCourseId: string,
   ): Observable<FeedbackSession> {
     return this.feedbackSessionsService.createFeedbackSession(
       newCourseId,
-      this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId),
+      this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone),
     );
   }
 
@@ -442,7 +469,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   private toFbSessionCreationReqWithName(
     fromFeedbackSession: FeedbackSession,
     newTimeZone: string,
-    oldCourseId: string,
   ): FeedbackSessionCreateRequest {
     // Local constants
     const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours').valueOf();
@@ -560,8 +586,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-      toCopyCourseId: oldCourseId,
-      toCopySessionName: fromFeedbackSession.feedbackSessionName,
+      toCopySessionId: fromFeedbackSession.feedbackSessionId,
       instructions: fromFeedbackSession.instructions,
 
       submissionStartTimestamp: copiedSubmissionStartTimestamp,
@@ -637,13 +662,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
 
-    const institute: string =
-      this.allCoursesList.find((course: Course) => course.courseId === courseId)?.institute ?? '';
-    const numTotalCourses: number = this.allCoursesList.length;
-    const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
-      (course: Course) => course.institute === institute,
-    ).length;
-
     const modalContent = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
       This operation will delete all students and sessions in these courses.
       All instructors of these courses will not be able to access them hereafter as well.`;
@@ -656,27 +674,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
 
     return modalRef.result
-      .then(() => {
-        if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
-          const finalConfModalContent =
-            numTotalCourses === 1
-              ? `This is your last course on TEAMMATES for which you have instructor access. 
-            Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
-            Are you sure you want to delete the course <strong>${courseId}</strong>?`
-              : `If you delete all courses of institute <strong>${institute}</strong>, 
-            you will <mark><strong>lose instructor access</strong></mark> 
-            to TEAMMATES under the institution <strong>${institute}</strong>. 
-            To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
-            Are you sure you want to delete the course <strong>${courseId}</strong> in institution
-            <strong>${institute}</strong>?`;
-          return this.simpleModalService.openConfirmationModal(
-            'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
-            SimpleModalType.DANGER,
-            finalConfModalContent,
-          ).result;
-        }
-        return Promise.resolve();
-      })
       .then(() => {
         this.courseService.deleteCourse(courseId).subscribe({
           next: () => {
@@ -720,8 +717,6 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
-    const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
-
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       'Deleting all courses permanently?',
       SimpleModalType.DANGER,
@@ -729,20 +724,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     );
 
     modalRef.result
-      .then(() => {
-        if (lastCourseRemaining) {
-          const modalContentCnf = `These are your last courses registered on TEAMMATES for which you have instructor access. 
-          Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
-          Are you sure you want to permanently delete these courses?`;
-
-          return this.simpleModalService.openConfirmationModal(
-            'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
-            SimpleModalType.DANGER,
-            modalContentCnf,
-          ).result;
-        }
-        return Promise.resolve();
-      })
       .then(() => {
         const deleteRequests: Observable<MessageOutput>[] = [];
         this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {

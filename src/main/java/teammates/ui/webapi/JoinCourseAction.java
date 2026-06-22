@@ -2,10 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
@@ -27,25 +23,14 @@ public class JoinCourseAction extends LoggedInAction {
     }
 
     private JsonResult joinCourse(String regKey) throws InvalidOperationException {
-        User user;
-
         try {
-            user = logic.joinCourse(regKey, requestContext.getAccount());
+            logic.joinCourseAndNotify(regKey, requestContext.getAccount());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         }
 
-        sendJoinEmail(user.getCourseId(), user.getName(), user.getEmail(), user instanceof Instructor);
-
         return new JsonResult("User successfully joined course");
-    }
-
-    private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
-        Course course = logic.getCourse(courseId);
-        EmailWrapper email = emailGenerator.generateUserCourseRegisteredEmail(
-                userName, userEmail, requestContext.getAccount().getGoogleId(), isInstructor, course);
-        emailSender.sendEmail(email);
     }
 }

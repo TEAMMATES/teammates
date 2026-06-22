@@ -14,30 +14,26 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "idOfInstructor1",
-      "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "idOfInstructor1"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "idOfStudent1",
-      "name": "Student 1",
       "email": "student1@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "idOfStudent1"
     }
   },
-  "accountRequests": {
+  "accountVerificationRequests": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "REGISTERED",
+      "status": "APPROVED",
       "comments": "These are some comments.",
-      "registeredAt": "2015-02-14T00:00:00Z",
+      "createdDemoCourseAt": "2015-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },

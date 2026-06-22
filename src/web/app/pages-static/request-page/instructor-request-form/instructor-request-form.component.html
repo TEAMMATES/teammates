@@ -18,7 +18,7 @@
     }
     @if (name.errors?.['maxlength']) {
       <div role="alert" aria-describedby="name-label" class="invalid-feedback">
-        Name must be shorter than {{ STUDENT_NAME_MAX_LENGTH }} characters. (Current: {{ name.value?.length }})
+        Name must be shorter than {{ PERSON_NAME_MAX_LENGTH }} characters. (Current: {{ name.value?.length }})
       </div>
     }
     @if (name.errors?.['pattern']) {

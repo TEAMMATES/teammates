@@ -1,5 +1,8 @@
 package teammates.ui.servlets;
 
+import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.getSafeRedirectUrl;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -41,13 +44,10 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
+        String nextUrl = getSafeRedirectUrl(req.getParameter("nextUrl"));
 
-        email = getEncodedQueryParam(email);
-        nextUrl = getEncodedQueryParam(getSanitizedRedirectUrl(nextUrl));
+        email = encodeQueryParam(email);
+        nextUrl = encodeQueryParam(nextUrl);
         String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
         resp.sendRedirect(redirectUrl);
     }

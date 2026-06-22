@@ -13,23 +13,19 @@
   },
   "accounts": {
     "instructorOfCourse1": {
-      "googleId": "tm.e2e.ISList.instr1",
-      "name": "Instructor of Course 1",
       "email": "islist.instr1@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ISList.instr1"
+      "subject": "islist.instr1@gmail.tmt"
     },
     "Student3Course3": {
-      "googleId": "tm.e2e.ISList.charlie.tmms",
-      "name": "Charlie D",
       "email": "islist.charlie.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ISList.charlie.tmms"
+      "subject": "islist.charlie.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course1": {
       "id": "tm.e2e.ISList.course1",

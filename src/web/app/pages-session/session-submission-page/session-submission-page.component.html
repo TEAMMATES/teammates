@@ -17,7 +17,7 @@
   </div>
 }
 
-@if (previewAsPerson) {
+@if (previewAs) {
   <div class="alert alert-primary border mb-3">
     <div class="fw-semibold mb-1">
       You are previewing session as
@@ -38,16 +38,16 @@
     You are submitting as <strong>{{ personName }}</strong
     >.
   </div>
-  @if (regKey) {
-    @if (loggedInUser) {
+  @if (key) {
+    @if (accountEmail) {
       <div class="text-secondary">
         Link this submission to your account:
-        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ loggedInUser }}</a
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ accountEmail }}</a
         >.
       </div>
     } @else {
       <div class="text-secondary">
-        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">Log in here</a> (optional) to
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">Sign in here</a> (optional) to
         link this submission to your account.
       </div>
     }
@@ -156,7 +156,7 @@
                     [(formModel)]="questionSubmissionForms[i]"
                     [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                     [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
                     [isSavingResponses]="isSavingResponses"
                     (responsesSave)="saveFeedbackResponses([$event])"
                     (deleteCommentEvent)="deleteParticipantComment(i, $event)"
@@ -189,7 +189,7 @@
                     [(formModel)]="questionSubmissionForms[i]"
                     [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                     [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
                     [isSavingResponses]="isSavingResponses"
                     (responsesSave)="saveFeedbackResponses([$event])"
                     (deleteCommentEvent)="deleteParticipantComment(i, $event)"
@@ -213,7 +213,7 @@
           [(formModel)]="questionSubmissionForms[i]"
           [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
           [isSubmissionDisabled]="isSubmissionFormsDisabled"
-          [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+          [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
           [isSavingResponses]="isSavingResponses"
           (responsesSave)="saveFeedbackResponses([$event])"
           (deleteCommentEvent)="deleteParticipantComment(i, $event)"

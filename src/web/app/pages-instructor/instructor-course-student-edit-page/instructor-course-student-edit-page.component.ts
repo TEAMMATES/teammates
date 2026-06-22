@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -13,7 +12,7 @@ import { StudentService } from '../../../services/student.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import {
-  STUDENT_NAME_MAX_LENGTH,
+  PERSON_NAME_MAX_LENGTH,
   SECTION_NAME_MAX_LENGTH,
   TEAM_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
@@ -33,21 +32,20 @@ import { noWhitespaceValidator } from '../../validators/no-whitespace.validator'
   imports: [LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, ReactiveFormsModule, NgClass],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
   private statusMessageService = inject(StatusMessageService);
   private studentService = inject(StudentService);
   private navigationService = inject(NavigationService);
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
 
-  readonly STUDENT_NAME_MAX_LENGTH!: number;
+  readonly PERSON_NAME_MAX_LENGTH!: number;
   readonly SECTION_NAME_MAX_LENGTH!: number;
   readonly TEAM_NAME_MAX_LENGTH!: number;
   readonly EMAIL_MAX_LENGTH!: number;
 
   @Input() isEnabled = true;
-  courseId = '';
-  studentId = '';
+  @Input({ required: true }) courseId!: string;
+  @Input({ required: true }) userId!: string;
   student!: Student;
 
   isTeamnameFieldChanged = false;
@@ -61,14 +59,14 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   emailFieldSubscription?: Subscription;
 
   constructor() {
-    this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+    this.PERSON_NAME_MAX_LENGTH = PERSON_NAME_MAX_LENGTH;
     this.SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
     this.TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
   }
 
   ngOnInit(): void {
-    if (!this.isEnabled) {
+    if (this.isEnabled === false) {
       this.student = {
         userId: '00000000-0000-4000-9000-000000000001',
         email: 'alice@email.com',
@@ -87,11 +85,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       return;
     }
 
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.studentId = queryParams['userid'];
-      this.loadStudentEditDetails(queryParams['userid']);
-    });
+    this.loadStudentEditDetails(this.userId);
   }
 
   ngOnDestroy(): void {
@@ -136,7 +130,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.editForm = new UntypedFormGroup({
       'student-name': new UntypedFormControl(this.student.name, [
         Validators.required,
-        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+        Validators.maxLength(PERSON_NAME_MAX_LENGTH),
       ]),
       'section-name': new UntypedFormControl(this.student.sectionName, [
         Validators.required,
@@ -181,7 +175,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * upon submission of the form. Submits the form otherwise.
    */
   onSubmit(resendPastLinksModal: TemplateRef<unknown>): void {
-    if (!this.isEnabled) {
+    if (this.isEnabled === false) {
       return;
     }
 
@@ -247,9 +241,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       )
       .subscribe({
         next: (resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details', resp.message, {
-            courseid: this.courseId,
-          });
+          this.navigationService.navigateWithSuccessMessage(
+            `/web/instructor/courses/${this.courseId}/details`,
+            resp.message,
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

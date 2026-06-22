@@ -51,6 +51,13 @@ public class GivenStudent extends GivenBase<Student> {
     }
 
     /**
+     * Sets the default course for the student.
+     */
+    public GivenStudent defaultCourse() {
+        return course(GivenData.DEFAULT_COURSE_ALIAS);
+    }
+
+    /**
      * Sets the team for the student.
      */
     public GivenStudent team(String teamAlias) {

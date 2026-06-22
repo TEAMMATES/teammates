@@ -5,7 +5,6 @@ import { FeedbackQuestionsService } from './feedback-questions.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
-import { Intent } from '../types/api-request';
 
 describe('FeedbackQuestionsService', () => {
   let spyHttpRequestService: MockHttpRequestService;
@@ -29,13 +28,11 @@ describe('FeedbackQuestionsService', () => {
 
   it('should execute GET when getting all feedback questions', () => {
     const paramMap: Record<string, string> = {
-      intent: Intent.FULL_DETAIL,
       fsid: 'fc829c15-3b56-43c1-b932-cc0513cf04d9',
     };
 
     service.getFeedbackQuestions({
       feedbackSessionId: 'fc829c15-3b56-43c1-b932-cc0513cf04d9',
-      intent: Intent.FULL_DETAIL,
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.QUESTIONS, paramMap);

@@ -28,7 +28,6 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -347,7 +346,6 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -666,7 +664,6 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -985,7 +982,6 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}

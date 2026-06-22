@@ -55,15 +55,12 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
             account = getTypicalAccount();
             account = accountsLogic.createAccount(
-                    account.getProvider(), account.getSubject(), account.getTenantId(),
-                    account.getEmail(), account.getGoogleId());
+                    account.getProvider(), account.getSubject(), account.getTenantId(), account.getEmail());
         });
     }
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testUnlinkAccount_instructor() {
-        String googleId = account.getGoogleId();
-
         ______TS("failure: unlink instructor that does not exist");
         assertThrowsInTransaction(EntityDoesNotExistException.class,
                 () -> usersLogic.unlinkAccount(UUID.randomUUID()));
@@ -78,13 +75,12 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(instructor, resetUser);
         assertNull(instructor.getAccount());
-        assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
+        assertEquals(account, inTransaction(() -> accountsLogic.getAccount(account.getId())));
     }
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testUnlinkAccount_student() {
         String email = "email@gmail.tmt";
-        String googleId = account.getGoogleId();
 
         ______TS("failure: unlink student that does not exist");
         UUID missingStudentId = UUID.randomUUID();
@@ -103,7 +99,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(student, unlinkedtUser);
         assertNull(student.getAccount());
-        assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
+        assertEquals(account, inTransaction(() -> accountsLogic.getAccount(account.getId())));
     }
 
     @Test(groups = GroupNames.INTEGRATION)

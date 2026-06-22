@@ -3,6 +3,7 @@
 exports[`InstructorCourseDetailsPageComponent > should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
+  courseId="undefined"
   courseService={[Function _CourseService]}
   fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
@@ -12,7 +13,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap when students are st
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -48,6 +48,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap when students are st
 exports[`InstructorCourseDetailsPageComponent > should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
+  courseId="undefined"
   courseService={[Function _CourseService]}
   fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
@@ -57,7 +58,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -198,8 +198,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
         />
          There are no students in this course. Click 
         <a
-          href="/web/instructor/courses/enroll?courseid=CS101"
-          tmrouterlink="/web/instructor/courses/enroll"
+          href="/web/instructor/courses/CS101/enroll"
         >
           here
         </a>
@@ -213,6 +212,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
 exports[`InstructorCourseDetailsPageComponent > should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
+  courseId="undefined"
   courseService={[Function _CourseService]}
   fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
@@ -222,7 +222,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -569,7 +568,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                         >
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/courses/student/details?courseid=CS101&userid=student-jamie"
+                            href="/web/instructor/courses/CS101/students/student-jamie/details"
                             id="btn-view-details-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -578,7 +577,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                           </a>
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/courses/student/edit?courseid=CS101&userid=student-jamie"
+                            href="/web/instructor/courses/CS101/students/student-jamie/edit"
                             id="btn-edit-details-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -599,7 +598,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                           </button>
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/students/records?courseid=CS101&userid=student-jamie"
+                            href="/web/instructor/students/CS101/student-jamie/records"
                             id="btn-view-records-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -624,6 +623,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
 exports[`InstructorCourseDetailsPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
+  courseId="undefined"
   courseService={[Function _CourseService]}
   fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
@@ -633,7 +633,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with default fields 
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}

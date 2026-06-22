@@ -3,27 +3,25 @@
 
 export interface Account extends ApiOutput {
   accountId: string;
-  googleId: string;
-  name: string;
   email: string;
   instructors: Instructor[];
   students: Student[];
 }
 
-export interface AccountRequest extends ApiOutput {
-  accountRequestId: string;
+export interface AccountVerificationRequest extends ApiOutput {
+  accountVerificationRequestId: string;
   email: string;
   name: string;
   institute: string;
   country: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   comments?: string;
-  registeredAt?: number;
+  createdDemoCourseAt?: number;
   createdAt: number;
 }
 
-export interface AccountRequests extends ApiOutput {
-  accountRequests: AccountRequest[];
+export interface AccountVerificationRequests extends ApiOutput {
+  accountVerificationRequests: AccountVerificationRequest[];
 }
 
 export interface ApiOutput {
@@ -39,15 +37,22 @@ export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
 }
 
-export interface ContributionStatistics {
-  results: { [index: string]: ContributionStatisticsEntry };
+export interface ConstsumOptionRow {
+  option: string;
+  pointsReceived: number[];
+  total: number;
+  average: number;
 }
 
-export interface ContributionStatisticsEntry {
-  claimed: number;
-  perceived: number;
-  claimedOthers: { [index: string]: number };
-  perceivedOthers: number[];
+export interface ConstsumRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  isCurrentRecipient: boolean;
+  pointsReceived: number[];
+  total: number;
+  average: number;
+  averageExcludingSelf?: number;
 }
 
 export interface Course extends ApiOutput {
@@ -79,6 +84,16 @@ export interface CourseView extends ApiOutput {
   instructorPermissions?: InstructorCoursePermissions;
 }
 
+export interface CourseWideRow {
+  teamName: string;
+  recipientName: string;
+  recipientEmail?: string;
+  claimed: number;
+  perceived: number;
+  diff: number;
+  ratingsReceived: number[];
+}
+
 export interface DeadlineExtension extends ApiOutput {
   feedbackSessionId: string;
   userId: string;
@@ -87,12 +102,6 @@ export interface DeadlineExtension extends ApiOutput {
 
 export interface DeadlineExtensions extends ApiOutput {
   userDeadlines: { [index: string]: number };
-}
-
-export interface Email extends ApiOutput {
-  recipient: string;
-  subject: string;
-  content: string;
 }
 
 export interface EnrollErrorResults {
@@ -130,13 +139,43 @@ export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackRe
   answers: number[];
 }
 
+export interface FeedbackConstsumOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: ConstsumOptionRow[];
+}
+
+export interface FeedbackConstsumRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: ConstsumRecipientRow[];
+}
+
+export interface FeedbackContributionCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  rows: CourseWideRow[];
+}
+
 export interface FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
   isZeroSum: boolean;
   isNotSureAllowed: boolean;
 }
 
+export interface FeedbackContributionRecipientStatistics extends FeedbackQuestionResultsStatistics {
+  myView: RecipientView;
+  teamView: RecipientView;
+}
+
 export interface FeedbackContributionResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackMcqMsqCourseWideStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
+  perRecipientRows: McqMsqPerRecipientRow[];
+}
+
+export interface FeedbackMcqMsqRecipientStatistics extends FeedbackQuestionResultsStatistics {
+  hasAnswers: boolean;
+  hasWeights: boolean;
+  rows: McqMsqOptionRow[];
 }
 
 export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
@@ -182,6 +221,10 @@ export interface FeedbackNumericalScaleResponseDetails extends FeedbackResponseD
   answer: number;
 }
 
+export interface FeedbackNumScaleStatistics extends FeedbackQuestionResultsStatistics {
+  rows: NumScaleRecipientRow[];
+}
+
 export interface FeedbackQuestion extends ApiOutput {
   feedbackQuestionId: string;
   questionBrief: string;
@@ -218,6 +261,11 @@ export interface FeedbackQuestionResponses extends ApiOutput {
   questionResponses: { [index: string]: FeedbackResponse[] };
 }
 
+export interface FeedbackQuestionResultsStatistics {
+  questionType: FeedbackQuestionType;
+  statisticsView: FeedbackQuestionResultsStatisticsView;
+}
+
 export interface FeedbackQuestions extends ApiOutput {
   questions: FeedbackQuestion[];
 }
@@ -228,6 +276,10 @@ export interface FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestion
 
 export interface FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
+}
+
+export interface FeedbackRankOptionsStatistics extends FeedbackQuestionResultsStatistics {
+  options: RankOptionsOptionRow[];
 }
 
 export interface FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
@@ -241,6 +293,10 @@ export interface FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuest
 
 export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
   answer: number;
+}
+
+export interface FeedbackRankRecipientsStatistics extends FeedbackQuestionResultsStatistics {
+  rows: RankRecipientsRow[];
 }
 
 export interface FeedbackResponse extends ApiOutput {
@@ -269,6 +325,15 @@ export interface FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
 export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
   answer: number[];
+}
+
+export interface FeedbackRubricStatistics extends FeedbackQuestionResultsStatistics {
+  subQuestions: string[];
+  choices: string[];
+  hasWeights: boolean;
+  rows: RubricSubQuestionRow[];
+  rowsExcludeSelf: RubricSubQuestionRow[];
+  perRecipientStats: RubricPerRecipientStats[];
 }
 
 export interface FeedbackSession extends ApiOutput {
@@ -341,6 +406,16 @@ export interface HasResponses extends ApiOutput {
   hasResponsesBySession?: { [index: string]: boolean };
 }
 
+export interface Institute extends ApiOutput {
+  id: string;
+  name: string;
+  country: string;
+}
+
+export interface Institutes extends ApiOutput {
+  institutes: Institute[];
+}
+
 export interface Instructor extends ApiOutput {
   userId: string;
   courseId: string;
@@ -359,6 +434,11 @@ export interface InstructorCoursePermissions extends ApiOutput {
   canModifyCourse: boolean;
   canModifyStudent: boolean;
   canModifyInstructor: boolean;
+}
+
+export interface InstructorCourses extends ApiOutput {
+  courses: Course[];
+  instructorPermissions: { [index: string]: InstructorCoursePermissions };
 }
 
 export interface InstructorFeedbackSessionPermissions extends ApiOutput {
@@ -401,6 +481,23 @@ export interface JoinStatus extends ApiOutput {
   hasJoined: boolean;
 }
 
+export interface McqMsqOptionRow {
+  option: string;
+  weight?: number;
+  count: number;
+  percentage: number;
+  weightedPercentage?: number;
+}
+
+export interface McqMsqPerRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  responseCountPerOption: { [index: string]: number };
+  total: number;
+  average: number;
+}
+
 export interface MessageOutput extends ApiOutput {
   message: string;
 }
@@ -420,10 +517,21 @@ export interface Notifications extends ApiOutput {
   notifications: Notification[];
 }
 
+export interface NumScaleRecipientRow {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  isCurrentRecipient: boolean;
+  average?: number;
+  min?: number;
+  max?: number;
+  averageExcludingSelf?: number;
+}
+
 export interface OngoingSession {
   feedbackSessionId: string;
   sessionStatus: string;
-  instructorHomePageLink: string;
+  accountId: string;
   startTime: number;
   endTime: number;
   creatorEmail: string;
@@ -442,13 +550,26 @@ export interface OngoingSessions extends ApiOutput {
 
 export interface QuestionOutput {
   feedbackQuestion: FeedbackQuestion;
-  questionStatistics: string;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
   allResponses: ResponseOutput[];
-  hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
-  responsesToSelf: ResponseOutput[];
-  responsesFromSelf: ResponseOutput[];
-  otherResponses: ResponseOutput[][];
+}
+
+export interface RankOptionsOptionRow {
+  option: string;
+  ranksReceived: number[];
+  overallRank: number;
+}
+
+export interface RankRecipientsRow {
+  recipientName: string;
+  recipientEmail: string;
+  recipientTeam: string;
+  ranksReceived: number[];
+  selfRank: number;
+  overallRank: number;
+  rankExcludingSelf: number;
+  rankInTeam: number;
+  rankInTeamExcludingSelf: number;
 }
 
 export interface ReadNotification extends ApiOutput {
@@ -459,6 +580,11 @@ export interface ReadNotification extends ApiOutput {
 
 export interface ReadNotifications extends ApiOutput {
   readNotifications: string[];
+}
+
+export interface RecipientView {
+  ofMe: number;
+  ofOthers: number[];
 }
 
 export interface RegenerateKey extends ApiOutput {
@@ -504,6 +630,36 @@ export interface ResponseOutput {
   responseDetails: FeedbackResponseDetails;
   participantComment?: string;
   instructorComments: ResponseInstructorComment[];
+}
+
+export interface RubricChoiceCell {
+  percentage: number;
+  count: number;
+  weight?: number;
+}
+
+export interface RubricPerCriterionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  total?: number;
+  average?: number;
+}
+
+export interface RubricPerRecipientStats {
+  recipientName: string;
+  recipientEmail?: string;
+  recipientTeam: string;
+  perCriterionRows: RubricPerCriterionRow[];
+  overallCells: RubricChoiceCell[];
+  overallTotal?: number;
+  overallAverage?: number;
+  subQuestionAverages: number[];
+}
+
+export interface RubricSubQuestionRow {
+  subQuestion: string;
+  cells: RubricChoiceCell[];
+  weightAverage?: number;
 }
 
 export interface SessionLinks extends ApiOutput {
@@ -581,7 +737,7 @@ export interface UsageStatistics extends ApiOutput {
   numCourses: number;
   numStudents: number;
   numInstructors: number;
-  numAccountRequests: number;
+  numAccountVerificationRequests: number;
 }
 
 export interface UsageStatisticsRange extends ApiOutput {
@@ -596,20 +752,33 @@ export interface User extends ApiOutput {
 }
 
 export interface UserInfo {
-  id: string;
   accountId: string;
-  email: string;
+  accountEmail: string;
   isAdmin: boolean;
   isInstructor: boolean;
   isStudent: boolean;
   isMaintainer: boolean;
 }
 
-export enum AccountRequestStatus {
+export interface UserQuestionOutput {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics?: FeedbackQuestionResultsStatistics;
+  hasResponseButNotVisibleForPreview: boolean;
+  hasCommentNotVisibleForPreview: boolean;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+}
+
+export interface UserSessionResults extends ApiOutput {
+  questions: UserQuestionOutput[];
+}
+
+export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-  REGISTERED = "REGISTERED",
 }
 
 export enum CommentVisibilityType {
@@ -625,6 +794,11 @@ export enum FeedbackConstantSumDistributePointsType {
   DISTRIBUTE_ALL_UNEVENLY = "All options",
   DISTRIBUTE_SOME_UNEVENLY = "At least some options",
   NONE = "None",
+}
+
+export enum FeedbackQuestionResultsStatisticsView {
+  COURSE_WIDE = "COURSE_WIDE",
+  RECIPIENT = "RECIPIENT",
 }
 
 export enum FeedbackQuestionType {

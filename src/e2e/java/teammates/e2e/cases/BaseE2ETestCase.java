@@ -138,7 +138,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createFrontendUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
+        return AppUrl.fromParts(TestProperties.TEAMMATES_FRONTEND_URL, relativeUrl);
     }
 
     /**
@@ -153,12 +153,12 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Logs in to a page using the given credentials.
      */
-    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userId) {
+    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userEmail) {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
-        String cookieValue = BACKDOOR.getUserCookie(userId);
+        String cookieValue = BACKDOOR.getUserCookie(userEmail);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
         return getNewPageInstance(url, typeOfPage);
@@ -265,8 +265,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
-            assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
-            assertEquals(expectedAccount.getName(), actualAccount.getName());
+            assertEquals(expectedAccount.getId(), actualAccount.getAccountId());
             assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         } else if (expected instanceof Course) {
             Course expectedCourse = (Course) expected;

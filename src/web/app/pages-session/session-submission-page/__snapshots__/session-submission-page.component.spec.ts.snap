@@ -5,6 +5,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -32,8 +33,8 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -41,12 +42,10 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts="0"
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -72,7 +71,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -179,6 +178,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -206,8 +206,8 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -215,12 +215,10 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -246,7 +244,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -350,6 +348,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -377,8 +376,8 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -386,12 +385,10 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -417,7 +414,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -521,6 +518,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail={[Function String]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -548,8 +546,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser={[Function String]}
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -557,12 +555,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -590,7 +586,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
       <a
         href="#"
       >
-        logged-in-user
+        account@example.com
       </a>
       . 
     </div>
@@ -755,6 +751,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -782,8 +779,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -791,12 +788,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -822,7 +817,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -3836,6 +3831,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -3863,8 +3859,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -3872,12 +3868,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -3903,7 +3897,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>
@@ -6955,6 +6949,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail={[Function String]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -6982,8 +6977,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser={[Function String]}
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -6991,12 +6986,10 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -7024,7 +7017,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
       <a
         href="#"
       >
-        alice
+        alice@example.com
       </a>
       . 
     </div>
@@ -7128,6 +7121,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -7155,8 +7149,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
-  loggedInUser=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -7164,12 +7158,10 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
@@ -7196,7 +7188,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
       <a
         href="#"
       >
-        Log in here
+        Sign in here
       </a>
        (optional) to link this submission to your account. 
     </div>

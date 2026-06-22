@@ -13,19 +13,15 @@ import teammates.storage.entity.Account;
 public class AccountData implements ApiOutput {
 
     private final UUID accountId;
-    private final String googleId;
-    private final String name;
     private final String email;
     private final List<InstructorData> instructors;
     private final List<StudentData> students;
 
     @JsonCreator
     private AccountData(
-            UUID accountId, String googleId, String name, String email,
+            UUID accountId, String email,
             List<InstructorData> instructors, List<StudentData> students) {
         this.accountId = accountId;
-        this.googleId = googleId;
-        this.name = name;
         this.email = email;
         this.instructors = instructors;
         this.students = students;
@@ -33,8 +29,6 @@ public class AccountData implements ApiOutput {
 
     public AccountData(Account account) {
         this.accountId = account.getId();
-        this.googleId = account.getGoogleId();
-        this.name = account.getName();
         this.email = account.getEmail();
         this.instructors = account.getInstructors().stream().map(InstructorData::new).toList();
         this.students = account.getStudents().stream().map(StudentData::new).toList();
@@ -46,14 +40,6 @@ public class AccountData implements ApiOutput {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public List<InstructorData> getInstructors() {

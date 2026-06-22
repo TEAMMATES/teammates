@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -83,6 +83,8 @@ import teammates.storage.entity.Team;
  * 6. Use the generated IDs in the test assertions or further entity creation.
  */
 public final class GivenData {
+    public static final String DEFAULT_COURSE_ALIAS = GivenCourse.getDefaultAlias();
+
     final DataBundle dataBundle = new DataBundle();
     final Map<BaseEntity, String> entityToAlias = new HashMap<>();
     private final String testName;
@@ -130,22 +132,24 @@ public final class GivenData {
     }
 
     /**
-     * Creates an account request with default values.
+     * Creates an account verification request with default values.
      */
-    public AccountRequestRef accountRequest(String alias) {
-        return accountRequest(alias, ar -> {
+    public AccountVerificationRequestRef accountVerificationRequest(String alias) {
+        return accountVerificationRequest(alias, ar -> {
         });
     }
 
     /**
-     * Creates an account request and applies the provided options to customize it.
+     * Creates an account verification request and applies the provided options to customize it.
      */
-    public AccountRequestRef accountRequest(String alias, Consumer<GivenAccountRequest> options) {
-        GivenAccountRequest accountRequestData = new GivenAccountRequest(this, uuid(alias));
-        options.accept(accountRequestData);
-        AccountRequest accountRequest = accountRequestData.build();
-        registerEntity(alias, accountRequest, dataBundle.accountRequests);
-        return new AccountRequestRef(accountRequest.getId(), alias);
+    public AccountVerificationRequestRef accountVerificationRequest(
+            String alias, Consumer<GivenAccountVerificationRequest> options) {
+        GivenAccountVerificationRequest accountVerificationRequestData =
+                new GivenAccountVerificationRequest(this, uuid(alias));
+        options.accept(accountVerificationRequestData);
+        AccountVerificationRequest accountVerificationRequest = accountVerificationRequestData.build();
+        registerEntity(alias, accountVerificationRequest, dataBundle.accountVerificationRequests);
+        return new AccountVerificationRequestRef(accountVerificationRequest.getId(), alias);
     }
 
     /**
@@ -221,7 +225,7 @@ public final class GivenData {
         options.accept(studentData);
         Student student = studentData.build();
         registerEntity(alias, student, dataBundle.students);
-        return new StudentRef(student.getId(), alias, student.getRegKey());
+        return new StudentRef(student.getId(), alias, student.getRegKey(), student.getEmail());
     }
 
     /**
@@ -240,7 +244,7 @@ public final class GivenData {
         options.accept(instructorData);
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
-        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey());
+        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey(), instructor.getEmail());
     }
 
     /**
@@ -467,12 +471,12 @@ public final class GivenData {
     public record InstituteRef(UUID id, String alias) {}
 
     /**
-     * Reference to an account request created by GivenData.
+     * Reference to an account verification request created by GivenData.
      *
      * @param id generated entity ID
      * @param alias GivenData alias
      */
-    public record AccountRequestRef(UUID id, String alias) {}
+    public record AccountVerificationRequestRef(UUID id, String alias) {}
 
     /**
      * Reference to a course created by GivenData.
@@ -504,8 +508,9 @@ public final class GivenData {
      * @param id generated entity ID
      * @param alias GivenData alias
      * @param regKey registration key
+     * @param email email address
      */
-    public record StudentRef(UUID id, String alias, String regKey) {}
+    public record StudentRef(UUID id, String alias, String regKey, String email) {}
 
     /**
      * Reference to an instructor created by GivenData.
@@ -513,8 +518,9 @@ public final class GivenData {
      * @param id generated entity ID
      * @param alias GivenData alias
      * @param regKey registration key
+     * @param email email address
      */
-    public record InstructorRef(UUID id, String alias, String regKey) {}
+    public record InstructorRef(UUID id, String alias, String regKey, String email) {}
 
     /**
      * Reference to a feedback session created by GivenData.

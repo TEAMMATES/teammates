@@ -55,7 +55,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         String student1Email = student1.getEmail();
         String student2Email = student2.getEmail();
         long endTime = Instant.parse("2012-01-02T12:00:00Z").toEpochMilli();
-        long startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
+        long startTime = endTime - 89L * 24 * 60 * 60 * 1000;
 
         ______TS("Failure case: missing required parameters");
         verifyHttpParameterFailure(
@@ -219,11 +219,11 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         ______TS("Only instructors with modify student, session and instructor privilege can access");
         verifyCannotAccess(submissionParams);
 
-        loginAsInstructor(helper.getGoogleId());
+        loginAsInstructor(helper);
         verifyCannotAccess(submissionParams);
 
         ______TS("Only instructors of the same course can access");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
         verifyCanAccess(submissionParams);
     }
 

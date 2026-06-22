@@ -39,7 +39,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor);
 
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[] {
@@ -51,7 +51,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         SessionResultsData output = (SessionResultsData) result.getOutput();
 
         SessionResultsData expected = inTransaction(() -> SessionResultsData.init(logic.getSessionResults(
-                feedbackSession, instructor, null, null, false)));
+                feedbackSession, instructor, null)));
 
         assertEquals(expected.getQuestions().size(), output.getQuestions().size());
     }
@@ -68,7 +68,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         verifyAccessibleForInstructorsOfTheSameCourse(course, params);
         verifyInaccessibleForInstructorsOfOtherCourses(course, params);
 
-        loginAsStudent(typicalBundle.students.get("student1InCourse1").getGoogleId());
+        loginAsStudent(typicalBundle.students.get("student1InCourse1"));
         verifyCannotAccess(params);
 
         verifyInaccessibleForStudentsOfOtherCourse(course, params);

@@ -10,7 +10,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'accounts',
+    path: 'accounts/:accountId',
     loadComponent: () =>
       import('./admin-accounts-page/admin-accounts-page.component').then((m) => m.AdminAccountsPageComponent),
     data: {
@@ -24,6 +24,13 @@ const routes: Routes = [
     data: {
       pageTitle: 'Admin Search',
     },
+  },
+  {
+    path: 'account-verification-requests/:accountVerificationRequestId',
+    loadComponent: () =>
+      import('./admin-account-verification-request-page/admin-account-verification-request-page.component').then(
+        (m) => m.AdminAccountVerificationRequestPageComponent,
+      ),
   },
   {
     path: 'sessions',

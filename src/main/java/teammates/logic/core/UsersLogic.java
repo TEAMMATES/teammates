@@ -4,34 +4,32 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.StringJoiner;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.model.CourseEmailContext;
+import teammates.logic.email.model.CourseRejoinAfterUnlinkEmailContext;
+import teammates.logic.email.model.EmailContact;
+import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.StudentCourseJoinEmailContext;
+import teammates.logic.email.model.UserCourseRegisteredEmailContext;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -43,8 +41,6 @@ import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
-import teammates.ui.request.StudentEnrollRequest;
-import teammates.ui.request.StudentUpdateRequest;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -54,13 +50,6 @@ import teammates.ui.request.StudentUpdateRequest;
  */
 public final class UsersLogic {
 
-    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
-            "Please use different team names in different sections.";
-    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
-            "You are trying enroll more than %s students in section \"%s\".";
-    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
-            "To avoid performance problems, please do not enroll more than %s students in a single section.";
-
     private static final UsersLogic instance = new UsersLogic();
 
     private static final int MAX_KEY_REGENERATION_TRIES = 10;
@@ -68,6 +57,8 @@ public final class UsersLogic {
     private UsersDb usersDb;
 
     private CoursesLogic coursesLogic;
+    private CourseJoinEmailsLogic courseJoinEmailsLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
@@ -81,10 +72,14 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
+                               CourseJoinEmailsLogic courseJoinEmailsLogic,
+                               FeedbackSessionsLogic feedbackSessionsLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
                                InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
+        this.courseJoinEmailsLogic = courseJoinEmailsLogic;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -183,9 +178,9 @@ public final class UsersLogic {
      * @throws InstructorUpdateException if the update violates instructor validity
      * @throws EntityDoesNotExistException if the instructor does not exist in the database
      */
-    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest) throws
+    public Instructor updateInstructorCascade(UUID id, InstructorUpdateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        Instructor instructor = getInstructor(instructorRequest.getId());
+        Instructor instructor = getInstructor(id);
 
         if (instructor == null) {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
@@ -211,6 +206,8 @@ public final class UsersLogic {
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
         validateUser(instructor);
+
+        updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
         return instructor;
     }
@@ -287,16 +284,6 @@ public final class UsersLogic {
         }
 
         return null;
-    }
-
-    /**
-     * Gets an instructor by associated {@code googleId}.
-     */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getInstructorByGoogleId(courseId, googleId);
     }
 
     /**
@@ -384,6 +371,149 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the co-owner contacts for the specified course.
+     */
+    public List<EmailContact> getCoOwnerContacts(String courseId) {
+        return getCoOwnersForCourse(courseId).stream()
+                .map(coOwner -> new EmailContact(coOwner.getName(), coOwner.getEmail()))
+                .toList();
+    }
+
+    /**
+     * Enqueues the post-join course registration confirmation email for the given user.
+     */
+    public void enqueueUserCourseRegisteredEmail(User user) {
+        Course course = user.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        UserCourseRegisteredEmailContext userContext = new UserCourseRegisteredEmailContext(
+                user.getEmail(),
+                user.getName(),
+                user instanceof Instructor,
+                user instanceof Instructor ? LinksUtil.getInstructorHomePageUrl() : LinksUtil.getStudentHomePageUrl());
+        courseJoinEmailsLogic.enqueueUserCourseRegisteredEmail(courseContext, userContext);
+    }
+
+    /**
+     * Enqueues the student course join invitation email for the given student.
+     */
+    public void enqueueStudentCourseJoinEmail(Student student) {
+        Course course = student.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        StudentCourseJoinEmailContext studentContext = new StudentCourseJoinEmailContext(
+                student.getEmail(),
+                student.getName(),
+                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+        courseJoinEmailsLogic.enqueueStudentCourseJoinEmail(courseContext, studentContext);
+    }
+
+    /**
+     * Enqueues student course join invitation emails for all unregistered students in
+     * the given course.
+     */
+    public void enqueueStudentCourseJoinEmailsForCourse(String courseId) {
+        Course course = coursesLogic.getCourse(courseId);
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        List<StudentCourseJoinEmailContext> studentContexts = getUnregisteredStudentsForCourse(courseId).stream()
+                .map(student -> new StudentCourseJoinEmailContext(
+                        student.getEmail(),
+                        student.getName(),
+                        LinksUtil.getStudentCourseJoinUrl(student.getRegKey())))
+                .toList();
+        courseJoinEmailsLogic.enqueueStudentCourseJoinEmails(courseContext, studentContexts);
+    }
+
+    /**
+     * Enqueues the student course rejoin email after account unlink.
+     */
+    public void enqueueStudentCourseRejoinAfterUnlinkAccountEmail(Student student) {
+        Course course = student.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                getCoOwnerContacts(course.getId()));
+        CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
+                student.getEmail(),
+                student.getName(),
+                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+        courseJoinEmailsLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(courseContext, studentContext);
+    }
+
+    /**
+     * Enqueues the instructor course join invitation email.
+     */
+    public void enqueueInstructorCourseJoinEmail(Instructor inviter, Instructor instructor) {
+        Course course = instructor.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                List.of());
+        InstructorCourseJoinEmailContext instructorContext = new InstructorCourseJoinEmailContext(
+                instructor.getEmail(),
+                instructor.getName(),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()),
+                inviter.getName(),
+                inviter.getEmail());
+        courseJoinEmailsLogic.enqueueInstructorCourseJoinEmail(courseContext, instructorContext);
+    }
+
+    /**
+     * Enqueues the instructor course rejoin email after account unlink.
+     */
+    public void enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(Instructor instructor) {
+        Course course = instructor.getCourse();
+        CourseEmailContext courseContext = new CourseEmailContext(
+                course.getId(),
+                course.getName(),
+                List.of());
+        CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
+                instructor.getEmail(),
+                instructor.getName(),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()));
+        courseJoinEmailsLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(courseContext, instructorContext);
+    }
+
+    /**
+     * Sends the requested join reminder email for the given user and returns the
+     * corresponding status message.
+     */
+    public String sendJoinReminderForUser(UUID userId, @Nullable Instructor inviter)
+            throws EntityDoesNotExistException {
+        User user = getJoinReminderUserOrThrow(userId);
+        if (user instanceof Student student) {
+            enqueueStudentCourseJoinEmail(student);
+            return "An email has been sent to " + student.getEmail();
+        }
+        if (user instanceof Instructor instructor) {
+            if (inviter == null) {
+                throw new EntityDoesNotExistException("Inviter does not exist.");
+            }
+            enqueueInstructorCourseJoinEmail(inviter, instructor);
+            return "An email has been sent to " + instructor.getEmail();
+        }
+
+        // This line should never be reached because the user should either be a student or an instructor.
+        throw new AssertionError("Invalid user type for join reminder: " + user.getClass().getName());
+    }
+
+    /**
+     * Sends join reminder emails to all unregistered students in the given course
+     * and returns the corresponding status message.
+     */
+    public String sendJoinReminderForStudentsInCourse(String courseId) throws EntityDoesNotExistException {
+        enqueueStudentCourseJoinEmailsForCourse(getJoinReminderCourseOrThrow(courseId).getId());
+        return "Emails have been sent to unregistered students.";
+    }
+
+    /**
      * Gets a list of instructors for the specified course.
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
@@ -391,29 +521,6 @@ public final class UsersLogic {
         sortByName(instructorReturnList);
 
         return instructorReturnList;
-    }
-
-    /**
-     * Check if the instructors with the provided emails exist in the course.
-     */
-    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
-        List<Instructor> instructors = usersDb.getInstructorsForEmails(courseId, emails);
-        Map<String, User> emailInstructorMap = convertUserListToEmailUserMap(instructors);
-
-        for (String email : emails) {
-            if (!emailInstructorMap.containsKey(email)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Gets all instructors associated with a googleId.
-     */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        assert googleId != null;
-        return usersDb.getInstructorsForGoogleId(googleId);
     }
 
     /**
@@ -445,6 +552,21 @@ public final class UsersLogic {
     }
 
     /**
+     * Regenerates the registration key for the user with {@code userId} and enqueues the
+     * corresponding feedback session summary email.
+     */
+    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        User user = regenerateUserRegistrationKey(userId);
+        feedbackSessionsLogic.enqueueFeedbackSessionSummaryEmail(
+                user,
+                user instanceof Student
+                        ? EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                        : EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        return user;
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id Id of Student.
@@ -472,21 +594,6 @@ public final class UsersLogic {
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
         return usersDb.getStudentForEmail(courseId, userEmail);
-    }
-
-    /**
-     * Check if the students with the provided emails exist in the course.
-     */
-    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
-        List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
-        Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
-
-        for (String email : emails) {
-            if (!emailStudentMap.containsKey(email)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -536,7 +643,7 @@ public final class UsersLogic {
 
     /**
      * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * visibility according to the logged-in user's role. This is used by admin to
      * search students in the whole system.
      * @return an empty list if no result is found
      */
@@ -623,34 +730,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a student by associated {@code googleId}.
-     */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getStudentsByGoogleId(googleId);
-    }
-
-    /**
-     * Gets all instructors and students by {@code googleId}.
-     */
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getAllUsersByGoogleId(googleId);
-    }
-
-    /**
      * Gets team by ID.
      */
     public Team getTeam(UUID teamId) {
@@ -662,33 +741,6 @@ public final class UsersLogic {
      */
     public Section getSection(String courseId, String sectionName) {
         return usersDb.getSection(courseId, sectionName);
-    }
-
-    /**
-     * Gets the section with the name in a particular course, otherwise creates a new section.
-     */
-    public Section getSectionOrCreate(String courseId, String sectionName) {
-        // TODO: temporarily added so actions that use this do not break.
-        // This should not be used and will be removed once all actions are refactored to not use this method.
-        // Sections should not be created implicitly unless creating/updating a student.
-        // Currently this is used in actions such as SubmitFeedbackResponsesAction,
-        //  which should not be creating sections at all.
-        Course course = coursesLogic.getCourse(courseId);
-        if (course == null) {
-            return null;
-        }
-        Section section = getSection(courseId, sectionName);
-        if (section == null) {
-            try {
-                section = coursesLogic.createSection(course, sectionName);
-            } catch (EntityAlreadyExistsException e) {
-                assert false : "Section with name " + sectionName + " should not exist for course " + courseId;
-            } catch (InvalidParametersException e) {
-                assert false : "Section name " + sectionName + " should be valid.";
-            }
-        }
-
-        return section;
     }
 
     /**
@@ -714,8 +766,8 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                || instrWithModifyInstructorPrivilege.getAccountId()
+                .equals(instructorToEdit.getAccountId()));
         if (isLastRegInstructorWithPrivilege) {
             InstructorPrivileges privileges = instructorPermissionsLogic.getInstructorPrivileges(instructorToEdit);
             privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
@@ -748,10 +800,6 @@ public final class UsersLogic {
         usersDb.deleteStudentsInCourse(courseId);
     }
 
-    private boolean isEmailChanged(String originalEmail, String newEmail) {
-        return newEmail != null && !originalEmail.equals(newEmail);
-    }
-
     /**
      * Updates a student by attributes to update. If an attribute is null, it will not be updated.
      */
@@ -779,227 +827,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates a student by student id and update request, and cascades to responses and comments if needed.
-     */
-    public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
-
-        Student student = getStudent(studentId);
-        if (student == null) {
-            throw new EntityDoesNotExistException(String.format("Student with id %s not found", studentId));
-        }
-
-        boolean isEmailChanged = isEmailChanged(student.getEmail(), updateRequest.getEmail());
-        if (isEmailChanged) {
-            Instructor instructor = getInstructorForEmail(student.getCourseId(), updateRequest.getEmail());
-            if (instructor != null) {
-                String errorMessage = String.format(
-                        "Cannot update student email to %s as this email is already used by an instructor in course %s",
-                        updateRequest.getEmail(), student.getCourseId());
-                throw new EntityAlreadyExistsException(errorMessage);
-            }
-
-            Student existingStudent = getStudentForEmail(student.getCourseId(), updateRequest.getEmail());
-            if (existingStudent != null) {
-                String errorMessage = String.format(
-                        "Cannot update student email to %s as this email is already used by another student in course %s",
-                        updateRequest.getEmail(), student.getCourseId());
-                throw new EntityAlreadyExistsException(errorMessage);
-            }
-        }
-
-        // section name -> section
-        Map<String, Section> sections = student.getCourse().getSections()
-                .stream()
-                .collect(Collectors.toMap(Section::getName, Function.identity()));
-
-        // section -> team name -> team
-        Map<String, Map<String, Team>> teams = coursesLogic.getTeamsForCourse(student.getCourseId())
-                .stream()
-                .collect(Collectors.groupingBy(team -> team.getSection().getName(),
-                        Collectors.toMap(Team::getName, Function.identity())));
-
-        Section section = sections.get(updateRequest.getSection());
-        if (section == null) {
-            section = coursesLogic.createSection(student.getCourse(), updateRequest.getSection());
-            sections.put(section.getName(), section);
-        }
-
-        Team team = teams.getOrDefault(section.getName(), Collections.emptyMap()).get(updateRequest.getTeam());
-        if (team == null) {
-            team = coursesLogic.createTeam(section, updateRequest.getTeam());
-            teams.computeIfAbsent(section.getName(), k -> new HashMap<>()).put(team.getName(), team);
-        }
-
-        updateStudentCascade(student, updateRequest.getEmail(), updateRequest.getName(), team, updateRequest.getComments());
-
-        // Validate section limit and team name violations.
-        // Precondition: this is executed within a transaction; throwing an exception
-        // here will roll back all changes.
-        List<Student> studentsInCourse = getStudentsForCourse(student.getCourseId());
-        String errorMessage = getSectionInvalidityInfo(studentsInCourse)
-                + getTeamInvalidityInfo(studentsInCourse);
-        if (!errorMessage.isEmpty()) {
-            throw new EnrollException(errorMessage);
-        }
-
-        return student;
-    }
-
-    /**
-     * Enrolls students in a course according to the enroll requests, creating the section and team if needed.
-     */
-    public EnrollResults enrollStudents(Course course,
-            List<StudentEnrollRequest> enrollRequests) throws EnrollException {
-        Set<String> instructorEmails = getInstructorsForCourse(course.getId())
-                .stream()
-                .map(Instructor::getEmail)
-                .collect(Collectors.toSet());
-
-        // student email -> student
-        Map<String, Student> studentsInCourse = getStudentsForCourse(course.getId())
-                .stream()
-                .collect(Collectors.toMap(Student::getEmail, Function.identity()));
-
-        // section name -> section
-        Map<String, Section> sections = course.getSections()
-                .stream()
-                .collect(Collectors.toMap(Section::getName, Function.identity()));
-
-        // section -> team name -> team
-        Map<String, Map<String, Team>> teams = coursesLogic.getTeamsForCourse(course.getId())
-                .stream()
-                .collect(Collectors.groupingBy(team -> team.getSection().getName(),
-                        Collectors.toMap(Team::getName, Function.identity())));
-
-        EnrollResults enrollResults = new EnrollResults();
-
-        // Process individual enroll requests
-        for (StudentEnrollRequest enrollRequest : enrollRequests) {
-            String email = enrollRequest.getEmail();
-            if (instructorEmails.contains(email)) {
-                String errorMsg = String.format(
-                        "Cannot enroll student with email %s as this email is already used by an instructor in course %s",
-                        email, course.getId());
-                enrollResults.addUnsuccessfulEnroll(email, errorMsg);
-                continue;
-            }
-
-            try {
-                Student student = processEnrollRequest(course, studentsInCourse, sections, teams, enrollRequest);
-                enrollResults.addEnrolledStudent(student);
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                enrollResults.addUnsuccessfulEnroll(email, e.getMessage());
-            }
-        }
-
-        // Validate section limit and team name violations.
-        // Precondition: this is executed within a transaction; throwing an exception here will roll back all changes.
-        String errorMessage = getSectionInvalidityInfo(studentsInCourse.values())
-                + getTeamInvalidityInfo(studentsInCourse.values());
-        if (!errorMessage.isEmpty()) {
-            throw new EnrollException(errorMessage);
-        }
-
-        return enrollResults;
-    }
-
-    /**
-     * Process an individual enroll request, creating the section, team and student if needed.
-     */
-    private Student processEnrollRequest(
-            Course course,
-            Map<String, Student> studentsInCourse,
-            Map<String, Section> sections,
-            Map<String, Map<String, Team>> teams,
-            StudentEnrollRequest enrollRequest) throws InvalidParametersException, EntityAlreadyExistsException {
-        String email = enrollRequest.getEmail();
-
-        Section section = sections.get(enrollRequest.getSection());
-        if (section == null) {
-            section = coursesLogic.createSection(course, enrollRequest.getSection());
-            sections.put(section.getName(), section);
-        }
-
-        Team team = teams.getOrDefault(section.getName(), Collections.emptyMap()).get(enrollRequest.getTeam());
-        if (team == null) {
-            team = coursesLogic.createTeam(section, enrollRequest.getTeam());
-            teams.computeIfAbsent(section.getName(), k -> new HashMap<>()).put(team.getName(), team);
-        }
-
-        Student student = studentsInCourse.get(email);
-        if (student != null) {
-            updateStudentCascade(student, null, enrollRequest.getName(), team, enrollRequest.getComments());
-        } else {
-            student = createStudent(course, team, enrollRequest.getName(), email, enrollRequest.getComments());
-            studentsInCourse.put(email, student);
-        }
-
-        return student;
-    }
-
-    private String getSectionInvalidityInfo(Collection<Student> studentList) {
-        Map<String, Integer> sectionCountMap = new HashMap<>();
-        for (Student student : studentList) {
-            String sectionName = student.getSectionName();
-            assert sectionName != null : "Section name should not be null";
-            sectionCountMap.put(sectionName, sectionCountMap.getOrDefault(sectionName, 0) + 1);
-        }
-
-        StringJoiner errorMessage = new StringJoiner(" ");
-        sectionCountMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> {
-                    if (entry.getValue() > Const.SECTION_SIZE_LIMIT) {
-                        errorMessage.add(String.format(
-                                ERROR_ENROLL_EXCEED_SECTION_LIMIT,
-                                Const.SECTION_SIZE_LIMIT, entry.getKey()));
-                    }
-                });
-
-        if (errorMessage.length() > 0) {
-            errorMessage.add(String.format(
-                    ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                    Const.SECTION_SIZE_LIMIT));
-        }
-
-        return errorMessage.toString();
-    }
-
-    private String getTeamInvalidityInfo(Collection<Student> studentList) {
-        StringJoiner errorMessage = new StringJoiner(" ");
-        Map<String, Set<String>> teamToSectionsMap = new HashMap<>();
-        for (Student student : studentList) {
-            String teamName = student.getTeamName();
-            assert teamName != null : "Team name should not be null";
-            String sectionName = student.getSectionName();
-            assert sectionName != null : "Section name should not be null";
-            teamToSectionsMap.computeIfAbsent(teamName, k -> new HashSet<>()).add(sectionName);
-        }
-
-        teamToSectionsMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> {
-                    if (entry.getValue().size() > 1) {
-                        List<String> sectionStrings = entry.getValue().stream()
-                                .sorted()
-                                .map(section -> String.format("\"%s\"", section))
-                                .toList();
-                        errorMessage.add(String.format(
-                                "Team \"%s\" is detected in Sections %s.",
-                                entry.getKey(),
-                                String.join(", ", sectionStrings)));
-                    }
-                });
-
-        if (errorMessage.length() > 0) {
-            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
-        }
-
-        return errorMessage.toString();
-    }
-
-    /**
      * Unlinks the account associated with the user profile without deleting
      * either entity, allowing the profile to be linked to a different account.
      */
@@ -1015,23 +842,40 @@ public final class UsersLogic {
     }
 
     /**
+     * Unlinks the account associated with the user profile and enqueues the
+     * corresponding rejoin email.
+     */
+    public User unlinkAccountAndNotify(UUID userId) throws EntityDoesNotExistException {
+        User user = unlinkAccount(userId);
+        if (user instanceof Student student) {
+            enqueueStudentCourseRejoinAfterUnlinkAccountEmail(student);
+        } else if (user instanceof Instructor instructor) {
+            enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(instructor);
+        }
+        return user;
+    }
+
+    /**
      * Sorts the instructors list alphabetically by name.
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
     }
 
-    /**
-     * Utility function to convert user list to email-user map for faster email lookup.
-     *
-     * @param users users list which contains users with unique email addresses
-     * @return email-user map for faster email lookup
-     */
-    private Map<String, User> convertUserListToEmailUserMap(List<? extends User> users) {
-        Map<String, User> emailUserMap = new HashMap<>();
-        users.forEach(u -> emailUserMap.put(u.getEmail(), u));
+    private User getJoinReminderUserOrThrow(UUID userId) throws EntityDoesNotExistException {
+        User user = getUser(userId);
+        if (user == null) {
+            throw new EntityDoesNotExistException("User with ID " + userId + " does not exist.");
+        }
+        return user;
+    }
 
-        return emailUserMap;
+    private Course getJoinReminderCourseOrThrow(String courseId) throws EntityDoesNotExistException {
+        Course course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist.");
+        }
+        return course;
     }
 
     private void validateUser(User user) throws InvalidParametersException {

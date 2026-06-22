@@ -51,7 +51,7 @@
         <hr />
         @if (authInfo()?.user; as user) {
           <div class="alert alert-success" role="alert">
-            Signed in as: <strong>{{ user.email }}</strong>
+            Signed in as: <strong>{{ user.accountEmail }}</strong>
           </div>
           <tm-instructor-request-form
             (requestSubmissionEvent)="onRequestSubmitted($event)"

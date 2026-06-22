@@ -17,9 +17,16 @@ import org.testng.annotations.BeforeSuite;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.logic.api.Logic;
+import teammates.logic.api.MockRecaptchaVerifier;
+import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.core.LogicStarter;
+import teammates.logic.email.AccountVerificationEmailsLogic;
+import teammates.logic.email.CourseJoinEmailsLogic;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
+import teammates.logic.email.EmailQueueService;
+import teammates.logic.email.FeedbackSessionEmailsLogic;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -45,6 +52,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     protected GivenData given;
 
+    /**
+     * MockTaskQueuer for verifying enqueued tasks.
+     */
+    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+
+    /**
+     * MockRecaptchaVerifier for bypassing reCAPTCHA verification in tests.
+     */
+    protected MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+
     private final Logic logic = Logic.inst();
 
     @BeforeSuite(alwaysRun = true)
@@ -57,6 +74,11 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     @BeforeMethod(alwaysRun = true)
     protected void setUpMethod() {
         LogicStarter.initializeDependencies();
+        EmailQueueService emailQueueService = EmailQueueService.withTaskQueuer(mockTaskQueuer);
+        AccountVerificationEmailsLogic.inst().init(emailQueueService);
+        CourseJoinEmailsLogic.inst().init(emailQueueService);
+        DeadlineExtensionEmailsLogic.inst().init(emailQueueService);
+        FeedbackSessionEmailsLogic.inst().init(emailQueueService);
         given = new GivenData(currentTestName);
     }
 
@@ -146,7 +168,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     private void clearDatabase() {
         HibernateUtil.createNativeMutationQuery("""
             TRUNCATE TABLE
-                account_requests,
+                account_verification_requests,
                 accounts,
                 courses,
                 deadline_extensions,
@@ -221,8 +243,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
-        } else if (entity instanceof AccountRequest) {
-            return logic.getAccountRequest(((AccountRequest) entity).getId());
+        } else if (entity instanceof AccountVerificationRequest) {
+            return logic.getAccountVerificationRequest(((AccountVerificationRequest) entity).getId());
         } else if (entity instanceof Instructor) {
             return logic.getInstructor(((Instructor) entity).getId());
         } else if (entity instanceof Student) {

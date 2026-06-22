@@ -2,6 +2,7 @@ package teammates.e2e.cases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
@@ -27,7 +28,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     public void testAll() {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
-        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
+        String studentEmail = testData.accounts.get("SHome.student").getEmail();
+        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, studentEmail);
 
         ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();
@@ -47,8 +49,9 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     private List<String> getAllVisibleCourseIds() {
         List<String> courseIds = new ArrayList<>();
 
+        UUID studentAccountIdWithVisibleCourses = testData.accounts.get("SHome.student").getId();
         for (Student student : testData.students.values()) {
-            if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
+            if (studentAccountIdWithVisibleCourses.equals(student.getAccountId())) {
                 courseIds.add(student.getCourseId());
             }
         }

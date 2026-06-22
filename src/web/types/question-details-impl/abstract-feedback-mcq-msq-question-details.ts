@@ -1,73 +1,57 @@
-import { McqMsqQuestionStatistics, McqMsqPerRecipientStatistics } from '../question-statistics.model';
+import { FeedbackMcqMsqCourseWideStatistics } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
  * Abstract class for MCQ/MSQ question detail.
  */
 export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeedbackQuestionDetails {
-  protected getQuestionCsvStatsFrom(
-    statsCalculation: McqMsqQuestionStatistics,
-    hasAssignedWeights: boolean,
-  ): string[][] {
+  protected getQuestionCsvStatsFrom(stats: FeedbackMcqMsqCourseWideStatistics): string[][] {
     const statsRows: string[][] = [];
 
-    if (hasAssignedWeights) {
+    if (stats.hasWeights) {
       statsRows.push(['Choice', 'Weight', 'Response Count', 'Percentage (%)', 'Weighted Percentage (%)']);
     } else {
       statsRows.push(['Choice', 'Response Count', 'Percentage (%)']);
     }
 
-    Object.keys(statsCalculation.answerFrequency)
-      .sort()
-      .forEach((answer: string) => {
-        if (hasAssignedWeights) {
-          statsRows.push([
-            answer,
-            String(statsCalculation.weightPerOption[answer]),
-            String(statsCalculation.answerFrequency[answer]),
-            String(statsCalculation.percentagePerOption[answer]),
-            String(statsCalculation.weightedPercentagePerOption[answer]),
-          ]);
-        } else {
-          statsRows.push([
-            answer,
-            String(statsCalculation.answerFrequency[answer]),
-            String(statsCalculation.percentagePerOption[answer]),
-          ]);
-        }
-      });
+    for (const row of stats.rows) {
+      if (stats.hasWeights) {
+        statsRows.push([
+          row.option,
+          String(row.weight ?? '-'),
+          String(row.count),
+          String(row.percentage),
+          String(row.weightedPercentage ?? '-'),
+        ]);
+      } else {
+        statsRows.push([row.option, String(row.count), String(row.percentage)]);
+      }
+    }
 
-    if (!hasAssignedWeights) {
+    if (!stats.hasWeights || stats.perRecipientRows.length === 0) {
       return statsRows;
     }
 
-    // generate per recipient stats
-    statsRows.push([], ['Per Recipient Statistics']);
+    const optionLabels = stats.rows.map((r) => r.option);
 
+    statsRows.push([], ['Per Recipient Statistics']);
     statsRows.push([
       'Team',
       'Recipient Name',
-      ...Object.keys(statsCalculation.weightPerOption).map(
-        (choice: string) => `${choice} [${statsCalculation.weightPerOption[choice]}]`,
-      ),
+      ...stats.rows.map((r) => `${r.option} [${r.weight}]`),
       'Total',
       'Average',
     ]);
 
-    Object.keys(statsCalculation.perRecipientResponses)
-      .sort()
-      .forEach((recipient: string) => {
-        const recipientResponses: McqMsqPerRecipientStatistics = statsCalculation.perRecipientResponses[recipient];
-        statsRows.push([
-          recipientResponses.recipientTeam,
-          recipientResponses.recipient,
-          ...Object.keys(statsCalculation.weightPerOption).map((choice: string) =>
-            String(recipientResponses.responses[choice]),
-          ),
-          String(recipientResponses.total),
-          String(recipientResponses.average),
-        ]);
-      });
+    for (const row of stats.perRecipientRows) {
+      statsRows.push([
+        row.recipientTeam,
+        row.recipientName,
+        ...optionLabels.map((label) => String(row.responseCountPerOption[label] ?? 0)),
+        String(row.total),
+        String(row.average),
+      ]);
+    }
 
     return statsRows;
   }

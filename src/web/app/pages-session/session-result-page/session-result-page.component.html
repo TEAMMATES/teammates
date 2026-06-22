@@ -1,5 +1,5 @@
 <h1>Feedback Session Results</h1>
-@if (previewAsPerson) {
+@if (previewAs) {
   <div class="bg-light">
     <div class="col-12 text-center text-break">
       <h4>
@@ -31,26 +31,24 @@
     </div>
   </div>
 }
-@if (regKey) {
+@if (key) {
   <div class="row">
     <div class="col-12">
       <div class="alert alert-primary" role="alert">
-        @if (loggedInUser) {
+        @if (accountEmail) {
           <div>
-            You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{
-              loggedInUser
-            }}) with this user,
+            You are viewing feedback results as {{ personName }}. If you wish to link your account ({{ accountEmail }})
+            with this user,
             <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
               >click here</a
             >.
           </div>
-        }
-        @if (!loggedInUser) {
+        } @else {
           <div>
             You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are
-            currently open and view results without logging in. To access other features you need to
+            currently open and view results without signing in. To access other features you need to
             <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
-              >log in using a Google account</a
+              >Sign in using an account</a
             >
             (recommended).
           </div>
@@ -130,8 +128,8 @@
         [questions]="questions"
         [session]="session"
         [intent]="intent"
-        [regKey]="regKey"
-        [previewAsPerson]="previewAsPerson"
+        [regKey]="key"
+        [previewAsPerson]="previewAs"
       ></tm-question-response-panel>
     </div>
   </tm-loading-retry>

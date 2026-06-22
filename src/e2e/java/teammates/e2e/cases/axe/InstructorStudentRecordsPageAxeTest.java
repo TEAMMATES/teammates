@@ -28,7 +28,7 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
 
         InstructorStudentRecordsPage recordsPage =
                 loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class,
-                testData.instructors.get("teammates.test.CS2104").getGoogleId());
+                testData.instructors.get("teammates.test.CS2104").getEmail());
 
         Results results = getAxeBuilder().analyze(recordsPage.getBrowser().getDriver());
         formatViolations(results);

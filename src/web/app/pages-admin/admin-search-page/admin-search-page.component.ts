@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
-  AccountRequestSearchResult,
+  AccountVerificationRequestSearchResult,
   AdminSearchResult,
   InstructorAccountSearchResult,
   SearchService,
@@ -11,7 +11,7 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
-import { AdminAccountRequestSearchTableComponent } from './admin-account-request-search-table/admin-account-request-search-table.component';
+import { AdminAccountVerificationRequestSearchTableComponent } from './admin-account-verification-request-search-table/admin-account-verification-request-search-table.component';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table/admin-instructor-search-table.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table/admin-student-search-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -25,7 +25,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./admin-search-page.component.scss'],
   imports: [
     FormsModule,
-    AdminAccountRequestSearchTableComponent,
+    AdminAccountVerificationRequestSearchTableComponent,
     AdminInstructorSearchTableComponent,
     AdminStudentSearchTableComponent,
   ],
@@ -39,7 +39,7 @@ export class AdminSearchPageComponent {
   searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  accountRequests: AccountRequestSearchResult[] = [];
+  accountVerificationRequests: AccountVerificationRequestSearchResult[] = [];
   characterLimit = 100;
 
   /**
@@ -58,19 +58,19 @@ export class AdminSearchPageComponent {
         next: (resp: AdminSearchResult) => {
           const hasStudents = !!resp.students?.length;
           const hasInstructors = !!resp.instructors?.length;
-          const hasAccountRequests = !!resp.accountRequests?.length;
+          const hasAccountVerificationRequests = !!resp.accountVerificationRequests?.length;
 
-          if (!hasStudents && !hasInstructors && !hasAccountRequests) {
+          if (!hasStudents && !hasInstructors && !hasAccountVerificationRequests) {
             this.statusMessageService.showWarningToast('No results found.');
             this.instructors = [];
             this.students = [];
-            this.accountRequests = [];
+            this.accountVerificationRequests = [];
             return;
           }
 
           this.instructors = resp.instructors;
           this.students = resp.students;
-          this.accountRequests = resp.accountRequests;
+          this.accountVerificationRequests = resp.accountVerificationRequests;
 
           const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
           const limitsReached: string[] = [];
@@ -80,8 +80,8 @@ export class AdminSearchPageComponent {
           if (this.instructors.length >= limit) {
             limitsReached.push(`${limit} instructor results`);
           }
-          if (this.accountRequests.length >= limit) {
-            limitsReached.push(`${limit} account request results`);
+          if (this.accountVerificationRequests.length >= limit) {
+            limitsReached.push(`${limit} account verification request results`);
           }
           if (limitsReached.length) {
             this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page

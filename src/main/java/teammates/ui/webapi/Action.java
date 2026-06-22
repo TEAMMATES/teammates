@@ -11,18 +11,13 @@ import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.RecaptchaVerifier;
-import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
-import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
@@ -39,9 +34,6 @@ public abstract class Action {
     Logic logic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
-    EmailGenerator emailGenerator = EmailGenerator.inst();
-    TaskQueuer taskQueuer = TaskQueuer.inst();
-    EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
 
     HttpServletRequest req;
@@ -70,20 +62,8 @@ public abstract class Action {
         this.userProvision = userProvision;
     }
 
-    public void setTaskQueuer(TaskQueuer taskQueuer) {
-        this.taskQueuer = taskQueuer;
-    }
-
-    public void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
-    }
-
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
         this.recaptchaVerifier = recaptchaVerifier;
-    }
-
-    public void setEmailGenerator(EmailGenerator emailGenerator) {
-        this.emailGenerator = emailGenerator;
     }
 
     /**
@@ -115,7 +95,6 @@ public abstract class Action {
 
         if (account != null) {
             user.setEmail(account.getEmail());
-            user.setGoogleId(account.getGoogleId());
         } else if (regKeyUser != null) {
             user.setEmail(regKeyUser.getEmail());
         }
@@ -127,9 +106,9 @@ public abstract class Action {
         return requestContext.getAccount();
     }
 
-    String getCurrentUserGoogleId() {
+    UUID getCurrentUserAccountId() {
         Account account = getCurrentAccount();
-        return account == null ? null : account.getGoogleId();
+        return account == null ? null : account.getId();
     }
 
     /**
@@ -246,14 +225,6 @@ public abstract class Action {
         return requestBody != null;
     }
 
-    FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        return feedbackSession;
-    }
-
     /**
      * Deserializes and validates the request body payload.
      */
@@ -272,6 +243,24 @@ public abstract class Action {
 
     Student getStudentFromRequest(String courseId) {
         return requestContext.getStudentForCourse(courseId, logic::getStudentFromAuthContext);
+    }
+
+    /**
+     * Gets the user information from the request context.
+     *
+     * <p>If the user is both an instructor and a student in the course,
+     * the instructor information will be returned.
+     */
+    User getUserFromRequest(String courseId) {
+        User regKeyUser = requestContext.getRegKeyUser();
+        if (regKeyUser != null) {
+            return regKeyUser;
+        }
+        Instructor instructor = getInstructorFromRequest(courseId);
+        if (instructor != null) {
+            return instructor;
+        }
+        return getStudentFromRequest(courseId);
     }
 
     /**

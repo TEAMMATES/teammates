@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -28,7 +27,6 @@ import {
   AuthInfo,
   Course,
   CourseView,
-  Courses,
   FeedbackSessionView,
   FeedbackSessions,
   Instructor,
@@ -91,7 +89,6 @@ interface InstructorEditPanelDetail {
   ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly navigationService = inject(NavigationService);
   private readonly studentService = inject(StudentService);
   private readonly instructorService = inject(InstructorService);
@@ -108,7 +105,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   Sections!: typeof Sections;
   CourseEditFormMode!: typeof CourseEditFormMode;
 
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
   authInfo: AuthInfo | null = null;
   currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
@@ -141,30 +138,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
+    this.loadCourseInfo();
+    this.loadCurrInstructorInfo();
 
-      this.loadCourseInfo();
-      this.loadCurrInstructorInfo();
+    // load all section and session name
+    forkJoin([
+      this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
+      this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+    ]).subscribe((vals) => {
+      const students: Students = vals[0];
+      const sessions: FeedbackSessions = vals[1];
 
-      // load all section and session name
-      forkJoin([
-        this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
-        this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ]).subscribe((vals) => {
-        const students: Students = vals[0];
-        const sessions: FeedbackSessions = vals[1];
+      this.allSections = Array.from(
+        new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
+      ).map(([id, name]) => ({ id, name }));
+      this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
+        id: sv.feedbackSession.feedbackSessionId,
+        name: sv.feedbackSession.feedbackSessionName,
+      }));
 
-        this.allSections = Array.from(
-          new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
-        ).map(([id, name]) => ({ id, name }));
-        this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
-          id: sv.feedbackSession.feedbackSessionId,
-          name: sv.feedbackSession.feedbackSessionName,
-        }));
-
-        this.loadCourseInstructors();
-      });
+      this.loadCourseInstructors();
     });
   }
 
@@ -419,7 +412,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorUpdateRequest = {
-      id: panelDetail.originalInstructor.userId,
       name: panelDetail.editPanel.name,
       email:
         panelDetail.originalInstructor.joinState === JoinState.JOINED
@@ -435,10 +427,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     this.instructorService
-      .updateInstructor({
-        courseId: panelDetail.originalInstructor.courseId,
-        requestBody: reqBody,
-      })
+      .updateInstructor({ instructorId: panelDetail.originalInstructor.userId }, reqBody)
       .pipe(
         finalize(() => {
           panelDetail.editPanel.isSavingInstructorEdit = false;
@@ -557,7 +546,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     this.instructorService
-      .createInstructor({ courseId: this.courseId, requestBody: reqBody })
+      .createInstructor({ courseId: this.courseId }, reqBody)
       .pipe(
         finalize(() => {
           this.isSavingNewInstructor = false;
@@ -713,12 +702,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.isCopyingInstructor = true;
     const courseTabModels: CourseTabModel[] = [];
 
-    forkJoin([this.courseService.getAllCoursesAsInstructor('active')]).subscribe({
-      next: (values: Courses[]) => {
-        const activeCourses: Courses = values[0];
-
-        activeCourses.courses.forEach((courseView: CourseView) => {
-          const course: Course = courseView.course;
+    this.courseService.getAllCoursesAsInstructor('active').subscribe({
+      next: (activeCourses) => {
+        activeCourses.courses.forEach((course) => {
           if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
             const model: CourseTabModel = this.getDefaultCourseTab({
               courseId: course.courseId,
@@ -762,16 +748,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     of(...instructors)
       .pipe(
         concatMap((instructor: Instructor) => {
-          return this.instructorService.createInstructor({
-            courseId: this.courseId,
-            requestBody: {
+          return this.instructorService.createInstructor(
+            { courseId: this.courseId },
+            {
               name: instructor.name,
               email: instructor.email,
               role: instructor.role!,
               displayName: instructor.displayedToStudentsAs,
               isDisplayedToStudent: instructor.isDisplayedToStudents!,
             },
-          });
+          );
         }),
         // always close the modal after it enters the last step no matter adding succeeds or fails
         finalize(() => {

@@ -16,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.Provider;
@@ -29,10 +28,13 @@ import teammates.common.util.SanitizationHelper;
 @Entity
 @Table(name = "Accounts",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UniqueOidc", columnNames = {"provider", "subject", "tenantId"}),
+                @UniqueConstraint(name = "unique_provider_subject_tenant",
+                        columnNames = {"provider", "subject", "tenantId"}),
         }
 )
 public class Account extends BaseEntity {
+    public static final String NO_TENANT = "__NO_TENANT__";
+
     @Id
     private UUID id;
 
@@ -43,14 +45,8 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String subject;
 
-    @Column
-    private String tenantId;
-
-    @NaturalId
-    private String googleId;
-
     @Column(nullable = false)
-    private String name;
+    private String tenantId;
 
     @Column(nullable = false)
     private String email;
@@ -65,7 +61,7 @@ public class Account extends BaseEntity {
     private Set<Student> students = new HashSet<>();
 
     @OneToMany(mappedBy = "account")
-    private Set<AccountRequest> accountRequests = new HashSet<>();
+    private Set<AccountVerificationRequest> accountVerificationRequests = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -74,13 +70,11 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
+    public Account(Provider provider, String subject, String tenantId, String email) {
         this.setId(UUID.randomUUID());
-        this.setGoogleId(googleId);
         this.setProvider(provider);
         this.setSubject(subject);
         this.setTenantId(tenantId);
-        this.setName(name);
         this.setEmail(email);
     }
 
@@ -121,23 +115,15 @@ public class Account extends BaseEntity {
     }
 
     public void setTenantId(String tenantId) {
-        this.tenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        this.tenantId = normalizeTenantId(tenantId);
     }
 
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = SanitizationHelper.sanitizeName(name);
+    /**
+     * Normalizes the tenant ID, returning a default value if the input is null or empty.
+     */
+    public static String normalizeTenantId(String tenantId) {
+        String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
     }
 
     public String getEmail() {
@@ -165,15 +151,15 @@ public class Account extends BaseEntity {
     }
 
     /**
-     * Add an account request to this account.
+     * Add an account verification request to this account.
      */
-    public void addAccountRequest(AccountRequest accountRequest) {
-        accountRequests.add(accountRequest);
-        accountRequest.setAccount(this);
+    public void addAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+        accountVerificationRequests.add(accountVerificationRequest);
+        accountVerificationRequest.setAccount(this);
     }
 
-    public Set<AccountRequest> getAccountRequests() {
-        return accountRequests;
+    public Set<AccountVerificationRequest> getAccountVerificationRequests() {
+        return accountVerificationRequests;
     }
 
     public Instant getUpdatedAt() {
@@ -188,8 +174,6 @@ public class Account extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
         return errors;
@@ -215,8 +199,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
-                + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
-                + ",updatedAt=" + updatedAt + "]";
+        return "Account [id=" + id + ", email=" + email
+                + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }

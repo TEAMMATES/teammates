@@ -1,13 +1,11 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
+  NumScaleRecipientRow,
   QuestionOutput,
-  QuestionRecipientType,
 } from '../api-output';
-import { NumScaleQuestionStatistics, NumScaleRecipientStatistics, Response } from '../question-statistics.model';
-import { calculateNumScaleQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackNumericalScaleQuestionDetails}.
@@ -31,69 +29,38 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter(
-        (response) => !response.isMissingResponse,
-      ) as unknown as Response<FeedbackNumericalScaleResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isNumscale(stats) || stats.rows.length === 0) {
       return [];
     }
 
-    const statsCalculation = calculateNumScaleQuestionStatistics(responses);
-
+    const showExcludeSelf = stats.rows.some((row) => row.averageExcludingSelf != null);
     const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Average', 'Minimum', 'Maximum'];
-    const shouldShowAvgExcludingSelf: boolean = this.shouldShowAverageExcludingSelfInCsvStats(
-      question,
-      statsCalculation,
-    );
-    if (shouldShowAvgExcludingSelf) {
+    if (showExcludeSelf) {
       header.push('Average excluding self response');
     }
-    statsRows.push(header);
 
-    for (const team of Object.keys(statsCalculation.teamToRecipientToScores).sort()) {
-      for (const recipient of Object.keys(statsCalculation.teamToRecipientToScores[team]).sort()) {
-        const stats: NumScaleRecipientStatistics = statsCalculation.teamToRecipientToScores[team][recipient];
-        const currRow: string[] = [
-          team,
-          recipient,
-          statsCalculation.recipientEmails[recipient],
-          String(stats.average),
-          String(stats.min),
-          String(stats.max),
-        ];
-        if (shouldShowAvgExcludingSelf) {
-          currRow.push(String(stats.averageExcludingSelf));
-        }
-        statsRows.push(currRow);
+    const sortedRows = [...stats.rows].sort((a: NumScaleRecipientRow, b: NumScaleRecipientRow) => {
+      const teamCmp = a.recipientTeam.localeCompare(b.recipientTeam);
+      return teamCmp === 0 ? a.recipientName.localeCompare(b.recipientName) : teamCmp;
+    });
+
+    const dataRows: string[][] = sortedRows.map((row: NumScaleRecipientRow) => {
+      const currRow: string[] = [
+        row.recipientTeam,
+        row.recipientName,
+        row.recipientEmail ?? '',
+        String(row.average ?? ''),
+        String(row.min ?? ''),
+        String(row.max ?? ''),
+      ];
+      if (showExcludeSelf) {
+        currRow.push(String(row.averageExcludingSelf ?? ''));
       }
-    }
+      return currRow;
+    });
 
-    return statsRows;
-  }
-
-  /**
-   * Checks whether AverageExcludingSelf should appear as a CSV header.
-   */
-  shouldShowAverageExcludingSelfInCsvStats(
-    question: QuestionOutput,
-    statsCalculation: NumScaleQuestionStatistics,
-  ): boolean {
-    if (question.feedbackQuestion.recipientType === QuestionRecipientType.NONE) {
-      // General recipient type would not give self response
-      // Therefore average exclude self response will always be hidden
-      return false;
-    }
-
-    // There should exist at least one average score exclude self
-    return Object.values(statsCalculation.teamToRecipientToScores).some(
-      (recipientStats: Record<string, NumScaleRecipientStatistics>) =>
-        Object.values(recipientStats).some((stats: NumScaleRecipientStatistics) => stats.averageExcludingSelf),
-    );
+    return [header, ...dataRows];
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

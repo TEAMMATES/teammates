@@ -14,9 +14,17 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.LinksUtil;
+import teammates.logic.email.DeadlineExtensionEmailsLogic;
+import teammates.logic.email.model.DeadlineExtensionUpdateEmailContext;
+import teammates.logic.email.model.FeedbackSessionEmailContext;
 import teammates.storage.api.DeadlineExtensionsDb;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 
 /**
@@ -32,8 +40,10 @@ public final class DeadlineExtensionsLogic {
     private DeadlineExtensionsDb deadlineExtensionsDb;
 
     private FeedbackSessionsLogic feedbackSessionsLogic;
+    private CoursesLogic coursesLogic;
 
     private UsersLogic usersLogic;
+    private DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic;
 
     private DeadlineExtensionsLogic() {
         // prevent initialization
@@ -44,10 +54,13 @@ public final class DeadlineExtensionsLogic {
     }
 
     void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb,
-            FeedbackSessionsLogic feedbackSessionsLogic, UsersLogic usersLogic) {
+            FeedbackSessionsLogic feedbackSessionsLogic, CoursesLogic coursesLogic, UsersLogic usersLogic,
+            DeadlineExtensionEmailsLogic deadlineExtensionsEmailsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
+        this.coursesLogic = coursesLogic;
         this.usersLogic = usersLogic;
+        this.deadlineExtensionEmailsLogic = deadlineExtensionsEmailsLogic;
     }
 
     /**
@@ -119,6 +132,19 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
+     * Updates the deadline extensions for a feedback session and enqueues
+     * notification emails for the changed users.
+     */
+    public List<UpdateExtensionsResult> updateDeadlineExtensionsAndNotify(
+            FeedbackSession feedbackSession, Map<UUID, Instant> extensions) throws InvalidParametersException {
+        List<DeadlineExtensionUpdateEmailContext> emailContexts = new ArrayList<>();
+        FeedbackSessionEmailContext feedbackSessionContext = buildFeedbackSessionEmailContext(feedbackSession);
+        List<UpdateExtensionsResult> updateResults = updateDeadlineExtensions(feedbackSession, extensions, emailContexts);
+        deadlineExtensionEmailsLogic.enqueueDeadlineExtensionUpdateEmails(feedbackSessionContext, emailContexts);
+        return updateResults;
+    }
+
+    /**
      * Updates the deadline extensions for a feedback session based on the provided extensions map.
      *
      * <p>The method will create new deadline extensions, update existing ones,
@@ -126,6 +152,12 @@ public final class DeadlineExtensionsLogic {
      */
     public List<UpdateExtensionsResult> updateDeadlineExtensions(
             FeedbackSession feedbackSession, Map<UUID, Instant> extensions) throws InvalidParametersException {
+        return updateDeadlineExtensions(feedbackSession, extensions, null);
+    }
+
+    private List<UpdateExtensionsResult> updateDeadlineExtensions(
+            FeedbackSession feedbackSession, Map<UUID, Instant> extensions,
+            List<DeadlineExtensionUpdateEmailContext> emailContexts) throws InvalidParametersException {
         Instant sessionDeadline = feedbackSession.getEndTime();
         Map<UUID, User> userMap = usersLogic.getUsersForCourse(feedbackSession.getCourseId())
                 .stream()
@@ -153,23 +185,32 @@ public final class DeadlineExtensionsLogic {
 
                 validateDeadlineExtension(newDeadlineExtension);
                 deadlineExtensionsDb.persistDeadlineExtension(newDeadlineExtension);
-                results.add(new UpdateExtensionsResult(user, sessionDeadline, newDeadline, ExtensionUpdateType.CREATED));
+                results.add(new UpdateExtensionsResult(userId, sessionDeadline, newDeadline, ExtensionUpdateType.CREATED));
+                addEmailContext(emailContexts, feedbackSession, user, sessionDeadline, newDeadline,
+                        EmailType.DEADLINE_EXTENSION_GRANTED);
             } else if (!existingDeadlineExtension.getEndTime().equals(newDeadline)) {
                 Instant oldDeadline = existingDeadlineExtension.getEndTime();
                 existingDeadlineExtension.setEndTime(newDeadline);
 
                 validateDeadlineExtension(existingDeadlineExtension);
-                results.add(new UpdateExtensionsResult(user, oldDeadline, newDeadline, ExtensionUpdateType.UPDATED));
+                results.add(new UpdateExtensionsResult(userId, oldDeadline, newDeadline, ExtensionUpdateType.UPDATED));
+                addEmailContext(emailContexts, feedbackSession, user, oldDeadline, newDeadline,
+                        EmailType.DEADLINE_EXTENSION_UPDATED);
+            } else {
+                results.add(new UpdateExtensionsResult(userId, newDeadline, newDeadline, ExtensionUpdateType.UNCHANGED));
             }
         }
 
         for (DeadlineExtension existingDeadlineExtension : existingDeadlineExtensions.values()) {
             if (!extensions.containsKey(existingDeadlineExtension.getUserId())) {
                 User user = existingDeadlineExtension.getUser();
+                Instant oldDeadline = existingDeadlineExtension.getEndTime();
                 deleteDeadlineExtension(existingDeadlineExtension);
                 feedbackSession.removeDeadlineExtension(existingDeadlineExtension);
-                results.add(new UpdateExtensionsResult(user, existingDeadlineExtension.getEndTime(),
-                        sessionDeadline, ExtensionUpdateType.DELETED));
+                results.add(new UpdateExtensionsResult(user.getId(), oldDeadline, sessionDeadline,
+                        ExtensionUpdateType.DELETED));
+                addEmailContext(emailContexts, feedbackSession, user, oldDeadline, sessionDeadline,
+                        EmailType.DEADLINE_EXTENSION_REVOKED);
             }
         }
 
@@ -219,4 +260,42 @@ public final class DeadlineExtensionsLogic {
             throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
         }
     }
+
+    private void addEmailContext(List<DeadlineExtensionUpdateEmailContext> emailContexts,
+            FeedbackSession feedbackSession, User user, Instant oldEndTime, Instant newEndTime, EmailType emailType) {
+        if (emailContexts == null) {
+            return;
+        }
+
+        emailContexts.add(new DeadlineExtensionUpdateEmailContext(
+                user.getEmail(),
+                user.getName(),
+                user instanceof Instructor,
+                getSubmitUrl(feedbackSession, user),
+                oldEndTime,
+                newEndTime,
+                emailType));
+    }
+
+    private FeedbackSessionEmailContext buildFeedbackSessionEmailContext(FeedbackSession feedbackSession) {
+        Course course = coursesLogic.getCourse(feedbackSession.getCourseId());
+        return new FeedbackSessionEmailContext(
+                feedbackSession.getId(),
+                course.getId(),
+                course.getName(),
+                course.getTimeZone(),
+                feedbackSession.getName(),
+                feedbackSession.getInstructionsString(),
+                usersLogic.getCoOwnerContacts(course.getId()));
+    }
+
+    private String getSubmitUrl(FeedbackSession feedbackSession, User user) {
+        return switch (user) {
+        case Student student -> LinksUtil.getStudentSessionSubmitUrl(feedbackSession.getId(), student.getRegKey());
+        case Instructor instructor -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSession.getId(),
+                instructor.getRegKey());
+        default -> throw new AssertionError("User must be either an instructor or a student: " + user);
+        };
+    }
+
 }

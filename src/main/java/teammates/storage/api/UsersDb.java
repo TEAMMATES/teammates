@@ -17,7 +17,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
@@ -98,25 +97,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets an instructor by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
-
-        cr.select(instructorRoot).where(cb.and(
-                cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets all instructors that will be displayed to students of a course.
      */
     public List<Instructor> getInstructorsDisplayedToStudents(String courseId) {
@@ -182,59 +162,6 @@ public final class UsersDb {
         TypedQuery<Student> query = HibernateUtil.createQuery(jpql, Student.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
-    }
-
-    /**
-     * Gets a student by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        Join<Student, Account> accountsJoin = studentRoot.join("account");
-
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets all students by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        Join<Student, Account> accountsJoin = studentRoot.join("account");
-
-        cr.select(studentRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
-     * Gets all instructors and students by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<User> usersCr = cb.createQuery(User.class);
-        Root<User> usersRoot = usersCr.from(User.class);
-        Join<User, Account> accountsJoin = usersRoot.join("account");
-
-        usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
-
-        return HibernateUtil.createQuery(usersCr).getResultList();
     }
 
     /**
@@ -433,30 +360,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets instructors with the specified {@code userEmail}.
-     *
-     * @deprecated unused in production code, moving away from email based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-        for (String userEmail : userEmails) {
-            predicates.add(cb.equal(cb.lower(instructorRoot.get("email")), normalizeEmail(userEmail)));
-        }
-
-        cr.select(instructorRoot)
-                .where(cb.and(
-                        cb.equal(instructorRoot.get("courseId"), courseId),
-                        cb.or(predicates.toArray(new Predicate[0]))));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Gets the student with the specified {@code userEmail}.
      *
      * @deprecated unused in production code, moving away from email based retrieval
@@ -478,30 +381,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets students with the specified {@code userEmail}.
-     *
-     * @deprecated unused in production code, moving away from email based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-        for (String userEmail : userEmails) {
-            predicates.add(cb.equal(cb.lower(studentRoot.get("email")), normalizeEmail(userEmail)));
-        }
-
-        cr.select(studentRoot)
-                .where(cb.and(
-                        cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.or(predicates.toArray(new Predicate[0]))));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Gets list of students by email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
@@ -519,23 +398,6 @@ public final class UsersDb {
 
     private static String normalizeEmail(String email) {
         return email.toLowerCase(Locale.ROOT);
-    }
-
-    /**
-     * Gets all instructors associated with a googleId.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
-
-        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
-
-        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

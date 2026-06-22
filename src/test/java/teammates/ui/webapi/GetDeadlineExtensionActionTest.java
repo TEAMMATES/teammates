@@ -19,16 +19,15 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @Test(groups = GroupNames.ACTION)
     public void getDeadlineExtensionAction_ownStudentWithExtension_returnsDeadlineExtensionData() {
         var account = given.account("account");
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias()).account(account.alias()));
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
+        var student = given.student("student", s -> s.defaultCourse().account(account.alias()));
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
         given.deadlineExtension("de", d -> d.student(student.alias()).feedbackSession(session.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         DeadlineExtensionData result = execute(request);
 
@@ -41,17 +40,16 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @Test(groups = GroupNames.ACTION)
     public void getDeadlineExtensionAction_instructorWithCanModifySession_returnsDeadlineExtensionData() {
         var instructorAccount = given.account("instructor-account");
-        var course = given.course("course");
-        given.instructor("instructor", i -> i.course(course.alias()).account(instructorAccount.alias()).coOwner());
-        var student = given.student("student", s -> s.course(course.alias()));
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
+        given.instructor("instructor", i -> i.defaultCourse().account(instructorAccount.alias()).coOwner());
+        var student = given.student("student", s -> s.defaultCourse());
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
         given.deadlineExtension("de", d -> d.student(student.alias()).feedbackSession(session.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(instructorAccount.id()));
+                .withAccountAuth(instructorAccount.id());
 
         DeadlineExtensionData result = execute(request);
 
@@ -62,17 +60,16 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @Test(groups = GroupNames.ACTION)
     public void getDeadlineExtensionAction_unauthorizedUser_throwsUnauthorizedAccessException() {
         var otherAccount = given.account("other-account");
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias()));
-        given.student("other-student", s -> s.course(course.alias()).account(otherAccount.alias()));
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
+        var student = given.student("student", s -> s.defaultCourse());
+        given.student("other-student", s -> s.defaultCourse().account(otherAccount.alias()));
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
         given.deadlineExtension("de", d -> d.student(student.alias()).feedbackSession(session.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(otherAccount.id()));
+                .withAccountAuth(otherAccount.id());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
     }
@@ -80,15 +77,14 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @Test(groups = GroupNames.ACTION)
     public void getDeadlineExtensionAction_noExtensionExists_throwsEntityNotFoundException() {
         var account = given.account("account");
-        var course = given.course("course");
-        var student = given.student("student", s -> s.course(course.alias()).account(account.alias()));
-        var session = given.feedbackSession("session", fs -> fs.course(course.alias()));
+        var student = given.student("student", s -> s.defaultCourse().account(account.alias()));
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
-                .withCookie(getAuthCookie(account.id()));
+                .withAccountAuth(account.id());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }

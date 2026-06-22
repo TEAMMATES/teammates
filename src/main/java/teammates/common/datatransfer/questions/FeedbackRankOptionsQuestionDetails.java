@@ -5,9 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -37,13 +35,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public FeedbackRankOptionsQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RANK_OPTIONS, questionText);
         this.options = new ArrayList<>();
-    }
-
-    @Override
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
-        // Statistics are calculated in the frontend as they depend on the responses being filtered.
-        return "";
     }
 
     @Override
