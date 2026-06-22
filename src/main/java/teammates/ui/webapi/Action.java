@@ -1,9 +1,9 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
-import java.util.Optional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -220,19 +220,6 @@ public abstract class Action {
             return null;
         }
         return getEnumFromParam(paramName, value, enumType);
-    }
-
-    /**
-     * Returns all values or null for the specified parameter expected to be present in the HTTP request as enums.
-     */
-    <T extends Enum<T>> List<T> getNullableEnumRequestParamValues(String paramName, Class<T> enumType) {
-        String[] values = getRequestParamValues(paramName);
-        if (values == null || values.length == 0) {
-            return null;
-        }
-        return Arrays.stream(values)
-                .map(value -> getEnumFromParam(paramName, value, enumType))
-                .toList();
     }
 
     /**
