@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -130,6 +132,13 @@ public abstract class Action {
     }
 
     /**
+     * Returns all values for the specified parameter in the HTTP request, or null if not found.
+     */
+    String[] getRequestParamValues(String paramName) {
+        return req.getParameterValues(paramName);
+    }
+
+    /**
      * Returns all values for the specified parameter expected to be present in the HTTP request.
      */
     String[] getNonNullRequestParamValues(String paramName) {
@@ -194,6 +203,15 @@ public abstract class Action {
     }
 
     /**
+     * Returns all values for the specified parameter expected to be present in the HTTP request as enums.
+     */
+    <T extends Enum<T>> List<T> getEnumRequestParamValues(String paramName, Class<T> enumType) {
+        return Arrays.stream(getNonNullRequestParamValues(paramName))
+                .map(value -> getEnumFromParam(paramName, value, enumType))
+                .toList();
+    }
+
+    /**
      * Returns the first value or null for the specified parameter expected to be present in the HTTP request as an enum.
      */
     <T extends Enum<T>> T getNullableEnumRequestParamValue(String paramName, Class<T> enumType) {
@@ -202,6 +220,19 @@ public abstract class Action {
             return null;
         }
         return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
+     * Returns all values or null for the specified parameter expected to be present in the HTTP request as enums.
+     */
+    <T extends Enum<T>> List<T> getNullableEnumRequestParamValues(String paramName, Class<T> enumType) {
+        String[] values = getRequestParamValues(paramName);
+        if (values == null || values.length == 0) {
+            return null;
+        }
+        return Arrays.stream(values)
+                .map(value -> getEnumFromParam(paramName, value, enumType))
+                .toList();
     }
 
     /**
@@ -230,7 +261,7 @@ public abstract class Action {
     /**
      * Converts a request parameter to an enum value.
      */
-    protected <T extends Enum<T>> T getEnumFromParam(String paramName, String value, Class<T> enumType) {
+    private <T extends Enum<T>> T getEnumFromParam(String paramName, String value, Class<T> enumType) {
         try {
             return Enum.valueOf(enumType, value);
         } catch (IllegalArgumentException e) {

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -46,15 +45,6 @@ public class GetNotificationsAction extends LoggedInAction {
     }
 
     private List<NotificationTargetUser> getTargetUsersFromRequest() {
-        String[] targetUserStrings = getNonNullRequestParamValues(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-
-        return Arrays.stream(targetUserStrings)
-                .map(this::parseTargetUser)
-                .toList();
-    }
-
-    private NotificationTargetUser parseTargetUser(String targetUserString) {
-        return getEnumFromParam(Const.ParamsNames.NOTIFICATION_TARGET_USER, targetUserString,
-                NotificationTargetUser.class);
+        return getEnumRequestParamValues(Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.class);
     }
 }
