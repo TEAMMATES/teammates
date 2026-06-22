@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, InstructorPrivilege, Instructors, MessageOutput } from '../types/api-output';
-import { InstructorCreateRequest, InstructorUpdateRequest, Intent } from '../types/api-request';
+import { InstructorCreateRequest, InstructorUpdateRequest } from '../types/api-request';
 
 /**
  * Handles instructor related logic provision.
@@ -15,18 +15,25 @@ export class InstructorService {
   private readonly httpRequestService = inject(HttpRequestService);
 
   /**
-   * Get a list of instructors of a course by calling API.
+   * Get a full-detail list of instructors of a course by calling API.
    */
-  loadInstructors(queryParams: { courseId: string; intent?: Intent }): Observable<Instructors> {
+  loadInstructors(queryParams: { courseId: string }): Observable<Instructors> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
 
-    if (queryParams.intent) {
-      paramMap['intent'] = queryParams.intent;
-    }
-
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
+  }
+
+  /**
+   * Get the student-visible list of instructors of a course by calling API.
+   */
+  loadDisplayedInstructors(queryParams: { courseId: string }): Observable<Instructors> {
+    const paramMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS_DISPLAYED, paramMap);
   }
 
   /**

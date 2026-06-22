@@ -32,7 +32,6 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { AddingQuestionPanelComponent } from '../../components/adding-question-panel/adding-question-panel.component';
@@ -1130,10 +1129,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   getAllInstructors(): Observable<Instructor[]> {
     return this.instructorService
-      .loadInstructors({
-        courseId: this.courseId,
-        intent: Intent.FULL_DETAIL,
-      })
+      .loadInstructors({ courseId: this.courseId })
       .pipe(
         map((instructors: Instructors) => {
           this.instructorsOfCourse = instructors.instructors;

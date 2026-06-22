@@ -48,7 +48,6 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -316,10 +315,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
           // load all instructors in course
           this.instructorService
-            .loadInstructors({
-              courseId: this.courseId,
-              intent: Intent.FULL_DETAIL,
-            })
+            .loadInstructors({ courseId: this.courseId })
             .subscribe({
               next: (instructors: Instructors) => {
                 this.allInstructorsInCourse = instructors.instructors;
