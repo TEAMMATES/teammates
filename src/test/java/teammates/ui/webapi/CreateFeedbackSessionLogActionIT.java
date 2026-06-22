@@ -17,6 +17,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -64,7 +65,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
         };
-        verifyHttpParameterFailure(paramsInvalid);
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(paramsInvalid);
+        assertEquals("Invalid value for " + Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE + " parameter: [invalid log type]",
+                ihpe.getMessage());
 
         ______TS("Success case: typical access");
         String[] paramsSuccessfulAccess = {

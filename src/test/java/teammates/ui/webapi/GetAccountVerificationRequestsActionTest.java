@@ -75,4 +75,19 @@ public class GetAccountVerificationRequestsActionTest
 
         assertActionThrows(InvalidHttpParameterException.class, request);
     }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getAccountVerificationRequestsAction_invalidStatus_throwsInvalidHttpParameterException() {
+        var account = given.account("account");
+        given.accountVerificationRequest("request", ar -> ar.account(account.alias()));
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_STATUS, "invalid")
+                .withAdminAuth();
+
+        InvalidHttpParameterException ihpe = assertActionThrows(InvalidHttpParameterException.class, request);
+        assertEquals("Invalid value for " + Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_STATUS
+                + " parameter: [invalid]", ihpe.getMessage());
+    }
 }

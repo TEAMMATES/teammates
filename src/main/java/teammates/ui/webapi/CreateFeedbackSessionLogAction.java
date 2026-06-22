@@ -47,13 +47,9 @@ public class CreateFeedbackSessionLogAction extends RegKeyAction {
 
     @Override
     public JsonResult execute() {
-        FeedbackSessionLogType convertedFslType;
-        String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        try {
-            convertedFslType = FeedbackSessionLogType.valueOf(fslType);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
-        }
+        FeedbackSessionLogType convertedFslType =
+                getEnumRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE,
+                        FeedbackSessionLogType.class);
 
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         FeedbackSession feedbackSession = logic.getFeedbackSession(fsId);

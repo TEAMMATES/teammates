@@ -93,7 +93,10 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
 
         ______TS("Invalid intent");
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(buildParams(session, Intent.FULL_DETAIL));
-        assertEquals("Unknown intent " + Intent.FULL_DETAIL, ihpe.getMessage());
+        assertEquals("Invalid intent for this action", ihpe.getMessage());
+
+        ______TS("Missing intent");
+        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString());
 
         ______TS("Missing session");
         String[] missingSessionParams = {
