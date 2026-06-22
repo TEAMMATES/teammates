@@ -132,13 +132,6 @@ public abstract class Action {
     }
 
     /**
-     * Returns all values for the specified parameter in the HTTP request, or null if not found.
-     */
-    String[] getRequestParamValues(String paramName) {
-        return req.getParameterValues(paramName);
-    }
-
-    /**
      * Returns all values for the specified parameter expected to be present in the HTTP request.
      */
     String[] getNonNullRequestParamValues(String paramName) {
@@ -234,7 +227,7 @@ public abstract class Action {
     }
 
     /**
-     * Converts a uuid to a string.
+     * Converts a string to a UUID.
      */
     private UUID getUuidFromParam(String paramName, String uuid) {
         try {
@@ -246,7 +239,7 @@ public abstract class Action {
     }
 
     /**
-     * Converts a request parameter to an enum value.
+     * Converts a string to an enum value.
      */
     private <T extends Enum<T>> T getEnumFromParam(String paramName, String value, Class<T> enumType) {
         try {
