@@ -10,6 +10,7 @@ export interface Account extends ApiOutput {
 
 export interface AccountVerificationRequest extends ApiOutput {
   accountVerificationRequestId: string;
+  accountId: string;
   email: string;
   name: string;
   institute: string;

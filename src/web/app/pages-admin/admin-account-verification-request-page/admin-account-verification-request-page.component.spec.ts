@@ -7,11 +7,16 @@ import '@angular/compiler';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
+import {
+  AccountVerificationRequest,
+  AccountVerificationRequestStatus,
+  AccountVerificationRequests,
+} from '../../../types/api-output';
 import { AdminAccountVerificationRequestPageComponent } from './admin-account-verification-request-page.component';
 
 const mockPendingRequest: AccountVerificationRequest = {
   accountVerificationRequestId: 'test-id-123',
+  accountId: 'account-id-123',
   email: 'test@example.com',
   name: 'Test Instructor',
   institute: 'Test University',
@@ -19,6 +24,44 @@ const mockPendingRequest: AccountVerificationRequest = {
   status: AccountVerificationRequestStatus.PENDING,
   comments: 'Please verify my account.',
   createdAt: 1000000,
+};
+
+const mockHistoricalRequests: AccountVerificationRequests = {
+  accountVerificationRequests: [
+    {
+      accountVerificationRequestId: 'history-approved-request',
+      accountId: 'account-id-123',
+      email: 'test@example.com',
+      name: 'Test Instructor',
+      institute: 'Example Graduate School',
+      country: 'SG',
+      status: AccountVerificationRequestStatus.APPROVED,
+      comments: '',
+      createdAt: 900000,
+    },
+    {
+      accountVerificationRequestId: 'history-rejected-request',
+      accountId: 'account-id-123',
+      email: 'test@example.com',
+      name: 'Test Instructor',
+      institute: 'Example Teaching Institute',
+      country: 'SG',
+      status: AccountVerificationRequestStatus.REJECTED,
+      comments: '',
+      createdAt: 800000,
+    },
+    {
+      accountVerificationRequestId: 'test-id-123',
+      accountId: 'account-id-123',
+      email: 'test@example.com',
+      name: 'Test Instructor',
+      institute: 'Test University',
+      country: 'SG',
+      status: AccountVerificationRequestStatus.PENDING,
+      comments: 'Please verify my account.',
+      createdAt: 1000000,
+    },
+  ],
 };
 
 describe('AdminAccountVerificationRequestPageComponent', () => {
@@ -55,19 +98,22 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should render pending request details and enable actions', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
 
     fixture.detectChanges();
+    expect(accountService.getAccountVerificationRequests).toHaveBeenCalledWith({ accountId: 'account-id-123' });
 
     expect(fixture.nativeElement.textContent).toContain('Test Instructor');
     expect(fixture.nativeElement.textContent).toContain('test@example.com');
     expect(fixture.nativeElement.textContent).toContain('Test University');
     expect(fixture.nativeElement.textContent).toContain('Please verify my account.');
     expect(fixture.nativeElement.textContent).toContain('Request History For This Account');
-    expect(fixture.nativeElement.textContent).toContain(
-      'The data shown here is mocked for demonstration purposes. It is not the actual request history for this account.',
-    );
     expect(fixture.nativeElement.textContent).toContain('Example Graduate School');
+    expect(fixture.nativeElement.textContent).toContain('Test Instructor (test@example.com)');
     expect(fixture.nativeElement.textContent).toContain('Example Teaching Institute');
+    expect(fixture.debugElement.queryAll(By.css('a[href*="/web/admin/account-verification-requests/"]')).length).toBe(
+      3,
+    );
     expect(
       (fixture.debugElement.query(By.css('#btn-approve-request')).nativeElement as HTMLButtonElement).disabled,
     ).toBe(false);
@@ -82,6 +128,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, status: AccountVerificationRequestStatus.APPROVED }),
     );
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
 
     fixture.detectChanges();
 
@@ -99,6 +146,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, status: AccountVerificationRequestStatus.REJECTED }),
     );
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
 
     fixture.detectChanges();
 
@@ -114,6 +162,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should enter edit mode and disable approve/reject actions', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
 
     fixture.detectChanges();
     (fixture.debugElement.query(By.css('#btn-edit-request-details')).nativeElement as HTMLButtonElement).click();
@@ -132,6 +181,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should save inline edits and update the request', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     const saveSpy = vi
       .spyOn(accountService, 'editAccountVerificationRequest')
       .mockReturnValue(of({ ...mockPendingRequest, name: 'Updated Instructor', comments: 'Updated comments' }));
@@ -170,6 +220,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should remain in edit mode when saving inline edits fails', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Update failed' }, status: 400 })),
     );
@@ -196,6 +247,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should update state and show success toast on approve', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, status: AccountVerificationRequestStatus.APPROVED }),
     );
@@ -214,6 +266,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should update state and show success toast on reject', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, status: AccountVerificationRequestStatus.REJECTED }),
     );
@@ -230,6 +283,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should show error toast and reset state when approve fails', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Approval failed' }, status: 400 })),
     );
@@ -246,6 +300,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should show error toast and reset state when reject fails', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of(mockHistoricalRequests));
     vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Rejection failed' }, status: 400 })),
     );
@@ -264,6 +319,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, createdDemoCourseAt: 2000000 }),
     );
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of({ accountVerificationRequests: [] }));
 
     fixture.detectChanges();
 
@@ -273,6 +329,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   it('should not render demo course timestamp when absent', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockPendingRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequests').mockReturnValue(of({ accountVerificationRequests: [] }));
 
     fixture.detectChanges();
 

@@ -151,6 +151,7 @@ describe('SearchService', () => {
 
   const mockAccountVerificationRequest: AccountVerificationRequest = {
     accountVerificationRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
+    accountId: 'account-id-jordan',
     createdAt: 1585487897502,
     name: 'Jordan Tan',
     institute: 'National University of Singapore',

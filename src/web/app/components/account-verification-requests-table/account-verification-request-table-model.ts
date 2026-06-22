@@ -5,6 +5,7 @@ import { AccountVerificationRequestStatus } from '../../../types/api-output';
  */
 export interface AccountVerificationRequestTableRowModel {
   id: string;
+  accountId: string;
   name: string;
   email: string;
   status: AccountVerificationRequestStatus;
