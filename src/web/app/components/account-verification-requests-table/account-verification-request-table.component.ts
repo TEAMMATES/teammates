@@ -1,3 +1,4 @@
+import { SlicePipe } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { AccountVerificationRequestTableRowModel } from './account-verification-request-table-model';
 import { AccountService } from '../../../services/account.service';
@@ -15,7 +16,7 @@ import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
   selector: 'tm-account-verification-request-table',
   templateUrl: './account-verification-request-table.component.html',
   styleUrls: ['./account-verification-request-table.component.scss'],
-  imports: [AjaxLoadingComponent, CountryNamePipe],
+  imports: [SlicePipe, AjaxLoadingComponent, CountryNamePipe],
 })
 export class AccountVerificationRequestTableComponent {
   private readonly statusMessageService = inject(StatusMessageService);

@@ -1,65 +1,61 @@
-<div class="table-responsive">
-  <table class="table table-striped" id="search-table-account-verification-request">
-    <thead>
+<table class="table table-striped" id="search-table-account-verification-request" style="table-layout: fixed">
+  <thead>
+    <tr>
+      <th class="text-nowrap">Name</th>
+      <th class="text-nowrap">Email</th>
+      <th class="text-nowrap">Status</th>
+      <th class="text-nowrap">Institute, Country</th>
+      <th class="text-nowrap">Submitted At</th>
+      <th class="text-nowrap">Comments</th>
+      <th class="text-nowrap">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (
+      accountVerificationRequest of accountVerificationRequests;
+      track accountVerificationRequest.id;
+      let i = $index
+    ) {
       <tr>
-        <th class="text-nowrap">Name</th>
-        <th class="text-nowrap">Email</th>
-        <th class="text-nowrap">Status</th>
-        <th class="text-nowrap">Institute</th>
-        <th class="text-nowrap">Country</th>
-        <th class="text-nowrap">Submitted At</th>
-        <th class="text-nowrap">Comments</th>
-        <th class="text-nowrap">Options</th>
+        <td>{{ accountVerificationRequest.name }}</td>
+        <td>{{ accountVerificationRequest.email }}</td>
+        <td>{{ accountVerificationRequest.status }}</td>
+        <td>{{ accountVerificationRequest.institute }}, {{ accountVerificationRequest.country | countryName }}</td>
+        <td class="text-nowrap">{{ accountVerificationRequest.createdAtText }}</td>
+        <td>
+          {{
+            accountVerificationRequest.comments.length > 150
+              ? (accountVerificationRequest.comments | slice: 0 : 150) + '…'
+              : accountVerificationRequest.comments
+          }}
+        </td>
+        <td class="align-middle">
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button
+              id="approve-account-verification-request-{{ i }}"
+              class="btn btn-success btn-sm"
+              [disabled]="accountVerificationRequest.status !== 'PENDING' || isApprovingAccountVerificationRequest[i]"
+              (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
+            >
+              @if (isApprovingAccountVerificationRequest[i]) {
+                <tm-ajax-loading></tm-ajax-loading>
+              }
+              Approve
+            </button>
+            <button
+              id="review-account-verification-request-{{ i }}"
+              class="btn btn-warning btn-sm"
+              (click)="$event.stopPropagation(); reviewAccountVerificationRequest(accountVerificationRequest)"
+            >
+              Review
+            </button>
+          </div>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      @for (
-        accountVerificationRequest of accountVerificationRequests;
-        track accountVerificationRequest.id;
-        let i = $index
-      ) {
-        <tr>
-          <td>{{ accountVerificationRequest.name }}</td>
-          <td>{{ accountVerificationRequest.email }}</td>
-          <td>{{ accountVerificationRequest.status }}</td>
-          <td>{{ accountVerificationRequest.institute }}</td>
-          <td>{{ accountVerificationRequest.country | countryName }}</td>
-          <td class="text-nowrap">{{ accountVerificationRequest.createdAtText }}</td>
-          <td>
-            <div class="text-truncate" style="max-width: 20rem">
-              {{ accountVerificationRequest.comments }}
-            </div>
-          </td>
-          <td class="align-middle">
-            <div class="d-flex gap-2 justify-content-center">
-              <button
-                id="approve-account-verification-request-{{ i }}"
-                class="btn btn-success"
-                [disabled]="
-                  accountVerificationRequest.status !== 'PENDING' || isApprovingAccountVerificationRequest[i]
-                "
-                (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
-              >
-                @if (isApprovingAccountVerificationRequest[i]) {
-                  <tm-ajax-loading></tm-ajax-loading>
-                }
-                Approve
-              </button>
-              <button
-                id="review-account-verification-request-{{ i }}"
-                class="btn btn-warning"
-                (click)="$event.stopPropagation(); reviewAccountVerificationRequest(accountVerificationRequest)"
-              >
-                Review
-              </button>
-            </div>
-          </td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="8" class="text-center">No pending account verification requests</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-</div>
+    } @empty {
+      <tr>
+        <td colspan="7" class="text-center">No pending account verification requests</td>
+      </tr>
+    }
+  </tbody>
+</table>

@@ -1,10 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminHomePageComponent > should snap with default view 1`] = `
-<tm-admin-home-page
-  accountReqs={[Function Array]}
+exports[`AdminAccountVerificationRequestsPageComponent > should snap with default view 1`] = `
+<tm-admin-account-verification-requests-page
+  accountReqs={[Function Function]}
   accountService={[Function _AccountService]}
+  committedSearch={[Function Function]}
   dateFormatService={[Function _DateFormatService]}
+  searchQuery={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
 >
@@ -12,18 +14,35 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+      class="card-body"
+    >
+      <div
+        class="input-group"
+      >
+        <input
+          aria-label="Search account verification requests"
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          placeholder="Search by name, email, or institute..."
+          type="text"
+        />
+        <button
+          class="btn btn-primary"
+          id="search-button"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
     >
       <strong>
-        Pending Account Verification Requests
+        Account Verification Requests
       </strong>
-      <a
-        class="btn btn-light btn-sm"
-        href="/web/admin/account-verification-requests"
-        tmrouterlink="/web/admin/account-verification-requests"
-      >
-        View All
-      </a>
     </div>
     <tm-account-verification-request-table>
       <table
@@ -83,5 +102,5 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
       </table>
     </tm-account-verification-request-table>
   </div>
-</tm-admin-home-page>
+</tm-admin-account-verification-requests-page>
 `;

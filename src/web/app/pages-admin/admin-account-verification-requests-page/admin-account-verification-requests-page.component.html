@@ -1,0 +1,26 @@
+<div class="card bg-light top-padded">
+  <div class="card-body">
+    <div class="input-group">
+      <input
+        id="search-box"
+        type="text"
+        class="form-control"
+        placeholder="Search by name, email, or institute..."
+        aria-label="Search account verification requests"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        (keyup.enter)="search()"
+      />
+      <button id="search-button" class="btn btn-primary" (click)="search()">Search</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white">
+    <strong>Account Verification Requests</strong>
+  </div>
+  <tm-account-verification-request-table
+    [accountVerificationRequests]="accountReqs()"
+  ></tm-account-verification-request-table>
+</div>
