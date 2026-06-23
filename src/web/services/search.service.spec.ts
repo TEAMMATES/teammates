@@ -2,8 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { HttpRequestService } from './http-request.service';
-import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import {
   AccountVerificationRequestSearchResult,
   InstructorAccountSearchResult,
@@ -11,7 +9,6 @@ import {
   StudentAccountSearchResult,
 } from './search.service';
 import { TimezoneService } from './timezone.service';
-import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountVerificationRequest,
   AccountVerificationRequestStatus,
@@ -24,7 +21,6 @@ import {
 } from '../types/api-output';
 
 describe('SearchService', () => {
-  let spyHttpRequestService: MockHttpRequestService;
   let service: SearchService;
   let timezoneService: TimezoneService;
 
@@ -162,14 +158,8 @@ describe('SearchService', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
-      providers: [
-        { provide: HttpRequestService, useValue: spyHttpRequestService },
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(SearchService);
     timezoneService = TestBed.inject(TimezoneService);
@@ -177,15 +167,6 @@ describe('SearchService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should execute GET when searching for students', () => {
-    service.searchStudents('Alice', 'instructor');
-    const paramMap: { [key: string]: string } = {
-      searchkey: 'Alice',
-      entitytype: 'instructor',
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   });
 
   it('should join students accurately when calling as admin', () => {

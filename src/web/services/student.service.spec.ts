@@ -121,6 +121,21 @@ describe('StudentService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
   });
 
+  it('should execute GET when loading students with search parameters', () => {
+    const paramMap: Record<string, string> = {
+      searchkey: 'Alice',
+      limit: '50',
+    };
+    vi.spyOn(spyHttpRequestService, 'get');
+
+    service.getStudentsFromCourse({
+      searchKey: 'Alice',
+      limit: 50,
+    });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
+  });
+
   it('should execute GET when getting own team students', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',

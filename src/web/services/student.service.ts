@@ -23,12 +23,20 @@ export class StudentService {
   private courseService = inject(CourseService);
 
   /**
-   * Get a list of students of a course by calling API.
+   * Get a list of students by calling API.
    */
-  getStudentsFromCourse(queryParams: { courseId: string }): Observable<Students> {
-    const paramsMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
-    };
+  getStudentsFromCourse(queryParams: { courseId?: string; searchKey?: string; limit?: number }): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {};
+
+    if (queryParams.courseId !== undefined) {
+      paramsMap['courseid'] = queryParams.courseId;
+    }
+    if (queryParams.searchKey !== undefined) {
+      paramsMap['searchkey'] = queryParams.searchKey;
+    }
+    if (queryParams.limit !== undefined) {
+      paramsMap['limit'] = String(queryParams.limit);
+    }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
