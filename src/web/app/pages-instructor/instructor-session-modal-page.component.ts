@@ -4,7 +4,6 @@ import { finalize } from 'rxjs/operators';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
 import { StudentService } from '../../services/student.service';
 import { Instructor, Student } from '../../types/api-output';
-import { Intent } from '../../types/api-request';
 import { ResendResultsLinkToRespondentModalComponent } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
   InstructorListInfoTableRowModel,
@@ -35,7 +34,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
-      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
+      this.instructorService.loadInstructors({ courseId }),
     ])
       .pipe(
         finalize(() => {
@@ -124,7 +123,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     forkJoin({
       students: this.studentService.getStudentsFromCourse({ courseId }),
       submittedGiverSet: this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
-      instructors: this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
+      instructors: this.instructorService.loadInstructors({ courseId }),
     })
       .pipe(
         finalize(() => {

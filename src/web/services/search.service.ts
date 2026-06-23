@@ -21,7 +21,6 @@ import {
   Student,
   Students,
 } from '../types/api-output';
-import { Intent } from '../types/api-request';
 
 /**
  * Handles the logic for search.
@@ -51,7 +50,7 @@ export class SearchService {
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
       this.searchStudents(searchKey, 'admin'),
-      this.searchInstructors(searchKey),
+      this.instructorService.loadInstructors({ searchKey, limit: 50 }),
       this.accountService.getAccountVerificationRequests({
         searchKey,
         limit: 50,
@@ -95,13 +94,6 @@ export class SearchService {
       entitytype: entityType,
     };
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
-  }
-
-  searchInstructors(searchKey: string): Observable<Instructors> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   }
 
   createStudentAccountSearchResults(
@@ -297,9 +289,7 @@ export class SearchService {
 
   private getDistinctInstructors(distinctCourseIds: string[]): Observable<DistinctInstructorsMap> {
     return forkJoin(
-      distinctCourseIds.map((courseId: string) =>
-        this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-      ),
+      distinctCourseIds.map((courseId: string) => this.instructorService.loadInstructors({ courseId })),
     ).pipe(
       map((instructorsArray: Instructors[]) => {
         const distinctInstructorsMap: DistinctInstructorsMap = {};

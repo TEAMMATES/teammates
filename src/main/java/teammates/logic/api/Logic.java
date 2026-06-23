@@ -17,6 +17,7 @@ import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.SessionLinksBundle;
@@ -924,6 +925,13 @@ public class Logic {
     }
 
     /**
+     * Gets the instructors that should be displayed to students for the specified course.
+     */
+    public List<Instructor> getDisplayedInstructorsByCourse(String courseId) {
+        return usersLogic.getDisplayedInstructorsForCourse(courseId);
+    }
+
+    /**
      * Creates an instructor with the given attributes.
      *
      * @param account optional account to associate with the instructor at creation time
@@ -963,13 +971,12 @@ public class Logic {
     }
 
     /**
-     * Searches instructors in the whole system. Used by admin only.
+     * Gets instructors matching the specified query.
      *
-     * @return List of found instructors in the whole system. Returns an empty list
-     *         if no results are found.
+     * @return List of found instructors. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
-        return usersLogic.searchInstructorsInWholeSystem(queryString);
+    public List<Instructor> getInstructors(InstructorQuery query) {
+        return usersLogic.getInstructors(query);
     }
 
     /**

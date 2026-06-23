@@ -13,6 +13,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -287,12 +288,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Searches instructors in the whole system. Used by admin only.
+     * Gets instructors matching the specified query.
      *
-     * @return List of found instructors in the whole system. Returns an empty list if no results are found.
+     * @return List of found instructors. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
-        return usersDb.searchInstructorsInWholeSystem(queryString);
+    public List<Instructor> getInstructors(InstructorQuery query) {
+        return usersDb.getInstructors(query);
     }
 
     /**
@@ -518,6 +519,16 @@ public final class UsersLogic {
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
         List<Instructor> instructorReturnList = usersDb.getInstructorsForCourse(courseId);
+        sortByName(instructorReturnList);
+
+        return instructorReturnList;
+    }
+
+    /**
+     * Gets the instructors that should be displayed to students for the specified course.
+     */
+    public List<Instructor> getDisplayedInstructorsForCourse(String courseId) {
+        List<Instructor> instructorReturnList = usersDb.getInstructorsDisplayedToStudents(courseId);
         sortByName(instructorReturnList);
 
         return instructorReturnList;
