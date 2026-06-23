@@ -233,7 +233,7 @@ public class SessionResultsData implements ApiOutput {
         List<ResponseInstructorCommentData> outputs = new ArrayList<>();
 
         for (ResponseInstructorComment comment : responseInstructorComments) {
-            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
+            outputs.add(new ResponseInstructorCommentData(comment));
         }
 
         return outputs;

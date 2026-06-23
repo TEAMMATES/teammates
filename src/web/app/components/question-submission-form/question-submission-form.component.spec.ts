@@ -421,8 +421,6 @@ describe('QuestionSubmissionFormComponent', () => {
         commentType: 'new',
         commentEditFormModel: {
           commentText: '',
-          showCommentTo: ['GIVER'],
-          showGiverNameTo: ['GIVER'],
         },
         isEditing: true,
       });

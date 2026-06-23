@@ -10,7 +10,6 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   FeedbackSession,
   FeedbackSessions,
-  FeedbackVisibilityType,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
@@ -100,7 +99,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
             return this.preprocessComments(
               questions.allResponses,
               feedbackSession.timeZone,
-              questions.feedbackQuestion.showResponsesTo,
             );
           });
         },
@@ -202,14 +200,12 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   preprocessComments(
     responses: ResponseOutput[],
     timezone: string,
-    questionShowResponsesTo: FeedbackVisibilityType[],
   ): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         timezone,
-        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

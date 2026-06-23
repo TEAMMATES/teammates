@@ -8,13 +8,9 @@ describe('GiverCommentToCommentRowModelPipe', () => {
       commentType: 'giver',
       originalCommentFormModel: {
         commentText: 'participant comment',
-        showCommentTo: ['GIVER'],
-        showGiverNameTo: ['GIVER'],
       },
       commentEditFormModel: {
         commentText: 'participant comment',
-        showCommentTo: ['GIVER'],
-        showGiverNameTo: ['GIVER'],
       },
       isEditing: false,
     });

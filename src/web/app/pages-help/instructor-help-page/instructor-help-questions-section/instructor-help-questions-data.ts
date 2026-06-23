@@ -388,8 +388,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -404,8 +402,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -420,8 +416,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -436,8 +430,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -452,8 +444,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -468,8 +458,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -484,8 +472,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -500,8 +486,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentEditFormModel: {
         commentText: '',
 
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },

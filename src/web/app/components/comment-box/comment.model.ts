@@ -1,9 +1,5 @@
-import { CommentVisibilityType } from '../../../types/api-output';
-
 export interface CommentEditFormModel {
   commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
 }
 
 interface CommentRowBaseModel {

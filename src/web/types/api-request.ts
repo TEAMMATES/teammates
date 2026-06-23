@@ -236,8 +236,6 @@ export interface RegKeyRequest extends BasicRequest {
 
 export interface ResponseInstructorCommentBasicRequest extends BasicRequest {
   commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
 }
 
 export interface ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
@@ -283,15 +281,6 @@ export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-}
-
-export enum CommentVisibilityType {
-  GIVER = "GIVER",
-  RECIPIENT = "RECIPIENT",
-  GIVER_TEAM_MEMBERS = "GIVER_TEAM_MEMBERS",
-  RECIPIENT_TEAM_MEMBERS = "RECIPIENT_TEAM_MEMBERS",
-  STUDENTS = "STUDENTS",
-  INSTRUCTORS = "INSTRUCTORS",
 }
 
 export enum EmailType {

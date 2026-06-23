@@ -56,8 +56,6 @@ const feedbackSessionResultsC1S1S1Q2: SessionResults = {
               commentText: `Instructor 1 comment to response from student 2 to student 5 in feedback Question 2`,
               createdAt: 1769990340000,
               lastEditedAt: 1769990340000,
-              showGiverNameTo: [],
-              showCommentTo: [],
             },
           ],
         },

@@ -1,19 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { StringHelper } from '../../../../services/string-helper';
-import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
-import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { ResponseOutput } from '../../../../types/api-output';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
-import {
-  CommentVisibilityControlNamePipe,
-  CommentVisibilityTypeDescriptionPipe,
-  CommentVisibilityTypeNamePipe,
-} from '../comment-visibility-setting.pipe';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Comment edit form component
@@ -22,24 +12,12 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
   imports: [
-    NgbCollapse,
-    NgbTooltip,
     RichTextEditorComponent,
-    CommentVisibilityControlNamePipe,
-    CommentVisibilityTypeDescriptionPipe,
-    CommentVisibilityTypeNamePipe,
   ],
 })
-export class CommentEditFormComponent implements OnInit, OnChanges {
-  private readonly commentService = inject(ResponseInstructorCommentService);
-
+export class CommentEditFormComponent implements OnInit {
   // enum
-  CommentVisibilityType!: typeof CommentVisibilityType;
-  CommentVisibilityControl!: typeof CommentVisibilityControl;
   CommentRowMode!: typeof CommentRowMode;
-
-  readonly commentVisibilityTypes = Object.values(CommentVisibilityType);
-  readonly commentVisibilityControls = Object.values(CommentVisibilityControl);
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;
@@ -47,9 +25,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   @Input()
   model: CommentEditFormModel = {
     commentText: '',
-
-    showCommentTo: [],
-    showGiverNameTo: [],
   };
 
   @Input()
@@ -57,9 +32,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
 
   @Input()
   response?: ResponseOutput;
-
-  @Input()
-  questionShowResponsesTo: FeedbackVisibilityType[] = [];
 
   @Output() modelChange: EventEmitter<CommentEditFormModel> = new EventEmitter<CommentEditFormModel>();
 
@@ -72,23 +44,14 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   @Input()
   shouldHideClosingButton = false;
 
-  @Input()
-  isVisibilityOptionEnabled = true;
-
   @Output()
   closeCommentBoxEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   saveCommentEvent: EventEmitter<void> = new EventEmitter();
 
-  isVisibilityTableExpanded = false;
-  visibilityStateMachine: CommentVisibilityStateMachine;
-
   constructor() {
-    this.CommentVisibilityType = CommentVisibilityType;
-    this.CommentVisibilityControl = CommentVisibilityControl;
     this.CommentRowMode = CommentRowMode;
-    this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
   ngOnInit(): void {
@@ -98,37 +61,11 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
-    this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-    const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
-      SHOW_COMMENT: this.model.showCommentTo,
-      SHOW_GIVER_NAME: this.model.showGiverNameTo,
-    };
-    this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-  }
-
-  /**
-   * toggle the visibility table.
-   */
-  toggleVisibilityTable(): void {
-    this.isVisibilityTableExpanded = !this.isVisibilityTableExpanded;
-  }
-
   /**
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: unknown): void {
     this.modelChange.emit({ ...this.model, [field]: data });
-  }
-
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChangeBatch(obj: Partial<CommentEditFormModel>): void {
-    this.modelChange.emit({
-      ...this.model,
-      ...obj,
-    });
   }
 
   /**
@@ -143,28 +80,5 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
    */
   triggerSaveCommentEvent(): void {
     this.saveCommentEvent.emit();
-  }
-
-  /**
-   * Modifies visibility control of visibility type based on {@code isAllowed}.
-   */
-  modifyVisibilityControl(
-    isAllowed: boolean,
-    visibilityType: CommentVisibilityType,
-    visibilityControl: CommentVisibilityControl,
-  ): void {
-    if (isAllowed) {
-      this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
-    } else {
-      this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
-    }
-    this.triggerModelChangeBatch({
-      showCommentTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-        CommentVisibilityControl.SHOW_COMMENT,
-      ),
-      showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-        CommentVisibilityControl.SHOW_GIVER_NAME,
-      ),
-    });
   }
 }

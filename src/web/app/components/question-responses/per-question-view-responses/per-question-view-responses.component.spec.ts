@@ -14,7 +14,6 @@ import { PerQuestionViewResponsesComponent } from './per-question-view-responses
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
-  CommentVisibilityType,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
@@ -50,8 +49,6 @@ describe('PerQuestionViewResponsesComponent', () => {
     commentText: 'commentText',
     createdAt: 0,
     lastEditedAt: 0,
-    showGiverNameTo: [],
-    showCommentTo: [],
   };
 
   const responseOutput: ResponseOutput = {
@@ -94,8 +91,6 @@ describe('PerQuestionViewResponsesComponent', () => {
     commentType: 'new',
     commentEditFormModel: {
       commentText: '',
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },
     isEditing: false,
   };
