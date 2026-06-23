@@ -14,6 +14,5 @@ export interface AccountVerificationRequestTableRowModel {
   createdAtText: string;
   createdDemoCourseAtText: string;
   comments: string;
-  registrationLink: string;
   showLinks: boolean;
 }

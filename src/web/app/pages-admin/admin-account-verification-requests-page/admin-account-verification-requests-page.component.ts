@@ -88,7 +88,6 @@ export class AdminAccountVerificationRequestsPageComponent {
         ? this.dateFormatService.formatDateDetailed(request.createdDemoCourseAt, timezone)
         : '',
       comments: request.comments ?? '',
-      registrationLink: '',
       showLinks: false,
     }));
   }

@@ -25,7 +25,6 @@ describe('AccountVerificationRequestTableComponent', () => {
     name: '',
     institute: '',
     country: '',
-    registrationLink: '',
     status: AccountVerificationRequestStatus.PENDING,
     comments: '',
     createdDemoCourseAtText: '',

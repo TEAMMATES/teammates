@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
 import { CountryService } from '../../../../services/country.service';
 import { DateFormatService } from '../../../../services/date-format.service';
+import { LinkService } from '../../../../services/link.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
 import {
   SearchableComboboxComponent,
@@ -26,6 +27,7 @@ import { EMAIL_MAX_LENGTH, INSTITUTE_NAME_MAX_LENGTH, PERSON_NAME_MAX_LENGTH } f
 export class RequestDetailsCardComponent {
   private readonly countryService = inject(CountryService);
   private readonly dateFormatService = inject(DateFormatService);
+  private readonly linkService = inject(LinkService);
 
   readonly request = input.required<AccountVerificationRequest>();
   readonly isEditing = input(false);
@@ -86,5 +88,13 @@ export class RequestDetailsCardComponent {
 
   formatTimestamp(timestamp: number): string {
     return this.dateFormatService.formatDateDetailed(timestamp, this.timezone());
+  }
+
+  welcomeLink(): string {
+    return this.linkService.generateInstructorWelcomeLink(this.request().accountVerificationRequestId);
+  }
+
+  copyWelcomeLink(): void {
+    navigator.clipboard.writeText(this.welcomeLink());
   }
 }

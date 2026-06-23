@@ -48,7 +48,6 @@ export class AdminHomePageComponent implements OnInit {
           ? this.dateFormatService.formatDateDetailed(request.createdDemoCourseAt, timezone)
           : '',
         comments: request.comments ?? '',
-        registrationLink: '',
         showLinks: false,
       };
     });
