@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -24,7 +25,7 @@ public class RejectAccountVerificationRequestActionTest
         extends BaseActionTest<RejectAccountVerificationRequestAction, AccountVerificationRequestData> {
 
     @Test(groups = GroupNames.ACTION)
-    public void rejectAccountVerificationRequestAction_withReason_rejectsAndQueuesEmail() {
+    public void rejectAccountVerificationRequestAction_withRejectionType_rejectsAndQueuesEmail() {
         var account = given.account("request-owner");
         var requestRef = given.accountVerificationRequest("request", ar -> ar
                 .account(account.alias())
@@ -37,12 +38,12 @@ public class RejectAccountVerificationRequestActionTest
                 .withAdminAuth()
                 .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, requestRef.id().toString())
                 .withRequest(new AccountVerificationRequestRejectionRequest(
-                        "We are Unable to Approve Your Verification Request",
-                        "<p>Please submit your request again with your official institution email address.</p>"));
+                        AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, null));
 
         AccountVerificationRequestData result = execute(request);
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, result.getStatus());
+        assertEquals(AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, result.getRejectionType());
         List<EmailWrapper> queuedEmails = getQueuedEmails();
         assertEquals(1, queuedEmails.size());
         assertEquals(EmailType.ACCOUNT_VERIFICATION_REJECTED, queuedEmails.get(0).getType());
@@ -50,7 +51,7 @@ public class RejectAccountVerificationRequestActionTest
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void rejectAccountVerificationRequestAction_withoutReason_rejectsSilently() {
+    public void rejectAccountVerificationRequestAction_withOthersType_rejectsAndQueuesEmail() {
         var account = given.account("request-owner");
         var requestRef = given.accountVerificationRequest("request", ar -> ar
                 .account(account.alias())
@@ -59,31 +60,32 @@ public class RejectAccountVerificationRequestActionTest
 
         RequestContext request = new RequestContext()
                 .withAdminAuth()
-                .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, requestRef.id().toString());
+                .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, requestRef.id().toString())
+                .withRequest(new AccountVerificationRequestRejectionRequest(
+                        AccountVerificationRequestRejectionType.OTHERS, null));
 
         AccountVerificationRequestData result = execute(request);
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, result.getStatus());
-        assertEquals(0, getQueuedEmails().size());
+        assertEquals(AccountVerificationRequestRejectionType.OTHERS, result.getRejectionType());
+        assertEquals(1, getQueuedEmails().size());
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void rejectAccountVerificationRequestAction_reasonTitleWithoutBody_throwsInvalidHttpRequestBodyException() {
+    public void rejectAccountVerificationRequestAction_withNullRejectionType_throwsInvalidHttpRequestBodyException() {
         var account = given.account("request-owner");
         var requestRef = given.accountVerificationRequest("request", ar -> ar
                 .account(account.alias())
                 .pending());
         persistGivenData(given);
 
-        InvalidHttpRequestBodyException exception = assertActionThrows(
+        assertActionThrows(
                 InvalidHttpRequestBodyException.class,
                 new RequestContext()
                         .withAdminAuth()
                         .withParam(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, requestRef.id().toString())
-                        .withRequest(new AccountVerificationRequestRejectionRequest(
-                                "We are Unable to Approve Your Verification Request", null)));
+                        .withRequest(new AccountVerificationRequestRejectionRequest(null, null)));
 
-        assertEquals("Both reason body and title need to be null to reject silently", exception.getMessage());
         assertEquals(0, getQueuedEmails().size());
     }
 

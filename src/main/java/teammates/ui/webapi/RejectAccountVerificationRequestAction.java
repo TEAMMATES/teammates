@@ -20,14 +20,13 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountVerificationRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
-        AccountVerificationRequestRejectionRequest rejectionRequest = getRequestBody().isBlank()
-                ? new AccountVerificationRequestRejectionRequest(null, null)
-                : getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
+        AccountVerificationRequestRejectionRequest rejectionRequest =
+                getAndValidateRequestBody(AccountVerificationRequestRejectionRequest.class);
 
         try {
             AccountVerificationRequest accountVerificationRequest =
                     logic.rejectAccountVerificationRequest(accountVerificationRequestId,
-                            rejectionRequest.getReasonTitle(), rejectionRequest.getReasonBody());
+                            rejectionRequest.getRejectionType(), rejectionRequest.getAdditionalComments());
             return new JsonResult(new AccountVerificationRequestData(accountVerificationRequest));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

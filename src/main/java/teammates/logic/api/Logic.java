@@ -10,6 +10,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountVerificationRequestQuery;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
@@ -274,28 +275,17 @@ public class Logic {
     }
 
     /**
-     * Rejects the account verification request with the given {@code id}.
-     *
-     * @throws EntityDoesNotExistException if no request with the given id exists.
-     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
-     * @throws InvalidParametersException if the request is invalid.
-     */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
-    }
-
-    /**
      * Rejects the account verification request with the given {@code id} and
-     * optionally sends a rejection email when both reason fields are provided.
+     * enqueues a rejection email with the given rejection type and optional additional comments.
      *
      * @throws EntityDoesNotExistException if no request with the given id exists.
      * @throws InvalidVerificationRequestStateException if the request is not in pending state.
      * @throws InvalidParametersException if the request is invalid.
      */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id, String reasonTitle, String reasonBody)
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id,
+            AccountVerificationRequestRejectionType rejectionType, @Nullable String additionalComments)
             throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id, reasonTitle, reasonBody);
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id, rejectionType, additionalComments);
     }
 
     /**

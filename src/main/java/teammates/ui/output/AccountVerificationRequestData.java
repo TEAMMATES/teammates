@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.storage.entity.AccountVerificationRequest;
 
@@ -23,6 +24,10 @@ public class AccountVerificationRequestData implements ApiOutput {
     @Nullable
     private final String comments;
     @Nullable
+    private final AccountVerificationRequestRejectionType rejectionType;
+    @Nullable
+    private final String rejectionAdditionalComments;
+    @Nullable
     private final Long createdDemoCourseAt;
     private final long createdAt;
 
@@ -30,6 +35,8 @@ public class AccountVerificationRequestData implements ApiOutput {
     private AccountVerificationRequestData(UUID accountVerificationRequestId, UUID accountId, String email, String name,
                                 String institute, String country,
                                 AccountVerificationRequestStatus status, String comments,
+                                AccountVerificationRequestRejectionType rejectionType,
+                                String rejectionAdditionalComments,
                                 Long createdDemoCourseAt, long createdAt) {
         this.accountVerificationRequestId = accountVerificationRequestId;
         this.accountId = accountId;
@@ -39,6 +46,8 @@ public class AccountVerificationRequestData implements ApiOutput {
         this.country = country;
         this.status = status;
         this.comments = comments;
+        this.rejectionType = rejectionType;
+        this.rejectionAdditionalComments = rejectionAdditionalComments;
         this.createdDemoCourseAt = createdDemoCourseAt;
         this.createdAt = createdAt;
     }
@@ -52,6 +61,8 @@ public class AccountVerificationRequestData implements ApiOutput {
         this.country = accountVerificationRequest.getInstitute().getCountry();
         this.status = accountVerificationRequest.getStatus();
         this.comments = accountVerificationRequest.getComments();
+        this.rejectionType = accountVerificationRequest.getRejectionType();
+        this.rejectionAdditionalComments = accountVerificationRequest.getRejectionAdditionalComments();
         this.createdAt = accountVerificationRequest.getCreatedAt().toEpochMilli();
 
         if (accountVerificationRequest.getCreatedDemoCourseAt() == null) {
@@ -91,6 +102,14 @@ public class AccountVerificationRequestData implements ApiOutput {
 
     public String getComments() {
         return comments;
+    }
+
+    public AccountVerificationRequestRejectionType getRejectionType() {
+        return rejectionType;
+    }
+
+    public String getRejectionAdditionalComments() {
+        return rejectionAdditionalComments;
     }
 
     public Long getCreatedDemoCourseAt() {

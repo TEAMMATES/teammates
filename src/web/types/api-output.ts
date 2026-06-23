@@ -17,6 +17,8 @@ export interface AccountVerificationRequest extends ApiOutput {
   country: string;
   status: AccountVerificationRequestStatus;
   comments?: string;
+  rejectionType?: AccountVerificationRequestRejectionType;
+  rejectionAdditionalComments?: string;
   createdDemoCourseAt?: number;
   createdAt: number;
 }
@@ -774,6 +776,14 @@ export interface UserQuestionOutput {
 
 export interface UserSessionResults extends ApiOutput {
   questions: UserQuestionOutput[];
+}
+
+export enum AccountVerificationRequestRejectionType {
+  ALREADY_VERIFIED = "ALREADY_VERIFIED",
+  CANNOT_VERIFY_IDENTITY = "CANNOT_VERIFY_IDENTITY",
+  NOT_OFFICIAL_EMAIL = "NOT_OFFICIAL_EMAIL",
+  NOT_INSTRUCTOR_ACCOUNT = "NOT_INSTRUCTOR_ACCOUNT",
+  OTHERS = "OTHERS",
 }
 
 export enum AccountVerificationRequestStatus {
