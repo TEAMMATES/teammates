@@ -5,15 +5,22 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
+import teammates.common.datatransfer.StudentQuery;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -625,6 +632,70 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the students for the supplied query.
+     */
+    public List<Student> getStudents(StudentQuery query) {
+        return usersDb.getStudents(query);
+    }
+
+    /**
+     * Gets the students visible to the given account for the supplied query.
+     */
+    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
+        Objects.requireNonNull(query);
+        Objects.requireNonNull(account);
+
+        List<Instructor> instructors = getInstructorsByAccountId(account.getId());
+        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
+
+        Set<String> visibleCourseIds = new LinkedHashSet<>();
+        Set<String> fullAccessCourseIds = new LinkedHashSet<>();
+        Map<String, Set<UUID>> visibleSectionIdsByCourse = new LinkedHashMap<>();
+
+        for (Instructor instructor : instructors) {
+            String courseId = instructor.getCourseId();
+            if (instructorPermissionsLogic.hasPermissions(instructor, privilegeName)) {
+                visibleCourseIds.add(courseId);
+                fullAccessCourseIds.add(courseId);
+                continue;
+            }
+
+            Map<UUID, InstructorPermissionSet> sectionsWithPermission =
+                    instructorPermissionsLogic.getSectionsWithPermission(instructor, privilegeName);
+            if (!sectionsWithPermission.isEmpty()) {
+                visibleCourseIds.add(courseId);
+                visibleSectionIdsByCourse.computeIfAbsent(courseId, unused -> new HashSet<>())
+                        .addAll(sectionsWithPermission.keySet());
+            }
+        }
+
+        if (visibleCourseIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<String> requestedCourseIds = query.courseIds();
+        List<String> effectiveCourseIds = requestedCourseIds == null
+                ? new ArrayList<>(visibleCourseIds)
+                : requestedCourseIds.stream()
+                        .filter(visibleCourseIds::contains)
+                        .toList();
+        if (effectiveCourseIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Student> students = usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
+        if (visibleSectionIdsByCourse.isEmpty()) {
+            return students;
+        }
+
+        return students.stream()
+                .filter(student -> fullAccessCourseIds.contains(student.getCourseId())
+                        || visibleSectionIdsByCourse.getOrDefault(student.getCourseId(), Set.of())
+                                .contains(student.getSectionId()))
+                .toList();
+    }
+
+    /**
      * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
@@ -638,28 +709,6 @@ public final class UsersLogic {
         }
 
         return unregisteredStudents;
-    }
-
-    /**
-     * Searches for students.
-     */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        List<Instructor> instructorsWithViewStudentPrivilege = instructors == null ? null
-                : instructors.stream()
-                        .filter(i -> instructorPermissionsLogic.hasPermissions(
-                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT))
-                        .toList();
-        return usersDb.searchStudents(queryString, instructorsWithViewStudentPrivilege);
-    }
-
-    /**
-     * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's role. This is used by admin to
-     * search students in the whole system.
-     * @return an empty list if no result is found
-     */
-    public List<Student> searchStudentsInWholeSystem(String queryString) {
-        return usersDb.searchStudentsInWholeSystem(queryString);
     }
 
     /**

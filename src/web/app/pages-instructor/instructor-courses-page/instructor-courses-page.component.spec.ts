@@ -380,11 +380,11 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
-    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    const studentSpy = vi.spyOn(studentService, 'getStudents').mockReturnValue(of(students));
     component.getCourseStats(0);
 
     expect(studentSpy).toHaveBeenCalledTimes(1);
-    expect(studentSpy).toHaveBeenLastCalledWith({ courseId: 'CS1231' });
+    expect(studentSpy).toHaveBeenLastCalledWith({ courseIds: ['CS1231'] });
 
     expect(component.courseStats['CS1231']['sections']).toEqual(2);
     expect(component.courseStats['CS1231']['teams']).toEqual(3);

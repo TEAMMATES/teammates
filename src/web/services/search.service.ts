@@ -2,12 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CourseService } from './course.service';
-import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
 import { TimezoneService } from './timezone.service';
-import { ResourceEndpoints } from '../types/api-const';
 import { AccountService } from './account.service';
+import { StudentService } from './student.service';
+import { ApiConst } from '../types/api-const';
 import {
   AccountVerificationRequest,
   AccountVerificationRequests,
@@ -31,29 +31,42 @@ import {
 export class SearchService {
   private accountService = inject(AccountService);
   private instructorService = inject(InstructorService);
-  private httpRequestService = inject(HttpRequestService);
   private courseService = inject(CourseService);
   private linkService = inject(LinkService);
+  private studentService = inject(StudentService);
   private timezoneService = inject(TimezoneService);
 
-  searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.searchStudents(searchKey, 'instructor').pipe(
-      map((studentsRes: Students) => {
-        return {
-          students: studentsRes.students,
-          comments: [],
-        };
-      }),
-    );
+  searchInstructor(searchKey: string, courseIds: string[]): Observable<InstructorSearchResult> {
+    if (courseIds.length === 0) {
+      return of({
+        students: [],
+        comments: [],
+      });
+    }
+
+    return this.studentService
+      .getStudents({
+        courseIds,
+        searchKey,
+        limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
+      })
+      .pipe(
+        map((studentsRes: Students) => {
+          return {
+            students: studentsRes.students,
+            comments: [],
+          };
+        }),
+      );
   }
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
-      this.searchStudents(searchKey, 'admin'),
-      this.instructorService.loadInstructors({ searchKey, limit: 50 }),
+      this.studentService.getStudents({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
+      this.instructorService.loadInstructors({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
       this.accountService.getAccountVerificationRequests({
         searchKey,
-        limit: 50,
+        limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
       }),
     ]).pipe(
       map(
@@ -86,14 +99,6 @@ export class SearchService {
         };
       }),
     );
-  }
-
-  searchStudents(searchKey: string, entityType: string): Observable<Students> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-      entitytype: entityType,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   }
 
   createStudentAccountSearchResults(

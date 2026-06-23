@@ -1,14 +1,14 @@
 package teammates.ui.webapi;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
+import teammates.common.datatransfer.StudentQuery;
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -21,44 +21,61 @@ public class GetStudentsAction extends LoggedInAction {
             return;
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
-                Const.InstructorPermissions.CAN_VIEW_STUDENT);
+        // Any instructor can access the list of students,
+        // but the list will be filtered to only include students visible to them.
+        gateKeeper.verifyInstructorInAnyCourse(requestContext);
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        StudentQuery query = new StudentQuery(
+                getCourseIds(),
+                getRequestParamValue(Const.ParamsNames.SEARCH_KEY),
+                getNullablePositiveIntRequestParamValue(Const.ParamsNames.LIMIT));
 
-        Instructor instructor = requestContext.isAdmin()
-                ? null
-                : getInstructorFromRequest(courseId);
-        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
-        boolean hasCoursePrivilege = instructor != null
-                && logic.hasInstructorPermissions(instructor, privilegeName);
-        boolean hasSectionPrivilege = instructor != null
-                && !logic.getSectionsWithInstructorPermission(instructor, privilegeName).isEmpty();
-
-        if (requestContext.isAdmin() || hasCoursePrivilege) {
-            List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
-
-            return new JsonResult(new StudentsData(studentsForCourse));
-        } else if (hasSectionPrivilege) {
-            List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
-            List<Student> studentsToReturn = new LinkedList<>();
-            Set<UUID> sectionsWithViewPrivileges =
-                    logic.getSectionsWithInstructorPermission(instructor, privilegeName).keySet();
-
-            studentsForCourse.forEach(student -> {
-                if (sectionsWithViewPrivileges.contains(student.getSectionId())) {
-                    studentsToReturn.add(student);
-                }
-            });
-
-            return new JsonResult(new StudentsData(studentsToReturn));
-        } else {
-            return new JsonResult(new StudentsData(List.of()));
+        if (requestContext.isAdmin()) {
+            List<Student> students = logic.getStudents(query);
+            StudentsData studentsData = new StudentsData();
+            studentsData.setStudents(students.stream()
+                    .map(student -> {
+                        StudentData studentData = new StudentData(student);
+                        studentData.addAdditionalInformationForAdmin(student.getRegKey(), student.getAccountId());
+                        return studentData;
+                    })
+                    .toList());
+            return new JsonResult(studentsData);
         }
+
+        List<Student> students = logic.getStudentsVisibleToAccount(query, requestContext.getAccount());
+        StudentsData studentsData = new StudentsData();
+        studentsData.setStudents(students.stream()
+                .map(StudentData::new)
+                .toList());
+        return new JsonResult(studentsData);
+    }
+
+    private List<String> getCourseIds() {
+        String[] courseIds = req.getParameterValues(Const.ParamsNames.COURSE_ID);
+        return courseIds == null ? null : Arrays.asList(courseIds);
+    }
+
+    private Integer getNullablePositiveIntRequestParamValue(String paramName) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return null;
+        }
+
+        int parsed;
+        try {
+            parsed = Integer.parseInt(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected integer value for " + paramName + " parameter, but found: [" + value + "]", e);
+        }
+        if (parsed <= 0) {
+            throw new InvalidHttpParameterException(
+                    "Expected positive integer value for " + paramName + " parameter, but found: [" + value + "]");
+        }
+        return parsed;
     }
 }

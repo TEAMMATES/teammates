@@ -23,6 +23,7 @@ import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
+import teammates.common.datatransfer.StudentQuery;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -1045,13 +1046,17 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Empty list if none found.
+     * Gets students for the supplied query.
      */
-    public List<Student> getStudentsForCourse(String courseId) {
-        return usersLogic.getStudentsForCourse(courseId);
+    public List<Student> getStudents(StudentQuery query) {
+        return usersLogic.getStudents(query);
+    }
+
+    /**
+     * Gets the students visible to the given account for the supplied query.
+     */
+    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
+        return usersLogic.getStudentsVisibleToAccount(query, account);
     }
 
     /**
@@ -1100,30 +1105,6 @@ public class Logic {
     public Team createTeam(Section section, String teamName)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createTeam(section, teamName);
-    }
-
-    /**
-     * Search for students. Preconditions: all parameters are non-null.
-     *
-     * @param instructors a list of Instructors associated to an account,
-     *                    used for filtering of search result
-     * @return an empty list if no match is found
-     */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        return usersLogic.searchStudents(queryString, instructors);
-    }
-
-    /**
-     * This method should be used by admin only since the searching does not
-     * restrict the
-     * visibility according to the logged-in user's role. This is used by admin
-     * to
-     * search students in the whole system.
-     *
-     * @return an empty list if no match is found.
-     */
-    public List<Student> searchStudentsInWholeSystem(String queryString) {
-        return usersLogic.searchStudentsInWholeSystem(queryString);
     }
 
     /**
