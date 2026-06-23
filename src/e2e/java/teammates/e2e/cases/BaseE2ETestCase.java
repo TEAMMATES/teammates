@@ -61,12 +61,12 @@ import teammates.ui.output.StudentData;
  * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
 public abstract class BaseE2ETestCase extends BaseTestCase {
-    private static final String MASQUERADE_ACCOUNT_ID_STORAGE_KEY = "masqueradeAccountId";
-
     /**
      * Backdoor used to call APIs.
      */
     protected static final BackDoor BACKDOOR = BackDoor.getInstance();
+
+    private static final String MASQUERADE_ACCOUNT_ID_STORAGE_KEY = "masqueradeAccountId";
 
     /**
      * DataBundle used in tests.
