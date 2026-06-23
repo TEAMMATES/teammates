@@ -147,11 +147,11 @@ public class StudentData implements ApiOutput {
     }
 
     /**
-     * Adds additional information only for search result for admin.
+     * Adds additional information for admin.
      * @param key The registration key
      * @param accountId The accountId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, UUID accountId) {
+    public void addAdditionalInformationForAdmin(String key, UUID accountId) {
         this.setKey(key);
         this.setAccountId(accountId);
     }
