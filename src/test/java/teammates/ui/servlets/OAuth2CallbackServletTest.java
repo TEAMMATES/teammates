@@ -137,19 +137,6 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     }
 
     @Test
-    public void doGet_callbackHandlerThrows_redirectsToDefaultUrl() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
-        LoginMethodHandler loginHandler = mockFailingLoginHandler();
-        doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
-
-        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
-            servlet.doGet(req, resp);
-        }
-
-        assertEquals("/", resp.getRedirectUrl());
-    }
-
-    @Test
     public void doGet_callbackHandlerReturnsAuthResult_redirectsToNextUrl() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE, "/web/instructor/home"));
         LoginMethodHandler loginHandler = mockSuccessfulLoginHandler();

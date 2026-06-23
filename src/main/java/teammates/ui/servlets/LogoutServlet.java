@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.util.Config;
 import teammates.common.util.Logger;
 
 /**
@@ -24,14 +25,8 @@ public class LogoutServlet extends AuthServlet {
         Cookie cookie = getLoginInvalidationCookie();
         resp.addCookie(cookie);
 
-        String frontendUrl = req.getParameter("frontendUrl");
-        if (frontendUrl == null) {
-            frontendUrl = "";
-        }
-        // Prevent HTTP response splitting
-        frontendUrl = resp.encodeRedirectURL(frontendUrl.replace("\r\n", ""));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to home page after logging out");
-        resp.sendRedirect(frontendUrl + "/web");
+        resp.sendRedirect(Config.APP_FRONTEND_URL + "/web");
     }
 
 }

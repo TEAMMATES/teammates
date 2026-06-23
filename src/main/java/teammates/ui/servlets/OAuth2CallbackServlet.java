@@ -1,7 +1,5 @@
 package teammates.ui.servlets;
 
-import static teammates.common.util.HttpResponseHelper.logAndPrintError;
-
 import java.io.IOException;
 
 import jakarta.servlet.http.Cookie;
@@ -48,37 +46,32 @@ public class OAuth2CallbackServlet extends AuthServlet {
         try {
             state = getAuthStateFromCallback(req);
         } catch (AuthException e) {
-            rejectLogin(req, resp, "Invalid authentication state: " + e.getMessage());
+            rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
             return;
         }
 
         LoginMethod method = state.loginMethod();
 
         if (!Config.isSupportedLoginMethod(method)) {
-            rejectLogin(req, resp, "Valid but unsupported login method: " + method);
+            rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
             return;
         }
 
         LoginMethodHandler loginHandler = getLoginHandler(method);
         Cookie cookie;
-        String logMessage;
-        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
         try {
             AuthResult authResult = loginHandler.handleCallback(req, state);
             cookie = getLoginCookie(authResult);
-            logMessage = "Login successful";
         } catch (Exception e) {
-            cookie = invalidateLogin(req);
-            logMessage = "Login failed";
-            nextUrl = UrlHelper.DEFAULT_REDIRECT_URL;
-            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
-                    "An error occurred during login: " + e.getMessage());
+            rejectLogin(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return;
         }
 
+        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
         String redirectUrl = resp.encodeRedirectURL(nextUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
 
         resp.addCookie(cookie);
         resp.sendRedirect(redirectUrl);
@@ -100,14 +93,10 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
     }
 
-    private void rejectLogin(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException {
-        resp.addCookie(invalidateLogin(req));
-        logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, message);
-    }
-
-    private Cookie invalidateLogin(HttpServletRequest req) {
+    private void rejectLogin(HttpServletRequest req, HttpServletResponse resp, int status) throws IOException {
         req.getSession().invalidate();
-        return getLoginInvalidationCookie();
+        resp.addCookie(getLoginInvalidationCookie());
+        resp.sendError(status);
     }
 
     /**
