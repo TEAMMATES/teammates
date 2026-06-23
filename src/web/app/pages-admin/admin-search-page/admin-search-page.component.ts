@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
-  AccountVerificationRequestSearchResult,
   AdminSearchResult,
   InstructorAccountSearchResult,
   SearchService,
@@ -11,7 +10,6 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
-import { AdminAccountVerificationRequestSearchTableComponent } from './admin-account-verification-request-search-table/admin-account-verification-request-search-table.component';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table/admin-instructor-search-table.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table/admin-student-search-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -23,12 +21,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-admin-search-page',
   templateUrl: './admin-search-page.component.html',
   styleUrls: ['./admin-search-page.component.scss'],
-  imports: [
-    FormsModule,
-    AdminAccountVerificationRequestSearchTableComponent,
-    AdminInstructorSearchTableComponent,
-    AdminStudentSearchTableComponent,
-  ],
+  imports: [FormsModule, AdminInstructorSearchTableComponent, AdminStudentSearchTableComponent],
 })
 export class AdminSearchPageComponent {
   private statusMessageService = inject(StatusMessageService);
@@ -39,7 +32,6 @@ export class AdminSearchPageComponent {
   searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  accountVerificationRequests: AccountVerificationRequestSearchResult[] = [];
   characterLimit = 100;
 
   /**
@@ -58,19 +50,16 @@ export class AdminSearchPageComponent {
         next: (resp: AdminSearchResult) => {
           const hasStudents = !!resp.students?.length;
           const hasInstructors = !!resp.instructors?.length;
-          const hasAccountVerificationRequests = !!resp.accountVerificationRequests?.length;
 
-          if (!hasStudents && !hasInstructors && !hasAccountVerificationRequests) {
+          if (!hasStudents && !hasInstructors) {
             this.statusMessageService.showWarningToast('No results found.');
             this.instructors = [];
             this.students = [];
-            this.accountVerificationRequests = [];
             return;
           }
 
           this.instructors = resp.instructors;
           this.students = resp.students;
-          this.accountVerificationRequests = resp.accountVerificationRequests;
 
           const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
           const limitsReached: string[] = [];
@@ -79,9 +68,6 @@ export class AdminSearchPageComponent {
           }
           if (this.instructors.length >= limit) {
             limitsReached.push(`${limit} instructor results`);
-          }
-          if (this.accountVerificationRequests.length >= limit) {
-            limitsReached.push(`${limit} account verification request results`);
           }
           if (limitsReached.length) {
             this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
