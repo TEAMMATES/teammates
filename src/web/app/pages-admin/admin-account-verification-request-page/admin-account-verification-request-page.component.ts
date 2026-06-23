@@ -96,14 +96,14 @@ export class AdminAccountVerificationRequestPageComponent {
       return;
     }
 
-    const paramMap: Record<string, string> = {
-      id: accountVerificationRequest.accountVerificationRequestId,
-    };
     const rejectionRequest: AccountVerificationRequestRejectionRequest = {
       rejectionType: AccountVerificationRequestRejectionType.OTHERS,
     };
     this.runStatusTransition(
-      this.accountService.rejectAccountVerificationRequest(paramMap, rejectionRequest),
+      this.accountService.rejectAccountVerificationRequest(
+        { id: accountVerificationRequest.accountVerificationRequestId },
+        rejectionRequest,
+      ),
       () => 'Account verification request was successfully rejected.',
     );
   }

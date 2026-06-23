@@ -144,9 +144,12 @@ export class AccountService {
    * Rejects an account verification request by calling API.
    */
   rejectAccountVerificationRequest(
-    paramMap: Record<string, string>,
+    queryParams: { id: string },
     rejectionRequest: AccountVerificationRequestRejectionRequest,
   ): Observable<AccountVerificationRequest> {
+    const paramMap: Record<string, string> = {
+      id: queryParams.id,
+    };
     return this.httpRequestService.post(
       ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
       paramMap,

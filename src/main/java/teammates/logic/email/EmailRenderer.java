@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
@@ -422,12 +423,12 @@ public final class EmailRenderer {
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
 
-    private static String getRejectionReason(
-            teammates.common.datatransfer.AccountVerificationRequestRejectionType rejectionType) {
+    private static String getRejectionReason(AccountVerificationRequestRejectionType rejectionType) {
         return switch (rejectionType) {
         case ALREADY_VERIFIED -> "Your account is already verified for this institute.";
         case CANNOT_VERIFY_IDENTITY -> "We were unable to verify that you belong to the institute.";
-        case NOT_OFFICIAL_EMAIL -> "The email address provided does not appear to be an official email address issued by the institute.";
+        case NOT_OFFICIAL_EMAIL ->
+                "The email address provided does not appear to be an official email address issued by the institute.";
         case NOT_INSTRUCTOR_ACCOUNT -> "Your account does not appear to belong to an instructor.";
         case OTHERS -> "Unfortunately, we are unable to approve your request at this time.";
         };

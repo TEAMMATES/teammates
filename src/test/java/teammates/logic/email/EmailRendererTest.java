@@ -1,8 +1,6 @@
 package teammates.logic.email;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -533,7 +531,7 @@ public class EmailRendererTest extends BaseTestCase {
     }
 
     @Test
-    public void renderAccountVerificationRejectedEmail_withOthersType_returnsRejectedEmailBody() {
+    public void renderAccountVerificationRejectedEmail_withOthersType_returnsRejectedEmailBody() throws IOException {
         RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
                 new AccountVerificationRejectedEmailContext(
                         "elena.hart@northbridge.edu",
@@ -541,14 +539,12 @@ public class EmailRendererTest extends BaseTestCase {
                         AccountVerificationRequestRejectionType.OTHERS,
                         null));
 
-        assertTrue(actual.htmlContent().contains("Northbridge Institute of Technology"));
-        assertTrue(actual.htmlContent().contains("unable to approve your request at this time"));
-        assertFalse(actual.htmlContent().contains("Additional comments"));
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationRejectedEmailOthers.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 
     @Test
-    public void renderAccountVerificationRejectedEmail_withAdditionalComments_includesComments() {
+    public void renderAccountVerificationRejectedEmail_withAdditionalComments_includesComments() throws IOException {
         RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
                 new AccountVerificationRejectedEmailContext(
                         "elena.hart@northbridge.edu",
@@ -556,9 +552,7 @@ public class EmailRendererTest extends BaseTestCase {
                         AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL,
                         "Please use your official university email address."));
 
-        assertTrue(actual.htmlContent().contains("Northbridge Institute of Technology"));
-        assertTrue(actual.htmlContent().contains("not an official email address"));
-        assertTrue(actual.htmlContent().contains("Please use your official university email address."));
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationRejectedEmailWithAdditionalComments.html");
         assertFalse(actual.htmlContent().contains("${"));
     }
 

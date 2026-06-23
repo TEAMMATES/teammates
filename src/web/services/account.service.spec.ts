@@ -6,7 +6,11 @@ import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
 import { AccountVerificationRequestStatus } from '../types/api-output';
-import { AccountCreateRequest, AccountVerificationRequestRejectionType, AccountVerificationRequestUpdateRequest } from '../types/api-request';
+import {
+  AccountCreateRequest,
+  AccountVerificationRequestRejectionType,
+  AccountVerificationRequestUpdateRequest,
+} from '../types/api-request';
 
 describe('AccountService', () => {
   let spyHttpRequestService: MockHttpRequestService;
@@ -96,12 +100,12 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account verification request rejection endpoint', () => {
-    const paramMap: Record<string, string> = { id: 'testId' };
+    const queryParams = { id: 'testId' };
     const requestBody = { rejectionType: AccountVerificationRequestRejectionType.OTHERS };
-    service.rejectAccountVerificationRequest(paramMap, requestBody);
+    service.rejectAccountVerificationRequest(queryParams, requestBody);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(
       ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
-      paramMap,
+      { id: 'testId' },
       requestBody,
     );
   });
