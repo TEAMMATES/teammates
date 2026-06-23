@@ -24,8 +24,14 @@ public class LogoutServlet extends AuthServlet {
         Cookie cookie = getLoginInvalidationCookie();
         resp.addCookie(cookie);
 
+        String frontendUrl = req.getParameter("frontendUrl");
+        if (frontendUrl == null) {
+            frontendUrl = "";
+        }
+        // Prevent HTTP response splitting
+        frontendUrl = resp.encodeRedirectURL(frontendUrl.replace("\r\n", ""));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to home page after logging out");
-        resp.sendRedirect("/");
+        resp.sendRedirect(frontendUrl + "/web");
     }
 
 }
