@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import {forkJoin, Observable, of, shareReplay} from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { SearchParams, InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
 import {
@@ -99,25 +99,28 @@ export class InstructorSearchPageComponent {
     return coursesWithStudents;
   }
 
-  getPrivileges(coursesWithStudents: SearchStudentsListRowTable[]): Observable<InstructorPrivilege[]> {
-    if (coursesWithStudents.length === 0) {
-      return of([]);
-    }
-    const privileges: Observable<InstructorPrivilege>[] = [];
-    coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
-      const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
-      Array.from(
-        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
-      ).forEach((section: string) => {
-        sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege({ courseId: course.courseId });
-      });
-      course.students.forEach((studentModel: StudentListRowModel) =>
-        privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
-      );
-    });
-    return forkJoin(privileges);
-  }
+    private privilegeCache: Map<string, Observable<InstructorPrivilege>> = new Map();
 
+    getPrivileges(coursesWithStudents: SearchStudentsListRowTable[]): Observable<InstructorPrivilege[]> {
+        if (coursesWithStudents.length === 0) {
+            return of([]);
+        }
+        const privileges: Observable<InstructorPrivilege>[] = [];
+
+        coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
+            if (!this.privilegeCache.has(course.courseId)) {
+                this.privilegeCache.set(
+                    course.courseId,
+                    this.instructorService.loadInstructorPrivilege({ courseId: course.courseId }).pipe(shareReplay(1)),
+                );
+            }
+            const coursePrivilege: Observable<InstructorPrivilege> = this.privilegeCache.get(course.courseId)!;
+            course.students.forEach(() =>
+                privileges.push(coursePrivilege),
+            );
+        });
+        return forkJoin(privileges);
+    }
   combinePrivileges([coursesWithStudents, privileges]: [
     SearchStudentsListRowTable[],
     InstructorPrivilege[],
