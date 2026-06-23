@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
-import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
 
 /**
@@ -14,7 +13,6 @@ import { StatusMessageService } from './status-message.service';
 })
 export class NavigationService {
   private statusMessageService = inject(StatusMessageService);
-  private masqueradeModeService = inject(MasqueradeModeService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private location = inject(Location);
@@ -42,10 +40,6 @@ export class NavigationService {
     params: Record<string, string> = {},
     extras: NavigationExtras = {},
   ): Promise<boolean> {
-    const masqueradeAccountId: string = this.masqueradeModeService.getMasqueradeAccountId();
-    if (masqueradeAccountId !== '') {
-      params['masqueradeaccountid'] = masqueradeAccountId;
-    }
     return this.router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`, extras);
   }
 

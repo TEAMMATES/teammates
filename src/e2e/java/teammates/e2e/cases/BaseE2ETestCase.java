@@ -61,6 +61,8 @@ import teammates.ui.output.StudentData;
  * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
 public abstract class BaseE2ETestCase extends BaseTestCase {
+    private static final String MASQUERADE_ACCOUNT_ID_STORAGE_KEY = "masqueradeAccountId";
+
     /**
      * Backdoor used to call APIs.
      */
@@ -157,6 +159,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+        browser.waitForPageReadyState();
+        browser.removeSessionStorageItem(MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
 
         String cookieValue = BACKDOOR.getUserCookie(userEmail);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
@@ -180,6 +184,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             url = url.withParam("frontendUrl", TestProperties.TEAMMATES_FRONTEND_URL);
         }
 
+        browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+        browser.waitForPageReadyState();
+        browser.removeSessionStorageItem(MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
         browser.goToUrl(url.toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
     }
