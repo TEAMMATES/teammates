@@ -64,10 +64,7 @@
               </div>
               @if (response.allResponses[0].participantComment) {
                 <tm-comment-row
-                  [model]="
-                    response.allResponses[0].participantComment
-                      | giverCommentToCommentRowModel
-                  "
+                  [model]="response.allResponses[0].participantComment | giverCommentToCommentRowModel"
                   [isDisabled]="true"
                   [mode]="CommentRowMode.EDIT"
                   [isFeedbackParticipantComment]="true"

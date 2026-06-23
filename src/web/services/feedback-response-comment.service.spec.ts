@@ -5,10 +5,7 @@ import { ResponseInstructorCommentService } from './feedback-response-comment.se
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
-import {
-  ResponseInstructorCommentCreateRequest,
-  ResponseInstructorCommentUpdateRequest,
-} from '../types/api-request';
+import { ResponseInstructorCommentCreateRequest, ResponseInstructorCommentUpdateRequest } from '../types/api-request';
 
 describe('ResponseInstructorCommentService', () => {
   let spyHttpRequestService: MockHttpRequestService;

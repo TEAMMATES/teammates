@@ -387,7 +387,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -401,7 +400,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -415,7 +413,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -429,7 +426,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -443,7 +439,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -457,7 +452,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -471,7 +465,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },
@@ -485,7 +478,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-
       },
       isEditing: false,
     },

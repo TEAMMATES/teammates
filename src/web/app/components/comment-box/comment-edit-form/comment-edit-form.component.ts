@@ -11,9 +11,7 @@ import { CommentRowMode } from '../comment-row/comment-row.mode';
 @Component({
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
-  imports: [
-    RichTextEditorComponent,
-  ],
+  imports: [RichTextEditorComponent],
 })
 export class CommentEditFormComponent implements OnInit {
   // enum

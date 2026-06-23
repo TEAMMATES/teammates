@@ -18,13 +18,7 @@ import type { CommentRowModel, InstructorCommentRowModel, SavedCommentRowModel }
   selector: 'tm-comment-row',
   templateUrl: './comment-row.component.html',
   styleUrls: ['./comment-row.component.scss'],
-  imports: [
-    CommentEditFormComponent,
-    NgbTooltip,
-    FormatDateDetailPipe,
-    SafeHtmlPipe,
-    FormatDateBriefPipe,
-  ],
+  imports: [CommentEditFormComponent, NgbTooltip, FormatDateDetailPipe, SafeHtmlPipe, FormatDateBriefPipe],
 })
 export class CommentRowComponent {
   private simpleModalService = inject(SimpleModalService);

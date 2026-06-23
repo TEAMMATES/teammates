@@ -96,10 +96,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         next: ({ feedbackSession, results }) => {
           this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
           results.questions.forEach((questions: QuestionOutput) => {
-            return this.preprocessComments(
-              questions.allResponses,
-              feedbackSession.timeZone,
-            );
+            return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
           });
         },
         error: (errorMessageOutput: ErrorMessageOutput) => {
@@ -197,10 +194,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(
-    responses: ResponseOutput[],
-    timezone: string,
-  ): void {
+  preprocessComments(responses: ResponseOutput[], timezone: string): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,

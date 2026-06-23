@@ -3,11 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 import { CommentEditFormComponent } from './comment-edit-form.component';
-import {
-  FeedbackQuestionType,
-  ResponseInstructorComment,
-  FeedbackResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackQuestionType, ResponseInstructorComment, FeedbackResponseDetails } from '../../../../types/api-output';
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;

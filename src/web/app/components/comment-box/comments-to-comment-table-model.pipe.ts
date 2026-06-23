@@ -8,11 +8,7 @@ import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.u
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  transform(
-    comments: ResponseInstructorComment[],
-    isReadOnly: boolean,
-    timezone: string,
-  ): CommentTableModel {
+  transform(comments: ResponseInstructorComment[], isReadOnly: boolean, timezone: string): CommentTableModel {
     return commentToReadOnlyComment(comments, isReadOnly, timezone);
   }
 }
