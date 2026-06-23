@@ -122,10 +122,6 @@ export class PageComponent implements OnInit {
         });
       }
     });
-    if (environment.frontendUrl) {
-      this.logoutUrl += `?frontendUrl=${environment.frontendUrl}`;
-    }
-
     globalThis.addEventListener('online', () => this.isNetworkOnline.set(true));
     globalThis.addEventListener('offline', () => this.isNetworkOnline.set(false));
 
