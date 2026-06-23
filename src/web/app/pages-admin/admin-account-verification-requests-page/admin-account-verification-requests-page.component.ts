@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { EMPTY, catchError, map, switchMap } from 'rxjs';
@@ -29,7 +29,10 @@ export class AdminAccountVerificationRequestsPageComponent {
   readonly searchQuery = signal('');
   private readonly committedSearch = signal('');
 
-  readonly accountReqs = toSignal(
+  readonly currentPage = signal(1);
+  readonly pageSize = 15;
+
+  private readonly allAccountReqs = toSignal(
     toObservable(this.committedSearch).pipe(
       switchMap((query) =>
         this.accountService.getAccountVerificationRequests({ searchKey: query || undefined }).pipe(
@@ -44,8 +47,30 @@ export class AdminAccountVerificationRequestsPageComponent {
     { initialValue: [] },
   );
 
+  readonly totalPages = computed(() => Math.max(1, Math.ceil(this.allAccountReqs().length / this.pageSize)));
+
+  readonly accountReqs = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize;
+    return this.allAccountReqs().slice(start, start + this.pageSize);
+  });
+
+  readonly pages = computed(() => Array.from({ length: this.totalPages() }, (_, i) => i + 1));
+
+  constructor() {
+    effect(() => {
+      this.allAccountReqs();
+      this.currentPage.set(1);
+    });
+  }
+
   search(): void {
     this.committedSearch.set(this.searchQuery());
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
   }
 
   private mapRequests(resp: AccountVerificationRequests): AccountVerificationRequestTableRowModel[] {

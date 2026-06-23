@@ -72,7 +72,7 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
           Tue, 08 Feb 2022, 08:23 AM +00:00
         </td>
         <td>
-          comment
+           comment 
         </td>
         <td
           class="align-middle"
@@ -114,7 +114,7 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
           Tue, 08 Feb 2022, 08:23 AM +00:00
         </td>
         <td>
-          comment
+           comment 
         </td>
         <td
           class="align-middle"
@@ -214,7 +214,7 @@ exports[`AccountVerificationRequestTableComponent > should snap with an account 
           Tue, 08 Feb 2022, 08:23 AM +00:00
         </td>
         <td>
-          comment
+           comment 
         </td>
         <td
           class="align-middle"

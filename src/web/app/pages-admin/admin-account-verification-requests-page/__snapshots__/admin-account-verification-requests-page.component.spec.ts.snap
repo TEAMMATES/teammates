@@ -4,11 +4,16 @@ exports[`AdminAccountVerificationRequestsPageComponent > should snap with defaul
 <tm-admin-account-verification-requests-page
   accountReqs={[Function Function]}
   accountService={[Function _AccountService]}
+  allAccountReqs={[Function Function]}
   committedSearch={[Function Function]}
+  currentPage={[Function Function]}
   dateFormatService={[Function _DateFormatService]}
+  pageSize={[Function Number]}
+  pages={[Function Function]}
   searchQuery={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
+  totalPages={[Function Function]}
 >
   <div
     class="card bg-light top-padded"
@@ -37,13 +42,6 @@ exports[`AdminAccountVerificationRequestsPageComponent > should snap with defaul
   </div><div
     class="card bg-light top-padded"
   >
-    <div
-      class="card-header bg-primary text-white"
-    >
-      <strong>
-        Account Verification Requests
-      </strong>
-    </div>
     <tm-account-verification-request-table>
       <table
         class="table table-striped"
@@ -101,6 +99,55 @@ exports[`AdminAccountVerificationRequestsPageComponent > should snap with defaul
         </tbody>
       </table>
     </tm-account-verification-request-table>
+    <div
+      class="card-footer d-flex justify-content-center"
+    >
+      <nav
+        aria-label="Account verification requests pagination"
+      >
+        <ul
+          class="pagination mb-0"
+        >
+          <li
+            class="page-item disabled"
+          >
+            <button
+              aria-label="Previous"
+              class="page-link"
+            >
+              <span
+                aria-hidden="true"
+              >
+                «
+              </span>
+            </button>
+          </li>
+          <li
+            class="page-item active"
+          >
+            <button
+              class="page-link"
+            >
+              1
+            </button>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <button
+              aria-label="Next"
+              class="page-link"
+            >
+              <span
+                aria-hidden="true"
+              >
+                »
+              </span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </tm-admin-account-verification-requests-page>
 `;
