@@ -9,168 +9,157 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
   statusMessageService={[Function _StatusMessageService]}
 >
   <div
-    class="card bg-light top-padded"
+    class="table-responsive"
   >
-    <div
-      class="card-header bg-primary text-white"
+    <table
+      class="table table-striped"
+      id="search-table-account-verification-request"
     >
-      <strong>
-        Pending Account Verification Requests
-      </strong>
-    </div>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table table-striped"
-        id="search-table-account-verification-request"
-      >
-        <thead>
-          <tr>
-            <th
-              class="text-nowrap"
+      <thead>
+        <tr>
+          <th
+            class="text-nowrap"
+          >
+            Name
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Email
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Status
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Institute
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Country
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Submitted At
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Comments
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Options
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            name
+          </td>
+          <td>
+            email
+          </td>
+          <td>
+            PENDING
+          </td>
+          <td>
+            institute
+          </td>
+          <td>
+          </td>
+          <td
+            class="text-nowrap"
+          >
+            Tue, 08 Feb 2022, 08:23 AM +00:00
+          </td>
+          <td>
+            <div
+              class="text-truncate"
+              style="max-width: 20rem;"
             >
-              Name
-            </th>
-            <th
-              class="text-nowrap"
+               comment 
+            </div>
+          </td>
+          <td
+            class="align-middle"
+          >
+            <div
+              class="d-flex gap-2 justify-content-center"
             >
-              Email
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Status
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Institute
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Country
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Submitted At
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Comments
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Options
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              name
-            </td>
-            <td>
-              email
-            </td>
-            <td>
-              PENDING
-            </td>
-            <td>
-              institute
-            </td>
-            <td>
-            </td>
-            <td
-              class="text-nowrap"
-            >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
-            </td>
-            <td>
-              <div
-                class="text-truncate"
-                style="max-width: 20rem;"
+              <button
+                class="btn btn-success"
+                id="approve-account-verification-request-0"
               >
-                 comment 
-              </div>
-            </td>
-            <td
-              class="align-middle"
-            >
-              <div
-                class="d-flex gap-2 justify-content-center"
+                 Approve 
+              </button>
+              <button
+                class="btn btn-warning"
+                id="review-account-verification-request-0"
               >
-                <button
-                  class="btn btn-success"
-                  id="approve-account-verification-request-0"
-                >
-                   Approve 
-                </button>
-                <button
-                  class="btn btn-warning"
-                  id="review-account-verification-request-0"
-                >
-                   Review 
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              name
-            </td>
-            <td>
-              email
-            </td>
-            <td>
-              PENDING
-            </td>
-            <td>
-              institute
-            </td>
-            <td>
-            </td>
-            <td
-              class="text-nowrap"
+                 Review 
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            name
+          </td>
+          <td>
+            email
+          </td>
+          <td>
+            PENDING
+          </td>
+          <td>
+            institute
+          </td>
+          <td>
+          </td>
+          <td
+            class="text-nowrap"
+          >
+            Tue, 08 Feb 2022, 08:23 AM +00:00
+          </td>
+          <td>
+            <div
+              class="text-truncate"
+              style="max-width: 20rem;"
             >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
-            </td>
-            <td>
-              <div
-                class="text-truncate"
-                style="max-width: 20rem;"
-              >
-                 comment 
-              </div>
-            </td>
-            <td
-              class="align-middle"
+               comment 
+            </div>
+          </td>
+          <td
+            class="align-middle"
+          >
+            <div
+              class="d-flex gap-2 justify-content-center"
             >
-              <div
-                class="d-flex gap-2 justify-content-center"
+              <button
+                class="btn btn-success"
+                id="approve-account-verification-request-1"
               >
-                <button
-                  class="btn btn-success"
-                  id="approve-account-verification-request-1"
-                >
-                   Approve 
-                </button>
-                <button
-                  class="btn btn-warning"
-                  id="review-account-verification-request-1"
-                >
-                   Review 
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+                 Approve 
+              </button>
+              <button
+                class="btn btn-warning"
+                id="review-account-verification-request-1"
+              >
+                 Review 
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </tm-account-verification-request-table>
 `;
@@ -184,119 +173,108 @@ exports[`AccountVerificationRequestTableComponent > should snap with an account 
   statusMessageService={[Function _StatusMessageService]}
 >
   <div
-    class="card bg-light top-padded"
+    class="table-responsive"
   >
-    <div
-      class="card-header bg-primary text-white"
+    <table
+      class="table table-striped"
+      id="search-table-account-verification-request"
     >
-      <strong>
-        Pending Account Verification Requests
-      </strong>
-    </div>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table table-striped"
-        id="search-table-account-verification-request"
-      >
-        <thead>
-          <tr>
-            <th
-              class="text-nowrap"
+      <thead>
+        <tr>
+          <th
+            class="text-nowrap"
+          >
+            Name
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Email
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Status
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Institute
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Country
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Submitted At
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Comments
+          </th>
+          <th
+            class="text-nowrap"
+          >
+            Options
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            name
+          </td>
+          <td>
+            email
+          </td>
+          <td>
+            PENDING
+          </td>
+          <td>
+            institute
+          </td>
+          <td>
+          </td>
+          <td
+            class="text-nowrap"
+          >
+            Tue, 08 Feb 2022, 08:23 AM +00:00
+          </td>
+          <td>
+            <div
+              class="text-truncate"
+              style="max-width: 20rem;"
             >
-              Name
-            </th>
-            <th
-              class="text-nowrap"
+               comment 
+            </div>
+          </td>
+          <td
+            class="align-middle"
+          >
+            <div
+              class="d-flex gap-2 justify-content-center"
             >
-              Email
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Status
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Institute
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Country
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Submitted At
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Comments
-            </th>
-            <th
-              class="text-nowrap"
-            >
-              Options
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              name
-            </td>
-            <td>
-              email
-            </td>
-            <td>
-              PENDING
-            </td>
-            <td>
-              institute
-            </td>
-            <td>
-            </td>
-            <td
-              class="text-nowrap"
-            >
-              Tue, 08 Feb 2022, 08:23 AM +00:00
-            </td>
-            <td>
-              <div
-                class="text-truncate"
-                style="max-width: 20rem;"
+              <button
+                class="btn btn-success"
+                id="approve-account-verification-request-0"
               >
-                 comment 
-              </div>
-            </td>
-            <td
-              class="align-middle"
-            >
-              <div
-                class="d-flex gap-2 justify-content-center"
+                 Approve 
+              </button>
+              <button
+                class="btn btn-warning"
+                id="review-account-verification-request-0"
               >
-                <button
-                  class="btn btn-success"
-                  id="approve-account-verification-request-0"
-                >
-                   Approve 
-                </button>
-                <button
-                  class="btn btn-warning"
-                  id="review-account-verification-request-0"
-                >
-                   Review 
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+                 Review 
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </tm-account-verification-request-table>
 `;

@@ -8,17 +8,17 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
 >
-  <tm-account-verification-request-table>
+  <div
+    class="card bg-light top-padded"
+  >
     <div
-      class="card bg-light top-padded"
+      class="card-header bg-primary text-white"
     >
-      <div
-        class="card-header bg-primary text-white"
-      >
-        <strong>
-          Pending Account Verification Requests
-        </strong>
-      </div>
+      <strong>
+        Pending Account Verification Requests
+      </strong>
+    </div>
+    <tm-account-verification-request-table>
       <div
         class="table-responsive"
       >
@@ -82,7 +82,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
           </tbody>
         </table>
       </div>
-    </div>
-  </tm-account-verification-request-table>
+    </tm-account-verification-request-table>
+  </div>
 </tm-admin-home-page>
 `;
