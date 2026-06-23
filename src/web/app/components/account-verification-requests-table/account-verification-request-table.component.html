@@ -11,11 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (
-      accountVerificationRequest of accountVerificationRequests;
-      track accountVerificationRequest.id;
-      let i = $index
-    ) {
+    @for (accountVerificationRequest of accountVerificationRequests; track accountVerificationRequest.id) {
       <tr>
         <td>{{ accountVerificationRequest.name }}</td>
         <td>{{ accountVerificationRequest.email }}</td>
@@ -32,18 +28,18 @@
         <td class="align-middle">
           <div class="d-flex flex-wrap gap-2 justify-content-center">
             <button
-              id="approve-account-verification-request-{{ i }}"
+              id="approve-account-verification-request-{{ accountVerificationRequest.id }}"
               class="btn btn-success btn-sm"
-              [disabled]="accountVerificationRequest.status !== 'PENDING' || isApprovingAccountVerificationRequest[i]"
-              (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
+              [disabled]="accountVerificationRequest.status !== 'PENDING' || isApprovingById.get(accountVerificationRequest.id)"
+              (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest)"
             >
-              @if (isApprovingAccountVerificationRequest[i]) {
+              @if (isApprovingById.get(accountVerificationRequest.id)) {
                 <tm-ajax-loading></tm-ajax-loading>
               }
               Approve
             </button>
             <button
-              id="review-account-verification-request-{{ i }}"
+              id="review-account-verification-request-{{ accountVerificationRequest.id }}"
               class="btn btn-warning btn-sm"
               (click)="$event.stopPropagation(); reviewAccountVerificationRequest(accountVerificationRequest)"
             >

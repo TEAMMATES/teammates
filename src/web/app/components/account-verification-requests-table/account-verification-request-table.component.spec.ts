@@ -78,7 +78,7 @@ describe('AccountVerificationRequestTableComponent', () => {
 
   it('should display error message when approval was unsuccessful', () => {
     const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
-      DEFAULT_ACCOUNT_REQUEST.build(),
+      { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'test-id-error' },
     ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
@@ -99,7 +99,7 @@ describe('AccountVerificationRequestTableComponent', () => {
       });
 
     const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '#approve-account-verification-request-0',
+      `#approve-account-verification-request-${accountVerificationRequestResults[0].id}`,
     );
     approveButton.click();
 
@@ -108,7 +108,7 @@ describe('AccountVerificationRequestTableComponent', () => {
 
   it('should update status when approval is succcessful', () => {
     const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
-      DEFAULT_ACCOUNT_REQUEST.build(),
+      { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'test-id-approve' },
     ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
@@ -129,7 +129,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(of(approvedRequest));
 
     const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '#approve-account-verification-request-0',
+      `#approve-account-verification-request-${accountVerificationRequestResults[0].id}`,
     );
     approveButton.click();
 
@@ -148,7 +148,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     const navigationSpy = vi.spyOn(navigationService, 'navigateByURL').mockResolvedValue(true);
 
     const reviewButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '#review-account-verification-request-0',
+      `#review-account-verification-request-${accountVerificationRequestResults[0].id}`,
     );
     reviewButton.click();
 

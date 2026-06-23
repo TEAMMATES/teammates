@@ -25,24 +25,21 @@ export class AccountVerificationRequestTableComponent {
   @Input()
   accountVerificationRequests: AccountVerificationRequestTableRowModel[] = [];
 
-  isApprovingAccountVerificationRequest: boolean[] = new Array(this.accountVerificationRequests.length).fill(false);
+  readonly isApprovingById = new Map<string, boolean>();
 
-  approveAccountVerificationRequest(
-    accountVerificationRequest: AccountVerificationRequestTableRowModel,
-    index: number,
-  ): void {
-    this.isApprovingAccountVerificationRequest[index] = true;
+  approveAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestTableRowModel): void {
+    this.isApprovingById.set(accountVerificationRequest.id, true);
     this.accountService.approveAccountVerificationRequest(accountVerificationRequest.id).subscribe({
       next: (resp: AccountVerificationRequest) => {
         accountVerificationRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
           `Account verification request was successfully approved. Email has been sent to ${accountVerificationRequest.email}.`,
         );
-        this.isApprovingAccountVerificationRequest[index] = false;
+        this.isApprovingById.set(accountVerificationRequest.id, false);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingAccountVerificationRequest[index] = false;
+        this.isApprovingById.set(accountVerificationRequest.id, false);
       },
     });
   }
