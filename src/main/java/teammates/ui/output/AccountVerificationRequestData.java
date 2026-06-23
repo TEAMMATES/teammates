@@ -14,6 +14,7 @@ import teammates.storage.entity.AccountVerificationRequest;
  */
 public class AccountVerificationRequestData implements ApiOutput {
     private final UUID accountVerificationRequestId;
+    private final UUID accountId;
     private final String email;
     private final String name;
     private final String institute;
@@ -26,11 +27,12 @@ public class AccountVerificationRequestData implements ApiOutput {
     private final long createdAt;
 
     @JsonCreator
-    private AccountVerificationRequestData(UUID accountVerificationRequestId, String email, String name,
+    private AccountVerificationRequestData(UUID accountVerificationRequestId, UUID accountId, String email, String name,
                                 String institute, String country,
                                 AccountVerificationRequestStatus status, String comments,
                                 Long createdDemoCourseAt, long createdAt) {
         this.accountVerificationRequestId = accountVerificationRequestId;
+        this.accountId = accountId;
         this.email = email;
         this.name = name;
         this.institute = institute;
@@ -43,6 +45,7 @@ public class AccountVerificationRequestData implements ApiOutput {
 
     public AccountVerificationRequestData(AccountVerificationRequest accountVerificationRequest) {
         this.accountVerificationRequestId = accountVerificationRequest.getId();
+        this.accountId = accountVerificationRequest.getAccountId();
         this.name = accountVerificationRequest.getName();
         this.email = accountVerificationRequest.getEmail();
         this.institute = accountVerificationRequest.getInstitute().getName();
@@ -60,6 +63,10 @@ public class AccountVerificationRequestData implements ApiOutput {
 
     public UUID getAccountVerificationRequestId() {
         return accountVerificationRequestId;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public String getInstitute() {

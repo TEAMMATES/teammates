@@ -235,6 +235,7 @@ export class SearchService {
       email: '',
       institute: '',
       country: '',
+      accountId: '',
       createdAtText: '',
       createdDemoCourseAtText: '',
       registrationLink: '',
@@ -379,6 +380,7 @@ export interface AdminSearchResult {
  */
 export interface AccountVerificationRequestSearchResult {
   accountVerificationRequestId: string;
+  accountId: string;
   name: string;
   email: string;
   status: AccountVerificationRequestStatus;

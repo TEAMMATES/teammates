@@ -27,6 +27,7 @@ describe('InstructorRequestFormComponent', () => {
   };
   const typicalAccountVerificationRequest: AccountVerificationRequest = {
     accountVerificationRequestId: 'id',
+    accountId: 'account-id',
     email: typicalModel.email,
     name: typicalModel.name,
     institute: typicalModel.institution,
