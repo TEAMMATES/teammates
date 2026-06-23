@@ -256,7 +256,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.isLoadingExistingStudents = true;
     this.hasLoadingStudentsFailed = false;
     this.studentService
-      .getStudentsFromCourse({ courseId })
+      .getStudents({ courseId })
       .pipe(
         finalize(() => {
           this.isLoadingExistingStudents = false;

@@ -25,7 +25,7 @@ export class StudentService {
   /**
    * Get a list of students by calling API.
    */
-  getStudentsFromCourse(queryParams: { courseId?: string; searchKey?: string; limit?: number }): Observable<Students> {
+  getStudents(queryParams: { courseId?: string; searchKey?: string; limit?: number }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {};
 
     if (queryParams.courseId !== undefined) {
@@ -130,7 +130,7 @@ export class StudentService {
     return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(
       mergeMap((courseView: CourseView) => {
         const course = courseView.course;
-        return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(
+        return this.getStudents({ courseId: queryParams.courseId }).pipe(
           map((students: Students) => {
             return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
           }),

@@ -226,7 +226,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     forkJoin({
       course: this.courseService.getCourseAsInstructor(courseId),
       feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId),
-      students: this.studentService.getStudentsFromCourse({ courseId }),
+      students: this.studentService.getStudents({ courseId }),
     })
       .pipe(
         finalize(() => {

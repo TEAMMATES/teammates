@@ -114,7 +114,7 @@ describe('StudentService', () => {
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
-    service.getStudentsFromCourse({
+    service.getStudents({
       courseId: paramMap['courseid'],
     });
 
@@ -128,7 +128,7 @@ describe('StudentService', () => {
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
-    service.getStudentsFromCourse({
+    service.getStudents({
       searchKey: 'Alice',
       limit: 50,
     });

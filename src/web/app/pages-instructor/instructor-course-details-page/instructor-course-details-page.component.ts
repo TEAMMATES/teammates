@@ -143,7 +143,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   loadStudents(courseid: string): void {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe({
+    this.studentService.getStudents({ courseId: courseid }).subscribe({
       next: (students: Students) => {
         this.students = []; // Reset the list of students
         this.sectionsLoaded = 0; // Reset sections loaded

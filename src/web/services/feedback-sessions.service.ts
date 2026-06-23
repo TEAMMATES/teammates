@@ -299,7 +299,7 @@ export class FeedbackSessionsService {
    * Gets a list of students who have not responded to feedback session.
    */
   getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string): Observable<Student[]> {
-    const allStudentsObservable: Observable<Students> = this.studentService.getStudentsFromCourse({
+    const allStudentsObservable: Observable<Students> = this.studentService.getStudents({
       courseId,
     });
     const submittedGiverSetObservable: Observable<FeedbackSessionSubmittedGiverSet> =

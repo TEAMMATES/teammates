@@ -37,7 +37,7 @@ export class SearchService {
   private timezoneService = inject(TimezoneService);
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.studentService.getStudentsFromCourse({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }).pipe(
+    return this.studentService.getStudents({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }).pipe(
       map((studentsRes: Students) => {
         return {
           students: studentsRes.students,
@@ -49,7 +49,7 @@ export class SearchService {
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
-      this.studentService.getStudentsFromCourse({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
+      this.studentService.getStudents({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
       this.instructorService.loadInstructors({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
       this.accountService.getAccountVerificationRequests({
         searchKey,
