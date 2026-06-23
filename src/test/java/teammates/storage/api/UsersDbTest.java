@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorQuery;
+import teammates.common.datatransfer.StudentQuery;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -131,6 +132,54 @@ public class UsersDbTest extends BaseDbTestcase {
 
         assertEquals(Set.of(student1.id(), student2.id()),
                 actual.stream().map(Student::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudents_courseIdsProvided_returnsStudentsOnlyFromMatchingCourses() {
+        var course1 = given.course("course-1");
+        var course2 = given.course("course-2");
+        var anotherCourse = given.course("course-3");
+        var course1Student = given.student("course-1-student", s -> s.course(course1.alias()));
+        var course2Student = given.student("course-2-student", s -> s.course(course2.alias()));
+        given.student("another-course-student", s -> s.course(anotherCourse.alias()));
+        persistGivenData(given);
+
+        List<Student> actual = inTransaction(
+                () -> usersDb.getStudents(new StudentQuery(List.of(course1.id(), course2.id()), null, null)));
+
+        assertEquals(List.of(course1Student.id(), course2Student.id()),
+                actual.stream().map(Student::getId).toList());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudents_searchKeyProvided_searchesAcrossRequestedCoursesAndLimitsResults() {
+        var course1 = given.course("course-1", c -> c.name("Shared Course 1"));
+        var course2 = given.course("course-2", c -> c.name("Shared Course 2"));
+        var firstMatch = given.student("first-match", s -> s.course(course1.alias()).name("Shared Alice"));
+        given.student("second-match", s -> s.course(course2.alias()).name("Shared Bob"));
+        given.student("different-course-match", s -> s.course("course-3").name("Shared Charlie"));
+        persistGivenData(given);
+
+        List<Student> actual = inTransaction(() -> usersDb.getStudents(
+                new StudentQuery(List.of(course1.id(), course2.id()), "shared", 1)));
+
+        assertEquals(1, actual.size());
+        assertEquals(firstMatch.id(), actual.get(0).getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudents_searchKeyMatchesSectionAndTeam_returnsMatchingStudents() {
+        var course = given.course("course");
+        var section = given.section("section", s -> s.course(course.alias()).name("Shared Section"));
+        var matchingStudent = given.student("matching-student",
+                s -> s.course(course.alias()).section(section.alias()).name("Alice"));
+        given.student("non-matching-student", s -> s.course(course.alias()).name("Bob"));
+        persistGivenData(given);
+
+        List<Student> actual = inTransaction(
+                () -> usersDb.getStudents(new StudentQuery(List.of(course.id()), "shared", null)));
+
+        assertEquals(List.of(matchingStudent.id()), actual.stream().map(Student::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
