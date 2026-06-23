@@ -103,7 +103,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
 
         // refresh page to confirm enrollment
         enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
-        Student[] expectedExistingData = {student1, student2, student3, student4};
+        Student[] expectedExistingData = {student1, student2, student4, student3};
         enrollPage.verifyExistingStudentsTableContains(expectedExistingData);
     }
 

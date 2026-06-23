@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { finalize, map, mergeMap } from 'rxjs/operators';
+import { finalize, map, mergeMap, shareReplay } from 'rxjs/operators';
 import { SearchParams, InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
 import {
   SearchStudentsListRowTable,
@@ -26,13 +26,14 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './instructor-search-page.component.html',
   imports: [InstructorSearchBarComponent, LoadingSpinnerDirective, StudentResultTableComponent],
 })
-export class InstructorSearchPageComponent {
+export class InstructorSearchPageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private searchService = inject(SearchService);
   private instructorService = inject(InstructorService);
   private studentService = inject(StudentService);
   private accountService = inject(AccountService);
   private authService = inject(AuthService);
+  private visibleCourseIds$: Observable<string[]> = of([]);
 
   searchParams: SearchParams = {
     searchKey: '',
@@ -40,6 +41,10 @@ export class InstructorSearchPageComponent {
   searchString = '';
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching = false;
+
+  ngOnInit(): void {
+    this.visibleCourseIds$ = this.loadVisibleCourseIds().pipe(shareReplay(1));
+  }
 
   /**
    * Searches for students matching the search query.
@@ -50,11 +55,8 @@ export class InstructorSearchPageComponent {
     }
     this.searchString = this.searchParams.searchKey;
     this.isSearching = true;
-    this.authService
-      .getAuthUser()
+    this.visibleCourseIds$
       .pipe(
-        mergeMap((authInfo) => this.accountService.getAccount(authInfo.user!.accountId)),
-        map((account) => Array.from(new Set(account.instructors.map((instructor) => instructor.courseId)))),
         mergeMap((courseIds: string[]) => this.searchService.searchInstructor(this.searchParams.searchKey, courseIds)),
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
         mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
@@ -179,6 +181,41 @@ export class InstructorSearchPageComponent {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
+  }
+
+  private loadVisibleCourseIds(): Observable<string[]> {
+    return this.authService.getAuthUser().pipe(
+      mergeMap((authInfo) => this.accountService.getAccount(authInfo.user!.accountId)),
+      map((account) => Array.from(new Set(account.instructors.map((instructor) => instructor.courseId)))),
+      mergeMap((courseIds: string[]) => this.getVisibleCourseIds(courseIds)),
+    );
+  }
+
+  private getVisibleCourseIds(courseIds: string[]): Observable<string[]> {
+    if (courseIds.length === 0) {
+      return of([]);
+    }
+
+    return forkJoin(
+      courseIds.map((courseId: string) =>
+        this.instructorService.loadInstructorPrivilege({ courseId }).pipe(
+          map((instructorPrivilege: InstructorPrivilege) => ({
+            courseId,
+            canViewStudent:
+              instructorPrivilege.privileges.courseLevel.canViewStudent ||
+              Object.values(instructorPrivilege.privileges.sectionLevel).some(
+                (sectionPrivilege: InstructorPermissionSet) => sectionPrivilege.canViewStudent,
+              ),
+          })),
+        ),
+      ),
+    ).pipe(
+      map((coursePrivileges: { courseId: string; canViewStudent: boolean }[]) =>
+        coursePrivileges
+          .filter((coursePrivilege) => coursePrivilege.canViewStudent)
+          .map((coursePrivilege) => coursePrivilege.courseId),
+      ),
+    );
   }
 }
 

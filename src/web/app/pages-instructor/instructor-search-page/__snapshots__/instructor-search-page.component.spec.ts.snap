@@ -2,9 +2,9 @@
 
 exports[`InstructorSearchPageComponent > should snap with a search key 1`] = `
 <tm-instructor-search-page
-  accountService={[Function _AccountService]}
-  authService={[Function _AuthService]}
-  instructorService={[Function _InstructorService]}
+  accountService={[Function Object]}
+  authService={[Function Object]}
+  instructorService={[Function Object]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
@@ -12,6 +12,7 @@ exports[`InstructorSearchPageComponent > should snap with a search key 1`] = `
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
+  visibleCourseIds$={[Function Observable]}
 >
   <tm-instructor-search-bar>
     <div
@@ -58,9 +59,9 @@ exports[`InstructorSearchPageComponent > should snap with a search key 1`] = `
 
 exports[`InstructorSearchPageComponent > should snap with a student table 1`] = `
 <tm-instructor-search-page
-  accountService={[Function _AccountService]}
-  authService={[Function _AuthService]}
-  instructorService={[Function _InstructorService]}
+  accountService={[Function Object]}
+  authService={[Function Object]}
+  instructorService={[Function Object]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
@@ -68,6 +69,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
+  visibleCourseIds$={[Function Observable]}
 >
   <tm-instructor-search-bar>
     <div
@@ -541,9 +543,9 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
 
 exports[`InstructorSearchPageComponent > should snap with default fields 1`] = `
 <tm-instructor-search-page
-  accountService={[Function _AccountService]}
-  authService={[Function _AuthService]}
-  instructorService={[Function _InstructorService]}
+  accountService={[Function Object]}
+  authService={[Function Object]}
+  instructorService={[Function Object]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
@@ -551,6 +553,7 @@ exports[`InstructorSearchPageComponent > should snap with default fields 1`] = `
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
+  visibleCourseIds$={[Function Observable]}
 >
   <tm-instructor-search-bar>
     <div

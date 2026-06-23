@@ -154,6 +154,11 @@ export class InstructorStudentListPageComponent implements OnInit {
           .subscribe({
             next: (instructorPrivilege: InstructorPrivilege) => {
               const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+              courseTab.isAbleToViewStudents =
+                courseLevelPrivilege.canViewStudent ||
+                Object.values(instructorPrivilege.privileges.sectionLevel).some(
+                  (sectionPrivilege: InstructorPermissionSet) => sectionPrivilege.canViewStudent,
+                );
 
               Object.keys(sections).forEach((sectionId: string) => {
                 const sectionLevelPrivilege: InstructorPermissionSet =

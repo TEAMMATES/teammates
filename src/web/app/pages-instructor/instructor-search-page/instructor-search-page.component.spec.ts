@@ -6,10 +6,20 @@ import { of } from 'rxjs';
 
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+import { AccountService } from '../../../services/account.service';
+import { AuthService } from '../../../services/auth.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../../../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../../../types/api-const';
-import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import {
+  Account,
+  AuthInfo,
+  InstructorPermissionSet,
+  InstructorPrivilege,
+  JoinState,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 
 describe('InstructorSearchPageComponent', () => {
@@ -17,6 +27,15 @@ describe('InstructorSearchPageComponent', () => {
   let fixture: ComponentFixture<InstructorSearchPageComponent>;
   let spyHttpRequestService: MockHttpRequestService;
   let coursesWithStudents: SearchStudentsListRowTable[];
+  const mockAuthService = {
+    getAuthUser: vi.fn(),
+  };
+  const mockAccountService = {
+    getAccount: vi.fn(),
+  };
+  const mockInstructorService = {
+    loadInstructorPrivilege: vi.fn(),
+  };
 
   const mockStudents: Students = {
     students: [
@@ -77,9 +96,71 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(async () => {
     spyHttpRequestService = createMockHttpRequestService();
+    mockAuthService.getAuthUser.mockReturnValue(
+      of<AuthInfo>({
+        loginUrl: '/',
+        masquerade: false,
+        user: {
+          accountId: 'account-1',
+          accountEmail: 'instructor@example.com',
+          isAdmin: false,
+          isInstructor: true,
+          isStudent: false,
+          isMaintainer: false,
+        },
+      }),
+    );
+    mockAccountService.getAccount.mockReturnValue(
+      of<Account>({
+        accountId: 'account-1',
+        email: 'instructor@example.com',
+        instructors: [
+          {
+            userId: 'instructor-1',
+            courseId: 'CS3281',
+            email: 'instructor@example.com',
+            name: 'Instructor',
+            institute: 'Test Institute',
+            courseName: 'Course 1',
+            joinState: JoinState.JOINED,
+          },
+          {
+            userId: 'instructor-2',
+            courseId: 'CS3282',
+            email: 'instructor@example.com',
+            name: 'Instructor',
+            institute: 'Test Institute',
+            courseName: 'Course 2',
+            joinState: JoinState.JOINED,
+          },
+        ],
+        students: [],
+      }),
+    );
+    mockInstructorService.loadInstructorPrivilege.mockReturnValue(
+      of<InstructorPrivilege>({
+        privileges: {
+          courseLevel: {
+            canModifyCourse: false,
+            canModifySession: false,
+            canModifyStudent: false,
+            canModifyInstructor: false,
+            canViewStudent: true,
+            canModifySessionComments: false,
+            canViewSession: false,
+            canSubmitSession: false,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
+      }),
+    );
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: AccountService, useValue: mockAccountService },
+        { provide: InstructorService, useValue: mockInstructorService },
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
@@ -224,31 +305,10 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should execute GET when fetching privileges', () => {
-    spyHttpRequestService.get.mockImplementation((endpoint: string) => {
-      expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
-      return of<InstructorPrivilege>({
-        privileges: {
-          courseLevel: {
-            canModifyCourse: true,
-            canModifySession: true,
-            canModifyStudent: true,
-            canModifyInstructor: true,
-            canViewStudent: true,
-            canModifySessionComments: true,
-            canViewSession: true,
-            canSubmitSession: true,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      });
-    });
     component.getPrivileges(coursesWithStudents);
 
     for (const course of coursesWithStudents) {
-      expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, {
-        courseid: course.courseId,
-      });
+      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledWith({ courseId: course.courseId });
     }
   });
 
