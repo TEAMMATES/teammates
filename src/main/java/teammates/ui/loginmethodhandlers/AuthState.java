@@ -1,7 +1,5 @@
 package teammates.ui.loginmethodhandlers;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -15,10 +13,4 @@ public record AuthState(
         String nextUrl,
         String sessionId,
         LoginMethod loginMethod) {
-
-    @JsonCreator
-    public AuthState {
-        // For Jackson deserialization
-    }
-
 }
