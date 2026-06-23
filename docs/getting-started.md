@@ -81,7 +81,7 @@ npm ci
 
 **Verification:** A `node_modules` folder should appear in the project root.
 
-## Step 3: Run the Application
+## Step 4: Run the Application
 
 1. Start the database:
 
@@ -137,19 +137,20 @@ npm run start
 
 The frontend will be available at `http://localhost:4200`.
 
-## Step 4: Set up test accounts
+## Step 5: Set up test accounts
 
 To test TEAMMATES locally, you will need an instructor and a student account.
 
 1. Configure `app.admins` property in `build.properties`. The default value is `app_admin@gmail.com`.
 2. Visit [/web/front/request](http://localhost:4200/web/front/request) and submit the form.
 3. Visit [/web/admin/home](http://localhost:4200/web/admin/home) and sign in as admin.
-4. Approve the pending account verification request.
-5. Use the admin search feature at [/web/admin/search](http://localhost:4200/web/admin/search) to find the account verification request, expand the row, and retrieve the registration link.
-6. Use the registration link to activate the account.
-7. You now have access to all TEAMMATES features.
+4. Click the **Review** button on the pending account verification request.
+5. Approve the request from the detail page.
+6. Copy the welcome link from the Request Details card.
+7. Use the welcome link to activate the account.
+8. You now have access to all TEAMMATES features.
 
-## Step 5: Next Steps
+## Step 6: Next Steps
 
 Your environment is now ready. Here's what to do next:
 
