@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.util.Config;
 import teammates.common.util.Logger;
 
 /**
@@ -26,7 +25,7 @@ public class LogoutServlet extends AuthServlet {
         resp.addCookie(cookie);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to home page after logging out");
-        resp.sendRedirect(Config.APP_FRONTEND_URL + "/web");
+        resp.sendRedirect("/");
     }
 
 }
