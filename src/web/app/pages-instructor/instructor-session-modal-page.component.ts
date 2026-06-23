@@ -33,7 +33,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionId = model.feedbackSession.feedbackSessionId;
 
     forkJoin([
-      this.studentService.getStudents({ courseId }),
+      this.studentService.getStudents({ courseIds: [courseId] }),
       this.instructorService.loadInstructors({ courseId }),
     ])
       .pipe(
@@ -121,7 +121,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionId = model.feedbackSession.feedbackSessionId;
 
     forkJoin({
-      students: this.studentService.getStudents({ courseId }),
+      students: this.studentService.getStudents({ courseIds: [courseId] }),
       submittedGiverSet: this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
       instructors: this.instructorService.loadInstructors({ courseId }),
     })

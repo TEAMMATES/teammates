@@ -10,6 +10,8 @@ import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { AccountService } from '../../../services/account.service';
+import { AuthService } from '../../../services/auth.service';
 import { ApiConst } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -29,6 +31,8 @@ export class InstructorSearchPageComponent {
   private searchService = inject(SearchService);
   private instructorService = inject(InstructorService);
   private studentService = inject(StudentService);
+  private accountService = inject(AccountService);
+  private authService = inject(AuthService);
 
   searchParams: SearchParams = {
     searchKey: '',
@@ -46,9 +50,12 @@ export class InstructorSearchPageComponent {
     }
     this.searchString = this.searchParams.searchKey;
     this.isSearching = true;
-    this.searchService
-      .searchInstructor(this.searchParams.searchKey)
+    this.authService
+      .getAuthUser()
       .pipe(
+        mergeMap((authInfo) => this.accountService.getAccount(authInfo.user!.accountId)),
+        map((account) => Array.from(new Set(account.instructors.map((instructor) => instructor.courseId)))),
+        mergeMap((courseIds: string[]) => this.searchService.searchInstructor(this.searchParams.searchKey, courseIds)),
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
         mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
           forkJoin([of(coursesWithStudents), this.getPrivileges(coursesWithStudents)]),

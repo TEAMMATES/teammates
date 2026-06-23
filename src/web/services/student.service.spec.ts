@@ -35,7 +35,7 @@ const studentCsvListTester: (
     course: testData.course,
   };
   vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(courseView));
-  vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(testData.students));
+  vi.spyOn(service, 'getStudents').mockReturnValue(of(testData.students));
   await new Promise<void>((resolve) => {
     service.loadStudentListAsCsv({ courseId: testData.course.courseId }).subscribe((csvResult: string) => {
       testFn(csvResult);
@@ -109,13 +109,13 @@ describe('StudentService', () => {
   });
 
   it('should execute GET when getting all students in a course', () => {
-    const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+    const paramMap = {
+      courseid: ['CS3281'],
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudents({
-      courseId: paramMap['courseid'],
+      courseIds: paramMap.courseid,
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);

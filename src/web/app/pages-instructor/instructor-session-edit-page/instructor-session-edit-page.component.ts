@@ -1101,7 +1101,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): Observable<Student[]> {
-    return this.studentService.getStudents({ courseId: this.courseId }).pipe(
+    return this.studentService.getStudents({ courseIds: [this.courseId] }).pipe(
       map((students: Students) => {
         this.studentsOfCourse = students.students;
 

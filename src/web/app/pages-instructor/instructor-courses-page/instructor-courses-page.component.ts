@@ -257,7 +257,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     course.isLoadingCourseStats = true;
     this.studentService
-      .getStudents({ courseId })
+      .getStudents({ courseIds: [courseId] })
       .pipe(
         finalize(() => {
           course.isLoadingCourseStats = false;

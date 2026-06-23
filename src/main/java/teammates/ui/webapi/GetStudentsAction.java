@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.StudentQuery;
@@ -54,8 +55,8 @@ public class GetStudentsAction extends LoggedInAction {
     }
 
     private List<String> getCourseIds() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        return courseId == null ? null : List.of(courseId);
+        String[] courseIds = req.getParameterValues(Const.ParamsNames.COURSE_ID);
+        return courseIds == null ? null : Arrays.asList(courseIds);
     }
 
     private Integer getNullablePositiveIntRequestParamValue(String paramName) {

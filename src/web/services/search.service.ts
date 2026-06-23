@@ -36,8 +36,19 @@ export class SearchService {
   private studentService = inject(StudentService);
   private timezoneService = inject(TimezoneService);
 
-  searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.studentService.getStudents({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }).pipe(
+  searchInstructor(searchKey: string, courseIds: string[]): Observable<InstructorSearchResult> {
+    if (courseIds.length === 0) {
+      return of({
+        students: [],
+        comments: [],
+      });
+    }
+
+    return this.studentService.getStudents({
+      courseIds,
+      searchKey,
+      limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
+    }).pipe(
       map((studentsRes: Students) => {
         return {
           students: studentsRes.students,

@@ -173,7 +173,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    */
   private getAllStudentsOfCourse(): void {
     this.studentService
-      .getStudents({ courseId: this.courseId })
+      .getStudents({ courseIds: [this.courseId] })
       .pipe(
         map(({ students }: Students) =>
           DeadlineExtensionHelper.mapStudentsToStudentModels(

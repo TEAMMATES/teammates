@@ -286,7 +286,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load all students in course
           this.studentService
             .getStudents({
-              courseId: this.courseId,
+              courseIds: [this.courseId],
             })
             .subscribe({
               next: (allStudents: Students) => {

@@ -300,7 +300,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string): Observable<Student[]> {
     const allStudentsObservable: Observable<Students> = this.studentService.getStudents({
-      courseId,
+      courseIds: [courseId],
     });
     const submittedGiverSetObservable: Observable<FeedbackSessionSubmittedGiverSet> =
       this.getFeedbackSessionSubmittedGiverSet({

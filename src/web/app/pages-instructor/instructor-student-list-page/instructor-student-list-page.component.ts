@@ -133,7 +133,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
-    this.studentService.getStudents({ courseId: courseTab.course.courseId }).subscribe({
+    this.studentService.getStudents({ courseIds: [courseTab.course.courseId] }).subscribe({
       next: (students: Students) => {
         courseTab.studentList = []; // Reset the list of students for the course
         const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
