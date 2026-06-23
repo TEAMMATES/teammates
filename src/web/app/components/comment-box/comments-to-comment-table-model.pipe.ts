@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CommentTableModel } from './comment-table/comment-table.model';
-import { ResponseInstructorComment, FeedbackVisibilityType } from '../../../types/api-output';
+import { ResponseInstructorComment } from '../../../types/api-output';
 import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 /**
@@ -8,12 +8,7 @@ import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.u
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  transform(
-    comments: ResponseInstructorComment[],
-    isReadOnly: boolean,
-    timezone: string,
-    questionShowResponsesTo: FeedbackVisibilityType[] = [],
-  ): CommentTableModel {
-    return commentToReadOnlyComment(comments, isReadOnly, timezone, questionShowResponsesTo);
+  transform(comments: ResponseInstructorComment[], isReadOnly: boolean, timezone: string): CommentTableModel {
+    return commentToReadOnlyComment(comments, isReadOnly, timezone);
   }
 }

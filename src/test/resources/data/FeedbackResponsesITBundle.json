@@ -938,8 +938,6 @@
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResponse2ForQ1": {
@@ -947,8 +945,6 @@
       "giverId": "00000000-0000-4000-8000-000000000502",
       "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResponse1ForQ2s": {
@@ -956,8 +952,6 @@
       "giverId": "00000000-0000-4000-8000-000000000502",
       "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "comment1ToResponse1ForQ3": {
@@ -965,8 +959,6 @@
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000905"
     },
     "comment1ToResponse4ForQ1": {
@@ -974,8 +966,6 @@
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 4 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000908"
     },
     "comment1ToResponse1ForQ1InSession2": {
@@ -983,8 +973,6 @@
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8001-000000000901"
     }
   },

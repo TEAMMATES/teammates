@@ -1,10 +1,7 @@
 package teammates.ui.request;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
@@ -14,16 +11,9 @@ class ResponseInstructorCommentBasicRequest extends BasicRequest {
 
     private String commentText;
 
-    private List<CommentVisibilityType> showCommentTo;
-    private List<CommentVisibilityType> showGiverNameTo;
-
     @JsonCreator
-    ResponseInstructorCommentBasicRequest(String commentText,
-                                        List<CommentVisibilityType> showCommentTo,
-                                        List<CommentVisibilityType> showGiverNameTo) {
+    ResponseInstructorCommentBasicRequest(String commentText) {
         this.commentText = commentText;
-        this.showCommentTo = showCommentTo;
-        this.showGiverNameTo = showGiverNameTo;
     }
 
     @Override
@@ -34,13 +24,5 @@ class ResponseInstructorCommentBasicRequest extends BasicRequest {
 
     public String getCommentText() {
         return commentText;
-    }
-
-    public List<CommentVisibilityType> getShowCommentTo() {
-        return showCommentTo;
-    }
-
-    public List<CommentVisibilityType> getShowGiverNameTo() {
-        return showGiverNameTo;
     }
 }

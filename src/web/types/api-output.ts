@@ -608,8 +608,6 @@ export interface ResponseInstructorComment extends ApiOutput {
   commentText: string;
   createdAt: number;
   lastEditedAt: number;
-  showGiverNameTo: CommentVisibilityType[];
-  showCommentTo: CommentVisibilityType[];
 }
 
 export interface ResponseOutput {
@@ -767,7 +765,6 @@ export interface UserQuestionOutput {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics?: FeedbackQuestionResultsStatistics;
   hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
   allResponses: ResponseOutput[];
   responsesToSelf: ResponseOutput[];
   responsesFromSelf: ResponseOutput[];
@@ -790,15 +787,6 @@ export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-}
-
-export enum CommentVisibilityType {
-  GIVER = "GIVER",
-  RECIPIENT = "RECIPIENT",
-  GIVER_TEAM_MEMBERS = "GIVER_TEAM_MEMBERS",
-  RECIPIENT_TEAM_MEMBERS = "RECIPIENT_TEAM_MEMBERS",
-  STUDENTS = "STUDENTS",
-  INSTRUCTORS = "INSTRUCTORS",
 }
 
 export enum FeedbackConstantSumDistributePointsType {

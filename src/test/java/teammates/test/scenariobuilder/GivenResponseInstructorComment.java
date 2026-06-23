@@ -1,11 +1,7 @@
 package teammates.test.scenariobuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -62,22 +58,6 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
         return this;
     }
 
-    /**
-     * Sets who can see the comment.
-     */
-    public GivenResponseInstructorComment showCommentTo(CommentVisibilityType... viewerTypes) {
-        entity.setShowCommentTo(viewerTypesList(viewerTypes));
-        return this;
-    }
-
-    /**
-     * Sets who can see the giver name.
-     */
-    public GivenResponseInstructorComment showGiverNameTo(CommentVisibilityType... viewerTypes) {
-        entity.setShowGiverNameTo(viewerTypesList(viewerTypes));
-        return this;
-    }
-
     @Override
     void ensureConsistent() {
         if (entity.getFeedbackResponse() == null) {
@@ -110,19 +90,9 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
         return given.getAlias(entity.getFeedbackResponse().getFeedbackQuestion().getFeedbackSession().getCourse());
     }
 
-    private static List<CommentVisibilityType> defaultCommentVisibilityTypes() {
-        return viewerTypesList(
-                CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS);
-    }
-
-    private static List<CommentVisibilityType> viewerTypesList(CommentVisibilityType... viewerTypes) {
-        return new ArrayList<>(Arrays.asList(viewerTypes));
-    }
-
     private ResponseInstructorComment defaultResponseInstructorComment(UUID responseInstructorCommentId) {
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                null, "comment:" + responseInstructorCommentId,
-                defaultCommentVisibilityTypes(), defaultCommentVisibilityTypes(), null);
+                null, "comment:" + responseInstructorCommentId, null);
         responseInstructorComment.setId(responseInstructorCommentId);
         return responseInstructorComment;
     }

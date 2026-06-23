@@ -346,7 +346,6 @@ describe('SessionResultPageComponent', () => {
       isLoading: false,
       isLoaded: true,
       hasResponseButNotVisibleForPreview: false,
-      hasCommentNotVisibleForPreview: false,
     };
     const testSessionResults: UserSessionResults = {
       questions: [
@@ -355,7 +354,6 @@ describe('SessionResultPageComponent', () => {
           questionStatistics: undefined,
           allResponses: [],
           hasResponseButNotVisibleForPreview: false,
-          hasCommentNotVisibleForPreview: false,
           responsesToSelf: [],
           responsesFromSelf: [],
           otherResponses: [],

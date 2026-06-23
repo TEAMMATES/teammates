@@ -27,7 +27,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -588,7 +587,6 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
-        Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         for (FeedbackQuestion qn : relatedQuestions) {
             // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
@@ -603,10 +601,9 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        // visibility table for each response and comment
+        // visibility table for each response
         Map<UUID, Boolean> responseGiverVisibilityTable = new HashMap<>();
         Map<UUID, Boolean> responseRecipientVisibilityTable = new HashMap<>();
-        Map<UUID, Boolean> commentVisibilityTable = new HashMap<>();
 
         // build response
         for (FeedbackResponse response : allResponses) {
@@ -656,28 +653,10 @@ public final class FeedbackResponsesLogic {
             if (relatedResponse == null) {
                 continue;
             }
-            FeedbackQuestion relatedQuestion = relatedResponse.getFeedbackQuestion();
-            if (relatedQuestion == null) {
+            if (relatedResponse.getFeedbackQuestion() == null) {
                 continue;
             }
-            // check visibility of comment
-            boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
-                    user, relatedResponse, relatedQuestion, frc);
-            if (!isVisibleResponseComment) {
-                continue;
-            }
-
-            // if previewing results and the comment should not be visible to instructors,
-            // note down the corresponding question and do not add the comment
-            if (isPreviewResults && !checkCanInstructorsSeeComment(frc)) {
-                relatedQuestionsWithCommentNotVisibleForPreview.add(frc.getFeedbackResponse().getFeedbackQuestion());
-                continue;
-            }
-
             relatedCommentsMap.computeIfAbsent(relatedResponse, key -> new ArrayList<>()).add(frc);
-            // generate comment giver name visibility table
-            commentVisibilityTable.put(frc.getId(),
-                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, user));
         }
         RequestTracer.checkRemainingTime();
 
@@ -691,9 +670,9 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
-                relatedQuestionsWithCommentNotVisibleForPreview, existingResponses, missingResponses,
+                existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
-                commentVisibilityTable, roster);
+                roster);
     }
 
     /**
@@ -1155,17 +1134,6 @@ public final class FeedbackResponsesLogic {
         boolean isRecipientVisibleToInstructor =
                 feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
-    }
-
-    /**
-     * Checks whether instructors can see the comment.
-     */
-    boolean checkCanInstructorsSeeComment(ResponseInstructorComment responseInstructorComment) {
-        boolean isCommentVisibleToInstructor =
-                responseInstructorComment.getShowCommentTo().contains(CommentVisibilityType.INSTRUCTORS);
-        boolean isGiverVisibleToInstructor =
-                responseInstructorComment.getShowGiverNameTo().contains(CommentVisibilityType.INSTRUCTORS);
-        return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 
     /**
