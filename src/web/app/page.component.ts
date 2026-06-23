@@ -28,6 +28,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { NavItem } from './page.model';
 import { AuthService } from '../services/auth.service';
 import { finalize } from 'rxjs/operators';
+import { MasqueradeModeService } from '../services/masquerade-mode.service';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -82,6 +83,7 @@ export class PageComponent implements OnInit {
   private readonly ngbModal = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly authService = inject(AuthService);
+  private readonly masqueradeModeService = inject(MasqueradeModeService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -204,6 +206,7 @@ export class PageComponent implements OnInit {
 
   logout(): void {
     this.authService.clearAuthCache();
+    this.masqueradeModeService.clearMasquerade();
     globalThis.location.href = this.logoutUrl;
   }
 }

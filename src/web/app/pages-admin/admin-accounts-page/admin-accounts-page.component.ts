@@ -12,6 +12,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LinkService } from '../../../services/link.service';
+import { MasqueradeModeService } from '../../../services/masquerade-mode.service';
 
 /**
  * Admin accounts page.
@@ -22,13 +23,14 @@ import { LinkService } from '../../../services/link.service';
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
-  private instructorService = inject(InstructorService);
-  private studentService = inject(StudentService);
-  private navigationService = inject(NavigationService);
-  private statusMessageService = inject(StatusMessageService);
-  private accountService = inject(AccountService);
-  private simpleModalService = inject(SimpleModalService);
-  private linkService = inject(LinkService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly studentService = inject(StudentService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly accountService = inject(AccountService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly linkService = inject(LinkService);
+  private readonly masqueradeModeService = inject(MasqueradeModeService);
 
   accountInfo: Account = {
     accountId: '',
@@ -167,10 +169,8 @@ export class AdminAccountsPageComponent implements OnInit {
    * Redirects to the instructor home page in masquerade mode.
    */
   masqueradeAsUser(): void {
-    const url = this.linkService.generateHomePageLink(
-      this.accountInfo.accountId,
-      this.linkService.INSTRUCTOR_HOME_PAGE,
-    );
+    this.masqueradeModeService.masqueradeAs(this.accountInfo.accountId);
+    const url = this.linkService.generateHomePageLink(this.linkService.INSTRUCTOR_HOME_PAGE);
     globalThis.location.assign(url);
   }
 

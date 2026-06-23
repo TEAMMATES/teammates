@@ -121,10 +121,8 @@ export class HttpRequestService {
     const headers: Record<string, string> = {
       'X-WEB-VERSION': this.version,
       'ngsw-bypass': 'true',
+      ...this.masqueradeModeService.getMasqueradeHeader(),
     };
-    if (this.masqueradeModeService.isInMasqueradingMode()) {
-      headers['X-Masquerade-Account-Id'] = this.masqueradeModeService.getMasqueradeAccountId();
-    }
     if (withCsrfHeader && document.cookie) {
       const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));
       if (csrfTokenCookie.length) {

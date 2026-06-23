@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
+import { MasqueradeModeService } from './masquerade-mode.service';
 import { environment } from '../environments/environment';
 
 describe('HttpRequestService', () => {
@@ -10,6 +11,8 @@ describe('HttpRequestService', () => {
   const withCredentials: boolean = environment.withCredentials;
 
   let spyHttpClient: Partial<HttpClient>;
+  let spyMasqueradeModeService: Partial<MasqueradeModeService>;
+  let getMasqueradeHeaderSpy: Mock;
   let service: HttpRequestService;
 
   beforeEach(() => {
@@ -19,8 +22,15 @@ describe('HttpRequestService', () => {
       put: vi.fn().mockReturnValue(new Observable()),
       delete: vi.fn().mockReturnValue(new Observable<void>()),
     };
+    getMasqueradeHeaderSpy = vi.fn().mockReturnValue({});
+    spyMasqueradeModeService = {
+      getMasqueradeHeader: getMasqueradeHeaderSpy,
+    };
     TestBed.configureTestingModule({
-      providers: [{ provide: HttpClient, useValue: spyHttpClient }],
+      providers: [
+        { provide: HttpClient, useValue: spyHttpClient },
+        { provide: MasqueradeModeService, useValue: spyMasqueradeModeService },
+      ],
     });
     service = TestBed.inject(HttpRequestService);
   });
@@ -46,6 +56,21 @@ describe('HttpRequestService', () => {
     expect(httpParams.get('key2')).toBe('value2');
     expect(httpParams.get('key3')).toBe('value3');
     expect(httpParams.getAll('key4')).toEqual(['value4a', 'value4b']);
+  });
+
+  it('should include masquerade account ID in HttpHeaders', () => {
+    getMasqueradeHeaderSpy.mockReturnValue({
+      'X-Masquerade-Account-Id': 'account-123',
+    });
+
+    service.get('/url');
+
+    const requestOptions = (spyHttpClient.get as Mock).mock.calls[0][1] as {
+      headers: HttpHeaders;
+      params: HttpParams;
+    };
+    expect(requestOptions.headers.get('X-Masquerade-Account-Id')).toBe('account-123');
+    expect(requestOptions.params.has('masqueradeaccountid')).toBe(false);
   });
 
   it('should execute GET', () => {

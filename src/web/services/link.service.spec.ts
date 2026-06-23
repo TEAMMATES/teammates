@@ -37,9 +37,7 @@ describe('Link Service', () => {
   });
 
   it('should generate the home page link', () => {
-    expect(service.generateHomePageLink('account-123', '/course-dashboard')).toBe(
-      '/web/course-dashboard?masqueradeaccountid=account-123',
-    );
+    expect(service.generateHomePageLink('/course-dashboard')).toBe('/web/course-dashboard');
   });
 
   it('should generate the manage account link', () => {

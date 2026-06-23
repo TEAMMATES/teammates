@@ -7,13 +7,34 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MasqueradeModeService {
+  static readonly MASQUERADE_ACCOUNT_ID_HEADER: string = 'X-Masquerade-Account-Id';
+  private static readonly MASQUERADE_ACCOUNT_ID_STORAGE_KEY: string = 'masqueradeAccountId';
+
   /**
    * Gets the masquerade account ID.
    */
   getMasqueradeAccountId(): string {
-    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
-    const accountIdParam: string | null = urlParams.get('masqueradeaccountid');
-    return accountIdParam ?? '';
+    const storedAccountId: string | null = globalThis.sessionStorage.getItem(
+      MasqueradeModeService.MASQUERADE_ACCOUNT_ID_STORAGE_KEY,
+    );
+    if (storedAccountId) {
+      return storedAccountId;
+    }
+    return '';
+  }
+
+  /**
+   * Sets the masquerade account ID.
+   */
+  masqueradeAs(accountId: string): void {
+    globalThis.sessionStorage.setItem(MasqueradeModeService.MASQUERADE_ACCOUNT_ID_STORAGE_KEY, accountId);
+  }
+
+  /**
+   * Clears the masquerade account ID.
+   */
+  clearMasquerade(): void {
+    globalThis.sessionStorage.removeItem(MasqueradeModeService.MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
   }
 
   /**
@@ -21,5 +42,14 @@ export class MasqueradeModeService {
    */
   isInMasqueradingMode(): boolean {
     return this.getMasqueradeAccountId() !== '';
+  }
+
+  /**
+   * Gets the masquerade header for API requests.
+   */
+  getMasqueradeHeader(): Record<string, string> {
+    return this.isInMasqueradingMode()
+      ? { [MasqueradeModeService.MASQUERADE_ACCOUNT_ID_HEADER]: this.getMasqueradeAccountId() }
+      : {};
   }
 }

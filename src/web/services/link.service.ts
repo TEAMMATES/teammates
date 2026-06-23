@@ -32,14 +32,8 @@ export class LinkService {
   /**
    * Generates home page link.
    */
-  generateHomePageLink(accountId: string, homePage: string): string {
-    const params: { [key: string]: string } = {
-      masqueradeaccountid: accountId,
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${homePage}${encodedParams}`;
+  generateHomePageLink(homePage: string): string {
+    return `${this.URI_PREFIX}${homePage}`;
   }
 
   /**
