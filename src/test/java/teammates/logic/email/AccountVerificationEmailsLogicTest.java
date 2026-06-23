@@ -10,6 +10,7 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
@@ -83,8 +84,9 @@ public class AccountVerificationEmailsLogicTest extends BaseTestCase {
         accountVerificationEmailsLogic.enqueueRejectionEmail(
                 new AccountVerificationRejectedEmailContext(
                         "instructor@teammates.tmt",
-                        "Verification request update",
-                        "<p>Rejected</p>"));
+                        "Northbridge Institute of Technology",
+                        AccountVerificationRequestRejectionType.OTHERS,
+                        null));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);

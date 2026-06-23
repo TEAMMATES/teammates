@@ -9,6 +9,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import {
+  AccountVerificationRequestRejectionRequest,
+  AccountVerificationRequestRejectionType,
+} from '../../../types/api-request';
+import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
 } from './account-verification-request-draft';
@@ -92,8 +96,14 @@ export class AdminAccountVerificationRequestPageComponent {
       return;
     }
 
+    const paramMap: Record<string, string> = {
+      id: accountVerificationRequest.accountVerificationRequestId,
+    };
+    const rejectionRequest: AccountVerificationRequestRejectionRequest = {
+      rejectionType: AccountVerificationRequestRejectionType.OTHERS,
+    };
     this.runStatusTransition(
-      this.accountService.rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId),
+      this.accountService.rejectAccountVerificationRequest(paramMap, rejectionRequest),
       () => 'Account verification request was successfully rejected.',
     );
   }

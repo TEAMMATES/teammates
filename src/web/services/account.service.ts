@@ -11,8 +11,8 @@ import {
 } from '../types/api-output';
 import {
   AccountCreateRequest,
-  AccountVerificationRequestUpdateRequest,
   AccountVerificationRequestRejectionRequest,
+  AccountVerificationRequestUpdateRequest,
 } from '../types/api-request';
 
 export interface AccountVerificationRequestQueryParams {
@@ -143,24 +143,14 @@ export class AccountService {
   /**
    * Rejects an account verification request by calling API.
    */
-  rejectAccountVerificationRequest(id: string, title?: string, body?: string): Observable<AccountVerificationRequest> {
-    let accountReqRejectRequest: AccountVerificationRequestRejectionRequest = {};
-
-    if (title !== undefined && body !== undefined) {
-      accountReqRejectRequest = {
-        reasonTitle: title,
-        reasonBody: body,
-      };
-    }
-
-    const paramMap: Record<string, string> = {
-      id,
-    };
-
+  rejectAccountVerificationRequest(
+    paramMap: Record<string, string>,
+    rejectionRequest: AccountVerificationRequestRejectionRequest,
+  ): Observable<AccountVerificationRequest> {
     return this.httpRequestService.post(
       ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
       paramMap,
-      accountReqRejectRequest,
+      rejectionRequest,
     );
   }
 }

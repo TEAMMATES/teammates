@@ -1,51 +1,46 @@
 package teammates.ui.request;
 
-import java.util.Objects;
-
 import jakarta.annotation.Nullable;
 
-import teammates.common.util.SanitizationHelper;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
+import teammates.common.util.FieldValidator;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
- * The request reasonBody for rejecting an account verification request.
+ * The request body for rejecting an account verification request.
  */
 public class AccountVerificationRequestRejectionRequest extends BasicRequest {
-    @Nullable
-    private String reasonTitle;
+    private AccountVerificationRequestRejectionType rejectionType;
 
     @Nullable
-    private String reasonBody;
+    private String additionalComments;
 
     private AccountVerificationRequestRejectionRequest() {
         // for Jackson deserialization
     }
 
-    public AccountVerificationRequestRejectionRequest(String reasonTitle, String reasonBody) {
-        this.reasonTitle = SanitizationHelper.sanitizeTitle(reasonTitle);
-        this.reasonBody = SanitizationHelper.sanitizeForRichText(reasonBody);
+    public AccountVerificationRequestRejectionRequest(
+            AccountVerificationRequestRejectionType rejectionType, String additionalComments) {
+        this.rejectionType = rejectionType;
+        this.additionalComments = additionalComments;
     }
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        if (reasonBody == null || reasonTitle == null) {
-            validateTrue(Objects.equals(reasonBody, reasonTitle),
-                    "Both reason body and title need to be null to reject silently");
+        validateTrue(rejectionType != null, "Rejection type cannot be null");
+        if (additionalComments != null) {
+            validateTrue(FieldValidator.getInvalidityInfoForRejectionAdditionalComments(additionalComments).isEmpty(),
+                    "Additional comments " + FieldValidator.REASON_TOO_LONG
+                            + " (max " + FieldValidator.REJECTION_ADDITIONAL_COMMENTS_MAX_LENGTH + " characters)");
         }
     }
 
-    public String getReasonTitle() {
-        return this.reasonTitle;
+    public AccountVerificationRequestRejectionType getRejectionType() {
+        return this.rejectionType;
     }
 
-    public String getReasonBody() {
-        return this.reasonBody;
-    }
-
-    /**
-     * Returns true if both reason body and title are non-null.
-     */
-    public boolean checkHasReason() {
-        return this.reasonBody != null && this.reasonTitle != null;
+    @Nullable
+    public String getAdditionalComments() {
+        return this.additionalComments;
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260624-account-request-rejection-type-1">
+        <addColumn tableName="account_verification_requests">
+            <column name="rejection_type" type="varchar(255)"/>
+            <column name="rejection_additional_comments" type="varchar(2000)"/>
+        </addColumn>
+        <sql>UPDATE account_verification_requests SET rejection_type = 'OTHERS' WHERE status = 'REJECTED'</sql>
+        <rollback>
+            <dropColumn tableName="account_verification_requests" columnName="rejection_type"/>
+            <dropColumn tableName="account_verification_requests" columnName="rejection_additional_comments"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

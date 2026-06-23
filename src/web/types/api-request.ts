@@ -10,8 +10,8 @@ export interface AccountCreateRequest extends BasicRequest {
 }
 
 export interface AccountVerificationRequestRejectionRequest extends BasicRequest {
-  reasonTitle?: string;
-  reasonBody?: string;
+  rejectionType: AccountVerificationRequestRejectionType;
+  additionalComments?: string;
 }
 
 export interface AccountVerificationRequestUpdateRequest extends BasicRequest {
@@ -269,6 +269,14 @@ export interface StudentUpdateRequest extends BasicRequest {
   section: string;
   comments: string;
   isSessionSummarySendEmail: boolean;
+}
+
+export enum AccountVerificationRequestRejectionType {
+  ALREADY_VERIFIED = "ALREADY_VERIFIED",
+  CANNOT_VERIFY_IDENTITY = "CANNOT_VERIFY_IDENTITY",
+  NOT_OFFICIAL_EMAIL = "NOT_OFFICIAL_EMAIL",
+  NOT_INSTRUCTOR_ACCOUNT = "NOT_INSTRUCTOR_ACCOUNT",
+  OTHERS = "OTHERS",
 }
 
 export enum AccountVerificationRequestStatus {
