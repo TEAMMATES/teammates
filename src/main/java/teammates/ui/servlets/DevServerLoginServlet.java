@@ -39,12 +39,9 @@ public class DevServerLoginServlet extends AuthServlet {
         }
 
         String email = req.getParameter("email");
-        if (email == null) {
-            return;
-        }
-
         String state = req.getParameter("state");
-        if (state == null) {
+        if (email == null || state == null) {
+            resp.sendError(HttpStatus.SC_BAD_REQUEST, "Missing email or state parameter");
             return;
         }
 
