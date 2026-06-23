@@ -36,46 +36,6 @@
             </td>
             <td class="align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center gap-2">
-                <div>
-                  <button
-                    id="edit-account-verification-request-{{ i }}"
-                    type="button"
-                    class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); editAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="Edit account verification request"
-                  >
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
-                </div>
-                <div
-                  class="ngb-tooltip-class"
-                  [ngbTooltip]="
-                    accountVerificationRequest.createdDemoCourseAtText &&
-                    'Account verification requests of registered instructors cannot be deleted'
-                  "
-                  placement="top"
-                >
-                  <button
-                    id="delete-account-verification-request-{{ i }}"
-                    type="button"
-                    class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); deleteAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="Delete account verification request"
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-                <div>
-                  <button
-                    id="view-account-verification-request-{{ i }}"
-                    type="button"
-                    class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); viewAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="View account verification request"
-                  >
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                </div>
                 <button
                   id="approve-account-verification-request-{{ i }}"
                   class="btn btn-success"
@@ -91,46 +51,13 @@
                   }
                   Approve
                 </button>
-                <span ngbDropdown container="body">
-                  <button
-                    id="reject-account-verification-request-{{ i }}"
-                    type="button"
-                    class="btn btn-warning"
-                    [disabled]="
-                      !accountVerificationRequest.status ||
-                      accountVerificationRequest.status === 'APPROVED' ||
-                      accountVerificationRequest.status === 'REJECTED' ||
-                      isRejectingAccountVerificationRequest[i]
-                    "
-                    ngbDropdownToggle
-                  >
-                    @if (isRejectingAccountVerificationRequest[i]) {
-                      <tm-ajax-loading></tm-ajax-loading>
-                    }
-                    Reject
-                  </button>
-                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                    <button
-                      id="reject-request-{{ i }}"
-                      class="btn btn-light btn-sm dropdown-item"
-                      (click)="
-                        $event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)
-                      "
-                    >
-                      Reject
-                    </button>
-                    <button
-                      id="reject-request-with-reason-{{ i }}"
-                      class="btn btn-light btn-sm dropdown-item"
-                      (click)="
-                        $event.stopPropagation();
-                        rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)
-                      "
-                    >
-                      Reject With Reason
-                    </button>
-                  </div>
-                </span>
+                <button
+                  id="review-account-verification-request-{{ i }}"
+                  class="btn btn-warning"
+                  (click)="$event.stopPropagation(); reviewAccountVerificationRequest(accountVerificationRequest)"
+                >
+                  Review
+                </button>
               </div>
             </td>
           </tr>
