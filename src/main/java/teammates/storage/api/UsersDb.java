@@ -226,8 +226,8 @@ public final class UsersDb {
      */
     public List<Student> getStudents(StudentQuery query) {
         String searchKey = query.searchKey() == null ? null : query.searchKey().trim().toLowerCase(Locale.ROOT);
-        if ((searchKey == null || searchKey.isEmpty()) && query.courseIds() == null) {
-            return new ArrayList<>();
+        if (searchKey != null && searchKey.isEmpty()) {
+            return List.of();
         }
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
