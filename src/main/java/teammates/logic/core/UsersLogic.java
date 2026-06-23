@@ -5,13 +5,19 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.StudentQuery;
@@ -639,14 +645,29 @@ public final class UsersLogic {
         Objects.requireNonNull(query);
         Objects.requireNonNull(account);
 
-        // TODO: This does not take into account section level permissions.
-        // This is a known issue and will be addressed in a future update after permissions have been simplified.
         List<Instructor> instructors = getInstructorsByAccountId(account.getId());
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
-        List<String> visibleCourseIds = instructors.stream()
-                .filter(i -> instructorPermissionsLogic.hasPermissions(i, privilegeName))
-                .map(Instructor::getCourseId)
-                .toList();
+
+        Set<String> visibleCourseIds = new LinkedHashSet<>();
+        Set<String> fullAccessCourseIds = new LinkedHashSet<>();
+        Map<String, Set<UUID>> visibleSectionIdsByCourse = new LinkedHashMap<>();
+
+        for (Instructor instructor : instructors) {
+            String courseId = instructor.getCourseId();
+            if (instructorPermissionsLogic.hasPermissions(instructor, privilegeName)) {
+                visibleCourseIds.add(courseId);
+                fullAccessCourseIds.add(courseId);
+                continue;
+            }
+
+            Map<UUID, InstructorPermissionSet> sectionsWithPermission =
+                    instructorPermissionsLogic.getSectionsWithPermission(instructor, privilegeName);
+            if (!sectionsWithPermission.isEmpty()) {
+                visibleCourseIds.add(courseId);
+                visibleSectionIdsByCourse.computeIfAbsent(courseId, unused -> new HashSet<>())
+                        .addAll(sectionsWithPermission.keySet());
+            }
+        }
 
         if (visibleCourseIds.isEmpty()) {
             return new ArrayList<>();
@@ -654,7 +675,7 @@ public final class UsersLogic {
 
         List<String> requestedCourseIds = query.courseIds();
         List<String> effectiveCourseIds = requestedCourseIds == null
-                ? visibleCourseIds
+                ? new ArrayList<>(visibleCourseIds)
                 : requestedCourseIds.stream()
                         .filter(visibleCourseIds::contains)
                         .toList();
@@ -662,7 +683,16 @@ public final class UsersLogic {
             return new ArrayList<>();
         }
 
-        return usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
+        List<Student> students = usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
+        if (visibleSectionIdsByCourse.isEmpty()) {
+            return students;
+        }
+
+        return students.stream()
+                .filter(student -> fullAccessCourseIds.contains(student.getCourseId())
+                        || visibleSectionIdsByCourse.getOrDefault(student.getCourseId(), Set.of())
+                                .contains(student.getSectionId()))
+                .toList();
     }
 
     /**
