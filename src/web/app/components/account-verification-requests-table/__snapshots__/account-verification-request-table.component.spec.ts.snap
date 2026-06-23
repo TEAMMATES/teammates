@@ -1,0 +1,243 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AccountVerificationRequestTableComponent > should display account verification requests table 1`] = `
+<tm-account-verification-request-table
+  accountService={[Function _AccountService]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingById={[Function Map]}
+  navigationService={[Function _NavigationService]}
+  statusMessageService={[Function _StatusMessageService]}
+>
+  <table
+    class="table table-striped"
+    id="search-table-account-verification-request"
+    style="table-layout: fixed;"
+  >
+    <thead>
+      <tr>
+        <th
+          class="text-nowrap"
+        >
+          Name
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Email
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Status
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Institute, Country
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Submitted At
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Comments
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Options
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          name
+        </td>
+        <td>
+          email
+        </td>
+        <td>
+          PENDING
+        </td>
+        <td>
+          institute, 
+        </td>
+        <td
+          class="text-nowrap"
+        >
+          Tue, 08 Feb 2022, 08:23 AM +00:00
+        </td>
+        <td>
+           comment 
+        </td>
+        <td
+          class="align-middle"
+        >
+          <div
+            class="d-flex flex-wrap gap-2 justify-content-center"
+          >
+            <button
+              class="btn btn-success btn-sm"
+              id="approve-account-verification-request-id-1"
+            >
+               Approve 
+            </button>
+            <button
+              class="btn btn-warning btn-sm"
+              id="review-account-verification-request-id-1"
+            >
+               Review 
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          name
+        </td>
+        <td>
+          email
+        </td>
+        <td>
+          PENDING
+        </td>
+        <td>
+          institute, 
+        </td>
+        <td
+          class="text-nowrap"
+        >
+          Tue, 08 Feb 2022, 08:23 AM +00:00
+        </td>
+        <td>
+           comment 
+        </td>
+        <td
+          class="align-middle"
+        >
+          <div
+            class="d-flex flex-wrap gap-2 justify-content-center"
+          >
+            <button
+              class="btn btn-success btn-sm"
+              id="approve-account-verification-request-id-2"
+            >
+               Approve 
+            </button>
+            <button
+              class="btn btn-warning btn-sm"
+              id="review-account-verification-request-id-2"
+            >
+               Review 
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</tm-account-verification-request-table>
+`;
+
+exports[`AccountVerificationRequestTableComponent > should snap with an account verification requests table 1`] = `
+<tm-account-verification-request-table
+  accountService={[Function _AccountService]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingById={[Function Map]}
+  navigationService={[Function _NavigationService]}
+  statusMessageService={[Function _StatusMessageService]}
+>
+  <table
+    class="table table-striped"
+    id="search-table-account-verification-request"
+    style="table-layout: fixed;"
+  >
+    <thead>
+      <tr>
+        <th
+          class="text-nowrap"
+        >
+          Name
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Email
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Status
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Institute, Country
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Submitted At
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Comments
+        </th>
+        <th
+          class="text-nowrap"
+        >
+          Options
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          name
+        </td>
+        <td>
+          email
+        </td>
+        <td>
+          PENDING
+        </td>
+        <td>
+          institute, 
+        </td>
+        <td
+          class="text-nowrap"
+        >
+          Tue, 08 Feb 2022, 08:23 AM +00:00
+        </td>
+        <td>
+           comment 
+        </td>
+        <td
+          class="align-middle"
+        >
+          <div
+            class="d-flex flex-wrap gap-2 justify-content-center"
+          >
+            <button
+              class="btn btn-success btn-sm"
+              id="approve-account-verification-request-"
+            >
+               Approve 
+            </button>
+            <button
+              class="btn btn-warning btn-sm"
+              id="review-account-verification-request-"
+            >
+               Review 
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</tm-account-verification-request-table>
+`;

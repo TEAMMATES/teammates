@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, output } from '@angular/core';
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
 import { CountryService } from '../../../../services/country.service';
 import { DateFormatService } from '../../../../services/date-format.service';
@@ -72,9 +72,7 @@ export class RequestDetailsCardComponent {
       },
     },
   );
-  isEditable(): boolean {
-    return this.request().status === AccountVerificationRequestStatus.PENDING;
-  }
+  readonly isEditable = computed(() => this.request().status === AccountVerificationRequestStatus.PENDING);
 
   startEditing(): void {
     this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
