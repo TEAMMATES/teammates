@@ -350,7 +350,7 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
-    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
+    vi.spyOn(studentService, 'getStudents').mockReturnValue(of({ students: [] }));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
     component.loadFeedbackSession();
@@ -446,7 +446,7 @@ describe('InstructorSessionEditPageComponent', () => {
     const students: Students = {
       students: [testStudent1, testStudent2],
     };
-    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    vi.spyOn(studentService, 'getStudents').mockReturnValue(of(students));
 
     component.getAllStudentsOfCourse().subscribe();
 
@@ -456,7 +456,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should emit error when failed to get student', () => {
-    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'getStudents').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',

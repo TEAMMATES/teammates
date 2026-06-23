@@ -44,18 +44,20 @@ export class SearchService {
       });
     }
 
-    return this.studentService.getStudents({
-      courseIds,
-      searchKey,
-      limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
-    }).pipe(
-      map((studentsRes: Students) => {
-        return {
-          students: studentsRes.students,
-          comments: [],
-        };
-      }),
-    );
+    return this.studentService
+      .getStudents({
+        courseIds,
+        searchKey,
+        limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
+      })
+      .pipe(
+        map((studentsRes: Students) => {
+          return {
+            students: studentsRes.students,
+            comments: [],
+          };
+        }),
+      );
   }
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
