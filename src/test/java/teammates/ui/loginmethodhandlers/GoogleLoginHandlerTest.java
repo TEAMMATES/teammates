@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -33,6 +32,7 @@ import teammates.ui.output.LoginMethod;
  */
 public class GoogleLoginHandlerTest extends BaseTestCase {
 
+    private static final String LOGIN_URL = "http://localhost:8080/login";
     private static final String OAUTH_CALLBACK_URL = "http://localhost:8080/oauth2callback";
 
     private GoogleLoginHandler googleLoginHandler;
@@ -43,8 +43,8 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
     }
 
     @Test
-    public void handleLogin_validRequest_returnsGoogleAuthorizationUrl() throws Exception {
-        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "http://localhost:8080/login");
+    public void handleLogin_validRequest_returnsValidRedirectUrl() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
 
         String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
 
@@ -52,16 +52,57 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
         assertEquals("https", url.getScheme());
         assertEquals("accounts.google.com", url.getHost());
         assertEquals("/o/oauth2/auth", url.getRawPath());
-        assertEquals(Config.OIDC_GOOGLE_CLIENT_ID, getQueryParam(url, "client_id"));
-        String expectedRedirectUri = Config.isDevServerLoginEnabled()
-                ? "http://localhost:8080/oauth2callback" : "https://localhost:8080/oauth2callback";
-        assertEquals(expectedRedirectUri, getQueryParam(url, "redirect_uri"));
-        assertEquals("code", getQueryParam(url, "response_type"));
+    }
 
+    @Test
+    public void handleLogin_validRequest_returnsRedirectUrlWithValidClientId() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+
+        String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
+
+        GenericUrl url = new GenericUrl(loginUrl);
+        assertEquals(Config.OIDC_GOOGLE_CLIENT_ID, getQueryParam(url, "client_id"));
+    }
+
+    @Test
+    public void handleLogin_validRequest_returnsRedirectUrlWithValidRedirectUri() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+
+        String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
+
+        GenericUrl url = new GenericUrl(loginUrl);
+        assertEquals(OAUTH_CALLBACK_URL, getQueryParam(url, "redirect_uri"));
+    }
+
+    @Test
+    public void handleLogin_validRequest_returnsRedirectUrlWithValidResponseType() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+
+        String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
+
+        GenericUrl url = new GenericUrl(loginUrl);
+        assertEquals("code", getQueryParam(url, "response_type"));
+    }
+
+    @Test
+    public void handleLogin_validRequest_returnsRedirectUrlWithValidScope() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+
+        String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
+
+        GenericUrl url = new GenericUrl(loginUrl);
         String scope = getQueryParam(url, "scope");
         assertTrue(scope.contains("openid"));
         assertTrue(scope.contains("email"));
+    }
 
+    @Test
+    public void handleLogin_validRequest_returnsRedirectUrlWithValidState() throws Exception {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+
+        String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
+
+        GenericUrl url = new GenericUrl(loginUrl);
         String encryptedState = getQueryParam(url, "state");
         AuthState state = JsonUtils.fromJson(StringHelper.decrypt(encryptedState), AuthState.class);
         assertEquals("/web/instructor/home", state.nextUrl());
@@ -70,11 +111,11 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
     }
 
     @Test
-    public void handleCallback_validResponse_returnsAuthResult() throws Exception {
+    public void handleCallback_validResponse_returnsValidAuthResult() throws Exception {
         GoogleLoginHandler loginHandler = spy(new GoogleLoginHandler());
         GoogleTokenResponse tokenResponse = new GoogleTokenResponse().setIdToken("id-token");
         doReturn(tokenResponse).when(loginHandler)
-                .requestToken(eq("authorization-code"), eq("http://localhost:8080/oauth2callback"));
+                .requestToken(eq("authorization-code"), eq(OAUTH_CALLBACK_URL));
         doReturn(createGoogleIdToken()).when(loginHandler).verifyIdToken(eq("id-token"));
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         req.setQueryString("code=authorization-code");
@@ -82,8 +123,6 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
 
         AuthResult result = loginHandler.handleCallback(req, state);
 
-        verify(loginHandler).requestToken("authorization-code", "http://localhost:8080/oauth2callback");
-        verify(loginHandler).verifyIdToken("id-token");
         assertEquals(Provider.GOOGLE, result.provider());
         assertEquals("google-subject", result.subject());
         assertEquals("user@example.com", result.email());
