@@ -136,6 +136,28 @@
             <div>{{ formatTimestamp(request().createdDemoCourseAt!) }}</div>
           </div>
         }
+        @if (isApproved()) {
+          <div class="col-12">
+            <div class="text-body-secondary small text-uppercase fw-semibold mb-2">Welcome Link</div>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control font-monospace small"
+                [value]="welcomeLink()"
+                readonly
+                aria-label="Welcome link"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                (click)="copyWelcomeLink()"
+                aria-label="Copy welcome link"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+        }
       </div>
     }
   </div>

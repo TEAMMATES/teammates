@@ -4,31 +4,6 @@
       "id": "00000000-0000-4000-9000-000000000001",
       "name": "AdminSearchPageE2ETest 0",
       "country": "SG"
-    },
-    "institute2": {
-      "id": "00000000-0000-4000-9000-000000000002",
-      "name": "AdminSearchPageE2ETest 1",
-      "country": "SG"
-    },
-    "institute3": {
-      "id": "00000000-0000-4000-9000-000000000003",
-      "name": "AdminSearchPageE2ETest 2",
-      "country": "SG"
-    },
-    "institute4": {
-      "id": "00000000-0000-4000-9000-000000000004",
-      "name": "AdminSearchPageE2ETest 3",
-      "country": "SG"
-    },
-    "institute5": {
-      "id": "00000000-0000-4000-9000-000000000005",
-      "name": "AdminSearchPageE2ETest 4",
-      "country": "SG"
-    },
-    "institute6": {
-      "id": "00000000-0000-4000-9000-000000000006",
-      "name": "AdminSearchPageE2ETest 5",
-      "country": "SG"
     }
   },
   "accounts": {
@@ -38,114 +13,11 @@
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.instructor1@gmail.tmt"
     },
-    "instructor2OfCourse1": {
-      "id": "00000000-0000-4000-8000-000000000002",
-      "email": "asearch.instructor2@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.instructor2@gmail.tmt"
-    },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
       "email": "asearch.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "asearch.student@gmail.tmt"
-    },
-    "unregisteredInstructor1": {
-      "id": "00000000-0000-4000-8000-000000000103",
-      "email": "asearch.unregisteredinstructor1@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.unregisteredinstructor1@gmail.tmt"
-    },
-    "unregisteredInstructor2": {
-      "id": "00000000-0000-4000-8000-000000000104",
-      "email": "asearch.unregisteredinstructor2@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.unregisteredinstructor2@gmail.tmt"
-    },
-    "unregisteredInstructor3": {
-      "id": "00000000-0000-4000-8000-000000000105",
-      "email": "asearch.unregisteredinstructor3@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.unregisteredinstructor3@gmail.tmt"
-    },
-    "unregisteredInstructor4": {
-      "id": "00000000-0000-4000-8000-000000000106",
-      "email": "asearch.unregisteredinstructor4@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.unregisteredinstructor4@gmail.tmt"
-    },
-    "unregisteredInstructor5": {
-      "id": "00000000-0000-4000-8000-000000000107",
-      "email": "asearch.unregisteredinstructor5@gmail.tmt",
-      "provider": "TEAMMATES_DEV",
-      "subject": "asearch.unregisteredinstructor5@gmail.tmt"
-    }
-  },
-  "accountVerificationRequests": {
-    "instructor1OfCourse1": {
-      "id": "00000000-0000-4000-8000-000000000101",
-      "name": "Instructor1 of Course1",
-      "email": "asearch.instructor1@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "APPROVED",
-      "createdDemoCourseAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000001"
-    },
-    "instructor2OfCourse1": {
-      "id": "00000000-0000-4000-8000-000000000102",
-      "name": "Instructor2 of Course1",
-      "email": "asearch.instructor2@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "APPROVED",
-      "createdDemoCourseAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000002"
-    },
-    "unregisteredInstructor1": {
-      "id": "00000000-0000-4000-8000-000000000103",
-      "name": "Typical Instructor Name",
-      "email": "asearch.unregisteredinstructor1@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000103"
-    },
-    "unregisteredInstructor2": {
-      "id": "00000000-0000-4000-8000-000000000104",
-      "name": "Typical Instructor Name",
-      "email": "asearch.unregisteredinstructor2@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000003",
-      "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000104"
-    },
-    "unregisteredInstructor3": {
-      "id": "00000000-0000-4000-8000-000000000105",
-      "name": "Typical Instructor Name",
-      "email": "asearch.unregisteredinstructor3@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000004",
-      "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000105"
-    },
-    "unregisteredInstructor4": {
-      "id": "00000000-0000-4000-8000-000000000106",
-      "name": "Typical Instructor Name",
-      "email": "asearch.unregisteredinstructor4@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000005",
-      "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000106"
-    },
-    "unregisteredInstructor5": {
-      "id": "00000000-0000-4000-8000-000000000107",
-      "name": "Typical Instructor Name",
-      "email": "asearch.unregisteredinstructor5@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000006",
-      "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "accountId": "00000000-0000-4000-8000-000000000107"
     }
   },
   "courses": {

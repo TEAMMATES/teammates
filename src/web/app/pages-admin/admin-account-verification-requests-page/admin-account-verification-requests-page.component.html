@@ -1,0 +1,44 @@
+<div class="card bg-light top-padded">
+  <div class="card-body">
+    <div class="input-group">
+      <input
+        id="search-box"
+        type="text"
+        class="form-control"
+        placeholder="Search by name, email, or institute..."
+        aria-label="Search account verification requests"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        (keyup.enter)="search()"
+      />
+      <button id="search-button" class="btn btn-primary" (click)="search()">Search</button>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-light top-padded">
+  <tm-account-verification-request-table
+    [accountVerificationRequests]="accountReqs()"
+  ></tm-account-verification-request-table>
+  <div class="card-footer d-flex justify-content-center">
+    <nav aria-label="Account verification requests pagination">
+      <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button class="page-link" (click)="goToPage(currentPage() - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        @for (page of pages(); track page) {
+          <li class="page-item" [class.active]="page === currentPage()">
+            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+          </li>
+        }
+        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+          <button class="page-link" (click)="goToPage(currentPage() + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

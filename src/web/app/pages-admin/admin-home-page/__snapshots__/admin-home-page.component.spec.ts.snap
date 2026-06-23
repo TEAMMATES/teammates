@@ -8,65 +8,80 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
 >
-  <tm-account-verification-request-table>
+  <div
+    class="card bg-light top-padded"
+  >
     <div
-      class="card bg-light top-padded"
+      class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
     >
-      <div
-        class="card-header bg-primary text-white"
+      <strong>
+        Pending Account Verification Requests
+      </strong>
+      <a
+        class="btn btn-light btn-sm"
+        href="/web/admin/account-verification-requests"
+        tmrouterlink="/web/admin/account-verification-requests"
       >
-        <strong>
-          Pending Account Verification Requests
-        </strong>
-      </div>
-      <div
-        class="table-responsive"
-      >
-        <table
-          class="table table-striped data-table"
-          id="search-table-account-verification-request"
-        >
-          <thead>
-            <tr>
-              <th>
-                Name
-              </th>
-              <th>
-                Email
-              </th>
-              <th>
-                Status
-              </th>
-              <th>
-                Institute
-              </th>
-              <th>
-                Country
-              </th>
-              <th>
-                Submitted At
-              </th>
-              <th>
-                Comments
-              </th>
-              <th>
-                Options
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                class="text-center"
-                colspan="8"
-              >
-                No pending account verification requests
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        View All
+      </a>
     </div>
-  </tm-account-verification-request-table>
+    <tm-account-verification-request-table>
+      <table
+        class="table table-striped"
+        id="search-table-account-verification-request"
+        style="table-layout: fixed;"
+      >
+        <thead>
+          <tr>
+            <th
+              class="text-nowrap"
+            >
+              Name
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Email
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Status
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Institute, Country
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Submitted At
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Comments
+            </th>
+            <th
+              class="text-nowrap"
+            >
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              class="text-center"
+              colspan="7"
+            >
+              No account verification requests found.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </tm-account-verification-request-table>
+  </div>
 </tm-admin-home-page>
 `;
