@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -96,8 +95,16 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Gets an action with request body and cookie.
      */
     protected T getAction(String body, List<Cookie> cookies, String... params) {
+        return getAction(body, cookies, Map.of(), params);
+    }
+
+    /**
+     * Gets an action with request body, cookie, and headers.
+     */
+    protected T getAction(String body, List<Cookie> cookies, Map<String, String> headers, String... params) {
         mockTaskQueuer.clearTasks();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
+        headers.forEach(req::addHeader);
         for (int i = 0; i < params.length; i = i + 2) {
             req.addParam(params[i], params[i + 1]);
         }
@@ -146,18 +153,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * can alternatively separate each test case to different test blocks.
      */
     protected abstract void testAccessControl() throws Exception;
-
-    /**
-     * Returns The {@code params} array with the {@code accountId}
-     * (together with the parameter name) inserted at the beginning.
-     */
-    protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
-        List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-        list.add(accountId == null ? "" : accountId.toString());
-        list.addAll(Arrays.asList(params));
-        return list.toArray(new String[0]);
-    }
 
     // The next few methods are for logging in as various user
 
@@ -533,7 +528,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * {@code accountId}.
      */
     protected void verifyCanMasquerade(UUID accountId, String... params) {
-        verifyCanAccess(addMasqueradeAccountToParams(accountId, params));
+        Action c = getActionWithMasqueradeHeader(accountId, params);
+        inTransaction(c::checkAccessControl);
     }
 
     /**
@@ -544,12 +540,18 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     protected void verifyCannotMasquerade(UUID accountId, String... params) {
         Action action;
         try {
-            action = getAction(addMasqueradeAccountToParams(accountId, params));
+            action = getActionWithMasqueradeHeader(accountId, params);
         } catch (RuntimeException e) {
             assertTrue(e.getCause() instanceof UnauthorizedAccessException);
             return;
         }
         assertThrowsInTransaction(UnauthorizedAccessException.class, action::checkAccessControl);
+    }
+
+    private T getActionWithMasqueradeHeader(UUID accountId, String... params) {
+        return getAction(null, null, Map.of(
+                Const.HeaderNames.MASQUERADE_ACCOUNT_ID,
+                accountId == null ? "" : accountId.toString()), params);
     }
 
     // The next few methods are for parsing results

@@ -151,7 +151,7 @@ public class UserProvisionTest extends BaseTestCase {
     public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
         Account account = createAccount("user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, account.getId().toString());
+        req.addHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID, account.getId().toString());
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
         UnauthorizedAccessException ex = assertThrows(
@@ -165,7 +165,7 @@ public class UserProvisionTest extends BaseTestCase {
         Account adminAccount = createAccount("admin@example.com");
         Account targetAccount = createAccount("target@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(adminAccount);
-        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, targetAccount.getId().toString());
+        req.addHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID, targetAccount.getId().toString());
         when(mockAccountsLogic.getAccount(adminAccount.getId())).thenReturn(adminAccount);
         when(mockAccountsLogic.getAccount(targetAccount.getId())).thenReturn(targetAccount);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccount.getEmail()));
