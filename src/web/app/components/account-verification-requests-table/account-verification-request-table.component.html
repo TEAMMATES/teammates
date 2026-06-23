@@ -40,9 +40,7 @@
                   id="approve-account-verification-request-{{ i }}"
                   class="btn btn-success"
                   [disabled]="
-                    !accountVerificationRequest.status ||
-                    accountVerificationRequest.status === 'APPROVED' ||
-                    isApprovingAccountVerificationRequest[i]
+                    accountVerificationRequest.status !== 'PENDING' || isApprovingAccountVerificationRequest[i]
                   "
                   (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
                 >
