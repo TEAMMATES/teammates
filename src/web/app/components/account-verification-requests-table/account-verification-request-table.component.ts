@@ -15,7 +15,6 @@ import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 @Component({
   selector: 'tm-account-verification-request-table',
   templateUrl: './account-verification-request-table.component.html',
-  styleUrls: ['./account-verification-request-table.component.scss'],
   imports: [SlicePipe, AjaxLoadingComponent, CountryNamePipe],
 })
 export class AccountVerificationRequestTableComponent {
