@@ -36,10 +36,6 @@ describe('Link Service', () => {
     );
   });
 
-  it('should generate the home page link', () => {
-    expect(service.generateHomePageLink('/course-dashboard')).toBe('/web/course-dashboard');
-  });
-
   it('should generate the manage account link', () => {
     expect(service.generateManageAccountLink('00000000-0000-4000-8000-000000000001', '/manage-account')).toBe(
       '/web/admin/accounts/00000000-0000-4000-8000-000000000001',

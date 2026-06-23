@@ -17,10 +17,7 @@ export class MasqueradeModeService {
     const storedAccountId: string | null = globalThis.sessionStorage.getItem(
       MasqueradeModeService.MASQUERADE_ACCOUNT_ID_STORAGE_KEY,
     );
-    if (storedAccountId) {
-      return storedAccountId;
-    }
-    return '';
+    return storedAccountId ?? '';
   }
 
   /**

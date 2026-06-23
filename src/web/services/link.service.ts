@@ -30,10 +30,10 @@ export class LinkService {
   }
 
   /**
-   * Generates home page link.
+   * Generates instructor home page link.
    */
-  generateHomePageLink(homePage: string): string {
-    return `${this.URI_PREFIX}${homePage}`;
+  generateInstructorHomePageLink(): string {
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_HOME_PAGE}`;
   }
 
   /**

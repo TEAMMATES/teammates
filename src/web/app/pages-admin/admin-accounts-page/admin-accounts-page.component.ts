@@ -170,7 +170,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   masqueradeAsUser(): void {
     this.masqueradeModeService.masqueradeAs(this.accountInfo.accountId);
-    const url = this.linkService.generateHomePageLink(this.linkService.INSTRUCTOR_HOME_PAGE);
+    const url = this.linkService.generateInstructorHomePageLink();
     globalThis.location.assign(url);
   }
 
