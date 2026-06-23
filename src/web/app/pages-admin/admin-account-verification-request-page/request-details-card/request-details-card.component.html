@@ -136,7 +136,7 @@
             <div>{{ formatTimestamp(request().createdDemoCourseAt!) }}</div>
           </div>
         }
-        @if (request().status === 'APPROVED') {
+        @if (isApproved()) {
           <div class="col-12">
             <div class="text-body-secondary small text-uppercase fw-semibold mb-2">Welcome Link</div>
             <div class="input-group">

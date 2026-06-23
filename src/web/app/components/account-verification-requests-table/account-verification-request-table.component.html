@@ -30,7 +30,9 @@
             <button
               id="approve-account-verification-request-{{ accountVerificationRequest.id }}"
               class="btn btn-success btn-sm"
-              [disabled]="accountVerificationRequest.status !== 'PENDING' || isApprovingById.get(accountVerificationRequest.id)"
+              [disabled]="
+                accountVerificationRequest.status !== 'PENDING' || isApprovingById.get(accountVerificationRequest.id)
+              "
               (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest)"
             >
               @if (isApprovingById.get(accountVerificationRequest.id)) {
@@ -50,7 +52,7 @@
       </tr>
     } @empty {
       <tr>
-        <td colspan="7" class="text-center">No pending account verification requests</td>
+        <td colspan="7" class="text-center">No account verification requests found.</td>
       </tr>
     }
   </tbody>

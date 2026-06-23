@@ -29,7 +29,6 @@ describe('AccountVerificationRequestTableComponent', () => {
     comments: '',
     createdDemoCourseAtText: '',
     createdAtText: '',
-    showLinks: false,
   });
 
   const DEFAULT_ACCOUNT_REQUEST = accountVerificationRequestDetailsBuilder

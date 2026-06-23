@@ -3,6 +3,7 @@ import { FormField, FormRoot, email, form, maxLength, required } from '@angular/
 import { CountryService } from '../../../../services/country.service';
 import { DateFormatService } from '../../../../services/date-format.service';
 import { LinkService } from '../../../../services/link.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
 import {
   SearchableComboboxComponent,
@@ -28,6 +29,7 @@ export class RequestDetailsCardComponent {
   private readonly countryService = inject(CountryService);
   private readonly dateFormatService = inject(DateFormatService);
   private readonly linkService = inject(LinkService);
+  private readonly statusMessageService = inject(StatusMessageService);
 
   readonly request = input.required<AccountVerificationRequest>();
   readonly isEditing = input(false);
@@ -73,6 +75,7 @@ export class RequestDetailsCardComponent {
     },
   );
   readonly isEditable = computed(() => this.request().status === AccountVerificationRequestStatus.PENDING);
+  readonly isApproved = computed(() => this.request().status === AccountVerificationRequestStatus.APPROVED);
 
   startEditing(): void {
     this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
@@ -93,6 +96,8 @@ export class RequestDetailsCardComponent {
   }
 
   copyWelcomeLink(): void {
-    navigator.clipboard.writeText(this.welcomeLink());
+    navigator.clipboard.writeText(this.welcomeLink()).catch(() => {
+      this.statusMessageService.showErrorToast('Failed to copy link. Please copy it manually.');
+    });
   }
 }

@@ -76,7 +76,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
               class="text-center"
               colspan="7"
             >
-              No pending account verification requests
+              No account verification requests found.
             </td>
           </tr>
         </tbody>
