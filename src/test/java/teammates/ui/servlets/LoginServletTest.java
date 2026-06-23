@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
@@ -19,7 +18,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.mockito.Answers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -46,25 +44,20 @@ public class LoginServletTest extends BaseTestCase {
 
     private static final String LOGIN_URL = "/login";
 
-    private AccountsLogic originalAccountsLogic;
+    private AccountsLogic accountsLogic;
     private LoginMethodHandler loginHandler;
     private LoginServlet servlet;
     private MockHttpServletRequest req;
     private MockHttpServletResponse resp;
 
     @BeforeMethod
-    public void setUpMethod() throws Exception {
-        originalAccountsLogic = getAccountsLogic();
+    public void setUpMethod() {
+        accountsLogic = mock(AccountsLogic.class);
         loginHandler = mock(LoginMethodHandler.class);
-        servlet = spy(new LoginServlet());
+        servlet = spy(new LoginServlet(accountsLogic));
         doReturn(loginHandler).when(servlet).getLoginHandler(any(LoginMethod.class));
         req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
         resp = new MockHttpServletResponse();
-    }
-
-    @AfterMethod
-    public void tearDownMethod() throws Exception {
-        setAccountsLogic(originalAccountsLogic);
     }
 
     @Test
@@ -101,7 +94,7 @@ public class LoginServletTest extends BaseTestCase {
         Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT, "user@example.com");
         req.addCookie(getAuthCookie(account.getId()));
         req.addParam("nextUrl", "/web/instructor/home");
-        setAccountsLogic(mockAccountsLogicReturning(account));
+        when(accountsLogic.getAccount(any())).thenReturn(account);
 
         try (MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
             mockHibernateUtil.when(HibernateUtil::beginTransaction).thenAnswer(invocation -> null);
@@ -116,7 +109,7 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_validCookieForMissingAccount_redirectsToLoginHandlerUrl() throws Exception {
         req.addCookie(getAuthCookie(UUID.randomUUID()));
-        setAccountsLogic(mockAccountsLogicReturning(null));
+        when(accountsLogic.getAccount(any())).thenReturn(null);
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
@@ -151,24 +144,6 @@ public class LoginServletTest extends BaseTestCase {
         UserInfoCookie uic = new UserInfoCookie(accountId);
         String cookieValue = StringHelper.encrypt(JsonUtils.toCompactJson(uic));
         return new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue);
-    }
-
-    private static AccountsLogic mockAccountsLogicReturning(Account account) {
-        AccountsLogic accountsLogic = mock(AccountsLogic.class);
-        when(accountsLogic.getAccount(any())).thenReturn(account);
-        return accountsLogic;
-    }
-
-    private static AccountsLogic getAccountsLogic() throws Exception {
-        Field field = LoginServlet.class.getDeclaredField("accountsLogic");
-        field.setAccessible(true);
-        return (AccountsLogic) field.get(null);
-    }
-
-    private static void setAccountsLogic(AccountsLogic accountsLogic) throws Exception {
-        Field field = LoginServlet.class.getDeclaredField("accountsLogic");
-        field.setAccessible(true);
-        field.set(null, accountsLogic);
     }
 
 }

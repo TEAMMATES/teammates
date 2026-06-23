@@ -43,13 +43,15 @@ import teammates.ui.output.LoginMethod;
 public class OAuth2CallbackServletTest extends BaseTestCase {
 
     private static final String OAUTH_CALLBACK_URL = "/oauth2callback";
+    private AccountsLogic accountsLogic;
     private OAuth2CallbackServlet servlet;
     private MockHttpServletRequest req;
     private MockHttpServletResponse resp;
 
     @BeforeMethod
     public void setUpMethod() {
-        servlet = spy(new OAuth2CallbackServlet());
+        accountsLogic = mock(AccountsLogic.class);
+        servlet = spy(new OAuth2CallbackServlet(accountsLogic));
         req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         resp = new MockHttpServletResponse();
     }
@@ -151,15 +153,12 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     public void doGet_callbackHandlerReturnsAuthResult_redirectsToNextUrl() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE, "/web/instructor/home"));
         LoginMethodHandler loginHandler = mockSuccessfulLoginHandler();
-        AccountsLogic accountsLogic = mockSuccessfulAccountsLogic();
+        mockSuccessfulAccountsLogic(accountsLogic);
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true);
-                MockedStatic<AccountsLogic> mockAccountsLogic = mockStatic(AccountsLogic.class);
                 MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
-            mockAccountsLogic.when(AccountsLogic::inst).thenReturn(accountsLogic);
             mockHibernateUtil.when(HibernateUtil::beginTransaction).thenAnswer(invocation -> null);
             mockHibernateUtil.when(HibernateUtil::commitTransaction).thenAnswer(invocation -> null);
-            servlet = spy(new OAuth2CallbackServlet());
             doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
             servlet.doGet(req, resp);
@@ -198,12 +197,10 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         return loginHandler;
     }
 
-    private static AccountsLogic mockSuccessfulAccountsLogic() {
+    private static void mockSuccessfulAccountsLogic(AccountsLogic accountsLogic) {
         Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT, "user@example.com");
-        AccountsLogic accountsLogic = mock(AccountsLogic.class);
         when(accountsLogic.createOrGetAccount(Provider.GOOGLE, "google-subject", null, "user@example.com"))
                 .thenReturn(account);
-        return accountsLogic;
     }
 
     private static void assertLoginCookieInvalidated(MockHttpServletResponse resp) {

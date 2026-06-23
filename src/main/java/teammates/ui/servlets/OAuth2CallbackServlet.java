@@ -32,7 +32,15 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
 
-    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final AccountsLogic accountsLogic;
+
+    public OAuth2CallbackServlet() {
+        this(AccountsLogic.inst());
+    }
+
+    OAuth2CallbackServlet(AccountsLogic accountsLogic) {
+        this.accountsLogic = accountsLogic;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
