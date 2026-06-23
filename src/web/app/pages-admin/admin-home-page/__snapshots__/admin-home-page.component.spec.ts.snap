@@ -23,33 +23,49 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
         class="table-responsive"
       >
         <table
-          class="table table-striped data-table"
+          class="table table-striped"
           id="search-table-account-verification-request"
         >
           <thead>
             <tr>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Name
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Email
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Status
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Institute
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Country
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Submitted At
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Comments
               </th>
-              <th>
+              <th
+                class="text-nowrap"
+              >
                 Options
               </th>
             </tr>

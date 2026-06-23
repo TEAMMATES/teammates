@@ -22,33 +22,49 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
       class="table-responsive"
     >
       <table
-        class="table table-striped data-table"
+        class="table table-striped"
         id="search-table-account-verification-request"
       >
         <thead>
           <tr>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Name
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Email
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Status
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Institute
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Country
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Submitted At
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Comments
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Options
             </th>
           </tr>
@@ -70,13 +86,14 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
             <td>
             </td>
             <td
-              id="timestamp-box"
+              class="text-nowrap"
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
-                id="comment-box"
+                class="text-truncate"
+                style="max-width: 20rem;"
               >
                  comment 
               </div>
@@ -85,7 +102,7 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
               class="align-middle"
             >
               <div
-                class="d-flex flex-row align-items-center justify-content-center gap-2"
+                class="d-flex gap-2 justify-content-center"
               >
                 <button
                   class="btn btn-success"
@@ -118,13 +135,14 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
             <td>
             </td>
             <td
-              id="timestamp-box"
+              class="text-nowrap"
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
-                id="comment-box"
+                class="text-truncate"
+                style="max-width: 20rem;"
               >
                  comment 
               </div>
@@ -133,7 +151,7 @@ exports[`AccountVerificationRequestTableComponent > should display account verif
               class="align-middle"
             >
               <div
-                class="d-flex flex-row align-items-center justify-content-center gap-2"
+                class="d-flex gap-2 justify-content-center"
               >
                 <button
                   class="btn btn-success"
@@ -179,33 +197,49 @@ exports[`AccountVerificationRequestTableComponent > should snap with an account 
       class="table-responsive"
     >
       <table
-        class="table table-striped data-table"
+        class="table table-striped"
         id="search-table-account-verification-request"
       >
         <thead>
           <tr>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Name
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Email
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Status
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Institute
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Country
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Submitted At
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Comments
             </th>
-            <th>
+            <th
+              class="text-nowrap"
+            >
               Options
             </th>
           </tr>
@@ -227,13 +261,14 @@ exports[`AccountVerificationRequestTableComponent > should snap with an account 
             <td>
             </td>
             <td
-              id="timestamp-box"
+              class="text-nowrap"
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
               <div
-                id="comment-box"
+                class="text-truncate"
+                style="max-width: 20rem;"
               >
                  comment 
               </div>
@@ -242,7 +277,7 @@ exports[`AccountVerificationRequestTableComponent > should snap with an account 
               class="align-middle"
             >
               <div
-                class="d-flex flex-row align-items-center justify-content-center gap-2"
+                class="d-flex gap-2 justify-content-center"
               >
                 <button
                   class="btn btn-success"

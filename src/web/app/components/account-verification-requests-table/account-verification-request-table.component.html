@@ -3,17 +3,17 @@
     <strong>Pending Account Verification Requests</strong>
   </div>
   <div class="table-responsive">
-    <table class="table table-striped data-table" id="search-table-account-verification-request">
+    <table class="table table-striped" id="search-table-account-verification-request">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Institute</th>
-          <th>Country</th>
-          <th>Submitted At</th>
-          <th>Comments</th>
-          <th>Options</th>
+          <th class="text-nowrap">Name</th>
+          <th class="text-nowrap">Email</th>
+          <th class="text-nowrap">Status</th>
+          <th class="text-nowrap">Institute</th>
+          <th class="text-nowrap">Country</th>
+          <th class="text-nowrap">Submitted At</th>
+          <th class="text-nowrap">Comments</th>
+          <th class="text-nowrap">Options</th>
         </tr>
       </thead>
       <tbody>
@@ -28,14 +28,14 @@
             <td>{{ accountVerificationRequest.status }}</td>
             <td>{{ accountVerificationRequest.institute }}</td>
             <td>{{ accountVerificationRequest.country | countryName }}</td>
-            <td id="timestamp-box">{{ accountVerificationRequest.createdAtText }}</td>
+            <td class="text-nowrap">{{ accountVerificationRequest.createdAtText }}</td>
             <td>
-              <div id="comment-box">
+              <div class="text-truncate" style="max-width: 20rem">
                 {{ accountVerificationRequest.comments }}
               </div>
             </td>
             <td class="align-middle">
-              <div class="d-flex flex-row align-items-center justify-content-center gap-2">
+              <div class="d-flex gap-2 justify-content-center">
                 <button
                   id="approve-account-verification-request-{{ i }}"
                   class="btn btn-success"
@@ -64,7 +64,6 @@
             <td colspan="8" class="text-center">No pending account verification requests</td>
           </tr>
         }
-      </tbody>
     </table>
   </div>
 </div>
