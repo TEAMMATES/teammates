@@ -150,7 +150,7 @@ public class UserSessionResultsData implements ApiOutput {
         List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<ResponseInstructorCommentData> instructorComments =
-                buildInstructorComments(responseInstructorComments, bundle);
+                buildInstructorComments(responseInstructorComments);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -195,7 +195,7 @@ public class UserSessionResultsData implements ApiOutput {
     }
 
     private static List<ResponseInstructorCommentData> buildInstructorComments(
-            List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+            List<ResponseInstructorComment> responseInstructorComments) {
         List<ResponseInstructorCommentData> outputs = new ArrayList<>();
 
         for (ResponseInstructorComment comment : responseInstructorComments) {

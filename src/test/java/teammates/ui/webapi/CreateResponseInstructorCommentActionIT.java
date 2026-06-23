@@ -2,13 +2,10 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
@@ -49,8 +46,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         };
 
         ResponseInstructorCommentCreateRequest requestBody = new ResponseInstructorCommentCreateRequest(
-                "Instructor result comment", Arrays.asList(CommentVisibilityType.INSTRUCTORS),
-                Arrays.asList(CommentVisibilityType.INSTRUCTORS));
+                "Instructor result comment");
         CreateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 

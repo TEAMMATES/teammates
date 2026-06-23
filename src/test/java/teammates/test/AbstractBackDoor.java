@@ -464,9 +464,7 @@ public abstract class AbstractBackDoor {
         params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
 
         ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
-                commentText,
-                new ArrayList<>(),
-                new ArrayList<>()
+                commentText
         );
 
         executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));

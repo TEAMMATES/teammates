@@ -374,10 +374,6 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
                                             >
                                                17 Jan 1:09 PM
                                             </span>
-                                            <i
-                                              aria-hidden="true"
-                                              class="fa fa-eye"
-                                            />
                                             <div
                                               class="float-end"
                                             >
@@ -785,15 +781,6 @@ exports[`QuestionResponsePanelComponent > should snap with questions and respons
         class="all-responses"
       >
         <div
-          class="alert alert-warning my-3 non-visible-comment-alert"
-          role="alert"
-        >
-          <i
-            class="fas fa-eye-slash"
-          />
-           Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings. 
-        </div>
-        <div
           class="other-response"
         >
           <strong>
@@ -884,10 +871,6 @@ exports[`QuestionResponsePanelComponent > should snap with questions and respons
                                             >
                                                17 Jan 1:09 PM
                                             </span>
-                                            <i
-                                              aria-hidden="true"
-                                              class="fa fa-eye"
-                                            />
                                             <div
                                               class="float-end"
                                             >
