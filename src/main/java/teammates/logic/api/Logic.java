@@ -1055,6 +1055,13 @@ public class Logic {
     }
 
     /**
+     * Gets the students visible to the given instructor for the specified course.
+     */
+    public List<Student> getStudentsVisibleToInstructor(String courseId, Instructor instructor) {
+        return usersLogic.getStudentsVisibleToInstructor(courseId, instructor);
+    }
+
+    /**
      * Creates a student with the given parameters.
      */
     public Student createStudent(Course course, Team team, String name, String email, String comments)

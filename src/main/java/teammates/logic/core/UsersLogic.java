@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -622,6 +623,29 @@ public final class UsersLogic {
         sortByName(studentReturnList);
 
         return studentReturnList;
+    }
+
+    /**
+     * Gets the students visible to the given instructor for the specified course.
+     *
+     * <p>
+     * If the instructor has course-level view permission, returns all students in the course.
+     * If the instructor only has section-level view permission, returns the students in the permitted sections.
+     * If the instructor has no relevant permission, returns an empty list.
+     */
+    public List<Student> getStudentsVisibleToInstructor(String courseId, Instructor instructor) {
+        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
+        if (instructorPermissionsLogic.hasPermissions(instructor, privilegeName)) {
+            return getStudentsForCourse(courseId);
+        }
+
+        Set<UUID> sectionsWithPrivilege = instructorPermissionsLogic
+                .getSectionsWithPermission(instructor, privilegeName)
+                .keySet();
+
+        return getStudentsForCourse(courseId).stream()
+                .filter(student -> sectionsWithPrivilege.contains(student.getSectionId()))
+                .toList();
     }
 
     /**
