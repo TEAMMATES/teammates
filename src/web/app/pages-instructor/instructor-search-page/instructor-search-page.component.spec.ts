@@ -6,14 +6,12 @@ import { of } from 'rxjs';
 
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
-import { AccountService } from '../../../services/account.service';
-import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../../../test-helpers/mock-http-request';
 import {
-  Account,
-  AuthInfo,
+  InstructorCourses,
   InstructorPermissionSet,
   InstructorPrivilege,
   JoinState,
@@ -27,11 +25,8 @@ describe('InstructorSearchPageComponent', () => {
   let fixture: ComponentFixture<InstructorSearchPageComponent>;
   let spyHttpRequestService: MockHttpRequestService;
   let coursesWithStudents: SearchStudentsListRowTable[];
-  const mockAuthService = {
-    getAuthUser: vi.fn(),
-  };
-  const mockAccountService = {
-    getAccount: vi.fn(),
+  const mockCourseService = {
+    getAllCoursesAsInstructor: vi.fn(),
   };
   const mockInstructorService = {
     loadInstructorPrivilege: vi.fn(),
@@ -96,45 +91,31 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(async () => {
     spyHttpRequestService = createMockHttpRequestService();
-    mockAuthService.getAuthUser.mockReturnValue(
-      of<AuthInfo>({
-        loginUrl: '/',
-        masquerade: false,
-        user: {
-          accountId: 'account-1',
-          accountEmail: 'instructor@example.com',
-          isAdmin: false,
-          isInstructor: true,
-          isStudent: false,
-          isMaintainer: false,
-        },
-      }),
-    );
-    mockAccountService.getAccount.mockReturnValue(
-      of<Account>({
-        accountId: 'account-1',
-        email: 'instructor@example.com',
-        instructors: [
+    mockCourseService.getAllCoursesAsInstructor.mockReturnValue(
+      of<InstructorCourses>({
+        courses: [
           {
-            userId: 'instructor-1',
             courseId: 'CS3281',
-            email: 'instructor@example.com',
-            name: 'Instructor',
-            institute: 'Test Institute',
             courseName: 'Course 1',
-            joinState: JoinState.JOINED,
+            timeZone: 'UTC',
+            institute: 'Test Institute',
+            country: 'SG',
+            instituteId: 'test-institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
           },
           {
-            userId: 'instructor-2',
             courseId: 'CS3282',
-            email: 'instructor@example.com',
-            name: 'Instructor',
-            institute: 'Test Institute',
             courseName: 'Course 2',
-            joinState: JoinState.JOINED,
+            timeZone: 'UTC',
+            institute: 'Test Institute',
+            country: 'SG',
+            instituteId: 'test-institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
           },
         ],
-        students: [],
+        instructorPermissions: {},
       }),
     );
     mockInstructorService.loadInstructorPrivilege.mockReturnValue(
@@ -158,8 +139,7 @@ describe('InstructorSearchPageComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: AccountService, useValue: mockAccountService },
+        { provide: CourseService, useValue: mockCourseService },
         { provide: InstructorService, useValue: mockInstructorService },
         provideHttpClient(),
         provideHttpClientTesting(),

@@ -6,12 +6,11 @@ import {
   SearchStudentsListRowTable,
   StudentResultTableComponent,
 } from './student-result-table/student-result-table.component';
+import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { AccountService } from '../../../services/account.service';
-import { AuthService } from '../../../services/auth.service';
 import { ApiConst } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -30,9 +29,8 @@ export class InstructorSearchPageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private searchService = inject(SearchService);
   private instructorService = inject(InstructorService);
+  private courseService = inject(CourseService);
   private studentService = inject(StudentService);
-  private accountService = inject(AccountService);
-  private authService = inject(AuthService);
   private visibleCourseIds$: Observable<string[]> = of([]);
 
   searchParams: SearchParams = {
@@ -184,9 +182,8 @@ export class InstructorSearchPageComponent implements OnInit {
   }
 
   private loadVisibleCourseIds(): Observable<string[]> {
-    return this.authService.getAuthUser().pipe(
-      mergeMap((authInfo) => this.accountService.getAccount(authInfo.user!.accountId)),
-      map((account) => Array.from(new Set(account.instructors.map((instructor) => instructor.courseId)))),
+    return this.courseService.getAllCoursesAsInstructor('active').pipe(
+      map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))),
       mergeMap((courseIds: string[]) => this.getVisibleCourseIds(courseIds)),
     );
   }
