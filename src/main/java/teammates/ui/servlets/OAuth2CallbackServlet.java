@@ -62,11 +62,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
         try {
             AuthResult authResult = loginHandler.handleCallback(req, state);
             cookie = getLoginCookie(authResult);
+        } catch (AuthException e) {
+            rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
+            return;
         } catch (Exception e) {
-            int status = (e instanceof AuthException)
-                    ? HttpStatus.SC_BAD_REQUEST
-                    : HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            rejectLogin(req, resp, status);
+            rejectLogin(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return;
         }
 
@@ -115,15 +115,17 @@ public class OAuth2CallbackServlet extends AuthServlet {
             throw new AuthException("Missing or invalid state parameter");
         }
 
+        AuthState state;
         try {
             String decryptedState = StringHelper.decrypt(encryptedState);
-            AuthState state = JsonUtils.fromJson(decryptedState, AuthState.class);
-            if (state == null || StringHelper.isEmpty(state.sessionId()) || state.loginMethod() == null) {
-                throw new AuthException("Missing required state fields");
-            }
-            return state;
+            state = JsonUtils.fromJson(decryptedState, AuthState.class);
         } catch (Exception e) {
             throw new AuthException("Failed to parse state parameter", e);
         }
+
+        if (state == null || StringHelper.isEmpty(state.sessionId()) || state.loginMethod() == null) {
+            throw new AuthException("Missing required state fields");
+        }
+        return state;
     }
 }
