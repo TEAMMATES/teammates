@@ -410,9 +410,9 @@ public final class EmailRenderer {
      */
     public static RenderedEmail renderAccountVerificationRejectedEmail(
             AccountVerificationRejectedEmailContext context) {
-        String rejectionReasonBlock = context.rejectionType() != AccountVerificationRequestRejectionType.OTHERS
-                ? "<p><strong>Reason:</strong> " + getRejectionReason(context.rejectionType()) + "</p>"
-                : "";
+        String rejectionReasonBlock = context.rejectionType() == AccountVerificationRequestRejectionType.OTHERS
+                ? ""
+                : "<p><strong>Reason:</strong> " + getRejectionReason(context.rejectionType()) + "</p>";
         String additionalCommentsBlock = context.additionalComments() != null && !context.additionalComments().isBlank()
                 ? "<p><strong>Additional comments:</strong> "
                         + SanitizationHelper.sanitizeForHtml(context.additionalComments()) + "</p>"
