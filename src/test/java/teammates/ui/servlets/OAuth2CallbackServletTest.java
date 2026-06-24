@@ -153,7 +153,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     }
 
     @Test
-    public void doGet_callbackHandlerThrows_returnsInternalServerError() throws Exception {
+    public void doGet_callbackHandlerThrows_returnsBadRequest() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
         LoginMethodHandler loginHandler = mockFailingLoginHandler();
         doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
@@ -162,7 +162,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
             servlet.doGet(req, resp);
         }
 
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, resp.getStatus());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
     }
 
     @Test

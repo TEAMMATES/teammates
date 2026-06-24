@@ -63,7 +63,10 @@ public class OAuth2CallbackServlet extends AuthServlet {
             AuthResult authResult = loginHandler.handleCallback(req, state);
             cookie = getLoginCookie(authResult);
         } catch (Exception e) {
-            rejectLogin(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            int status = (e instanceof AuthException)
+                    ? HttpStatus.SC_BAD_REQUEST
+                    : HttpStatus.SC_INTERNAL_SERVER_ERROR;
+            rejectLogin(req, resp, status);
             return;
         }
 
