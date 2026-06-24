@@ -178,6 +178,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       },
       error: (resp: ErrorMessageOutput) => {
         courseTab.hasLoadingFailed = true;
+        courseTab.hasStudentLoaded = true;
         courseTab.studentList = [];
         this.statusMessageService.showErrorToast(resp.error.message);
       },
