@@ -83,7 +83,17 @@ public abstract class AbstractBackDoor {
      * @return The body content and status of the HTTP response
      */
     public ResponseBodyAndCode executeGetRequest(String relativeUrl, Map<String, String> params) {
-        return executeRequest(HttpGet.METHOD_NAME, relativeUrl, params, null);
+        return executeGetRequest(relativeUrl, params, null);
+    }
+
+    /**
+     * Executes GET request with the given {@code relativeUrl} and headers.
+     *
+     * @return The body content and status of the HTTP response
+     */
+    public ResponseBodyAndCode executeGetRequest(
+            String relativeUrl, Map<String, String> params, Map<String, String> headers) {
+        return executeRequest(HttpGet.METHOD_NAME, relativeUrl, params, headers, null);
     }
 
     /**
@@ -92,7 +102,7 @@ public abstract class AbstractBackDoor {
      * @return The body content and status of the HTTP response
      */
     public ResponseBodyAndCode executePostRequest(String relativeUrl, Map<String, String> params, String body) {
-        return executeRequest(HttpPost.METHOD_NAME, relativeUrl, params, body);
+        return executeRequest(HttpPost.METHOD_NAME, relativeUrl, params, null, body);
     }
 
     /**
@@ -101,7 +111,17 @@ public abstract class AbstractBackDoor {
      * @return The body content and status of the HTTP response
      */
     public ResponseBodyAndCode executePutRequest(String relativeUrl, Map<String, String> params, String body) {
-        return executeRequest(HttpPut.METHOD_NAME, relativeUrl, params, body);
+        return executePutRequest(relativeUrl, params, null, body);
+    }
+
+    /**
+     * Executes PUT request with the given {@code relativeUrl} and headers.
+     *
+     * @return The body content and status of the HTTP response
+     */
+    public ResponseBodyAndCode executePutRequest(
+            String relativeUrl, Map<String, String> params, Map<String, String> headers, String body) {
+        return executeRequest(HttpPut.METHOD_NAME, relativeUrl, params, headers, body);
     }
 
     /**
@@ -110,7 +130,7 @@ public abstract class AbstractBackDoor {
      * @return The body content and status of the HTTP response
      */
     public ResponseBodyAndCode executeDeleteRequest(String relativeUrl, Map<String, String> params) {
-        return executeRequest(HttpDelete.METHOD_NAME, relativeUrl, params, null);
+        return executeRequest(HttpDelete.METHOD_NAME, relativeUrl, params, null, null);
     }
 
     /**
@@ -119,7 +139,7 @@ public abstract class AbstractBackDoor {
      * @return The content of the HTTP response
      */
     private ResponseBodyAndCode executeRequest(
-            String method, String relativeUrl, Map<String, String> params, String body) {
+            String method, String relativeUrl, Map<String, String> params, Map<String, String> headers, String body) {
         String url = getAppUrl() + relativeUrl;
 
         HttpRequestBase request;
@@ -141,6 +161,9 @@ public abstract class AbstractBackDoor {
         }
 
         addAuthKeys(request);
+        if (headers != null) {
+            headers.forEach(request::addHeader);
+        }
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
                 CloseableHttpResponse response = httpClient.execute(request)) {
@@ -391,8 +414,9 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
-        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
+        Map<String, String> headers = Map.of(
+                Const.HeaderNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params, headers);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
@@ -461,13 +485,14 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
+        Map<String, String> headers = Map.of(
+                Const.HeaderNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
 
         ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText
         );
 
-        executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
+        executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, headers, JsonUtils.toJson(body));
     }
 
     /**

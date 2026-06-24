@@ -46,8 +46,6 @@ export class HttpRequestService {
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.
-   *
-   * <p>Add the current masquerading user info to the params also.
    */
   buildParams(paramsMap: Record<string, string | string[]>): HttpParams {
     let params: HttpParams = new HttpParams({ encoder: new CustomEncoder() });
@@ -62,10 +60,6 @@ export class HttpRequestService {
           params = params.append(key, value);
         }
       }
-    }
-
-    if (this.masqueradeModeService.isInMasqueradingMode()) {
-      params = params.set('masqueradeaccountid', this.masqueradeModeService.getMasqueradeAccountId());
     }
 
     return params;
@@ -127,6 +121,7 @@ export class HttpRequestService {
     const headers: Record<string, string> = {
       'X-WEB-VERSION': this.version,
       'ngsw-bypass': 'true',
+      ...this.masqueradeModeService.getMasqueradeHeader(),
     };
     if (withCsrfHeader && document.cookie) {
       const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));

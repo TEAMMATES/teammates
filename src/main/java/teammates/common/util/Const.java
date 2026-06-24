@@ -183,6 +183,7 @@ public final class Const {
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
         public static final String AUTHORIZATION_KEY = "Authorization";
         public static final String REQUEST_ID = "X-Request-Id";
+        public static final String MASQUERADE_ACCOUNT_ID = "X-Masquerade-Account-Id";
     }
 
     /**

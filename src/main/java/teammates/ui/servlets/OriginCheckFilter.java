@@ -45,7 +45,8 @@ public class OriginCheckFilter implements Filter {
             Const.HeaderNames.CSRF_TOKEN,
             "Content-Type",
             Const.HeaderNames.WEB_VERSION,
-            "ngsw-bypass"));
+            "ngsw-bypass",
+            Const.HeaderNames.MASQUERADE_ACCOUNT_ID));
 
     private static final String EXPOSED_HEADERS = String.join(", ", Arrays.asList(
             Const.HeaderNames.REQUEST_ID));

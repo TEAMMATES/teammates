@@ -30,16 +30,10 @@ export class LinkService {
   }
 
   /**
-   * Generates home page link.
+   * Generates instructor home page link.
    */
-  generateHomePageLink(accountId: string, homePage: string): string {
-    const params: { [key: string]: string } = {
-      masqueradeaccountid: accountId,
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${homePage}${encodedParams}`;
+  generateInstructorHomePageLink(): string {
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_HOME_PAGE}`;
   }
 
   /**
