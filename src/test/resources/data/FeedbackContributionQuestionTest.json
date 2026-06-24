@@ -415,7 +415,6 @@
         "canModifyInstructor": false,
         "canModifySession": false,
         "canModifyStudent": false,
-        "canViewStudent": false,
         "canViewSession": false,
         "canSubmitSession": false,
         "canModifySessionComments": false
@@ -430,7 +429,6 @@
         "canModifyInstructor": true,
         "canModifySession": false,
         "canModifyStudent": true,
-        "canViewStudent": true,
         "canViewSession": true,
         "canSubmitSession": true,
         "canModifySessionComments": true
@@ -445,7 +443,6 @@
         "canModifyInstructor": true,
         "canModifySession": false,
         "canModifyStudent": true,
-        "canViewStudent": true,
         "canViewSession": true,
         "canSubmitSession": true,
         "canModifySessionComments": true

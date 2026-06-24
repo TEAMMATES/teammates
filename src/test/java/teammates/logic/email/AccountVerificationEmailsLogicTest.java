@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.util.Config;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailType;
@@ -83,8 +84,9 @@ public class AccountVerificationEmailsLogicTest extends BaseTestCase {
         accountVerificationEmailsLogic.enqueueRejectionEmail(
                 new AccountVerificationRejectedEmailContext(
                         "instructor@teammates.tmt",
-                        "Verification request update",
-                        "<p>Rejected</p>"));
+                        "Northbridge Institute of Technology",
+                        AccountVerificationRequestRejectionType.OTHERS,
+                        null));
 
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);

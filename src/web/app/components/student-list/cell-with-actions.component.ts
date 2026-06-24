@@ -24,7 +24,6 @@ export class CellWithActionsComponent {
     canModifyInstructor: false,
     canModifySession: false,
     canModifyStudent: false,
-    canViewStudent: false,
     canViewSession: false,
     canSubmitSession: false,
     canModifySessionComments: false,

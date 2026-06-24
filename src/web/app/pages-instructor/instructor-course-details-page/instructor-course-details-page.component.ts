@@ -170,7 +170,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
                 const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
                   return {
                     student: studentInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });

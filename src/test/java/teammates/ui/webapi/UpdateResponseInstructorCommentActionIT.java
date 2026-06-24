@@ -2,13 +2,10 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -49,8 +46,7 @@ public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<Update
         };
         String newCommentText = frc.getCommentText() + " (Edited)";
         ResponseInstructorCommentUpdateRequest requestBody = new ResponseInstructorCommentUpdateRequest(
-                newCommentText, Arrays.asList(CommentVisibilityType.INSTRUCTORS),
-                Arrays.asList(CommentVisibilityType.INSTRUCTORS));
+                newCommentText);
 
         UpdateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);

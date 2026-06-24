@@ -317,7 +317,6 @@ export class SessionResultPageComponent implements OnInit {
             isLoading: false,
             isLoaded: true,
             hasResponseButNotVisibleForPreview: question.hasResponseButNotVisibleForPreview,
-            hasCommentNotVisibleForPreview: question.hasCommentNotVisibleForPreview,
           }));
         },
         error: (resp: ErrorMessageOutput) => {

@@ -91,12 +91,10 @@ public class BaseStatisticsTestCase extends BaseTestCase {
         return new SessionResultsBundle(
                 List.of(question),
                 Set.of(),
-                Set.of(),
                 responses,
                 List.of(),
                 responseVisibility,
                 responseVisibility,
-                Map.of(),
                 Map.of(),
                 new CourseRoster(students, instructors));
     }

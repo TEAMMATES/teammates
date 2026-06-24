@@ -1,10 +1,6 @@
 package teammates.ui.request;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
-
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 
 /**
  * The create request of a feedback response comment.
@@ -12,9 +8,7 @@ import teammates.common.datatransfer.visibility.CommentVisibilityType;
 public class ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
 
     @JsonCreator
-    public ResponseInstructorCommentCreateRequest(String commentText,
-                                                List<CommentVisibilityType> showCommentTo,
-                                                List<CommentVisibilityType> showGiverNameTo) {
-        super(commentText, showCommentTo, showGiverNameTo);
+    public ResponseInstructorCommentCreateRequest(String commentText) {
+        super(commentText);
     }
 }

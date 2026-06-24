@@ -155,7 +155,7 @@ describe('QuestionResponsePanelComponent', () => {
     recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
@@ -177,7 +177,7 @@ describe('QuestionResponsePanelComponent', () => {
     recipientType: QuestionRecipientType.OWN_TEAM,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
@@ -192,7 +192,6 @@ describe('QuestionResponsePanelComponent', () => {
     isLoading: false,
     isLoaded: false,
     hasResponseButNotVisibleForPreview: false,
-    hasCommentNotVisibleForPreview: false,
   };
 
   let component: QuestionResponsePanelComponent;
@@ -242,7 +241,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestion2,
@@ -298,7 +296,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestion3,
@@ -326,8 +323,6 @@ describe('QuestionResponsePanelComponent', () => {
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
-                showGiverNameTo: [],
-                showCommentTo: [],
               },
             ],
           },
@@ -336,7 +331,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
     ];
 
@@ -443,7 +437,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestionAnonymousResponse2,
@@ -485,7 +478,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
     ];
 
@@ -506,7 +498,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: true,
-        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestion3,
@@ -534,8 +525,6 @@ describe('QuestionResponsePanelComponent', () => {
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
-                showGiverNameTo: [],
-                showCommentTo: [],
               },
             ],
           },
@@ -544,7 +533,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: true,
       },
       {
         feedbackQuestion: testQuestion4,
@@ -572,7 +560,6 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponseButNotVisibleForPreview: false,
-        hasCommentNotVisibleForPreview: false,
       },
     ];
 

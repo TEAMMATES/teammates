@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
-import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
+import { ResponseOutput } from '../../../../types/api-output';
 import { createNewCommentRowModel } from '../comment-row-model-mapper';
 import type { CommentRowModel, InstructorCommentRowModel } from '../comment.model';
 import { CommentRowComponent } from '../comment-row/comment-row.component';
@@ -25,15 +25,12 @@ export class CommentTableComponent {
   response?: ResponseOutput;
 
   @Input()
-  questionShowResponsesTo: FeedbackVisibilityType[] = [];
-
-  @Input()
   displayAddCommentButton = false;
 
   @Input()
   model: CommentTableModel = {
     commentRows: [],
-    newCommentRow: createNewCommentRowModel([], true),
+    newCommentRow: createNewCommentRowModel(true),
     isAddingNewComment: true,
     isReadOnly: false,
   };
@@ -114,7 +111,7 @@ export class CommentTableComponent {
   handleAddingNewCommentEvent(): void {
     this.modelChange.emit({
       ...this.model,
-      newCommentRow: createNewCommentRowModel(this.questionShowResponsesTo, true),
+      newCommentRow: createNewCommentRowModel(true),
       isAddingNewComment: true,
     });
   }

@@ -58,7 +58,6 @@ const emptyInstructorPanel: InstructorEditPanel = {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudent: true,
       canModifySessionComments: true,
       canViewSession: true,
       canSubmitSession: true,

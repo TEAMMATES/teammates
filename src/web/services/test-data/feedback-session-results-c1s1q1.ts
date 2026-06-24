@@ -72,8 +72,6 @@ const feedbackSessionResultsC1S1Q1: SessionResults = {
               commentText: `Instructor 1 comment to student 1 self feedback`,
               createdAt: 1772409540000,
               lastEditedAt: 1333411140000,
-              showGiverNameTo: [],
-              showCommentTo: [],
             },
           ],
         },

@@ -1,4 +1,3 @@
-import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { finalize } from 'rxjs/operators';
@@ -29,7 +28,6 @@ export interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
-  isAbleToViewStudents: boolean;
   stats: CourseStatistics;
 }
 
@@ -97,7 +95,6 @@ export class InstructorStudentListPageComponent implements OnInit {
               hasTabExpanded: false,
               hasStudentLoaded: false,
               hasLoadingFailed: false,
-              isAbleToViewStudents: true,
               stats: {
                 numOfSections: 0,
                 numOfStudents: 0,
@@ -154,12 +151,6 @@ export class InstructorStudentListPageComponent implements OnInit {
           .subscribe({
             next: (instructorPrivilege: InstructorPrivilege) => {
               const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
-              courseTab.isAbleToViewStudents =
-                courseLevelPrivilege.canViewStudent ||
-                Object.values(instructorPrivilege.privileges.sectionLevel).some(
-                  (sectionPrivilege: InstructorPermissionSet) => sectionPrivilege.canViewStudent,
-                );
-
               Object.keys(sections).forEach((sectionId: string) => {
                 const sectionLevelPrivilege: InstructorPermissionSet =
                   instructorPrivilege.privileges.sectionLevel[sectionId] || courseLevelPrivilege;
@@ -168,7 +159,6 @@ export class InstructorStudentListPageComponent implements OnInit {
                 const studentModels: StudentListRowModel[] = studentsInSection.map((stuInSection: Student) => {
                   return {
                     student: stuInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });
@@ -187,12 +177,8 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
       },
       error: (resp: ErrorMessageOutput) => {
-        if (resp.status === HttpStatusCode.Forbidden) {
-          courseTab.isAbleToViewStudents = false;
-          courseTab.hasStudentLoaded = true;
-        } else {
-          courseTab.hasLoadingFailed = true;
-        }
+        courseTab.hasLoadingFailed = true;
+        courseTab.hasStudentLoaded = true;
         courseTab.studentList = [];
         this.statusMessageService.showErrorToast(resp.error.message);
       },

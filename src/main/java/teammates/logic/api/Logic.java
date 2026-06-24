@@ -10,6 +10,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountVerificationRequestQuery;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
@@ -27,7 +28,6 @@ import teammates.common.datatransfer.StudentQuery;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -274,28 +274,17 @@ public class Logic {
     }
 
     /**
-     * Rejects the account verification request with the given {@code id}.
-     *
-     * @throws EntityDoesNotExistException if no request with the given id exists.
-     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
-     * @throws InvalidParametersException if the request is invalid.
-     */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
-    }
-
-    /**
      * Rejects the account verification request with the given {@code id} and
-     * optionally sends a rejection email when both reason fields are provided.
+     * enqueues a rejection email with the given rejection type and optional additional comments.
      *
      * @throws EntityDoesNotExistException if no request with the given id exists.
      * @throws InvalidVerificationRequestStateException if the request is not in pending state.
      * @throws InvalidParametersException if the request is invalid.
      */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id, String reasonTitle, String reasonBody)
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id,
+            AccountVerificationRequestRejectionType rejectionType, @Nullable String additionalComments)
             throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id, reasonTitle, reasonBody);
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id, rejectionType, additionalComments);
     }
 
     /**
@@ -1519,10 +1508,10 @@ public class Logic {
      * @throws InvalidParametersException   if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
+            String commentText)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(
-                feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);
+                feedbackResponseId, giver, commentText);
     }
 
     /**

@@ -99,7 +99,6 @@ public final class Const {
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String CAN_MODIFY_SESSION = "canmodifysession";
         public static final String CAN_MODIFY_STUDENT = "canmodifystudent";
-        public static final String CAN_VIEW_STUDENT = "canviewstudent";
         public static final String CAN_VIEW_SESSION = "canviewsession";
         public static final String CAN_SUBMIT_SESSION = "cansubmitsession";
         public static final String CAN_MODIFY_SESSION_COMMENT = "canmodifysessioncomment";

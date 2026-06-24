@@ -37,7 +37,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
-  FeedbackVisibilityType,
   Instructor,
   Instructors,
   QuestionOutput,
@@ -397,7 +396,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           const responses: QuestionOutput = resp.questions[0];
           this.questionsModel[questionId].responses.push(...responses.allResponses);
           this.questionsModel[questionId].statistics = responses.questionStatistics;
-          this.preprocessComments(responses.allResponses, responses.feedbackQuestion.showResponsesTo);
+          this.preprocessComments(responses.allResponses);
           this.questionsModel[questionId].errorMessage = '';
           this.questionsModel[questionId].hasPopulated = true;
         },
@@ -445,7 +444,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
                 InstructorSessionResultSectionType.EITHER,
               ),
             );
-            this.preprocessComments(question.allResponses, question.feedbackQuestion.showResponsesTo);
+            this.preprocessComments(question.allResponses);
           });
           this.sectionsModel[sectionId].questions = resp.questions;
         },
@@ -474,13 +473,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[], questionShowResponsesTo: FeedbackVisibilityType[]): void {
+  preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         this.session.timeZone,
-        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
