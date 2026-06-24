@@ -307,14 +307,6 @@ public final class DataBundleLogic {
                 }
                 responseComment.setGiver((Instructor) userGiver);
             }
-
-            if (responseComment.getLastEditedById() != null) {
-                User userLastEditedBy = usersMap.get(responseComment.getLastEditedById());
-                if (!(userLastEditedBy instanceof Instructor)) {
-                    throw new IllegalArgumentException("ResponseInstructorComment last editor must be an instructor");
-                }
-                responseComment.setLastEditedBy((Instructor) userLastEditedBy);
-            }
         }
 
         // Re-point the placeholder ids in the combined instructor privileges section to the

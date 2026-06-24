@@ -23,9 +23,7 @@ export interface InstructorCommentRowModel extends SavedCommentRowBaseModel {
   commentType: 'instructor';
   commentId: string;
   commentGiverName: string;
-  lastEditorName: string;
   createdAt: number;
-  lastEditedAt: number;
   timezone: string;
 }
 

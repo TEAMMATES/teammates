@@ -29,11 +29,9 @@ describe('InstructorCommentService', () => {
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
     commentGiverName: 'Original Instructor',
-    lastEditorName: 'Original Instructor',
     responseInstructorCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
-    lastEditedAt: 1000,
     ...overrides,
   });
 
@@ -42,9 +40,7 @@ describe('InstructorCommentService', () => {
     timezone,
     commentId: comment.responseInstructorCommentId,
     commentGiverName: comment.commentGiverName,
-    lastEditorName: comment.lastEditorName,
     createdAt: comment.createdAt,
-    lastEditedAt: comment.lastEditedAt,
     originalCommentFormModel: {
       commentText: comment.commentText,
     },
@@ -147,7 +143,6 @@ describe('InstructorCommentService', () => {
       responseInstructorCommentId: 'comment-id-to-update',
       commentText: 'updated text',
       createdAt: 1000,
-      lastEditedAt: 2000,
     });
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
