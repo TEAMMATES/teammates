@@ -64,6 +64,26 @@ describe('CommentRowComponent', () => {
     expect((buttons[1].nativeElement as HTMLButtonElement).disabled).toBe(true);
   });
 
+  it('should keep edit and delete buttons enabled for giver comments', () => {
+    component.mode = component.CommentRowMode.EDIT;
+    component.model = {
+      commentType: 'giver',
+      originalCommentFormModel: {
+        commentText: 'comment text',
+      },
+      commentEditFormModel: {
+        commentText: 'comment text',
+      },
+      isEditing: false,
+    };
+
+    fixture.detectChanges();
+
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    expect((buttons[0].nativeElement as HTMLButtonElement).disabled).toBe(false);
+    expect((buttons[1].nativeElement as HTMLButtonElement).disabled).toBe(false);
+  });
+
   it('should enable edit and delete buttons for comments owned by the current instructor', () => {
     component.mode = component.CommentRowMode.EDIT;
     component.model = {

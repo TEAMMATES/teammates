@@ -83,8 +83,8 @@ export class CommentRowComponent {
     return this.model.commentType === 'instructor' ? this.model : undefined;
   }
 
-  get isInstructorCommentOwnedByCurrentInstructor(): boolean {
-    return this.instructorCommentModel?.isOwnedByCurrentInstructor ?? false;
+  get canEditSavedComment(): boolean {
+    return this.model.commentType !== 'instructor' || this.instructorCommentModel?.isOwnedByCurrentInstructor === true;
   }
 
   /**
