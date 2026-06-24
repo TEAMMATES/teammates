@@ -7,18 +7,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
-
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.ui.loginmethodhandlers.LoginMethodHandler;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Servlet that handles login.
@@ -27,7 +25,15 @@ public class LoginServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final AccountsLogic accountsLogic;
+
+    public LoginServlet() {
+        this(AccountsLogic.inst());
+    }
+
+    LoginServlet(AccountsLogic accountsLogic) {
+        this.accountsLogic = accountsLogic;
+    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -40,22 +46,20 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
+        LoginMethodHandler loginHandler;
         if (Config.isDevServerLoginEnabled()) {
-            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
-            String redirectUrl = resp.encodeRedirectURL(
-                    "/devServerLogin?nextUrl=" + UrlHelper.encodeQueryParam(nextUrl));
-            resp.sendRedirect(redirectUrl);
-            return;
+            loginHandler = getLoginHandler(LoginMethod.DEV_SERVER);
+        } else {
+            loginHandler = getLoginHandler(LoginMethod.GOOGLE);
         }
 
-        AuthState state = new AuthState(nextUrl, req.getSession().getId());
-        GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
-        authorizationUrl.setRedirectUri(getRedirectUri(req));
-        authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
-
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
-
-        resp.sendRedirect(authorizationUrl.build());
+        try {
+            String redirectUrl = loginHandler.handleLogin(req, nextUrl);
+            redirectUrl = resp.encodeRedirectURL(redirectUrl);
+            resp.sendRedirect(redirectUrl);
+        } catch (Exception e) {
+            resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     private boolean isLoginNeeded(HttpServletRequest req) {

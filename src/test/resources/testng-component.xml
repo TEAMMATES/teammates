@@ -16,6 +16,7 @@
             <package name="teammates.logic.util" />
             <package name="teammates.storage.api" />
             <package name="teammates.ui.request" />
+            <package name="teammates.ui.loginmethodhandlers" />
             <package name="teammates.ui.servlets" />
             <package name="teammates.ui.webapi" />
         </packages>
