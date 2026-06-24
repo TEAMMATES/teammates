@@ -569,6 +569,11 @@ public class Logic {
         return deadlineExtensionsLogic.getDeadlineForUser(session, user);
     }
 
+    public Map<FeedbackSession, Instant> getDeadlinesForUsers(
+            Map<User, List<FeedbackSession>> sessionsByUser) {
+        return deadlineExtensionsLogic.getDeadlinesForUsers(sessionsByUser);
+    }
+
     /**
      * Fetch the deadline extension entity for a given user and session feedback.
      *
@@ -659,6 +664,14 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
         return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+    }
+
+    /**
+     * Gets all non-soft-deleted feedback sessions for the given course IDs.
+     * Includes sessions from soft-deleted courses.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(List<String> courseIds) {
+        return feedbackSessionsLogic.getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(courseIds);
     }
 
     /**

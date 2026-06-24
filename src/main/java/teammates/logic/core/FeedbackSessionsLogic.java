@@ -120,6 +120,17 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all feedback sessions for the given courses, except those that are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(List<String> courseIds) {
+        if (courseIds.isEmpty()) {
+            return List.of();
+        }
+        return fsDb.getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(
+                courseIds.stream().distinct().toList());
+    }
+
+    /**
      * Gets all feedback session links for the user with {@code userId}.
      */
     public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
