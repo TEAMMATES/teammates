@@ -2,7 +2,6 @@ package teammates.ui.output;
 
 import java.util.UUID;
 
-import teammates.common.util.Const;
 import teammates.storage.entity.ResponseInstructorComment;
 
 /**
@@ -12,11 +11,9 @@ public class ResponseInstructorCommentData implements ApiOutput {
     private UUID responseInstructorCommentId;
 
     private String commentGiverName;
-    private String lastEditorName;
 
     private String commentText;
     private long createdAt;
-    private long lastEditedAt;
 
     private ResponseInstructorCommentData() {
         // for Jackson deserialization
@@ -24,12 +21,9 @@ public class ResponseInstructorCommentData implements ApiOutput {
 
     public ResponseInstructorCommentData(ResponseInstructorComment frc) {
         this.commentGiverName = frc.getGiver().getDisplayName();
-        this.lastEditorName = frc.getLastEditedBy() == null
-                ? Const.UNKNOWN_USER : frc.getLastEditedBy().getDisplayName();
         this.responseInstructorCommentId = frc.getId();
         this.commentText = frc.getCommentText();
         this.createdAt = frc.getCreatedAt().toEpochMilli();
-        this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
     }
 
     public String getCommentText() {
@@ -46,14 +40,6 @@ public class ResponseInstructorCommentData implements ApiOutput {
 
     public long getCreatedAt() {
         return createdAt;
-    }
-
-    public String getLastEditorName() {
-        return lastEditorName;
-    }
-
-    public long getLastEditedAt() {
-        return lastEditedAt;
     }
 
 }

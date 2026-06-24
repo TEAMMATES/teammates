@@ -3,7 +3,6 @@ package teammates.e2e.cases;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -203,18 +202,12 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
     }
 
     private void verifyCommentDetails(int questionNum, ResponseInstructorComment comment) {
-        String editor = "";
-        String giver = "";
-
-        if (!Objects.equals(comment.getLastEditedBy(), comment.getGiver())) {
-            editor = comment.getLastEditedBy().getDisplayName();
-        }
-        giver = comment.getGiver().getDisplayName();
-        resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
+        String giver = comment.getGiver().getDisplayName();
+        resultsPage.verifyCommentDetails(questionNum, giver, comment.getCommentText());
     }
 
     private void verifyParticipantCommentDetails(int questionNum, String commentText) {
-        resultsPage.verifyCommentDetails(questionNum, "", "", commentText);
+        resultsPage.verifyCommentDetails(questionNum, "", commentText);
     }
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {

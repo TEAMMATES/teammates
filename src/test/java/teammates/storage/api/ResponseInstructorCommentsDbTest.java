@@ -92,10 +92,7 @@ public class ResponseInstructorCommentsDbTest extends BaseDbTestcase {
             FeedbackResponse feedbackResponse, Instructor instructor, UUID responseInstructorCommentId) {
         assertNotNull(feedbackResponse);
         assertNotNull(instructor);
-        ResponseInstructorComment comment = new ResponseInstructorComment(
-                instructor,
-                "Comment",
-                instructor);
+        ResponseInstructorComment comment = new ResponseInstructorComment(instructor, "Comment");
         comment.setId(responseInstructorCommentId);
         feedbackResponse.addResponseInstructorComment(comment);
         return comment;

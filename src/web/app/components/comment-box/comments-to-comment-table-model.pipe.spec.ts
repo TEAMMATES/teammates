@@ -17,19 +17,15 @@ describe('CommentsToCommentTableModelPipe', () => {
     const comments: ResponseInstructorComment[] = [
       {
         commentGiverName: 'commentGiverName',
-        lastEditorName: 'lastEditorName',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000000',
         commentText: 'commentText',
         createdAt: 0,
-        lastEditedAt: 0,
       },
       {
         commentGiverName: 'commentGiverName2',
-        lastEditorName: 'lastEditorName2',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
         commentText: 'commentText2',
         createdAt: 1,
-        lastEditedAt: 1,
       },
     ];
     expect(pipe.transform(comments, true, 'UTC')).toEqual({
@@ -38,10 +34,8 @@ describe('CommentsToCommentTableModelPipe', () => {
           commentType: 'instructor',
           timezone: 'UTC',
           commentGiverName: 'commentGiverName',
-          lastEditorName: 'lastEditorName',
           commentId: '00000000-0000-4000-8000-000000000000',
           createdAt: 0,
-          lastEditedAt: 0,
           originalCommentFormModel: {
             commentText: 'commentText',
           },
@@ -54,10 +48,8 @@ describe('CommentsToCommentTableModelPipe', () => {
           commentType: 'instructor',
           timezone: 'UTC',
           commentGiverName: 'commentGiverName2',
-          lastEditorName: 'lastEditorName2',
           commentId: '00000000-0000-4000-8000-000000000001',
           createdAt: 1,
-          lastEditedAt: 1,
           originalCommentFormModel: {
             commentText: 'commentText2',
           },

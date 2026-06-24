@@ -7,10 +7,8 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
     const comment: ResponseInstructorComment = {
       responseInstructorCommentId: 'comment-id',
       commentGiverName: 'Instructor',
-      lastEditorName: 'Editor',
       commentText: 'comment text',
       createdAt: 1,
-      lastEditedAt: 2,
     };
 
     expect(pipe.transform(comment, 'UTC')).toEqual({
@@ -18,9 +16,7 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
       timezone: 'UTC',
       commentId: 'comment-id',
       commentGiverName: 'Instructor',
-      lastEditorName: 'Editor',
       createdAt: 1,
-      lastEditedAt: 2,
       originalCommentFormModel: {
         commentText: 'comment text',
       },

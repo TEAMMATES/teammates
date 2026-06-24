@@ -31,19 +31,6 @@
               >
                 {{ instructorCommentModel.createdAt | formatDateBrief: instructorCommentModel.timezone }}</span
               >
-              @if (
-                instructorCommentModel.lastEditedAt &&
-                instructorCommentModel.lastEditedAt !== instructorCommentModel.createdAt
-              ) {
-                <i class="fas fa-circle dot-xs align-middle" style="margin-right: 0.25rem"></i>
-                <span
-                  id="last-editor-name"
-                  style="margin-right: 0.25rem"
-                  class="ngb-tooltip-class"
-                  [ngbTooltip]="instructorCommentModel.lastEditedAt | formatDateDetail: instructorCommentModel.timezone"
-                  >edited by {{ instructorCommentModel.lastEditorName }}</span
-                >
-              }
             </ng-container>
           }
           <div class="float-end">

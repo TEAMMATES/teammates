@@ -62,11 +62,9 @@ const feedbackSessionResultsC1S1S1: SessionResults = {
           instructorComments: [
             {
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000057`,
               commentText: `Instructor 1 comment to instructor 1 self feedback Question 3`,
               createdAt: 1767311940000,
-              lastEditedAt: 1767311940000,
             },
           ],
         },
@@ -178,11 +176,9 @@ Multiline test.`,
           instructorComments: [
             {
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000056`,
               commentText: `Instructor 1 comment to response from student 2 to student 5 in feedback Question 2`,
               createdAt: 1769990340000,
-              lastEditedAt: 1769990340000,
             },
           ],
         },
@@ -708,11 +704,9 @@ Multiline test.`,
           instructorComments: [
             {
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000055`,
               commentText: `Instructor 1 comment to student 1 self feedback`,
               createdAt: 1772409540000,
-              lastEditedAt: 1333411140000,
             },
           ],
         },

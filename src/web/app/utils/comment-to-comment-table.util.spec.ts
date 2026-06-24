@@ -4,10 +4,8 @@ import { ResponseInstructorComment } from '../../types/api-output';
 const mockComment: ResponseInstructorComment = {
   responseInstructorCommentId: 'c1',
   commentGiverName: 'Instructor A',
-  lastEditorName: 'Instructor A',
   commentText: 'Good job',
   createdAt: 1000,
-  lastEditedAt: 2000,
 };
 
 describe('commentToReadOnlyComment', () => {
@@ -26,10 +24,8 @@ describe('commentToReadOnlyComment', () => {
         commentType: 'instructor',
         timezone: 'Asia/Singapore',
         commentGiverName: 'Instructor A',
-        lastEditorName: 'Instructor A',
         commentId: 'c1',
         createdAt: 1000,
-        lastEditedAt: 2000,
         originalCommentFormModel: { commentText: 'Good job' },
         commentEditFormModel: { commentText: 'Good job' },
         isEditing: false,

@@ -603,10 +603,8 @@ export interface RegkeyValidity extends ApiOutput {
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
   commentGiverName: string;
-  lastEditorName: string;
   commentText: string;
   createdAt: number;
-  lastEditedAt: number;
 }
 
 export interface ResponseOutput {
