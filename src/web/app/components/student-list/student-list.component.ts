@@ -23,7 +23,6 @@ import { textToHighlighting } from '../../utils/highlighter.util';
  */
 export interface StudentListRowModel {
   student: Student;
-  isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
 }
 
@@ -194,7 +193,6 @@ export class StudentListComponent implements OnInit {
           enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
           instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
-            canViewStudent: studentModel.isAllowedToViewStudentInSection,
           },
           isActionButtonsEnabled: this.isActionButtonsEnabled,
           removeStudentFromCourse: () => this.openDeleteModal(studentModel),

@@ -69,7 +69,6 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         courseIdToCourse.put(course3.getId(), course3);
 
         listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
-        listPage.verifyStudentDetailsNotViewable(course2);
 
         ______TS("link: enroll page");
 

@@ -325,7 +325,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
           canModifySession: defaultPrivileges,
           canModifyStudent: defaultPrivileges,
           canModifyInstructor: defaultPrivileges,
-          canViewStudent: defaultPrivileges,
           canModifySessionComments: defaultPrivileges,
           canViewSession: defaultPrivileges,
           canSubmitSession: defaultPrivileges,
@@ -619,9 +618,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
         permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
-            if (sectionLevelPermission.privilege.canViewStudent !== permission.privilege.canViewStudent) {
-              return true;
-            }
             if (
               sectionLevelPermission.privilege.canModifySessionComments !==
               permission.privilege.canModifySessionComments

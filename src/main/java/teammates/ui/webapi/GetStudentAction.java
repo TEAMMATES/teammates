@@ -19,7 +19,7 @@ public class GetStudentAction extends LoggedInAction {
         }
 
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
-        gateKeeper.verifyInstructorCanViewStudent(requestContext, studentId);
+        gateKeeper.verifyInstructorInSameCourseAsStudent(requestContext, studentId);
     }
 
     @Override
