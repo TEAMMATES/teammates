@@ -6,10 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +14,6 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.StudentQuery;
@@ -646,53 +642,26 @@ public final class UsersLogic {
         Objects.requireNonNull(account);
 
         List<Instructor> instructors = getInstructorsByAccountId(account.getId());
-        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
-
-        Set<String> visibleCourseIds = new LinkedHashSet<>();
-        Set<String> fullAccessCourseIds = new LinkedHashSet<>();
-        Map<String, Set<UUID>> visibleSectionIdsByCourse = new LinkedHashMap<>();
-
+        Set<String> courseIds = new HashSet<>();
         for (Instructor instructor : instructors) {
-            String courseId = instructor.getCourseId();
-            if (instructorPermissionsLogic.hasPermissions(instructor, privilegeName)) {
-                visibleCourseIds.add(courseId);
-                fullAccessCourseIds.add(courseId);
-                continue;
-            }
-
-            Map<UUID, InstructorPermissionSet> sectionsWithPermission =
-                    instructorPermissionsLogic.getSectionsWithPermission(instructor, privilegeName);
-            if (!sectionsWithPermission.isEmpty()) {
-                visibleCourseIds.add(courseId);
-                visibleSectionIdsByCourse.computeIfAbsent(courseId, unused -> new HashSet<>())
-                        .addAll(sectionsWithPermission.keySet());
-            }
+            courseIds.add(instructor.getCourseId());
         }
 
-        if (visibleCourseIds.isEmpty()) {
+        if (courseIds.isEmpty()) {
             return new ArrayList<>();
         }
 
         List<String> requestedCourseIds = query.courseIds();
         List<String> effectiveCourseIds = requestedCourseIds == null
-                ? new ArrayList<>(visibleCourseIds)
+                ? new ArrayList<>(courseIds)
                 : requestedCourseIds.stream()
-                        .filter(visibleCourseIds::contains)
+                        .filter(courseIds::contains)
                         .toList();
         if (effectiveCourseIds.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<Student> students = usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
-        if (visibleSectionIdsByCourse.isEmpty()) {
-            return students;
-        }
-
-        return students.stream()
-                .filter(student -> fullAccessCourseIds.contains(student.getCourseId())
-                        || visibleSectionIdsByCourse.getOrDefault(student.getCourseId(), Set.of())
-                                .contains(student.getSectionId()))
-                .toList();
+        return usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
     }
 
     /**

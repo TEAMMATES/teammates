@@ -13,7 +13,6 @@ public class InstructorPermissionSet {
     private boolean canModifyInstructor;
     private boolean canModifySession;
     private boolean canModifyStudent;
-    private boolean canViewStudent;
     private boolean canViewSession;
     private boolean canSubmitSession;
     private boolean canModifySessionComments;
@@ -50,14 +49,6 @@ public class InstructorPermissionSet {
         this.canModifyStudent = canModifyStudent;
     }
 
-    public boolean isCanViewStudent() {
-        return canViewStudent;
-    }
-
-    public void setCanViewStudent(boolean canViewStudent) {
-        this.canViewStudent = canViewStudent;
-    }
-
     public boolean isCanViewSession() {
         return canViewSession;
     }
@@ -88,7 +79,6 @@ public class InstructorPermissionSet {
         copy.setCanModifyInstructor(canModifyInstructor);
         copy.setCanModifySession(canModifySession);
         copy.setCanModifyStudent(canModifyStudent);
-        copy.setCanViewStudent(canViewStudent);
         copy.setCanViewSession(canViewSession);
         copy.setCanSubmitSession(canSubmitSession);
         copy.setCanModifySessionComments(canModifySessionComments);
@@ -108,8 +98,6 @@ public class InstructorPermissionSet {
             return canModifySession;
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             return canModifyStudent;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
-            return canViewStudent;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return canViewSession;
         case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
@@ -134,9 +122,6 @@ public class InstructorPermissionSet {
             break;
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             canModifyStudent = value;
-            break;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
-            canViewStudent = value;
             break;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
             canViewSession = value;
@@ -166,7 +151,6 @@ public class InstructorPermissionSet {
                 && canModifyInstructor == rhs.isCanModifyInstructor()
                 && canModifySession == rhs.isCanModifySession()
                 && canModifyStudent == rhs.isCanModifyStudent()
-                && canViewStudent == rhs.isCanViewStudent()
                 && canViewSession == rhs.isCanViewSession()
                 && canSubmitSession == rhs.isCanSubmitSession()
                 && canModifySessionComments == rhs.isCanModifySessionComments();
@@ -179,7 +163,6 @@ public class InstructorPermissionSet {
             canModifyInstructor,
             canModifySession,
             canModifyStudent,
-            canViewStudent,
             canViewSession,
             canSubmitSession,
             canModifySessionComments

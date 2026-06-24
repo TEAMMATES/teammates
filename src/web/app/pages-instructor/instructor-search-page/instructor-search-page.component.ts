@@ -98,7 +98,6 @@ export class InstructorSearchPageComponent implements OnInit {
       courseId,
       students: Array.from(new Set(students.filter((s: Student) => s.courseId === courseId))).map((s: Student) => ({
         student: s,
-        isAllowedToViewStudentInSection: false,
         isAllowedToModifyStudent: false,
       })),
     }));
@@ -144,7 +143,6 @@ export class InstructorSearchPageComponent implements OnInit {
         const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
         const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionId] || courseLevel;
 
-        studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudent;
         studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;
       }
     }
@@ -182,37 +180,9 @@ export class InstructorSearchPageComponent implements OnInit {
   }
 
   private loadVisibleCourseIds(): Observable<string[]> {
-    return this.courseService.getAllCoursesAsInstructor('active').pipe(
-      map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))),
-      mergeMap((courseIds: string[]) => this.getVisibleCourseIds(courseIds)),
-    );
-  }
-
-  private getVisibleCourseIds(courseIds: string[]): Observable<string[]> {
-    if (courseIds.length === 0) {
-      return of([]);
-    }
-
-    return forkJoin(
-      courseIds.map((courseId: string) =>
-        this.instructorService.loadInstructorPrivilege({ courseId }).pipe(
-          map((instructorPrivilege: InstructorPrivilege) => ({
-            courseId,
-            canViewStudent:
-              instructorPrivilege.privileges.courseLevel.canViewStudent ||
-              Object.values(instructorPrivilege.privileges.sectionLevel).some(
-                (sectionPrivilege: InstructorPermissionSet) => sectionPrivilege.canViewStudent,
-              ),
-          })),
-        ),
-      ),
-    ).pipe(
-      map((coursePrivileges: { courseId: string; canViewStudent: boolean }[]) =>
-        coursePrivileges
-          .filter((coursePrivilege) => coursePrivilege.canViewStudent)
-          .map((coursePrivilege) => coursePrivilege.courseId),
-      ),
-    );
+    return this.courseService
+      .getAllCoursesAsInstructor('active')
+      .pipe(map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))));
   }
 }
 

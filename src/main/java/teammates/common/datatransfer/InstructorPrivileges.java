@@ -30,7 +30,6 @@ public final class InstructorPrivileges {
     };
 
     private static final String[] SECTION_LEVEL_ONLY_LIST = new String[] {
-            Const.InstructorPermissions.CAN_VIEW_STUDENT,
     };
 
     private static final String[] SESSION_LEVEL_ONLY_LIST = new String[] {
@@ -143,7 +142,6 @@ public final class InstructorPrivileges {
         courseLevel.setCanModifyInstructor(defaultPrivileges.isCanModifyInstructor());
         courseLevel.setCanModifySession(defaultPrivileges.isCanModifySession());
         courseLevel.setCanModifyStudent(defaultPrivileges.isCanModifyStudent());
-        courseLevel.setCanViewStudent(defaultPrivileges.isCanViewStudent());
         courseLevel.setCanViewSession(defaultPrivileges.isCanViewSession());
         courseLevel.setCanSubmitSession(defaultPrivileges.isCanSubmitSession());
         courseLevel.setCanModifySessionComments(defaultPrivileges.isCanModifySessionComments());
@@ -152,7 +150,6 @@ public final class InstructorPrivileges {
     private InstructorPermissionSet getOverallPrivilegesForSections() {
         InstructorPermissionSet privileges = new InstructorPermissionSet();
 
-        privileges.setCanViewStudent(courseLevel.isCanViewStudent());
         privileges.setCanViewSession(courseLevel.isCanViewSession());
         privileges.setCanSubmitSession(courseLevel.isCanSubmitSession());
         privileges.setCanModifySessionComments(courseLevel.isCanModifySessionComments());

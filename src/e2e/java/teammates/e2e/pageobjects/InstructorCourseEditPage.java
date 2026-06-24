@@ -34,15 +34,13 @@ public class InstructorCourseEditPage extends AppPage {
     private static final int COURSE_MODIFY_INSTRUCTORS = 1;
     private static final int COURSE_MODIFY_SESSIONS = 2;
     private static final int COURSE_MODIFY_STUDENTS = 3;
-    private static final int COURSE_VIEW_STUDENTS = 4;
-    private static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
-    private static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
-    private static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
+    private static final int COURSE_GIVE_RESPONSES_IN_SESSION = 4;
+    private static final int COURSE_VIEW_RESPONSES_IN_SESSION = 5;
+    private static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 6;
 
-    private static final int SECTION_VIEW_STUDENTS = 0;
-    private static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
-    private static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
-    private static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
+    private static final int SECTION_GIVE_RESPONSES_IN_SESSION = 0;
+    private static final int SECTION_VIEW_RESPONSES_IN_SESSION = 1;
+    private static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 2;
 
     private static final int SESSION_GIVE_RESPONSES = 0;
     private static final int SESSION_VIEW_RESPONSES = 1;
@@ -85,8 +83,6 @@ public class InstructorCourseEditPage extends AppPage {
         map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
         map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
         map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
-        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT,
-                permissionSet.isCanViewStudent());
         map.put(Const.InstructorPermissions.CAN_VIEW_SESSION,
                 permissionSet.isCanViewSession());
         map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
@@ -625,8 +621,6 @@ public class InstructorCourseEditPage extends AppPage {
             return COURSE_MODIFY_SESSIONS;
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             return COURSE_MODIFY_STUDENTS;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
-            return COURSE_VIEW_STUDENTS;
         case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
             return COURSE_GIVE_RESPONSES_IN_SESSION;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
@@ -640,8 +634,6 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
-            return SECTION_VIEW_STUDENTS;
         case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
             return SECTION_GIVE_RESPONSES_IN_SESSION;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:

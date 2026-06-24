@@ -81,7 +81,7 @@ describe('SearchService', () => {
         canModifySession: true,
         canModifyStudent: true,
         canModifyInstructor: true,
-        canViewStudent: true,
+
         canModifySessionComments: true,
         canViewSession: true,
         canSubmitSession: true,
@@ -98,7 +98,7 @@ describe('SearchService', () => {
         canModifySession: true,
         canModifyStudent: true,
         canModifyInstructor: false,
-        canViewStudent: true,
+
         canModifySessionComments: true,
         canViewSession: true,
         canSubmitSession: true,
@@ -115,7 +115,7 @@ describe('SearchService', () => {
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: true,
-        canViewStudent: false,
+
         canModifySessionComments: false,
         canViewSession: false,
         canSubmitSession: false,
