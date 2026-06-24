@@ -1200,6 +1200,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Edit comment"
                                     class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                    disabled=""
                                     ngbtooltip="Edit this comment"
                                     type="button"
                                   >
@@ -1210,6 +1211,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Delete comment"
                                     class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                    disabled=""
                                     ngbtooltip="Delete this comment"
                                     type="button"
                                   >
@@ -1458,6 +1460,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Edit comment"
                                     class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                    disabled=""
                                     ngbtooltip="Edit this comment"
                                     type="button"
                                   >
@@ -1468,6 +1471,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Delete comment"
                                     class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                    disabled=""
                                     ngbtooltip="Delete this comment"
                                     type="button"
                                   >
@@ -1915,6 +1919,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Edit comment"
                                     class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                    disabled=""
                                     ngbtooltip="Edit this comment"
                                     type="button"
                                   >
@@ -1925,6 +1930,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                   <button
                                     aria-label="Delete comment"
                                     class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                    disabled=""
                                     ngbtooltip="Delete this comment"
                                     type="button"
                                   >

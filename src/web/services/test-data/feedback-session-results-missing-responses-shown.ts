@@ -48,6 +48,7 @@ const feedbackSessionResultsMissingResponsesShown: SessionResults = {
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-00000000006b`,
               commentText: `Instructor 1 comment to response from student 2 to student 5 in feedback Question 2`,
@@ -457,6 +458,7 @@ Multiline test.`,
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-00000000006a`,
               commentText: `Instructor 1 comment to student 1 self feedback`,
@@ -719,6 +721,7 @@ Multiline test.`,
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-00000000006c`,
               commentText: `Instructor 1 comment to instructor 1 self feedback Question 3`,

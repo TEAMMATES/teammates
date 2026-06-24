@@ -8,7 +8,11 @@ import { ResponseInstructorComment } from '../../../types/api-output';
  */
 @Pipe({ name: 'instructorCommentToCommentRowModel' })
 export class InstructorCommentToCommentRowModelPipe implements PipeTransform {
-  transform(comment: ResponseInstructorComment, timezone: string): InstructorCommentRowModel {
-    return instructorCommentToCommentRowModel(comment, timezone);
+  transform(
+    comment: ResponseInstructorComment,
+    timezone: string,
+    currentInstructorId?: string,
+  ): InstructorCommentRowModel {
+    return instructorCommentToCommentRowModel(comment, timezone, currentInstructorId);
   }
 }

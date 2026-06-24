@@ -602,6 +602,7 @@ export interface RegkeyValidity extends ApiOutput {
 
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
+  giverId: string;
   commentGiverName: string;
   commentText: string;
   createdAt: number;

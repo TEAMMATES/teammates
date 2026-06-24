@@ -41,6 +41,7 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   const commentOutput: ResponseInstructorComment = {
     commentGiverName: 'Jennie Kim',
+    giverId: 'instructor-id',
     responseInstructorCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
@@ -91,6 +92,7 @@ describe('PerQuestionViewResponsesComponent', () => {
   };
 
   const commentTableModel: CommentTableModel = {
+    currentInstructorId: 'instructor-id',
     commentRows: [],
     newCommentRow: commentRowModel,
     isAddingNewComment: false,

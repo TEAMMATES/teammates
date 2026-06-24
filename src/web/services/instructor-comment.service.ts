@@ -74,7 +74,11 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: ResponseInstructorComment) => {
-          commentTableModel.commentRows[data.index] = instructorCommentToCommentRowModel(commentResponse, timezone);
+          commentTableModel.commentRows[data.index] = instructorCommentToCommentRowModel(
+            commentResponse,
+            timezone,
+            commentTableModel.currentInstructorId,
+          );
           instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
@@ -101,7 +105,9 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: ResponseInstructorComment) => {
-          commentTableModel.commentRows.push(instructorCommentToCommentRowModel(commentResponse, timezone));
+          commentTableModel.commentRows.push(
+            instructorCommentToCommentRowModel(commentResponse, timezone, commentTableModel.currentInstructorId),
+          );
           this.sortComments(commentTableModel);
           instructorCommentTableModel[responseId] = {
             ...commentTableModel,

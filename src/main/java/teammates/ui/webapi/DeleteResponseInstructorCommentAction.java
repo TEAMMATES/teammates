@@ -3,9 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -23,27 +20,15 @@ public class DeleteResponseInstructorCommentAction extends LoggedInAction {
         }
 
         String courseId = comment.getFeedbackResponse().getFeedbackQuestion().getCourseId();
-        FeedbackQuestion question = comment.getFeedbackResponse().getFeedbackQuestion();
-        FeedbackSession session = question.getFeedbackSession();
-
         Instructor instructor = getInstructorFromRequest(courseId);
         if (instructor == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
         }
 
-        if (comment.getGiver().equals(instructor)) {
-            return;
+        if (!comment.getGiverId().equals(instructor.getId())) {
+            throw new UnauthorizedAccessException(
+                    "Trying to delete a feedback response comment not given by the instructor");
         }
-
-        FeedbackResponse response = comment.getFeedbackResponse();
-        UUID recipientSectionId = response.getRecipient().getSectionId();
-        if (recipientSectionId == null) {
-            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
-            return;
-        }
-        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionId,
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
     }
 
     @Override
