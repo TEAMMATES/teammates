@@ -15,7 +15,6 @@ export class ContributionRecipientQuestionStatisticsComponent {
   private simpleModalService = inject(SimpleModalService);
 
   @Input({ required: true }) statistics!: FeedbackContributionRecipientStatistics;
-  @Input() displayContributionStats = true;
 
   openHelpModal(modal: TemplateRef<void>): void {
     this.simpleModalService.openInformationModal(

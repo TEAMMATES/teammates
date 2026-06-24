@@ -38,6 +38,7 @@ public class LogicStarter implements ServletContextListener {
         AccountsLogic accountsLogic = AccountsLogic.inst();
         AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        EnrollmentLogic enrollmentLogic = EnrollmentLogic.inst();
         InstitutesLogic institutesLogic = InstitutesLogic.inst();
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -68,7 +69,8 @@ public class LogicStarter implements ServletContextListener {
         accountVerificationsLogic.initLogicDependencies(
                 AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic, accountVerificationEmailsLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
-        coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic, instructorPermissionsLogic);
+        coursesLogic.initLogicDependencies(
+                CoursesDb.inst(), usersLogic, institutesLogic, accountVerificationsLogic, instructorPermissionsLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, notificationsLogic, institutesLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, coursesLogic, usersLogic,
                 deadlineExtensionEmailsLogic);
@@ -76,13 +78,14 @@ public class LogicStarter implements ServletContextListener {
                 deadlineExtensionsLogic,
                 feedbackSessionEmailsLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
-        frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic,
+        frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, fsLogic, frcLogic,
                 instructorPermissionsLogic);
         frcLogic.initLogicDependencies(ResponseInstructorCommentsDb.inst(), frLogic);
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic,
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
+        enrollmentLogic.initLogicDependencies(usersLogic, coursesLogic, fsLogic);
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,
                 fsLogic, frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());

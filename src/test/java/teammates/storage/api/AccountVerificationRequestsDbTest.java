@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +12,7 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountVerificationRequest;
@@ -69,7 +69,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getPendingAccountVerificationRequests_accountVerificationRequestsExist_returnsOnlyPending() {
+    public void getAccountVerificationRequests_statusFilter_returnsOnlyPending() {
         Instant now = Instant.now();
         var olderPendingRequest = given.accountVerificationRequest("older-pending-request",
                 ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
@@ -79,10 +79,121 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         persistGivenData(given);
 
         List<AccountVerificationRequest> actual =
-                inTransaction(accountVerificationRequestsDb::getPendingAccountVerificationRequests);
+                inTransaction(() -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(
+                                null, null, AccountVerificationRequestStatus.PENDING, null, null)));
 
         assertEquals(List.of(newerPendingRequest.id(), olderPendingRequest.id()),
                 actual.stream().map(AccountVerificationRequest::getId).toList());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountVerificationRequests_limitProvided_returnsLimitedResultsInCreatedAtDescendingOrder() {
+        Instant now = Instant.now();
+        given.accountVerificationRequest("oldest-request",
+                ar -> ar.pending().createdAt(now.minus(3, ChronoUnit.HOURS)));
+        var middleRequest = given.accountVerificationRequest("middle-request",
+                ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
+        var newestRequest = given.accountVerificationRequest("newest-request",
+                ar -> ar.pending().createdAt(now.minus(1, ChronoUnit.HOURS)));
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual =
+                inTransaction(() -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(null, null, null, null, 2)));
+
+        assertEquals(List.of(newestRequest.id(), middleRequest.id()),
+                actual.stream().map(AccountVerificationRequest::getId).toList());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountVerificationRequests_filtersAndSearchKey_returnsOnlyMatchingRequest() {
+        var account = given.account("account");
+        var institute = given.institute("institute", i -> i.name("Shared Institute").country("SG"));
+        var matchingRequest = given.accountVerificationRequest("matching-request",
+                ar -> ar.account(account.alias())
+                        .institute(institute.alias())
+                        .name("Matching Request")
+                        .email("match@test.tmt")
+                        .comments("searchable comment")
+                        .approved()
+                        .createdAt(Instant.parse("2024-01-02T00:00:00Z")));
+        given.accountVerificationRequest("different-institute-request",
+                ar -> ar.account(account.alias())
+                        .institute(given.institute("different-institute",
+                                i -> i.name("Different Institute").country("SG")).alias())
+                        .name("Different Request")
+                        .email("different@test.tmt")
+                        .comments("searchable comment")
+                        .approved()
+                        .createdAt(Instant.parse("2024-01-03T00:00:00Z")));
+        given.accountVerificationRequest("different-account-request",
+                ar -> ar.account(given.account("different-account").alias())
+                        .institute(institute.alias())
+                        .name("Matching Request")
+                        .email("match2@test.tmt")
+                        .comments("searchable comment")
+                        .approved()
+                        .createdAt(Instant.parse("2024-01-04T00:00:00Z")));
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual = inTransaction(
+                () -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(
+                                institute.id(), account.id(), AccountVerificationRequestStatus.APPROVED,
+                                "shared institute", null)));
+
+        assertEquals(1, actual.size());
+        assertEquals(matchingRequest.id(), actual.get(0).getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountVerificationRequests_blankSearchKey_returnsAllResultsMatchingOtherFilters() {
+        given.accountVerificationRequest("request-1",
+                ar -> ar.pending().createdAt(Instant.parse("2024-01-01T00:00:00Z")));
+        given.accountVerificationRequest("request-2",
+                ar -> ar.approved().createdAt(Instant.parse("2024-01-02T00:00:00Z")));
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual = inTransaction(
+                () -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(null, null, null, "   ", null)));
+
+        assertEquals(2, actual.size());
+        assertTrue(actual.stream().map(AccountVerificationRequest::getId).toList()
+                .containsAll(List.of(given.uuid("request-1"), given.uuid("request-2"))));
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getAccountVerificationRequests_searchKeyAndLimit_returnsMostRecentMatchingRequests() {
+        var institute = given.institute("institute", i -> i.name("Search Institute").country("SG"));
+        given.accountVerificationRequest("oldest-request",
+                ar -> ar.institute(institute.alias())
+                        .name("Searchable")
+                        .comments("shared search term")
+                        .pending()
+                        .createdAt(Instant.parse("2024-01-01T00:00:00Z")));
+        var newestRequest = given.accountVerificationRequest("newest-request",
+                ar -> ar.institute(institute.alias())
+                        .name("Searchable")
+                        .comments("shared search term")
+                        .pending()
+                        .createdAt(Instant.parse("2024-01-03T00:00:00Z")));
+        var middleRequest = given.accountVerificationRequest("middle-request",
+                ar -> ar.institute(institute.alias())
+                        .name("Searchable")
+                        .comments("shared search term")
+                        .pending()
+                        .createdAt(Instant.parse("2024-01-02T00:00:00Z")));
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual = inTransaction(
+                () -> accountVerificationRequestsDb.getAccountVerificationRequests(
+                        new AccountVerificationRequestQuery(null, null, null, "shared search term", 2)));
+
+        assertEquals(2, actual.size());
+        assertTrue(actual.stream().map(AccountVerificationRequest::getId).toList()
+                .containsAll(List.of(newestRequest.id(), middleRequest.id())));
     }
 
     @Test(groups = GroupNames.DB)
@@ -126,49 +237,36 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_approvedRequestExists_returnsTrue() {
+    public void getApprovedAccountVerificationRequest_approvedAndPendingRequests_returnsApproved() {
         var account = given.account("account");
         var institute = given.institute("institute");
-        given.accountVerificationRequest("approved-request",
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).pending());
+        var accountVerificationRequest = given.accountVerificationRequest("matching-request",
                 ar -> ar.account(account.alias()).institute(institute.alias()).approved());
         persistGivenData(given);
 
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
+        AccountVerificationRequest actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedAccountVerificationRequest(
                         account.id(), institute.id()));
 
-        assertTrue(actual);
+        assertNotNull(actual);
+        assertEquals(accountVerificationRequest.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_pendingRequestExists_returnsFalse() {
+    public void getApprovedAccountVerificationRequest_noApprovedRequest_returnsNull() {
         var account = given.account("account");
         var institute = given.institute("institute");
         given.accountVerificationRequest("pending-request",
                 ar -> ar.account(account.alias()).institute(institute.alias()).pending());
         persistGivenData(given);
 
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
+        AccountVerificationRequest actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedAccountVerificationRequest(
                         account.id(), institute.id()));
 
-        assertFalse(actual);
-    }
-
-    @Test(groups = GroupNames.DB)
-    public void hasApprovedRequestForAccountAndInstitute_differentInstitute_returnsFalse() {
-        var account = given.account("account");
-        var institute = given.institute("institute");
-        var otherInstitute = given.institute("other-institute");
-        given.accountVerificationRequest("approved-request",
-                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
-        persistGivenData(given);
-
-        boolean actual = inTransaction(
-                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
-                        account.id(), otherInstitute.id()));
-
-        assertFalse(actual);
+        assertNull(actual);
     }
 
     @Test(groups = GroupNames.DB)

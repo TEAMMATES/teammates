@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -186,6 +188,34 @@ public abstract class Action {
     }
 
     /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as an enum.
+     */
+    <T extends Enum<T>> T getEnumRequestParamValue(String paramName, Class<T> enumType) {
+        String value = getNonNullRequestParamValue(paramName);
+        return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
+     * Returns all values for the specified parameter expected to be present in the HTTP request as enums.
+     */
+    <T extends Enum<T>> List<T> getEnumRequestParamValues(String paramName, Class<T> enumType) {
+        return Arrays.stream(getNonNullRequestParamValues(paramName))
+                .map(value -> getEnumFromParam(paramName, value, enumType))
+                .toList();
+    }
+
+    /**
+     * Returns the first value or null for the specified parameter expected to be present in the HTTP request as an enum.
+     */
+    <T extends Enum<T>> T getNullableEnumRequestParamValue(String paramName, Class<T> enumType) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return null;
+        }
+        return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
      * Returns the first value or null for the specified parameter expected to be present in the HTTP request as UUID.
      */
     UUID getNullableUuidRequestParamValue(String paramName) {
@@ -197,7 +227,7 @@ public abstract class Action {
     }
 
     /**
-     * Converts a uuid to a string.
+     * Converts a string to a UUID.
      */
     private UUID getUuidFromParam(String paramName, String uuid) {
         try {
@@ -205,6 +235,18 @@ public abstract class Action {
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
                     "Expected UUID value for " + paramName + " parameter, but found: [" + uuid + "]", e);
+        }
+    }
+
+    /**
+     * Converts a string to an enum value.
+     */
+    private <T extends Enum<T>> T getEnumFromParam(String paramName, String value, Class<T> enumType) {
+        try {
+            return Enum.valueOf(enumType, value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Invalid value for " + paramName + " parameter: [" + value + "]", e);
         }
     }
 

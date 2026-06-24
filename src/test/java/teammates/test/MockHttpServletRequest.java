@@ -42,6 +42,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private Map<String, List<String>> params;
     private String method;
     private String requestUrl;
+    private String queryString;
     private String requestedSessionId;
     private String body;
 
@@ -129,7 +130,11 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getQueryString() {
-        return null;
+        return this.queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
     }
 
     @Override

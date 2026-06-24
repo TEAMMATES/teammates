@@ -12,6 +12,7 @@ import { AccountVerificationRequest, AccountVerificationRequestStatus } from '..
 
 const mockAccountVerificationRequest: AccountVerificationRequest = {
   accountVerificationRequestId: 'test-id-123',
+  accountId: 'account-id-123',
   email: 'test@example.com',
   name: 'Test Instructor',
   institute: 'Test University',

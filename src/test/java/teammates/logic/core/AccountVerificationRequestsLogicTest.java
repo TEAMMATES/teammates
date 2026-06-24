@@ -16,7 +16,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
@@ -145,27 +147,32 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testRejectAccountVerificationRequest_withReason_enqueuesRejectionEmail() throws Exception {
+    public void testRejectAccountVerificationRequest_withRejectionType_enqueuesRejectionEmail() throws Exception {
         AccountVerificationRequest request = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
 
         AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
-                request.getId(), "Verification request update", "<p>Rejected</p>");
+                request.getId(), AccountVerificationRequestRejectionType.OTHERS, null);
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        assertEquals(AccountVerificationRequestRejectionType.OTHERS, actual.getRejectionType());
+        assertNull(actual.getRejectionAdditionalComments());
         verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
     }
 
     @Test
-    public void testRejectAccountVerificationRequest_withoutReason_doesNotEnqueueRejectionEmail() throws Exception {
+    public void testRejectAccountVerificationRequest_withRejectionTypeAndComments_enqueuesRejectionEmail()
+            throws Exception {
         AccountVerificationRequest request = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
 
         AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
-                request.getId(), null, null);
+                request.getId(), AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, "Please use official email.");
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
-        verify(accountVerificationEmailsLogic, never()).enqueueRejectionEmail(any());
+        assertEquals(AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, actual.getRejectionType());
+        assertEquals("Please use official email.", actual.getRejectionAdditionalComments());
+        verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
     }
 
     @Test
@@ -210,5 +217,38 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
                 accountVerificationsLogic.getAccountVerificationRequest(id);
         verify(accountVerificationRequestsDb).getAccountVerificationRequest(id);
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
+    }
+
+    @Test
+    public void testGetVerifiedInstructorDetails_noMatchingRequest_returnsNull() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(null);
+
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertNull(actual);
+    }
+
+    @Test
+    public void testGetVerifiedInstructorDetails_matchingRequest_returnsNameAndEmail() {
+        UUID accountId = UUID.randomUUID();
+        UUID instituteId = UUID.randomUUID();
+        AccountVerificationRequest request = new AccountVerificationRequest(
+                "test@gmail.com", "verified name", AccountVerificationRequestStatus.APPROVED, "comments");
+        when(accountVerificationRequestsDb.getApprovedAccountVerificationRequest(accountId, instituteId))
+                .thenReturn(request);
+
+        VerifiedInstructorDetails actual =
+                accountVerificationsLogic.getVerifiedInstructorDetails(accountId, instituteId);
+
+        verify(accountVerificationRequestsDb)
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        assertEquals("verified name", actual.name());
+        assertEquals("test@gmail.com", actual.email());
     }
 }

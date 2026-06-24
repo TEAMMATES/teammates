@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.RequestContext;
@@ -86,6 +87,7 @@ final class GateKeeper {
      * Verifies that the user has student privileges in the specified course.
      */
     void verifyStudentInCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         verifyNotNull(student, "student");
 
@@ -100,6 +102,7 @@ final class GateKeeper {
      */
     void verifyUserInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         if (student != null && student.getCourseId().equals(courseId)) {
             return;
@@ -116,6 +119,7 @@ final class GateKeeper {
      */
     void verifyInstructorInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         verifyNotNull(instructor, "instructor");
 
@@ -136,14 +140,13 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the user has instructor privileges to view the specified student.
+     * Verifies that the user has instructor privileges in the same course as the specified student.
      */
-    void verifyInstructorCanViewStudent(RequestContext requestContext, UUID userId)
+    void verifyInstructorInSameCourseAsStudent(RequestContext requestContext, UUID userId)
             throws UnauthorizedAccessException {
         Student student = logic.getStudent(userId);
         verifyNotNull(student, "student");
-        verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
-                Const.InstructorPermissions.CAN_VIEW_STUDENT);
+        verifyInstructorInCourse(requestContext, student.getCourseId());
     }
 
     /**
@@ -180,6 +183,53 @@ final class GateKeeper {
         }
 
         throw new UnauthorizedAccessException("Not authorized to view this deadline extension.");
+    }
+
+    /**
+     * Verifies that the current user can preview user-scoped feedback session results.
+     */
+    void verifyCanPreviewUserSessionResults(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        verifyLoggedInUserPrivileges(requestContext);
+
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+
+        verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+    }
+
+    /**
+     * Verifies that the current user can view user-scoped feedback session results.
+     */
+    void verifyCanViewUserSessionResults(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+
+        if (!feedbackSession.isPublished()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet published.");
+        }
+
+        User user = logic.getUser(userId);
+        verifyNotNull(user, "user");
+
+        if (!feedbackSession.getCourseId().equals(user.getCourseId())) {
+            throw new UnauthorizedAccessException("User is not a member of this feedback session course.");
+        }
+
+        if (requestContext.getAccount() != null
+                && user.getAccount() != null
+                && Objects.equals(requestContext.getAccount(), user.getAccount())) {
+            return;
+        }
+
+        if (requestContext.getRegKeyUser() != null
+                && Objects.equals(requestContext.getRegKeyUser(), user)) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Not authorized to view this feedback session result.");
     }
 
     /**

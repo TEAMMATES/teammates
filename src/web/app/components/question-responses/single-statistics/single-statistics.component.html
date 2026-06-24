@@ -1,62 +1,31 @@
-@if (QuestionDetailsTypeChecker.isContrib(question)) {
-  @if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
-    <tm-contribution-recipient-question-statistics
-      [displayContributionStats]="displayContributionStats"
-      [statistics]="statistics"
-    ></tm-contribution-recipient-question-statistics>
-  }
-  @if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
-    <tm-contribution-course-wide-question-statistics
-      [displayContributionStats]="displayContributionStats"
-      [statistics]="statistics"
-    ></tm-contribution-course-wide-question-statistics>
-  }
+@if (QuestionStatisticsTypeChecker.isContributionRecipient(statistics)) {
+  <tm-contribution-recipient-question-statistics
+    [statistics]="statistics"
+  ></tm-contribution-recipient-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isConstSumOptions(question)) {
-  <tm-constsum-options-question-statistics
-    [responses]="ResponseOutputCaster.constSumOptions(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-constsum-options-question-statistics>
+@if (QuestionStatisticsTypeChecker.isContributionCourseWide(statistics)) {
+  <tm-contribution-course-wide-question-statistics
+    [statistics]="statistics"
+  ></tm-contribution-course-wide-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isConstSumRecipients(question)) {
-  <tm-constsum-recipients-question-statistics
-    [responses]="ResponseOutputCaster.constSumRecipients(responsesToUse)"
-    [question]="question"
-    [recipientType]="recipientType"
-    [isStudent]="isStudent"
-  ></tm-constsum-recipients-question-statistics>
+@if (QuestionStatisticsTypeChecker.isConstsumOptions(statistics)) {
+  <tm-constsum-options-question-statistics [statistics]="statistics"></tm-constsum-options-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isNumscale(question)) {
-  <tm-num-scale-question-statistics
-    [responses]="ResponseOutputCaster.numscale(responsesToUse)"
-    [isStudent]="isStudent"
-  ></tm-num-scale-question-statistics>
+@if (QuestionStatisticsTypeChecker.isConstsumRecipients(statistics)) {
+  <tm-constsum-recipients-question-statistics [statistics]="statistics"></tm-constsum-recipients-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRubric(question)) {
-  @if (
-    QuestionStatisticsTypeChecker.isRubricCourseWide(statistics) ||
-    QuestionStatisticsTypeChecker.isRubricRecipient(statistics)
-  ) {
-    <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
-  }
+@if (QuestionStatisticsTypeChecker.isNumscale(statistics)) {
+  <tm-num-scale-question-statistics [statistics]="statistics"></tm-num-scale-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRankOptions(question)) {
-  <tm-rank-options-question-statistics
-    [responses]="ResponseOutputCaster.rankOptions(responsesToUse)"
-    [question]="question"
-    [isStudent]="isStudent"
-  ></tm-rank-options-question-statistics>
+@if (QuestionStatisticsTypeChecker.isRubric(statistics)) {
+  <tm-rubric-question-statistics [statistics]="statistics"></tm-rubric-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isRankRecipients(question)) {
-  <tm-rank-recipients-question-statistics
-    [responses]="ResponseOutputCaster.rankRecipients(responsesToUse)"
-    [recipientType]="recipientType"
-    [isStudent]="isStudent"
-  ></tm-rank-recipients-question-statistics>
+@if (QuestionStatisticsTypeChecker.isRankOptions(statistics)) {
+  <tm-rank-options-question-statistics [statistics]="statistics"></tm-rank-options-question-statistics>
 }
-@if (QuestionDetailsTypeChecker.isMcq(question) || QuestionDetailsTypeChecker.isMsq(question)) {
-  @if (QuestionStatisticsTypeChecker.isMcqMsqCourseWide(statistics)) {
-    <tm-mcq-msq-question-statistics [statistics]="statistics" [isStudent]="isStudent"></tm-mcq-msq-question-statistics>
-  }
+@if (QuestionStatisticsTypeChecker.isRankRecipients(statistics)) {
+  <tm-rank-recipients-question-statistics [statistics]="statistics"></tm-rank-recipients-question-statistics>
+}
+@if (QuestionStatisticsTypeChecker.isMcqMsq(statistics)) {
+  <tm-mcq-msq-question-statistics [statistics]="statistics"></tm-mcq-msq-question-statistics>
 }

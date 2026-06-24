@@ -50,8 +50,6 @@ public class UserSessionResultsData implements ApiOutput {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             boolean hasResponseButNotVisibleForPreview = bundle.getQuestionsNotVisibleForPreviewSet()
                     .contains(question);
-            boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
-                    .contains(question);
 
             FeedbackQuestionResultsStatistics questionStatistics = hasResponseButNotVisibleForPreview
                     ? null
@@ -59,8 +57,7 @@ public class UserSessionResultsData implements ApiOutput {
                             question, responses, bundle, user);
             UserQuestionOutput qnOutput = new UserQuestionOutput(question,
                     questionStatistics,
-                    hasResponseButNotVisibleForPreview,
-                    hasCommentNotVisibleForPreview);
+                    hasResponseButNotVisibleForPreview);
             Map<ResponseRecipient, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             qnOutput.getFeedbackQuestion().hideInformationForStudent();
@@ -153,7 +150,7 @@ public class UserSessionResultsData implements ApiOutput {
         List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<ResponseInstructorCommentData> instructorComments =
-                buildInstructorComments(responseInstructorComments, bundle);
+                buildInstructorComments(responseInstructorComments);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -198,11 +195,11 @@ public class UserSessionResultsData implements ApiOutput {
     }
 
     private static List<ResponseInstructorCommentData> buildInstructorComments(
-            List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+            List<ResponseInstructorComment> responseInstructorComments) {
         List<ResponseInstructorCommentData> outputs = new ArrayList<>();
 
         for (ResponseInstructorComment comment : responseInstructorComments) {
-            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
+            outputs.add(new ResponseInstructorCommentData(comment));
         }
 
         return outputs;
@@ -226,7 +223,6 @@ public class UserSessionResultsData implements ApiOutput {
         @Nullable
         private final FeedbackQuestionResultsStatistics questionStatistics;
         private final boolean hasResponseButNotVisibleForPreview;
-        private final boolean hasCommentNotVisibleForPreview;
 
         private final List<ResponseOutput> allResponses = new ArrayList<>();
         private final List<ResponseOutput> responsesToSelf = new ArrayList<>();
@@ -235,11 +231,10 @@ public class UserSessionResultsData implements ApiOutput {
 
         private UserQuestionOutput(FeedbackQuestion feedbackQuestion,
                 @Nullable FeedbackQuestionResultsStatistics questionStatistics,
-                boolean hasResponseButNotVisibleForPreview, boolean hasCommentNotVisibleForPreview) {
+                boolean hasResponseButNotVisibleForPreview) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestion);
             this.questionStatistics = questionStatistics;
             this.hasResponseButNotVisibleForPreview = hasResponseButNotVisibleForPreview;
-            this.hasCommentNotVisibleForPreview = hasCommentNotVisibleForPreview;
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
@@ -253,10 +248,6 @@ public class UserSessionResultsData implements ApiOutput {
 
         public boolean getHasResponseButNotVisibleForPreview() {
             return hasResponseButNotVisibleForPreview;
-        }
-
-        public boolean getHasCommentNotVisibleForPreview() {
-            return hasCommentNotVisibleForPreview;
         }
 
         public List<ResponseOutput> getAllResponses() {

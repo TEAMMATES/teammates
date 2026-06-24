@@ -4213,8 +4213,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don't forget to use the project to practice communication skills too.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:17:00Z",
       "updatedAt": "demo.date5T21:17:00Z",
       "responseId": "00000000-0000-4000-8000-000000000701"
@@ -4224,8 +4222,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Completely agree, the application does look pretty.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:20:00Z",
       "updatedAt": "demo.date5T21:20:00Z",
       "responseId": "00000000-0000-4000-8000-000000000702"
@@ -4235,8 +4231,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:23:00Z",
       "updatedAt": "demo.date5T21:23:00Z",
       "responseId": "00000000-0000-4000-8000-000000000703"
@@ -4246,8 +4240,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Hoping you keep using them on future projects.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:26:00Z",
       "updatedAt": "demo.date5T21:26:00Z",
       "responseId": "00000000-0000-4000-8000-000000000704"
@@ -4257,8 +4249,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:29:00Z",
       "updatedAt": "demo.date5T21:29:00Z",
       "responseId": "00000000-0000-4000-8000-000000000705"
@@ -4268,8 +4258,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Although there are some loopholes in UI, But overall looks good.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:33:00Z",
       "updatedAt": "demo.date5T21:33:00Z",
       "responseId": "00000000-0000-4000-8000-000000000706"
@@ -4279,8 +4267,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:36:00Z",
       "updatedAt": "demo.date5T21:36:00Z",
       "responseId": "00000000-0000-4000-8000-000000000707"
@@ -4290,8 +4276,6 @@
       "giverId": "00000000-0000-4000-8000-000000000101",
       "lastEditedById": "00000000-0000-4000-8000-000000000101",
       "commentText": "<p>Design could have been more interactive.</p>",
-      "showCommentTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECIPIENT", "RECIPIENT_TEAM_MEMBERS", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "createdAt": "demo.date5T21:39:00Z",
       "updatedAt": "demo.date5T21:39:00Z",
       "responseId": "00000000-0000-4000-8000-000000000708"

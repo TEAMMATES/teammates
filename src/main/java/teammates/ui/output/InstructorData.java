@@ -122,4 +122,14 @@ public class InstructorData implements ApiOutput {
         return accountId;
     }
 
+    /**
+     * Hides some attributes from students.
+     */
+    public void hideInformationForStudent() {
+        setAccountId(null);
+        setJoinState(null);
+        setIsDisplayedToStudents(null);
+        setRole(null);
+    }
+
 }

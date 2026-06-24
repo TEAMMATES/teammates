@@ -76,8 +76,7 @@ public class AccountVerificationEmailsLogic {
         EmailWrapper email = EmailWrapperBuilder.build(
                 context.recipientEmailAddress(),
                 EmailType.ACCOUNT_VERIFICATION_REJECTED,
-                renderedEmail,
-                context.reasonTitle());
+                renderedEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
         emailQueueService.enqueuePriority(email);
     }

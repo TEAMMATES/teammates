@@ -32,6 +32,10 @@ export class AdminPageComponent {
       display: 'More',
       children: [
         {
+          url: '/web/admin/account-verification-requests',
+          display: 'Verification Requests',
+        },
+        {
           url: '/web/admin/timezone',
           display: 'Timezone Listing',
         },

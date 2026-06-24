@@ -61,7 +61,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
         more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
   SECTION_ERROR_MESSAGE = 'Section cannot be empty if the total number of students is more than 100. ';
-  TEAM_ERROR_MESSAGE = 'Duplicated team detected in different sections. ';
 
   COL_HEADERS = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   ENROLL_BATCH_SIZE = 50;
@@ -167,7 +166,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.checkCompulsoryFields(studentEnrollRequests);
     this.checkEmailNotRepeated(studentEnrollRequests);
-    this.checkTeamsValid(studentEnrollRequests);
 
     if (this.invalidRowsIndex.size > 0) {
       this.setTableStyleBasedOnFieldChecks();
@@ -258,7 +256,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.isLoadingExistingStudents = true;
     this.hasLoadingStudentsFailed = false;
     this.studentService
-      .getStudentsFromCourse({ courseId })
+      .getStudents({ courseIds: [courseId] })
       .pipe(
         finalize(() => {
           this.isLoadingExistingStudents = false;
@@ -288,36 +286,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
     if (currentStudentChunk.length > 0) {
       this.allStudentChunks.push(currentStudentChunk);
-    }
-  }
-
-  private checkTeamsValid(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
-    const teamSectionMap: Map<string, string> = new Map();
-    const teamIndexMap: Map<string, number> = new Map();
-    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
-
-    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
-      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
-      if (request === undefined) {
-        return;
-      }
-
-      if (!teamSectionMap.has(request.team)) {
-        teamSectionMap.set(request.team, request.section);
-        teamIndexMap.set(request.team, key);
-        return;
-      }
-
-      if (teamSectionMap.get(request.team) !== request.section) {
-        this.invalidRowsIndex.add(key);
-        const firstIndex: number | undefined = teamIndexMap.get(request.team);
-        if (firstIndex !== undefined) {
-          this.invalidRowsIndex.add(firstIndex);
-        }
-      }
-    });
-    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
-      this.enrollErrorMessage += 'Found duplicated teams in different sections. ';
     }
   }
 

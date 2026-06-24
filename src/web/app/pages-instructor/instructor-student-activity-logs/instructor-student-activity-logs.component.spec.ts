@@ -127,7 +127,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
       of({ feedbackSessions: [{ feedbackSession: testFeedbackSession }] }),
     );
-    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'getStudents').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -213,11 +213,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
   it('should load course, feedback sessions, and students together on init', () => {
     const courseSpy = vi.spyOn(courseService, 'getCourseAsInstructor');
     const feedbackSessionSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor');
-    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse');
+    const studentSpy = vi.spyOn(studentService, 'getStudents');
 
     expect(courseSpy).toHaveBeenCalledWith(testCourse1.courseId);
     expect(feedbackSessionSpy).toHaveBeenCalledWith(testCourse1.courseId);
-    expect(studentSpy).toHaveBeenCalledWith({ courseId: testCourse1.courseId });
+    expect(studentSpy).toHaveBeenCalledWith({ courseIds: [testCourse1.courseId] });
     expect(component.course).toEqual(testCourse1);
     expect(component.feedbackSessions.get(testFeedbackSession.feedbackSessionId)).toEqual(testFeedbackSession);
     expect(component.students[0]).toEqual(emptyStudent);

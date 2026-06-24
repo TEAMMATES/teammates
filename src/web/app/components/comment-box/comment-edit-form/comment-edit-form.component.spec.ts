@@ -1,14 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { CommentEditFormComponent } from './comment-edit-form.component';
-import {
-  CommentVisibilityType,
-  FeedbackQuestionType,
-  ResponseInstructorComment,
-  FeedbackResponseDetails,
-} from '../../../../types/api-output';
-import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { FeedbackQuestionType, ResponseInstructorComment, FeedbackResponseDetails } from '../../../../types/api-output';
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
@@ -60,23 +55,6 @@ describe('CommentEditFormComponent', () => {
     });
   });
 
-  it('should initialize with the visibility table collapsed', () => {
-    expect(component.isVisibilityTableExpanded).toBeFalsy();
-  });
-
-  it('should toggle visibility table from collapsed to expanded', () => {
-    expect(component.isVisibilityTableExpanded).toBeFalsy();
-    component.toggleVisibilityTable();
-    expect(component.isVisibilityTableExpanded).toBeTruthy();
-  });
-
-  it('should toggle visibility table from expanded to collapsed', () => {
-    component.isVisibilityTableExpanded = true;
-    expect(component.isVisibilityTableExpanded).toBeTruthy();
-    component.toggleVisibilityTable();
-    expect(component.isVisibilityTableExpanded).toBeFalsy();
-  });
-
   it('should trigger model change with updated field', () => {
     const testField = 'commentText';
     const testData = 'Updated comment text';
@@ -91,27 +69,6 @@ describe('CommentEditFormComponent', () => {
     });
   });
 
-  it('should emit the updated model when triggerModelChangeBatch is called', () => {
-    component.model = {
-      commentText: 'Initial Comment',
-      showCommentTo: [],
-      showGiverNameTo: [],
-    };
-    fixture.detectChanges();
-
-    const updatedModel = {
-      commentText: 'Updated Comment',
-      showCommentTo: [CommentVisibilityType.INSTRUCTORS],
-      showGiverNameTo: [CommentVisibilityType.GIVER_TEAM_MEMBERS],
-    };
-
-    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
-
-    component.triggerModelChangeBatch(updatedModel);
-
-    expect(modelChangeSpy).toHaveBeenCalledWith(updatedModel);
-  });
-
   it('should emit the closeCommentBoxEvent when triggerCloseCommentBoxEvent is called', () => {
     const closeCommentBoxEventSpy = vi.spyOn(component.closeCommentBoxEvent, 'emit');
     component.triggerCloseCommentBoxEvent();
@@ -122,34 +79,5 @@ describe('CommentEditFormComponent', () => {
     const saveCommentEventSpy = vi.spyOn(component.saveCommentEvent, 'emit');
     component.triggerSaveCommentEvent();
     expect(saveCommentEventSpy).toHaveBeenCalled();
-  });
-
-  it('should allow and disallow visibility control and trigger model change', () => {
-    const isAllowed = true;
-    const visibilityType = CommentVisibilityType.GIVER;
-    const visibilityControl = CommentVisibilityControl.SHOW_COMMENT;
-
-    const allowToSee = vi.spyOn(component.visibilityStateMachine, 'allowToSee');
-    const disallowToSee = vi.spyOn(component.visibilityStateMachine, 'disallowToSee');
-    const triggerModelChangeBatch = vi.spyOn(component, 'triggerModelChangeBatch');
-
-    component.modifyVisibilityControl(isAllowed, visibilityType, visibilityControl);
-
-    expect(allowToSee).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(disallowToSee).not.toHaveBeenCalled();
-    expect(triggerModelChangeBatch).toHaveBeenCalledWith({
-      showCommentTo: [visibilityType],
-      showGiverNameTo: [],
-    });
-
-    component.modifyVisibilityControl(false, visibilityType, visibilityControl);
-
-    expect(component.visibilityStateMachine.disallowToSee).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(component.visibilityStateMachine.allowToSee).toHaveBeenCalled();
-
-    expect(component.triggerModelChangeBatch).toHaveBeenCalledWith({
-      showCommentTo: [],
-      showGiverNameTo: [],
-    });
   });
 });

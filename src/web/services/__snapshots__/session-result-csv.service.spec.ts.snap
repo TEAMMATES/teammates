@@ -27,8 +27,8 @@ Question 1,How important are the following factors to you? Give points according
 
 Summary Statistics
 Option,Total Points,Average Points,Points Received
-Fun,101,50.5,20,81
 Grades,99,49.5,19,80
+Fun,101,50.5,20,81
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Grades,Fun,Giver's Comment
@@ -43,8 +43,8 @@ Question 2,Split points among the teams
 
 Summary Statistics
 Team,Recipient,Recipient Email,Total Points,Average Points,Points Received
-,"Team 1.1</td></div>'""","Team 1.1</td></div>'""",80,80,80
-,Team 1.2,Team 1.2,20,20,20
+,"Team 1.1</td></div>'""",,80,80,80
+,Team 1.2,,20,20,20
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comment
@@ -259,10 +259,10 @@ Question 1,Rank the other students.
 
 Summary Statistics
 Team,Recipient,Recipient Email,Self Rank,Overall Rank,Overall Rank Excluding Self,Team Rank,Team Rank Excluding Self,Ranks Received
-"Team 1.1</td></div>'""","student1 In Course1</td></div>'""",student1InCourse1@gmail.tmt,4,4,-,-,-,4
-"Team 1.1</td></div>'""",student2 In Course1,student2InCourse1@gmail.tmt,2,1,3,-,-,2,3
-"Team 1.1</td></div>'""",student3 In Course1,student3InCourse1@gmail.tmt,3,1,1,-,-,2,3
-"Team 1.1</td></div>'""",student4 In Course1,student4InCourse1@gmail.tmt,3,3,2,-,-,1,3,4
+"Team 1.1</td></div>'""","student1 In Course1</td></div>'""",student1InCourse1@gmail.tmt,4,4,-,4,-,4
+"Team 1.1</td></div>'""",student2 In Course1,student2InCourse1@gmail.tmt,2,1,3,1,3,3,2
+"Team 1.1</td></div>'""",student3 In Course1,student3InCourse1@gmail.tmt,3,1,1,1,1,2,3
+"Team 1.1</td></div>'""",student4 In Course1,student4InCourse1@gmail.tmt,3,3,2,3,2,4,3,1
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comment
@@ -296,11 +296,11 @@ Question 2,Rank the areas of improvement you think your team should make progres
 
 Summary Statistics
 Option,Overall Rank,Ranks Received
-Friendliness of teammates,
+Quality of work,3,2,3,1,4,1
 Quality of progress reports,4,2,3
-Quality of work,3,1,1,2,3,4
-Teamwork and communication,1,1,1,1,4
-Time management,2,1,2,2,3
+Time management,2,1,2,3,2
+Teamwork and communication,1,1,1,4,1
+Friendliness of teammates,
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Giver's Comment

@@ -10,7 +10,8 @@ import java.nio.charset.StandardCharsets;
  */
 public final class UrlHelper {
 
-    private static final String DEFAULT_REDIRECT_URL = "/";
+    public static final String DEFAULT_REDIRECT_URL = "/";
+
     private static final int HTTPS_PORT = 443;
     private static final int HTTP_PORT = 80;
 

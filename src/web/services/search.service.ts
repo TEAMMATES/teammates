@@ -2,15 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CourseService } from './course.service';
-import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
-import { TimezoneService } from './timezone.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { StudentService } from './student.service';
+import { ApiConst } from '../types/api-const';
 import {
-  AccountVerificationRequest,
-  AccountVerificationRequests,
-  AccountVerificationRequestStatus,
   Course,
   CourseView,
   Instructor,
@@ -20,7 +16,6 @@ import {
   Student,
   Students,
 } from '../types/api-output';
-import { Intent } from '../types/api-request';
 
 /**
  * Handles the logic for search.
@@ -30,80 +25,51 @@ import { Intent } from '../types/api-request';
 })
 export class SearchService {
   private instructorService = inject(InstructorService);
-  private httpRequestService = inject(HttpRequestService);
   private courseService = inject(CourseService);
   private linkService = inject(LinkService);
-  private timezoneService = inject(TimezoneService);
+  private studentService = inject(StudentService);
 
-  searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.searchStudents(searchKey, 'instructor').pipe(
-      map((studentsRes: Students) => {
-        return {
-          students: studentsRes.students,
-          comments: [],
-        };
-      }),
-    );
+  searchInstructor(searchKey: string, courseIds: string[]): Observable<InstructorSearchResult> {
+    if (courseIds.length === 0) {
+      return of({
+        students: [],
+        comments: [],
+      });
+    }
+
+    return this.studentService
+      .getStudents({
+        courseIds,
+        searchKey,
+        limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT,
+      })
+      .pipe(
+        map((studentsRes: Students) => {
+          return {
+            students: studentsRes.students,
+            comments: [],
+          };
+        }),
+      );
   }
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
-      this.searchStudents(searchKey, 'admin'),
-      this.searchInstructors(searchKey),
-      this.searchAccountVerificationRequests(searchKey),
+      this.studentService.getStudents({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
+      this.instructorService.loadInstructors({ searchKey, limit: ApiConst.SEARCH_QUERY_SIZE_LIMIT }),
     ]).pipe(
-      map(
-        (
-          value: [Students, Instructors, AccountVerificationRequests],
-        ): [Student[], Instructor[], AccountVerificationRequest[]] => [
-          value[0].students,
-          value[1].instructors,
-          value[2].accountVerificationRequests,
-        ],
-      ),
-      mergeMap((value: [Student[], Instructor[], AccountVerificationRequest[]]) => {
-        const [students, instructors, accountVerificationRequests]: [
-          Student[],
-          Instructor[],
-          AccountVerificationRequest[],
-        ] = value;
-        return forkJoin([
-          of(students),
-          of(instructors),
-          of(accountVerificationRequests),
-          this.getDistinctFields(students, instructors),
-        ]);
+      map((value: [Students, Instructors]): [Student[], Instructor[]] => [value[0].students, value[1].instructors]),
+      mergeMap((value: [Student[], Instructor[]]) => {
+        const [students, instructors] = value;
+        return forkJoin([of(students), of(instructors), this.getDistinctFields(students, instructors)]);
       }),
-      map((value: [Student[], Instructor[], AccountVerificationRequest[], DistinctFields]) => {
+      map((value: [Student[], Instructor[], DistinctFields]) => {
         return {
-          students: this.createStudentAccountSearchResults(value[0], ...value[3]),
-          instructors: this.createInstructorAccountSearchResults(value[1], value[3][1]),
-          accountVerificationRequests: this.createAccountVerificationRequestSearchResults(value[2]),
+          students: this.createStudentAccountSearchResults(value[0], ...value[2]),
+          instructors: this.createInstructorAccountSearchResults(value[1], value[2][1]),
         };
       }),
     );
-  }
-
-  searchStudents(searchKey: string, entityType: string): Observable<Students> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-      entitytype: entityType,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
-  }
-
-  searchInstructors(searchKey: string): Observable<Instructors> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
-  }
-
-  searchAccountVerificationRequests(searchKey: string): Observable<AccountVerificationRequests> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
 
   createStudentAccountSearchResults(
@@ -220,65 +186,6 @@ export class SearchService {
     return instructorResult;
   }
 
-  createAccountVerificationRequestSearchResults(
-    accountVerificationRequests: AccountVerificationRequest[],
-  ): AccountVerificationRequestSearchResult[] {
-    return accountVerificationRequests.map((accountVerificationRequest: AccountVerificationRequest) =>
-      this.joinAdminAccountVerificationRequest(accountVerificationRequest),
-    );
-  }
-
-  joinAdminAccountVerificationRequest(
-    accountVerificationRequest: AccountVerificationRequest,
-  ): AccountVerificationRequestSearchResult {
-    let accountVerificationRequestResult: AccountVerificationRequestSearchResult = {
-      accountVerificationRequestId: '',
-      name: '',
-      email: '',
-      institute: '',
-      country: '',
-      createdAtText: '',
-      createdDemoCourseAtText: '',
-      registrationLink: '',
-      showLinks: false,
-      status: AccountVerificationRequestStatus.PENDING,
-      comments: '',
-    };
-
-    const {
-      accountVerificationRequestId,
-      createdAt,
-      createdDemoCourseAt,
-      name,
-      institute,
-      country,
-      email,
-      status,
-      comments,
-    }: AccountVerificationRequest = accountVerificationRequest;
-
-    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    accountVerificationRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
-    accountVerificationRequestResult.createdDemoCourseAtText = createdDemoCourseAt
-      ? this.formatTimestampAsString(createdDemoCourseAt, timezone)
-      : null;
-    accountVerificationRequestResult.comments = comments ?? '';
-
-    const registrationLink: string = this.linkService.generateInstructorWelcomeLink(accountVerificationRequestId);
-    accountVerificationRequestResult = {
-      ...accountVerificationRequestResult,
-      accountVerificationRequestId,
-      name,
-      email,
-      institute,
-      country,
-      registrationLink,
-      status,
-    };
-
-    return accountVerificationRequestResult;
-  }
-
   private getDistinctFields(students: Student[], instructors: Instructor[]): Observable<DistinctFields> {
     const distinctCourseIds: string[] = Array.from(
       new Set([
@@ -298,9 +205,7 @@ export class SearchService {
 
   private getDistinctInstructors(distinctCourseIds: string[]): Observable<DistinctInstructorsMap> {
     return forkJoin(
-      distinctCourseIds.map((courseId: string) =>
-        this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-      ),
+      distinctCourseIds.map((courseId: string) => this.instructorService.loadInstructors({ courseId })),
     ).pipe(
       map((instructorsArray: Instructors[]) => {
         const distinctInstructorsMap: DistinctInstructorsMap = {};
@@ -352,12 +257,6 @@ export class SearchService {
       }),
     );
   }
-
-  private formatTimestampAsString(timestamp: number, timezone: string): string {
-    const dateFormatWithZoneInfo = 'ddd, DD MMM YYYY, hh:mm A Z';
-
-    return this.timezoneService.formatToString(timestamp, timezone, dateFormatWithZoneInfo);
-  }
 }
 
 /**
@@ -373,24 +272,6 @@ export interface InstructorSearchResult {
 export interface AdminSearchResult {
   students: StudentAccountSearchResult[];
   instructors: InstructorAccountSearchResult[];
-  accountVerificationRequests: AccountVerificationRequestSearchResult[];
-}
-
-/**
- * Search results for account verification requests from the admin endpoint.
- */
-export interface AccountVerificationRequestSearchResult {
-  accountVerificationRequestId: string;
-  name: string;
-  email: string;
-  status: AccountVerificationRequestStatus;
-  institute: string;
-  country: string;
-  createdAtText: string;
-  createdDemoCourseAtText: string | null;
-  registrationLink: string;
-  showLinks: boolean;
-  comments: string;
 }
 
 /**

@@ -10,8 +10,8 @@ export interface AccountCreateRequest extends BasicRequest {
 }
 
 export interface AccountVerificationRequestRejectionRequest extends BasicRequest {
-  reasonTitle?: string;
-  reasonBody?: string;
+  rejectionType: AccountVerificationRequestRejectionType;
+  additionalComments?: string;
 }
 
 export interface AccountVerificationRequestUpdateRequest extends BasicRequest {
@@ -189,7 +189,6 @@ export interface InstructorPermissionSet {
   canModifyInstructor: boolean;
   canModifySession: boolean;
   canModifyStudent: boolean;
-  canViewStudent: boolean;
   canViewSession: boolean;
   canSubmitSession: boolean;
   canModifySessionComments: boolean;
@@ -236,8 +235,6 @@ export interface RegKeyRequest extends BasicRequest {
 
 export interface ResponseInstructorCommentBasicRequest extends BasicRequest {
   commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
 }
 
 export interface ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
@@ -271,19 +268,18 @@ export interface StudentUpdateRequest extends BasicRequest {
   isSessionSummarySendEmail: boolean;
 }
 
+export enum AccountVerificationRequestRejectionType {
+  ALREADY_VERIFIED = "ALREADY_VERIFIED",
+  CANNOT_VERIFY_IDENTITY = "CANNOT_VERIFY_IDENTITY",
+  NOT_OFFICIAL_EMAIL = "NOT_OFFICIAL_EMAIL",
+  NOT_INSTRUCTOR_ACCOUNT = "NOT_INSTRUCTOR_ACCOUNT",
+  OTHERS = "OTHERS",
+}
+
 export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-}
-
-export enum CommentVisibilityType {
-  GIVER = "GIVER",
-  RECIPIENT = "RECIPIENT",
-  GIVER_TEAM_MEMBERS = "GIVER_TEAM_MEMBERS",
-  RECIPIENT_TEAM_MEMBERS = "RECIPIENT_TEAM_MEMBERS",
-  STUDENTS = "STUDENTS",
-  INSTRUCTORS = "INSTRUCTORS",
 }
 
 export enum EmailType {

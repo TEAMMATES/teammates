@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -96,8 +95,6 @@ public class ResponseInstructorCommentsDbTest extends BaseDbTestcase {
         ResponseInstructorComment comment = new ResponseInstructorComment(
                 instructor,
                 "Comment",
-                List.of(CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS),
-                List.of(CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS),
                 instructor);
         comment.setId(responseInstructorCommentId);
         feedbackResponse.addResponseInstructorComment(comment);

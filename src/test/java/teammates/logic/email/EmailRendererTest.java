@@ -1,6 +1,5 @@
 package teammates.logic.email;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.util.EmailType;
 import teammates.common.util.LinksUtil;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
@@ -531,29 +531,29 @@ public class EmailRendererTest extends BaseTestCase {
     }
 
     @Test
-    public void renderAccountVerificationRejectedEmail_typicalCase_returnsRejectedEmailBody() throws IOException {
-        String rejectionBody = """
-                <p>Hi, Dr Hart</p>
-                <p>Thanks for your interest in using TEAMMATES. We are unable to approve your instructor account
-                verification request.</p>
-
-                <p>
-                  <strong>Reason:</strong> The email address you provided could not be verified against your
-                  institution.<br />
-                  <strong>Remedy:</strong> Please resubmit your request using your official institution email address.
-                </p>
-
-                <p>If you need further clarification or would like to appeal this decision, please feel free to
-                contact us at teammates@comp.nus.edu.sg.</p>
-                <p>Regards,<br />TEAMMATES Team.</p>
-                """;
+    public void renderAccountVerificationRejectedEmail_withOthersType_returnsRejectedEmailBody() throws IOException {
         RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
                 new AccountVerificationRejectedEmailContext(
                         "elena.hart@northbridge.edu",
-                        "Verification request update",
-                        rejectionBody));
+                        "Northbridge Institute of Technology",
+                        AccountVerificationRequestRejectionType.OTHERS,
+                        null));
 
-        assertEquals(rejectionBody, actual.htmlContent());
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationRejectedEmailOthers.html");
+        assertFalse(actual.htmlContent().contains("${"));
+    }
+
+    @Test
+    public void renderAccountVerificationRejectedEmail_withAdditionalComments_includesComments() throws IOException {
+        RenderedEmail actual = EmailRenderer.renderAccountVerificationRejectedEmail(
+                new AccountVerificationRejectedEmailContext(
+                        "elena.hart@northbridge.edu",
+                        "Northbridge Institute of Technology",
+                        AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL,
+                        "Please use your official university email address."));
+
+        verifyEmailContent(actual.htmlContent(), "/accountVerificationRejectedEmailWithAdditionalComments.html");
+        assertFalse(actual.htmlContent().contains("${"));
     }
 
     @Test

@@ -47,14 +47,15 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         student.setComments("edited comment");
         editPage.editStudentDetails(student);
 
-        editPage.verifyStatusMessage("Student has been updated");
+        editPage.verifyStatusMessage("Student updated successfully");
         verifyPresentInDatabase(student);
 
         ______TS("cannot edit to an existing email");
         editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.editStudentEmailAndResendLinks(otherStudent.getEmail());
 
-        editPage.verifyStatusMessage("Trying to update to an email that is already in use");
+        editPage.verifyStatusMessage("Cannot update student email to icsdetedit.benny.c.tmms@gmail.tmt"
+                + " as this email is already used by another student in course tm.e2e.ICSDetEdit.CS2104");
 
         ______TS("edit email and resend links");
         String newEmail = "new.email@gmail.tmt";
@@ -62,7 +63,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         student.setAccount(null);
         editPage.editStudentEmailAndResendLinks(newEmail);
 
-        editPage.verifyStatusMessage("Student has been updated and email sent");
+        editPage.verifyStatusMessage("Student updated successfully");
         verifyPresentInDatabase(student);
     }
 }

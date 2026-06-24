@@ -78,6 +78,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   ngOnInit(): void {
     this.loadStudent(this.courseId);
+    this.loadTeammates(this.courseId);
     this.loadCourse(this.courseId);
     this.loadInstructors(this.courseId);
   }
@@ -124,7 +125,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       .subscribe({
         next: (student: Student) => {
           this.student = student;
-          this.loadTeammates(courseId, student.teamId);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
@@ -137,12 +137,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Loads the teammates of the current student.
    *
    * @param courseId id of the course queried
-   * @param teamId team of current student
    */
-  loadTeammates(courseId: string, teamId: string): void {
+  loadTeammates(courseId: string): void {
     this.isLoadingTeammates = true;
     this.teammateProfiles = [];
-    this.studentService.getStudentsFromCourse({ courseId, teamId }).subscribe({
+    this.studentService.getOwnTeamStudents({ courseId }).subscribe({
       next: (students: Students) => {
         // No teammates
         if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {
@@ -173,7 +172,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
     this.instructorService
-      .loadInstructors({ courseId })
+      .loadDisplayedInstructors({ courseId })
       .pipe(
         finalize(() => {
           this.isLoadingInstructor = false;

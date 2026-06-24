@@ -37,7 +37,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
-  FeedbackVisibilityType,
   Instructor,
   Instructors,
   QuestionOutput,
@@ -48,7 +47,6 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -264,7 +262,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.feedbackQuestionsService
             .getFeedbackQuestions({
               feedbackSessionId,
-              intent: Intent.FULL_DETAIL,
             })
             .subscribe({
               next: (feedbackQuestions: FeedbackQuestions) => {
@@ -287,8 +284,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
           // load all students in course
           this.studentService
-            .getStudentsFromCourse({
-              courseId: this.courseId,
+            .getStudents({
+              courseIds: [this.courseId],
             })
             .subscribe({
               next: (allStudents: Students) => {
@@ -316,29 +313,24 @@ export class InstructorSessionResultPageComponent implements OnInit {
             });
 
           // load all instructors in course
-          this.instructorService
-            .loadInstructors({
-              courseId: this.courseId,
-              intent: Intent.FULL_DETAIL,
-            })
-            .subscribe({
-              next: (instructors: Instructors) => {
-                this.allInstructorsInCourse = instructors.instructors;
+          this.instructorService.loadInstructors({ courseId: this.courseId }).subscribe({
+            next: (instructors: Instructors) => {
+              this.allInstructorsInCourse = instructors.instructors;
 
-                // sort the instructor list based on name
-                this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
-                  return a.name.localeCompare(b.name);
-                });
+              // sort the instructor list based on name
+              this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
+                return a.name.localeCompare(b.name);
+              });
 
-                // select the first instructor
-                if (this.allInstructorsInCourse.length >= 1) {
-                  this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
-                }
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            });
+              // select the first instructor
+              if (this.allInstructorsInCourse.length >= 1) {
+                this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
+              }
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionLoading = false;
@@ -404,7 +396,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           const responses: QuestionOutput = resp.questions[0];
           this.questionsModel[questionId].responses.push(...responses.allResponses);
           this.questionsModel[questionId].statistics = responses.questionStatistics;
-          this.preprocessComments(responses.allResponses, responses.feedbackQuestion.showResponsesTo);
+          this.preprocessComments(responses.allResponses);
           this.questionsModel[questionId].errorMessage = '';
           this.questionsModel[questionId].hasPopulated = true;
         },
@@ -452,7 +444,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
                 InstructorSessionResultSectionType.EITHER,
               ),
             );
-            this.preprocessComments(question.allResponses, question.feedbackQuestion.showResponsesTo);
+            this.preprocessComments(question.allResponses);
           });
           this.sectionsModel[sectionId].questions = resp.questions;
         },
@@ -481,13 +473,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[], questionShowResponsesTo: FeedbackVisibilityType[]): void {
+  preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         this.session.timeZone,
-        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

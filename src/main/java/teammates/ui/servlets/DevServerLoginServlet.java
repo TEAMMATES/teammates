@@ -1,7 +1,6 @@
 package teammates.ui.servlets;
 
 import static teammates.common.util.UrlHelper.encodeQueryParam;
-import static teammates.common.util.UrlHelper.getSafeRedirectUrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +21,7 @@ public class DevServerLoginServlet extends AuthServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            resp.sendError(HttpStatus.SC_FORBIDDEN);
             return;
         }
 
@@ -35,20 +34,20 @@ public class DevServerLoginServlet extends AuthServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpStatus.SC_FORBIDDEN);
+            resp.sendError(HttpStatus.SC_FORBIDDEN);
             return;
         }
 
         String email = req.getParameter("email");
-        if (email == null) {
+        String state = req.getParameter("state");
+        if (email == null || state == null) {
+            resp.sendError(HttpStatus.SC_BAD_REQUEST);
             return;
         }
 
-        String nextUrl = getSafeRedirectUrl(req.getParameter("nextUrl"));
-
         email = encodeQueryParam(email);
-        nextUrl = encodeQueryParam(nextUrl);
-        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
+        state = encodeQueryParam(state);
+        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&state=" + state);
         resp.sendRedirect(redirectUrl);
     }
 

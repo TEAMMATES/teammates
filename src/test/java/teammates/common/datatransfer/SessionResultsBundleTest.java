@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,7 +19,6 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.ResponseGiver;
-import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
@@ -42,10 +40,8 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
-                        new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
-                        new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
@@ -80,10 +76,8 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
-                        new HashSet<>(),
                         new ArrayList<>(),
                         new ArrayList<>(expectedMissingResponses),
-                        new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
@@ -141,12 +135,10 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
-                        new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(),
                         responseGiverVisibilityTable,
                         responseRecipientVisibilityTable,
-                        new HashMap<>(),
                         new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
@@ -164,41 +156,6 @@ public class SessionResultsBundleTest extends BaseTestCase {
             assertEquals(visibilityEntry.getValue(),
                     bundle.isResponseRecipientVisible(responseId, recipientType));
         }
-    }
-
-    @Test
-    public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
-
-        UUID commentId1 = UUID.fromString("00000000-0000-4000-8000-000000000001");
-        UUID commentId2 = UUID.fromString("00000000-0000-4000-8000-000000000002");
-        Map<UUID, Boolean> commentGiverVisibilityTable = new HashMap<>();
-        commentGiverVisibilityTable.put(commentId1, true);
-        commentGiverVisibilityTable.put(commentId2, false);
-
-        SessionResultsBundle bundle =
-                new SessionResultsBundle(
-                        new ArrayList<>(responseBundle.feedbackQuestions.values()),
-                        new HashSet<>(),
-                        new HashSet<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(),
-                        new HashMap<>(),
-                        new HashMap<>(),
-                        new HashMap<>(),
-                        commentGiverVisibilityTable,
-                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
-                                new ArrayList<>(responseBundle.instructors.values()))
-                );
-
-        // Manually add comment IDs as loadDataBundle does not add comment IDs
-        ResponseInstructorComment comment1 = responseBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
-        ResponseInstructorComment comment2 = responseBundle.responseInstructorComments.get("comment2ToResponse2ForQ1");
-        comment1.setId(commentId1);
-        comment2.setId(commentId2);
-
-        assertTrue(bundle.isCommentGiverVisible(comment1));
-        assertFalse(bundle.isCommentGiverVisible(comment2));
     }
 
     @Test

@@ -9,28 +9,24 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Teammates Test",
       "email": "frubricqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frubricqn.instructor@gmail.tmt"
     },
     "tm.e2e.FRubricQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Alice Betsy",
       "email": "frubricqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frubricqn.alice.tmms@gmail.tmt"
     },
     "tm.e2e.FRubricQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "name": "Benny Charles",
       "email": "frubricqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frubricqn.benny.tmms@gmail.tmt"
     },
     "tm.e2e.FRubricQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "name": "Charlie Davis",
       "email": "frubricqn.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "frubricqn.charlie.tmms@gmail.tmt"

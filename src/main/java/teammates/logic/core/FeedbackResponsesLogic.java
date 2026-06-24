@@ -27,7 +27,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -62,6 +61,7 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
     private FeedbackQuestionsLogic fqLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
     private ResponseInstructorCommentsLogic frcLogic;
     private InstructorPermissionsLogic instructorPermissionsLogic;
 
@@ -77,11 +77,12 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb,
-            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic,
-            InstructorPermissionsLogic instructorPermissionsLogic) {
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackSessionsLogic feedbackSessionsLogic,
+            ResponseInstructorCommentsLogic frcLogic, InstructorPermissionsLogic instructorPermissionsLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.frcLogic = frcLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
@@ -573,7 +574,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackQuestion> getQuestionsForSession(
             FeedbackSession feedbackSession, @Nullable UUID questionId) {
         if (questionId == null) {
-            return fqLogic.getFeedbackQuestionsForSession(feedbackSession);
+            return fqLogic.getFeedbackQuestionsForSession(feedbackSession.getId());
         }
         FeedbackQuestion fq = fqLogic.getFeedbackQuestion(questionId);
         return fq == null ? Collections.emptyList() : Collections.singletonList(fq);
@@ -586,7 +587,6 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
-        Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         for (FeedbackQuestion qn : relatedQuestions) {
             // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
@@ -601,10 +601,9 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        // visibility table for each response and comment
+        // visibility table for each response
         Map<UUID, Boolean> responseGiverVisibilityTable = new HashMap<>();
         Map<UUID, Boolean> responseRecipientVisibilityTable = new HashMap<>();
-        Map<UUID, Boolean> commentVisibilityTable = new HashMap<>();
 
         // build response
         for (FeedbackResponse response : allResponses) {
@@ -654,28 +653,10 @@ public final class FeedbackResponsesLogic {
             if (relatedResponse == null) {
                 continue;
             }
-            FeedbackQuestion relatedQuestion = relatedResponse.getFeedbackQuestion();
-            if (relatedQuestion == null) {
+            if (relatedResponse.getFeedbackQuestion() == null) {
                 continue;
             }
-            // check visibility of comment
-            boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
-                    user, relatedResponse, relatedQuestion, frc);
-            if (!isVisibleResponseComment) {
-                continue;
-            }
-
-            // if previewing results and the comment should not be visible to instructors,
-            // note down the corresponding question and do not add the comment
-            if (isPreviewResults && !checkCanInstructorsSeeComment(frc)) {
-                relatedQuestionsWithCommentNotVisibleForPreview.add(frc.getFeedbackResponse().getFeedbackQuestion());
-                continue;
-            }
-
             relatedCommentsMap.computeIfAbsent(relatedResponse, key -> new ArrayList<>()).add(frc);
-            // generate comment giver name visibility table
-            commentVisibilityTable.put(frc.getId(),
-                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, user));
         }
         RequestTracer.checkRemainingTime();
 
@@ -689,9 +670,9 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
-                relatedQuestionsWithCommentNotVisibleForPreview, existingResponses, missingResponses,
+                existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
-                commentVisibilityTable, roster);
+                roster);
     }
 
     /**
@@ -730,20 +711,25 @@ public final class FeedbackResponsesLogic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @param feedbackSession the feedback session
+     * @param feedbackSessionId the feedback session ID
      * @param user the user viewing the feedback session
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
+            UUID feedbackSessionId, User user, boolean isPreviewResults) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession)
+        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession.getId())
                 .stream()
                 .filter(question -> isQuestionRelevantForUserResult(question, user))
                 .toList();
@@ -1148,17 +1134,6 @@ public final class FeedbackResponsesLogic {
         boolean isRecipientVisibleToInstructor =
                 feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
-    }
-
-    /**
-     * Checks whether instructors can see the comment.
-     */
-    boolean checkCanInstructorsSeeComment(ResponseInstructorComment responseInstructorComment) {
-        boolean isCommentVisibleToInstructor =
-                responseInstructorComment.getShowCommentTo().contains(CommentVisibilityType.INSTRUCTORS);
-        boolean isGiverVisibleToInstructor =
-                responseInstructorComment.getShowGiverNameTo().contains(CommentVisibilityType.INSTRUCTORS);
-        return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 
     /**

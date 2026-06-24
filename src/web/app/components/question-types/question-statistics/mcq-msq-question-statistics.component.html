@@ -1,8 +1,12 @@
-@if (statistics && !isStudent && statistics.hasAnswers) {
+@if (statistics && statistics.hasAnswers) {
   <div id="mcq-msq-statistics">
     <div class="row">
       <div class="col-sm-4 text-color-gray mt-2">
-        <strong> Response Summary </strong>
+        @if (statistics.statisticsView === 'RECIPIENT') {
+          <strong>Summary of responses received by you</strong>
+        } @else {
+          <strong>Response Summary</strong>
+        }
       </div>
     </div>
     <div class="row mb-4">

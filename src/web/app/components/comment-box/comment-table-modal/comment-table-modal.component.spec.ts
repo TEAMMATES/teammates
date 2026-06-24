@@ -14,8 +14,6 @@ describe('CommentTableModalComponent', () => {
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: true,
     },

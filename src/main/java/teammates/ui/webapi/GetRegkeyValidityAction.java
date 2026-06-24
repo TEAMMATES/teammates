@@ -16,7 +16,7 @@ public class GetRegkeyValidityAction extends PublicAction {
 
     @Override
     public JsonResult execute() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         User regKeyOwner = null;

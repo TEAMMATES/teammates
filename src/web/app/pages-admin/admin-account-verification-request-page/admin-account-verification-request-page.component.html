@@ -56,28 +56,28 @@
         <div class="col-12 col-xl-6">
           <div class="card h-100">
             <div class="card-header">
-              <h2 class="h5">Additional Context</h2>
+              <h2 class="h5">Request History For This Account</h2>
             </div>
             <div class="card-body">
               <div class="d-flex flex-column gap-3">
-                <div>
-                  <div class="text-body-secondary small text-uppercase fw-semibold mb-2">
-                    Request History For This Account
-                  </div>
-                  <p class="mb-0 text-body">
-                    The data shown here is mocked for demonstration purposes. It is not the actual request history for
-                    this account.
-                  </p>
-                </div>
-
                 @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
-                  <div class="border rounded p-3">
+                  <a
+                    [tmRouterLink]="[
+                      '/web/admin/account-verification-requests',
+                      historyEntry.accountVerificationRequestId,
+                    ]"
+                    class="d-block border rounded p-3 text-body text-decoration-none"
+                    [class.border-primary]="isCurrentRequest(historyEntry)"
+                    [class.bg-primary-subtle]="isCurrentRequest(historyEntry)"
+                    [class.border-2]="isCurrentRequest(historyEntry)"
+                  >
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                       <div class="fw-semibold">{{ historyEntry.institute }}</div>
                       <span [class]="getStatusBadgeClass(historyEntry.status)">{{ historyEntry.status }}</span>
                     </div>
+                    <div class="text-body-secondary small mb-1">{{ historyEntry.name }} ({{ historyEntry.email }})</div>
                     <div class="text-body-secondary small">Submitted {{ formatTimestamp(historyEntry.createdAt) }}</div>
-                  </div>
+                  </a>
                 }
               </div>
             </div>

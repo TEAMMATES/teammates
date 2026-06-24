@@ -14,5 +14,4 @@ export interface FeedbackQuestionModel {
   isLoaded: boolean;
   errorMessage?: string;
   hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
 }

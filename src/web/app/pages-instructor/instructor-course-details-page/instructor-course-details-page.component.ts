@@ -19,7 +19,6 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -128,7 +127,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the instructors in the course
    */
   private loadInstructors(courseid: string): void {
-    this.instructorService.loadInstructors({ courseId: courseid, intent: Intent.FULL_DETAIL }).subscribe({
+    this.instructorService.loadInstructors({ courseId: courseid }).subscribe({
       next: (instructors: Instructors) => {
         this.instructors = instructors.instructors;
       },
@@ -144,7 +143,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   loadStudents(courseid: string): void {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe({
+    this.studentService.getStudents({ courseIds: [courseid] }).subscribe({
       next: (students: Students) => {
         this.students = []; // Reset the list of students
         this.sectionsLoaded = 0; // Reset sections loaded
@@ -171,7 +170,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
                 const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
                   return {
                     student: studentInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });

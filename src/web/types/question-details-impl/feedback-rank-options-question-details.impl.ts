@@ -1,13 +1,7 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails,
-  QuestionOutput,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails, QuestionOutput } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
-import { Response } from '../question-statistics.model';
-import { calculateRankOptionsQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { QuestionStatisticsTypeChecker } from '../question-statistics-impl/question-statistics-caster';
 
 /**
  * Concrete implementation of {@link FeedbackRankOptionsQuestionDetails}.
@@ -38,32 +32,16 @@ export class FeedbackRankOptionsQuestionDetailsImpl
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
-    const statsRows: string[][] = [];
-
-    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackRankOptionsQuestionDetails;
-    const responses = question.allResponses
-      // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackRankOptionsResponseDetails>[];
-
-    if (responses.length === 0) {
-      // skip stats for no response
+    const stats = question.questionStatistics;
+    if (!QuestionStatisticsTypeChecker.isRankOptions(stats) || stats.options.length === 0) {
       return [];
     }
-    const statsCalculation = calculateRankOptionsQuestionStatistics(questionDetails, responses);
 
-    statsRows.push(['Option', 'Overall Rank', 'Ranks Received']);
-
-    Object.keys(statsCalculation.ranksReceivedPerOption)
-      .sort()
-      .forEach((option: string) => {
-        statsRows.push([
-          option,
-          statsCalculation.rankPerOption[option] ? String(statsCalculation.rankPerOption[option]) : '',
-          ...statsCalculation.ranksReceivedPerOption[option].map(String),
-        ]);
-      });
-
-    return statsRows;
+    const rows: string[][] = [['Option', 'Overall Rank', 'Ranks Received']];
+    for (const row of stats.options) {
+      rows.push([row.option, row.overallRank != null ? String(row.overallRank) : '', ...row.ranksReceived.map(String)]);
+    }
+    return rows;
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

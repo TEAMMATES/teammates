@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
@@ -16,15 +18,16 @@ import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
+import teammates.common.datatransfer.StudentQuery;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -40,6 +43,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.DemoCourseLogic;
+import teammates.logic.core.EnrollmentLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
@@ -98,6 +102,7 @@ public class Logic {
     final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     final DemoCourseLogic demoCourseLogic = DemoCourseLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final EnrollmentLogic enrollmentLogic = EnrollmentLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
@@ -269,28 +274,17 @@ public class Logic {
     }
 
     /**
-     * Rejects the account verification request with the given {@code id}.
-     *
-     * @throws EntityDoesNotExistException if no request with the given id exists.
-     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
-     * @throws InvalidParametersException if the request is invalid.
-     */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id);
-    }
-
-    /**
      * Rejects the account verification request with the given {@code id} and
-     * optionally sends a rejection email when both reason fields are provided.
+     * enqueues a rejection email with the given rejection type and optional additional comments.
      *
      * @throws EntityDoesNotExistException if no request with the given id exists.
      * @throws InvalidVerificationRequestStateException if the request is not in pending state.
      * @throws InvalidParametersException if the request is invalid.
      */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id, String reasonTitle, String reasonBody)
+    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id,
+            AccountVerificationRequestRejectionType rejectionType, @Nullable String additionalComments)
             throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return accountVerificationsLogic.rejectAccountVerificationRequest(id, reasonTitle, reasonBody);
+        return accountVerificationsLogic.rejectAccountVerificationRequest(id, rejectionType, additionalComments);
     }
 
     /**
@@ -315,10 +309,10 @@ public class Logic {
     }
 
     /**
-     * Gets all pending account verification requests.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationsLogic.getPendingAccountVerificationRequests();
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery query) {
+        return accountVerificationsLogic.getAccountVerificationRequests(query);
     }
 
     /**
@@ -921,6 +915,13 @@ public class Logic {
     }
 
     /**
+     * Gets the instructors that should be displayed to students for the specified course.
+     */
+    public List<Instructor> getDisplayedInstructorsByCourse(String courseId) {
+        return usersLogic.getDisplayedInstructorsForCourse(courseId);
+    }
+
+    /**
      * Creates an instructor with the given attributes.
      *
      * @param account optional account to associate with the instructor at creation time
@@ -960,13 +961,12 @@ public class Logic {
     }
 
     /**
-     * Searches instructors in the whole system. Used by admin only.
+     * Gets instructors matching the specified query.
      *
-     * @return List of found instructors in the whole system. Returns an empty list
-     *         if no results are found.
+     * @return List of found instructors. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
-        return usersLogic.searchInstructorsInWholeSystem(queryString);
+    public List<Instructor> getInstructors(InstructorQuery query) {
+        return usersLogic.getInstructors(query);
     }
 
     /**
@@ -1010,11 +1010,12 @@ public class Logic {
     }
 
     /**
-     * Updates a student by student id and update request, and cascades to responses and comments if needed.
+     * Updates a student by student id and update request, cascading to responses and comments if needed,
+     * and validates that section limits are not exceeded.
      */
-    public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
+    public Student updateStudentEnrollment(UUID studentId, StudentUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
-        return usersLogic.updateStudent(studentId, updateRequest);
+        return enrollmentLogic.updateStudentEnrollment(studentId, updateRequest);
     }
 
     /**
@@ -1022,7 +1023,7 @@ public class Logic {
      */
     public Student updateStudentAndEnqueueSummaryEmail(UUID studentId, StudentUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
-        return usersLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
+        return enrollmentLogic.updateStudentAndEnqueueSummaryEmail(studentId, updateRequest);
     }
 
     /**
@@ -1030,17 +1031,21 @@ public class Logic {
      */
     public EnrollResults enrollStudents(Course course,
             List<StudentEnrollRequest> enrollRequests) throws EnrollException {
-        return usersLogic.enrollStudents(course, enrollRequests);
+        return enrollmentLogic.enrollStudents(course, enrollRequests);
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Empty list if none found.
+     * Gets students for the supplied query.
      */
-    public List<Student> getStudentsForCourse(String courseId) {
-        return usersLogic.getStudentsForCourse(courseId);
+    public List<Student> getStudents(StudentQuery query) {
+        return usersLogic.getStudents(query);
+    }
+
+    /**
+     * Gets the students visible to the given account for the supplied query.
+     */
+    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
+        return usersLogic.getStudentsVisibleToAccount(query, account);
     }
 
     /**
@@ -1089,30 +1094,6 @@ public class Logic {
     public Team createTeam(Section section, String teamName)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createTeam(section, teamName);
-    }
-
-    /**
-     * Search for students. Preconditions: all parameters are non-null.
-     *
-     * @param instructors a list of Instructors associated to an account,
-     *                    used for filtering of search result
-     * @return an empty list if no match is found
-     */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        return usersLogic.searchStudents(queryString, instructors);
-    }
-
-    /**
-     * This method should be used by admin only since the searching does not
-     * restrict the
-     * visibility according to the logged-in user's role. This is used by admin
-     * to
-     * search students in the whole system.
-     *
-     * @return an empty list if no match is found.
-     */
-    public List<Student> searchStudentsInWholeSystem(String queryString) {
-        return usersLogic.searchStudentsInWholeSystem(queryString);
     }
 
     /**
@@ -1322,28 +1303,9 @@ public class Logic {
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
      */
-    public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
-    }
-
-    /**
-     * Gets a list of all questions for the given session that
-     * students can view/submit.
-     */
-    public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSession);
-    }
-
-    /**
-     * Gets a {@code List} of all questions for the given session that
-     * instructor can view/submit.
-     */
-    public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
-            FeedbackSession feedbackSession, Instructor instructor) {
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor);
+    public List<FeedbackQuestion> getFeedbackQuestionsForSession(UUID feedbackSessionId) {
+        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionId);
     }
 
     /**
@@ -1380,15 +1342,15 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @param feedbackSession the feedback session
+     * @param feedbackSessionId the feedback session ID
      * @param user the user viewing the feedback session
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
+            UUID feedbackSessionId, User user, boolean isPreviewResults) throws EntityDoesNotExistException {
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, user, isPreviewResults);
+                feedbackSessionId, user, isPreviewResults);
     }
 
     /**
@@ -1546,10 +1508,10 @@ public class Logic {
      * @throws InvalidParametersException   if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
+            String commentText)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(
-                feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);
+                feedbackResponseId, giver, commentText);
     }
 
     /**
@@ -1595,15 +1557,6 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
         return feedbackSessionsLogic.getFeedbackSessionsClosedRecently();
-    }
-
-    /**
-     * This is used by admin to search account verification requests in the whole system.
-     *
-     * @return A list of matching {@link AccountVerificationRequest}s, or an empty list if no match is found.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationsLogic.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
     /**

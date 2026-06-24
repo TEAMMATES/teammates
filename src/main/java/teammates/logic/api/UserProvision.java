@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -113,7 +114,7 @@ public class UserProvision {
      * Checks if the request is a masquerade request.
      */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
-        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        String masqueradeAccountId = req.getHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID);
         return masqueradeAccountId != null;
     }
 
@@ -151,12 +152,13 @@ public class UserProvision {
     }
 
     /**
-     * Gets a valid masquerade account id from the request parameters.
+     * Gets a valid masquerade account id from the request headers.
      *
-     * @throws UnauthorizedAccessException if the masquerade account id is not a valid UUID
+     * @throws UnauthorizedAccessException if the masquerade account id is not a
+     *                                     valid UUID
      */
     protected UUID getValidMasqueradeAccountId(HttpServletRequest req) throws UnauthorizedAccessException {
-        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        String masqueradeAccountId = req.getHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID);
         try {
             return UUID.fromString(masqueradeAccountId);
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -206,6 +208,7 @@ public class UserProvision {
             throws UnauthorizedAccessException {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
+        User validRegKeyUser = null;
 
         if (isMasqueradeRequest(req)) {
             authType = AuthType.MASQUERADE;
@@ -222,10 +225,23 @@ public class UserProvision {
             }
         }
 
+        // If the request contains a registration key, include it in the auth context if
+        // 1. The registration key is valid, and
+        // 2. The user associated with the registration key is not already associated with another account
+        if (isRegKeyRequest(req)) {
+            String regKey = req.getParameter(Const.ParamsNames.REGKEY);
+            User regKeyUser = usersLogic.getUserByRegistrationKey(regKey);
+
+            if (regKeyUser != null
+                    && (regKeyUser.getAccount() == null || Objects.equals(effectiveAccount, regKeyUser.getAccount()))) {
+                validRegKeyUser = regKeyUser;
+            }
+        }
+
         return new AuthContext(
                 authType,
                 effectiveAccount,
-                null,
+                validRegKeyUser,
                 isAdminUser(effectiveAccount),
                 isMaintainerUser(effectiveAccount));
     }

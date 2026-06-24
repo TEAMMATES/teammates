@@ -14,210 +14,180 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "name": "Alice",
       "email": "alice@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "alice@teammates.tmt"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tanaka@teammates.tmt"
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "elena@teammates.tmt"
     },
     "instructor4": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "marcus.okonkwo@teammates.tmt"
     },
     "instructor5": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "priya.sharma@teammates.tmt"
     },
     "instructor6": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "lars.eriksson@teammates.tmt"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "name": "Mei Lin Chen",
       "email": "mei.lin.chen@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "mei.lin.chen@teammates.tmt"
     },
     "student2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "name": "Carlos Silva",
       "email": "carlos.silva@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "carlos.silva@teammates.tmt"
     },
     "student3": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "name": "Fatima Al-Rashid",
       "email": "fatima.alrashid@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "fatima.alrashid@teammates.tmt"
     },
     "student4": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "name": "Kenji Yamamoto",
       "email": "kenji.yamamoto@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "kenji.yamamoto@teammates.tmt"
     },
     "student5": {
       "id": "00000000-0000-4000-8000-000000000105",
-      "name": "Olga Petrov",
       "email": "olga.petrov@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "olga.petrov@teammates.tmt"
     },
     "student6": {
       "id": "00000000-0000-4000-8000-000000000106",
-      "name": "Raj Patel",
       "email": "raj.patel@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "raj.patel@teammates.tmt"
     },
     "student7": {
       "id": "00000000-0000-4000-8000-000000000107",
-      "name": "Sofia Andersson",
       "email": "sofia.andersson@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "sofia.andersson@teammates.tmt"
     },
     "student8": {
       "id": "00000000-0000-4000-8000-000000000108",
-      "name": "David Okafor",
       "email": "david.okafor@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "david.okafor@teammates.tmt"
     },
     "student11": {
       "id": "00000000-0000-4000-8000-000000000111",
-      "name": "Liam O'Brien",
       "email": "liam.obrien@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "liam.obrien@teammates.tmt"
     },
     "student12": {
       "id": "00000000-0000-4000-8000-000000000112",
-      "name": "Anya Ivanova",
       "email": "anya.ivanova@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "anya.ivanova@teammates.tmt"
     },
     "student13": {
       "id": "00000000-0000-4000-8000-000000000113",
-      "name": "Tariq Hassan",
       "email": "tariq.hassan@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tariq.hassan@teammates.tmt"
     },
     "student14": {
       "id": "00000000-0000-4000-8000-000000000114",
-      "name": "Sakura Ito",
       "email": "sakura.ito@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "sakura.ito@teammates.tmt"
     },
     "student15": {
       "id": "00000000-0000-4000-8000-000000000115",
-      "name": "Nadia Kowalski",
       "email": "nadia.kowalski@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "nadia.kowalski@teammates.tmt"
     },
     "student16": {
       "id": "00000000-0000-4000-8000-000000000116",
-      "name": "Chen Wei",
       "email": "chen.wei@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "chen.wei@teammates.tmt"
     },
     "student17": {
       "id": "00000000-0000-4000-8000-000000000117",
-      "name": "Isabella Martinez",
       "email": "isabella.martinez@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "isabella.martinez@teammates.tmt"
     },
     "student18": {
       "id": "00000000-0000-4000-8000-000000000118",
-      "name": "Kwame Asante",
       "email": "kwame.asante@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "kwame.asante@teammates.tmt"
     },
     "student21": {
       "id": "00000000-0000-4000-8000-000000000121",
-      "name": "Amara Diallo",
       "email": "amara.diallo@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "amara.diallo@teammates.tmt"
     },
     "student22": {
       "id": "00000000-0000-4000-8000-000000000122",
-      "name": "Viktor Novak",
       "email": "viktor.novak@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "viktor.novak@teammates.tmt"
     },
     "student23": {
       "id": "00000000-0000-4000-8000-000000000123",
-      "name": "Zara Osman",
       "email": "zara.osman@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "zara.osman@teammates.tmt"
     },
     "student24": {
       "id": "00000000-0000-4000-8000-000000000124",
-      "name": "Tomas Herrera",
       "email": "tomas.herrera@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tomas.herrera@teammates.tmt"
     },
     "student25": {
       "id": "00000000-0000-4000-8000-000000000125",
-      "name": "Ingrid Mueller",
       "email": "ingrid.mueller@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "ingrid.mueller@teammates.tmt"
     },
     "student26": {
       "id": "00000000-0000-4000-8000-000000000126",
-      "name": "Ravi Krishnan",
       "email": "ravi.krishnan@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "ravi.krishnan@teammates.tmt"
     },
     "student27": {
       "id": "00000000-0000-4000-8000-000000000127",
-      "name": "Chloe Dubois",
       "email": "chloe.dubois@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "chloe.dubois@teammates.tmt"
     },
     "student28": {
       "id": "00000000-0000-4000-8000-000000000128",
-      "name": "Jian Li",
       "email": "jian.li@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "jian.li@teammates.tmt"
@@ -3139,64 +3109,48 @@
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment1ToResp2ForQ1InSession1InCourse1": {
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResp1ForQ2InSession1InCourse1": {
       "giverId": "00000000-0000-4000-8000-000000000502",
       "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000904"
     },
     "comment1ToResp1ForQ1InSession1InCourse2": {
       "giverId": "00000000-0000-4000-8000-000000000503",
       "lastEditedById": "00000000-0000-4000-8000-000000000503",
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000934"
     },
     "comment1ToResp1ForQ1InSession1InCourse3": {
       "giverId": "00000000-0000-4000-8000-000000000505",
       "lastEditedById": "00000000-0000-4000-8000-000000000505",
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000961"
     },
     "comment1ToResp1ForQ1InSession4InCourse1": {
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000925"
     },
     "comment1ToResp1ForQ2InSession2InCourse1": {
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000919"
     },
     "comment1ToResp1ForQ1InSession2InCourse2": {
       "giverId": "00000000-0000-4000-8000-000000000503",
       "lastEditedById": "00000000-0000-4000-8000-000000000503",
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000949"
     }
   },

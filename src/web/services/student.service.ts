@@ -23,20 +23,33 @@ export class StudentService {
   private courseService = inject(CourseService);
 
   /**
-   * Get a list of students of a course by calling API.
-   * If teamId is provided, only students in that team will be returned.
-   * Otherwise, all students in the course will be returned.
+   * Get a list of students by calling API.
    */
-  getStudentsFromCourse(queryParams: { courseId: string; teamId?: string }): Observable<Students> {
+  getStudents(queryParams: { courseIds?: string[]; searchKey?: string; limit?: number }): Observable<Students> {
+    const paramsMap: { [key: string]: string | string[] } = {};
+
+    if (queryParams.courseIds !== undefined) {
+      paramsMap['courseid'] = queryParams.courseIds;
+    }
+    if (queryParams.searchKey !== undefined) {
+      paramsMap['searchkey'] = queryParams.searchKey;
+    }
+    if (queryParams.limit !== undefined) {
+      paramsMap['limit'] = String(queryParams.limit);
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Get the list of students in the current student's own team by calling API.
+   */
+  getOwnTeamStudents(queryParams: { courseId: string }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
 
-    if (queryParams.teamId) {
-      paramsMap['teamid'] = queryParams.teamId;
-    }
-
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+    return this.httpRequestService.get(ResourceEndpoints.OWN_TEAM_STUDENTS, paramsMap);
   }
 
   /**
@@ -117,7 +130,7 @@ export class StudentService {
     return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(
       mergeMap((courseView: CourseView) => {
         const course = courseView.course;
-        return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(
+        return this.getStudents({ courseIds: [queryParams.courseId] }).pipe(
           map((students: Students) => {
             return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
           }),

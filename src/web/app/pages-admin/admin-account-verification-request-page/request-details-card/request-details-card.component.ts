@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, input, linkedSignal, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, output } from '@angular/core';
 import { FormField, FormRoot, email, form, maxLength, required } from '@angular/forms/signals';
 import { CountryService } from '../../../../services/country.service';
 import { DateFormatService } from '../../../../services/date-format.service';
+import { LinkService } from '../../../../services/link.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../../types/api-output';
 import {
   SearchableComboboxComponent,
@@ -26,6 +28,8 @@ import { EMAIL_MAX_LENGTH, INSTITUTE_NAME_MAX_LENGTH, PERSON_NAME_MAX_LENGTH } f
 export class RequestDetailsCardComponent {
   private readonly countryService = inject(CountryService);
   private readonly dateFormatService = inject(DateFormatService);
+  private readonly linkService = inject(LinkService);
+  private readonly statusMessageService = inject(StatusMessageService);
 
   readonly request = input.required<AccountVerificationRequest>();
   readonly isEditing = input(false);
@@ -70,9 +74,8 @@ export class RequestDetailsCardComponent {
       },
     },
   );
-  isEditable(): boolean {
-    return this.request().status === AccountVerificationRequestStatus.PENDING;
-  }
+  readonly isEditable = computed(() => this.request().status === AccountVerificationRequestStatus.PENDING);
+  readonly isApproved = computed(() => this.request().status === AccountVerificationRequestStatus.APPROVED);
 
   startEditing(): void {
     this.requestForm().reset(toAccountVerificationRequestDraft(this.request()));
@@ -86,5 +89,15 @@ export class RequestDetailsCardComponent {
 
   formatTimestamp(timestamp: number): string {
     return this.dateFormatService.formatDateDetailed(timestamp, this.timezone());
+  }
+
+  welcomeLink(): string {
+    return this.linkService.generateInstructorWelcomeLink(this.request().accountVerificationRequestId);
+  }
+
+  copyWelcomeLink(): void {
+    navigator.clipboard.writeText(this.welcomeLink()).catch(() => {
+      this.statusMessageService.showErrorToast('Failed to copy link. Please copy it manually.');
+    });
   }
 }

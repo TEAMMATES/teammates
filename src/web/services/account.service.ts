@@ -11,9 +11,17 @@ import {
 } from '../types/api-output';
 import {
   AccountCreateRequest,
-  AccountVerificationRequestUpdateRequest,
   AccountVerificationRequestRejectionRequest,
+  AccountVerificationRequestUpdateRequest,
 } from '../types/api-request';
+
+export interface AccountVerificationRequestQueryParams {
+  instituteId?: string;
+  accountId?: string;
+  status?: AccountVerificationRequestStatus;
+  searchKey?: string;
+  limit?: number;
+}
 
 /**
  * Handles account related logic provision
@@ -108,37 +116,44 @@ export class AccountService {
   }
 
   /**
-   * Gets pending account verification requests by calling API.
+   * Gets account verification requests by calling API.
    */
-  getPendingAccountVerificationRequests(): Observable<AccountVerificationRequests> {
-    const paramMap = {
-      status: AccountVerificationRequestStatus.PENDING,
-    };
-
+  getAccountVerificationRequests(
+    queryParams: AccountVerificationRequestQueryParams = {},
+  ): Observable<AccountVerificationRequests> {
+    const paramMap: Record<string, string> = {};
+    if (queryParams.instituteId) {
+      paramMap['instituteid'] = queryParams.instituteId;
+    }
+    if (queryParams.accountId) {
+      paramMap['accountid'] = queryParams.accountId;
+    }
+    if (queryParams.status) {
+      paramMap['status'] = queryParams.status;
+    }
+    if (queryParams.searchKey) {
+      paramMap['searchkey'] = queryParams.searchKey;
+    }
+    if (queryParams.limit !== undefined) {
+      paramMap['limit'] = String(queryParams.limit);
+    }
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
 
   /**
    * Rejects an account verification request by calling API.
    */
-  rejectAccountVerificationRequest(id: string, title?: string, body?: string): Observable<AccountVerificationRequest> {
-    let accountReqRejectRequest: AccountVerificationRequestRejectionRequest = {};
-
-    if (title !== undefined && body !== undefined) {
-      accountReqRejectRequest = {
-        reasonTitle: title,
-        reasonBody: body,
-      };
-    }
-
+  rejectAccountVerificationRequest(
+    queryParams: { id: string },
+    rejectionRequest: AccountVerificationRequestRejectionRequest,
+  ): Observable<AccountVerificationRequest> {
     const paramMap: Record<string, string> = {
-      id,
+      id: queryParams.id,
     };
-
     return this.httpRequestService.post(
       ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
       paramMap,
-      accountReqRejectRequest,
+      rejectionRequest,
     );
   }
 }

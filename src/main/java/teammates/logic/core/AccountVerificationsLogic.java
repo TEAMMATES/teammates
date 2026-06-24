@@ -6,13 +6,15 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.AccountVerificationRequestQuery;
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
 import teammates.common.util.Config;
 import teammates.common.util.LinksUtil;
-import teammates.common.util.SanitizationHelper;
 import teammates.logic.email.AccountVerificationEmailsLogic;
 import teammates.logic.email.model.AccountVerificationApprovedEmailContext;
 import teammates.logic.email.model.AccountVerificationCreatedAcknowledgementEmailContext;
@@ -173,27 +175,16 @@ public final class AccountVerificationsLogic {
     }
 
     /**
-     * Rejects the account verification request with the given {@code id}.
-     *
-     * @throws EntityDoesNotExistException if no request with the given id exists.
-     * @throws InvalidVerificationRequestStateException if the request is not in pending state.
-     * @throws InvalidParametersException if the request is invalid.
-     */
-    public AccountVerificationRequest rejectAccountVerificationRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
-        return rejectAccountVerificationRequest(id, null, null);
-    }
-
-    /**
      * Rejects the account verification request with the given {@code id} and
-     * optionally enqueues a rejection email when both reason fields are present.
+     * enqueues a rejection email with the given rejection type and optional additional comments.
      *
      * @throws EntityDoesNotExistException if no request with the given id exists.
      * @throws InvalidVerificationRequestStateException if the request is not in pending state.
      * @throws InvalidParametersException if the request is invalid.
      */
     public AccountVerificationRequest rejectAccountVerificationRequest(
-            UUID id, @Nullable String reasonTitle, @Nullable String reasonBody)
+            UUID id, AccountVerificationRequestRejectionType rejectionType,
+            @Nullable String additionalComments)
             throws EntityDoesNotExistException, InvalidVerificationRequestStateException, InvalidParametersException {
         AccountVerificationRequest request = accountVerificationRequestDb.getAccountVerificationRequest(id);
         if (request == null) {
@@ -205,21 +196,22 @@ public final class AccountVerificationsLogic {
                     "Account verification request with id " + id + " is not in pending state and cannot be rejected.");
         }
         request.setStatus(AccountVerificationRequestStatus.REJECTED);
+        request.setRejectionType(rejectionType);
+        request.setRejectionAdditionalComments(additionalComments);
         validateAccountVerificationRequest(request);
-        if (reasonTitle != null && reasonBody != null) {
-            accountVerificationEmailsLogic.enqueueRejectionEmail(new AccountVerificationRejectedEmailContext(
-                    request.getEmail(),
-                    SanitizationHelper.sanitizeTitle(reasonTitle),
-                    SanitizationHelper.sanitizeForRichText(reasonBody)));
-        }
+        accountVerificationEmailsLogic.enqueueRejectionEmail(new AccountVerificationRejectedEmailContext(
+                request.getEmail(),
+                request.getInstitute().getName(),
+                rejectionType,
+                additionalComments));
         return request;
     }
 
     /**
-     * Gets all pending account verification requests.
+     * Gets account verification requests matching the supplied query.
      */
-    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationRequestDb.getPendingAccountVerificationRequests();
+    public List<AccountVerificationRequest> getAccountVerificationRequests(AccountVerificationRequestQuery query) {
+        return accountVerificationRequestDb.getAccountVerificationRequests(query);
     }
 
     /**
@@ -236,15 +228,6 @@ public final class AccountVerificationsLogic {
         accountVerificationRequestDb.removeAccountVerificationRequest(toDelete);
     }
 
-    /**
-     * Searches for account verification requests in the whole system.
-     *
-     * @return A list of {@link AccountVerificationRequest}, or an empty list if no match is found.
-     */
-    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationRequestDb.searchAccountVerificationRequestsInWholeSystem(queryString);
-    }
-
     private void validateAccountVerificationRequest(
             AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
         if (!accountVerificationRequest.isValid()) {
@@ -253,10 +236,19 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Gets the verified instructor details associated with the given account and institute, or null if none exists.
+     */
+    public VerifiedInstructorDetails getVerifiedInstructorDetails(UUID accountId, UUID instituteId) {
+        AccountVerificationRequest request = accountVerificationRequestDb
+                .getApprovedAccountVerificationRequest(accountId, instituteId);
+        return request == null ? null : new VerifiedInstructorDetails(request.getName(), request.getEmail());
+    }
+
+    /**
      * Returns true if the given account has an approved account verification request for the given institute.
      */
     public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {
-        return accountVerificationRequestDb.hasApprovedRequestForAccountAndInstitute(accountId, instituteId);
+        return accountVerificationRequestDb.getApprovedAccountVerificationRequest(accountId, instituteId) != null;
     }
 
     /**
