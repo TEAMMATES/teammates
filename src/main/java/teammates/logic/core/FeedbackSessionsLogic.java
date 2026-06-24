@@ -120,7 +120,8 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets all feedback sessions for the given courses, except those that are soft-deleted.
+     * Gets all non-soft-deleted feedback sessions for the given course IDs.
+     * Includes sessions from soft-deleted courses.
      */
     public List<FeedbackSession> getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(List<String> courseIds) {
         if (courseIds.isEmpty()) {

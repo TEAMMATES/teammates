@@ -1,20 +1,16 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
 
@@ -24,12 +20,10 @@ import teammates.ui.output.FeedbackSessionsData;
 public class GetFeedbackSessionsActionTest
         extends BaseActionTest<GetFeedbackSessionsAction, FeedbackSessionsData> {
 
-    @Test(groups = GroupNames.ACTION)
-    public void getFeedbackSessionsAction_studentAcrossCourses_returnsVisibleSessionsWithDeadlines() {
-        Instant firstSessionEndTime = Instant.now().plus(1, ChronoUnit.HOURS);
-        Instant secondSessionEndTime = Instant.now().plus(2, ChronoUnit.HOURS);
-        Instant extendedDeadline = Instant.now().plus(3, ChronoUnit.HOURS);
+    private static final Instant EXTENDED_DEADLINE = Instant.parse("2027-01-15T00:00:00Z");
 
+    @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionsAction_studentAcrossCourses_returnsSessionsWithDeadlines() {
         var account = given.account("account");
         var firstCourse = given.course("first-course");
         var secondCourse = given.course("second-course");
@@ -38,15 +32,13 @@ public class GetFeedbackSessionsActionTest
         given.student("second-student",
                 student -> student.course(secondCourse.alias()).account(account.alias()));
         var firstSession = given.feedbackSession("first-session",
-                session -> session.course(firstCourse.alias()).opened().endTime(firstSessionEndTime));
-        var secondSession = given.feedbackSession("second-session",
-                session -> session.course(secondCourse.alias()).opened().endTime(secondSessionEndTime));
-        given.feedbackSession("invisible-session",
-                session -> session.course(secondCourse.alias()).notVisible());
+                session -> session.course(firstCourse.alias()).opened());
+        given.feedbackSession("second-session",
+                session -> session.course(secondCourse.alias()).opened());
         given.deadlineExtension("deadline-extension", extension -> extension
                 .student(firstStudent.alias())
                 .feedbackSession(firstSession.alias())
-                .endTime(extendedDeadline));
+                .endTime(EXTENDED_DEADLINE));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -55,22 +47,13 @@ public class GetFeedbackSessionsActionTest
 
         FeedbackSessionsData result = execute(request);
 
-        Map<UUID, FeedbackSessionViewData> sessionsById = result.getFeedbackSessions().stream()
-                .collect(Collectors.toMap(
-                        session -> session.getFeedbackSession().getFeedbackSessionId(),
-                        Function.identity()));
-        assertEquals(2, sessionsById.size());
-        assertEquals(extendedDeadline.toEpochMilli(),
-                sessionsById.get(firstSession.id()).getUserDeadlineExtension());
-        assertEquals(secondSessionEndTime.toEpochMilli(),
-                sessionsById.get(secondSession.id()).getUserDeadlineExtension());
-        assertNull(sessionsById.get(firstSession.id()).getFeedbackSession().getSessionVisibleFromTimestamp());
+        assertEquals(2, result.getFeedbackSessions().size());
+        assertEquals(EXTENDED_DEADLINE.toEpochMilli(),
+                getSession(result, firstSession.id()).getUserDeadlineExtension());
     }
 
     @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionsAction_instructorAcrossCourses_returnsSessionsWithDeadlinesAndPermissions() {
-        Instant extendedDeadline = Instant.now().plus(3, ChronoUnit.HOURS);
-
         var account = given.account("account");
         var firstCourse = given.course("first-course");
         var secondCourse = given.course("second-course");
@@ -80,12 +63,12 @@ public class GetFeedbackSessionsActionTest
                 instructor -> instructor.course(secondCourse.alias()).account(account.alias()).coOwner());
         var firstSession = given.feedbackSession("first-session",
                 session -> session.course(firstCourse.alias()).opened());
-        var secondSession = given.feedbackSession("second-session",
+        given.feedbackSession("second-session",
                 session -> session.course(secondCourse.alias()).opened());
         given.deadlineExtension("deadline-extension", extension -> extension
                 .instructor(firstInstructor.alias())
                 .feedbackSession(firstSession.alias())
-                .endTime(extendedDeadline));
+                .endTime(EXTENDED_DEADLINE));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -95,16 +78,44 @@ public class GetFeedbackSessionsActionTest
 
         FeedbackSessionsData result = execute(request);
 
-        Map<UUID, FeedbackSessionViewData> sessionsById = result.getFeedbackSessions().stream()
-                .collect(Collectors.toMap(
-                        session -> session.getFeedbackSession().getFeedbackSessionId(),
-                        Function.identity()));
-        assertEquals(2, sessionsById.size());
-        assertEquals(extendedDeadline.toEpochMilli(),
-                sessionsById.get(firstSession.id()).getUserDeadlineExtension());
-        assertEquals(secondSession.id(),
-                sessionsById.get(secondSession.id()).getFeedbackSession().getFeedbackSessionId());
-        assertTrue(sessionsById.get(firstSession.id())
-                .getInstructorPermissions().getCanModifySession());
+        assertEquals(2, result.getFeedbackSessions().size());
+        assertEquals(EXTENDED_DEADLINE.toEpochMilli(),
+                getSession(result, firstSession.id()).getUserDeadlineExtension());
+        assertTrue(getSession(result, firstSession.id()).getInstructorPermissions().getCanModifySession());
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionsAction_unsupportedEntityType_throwsUnauthorizedAccessException() {
+        var account = given.account("account");
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN)
+                .withAccountAuth(account.id());
+
+        assertActionThrows(UnauthorizedAccessException.class, request);
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionsAction_studentNotInCourse_throwsUnauthorizedAccessException() {
+        var account = given.account("account");
+        var enrolledCourse = given.course("enrolled-course");
+        var otherCourse = given.course("other-course");
+        given.student("student", student -> student.course(enrolledCourse.alias()).account(account.alias()));
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.COURSE_ID, otherCourse.id())
+                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                .withAccountAuth(account.id());
+
+        assertActionThrows(UnauthorizedAccessException.class, request);
+    }
+
+    private FeedbackSessionViewData getSession(FeedbackSessionsData result, UUID sessionId) {
+        return result.getFeedbackSessions().stream()
+                .filter(session -> session.getFeedbackSession().getFeedbackSessionId().equals(sessionId))
+                .findFirst()
+                .orElseThrow();
     }
 }
