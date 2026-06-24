@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h5 class="modal-title">Reject Verification Request</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Rejection Reason</label>
+    <div class="d-flex flex-column gap-2">
+      @for (type of rejectionTypes; track type) {
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            [id]="'rejection-type-' + type"
+            name="rejectionType"
+            [value]="type"
+            [checked]="selectedRejectionType() === type"
+            (change)="selectedRejectionType.set(type)"
+          />
+          <label class="form-check-label" [for]="'rejection-type-' + type">
+            {{ rejectionTypeLabels[type] }}
+          </label>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="additional-comments" class="form-label fw-semibold"
+      >Additional Comments <span class="text-muted fw-normal">(optional)</span></label
+    >
+    <textarea
+      id="additional-comments"
+      class="form-control"
+      rows="4"
+      maxlength="2000"
+      [value]="additionalComments()"
+      (input)="additionalComments.set($any($event.target).value)"
+      placeholder="Provide any additional context for the rejection..."
+    ></textarea>
+    <div class="form-text text-end">{{ additionalComments().length }} / 2000</div>
+  </div>
+
+  <details>
+    <summary class="text-muted small" style="cursor: pointer">Email preview</summary>
+    <div class="border rounded p-3 mt-2 small" style="background: var(--bs-tertiary-bg)">
+      <p class="mb-2">Hi,</p>
+      <p class="mb-2">
+        Thank you for your interest in using TEAMMATES. After reviewing your account verification request for
+        <strong>{{ instituteName || '(institute name)' }}</strong
+        >, we are unable to approve it at this time.
+      </p>
+      @if (emailPreview().reason) {
+        <p class="mb-2"><strong>Reason:</strong> {{ emailPreview().reason }}</p>
+      } @else if (!selectedRejectionType()) {
+        <p class="mb-2"><strong>Reason:</strong> <em class="text-muted">(select a rejection reason above)</em></p>
+      }
+      @if (emailPreview().comments) {
+        <p class="mb-2"><strong>Additional comments:</strong> {{ emailPreview().comments }}</p>
+      }
+      <p class="mb-2">
+        If you believe this decision was made in error, or if you have additional information that may support your
+        request, please contact us at {{ supportEmail }}.
+      </p>
+      <p class="mb-2">Thank you for your understanding.</p>
+      <p class="mb-0">- The TEAMMATES Team</p>
+    </div>
+  </details>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="dismiss()">Cancel</button>
+  <button type="button" class="btn btn-danger" [disabled]="!isValid()" (click)="confirm()">Reject</button>
+</div>

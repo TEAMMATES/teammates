@@ -410,7 +410,9 @@ public final class EmailRenderer {
      */
     public static RenderedEmail renderAccountVerificationRejectedEmail(
             AccountVerificationRejectedEmailContext context) {
-        String rejectionReason = getRejectionReason(context.rejectionType());
+        String rejectionReasonBlock = context.rejectionType() != AccountVerificationRequestRejectionType.OTHERS
+                ? "<p><strong>Reason:</strong> " + getRejectionReason(context.rejectionType()) + "</p>"
+                : "";
         String additionalCommentsBlock = context.additionalComments() != null && !context.additionalComments().isBlank()
                 ? "<p><strong>Additional comments:</strong> "
                         + SanitizationHelper.sanitizeForHtml(context.additionalComments()) + "</p>"
@@ -418,7 +420,7 @@ public final class EmailRenderer {
         return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.ACCOUNT_VERIFICATION_REJECTED,
                 "${instituteName}", SanitizationHelper.sanitizeForHtml(context.instituteName()),
-                "${rejectionReason}", rejectionReason,
+                "${rejectionReason}", rejectionReasonBlock,
                 "${additionalComments}", additionalCommentsBlock,
                 "${supportEmail}", Config.SUPPORT_EMAIL));
     }
@@ -430,7 +432,7 @@ public final class EmailRenderer {
         case NOT_OFFICIAL_EMAIL ->
                 "The email address provided does not appear to be an official email address issued by the institute.";
         case NOT_INSTRUCTOR_ACCOUNT -> "Your account does not appear to belong to an instructor.";
-        case OTHERS -> "Unfortunately, we are unable to approve your request at this time.";
+        case OTHERS -> "";
         };
     }
 
