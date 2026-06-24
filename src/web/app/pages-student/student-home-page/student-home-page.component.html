@@ -8,7 +8,7 @@
     <div>
       @if (courses.length === 0) {
         <div>
-          You are not enrolled in any courses. Please refer to the <a tmRouterLink="/web/student/help">help page</a>
+          You are not enrolled in any courses. Please refer to the <a routerLink="/web/student/help">help page</a>
           if you need more information.
         </div>
       } @else {
@@ -60,7 +60,7 @@
                 <strong class="text-break">[{{ course.courseId }}]: {{ course.courseName }}</strong>
                 <div class="card-header-btn-toolbar">
                   <a
-                    [tmRouterLink]="['/web/student/courses', course.courseId]"
+                    [routerLink]="['/web/student/courses', course.courseId]"
                     id="view-team-btn-{{ i }}"
                     class="btn btn-primary btn-sm button text-nowrap me-2"
                   >
@@ -119,7 +119,7 @@
                               <td class="text-center">
                                 <a
                                   [ngClass]="{ disabled: !session.isPublished }"
-                                  [tmRouterLink]="[
+                                  [routerLink]="[
                                     '/web/student/sessions',
                                     session.session.feedbackSessionId,
                                     'result',
@@ -136,7 +136,7 @@
                                 }
                                 @if (session.isOpened && !session.isSubmitted) {
                                   <a
-                                    [tmRouterLink]="[
+                                    [routerLink]="[
                                       '/web/student/sessions',
                                       session.session.feedbackSessionId,
                                       'submission',
@@ -149,7 +149,7 @@
                                 }
                                 @if (session.isOpened && session.isSubmitted) {
                                   <a
-                                    [tmRouterLink]="[
+                                    [routerLink]="[
                                       '/web/student/sessions',
                                       session.session.feedbackSessionId,
                                       'submission',
@@ -162,7 +162,7 @@
                                 }
                                 @if (!session.isOpened && !session.isWaitingToOpen) {
                                   <a
-                                    [tmRouterLink]="[
+                                    [routerLink]="[
                                       '/web/student/sessions',
                                       session.session.feedbackSessionId,
                                       'submission',

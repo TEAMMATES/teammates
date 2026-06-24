@@ -765,7 +765,7 @@ exports[`StudentHomePageComponent > should snap with no course 1`] = `
          You are not enrolled in any courses. Please refer to the 
         <a
           href="/web/student/help"
-          tmrouterlink="/web/student/help"
+          routerLink="/web/student/help"
         >
           help page
         </a>

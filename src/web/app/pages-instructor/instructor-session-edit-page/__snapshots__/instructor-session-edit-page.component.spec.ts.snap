@@ -3013,7 +3013,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=essay-questions&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3038,7 +3038,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=single-answer-mcq&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3063,7 +3063,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=multiple-answer-mcq&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3088,7 +3088,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=numerical-scale&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3113,7 +3113,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=points-options&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3138,7 +3138,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=points-recipients&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3163,7 +3163,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=contribution&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3188,7 +3188,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=rubric&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3213,7 +3213,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=rank-options&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3238,7 +3238,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     href="/web/instructor/help?questionId=rank-recipients&section=questions"
                     rel="noopener noreferrer"
                     target="_blank"
-                    tmrouterlink="/web/instructor/help"
+                    routerLink="/web/instructor/help"
                     type="button"
                   >
                     <i
@@ -3255,7 +3255,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
             target="_blank"
-            tmrouterlink="/web/instructor/help"
+            routerLink="/web/instructor/help"
             type="button"
           >
             <i

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { default as developersData } from '../../../data/developers.json';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Team member information from developers.json
@@ -48,7 +48,7 @@ interface Contributor {
   selector: 'tm-about-page',
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss'],
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class AboutPageComponent implements OnInit {
   nDevelopers = 0;

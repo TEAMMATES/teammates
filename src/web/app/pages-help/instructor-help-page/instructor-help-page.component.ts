@@ -11,7 +11,7 @@ import { StudentsSectionQuestions } from './instructor-help-students-section/stu
 import { Sections } from './sections';
 import { environment } from '../../../environments/environment';
 import { PageScrollService } from '../../../services/page-scroll.service';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Instructor help page.
@@ -21,7 +21,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
   imports: [
-    TeammatesRouterDirective,
+    RouterLink,
     FormsModule,
     InstructorHelpStudentsSectionComponent,
     InstructorHelpCoursesSectionComponent,

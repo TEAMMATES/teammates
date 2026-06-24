@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
 import { PageScrollService } from '../../../../services/page-scroll.service';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
 import { QuestionsSectionQuestions } from '../instructor-help-questions-section/questions-section-questions';
@@ -19,7 +19,7 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
-  imports: [TeammatesRouterDirective, ExampleBoxComponent, CourseEditFormComponent],
+  imports: [RouterLink, ExampleBoxComponent, CourseEditFormComponent],
 })
 export class InstructorHelpGettingStartedComponent {
   private readonly route = inject(ActivatedRoute);

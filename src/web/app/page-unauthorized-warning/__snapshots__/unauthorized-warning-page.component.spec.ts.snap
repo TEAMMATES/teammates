@@ -37,7 +37,7 @@ exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when 
       <a
         class="text-center"
         href="/web/front"
-        tmrouterlink="/web/front"
+        routerLink="/web/front"
       >
         Return to main page.
       </a>
@@ -108,7 +108,7 @@ exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when 
       <a
         class="text-center"
         href="/web/front"
-        tmrouterlink="/web/front"
+        routerLink="/web/front"
       >
         Return to main page.
       </a>

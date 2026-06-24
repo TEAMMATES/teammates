@@ -126,7 +126,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -1602,7 +1602,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -3078,7 +3078,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -4452,7 +4452,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
      You have not created any courses yet, or you have no active courses. Go 
     <a
       href="/web/instructor/courses"
-      tmrouterlink="/web/instructor/courses"
+      routerLink="/web/instructor/courses"
     >
       here
     </a>
@@ -4535,7 +4535,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -6015,7 +6015,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -7491,7 +7491,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -8967,7 +8967,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
+                      routerLink="/web/instructor/help"
                       type="button"
                     >
                       <i
