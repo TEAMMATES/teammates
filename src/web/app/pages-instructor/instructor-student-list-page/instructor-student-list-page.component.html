@@ -112,20 +112,14 @@
                       >
                       </tm-student-list>
                     } @else {
-                      @if (courseTab.isAbleToViewStudents) {
-                        <h5>There are no students in this course.</h5>
-                        <a
-                          id="btn-enroll"
-                          class="btn btn-success"
-                          [tmRouterLink]="['/web/instructor/courses', courseTab.course.courseId, 'enroll']"
-                        >
-                          Enroll Students
-                        </a>
-                      } @else {
-                        <div class="alert alert-danger" role="alert">
-                          <h5>You do not have permission to view the details of the students in this course.</h5>
-                        </div>
-                      }
+                      <h5>There are no students in this course.</h5>
+                      <a
+                        id="btn-enroll"
+                        class="btn btn-success"
+                        [tmRouterLink]="['/web/instructor/courses', courseTab.course.courseId, 'enroll']"
+                      >
+                        Enroll Students
+                      </a>
                     }
                   </div>
                 }

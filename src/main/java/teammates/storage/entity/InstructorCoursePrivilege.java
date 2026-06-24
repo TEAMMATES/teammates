@@ -52,9 +52,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
     private boolean canModifyStudent;
 
     @Column(nullable = false)
-    private boolean canViewStudent;
-
-    @Column(nullable = false)
     private boolean canViewSession;
 
     @Column(nullable = false)
@@ -106,7 +103,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
         privileges.setCanModifyInstructor(canModifyInstructor);
         privileges.setCanModifySession(canModifySession);
         privileges.setCanModifyStudent(canModifyStudent);
-        privileges.setCanViewStudent(canViewStudent);
         privileges.setCanViewSession(canViewSession);
         privileges.setCanSubmitSession(canSubmitSession);
         privileges.setCanModifySessionComments(canModifySessionComments);
@@ -121,7 +117,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
         this.canModifyInstructor = privileges.isCanModifyInstructor();
         this.canModifySession = privileges.isCanModifySession();
         this.canModifyStudent = privileges.isCanModifyStudent();
-        this.canViewStudent = privileges.isCanViewStudent();
         this.canViewSession = privileges.isCanViewSession();
         this.canSubmitSession = privileges.isCanSubmitSession();
         this.canModifySessionComments = privileges.isCanModifySessionComments();

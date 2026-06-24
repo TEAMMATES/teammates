@@ -48,9 +48,6 @@ public class InstructorSectionPrivilege extends BaseEntity {
     private UUID sectionId;
 
     @Column(nullable = false)
-    private boolean canViewStudent;
-
-    @Column(nullable = false)
     private boolean canViewSession;
 
     @Column(nullable = false)
@@ -115,7 +112,6 @@ public class InstructorSectionPrivilege extends BaseEntity {
      */
     public InstructorPermissionSet getPrivileges() {
         InstructorPermissionSet privileges = new InstructorPermissionSet();
-        privileges.setCanViewStudent(canViewStudent);
         privileges.setCanViewSession(canViewSession);
         privileges.setCanSubmitSession(canSubmitSession);
         privileges.setCanModifySessionComments(canModifySessionComments);
@@ -126,7 +122,6 @@ public class InstructorSectionPrivilege extends BaseEntity {
      * Copies the section-level permissions from the given {@link InstructorPermissionSet}.
      */
     public void setPrivileges(InstructorPermissionSet privileges) {
-        this.canViewStudent = privileges.isCanViewStudent();
         this.canViewSession = privileges.isCanViewSession();
         this.canSubmitSession = privileges.isCanSubmitSession();
         this.canModifySessionComments = privileges.isCanModifySessionComments();

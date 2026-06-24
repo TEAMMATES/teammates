@@ -14,16 +14,13 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.StudentQuery;
@@ -148,46 +145,23 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetStudentsVisibleToAccount_sectionLevelPermissions_filtersBySection() {
+    public void testGetStudentsVisibleToAccount_instructorInCourse_canViewAllStudents() {
         Account requesterAccount = getTypicalAccount();
         Instructor requester = createInstructor("requester@teammates.tmt", true);
         requester.setAccount(requesterAccount);
         requester.setRole(InstructorPermissionRole.CUSTOM);
 
-        Section allowedSection = new Section("allowed-section");
-        allowedSection.setId(UUID.randomUUID());
-        course.addSection(allowedSection);
-        Team allowedTeam = new Team("allowed-team");
-        allowedTeam.setId(UUID.randomUUID());
-        allowedSection.addTeam(allowedTeam);
-        Student allowedStudent = new Student(course, "allowed-student", "allowed@teammates.tmt", "comments");
-        allowedTeam.addUser(allowedStudent);
-
-        Section deniedSection = new Section("denied-section");
-        deniedSection.setId(UUID.randomUUID());
-        course.addSection(deniedSection);
-        Team deniedTeam = new Team("denied-team");
-        deniedTeam.setId(UUID.randomUUID());
-        deniedSection.addTeam(deniedTeam);
-        Student deniedStudent = new Student(course, "denied-student", "denied@teammates.tmt", "comments");
-        deniedTeam.addUser(deniedStudent);
+        Student student1 = new Student(course, "student-1", "student1@teammates.tmt", "comments");
+        Student student2 = new Student(course, "student-2", "student2@teammates.tmt", "comments");
 
         when(usersDb.getInstructorsByAccountId(requesterAccount.getId())).thenReturn(List.of(requester));
-        when(instructorPermissionsLogic.hasPermissions(requester, Const.InstructorPermissions.CAN_VIEW_STUDENT))
-                .thenReturn(false);
-        InstructorPermissionSet allowedSectionPrivileges = new InstructorPermissionSet();
-        allowedSectionPrivileges.setCanViewStudent(true);
-        Map<UUID, InstructorPermissionSet> visibleSections = new LinkedHashMap<>();
-        visibleSections.put(allowedSection.getId(), allowedSectionPrivileges);
-        when(instructorPermissionsLogic.getSectionsWithPermission(requester, Const.InstructorPermissions.CAN_VIEW_STUDENT))
-                .thenReturn(visibleSections);
         when(usersDb.getStudents(new StudentQuery(List.of(course.getId()), null, null)))
-                .thenReturn(List.of(allowedStudent, deniedStudent));
+                .thenReturn(List.of(student1, student2));
 
         List<Student> actual = usersLogic.getStudentsVisibleToAccount(
                 new StudentQuery(List.of(course.getId()), null, null), requesterAccount);
 
-        assertEquals(List.of(allowedStudent), actual);
+        assertEquals(List.of(student1, student2), actual);
     }
 
     @Test

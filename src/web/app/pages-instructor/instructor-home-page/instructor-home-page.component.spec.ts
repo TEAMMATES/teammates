@@ -29,7 +29,6 @@ const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyStudent: true,
   canSubmitSession: true,
   canModifyInstructor: false,
-  canViewStudent: false,
   canModifySessionComments: false,
   canViewSession: false,
 };
@@ -378,7 +377,6 @@ describe('InstructorHomePageComponent', () => {
       canModifyStudent: false,
       canSubmitSession: false,
       canModifyInstructor: false,
-      canViewStudent: false,
       canModifySessionComments: false,
       canViewSession: false,
     };

@@ -52,19 +52,6 @@
             <label>
               <input
                 type="checkbox"
-                [ngModel]="permission.privilege.canViewStudent"
-                (ngModelChange)="triggerOverallPermissionChange('canViewStudent', $event)"
-              />
-              View Students' Details
-            </label>
-          </div>
-
-          <hr />
-
-          <div class="col-12">
-            <label>
-              <input
-                type="checkbox"
                 [ngModel]="permission.privilege.canSubmitSession"
                 (ngModelChange)="triggerOverallPermissionChange('canSubmitSession', $event)"
               />
@@ -141,15 +128,6 @@
       </div>
       <div id="custom-sections-access-levels" class="card-body">
         <div class="row">
-          <div class="col-6">
-            <label>
-              <input
-                type="checkbox"
-                [ngModel]="sectionLevel.privilege.canViewStudent"
-                (ngModelChange)="triggerSectionLevelPermissionChange(i, 'canViewStudent', $event)"
-              />&nbsp; View Students' Details
-            </label>
-          </div>
           <div class="col-6 border-left-gray">
             <label>
               <input

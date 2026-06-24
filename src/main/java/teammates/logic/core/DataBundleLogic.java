@@ -344,9 +344,6 @@ public final class DataBundleLogic {
                     Const.InstructorPermissions.CAN_MODIFY_STUDENT,
                     courseLevel.isCanModifyStudent());
             newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT,
-                    courseLevel.isCanViewStudent());
-            newPrivileges.updatePrivilege(
                     Const.InstructorPermissions.CAN_VIEW_SESSION,
                     courseLevel.isCanViewSession());
             newPrivileges.updatePrivilege(
@@ -360,10 +357,6 @@ public final class DataBundleLogic {
             oldPrivileges.getSectionLevelPrivileges().forEach((sectionId, permissions) -> {
                 Section section = sectionsMap.get(sectionId);
                 if (section != null) {
-                    newPrivileges.updatePrivilege(
-                            section.getId(),
-                            Const.InstructorPermissions.CAN_VIEW_STUDENT,
-                            permissions.isCanViewStudent());
                     newPrivileges.updatePrivilege(
                             section.getId(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION,

@@ -455,7 +455,6 @@ export interface InstructorPermissionSet {
   canModifyInstructor: boolean;
   canModifySession: boolean;
   canModifyStudent: boolean;
-  canViewStudent: boolean;
   canViewSession: boolean;
   canSubmitSession: boolean;
   canModifySessionComments: boolean;

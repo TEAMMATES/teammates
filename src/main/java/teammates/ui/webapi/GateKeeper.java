@@ -140,14 +140,13 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the user has instructor privileges to view the specified student.
+     * Verifies that the user has instructor privileges in the same course as the specified student.
      */
-    void verifyInstructorCanViewStudent(RequestContext requestContext, UUID userId)
+    void verifyInstructorInSameCourseAsStudent(RequestContext requestContext, UUID userId)
             throws UnauthorizedAccessException {
         Student student = logic.getStudent(userId);
         verifyNotNull(student, "student");
-        verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
-                Const.InstructorPermissions.CAN_VIEW_STUDENT);
+        verifyInstructorInCourse(requestContext, student.getCourseId());
     }
 
     /**

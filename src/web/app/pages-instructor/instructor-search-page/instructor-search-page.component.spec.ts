@@ -126,7 +126,6 @@ describe('InstructorSearchPageComponent', () => {
             canModifySession: false,
             canModifyStudent: false,
             canModifyInstructor: false,
-            canViewStudent: true,
             canModifySessionComments: false,
             canViewSession: false,
             canSubmitSession: false,
@@ -191,7 +190,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-5',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -208,7 +206,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-6',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -225,7 +222,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-7',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -242,7 +238,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-8',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
         ],
@@ -298,7 +293,6 @@ describe('InstructorSearchPageComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudent: true,
       canModifySessionComments: true,
       canViewSession: true,
       canSubmitSession: true,
@@ -315,7 +309,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: false,
             canModifyStudent: true,
           },
           sectionLevel: {},
@@ -326,7 +319,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: true,
             canModifyStudent: false,
           },
           sectionLevel: {},
@@ -337,7 +329,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: false,
             canModifyStudent: false,
           },
           sectionLevel: {},
@@ -348,19 +339,15 @@ describe('InstructorSearchPageComponent', () => {
     component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
 
     const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
-    expect(course1Student1.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
 
     const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
-    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(false);
     expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
 
     const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
-    expect(course1Student3.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
 
     const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
-    expect(course2Student1.isAllowedToViewStudentInSection).toEqual(false);
     expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
 
     expect(mockPrivilegesArray.length).toEqual(0);

@@ -27,7 +27,6 @@ export const EXAMPLE_SINGLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[] 
     students: [
       {
         student: EXAMPLE_STUDENT_ATTRIBUTES,
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ],
@@ -54,7 +53,6 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
           institute: '',
           courseName: '',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -71,7 +69,6 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
           institute: '',
           courseName: '',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -88,7 +85,6 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
           institute: '',
           courseName: '',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -105,7 +101,6 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
           institute: '',
           courseName: '',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -122,7 +117,6 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
           institute: '',
           courseName: '',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ],
