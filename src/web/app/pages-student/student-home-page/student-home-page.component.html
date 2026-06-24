@@ -119,11 +119,7 @@
                               <td class="text-center">
                                 <a
                                   [ngClass]="{ disabled: !session.isPublished }"
-                                  [routerLink]="[
-                                    '/web/student/sessions',
-                                    session.session.feedbackSessionId,
-                                    'result',
-                                  ]"
+                                  [routerLink]="['/web/student/sessions', session.session.feedbackSessionId, 'result']"
                                   id="view-responses-btn-{{ i }}"
                                   class="btn btn-light btn-sm btn-margin-right custom-button"
                                 >
