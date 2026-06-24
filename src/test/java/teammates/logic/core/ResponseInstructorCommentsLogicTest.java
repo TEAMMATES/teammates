@@ -9,14 +9,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ResponseInstructorCommentsDb;
@@ -76,14 +73,12 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         when(frcDb.persistResponseInstructorComment(any(ResponseInstructorComment.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(feedbackResponse.getId(), giver,
-                "new comment", List.of(CommentVisibilityType.STUDENTS), List.of(CommentVisibilityType.INSTRUCTORS));
+        ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(
+                feedbackResponse.getId(), giver, "new comment");
 
         verify(frcDb, times(1)).persistResponseInstructorComment(createdComment);
         assertEquals("new comment", createdComment.getCommentText());
         assertEquals(giver, createdComment.getGiver());
-        assertEquals(List.of(CommentVisibilityType.STUDENTS), createdComment.getShowCommentTo());
-        assertEquals(List.of(CommentVisibilityType.INSTRUCTORS), createdComment.getShowGiverNameTo());
     }
 
     @Test
@@ -104,29 +99,15 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         when(frcDb.getResponseInstructorComment(comment.getId())).thenReturn(comment);
 
         String updatedCommentText = "Update";
-        List<CommentVisibilityType> showCommentTo = new ArrayList<>();
-        showCommentTo.add(CommentVisibilityType.STUDENTS);
-        showCommentTo.add(CommentVisibilityType.INSTRUCTORS);
-        List<CommentVisibilityType> showGiverNameTo = new ArrayList<>();
-        showGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
-
         ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest(
-                updatedCommentText, showCommentTo, showGiverNameTo);
+                updatedCommentText);
         ResponseInstructorComment updatedComment = frcLogic.updateResponseInstructorComment(TYPICAL_ID, updateRequest,
                 getRandomInstructor());
 
         verify(frcDb, times(1)).getResponseInstructorComment(TYPICAL_ID);
 
-        List<CommentVisibilityType> expectedShowCommentTo = new ArrayList<>();
-        expectedShowCommentTo.add(CommentVisibilityType.STUDENTS);
-        expectedShowCommentTo.add(CommentVisibilityType.INSTRUCTORS);
-        List<CommentVisibilityType> expectedShowGiverNameTo = new ArrayList<>();
-        expectedShowGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
-
         assertEquals(TYPICAL_ID, updatedComment.getId());
         assertEquals(updatedCommentText, updatedComment.getCommentText());
-        assertEquals(expectedShowCommentTo, updatedComment.getShowCommentTo());
-        assertEquals(expectedShowGiverNameTo, updatedComment.getShowGiverNameTo());
     }
 
     @Test
@@ -136,15 +117,7 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         when(frcDb.getResponseInstructorComment(comment.getId())).thenReturn(comment);
 
         UUID nonExistentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
-        String updatedCommentText = "Update";
-        List<CommentVisibilityType> showCommentTo = new ArrayList<>();
-        showCommentTo.add(CommentVisibilityType.STUDENTS);
-        showCommentTo.add(CommentVisibilityType.INSTRUCTORS);
-        List<CommentVisibilityType> showGiverNameTo = new ArrayList<>();
-        showGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
-
-        ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest(
-                updatedCommentText, showCommentTo, showGiverNameTo);
+        ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest("Update");
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.updateResponseInstructorComment(nonExistentId, updateRequest,

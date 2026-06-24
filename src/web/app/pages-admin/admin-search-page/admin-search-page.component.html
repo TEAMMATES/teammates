@@ -31,10 +31,3 @@
     (studentReset)="search()"
   ></tm-admin-student-search-table>
 }
-
-@if (accountVerificationRequests.length) {
-  <tm-admin-account-verification-request-search-table
-    [accountVerificationRequests]="accountVerificationRequests"
-    [searchString]="searchString"
-  ></tm-admin-account-verification-request-search-table>
-}

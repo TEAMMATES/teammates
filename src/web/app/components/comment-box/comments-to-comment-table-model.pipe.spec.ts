@@ -22,8 +22,6 @@ describe('CommentsToCommentTableModelPipe', () => {
         commentText: 'commentText',
         createdAt: 0,
         lastEditedAt: 0,
-        showGiverNameTo: [],
-        showCommentTo: [],
       },
       {
         commentGiverName: 'commentGiverName2',
@@ -32,8 +30,6 @@ describe('CommentsToCommentTableModelPipe', () => {
         commentText: 'commentText2',
         createdAt: 1,
         lastEditedAt: 1,
-        showGiverNameTo: [],
-        showCommentTo: [],
       },
     ];
     expect(pipe.transform(comments, true, 'UTC')).toEqual({
@@ -48,13 +44,9 @@ describe('CommentsToCommentTableModelPipe', () => {
           lastEditedAt: 0,
           originalCommentFormModel: {
             commentText: 'commentText',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           isEditing: false,
         },
@@ -68,13 +60,9 @@ describe('CommentsToCommentTableModelPipe', () => {
           lastEditedAt: 1,
           originalCommentFormModel: {
             commentText: 'commentText2',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText2',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           isEditing: false,
         },
@@ -83,8 +71,6 @@ describe('CommentsToCommentTableModelPipe', () => {
         commentType: 'new',
         commentEditFormModel: {
           commentText: '',
-          showCommentTo: ['GIVER'],
-          showGiverNameTo: ['GIVER'],
         },
         isEditing: false,
       },

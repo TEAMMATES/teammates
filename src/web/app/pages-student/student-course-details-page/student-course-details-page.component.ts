@@ -172,7 +172,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
     this.instructorService
-      .loadInstructors({ courseId })
+      .loadDisplayedInstructors({ courseId })
       .pipe(
         finalize(() => {
           this.isLoadingInstructor = false;

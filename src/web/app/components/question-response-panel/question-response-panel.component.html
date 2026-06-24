@@ -8,12 +8,6 @@
       ></tm-question-text-with-info>
       @if (!question.hasResponseButNotVisibleForPreview) {
         <div class="all-responses">
-          @if (question.hasCommentNotVisibleForPreview) {
-            <div class="alert alert-warning my-3 non-visible-comment-alert" role="alert">
-              <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from
-              this preview because they are not visible to instructors, as per their visibility settings.
-            </div>
-          }
           @if (canUserSeeResponses(question)) {
             <div class="other-responses">
               <tm-single-statistics [statistics]="question.questionStatistics"></tm-single-statistics>

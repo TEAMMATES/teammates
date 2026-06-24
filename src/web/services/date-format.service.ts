@@ -5,7 +5,7 @@ import { inject, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class DateFormatService {
-  private timezoneService = inject(TimezoneService);
+  private readonly timezoneService = inject(TimezoneService);
 
   formatDateBrief(timestamp: number, timeZone: string): string {
     return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM h:mm A');

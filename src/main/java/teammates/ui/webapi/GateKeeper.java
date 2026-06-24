@@ -87,6 +87,7 @@ final class GateKeeper {
      * Verifies that the user has student privileges in the specified course.
      */
     void verifyStudentInCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         verifyNotNull(student, "student");
 
@@ -101,6 +102,7 @@ final class GateKeeper {
      */
     void verifyUserInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         if (student != null && student.getCourseId().equals(courseId)) {
             return;
@@ -117,6 +119,7 @@ final class GateKeeper {
      */
     void verifyInstructorInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         verifyNotNull(instructor, "instructor");
 

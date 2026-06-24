@@ -17,6 +17,8 @@ export interface AccountVerificationRequest extends ApiOutput {
   country: string;
   status: AccountVerificationRequestStatus;
   comments?: string;
+  rejectionType?: AccountVerificationRequestRejectionType;
+  rejectionAdditionalComments?: string;
   createdDemoCourseAt?: number;
   createdAt: number;
 }
@@ -606,8 +608,6 @@ export interface ResponseInstructorComment extends ApiOutput {
   commentText: string;
   createdAt: number;
   lastEditedAt: number;
-  showGiverNameTo: CommentVisibilityType[];
-  showCommentTo: CommentVisibilityType[];
 }
 
 export interface ResponseOutput {
@@ -765,7 +765,6 @@ export interface UserQuestionOutput {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics?: FeedbackQuestionResultsStatistics;
   hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
   allResponses: ResponseOutput[];
   responsesToSelf: ResponseOutput[];
   responsesFromSelf: ResponseOutput[];
@@ -776,19 +775,18 @@ export interface UserSessionResults extends ApiOutput {
   questions: UserQuestionOutput[];
 }
 
+export enum AccountVerificationRequestRejectionType {
+  ALREADY_VERIFIED = "ALREADY_VERIFIED",
+  CANNOT_VERIFY_IDENTITY = "CANNOT_VERIFY_IDENTITY",
+  NOT_OFFICIAL_EMAIL = "NOT_OFFICIAL_EMAIL",
+  NOT_INSTRUCTOR_ACCOUNT = "NOT_INSTRUCTOR_ACCOUNT",
+  OTHERS = "OTHERS",
+}
+
 export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-}
-
-export enum CommentVisibilityType {
-  GIVER = "GIVER",
-  RECIPIENT = "RECIPIENT",
-  GIVER_TEAM_MEMBERS = "GIVER_TEAM_MEMBERS",
-  RECIPIENT_TEAM_MEMBERS = "RECIPIENT_TEAM_MEMBERS",
-  STUDENTS = "STUDENTS",
-  INSTRUCTORS = "INSTRUCTORS",
 }
 
 export enum FeedbackConstantSumDistributePointsType {

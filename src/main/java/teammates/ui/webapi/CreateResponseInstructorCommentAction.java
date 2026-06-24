@@ -67,8 +67,7 @@ public class CreateResponseInstructorCommentAction extends LoggedInAction {
         Instructor instructor = getInstructorFromRequest(courseId);
         try {
             ResponseInstructorComment createdComment = logic.createResponseInstructorComment(
-                    feedbackResponseId, instructor, comment.getCommentText(),
-                    comment.getShowCommentTo(), comment.getShowGiverNameTo());
+                    feedbackResponseId, instructor, comment.getCommentText());
             HibernateUtil.flushSession();
             return new JsonResult(new ResponseInstructorCommentData(createdComment));
         } catch (InvalidParametersException e) {

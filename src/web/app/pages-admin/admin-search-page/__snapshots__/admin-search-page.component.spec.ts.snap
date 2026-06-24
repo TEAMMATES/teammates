@@ -2,7 +2,6 @@
 
 exports[`AdminSearchPageComponent > should snap with a search key 1`] = `
 <tm-admin-search-page
-  accountVerificationRequests={[Function Array]}
   characterLimit={[Function Number]}
   instructors={[Function Array]}
   loadingBarService={[Function _LoadingBarService]}
@@ -45,7 +44,6 @@ exports[`AdminSearchPageComponent > should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent > should snap with default fields 1`] = `
 <tm-admin-search-page
-  accountVerificationRequests={[Function Array]}
   characterLimit={[Function Number]}
   instructors={[Function Array]}
   loadingBarService={[Function _LoadingBarService]}

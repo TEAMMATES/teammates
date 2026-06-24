@@ -461,7 +461,7 @@ export class QuestionSubmissionFormComponent {
    * Add new participant comment to response with index.
    */
   addNewParticipantCommentToResponse(index: number): void {
-    const newComment: NewCommentRowModel = createNewCommentRowModel(this.model.showResponsesTo, true);
+    const newComment: NewCommentRowModel = createNewCommentRowModel(true);
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', newComment);
   }
 

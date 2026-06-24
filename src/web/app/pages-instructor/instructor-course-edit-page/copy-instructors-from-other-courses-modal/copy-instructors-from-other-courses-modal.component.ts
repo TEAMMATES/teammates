@@ -8,7 +8,6 @@ import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { Instructor, InstructorPermissionRole, Instructors } from '../../../../types/api-output';
-import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
@@ -79,27 +78,22 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     course.hasInstructorsLoaded = false;
     course.hasLoadingFailed = false;
     course.instructorCandidates = [];
-    this.instructorService
-      .loadInstructors({
-        courseId: course.courseId,
-        intent: Intent.FULL_DETAIL,
-      })
-      .subscribe({
-        next: (response: Instructors) => {
-          response.instructors.forEach((i: Instructor) => {
-            const instructorToCopy: InstructorToCopyCandidateModel = {
-              instructor: i,
-              isSelected: false,
-            };
-            course.instructorCandidates.push(instructorToCopy);
-          });
-          course.hasInstructorsLoaded = true;
-        },
-        error: (resp: ErrorMessageOutput) => {
-          course.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    this.instructorService.loadInstructors({ courseId: course.courseId }).subscribe({
+      next: (response: Instructors) => {
+        response.instructors.forEach((i: Instructor) => {
+          const instructorToCopy: InstructorToCopyCandidateModel = {
+            instructor: i,
+            isSelected: false,
+          };
+          course.instructorCandidates.push(instructorToCopy);
+        });
+        course.hasInstructorsLoaded = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        course.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**

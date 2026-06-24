@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -15,7 +14,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.util.Const;
+import teammates.common.datatransfer.InstructorQuery;
+import teammates.common.datatransfer.StudentQuery;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -176,123 +176,6 @@ public final class UsersDb {
     }
 
     /**
-     * Searches all instructors in the system.
-     *
-     * <p>This method should be used by admin only since the searching does not
-     * restrict the visibility according to the logged-in user's google ID. This
-     * is used by admin to search instructors in the whole system.
-     */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
-        if (queryString.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        char escapeChar = '\\';
-        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
-        String wildcardQuery = "%" + escapedQuery + "%";
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
-
-        Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar));
-
-        cr.select(instructorRoot)
-                .where(searchPredicate)
-                .orderBy(
-                        cb.asc(instructorRoot.get("courseId")),
-                        cb.asc(instructorRoot.get("role")),
-                        cb.asc(instructorRoot.get("name")),
-                        cb.asc(instructorRoot.get("email")));
-
-        TypedQuery<Instructor> query = HibernateUtil.createQuery(cr);
-        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
-        return query.getResultList();
-    }
-
-    /**
-     * Searches for students.
-     *
-     * @param instructors the constraint that restricts the search result
-     */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        if (queryString.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<String> courseIdsWithViewStudentPrivilege = null;
-        if (instructors != null) {
-            courseIdsWithViewStudentPrivilege = instructors.stream()
-                    .map(Instructor::getCourseId)
-                    .collect(Collectors.toList());
-
-            if (courseIdsWithViewStudentPrivilege.isEmpty()) {
-                return new ArrayList<>();
-            }
-        }
-
-        char escapeChar = '\\';
-        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
-        String wildcardQuery = "%" + escapedQuery + "%";
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        Join<Student, Course> coursesJoin = studentRoot.join("course");
-        Join<Student, Team> teamsJoin = studentRoot.join("team");
-        Join<Team, Section> sectionsJoin = teamsJoin.join("section");
-
-        Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(studentRoot.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(studentRoot.get("email")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(studentRoot.get("courseId")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(teamsJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(sectionsJoin.get("name")), wildcardQuery, escapeChar));
-
-        if (courseIdsWithViewStudentPrivilege == null) {
-            cr.select(studentRoot)
-                    .where(searchPredicate);
-        } else {
-            cr.select(studentRoot)
-                    .where(cb.and(searchPredicate,
-                            studentRoot.get("courseId").in(courseIdsWithViewStudentPrivilege)));
-        }
-
-        cr.orderBy(
-                cb.asc(studentRoot.get("courseId")),
-                cb.asc(sectionsJoin.get("name")),
-                cb.asc(teamsJoin.get("name")),
-                cb.asc(studentRoot.get("name")),
-                cb.asc(studentRoot.get("email")));
-
-        TypedQuery<Student> query = HibernateUtil.createQuery(cr);
-        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
-        return query.getResultList();
-    }
-
-    /**
-     * Searches all students in the system.
-     *
-     * <p>This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
-     * search students in the whole system.
-     */
-    public List<Student> searchStudentsInWholeSystem(String queryString) {
-        if (queryString.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return searchStudents(queryString, null);
-    }
-
-    /**
      * Removes a user.
      */
     public <T extends User> void removeUser(T user) {
@@ -336,6 +219,101 @@ public final class UsersDb {
         cr.select(root).where(cb.equal(root.get("courseId"), courseId));
 
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets the students for the supplied query.
+     */
+    public List<Student> getStudents(StudentQuery query) {
+        String searchKey = query.searchKey() == null ? null : query.searchKey().trim().toLowerCase(Locale.ROOT);
+        if (searchKey != null && searchKey.isEmpty()) {
+            return List.of();
+        }
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> coursesJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+        Join<Team, Section> sectionsJoin = teamsJoin.join("section");
+
+        List<Predicate> predicates = new ArrayList<>();
+        if (searchKey != null && !searchKey.isEmpty()) {
+            char escapeChar = '\\';
+            String wildcardQuery = "%" + escapeLikePattern(searchKey, escapeChar) + "%";
+            predicates.add(cb.or(
+                    cb.like(cb.lower(studentRoot.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(studentRoot.get("email")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(studentRoot.get("courseId")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(teamsJoin.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(sectionsJoin.get("name")), wildcardQuery, escapeChar)));
+        }
+        if (query.courseIds() != null) {
+            if (query.courseIds().isEmpty()) {
+                return new ArrayList<>();
+            }
+            predicates.add(studentRoot.get("courseId").in(query.courseIds()));
+        }
+
+        cr.select(studentRoot)
+                .where(cb.and(predicates.toArray(Predicate[]::new)))
+                .orderBy(
+                        cb.asc(studentRoot.get("courseId")),
+                        cb.asc(sectionsJoin.get("name")),
+                        cb.asc(teamsJoin.get("name")),
+                        cb.asc(studentRoot.get("name")),
+                        cb.asc(studentRoot.get("email")));
+
+        TypedQuery<Student> typedQuery = HibernateUtil.createQuery(cr);
+        if (query.limit() != null) {
+            typedQuery.setMaxResults(query.limit());
+        }
+        return typedQuery.getResultList();
+    }
+
+    /**
+     * Gets instructors matching the specified query.
+     */
+    public List<Instructor> getInstructors(InstructorQuery query) {
+        String courseId = query.courseId();
+        String searchKey = query.searchKey() == null ? null : query.searchKey().trim().toLowerCase(Locale.ROOT);
+        if (searchKey != null && searchKey.isEmpty()) {
+            return List.of();
+        }
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        if (courseId != null) {
+            predicates.add(cb.equal(instructorRoot.get("courseId"), courseId));
+        }
+        if (searchKey != null) {
+            char escapeChar = '\\';
+            String wildcardQuery = "%" + escapeLikePattern(searchKey, escapeChar) + "%";
+            Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
+            predicates.add(cb.or(
+                    cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                    cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar)));
+        }
+
+        cr.select(instructorRoot)
+                .where(predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(Predicate[]::new)))
+                .orderBy(
+                        cb.asc(instructorRoot.get("courseId")),
+                        cb.asc(instructorRoot.get("name")),
+                        cb.asc(instructorRoot.get("email")));
+
+        TypedQuery<Instructor> typedQuery = HibernateUtil.createQuery(cr);
+        if (query.limit() != null) {
+            typedQuery.setMaxResults(query.limit());
+        }
+        return typedQuery.getResultList();
     }
 
     /**

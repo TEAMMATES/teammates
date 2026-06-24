@@ -25,7 +25,6 @@ import {
 import {
   DeadlineExtensionsUpdateRequest,
   FeedbackSessionBasicRequest,
-  Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-request';
@@ -174,7 +173,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    */
   private getAllStudentsOfCourse(): void {
     this.studentService
-      .getStudentsFromCourse({ courseId: this.courseId })
+      .getStudents({ courseIds: [this.courseId] })
       .pipe(
         map(({ students }: Students) =>
           DeadlineExtensionHelper.mapStudentsToStudentModels(
@@ -265,7 +264,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    */
   private getAllInstructorsOfCourse(): void {
     this.instructorService
-      .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
+      .loadInstructors({ courseId: this.courseId })
       .pipe(
         map(({ instructors }: Instructors) =>
           DeadlineExtensionHelper.mapInstructorsToInstructorModels(

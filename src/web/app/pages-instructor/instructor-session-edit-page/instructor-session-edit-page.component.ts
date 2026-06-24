@@ -32,7 +32,6 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { AddingQuestionPanelComponent } from '../../components/adding-question-panel/adding-question-panel.component';
@@ -1102,7 +1101,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): Observable<Student[]> {
-    return this.studentService.getStudentsFromCourse({ courseId: this.courseId }).pipe(
+    return this.studentService.getStudents({ courseIds: [this.courseId] }).pipe(
       map((students: Students) => {
         this.studentsOfCourse = students.students;
 
@@ -1129,30 +1128,25 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all instructors of a course.
    */
   getAllInstructors(): Observable<Instructor[]> {
-    return this.instructorService
-      .loadInstructors({
-        courseId: this.courseId,
-        intent: Intent.FULL_DETAIL,
-      })
-      .pipe(
-        map((instructors: Instructors) => {
-          this.instructorsOfCourse = instructors.instructors;
-          // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
-          // in the feedback session
+    return this.instructorService.loadInstructors({ courseId: this.courseId }).pipe(
+      map((instructors: Instructors) => {
+        this.instructorsOfCourse = instructors.instructors;
+        // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
+        // in the feedback session
 
-          // sort the instructor list based on name
-          this.instructorsOfCourse.sort((a: Instructor, b: Instructor): number => {
-            return a.name.localeCompare(b.name);
-          });
+        // sort the instructor list based on name
+        this.instructorsOfCourse.sort((a: Instructor, b: Instructor): number => {
+          return a.name.localeCompare(b.name);
+        });
 
-          // select the first instructor
-          if (this.instructorsOfCourse.length >= 1) {
-            this.userIdOfInstructorToPreview = this.instructorsOfCourse[0].userId;
-          }
+        // select the first instructor
+        if (this.instructorsOfCourse.length >= 1) {
+          this.userIdOfInstructorToPreview = this.instructorsOfCourse[0].userId;
+        }
 
-          return this.instructorsOfCourse;
-        }),
-      );
+        return this.instructorsOfCourse;
+      }),
+    );
   }
 
   expandAll(): void {

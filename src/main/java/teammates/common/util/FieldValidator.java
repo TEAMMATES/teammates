@@ -65,6 +65,9 @@ public final class FieldValidator {
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
+    public static final String REJECTION_ADDITIONAL_COMMENTS_FIELD_NAME = "rejection additional comments";
+    public static final int REJECTION_ADDITIONAL_COMMENTS_MAX_LENGTH = 2000;
+
     /*
      * =======================================================================
      * Field: Course ID
@@ -346,6 +349,18 @@ public final class FieldValidator {
         return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
                                                                STUDENT_ROLE_COMMENTS_MAX_LENGTH,
                                                                studentRoleComments);
+    }
+
+    /**
+     * Checks if the given rejectionAdditionalComments is a non-null string no longer than
+     * {@code REJECTION_ADDITIONAL_COMMENTS_MAX_LENGTH}. The string may be empty.
+     * @return An explanation of why the {@code rejectionAdditionalComments} is not acceptable.
+     *         Returns an empty string "" if the {@code rejectionAdditionalComments} is acceptable.
+     */
+    public static String getInvalidityInfoForRejectionAdditionalComments(String rejectionAdditionalComments) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(REJECTION_ADDITIONAL_COMMENTS_FIELD_NAME,
+                                                               REJECTION_ADDITIONAL_COMMENTS_MAX_LENGTH,
+                                                               rejectionAdditionalComments);
     }
 
     /**

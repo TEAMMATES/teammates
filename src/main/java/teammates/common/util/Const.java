@@ -319,6 +319,7 @@ public final class Const {
         public static final String STUDENT_COURSES = URI_PREFIX + "/student/courses";
         public static final String INSTITUTES = URI_PREFIX + "/institutes";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
+        public static final String INSTRUCTORS_DISPLAYED = URI_PREFIX + "/instructors/displayed";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String OWN_INSTRUCTOR = URI_PREFIX + "/me/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
@@ -344,8 +345,6 @@ public final class Const {
         public static final String SESSION_SUBMISSION = URI_PREFIX + "/session/submission";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
-        public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
         public static final String QUESTIONS = URI_PREFIX + "/questions";
         public static final String QUESTION = URI_PREFIX + "/question";

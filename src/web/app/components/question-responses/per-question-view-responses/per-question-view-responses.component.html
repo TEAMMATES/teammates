@@ -168,7 +168,6 @@
 <ng-template #commentTableModal let-modal>
   @if (currResponseToAdd) {
     <tm-comment-table-modal
-      [questionShowResponsesTo]="question.showResponsesTo"
       [activeModal]="modal"
       [model]="instructorCommentTableModel[currResponseToAdd.responseId]"
       [response]="currResponseToAdd"

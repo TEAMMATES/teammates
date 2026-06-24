@@ -5,11 +5,7 @@ import { ResponseInstructorCommentService } from './feedback-response-comment.se
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
-import {
-  CommentVisibilityType,
-  ResponseInstructorCommentCreateRequest,
-  ResponseInstructorCommentUpdateRequest,
-} from '../types/api-request';
+import { ResponseInstructorCommentCreateRequest, ResponseInstructorCommentUpdateRequest } from '../types/api-request';
 
 describe('ResponseInstructorCommentService', () => {
   let spyHttpRequestService: MockHttpRequestService;
@@ -34,8 +30,6 @@ describe('ResponseInstructorCommentService', () => {
   it('should call post when create comment', () => {
     const createRequest: ResponseInstructorCommentCreateRequest = {
       commentText: 'example comment to a response',
-      showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.GIVER_TEAM_MEMBERS],
-      showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.GIVER_TEAM_MEMBERS],
     };
     const responseid = 'resp-id-1';
 
@@ -52,8 +46,6 @@ describe('ResponseInstructorCommentService', () => {
   it('should call put when update comment', () => {
     const updateRequest: ResponseInstructorCommentUpdateRequest = {
       commentText: 'updated comment',
-      showCommentTo: [CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS],
     };
     const commentId = '00000000-0000-4000-8000-000000000003';
 

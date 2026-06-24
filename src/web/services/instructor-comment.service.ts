@@ -69,8 +69,6 @@ export class InstructorCommentService {
       .updateComment(
         {
           commentText: commentRowToUpdate.commentEditFormModel.commentText,
-          showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
-          showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
         },
         commentId,
       )
@@ -98,8 +96,6 @@ export class InstructorCommentService {
       .createComment(
         {
           commentText: commentRowToAdd.commentEditFormModel.commentText,
-          showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
-          showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
         },
         responseId,
       )

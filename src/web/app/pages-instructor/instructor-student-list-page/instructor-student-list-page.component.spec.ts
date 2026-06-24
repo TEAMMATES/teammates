@@ -105,7 +105,7 @@ describe('InstructorStudentListPageComponent', () => {
   });
 
   it('should block instructors from viewing student details if they do not have the permission', () => {
-    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'getStudents').mockReturnValue(
       throwError(() => ({
         status: HttpStatusCode.Forbidden,
         error: {

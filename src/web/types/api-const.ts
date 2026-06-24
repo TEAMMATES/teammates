@@ -78,6 +78,7 @@ export enum ResourceEndpoints {
   DEMO_COURSE = "/webapi/demo/course",
   INSTITUTES = "/webapi/institutes",
   INSTRUCTORS = "/webapi/instructors",
+  INSTRUCTORS_DISPLAYED = "/webapi/instructors/displayed",
   INSTRUCTOR = "/webapi/instructor",
   OWN_INSTRUCTOR = "/webapi/me/instructor",
   INSTRUCTOR_PRIVILEGE = "/webapi/instructor/privilege",
@@ -113,8 +114,6 @@ export enum ResourceEndpoints {
   JOIN_REMIND = "/webapi/join/remind",
   TIMEZONE = "/webapi/timezone",
   SESSION_LINKS_RECOVERY = "/webapi/sessionlinksrecovery",
-  SEARCH_INSTRUCTORS = "/webapi/search/instructors",
-  SEARCH_STUDENTS = "/webapi/search/students",
   USAGE_STATISTICS = "/webapi/usagestats",
   CONFIG = "/webapi/config",
 }

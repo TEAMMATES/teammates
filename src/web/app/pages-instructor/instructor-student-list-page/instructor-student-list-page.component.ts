@@ -133,7 +133,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
-    this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId }).subscribe({
+    this.studentService.getStudents({ courseIds: [courseTab.course.courseId] }).subscribe({
       next: (students: Students) => {
         courseTab.studentList = []; // Reset the list of students for the course
         const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -154,6 +154,11 @@ export class InstructorStudentListPageComponent implements OnInit {
           .subscribe({
             next: (instructorPrivilege: InstructorPrivilege) => {
               const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+              courseTab.isAbleToViewStudents =
+                courseLevelPrivilege.canViewStudent ||
+                Object.values(instructorPrivilege.privileges.sectionLevel).some(
+                  (sectionPrivilege: InstructorPermissionSet) => sectionPrivilege.canViewStudent,
+                );
 
               Object.keys(sections).forEach((sectionId: string) => {
                 const sectionLevelPrivilege: InstructorPermissionSet =

@@ -16,6 +16,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.VerifiedInstructorDetails;
 import teammates.common.exception.InvalidParametersException;
@@ -146,27 +147,32 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testRejectAccountVerificationRequest_withReason_enqueuesRejectionEmail() throws Exception {
+    public void testRejectAccountVerificationRequest_withRejectionType_enqueuesRejectionEmail() throws Exception {
         AccountVerificationRequest request = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
 
         AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
-                request.getId(), "Verification request update", "<p>Rejected</p>");
+                request.getId(), AccountVerificationRequestRejectionType.OTHERS, null);
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
+        assertEquals(AccountVerificationRequestRejectionType.OTHERS, actual.getRejectionType());
+        assertNull(actual.getRejectionAdditionalComments());
         verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
     }
 
     @Test
-    public void testRejectAccountVerificationRequest_withoutReason_doesNotEnqueueRejectionEmail() throws Exception {
+    public void testRejectAccountVerificationRequest_withRejectionTypeAndComments_enqueuesRejectionEmail()
+            throws Exception {
         AccountVerificationRequest request = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(request.getId())).thenReturn(request);
 
         AccountVerificationRequest actual = accountVerificationsLogic.rejectAccountVerificationRequest(
-                request.getId(), null, null);
+                request.getId(), AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, "Please use official email.");
 
         assertEquals(AccountVerificationRequestStatus.REJECTED, actual.getStatus());
-        verify(accountVerificationEmailsLogic, never()).enqueueRejectionEmail(any());
+        assertEquals(AccountVerificationRequestRejectionType.NOT_OFFICIAL_EMAIL, actual.getRejectionType());
+        assertEquals("Please use official email.", actual.getRejectionAdditionalComments());
+        verify(accountVerificationEmailsLogic).enqueueRejectionEmail(any());
     }
 
     @Test

@@ -64,13 +64,8 @@
               </div>
               @if (response.allResponses[0].participantComment) {
                 <tm-comment-row
-                  [model]="
-                    response.allResponses[0].participantComment
-                      | giverCommentToCommentRowModel: response.feedbackQuestion.showResponsesTo
-                  "
-                  [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
+                  [model]="response.allResponses[0].participantComment | giverCommentToCommentRowModel"
                   [isDisabled]="true"
-                  [isVisibilityOptionEnabled]="false"
                   [mode]="CommentRowMode.EDIT"
                   [isFeedbackParticipantComment]="true"
                   [shouldHideDeleteButton]="true"
@@ -83,7 +78,6 @@
               ) {
                 <tm-comment-table
                   [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
-                  [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                   [response]="response.allResponses[0]"
                   (modelChange)="triggerModelChangeForSingleResponse(response.allResponses[0].responseId, $event)"
                   (updateCommentEvent)="triggerUpdateCommentEvent(response.allResponses[0].responseId, $event)"
