@@ -218,7 +218,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -367,7 +367,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -506,7 +506,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS1231"
-                    routerLink="/web/instructor/sessions"
+                    routerlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -538,7 +538,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Copy 
                   </a>
@@ -546,7 +546,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Delete 
                   </a>
@@ -954,7 +954,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1087,7 +1087,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerLink="/web/instructor/sessions"
+                    routerlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1699,7 +1699,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1838,7 +1838,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerLink="/web/instructor/sessions"
+                    routerlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1870,7 +1870,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Copy 
                   </a>
@@ -1878,7 +1878,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Delete 
                   </a>
@@ -1984,7 +1984,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -2123,7 +2123,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerLink="/web/instructor/sessions"
+                    routerlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2155,7 +2155,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Copy 
                   </a>
@@ -2163,7 +2163,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Delete 
                   </a>
@@ -2269,7 +2269,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerLink="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -2408,7 +2408,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS1231"
-                    routerLink="/web/instructor/sessions"
+                    routerlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2440,7 +2440,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                     class="btn-copy-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Copy the course and its corresponding sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Copy 
                   </a>
@@ -2448,7 +2448,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
                     class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     href="/"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
-                    routerLink="./"
+                    routerlink="./"
                   >
                      Delete 
                   </a>

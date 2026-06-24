@@ -62,8 +62,8 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
         class="small"
         href="/web/instructor/help?questionId=course-instructor-access&section=courses"
         rel="noopener noreferrer"
+        routerlink="/web/instructor/help"
         target="_blank"
-        routerLink="/web/instructor/help"
       >
         <i
           aria-hidden="true"
@@ -380,8 +380,8 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
         class="small"
         href="/web/instructor/help?questionId=course-instructor-access&section=courses"
         rel="noopener noreferrer"
+        routerlink="/web/instructor/help"
         target="_blank"
-        routerLink="/web/instructor/help"
       >
         <i
           aria-hidden="true"
@@ -698,8 +698,8 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
         class="small"
         href="/web/instructor/help?questionId=course-instructor-access&section=courses"
         rel="noopener noreferrer"
+        routerlink="/web/instructor/help"
         target="_blank"
-        routerLink="/web/instructor/help"
       >
         <i
           aria-hidden="true"
@@ -1016,8 +1016,8 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
         class="small"
         href="/web/instructor/help?questionId=course-instructor-access&section=courses"
         rel="noopener noreferrer"
+        routerlink="/web/instructor/help"
         target="_blank"
-        routerLink="/web/instructor/help"
       >
         <i
           aria-hidden="true"
