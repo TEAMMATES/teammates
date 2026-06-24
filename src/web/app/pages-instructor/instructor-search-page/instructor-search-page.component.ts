@@ -180,9 +180,9 @@ export class InstructorSearchPageComponent implements OnInit {
   }
 
   private loadVisibleCourseIds(): Observable<string[]> {
-    return this.courseService.getAllCoursesAsInstructor('active').pipe(
-      map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))),
-    );
+    return this.courseService
+      .getAllCoursesAsInstructor('active')
+      .pipe(map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))));
   }
 }
 
