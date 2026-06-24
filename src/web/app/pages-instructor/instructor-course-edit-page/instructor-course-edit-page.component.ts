@@ -60,7 +60,7 @@ import { CourseEditFormComponent } from '../../components/course-edit-form/cours
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
@@ -82,7 +82,7 @@ interface InstructorEditPanelDetail {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     CourseEditFormComponent,
-    TeammatesRouterDirective,
+    RouterLink,
     InstructorEditPanelComponent,
     AjaxLoadingComponent,
     NgbCollapse,

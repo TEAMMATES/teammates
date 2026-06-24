@@ -4,7 +4,7 @@ import { FeedbackQuestionType } from '../../../types/api-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { QuestionTypeHelpPathPipe } from '../teammates-common/question-type-help-path.pipe';
 import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Displaying the adding questions panel.
@@ -17,7 +17,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    TeammatesRouterDirective,
+    RouterLink,
     AjaxLoadingComponent,
     QuestionTypeNamePipe,
     QuestionTypeHelpPathPipe,

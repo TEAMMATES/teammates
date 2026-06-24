@@ -16,7 +16,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SendRemindersToRespondentsModalComponent } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { ReminderResponseModel } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Instructor sessions results page No Response Panel.
@@ -25,7 +25,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-instructor-session-no-response-panel',
   templateUrl: './instructor-session-no-response-panel.component.html',
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
-  imports: [TeammatesRouterDirective, PanelChevronComponent, LoadingSpinnerDirective, NgbCollapse],
+  imports: [RouterLink, PanelChevronComponent, LoadingSpinnerDirective, NgbCollapse],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
   private ngbModal = inject(NgbModal);

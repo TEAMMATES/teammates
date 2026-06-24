@@ -4,12 +4,12 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { InstructorPermissionSet } from '../../../types/api-request';
 
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tm-group-buttons',
   templateUrl: './cell-with-actions.component.html',
-  imports: [CommonModule, TeammatesRouterDirective, NgbDropdownModule, NgbTooltipModule],
+  imports: [CommonModule, RouterLink, NgbDropdownModule, NgbTooltipModule],
 })
 export class CellWithActionsComponent {
   @Input() idx = 0;

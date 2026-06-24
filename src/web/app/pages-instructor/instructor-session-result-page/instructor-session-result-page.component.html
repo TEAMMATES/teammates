@@ -21,7 +21,7 @@
                 <p class="form-control-static">
                   {{ session.feedbackSessionName }}
                   <a
-                    [tmRouterLink]="['/web/instructor/sessions', session.feedbackSessionId, 'edit']"
+                    [routerLink]="['/web/instructor/sessions', session.feedbackSessionId, 'edit']"
                     [queryParams]="{ editingMode: true }"
                     aria-label="Edit feedback session"
                     ><i class="fas fa-edit"></i

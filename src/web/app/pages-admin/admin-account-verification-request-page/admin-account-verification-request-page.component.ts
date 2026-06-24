@@ -8,7 +8,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { AccountVerificationRequestRejectionType } from '../../../types/api-request';
 import {
   AccountVerificationRequestDraft,
@@ -24,7 +24,7 @@ import { RejectRequestModalComponent } from './reject-request-modal/reject-reque
   selector: 'tm-admin-account-verification-request-page',
   templateUrl: './admin-account-verification-request-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent, TeammatesRouterDirective],
+  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent, RouterLink],
 })
 export class AdminAccountVerificationRequestPageComponent {
   private readonly accountService = inject(AccountService);

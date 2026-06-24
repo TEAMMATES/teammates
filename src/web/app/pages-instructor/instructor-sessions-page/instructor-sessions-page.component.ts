@@ -41,7 +41,7 @@ import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 import { TemplateSession } from '../../../data/template-sessions';
@@ -53,7 +53,7 @@ import { TemplateSession } from '../../../data/template-sessions';
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
   imports: [
-    TeammatesRouterDirective,
+    RouterLink,
     SessionEditFormComponent,
     LoadingRetryComponent,
     LoadingSpinnerDirective,

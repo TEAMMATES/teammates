@@ -5,7 +5,7 @@
     rel="noopener noreferrer"
     [id]="'btn-view-details-' + courseId + '-' + idx"
     [ngbTooltip]="'View the details of the student'"
-    [tmRouterLink]="['/web/instructor/courses', courseId, 'students', userId, 'details']"
+    [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'details']"
   >
     View
   </a>
@@ -22,7 +22,7 @@
           'Simply enroll students using the updated data and existing data will be updated accordingly'
         : 'You do not have the permissions to access this feature'
     "
-    [tmRouterLink]="['/web/instructor/courses', courseId, 'students', userId, 'edit']"
+    [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'edit']"
   >
     Edit
   </a>
@@ -71,7 +71,7 @@
         ? 'View all data about this student'
         : 'You do not have the permissions to access this feature'
     "
-    [tmRouterLink]="['/web/instructor/students', courseId, userId, 'records']"
+    [routerLink]="['/web/instructor/students', courseId, userId, 'records']"
   >
     All Records
   </a>

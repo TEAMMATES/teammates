@@ -12,7 +12,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { joinStateToString } from '../../utils/join-state.util';
 
@@ -39,7 +39,7 @@ export interface CourseTab {
   templateUrl: './instructor-student-list-page.component.html',
   styleUrls: ['./instructor-student-list-page.component.scss'],
   imports: [
-    TeammatesRouterDirective,
+    RouterLink,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     PanelChevronComponent,

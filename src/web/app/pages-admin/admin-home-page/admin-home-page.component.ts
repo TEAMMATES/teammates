@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -16,7 +16,7 @@ import { DateFormatService } from '../../../services/date-format.service';
 @Component({
   selector: 'tm-admin-home-page',
   templateUrl: './admin-home-page.component.html',
-  imports: [FormsModule, TeammatesRouterDirective, AccountVerificationRequestTableComponent],
+  imports: [FormsModule, RouterLink, AccountVerificationRequestTableComponent],
 })
 export class AdminHomePageComponent implements OnInit {
   private accountService = inject(AccountService);

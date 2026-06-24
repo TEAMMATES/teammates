@@ -26,7 +26,7 @@
               <a
                 type="button"
                 class="btn btn-link"
-                tmRouterLink="/web/instructor/help"
+                routerLink="/web/instructor/help"
                 [queryParams]="{ questionId: 'sessions', section: 'sessions' }"
                 target="_blank"
                 aria-label="Help for feedback sessions"
@@ -336,7 +336,7 @@
               @if (formMode !== SessionEditFormMode.ADD) {
                 <a
                   class="ps-3 pt-2"
-                  [tmRouterLink]="['/web/instructor/sessions', model.feedbackSessionId, 'individual-extension']"
+                  [routerLink]="['/web/instructor/sessions', model.feedbackSessionId, 'individual-extension']"
                   [queryParams]="{ preselectNonSubmitters: false }"
                 >
                   Individual Deadline Extensions

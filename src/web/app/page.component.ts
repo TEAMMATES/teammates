@@ -22,7 +22,7 @@ import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
-import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { NavItem } from './page.model';
@@ -64,7 +64,7 @@ export class ClickOutsideDirective {
   styleUrls: ['./page.component.scss'],
   imports: [
     forwardRef(() => ClickOutsideDirective),
-    TeammatesRouterDirective,
+    RouterLink,
     NgStyle,
     NgbDropdown,
     NgbDropdownToggle,

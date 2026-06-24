@@ -62,7 +62,7 @@
               <div class="d-flex flex-column gap-3">
                 @for (historyEntry of historicalRequests(); track historyEntry.accountVerificationRequestId) {
                   <a
-                    [tmRouterLink]="[
+                    [routerLink]="[
                       '/web/admin/account-verification-requests',
                       historyEntry.accountVerificationRequestId,
                     ]"

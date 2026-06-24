@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralSectionQuestions } from './general-section-questions';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
@@ -12,7 +12,7 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-general-section',
   templateUrl: './instructor-help-general-section.component.html',
   styleUrls: ['./instructor-help-general-section.component.scss'],
-  imports: [InstructorHelpPanelComponent, TeammatesRouterDirective],
+  imports: [InstructorHelpPanelComponent, RouterLink],
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums

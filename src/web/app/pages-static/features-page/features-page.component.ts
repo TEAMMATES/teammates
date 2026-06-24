@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Features page.
@@ -8,6 +8,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-features-page',
   templateUrl: './features-page.component.html',
   styleUrls: ['./features-page.component.scss'],
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class FeaturesPageComponent {}

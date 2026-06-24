@@ -25,7 +25,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { DateFormatService } from '../../../services/date-format.service';
@@ -59,7 +59,7 @@ interface StudentSession {
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    TeammatesRouterDirective,
+    RouterLink,
     PanelChevronComponent,
     NgbTooltip,
     NgClass,
