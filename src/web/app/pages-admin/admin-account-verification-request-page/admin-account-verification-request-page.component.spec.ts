@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import '@angular/compiler';
 import { of, throwError } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
@@ -12,6 +13,8 @@ import {
   AccountVerificationRequestStatus,
   AccountVerificationRequests,
 } from '../../../types/api-output';
+import { AccountVerificationRequestRejectionType } from '../../../types/api-request';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AdminAccountVerificationRequestPageComponent } from './admin-account-verification-request-page.component';
 
 const mockPendingRequest: AccountVerificationRequest = {
@@ -69,6 +72,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
   let fixture: ComponentFixture<AdminAccountVerificationRequestPageComponent>;
   let accountService: AccountService;
   let statusMessageService: StatusMessageService;
+  let ngbModal: NgbModal;
 
   async function setup(accountVerificationRequestId = 'test-id-123') {
     await TestBed.configureTestingModule({
@@ -80,6 +84,7 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);
+    ngbModal = TestBed.inject(NgbModal);
   }
 
   it('should show invalid state when account verification request API call fails', async () => {
@@ -270,13 +275,18 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(
       of({ ...mockPendingRequest, status: AccountVerificationRequestStatus.REJECTED }),
     );
+    vi.spyOn(ngbModal, 'open').mockReturnValue(
+      createMockNgbModalRef({}, Promise.resolve({ rejectionType: AccountVerificationRequestRejectionType.OTHERS })),
+    );
     const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     fixture.detectChanges();
     component.rejectRequest();
+    await vi.waitFor(() => {
+      expect(successSpy).toHaveBeenCalledWith('Account verification request was successfully rejected.');
+    });
 
     expect(component.accountVerificationRequest()?.status).toBe(AccountVerificationRequestStatus.REJECTED);
-    expect(successSpy).toHaveBeenCalledWith('Account verification request was successfully rejected.');
     expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
@@ -304,13 +314,18 @@ describe('AdminAccountVerificationRequestPageComponent', () => {
     vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Rejection failed' }, status: 400 })),
     );
+    vi.spyOn(ngbModal, 'open').mockReturnValue(
+      createMockNgbModalRef({}, Promise.resolve({ rejectionType: AccountVerificationRequestRejectionType.OTHERS })),
+    );
     const errorSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
     fixture.detectChanges();
     component.rejectRequest();
+    await vi.waitFor(() => {
+      expect(errorSpy).toHaveBeenCalledWith('Rejection failed');
+    });
 
     expect(component.accountVerificationRequest()?.status).toBe(AccountVerificationRequestStatus.PENDING);
-    expect(errorSpy).toHaveBeenCalledWith('Rejection failed');
     expect(component.isApprovingOrRejecting()).toBe(false);
   });
 
