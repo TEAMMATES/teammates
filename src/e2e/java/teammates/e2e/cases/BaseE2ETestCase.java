@@ -555,15 +555,4 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     protected DeadlineExtensionsData getDeadlineExtensions(UUID feedbackSessionId) {
         return BACKDOOR.getDeadlineExtensionsData(feedbackSessionId.toString());
     }
-
-    /**
-     * Updates the feedback response comment in the database.
-     *
-     * @param commentId the ID of the comment to update
-     * @param commentText the new comment text
-     * @param instructorAccountId the ID of the instructor account
-     */
-    protected void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
-        BACKDOOR.updateResponseInstructorComment(commentId, commentText, instructorAccountId);
-    }
 }
