@@ -44,7 +44,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthState state;
         try {
-            state = getAuthStateFromCallback(req);
+            state = getValidAuthStateFromCallback(req);
         } catch (AuthException e) {
             rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
             return;
@@ -105,7 +105,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
      * @return the decrypted AuthState object.
      * @throws AuthException if the state parameter is missing or invalid.
      */
-    private AuthState getAuthStateFromCallback(HttpServletRequest req)
+    private AuthState getValidAuthStateFromCallback(HttpServletRequest req)
             throws IOException, AuthException {
         String encryptedState = req.getParameter("state");
         if (encryptedState == null) {
@@ -114,7 +114,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         try {
             String decryptedState = StringHelper.decrypt(encryptedState);
-            return JsonUtils.fromJson(decryptedState, AuthState.class);
+            AuthState state = JsonUtils.fromJson(decryptedState, AuthState.class);
+            if (state == null || StringHelper.isEmpty(state.sessionId()) || state.loginMethod() == null) {
+                throw new AuthException("Missing required state fields");
+            }
+            return state;
         } catch (Exception e) {
             throw new AuthException("Failed to parse state parameter", e);
         }

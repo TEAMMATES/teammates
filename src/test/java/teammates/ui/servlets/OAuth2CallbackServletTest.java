@@ -89,6 +89,48 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     }
 
     @Test
+    public void doGet_nullAuthState_returnsBadRequest() throws Exception {
+        req.addParam("state", getEncryptedState("null"));
+
+        servlet.doGet(req, resp);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
+    }
+
+    @Test
+    public void doGet_missingSessionId_returnsBadRequest() throws Exception {
+        req.addParam("state", getEncryptedState("""
+                {"nextUrl":"/","loginMethod":"GOOGLE"}
+                """));
+
+        servlet.doGet(req, resp);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
+    }
+
+    @Test
+    public void doGet_missingLoginMethod_returnsBadRequest() throws Exception {
+        req.addParam("state", getEncryptedState("""
+                {"nextUrl":"/","sessionId":"1234"}
+                """));
+
+        servlet.doGet(req, resp);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
+    }
+
+    @Test
+    public void doGet_invalidLoginMethod_returnsBadRequest() throws Exception {
+        req.addParam("state", getEncryptedState("""
+                {"nextUrl":"/","sessionId":"1234","loginMethod":"INVALID"}
+                """));
+
+        servlet.doGet(req, resp);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
+    }
+
+    @Test
     public void doGet_unsupportedLoginMethod_returnsBadRequest() throws Exception {
         req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
 
@@ -168,6 +210,10 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     private static String getEncryptedState(LoginMethod loginMethod, String nextUrl) {
         AuthState state = new AuthState(nextUrl, "1234", loginMethod);
         return StringHelper.encrypt(JsonUtils.toCompactJson(state));
+    }
+
+    private static String getEncryptedState(String state) {
+        return StringHelper.encrypt(state);
     }
 
     private static LoginMethodHandler mockFailingLoginHandler() throws Exception {
