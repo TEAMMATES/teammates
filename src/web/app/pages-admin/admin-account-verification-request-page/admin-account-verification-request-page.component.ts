@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { EMPTY, Observable, catchError, finalize, firstValueFrom, map, switchMap, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -8,15 +9,13 @@ import { AccountVerificationRequest, AccountVerificationRequestStatus } from '..
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
-import {
-  AccountVerificationRequestRejectionRequest,
-  AccountVerificationRequestRejectionType,
-} from '../../../types/api-request';
+import { AccountVerificationRequestRejectionType } from '../../../types/api-request';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
 } from './account-verification-request-draft';
 import { RequestDetailsCardComponent } from './request-details-card/request-details-card.component';
+import { RejectRequestModalComponent } from './reject-request-modal/reject-request-modal.component';
 
 /**
  * Review page for a single account verification request.
@@ -30,6 +29,7 @@ import { RequestDetailsCardComponent } from './request-details-card/request-deta
 export class AdminAccountVerificationRequestPageComponent {
   private readonly accountService = inject(AccountService);
   private readonly dateFormatService = inject(DateFormatService);
+  private readonly modalService = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly timezoneService = inject(TimezoneService);
 
@@ -96,15 +96,19 @@ export class AdminAccountVerificationRequestPageComponent {
       return;
     }
 
-    const rejectionRequest: AccountVerificationRequestRejectionRequest = {
-      rejectionType: AccountVerificationRequestRejectionType.OTHERS,
-    };
-    this.runStatusTransition(
-      this.accountService.rejectAccountVerificationRequest(
-        { id: accountVerificationRequest.accountVerificationRequestId },
-        rejectionRequest,
-      ),
-      () => 'Account verification request was successfully rejected.',
+    const modalRef = this.modalService.open(RejectRequestModalComponent);
+    modalRef.componentInstance.instituteName = accountVerificationRequest.institute;
+    modalRef.result.then(
+      (result: { rejectionType: AccountVerificationRequestRejectionType; additionalComments?: string }) => {
+        this.runStatusTransition(
+          this.accountService.rejectAccountVerificationRequest(
+            { id: accountVerificationRequest.accountVerificationRequestId },
+            result,
+          ),
+          () => 'Account verification request was successfully rejected.',
+        );
+      },
+      () => {},
     );
   }
 
