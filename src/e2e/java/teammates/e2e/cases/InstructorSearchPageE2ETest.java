@@ -77,6 +77,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
                 searchPage.clickViewStudent(course1, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course1.getId(), studentEmail);
         studentDetailsViewPage.goBack();
+        searchPage.search("student2");
 
         ______TS("link: edit student details page");
 
@@ -84,6 +85,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
                 searchPage.clickEditStudent(course1, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course1.getId(), studentEmail);
         studentDetailsEditPage.goBack();
+        searchPage.search("student2");
 
         ______TS("link: view all records page");
 
@@ -91,6 +93,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
                 searchPage.clickViewAllRecords(course1, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course1.getId(), studentToView.getName());
         studentRecordsPage.goBack();
+        searchPage.search("student2");
 
         ______TS("action: delete student");
 

@@ -87,6 +87,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 listPage.clickViewStudent(course3, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsViewPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("link: edit student details page");
 
@@ -94,6 +95,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 listPage.clickEditStudent(course3, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsEditPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("link: view all records page");
 
@@ -101,6 +103,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 listPage.clickViewAllRecords(course3, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course3.getId(), studentToView.getName());
         studentRecordsPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("action: delete student");
 
