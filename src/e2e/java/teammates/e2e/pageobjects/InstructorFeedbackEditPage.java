@@ -283,8 +283,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public FeedbackSubmitPage previewAsStudent() {
         click(previewAsStudentButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
 
@@ -295,8 +293,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public FeedbackSubmitPage previewAsInstructor() {
         click(previewAsInstructorButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
 

@@ -61,19 +61,19 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
                 detailsPage.clickViewStudent(studentToView.getEmail());
         studentDetailsViewPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
-        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentDetailsViewPage.goBack();
 
         ______TS("link: edit student details page");
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
                 detailsPage.clickEditStudent(studentToView.getEmail());
         studentDetailsEditPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
-        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentDetailsEditPage.goBack();
 
         ______TS("link: view all records page");
         InstructorStudentRecordsPage studentRecordsPage =
                 detailsPage.clickViewAllRecords(studentToView.getEmail());
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
-        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentRecordsPage.goBack();
 
         ______TS("send invite");
         detailsPage.sendInvite(student3.getEmail());

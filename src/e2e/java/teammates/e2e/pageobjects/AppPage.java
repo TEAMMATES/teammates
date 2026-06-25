@@ -846,6 +846,14 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
+    /**
+     * Navigates back to the previous page in the browser history.
+     */
+    public void goBack() {
+        browser.driver.navigate().back();
+        browser.waitForPageLoad(false);
+    }
+
     String getDisplayGiverName(QuestionGiverType type) {
         switch (type) {
         case SESSION_CREATOR:

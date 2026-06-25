@@ -135,8 +135,6 @@ public class InstructorSearchPage extends AppPage {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
@@ -144,8 +142,6 @@ public class InstructorSearchPage extends AppPage {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
@@ -153,8 +149,6 @@ public class InstructorSearchPage extends AppPage {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
         return changePageType(InstructorStudentRecordsPage.class);
     }
 
