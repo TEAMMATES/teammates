@@ -94,7 +94,7 @@ public final class AuthLogic {
             Account currentAccount = getAccountFromRequest(req);
 
             if (student.getAccount() == null) {
-                return new SessionKeyAccessResult(SessionKeyAccessDecision.ALLOW, null);
+                return new SessionKeyAccessResult(SessionKeyAccessDecision.ALLOW_UNREGISTERED, null);
             }
 
             if (currentAccount == null) {
@@ -104,7 +104,7 @@ public final class AuthLogic {
             }
 
             if (Objects.equals(currentAccount, student.getAccount())) {
-                return new SessionKeyAccessResult(SessionKeyAccessDecision.ALLOW, null);
+                return new SessionKeyAccessResult(SessionKeyAccessDecision.ALLOW_SIGNED_IN, null);
             }
 
             return new SessionKeyAccessResult(

@@ -28,7 +28,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
 
         SessionKeyAccessData result = execute(request);
 
-        assertEquals(SessionKeyAccessDecision.ALLOW, result.getDecision());
+        assertEquals(SessionKeyAccessDecision.ALLOW_UNREGISTERED, result.getDecision());
         assertEquals(null, result.getMessage());
     }
 
@@ -47,6 +47,24 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
         SessionKeyAccessData result = execute(request);
 
         assertEquals(SessionKeyAccessDecision.SIGN_IN_REQUIRED, result.getDecision());
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getSessionKeyAccessAction_studentWithLinkedAccount_allowsSignedInAccess() {
+        var account = given.account("account");
+        var student = given.student("student", s -> s.account(account.alias()));
+        var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
+                .withAccountAuth(account.id())
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id());
+        request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
+
+        SessionKeyAccessData result = execute(request);
+
+        assertEquals(SessionKeyAccessDecision.ALLOW_SIGNED_IN, result.getDecision());
     }
 
     @Test(groups = GroupNames.ACTION)

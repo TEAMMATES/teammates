@@ -25,7 +25,7 @@ describe('SessionKeyGuard', () => {
   let guard: SessionKeyGuard;
   let spyFeedbackSessionsService: { checkSessionKeyAccess: Mock };
   let spyAuthService: { getAuthUser: Mock };
-  let spyNavigationService: { navigateWithErrorMessage: Mock };
+  let spyNavigationService: { navigateWithErrorMessage: Mock; navigateByURL: Mock };
 
   beforeEach(() => {
     spyFeedbackSessionsService = {
@@ -36,6 +36,7 @@ describe('SessionKeyGuard', () => {
     };
     spyNavigationService = {
       navigateWithErrorMessage: vi.fn(),
+      navigateByURL: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -52,7 +53,7 @@ describe('SessionKeyGuard', () => {
 
   it('should allow access when backend preflight allows access', async () => {
     spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
-      of({ decision: SessionKeyAccessDecision.ALLOW, message: '' }),
+      of({ decision: SessionKeyAccessDecision.ALLOW_UNREGISTERED, message: '' }),
     );
 
     const result = await firstValueFrom(
@@ -60,6 +61,30 @@ describe('SessionKeyGuard', () => {
     );
 
     expect(result).toBe(true);
+  });
+
+  it('should redirect to the logged in submission page when access is allowed and user is signed in', async () => {
+    spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
+      of({ decision: SessionKeyAccessDecision.ALLOW_SIGNED_IN, message: '' }),
+    );
+    spyAuthService.getAuthUser.mockReturnValue(
+      of({
+        loginUrl: '/',
+        masquerade: false,
+        user: {
+          accountId: 'account-id',
+          accountEmail: 'test@example.com',
+        },
+      }),
+    );
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute('SUBMISSION'), mockState('/web/sessions/session-id/submission?key=session-key')),
+    );
+
+    expect(spyNavigationService.navigateByURL).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
+    expect(spyNavigationService.navigateWithErrorMessage).not.toHaveBeenCalled();
+    expect(result).toBe(false);
   });
 
   it('should redirect to error route when key is invalid', async () => {

@@ -37,8 +37,19 @@ export class SessionKeyGuard implements CanActivate {
       .pipe(
         switchMap((resp: SessionKeyAccess) => {
           switch (resp.decision) {
-            case SessionKeyAccessDecision.ALLOW:
+            case SessionKeyAccessDecision.ALLOW_UNREGISTERED:
               return of(true);
+            case SessionKeyAccessDecision.ALLOW_SIGNED_IN:
+              return this.authService.getAuthUser(state.url).pipe(
+                map(() => {
+                  const targetRoute =
+                    type === 'SUBMISSION'
+                      ? `/web/student/sessions/${feedbackSessionId}/submission`
+                      : `/web/student/sessions/${feedbackSessionId}/result`;
+                  this.navigationService.navigateByURL(targetRoute);
+                  return false;
+                }),
+              );
             case SessionKeyAccessDecision.SIGN_IN_REQUIRED:
               return this.authService.getAuthUser(state.url).pipe(
                 map((authInfo) => {
