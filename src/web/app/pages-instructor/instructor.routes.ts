@@ -1,5 +1,4 @@
 import { type Routes } from '@angular/router';
-import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -111,7 +110,7 @@ const routes: Routes = [
             (m) => m.SessionSubmissionPageComponent,
           ),
         data: {
-          intent: Intent.INSTRUCTOR_SUBMISSION,
+          entityType: 'instructor',
         },
       },
       {
@@ -121,7 +120,7 @@ const routes: Routes = [
             (m) => m.SessionResultPageComponent,
           ),
         data: {
-          intent: Intent.INSTRUCTOR_RESULT,
+          entityType: 'instructor',
         },
       },
       {
