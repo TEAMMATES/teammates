@@ -37,8 +37,7 @@ public final class DevServerStartupErrorHandlerFactory {
         try {
             return errorHandlerClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            assert false : "Could not create the startup error handler " + errorHandlerClass.getSimpleName();
-            return null;
+            throw new IllegalStateException("Failed to instantiate error handler: " + errorHandlerClass.getName(), e);
         }
     }
 

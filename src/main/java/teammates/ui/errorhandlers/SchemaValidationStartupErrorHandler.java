@@ -37,7 +37,8 @@ public final class SchemaValidationStartupErrorHandler implements StartupErrorHa
         if (schemaValidationFailure == null) {
             return e.getMessage();
         }
-        return schemaValidationFailure.getMessage().trim();
+        return schemaValidationFailure.getMessage() != null
+                ? schemaValidationFailure.getMessage().trim() : null;
     }
 
     private static Exception findSchemaValidationFailure(Exception e) {

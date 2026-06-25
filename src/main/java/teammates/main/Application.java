@@ -96,7 +96,7 @@ public final class Application {
         try {
             server.stop();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to stop server after web application startup failure.", e);
+            log.severe("Failed to stop server after web application startup failure.", e);
         }
     }
 
