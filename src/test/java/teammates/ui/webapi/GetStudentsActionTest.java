@@ -39,7 +39,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction, Stu
         assertEquals(firstMatch.id(), result.getStudents().get(0).getUserId());
         assertEquals(course1.id(), result.getStudents().get(0).getCourseId());
 
-        Student persistedStudent = getEntityInTransaction(Student.class, firstMatch.id());
         assertEquals(studentAccount.id(), result.getStudents().get(0).getAccountId());
     }
 
