@@ -49,12 +49,7 @@
             <td [innerHtml]="student.comments | highlighter: searchString : true"></td>
             <td>
               @if (student.manageAccountLink) {
-                <a
-                  href="{{ student.manageAccountLink }}"
-                  (click)="$event.stopPropagation()"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="{{ student.manageAccountLink }}" (click)="$event.stopPropagation()">
                   <i class="fas fa-info-circle"></i> Manage this account
                 </a>
                 <br />

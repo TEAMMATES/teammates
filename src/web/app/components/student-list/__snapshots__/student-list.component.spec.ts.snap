@@ -369,8 +369,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-009/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -378,8 +376,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-009/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -399,8 +395,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-009/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -442,8 +436,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-010/details"
                     id="btn-view-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -451,8 +443,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-010/edit"
                     id="btn-edit-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -472,8 +462,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-010/records"
                     id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -515,8 +503,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-011/details"
                     id="btn-view-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -524,8 +510,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-011/edit"
                     id="btn-edit-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -539,8 +523,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-011/records"
                     id="btn-view-records--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -582,8 +564,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-012/details"
                     id="btn-view-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -591,8 +571,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-012/edit"
                     id="btn-edit-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -606,8 +584,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-012/records"
                     id="btn-view-records--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -820,8 +796,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-013/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -829,8 +803,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/courses//students/student-013/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -850,8 +822,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/students//student-013/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -893,8 +863,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-014/details"
                     id="btn-view-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -902,8 +870,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-014/edit"
                     id="btn-edit-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -917,8 +883,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-014/records"
                     id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -960,8 +924,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-015/details"
                     id="btn-view-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -969,8 +931,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-015/edit"
                     id="btn-edit-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -984,8 +944,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-015/records"
                     id="btn-view-records--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1027,8 +985,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-016/details"
                     id="btn-view-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1036,8 +992,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-016/edit"
                     id="btn-edit-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1051,8 +1005,6 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-016/records"
                     id="btn-view-records--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1265,8 +1217,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-001/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1274,8 +1224,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-001/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1289,8 +1237,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-001/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1332,8 +1278,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-002/details"
                     id="btn-view-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1341,8 +1285,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-002/edit"
                     id="btn-edit-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1356,8 +1298,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-002/records"
                     id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1399,8 +1339,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-003/details"
                     id="btn-view-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1408,8 +1346,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-003/edit"
                     id="btn-edit-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1423,8 +1359,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-003/records"
                     id="btn-view-records--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1466,8 +1400,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-004/details"
                     id="btn-view-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1475,8 +1407,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-004/edit"
                     id="btn-edit-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1490,8 +1420,6 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-004/records"
                     id="btn-view-records--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1704,8 +1632,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-018/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1713,8 +1639,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-018/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1728,8 +1652,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-018/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -1771,8 +1693,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-020/details"
                     id="btn-view-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -1780,8 +1700,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-020/edit"
                     id="btn-edit-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -1795,8 +1713,6 @@ exports[`StudentListComponent > should snap with some student list data and some
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-020/records"
                     id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -2009,8 +1925,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-005/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -2018,8 +1932,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/courses//students/student-005/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -2033,8 +1945,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/students//student-005/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -2076,8 +1986,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-006/details"
                     id="btn-view-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -2085,8 +1993,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/courses//students/student-006/edit"
                     id="btn-edit-details--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -2100,8 +2006,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
                     href="/web/instructor/students//student-006/records"
                     id="btn-view-records--1"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -2143,8 +2047,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-007/details"
                     id="btn-view-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -2152,8 +2054,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-007/edit"
                     id="btn-edit-details--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -2167,8 +2067,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-007/records"
                     id="btn-view-records--2"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -2210,8 +2108,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-008/details"
                     id="btn-view-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -2219,8 +2115,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-008/edit"
                     id="btn-edit-details--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -2234,8 +2128,6 @@ exports[`StudentListComponent > should snap with some student list data when not
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-008/records"
                     id="btn-view-records--3"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
@@ -2448,8 +2340,6 @@ exports[`StudentListComponent > should snap with some student list data with no 
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-021/details"
                     id="btn-view-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      View 
                   </a>
@@ -2457,8 +2347,6 @@ exports[`StudentListComponent > should snap with some student list data with no 
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/courses//students/student-021/edit"
                     id="btn-edit-details--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      Edit 
                   </a>
@@ -2472,8 +2360,6 @@ exports[`StudentListComponent > should snap with some student list data with no 
                     class="btn btn-light btn-sm btn-margin-right custom-button"
                     href="/web/instructor/students//student-021/records"
                     id="btn-view-records--0"
-                    rel="noopener noreferrer"
-                    target="_blank"
                   >
                      All Records 
                   </a>
