@@ -221,7 +221,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         int numSections = 0;
         int numTeams = 0;
         int numStudents = 0;
-        int numUnregistered = 0;
         Set<String> sections = new HashSet<>();
         Set<String> teams = new HashSet<>();
 
@@ -237,12 +236,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 teams.add(student.getTeamName());
                 numTeams++;
             }
-            if (!student.isRegistered()) {
-                numUnregistered++;
-            }
             numStudents++;
         }
         coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
-                Integer.toString(numStudents), Integer.toString(numUnregistered));
+                Integer.toString(numStudents));
     }
 }
