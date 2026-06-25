@@ -35,7 +35,6 @@ public final class InstructorPrivileges {
     private static final String[] SESSION_LEVEL_ONLY_LIST = new String[] {
             Const.InstructorPermissions.CAN_VIEW_SESSION,
             Const.InstructorPermissions.CAN_SUBMIT_SESSION,
-            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
     };
 
     private static final Set<String> COURSE_LEVEL_ONLY_PRIVILEGES =
@@ -144,7 +143,6 @@ public final class InstructorPrivileges {
         courseLevel.setCanModifyStudent(defaultPrivileges.isCanModifyStudent());
         courseLevel.setCanViewSession(defaultPrivileges.isCanViewSession());
         courseLevel.setCanSubmitSession(defaultPrivileges.isCanSubmitSession());
-        courseLevel.setCanModifySessionComments(defaultPrivileges.isCanModifySessionComments());
     }
 
     private InstructorPermissionSet getOverallPrivilegesForSections() {
@@ -152,7 +150,6 @@ public final class InstructorPrivileges {
 
         privileges.setCanViewSession(courseLevel.isCanViewSession());
         privileges.setCanSubmitSession(courseLevel.isCanSubmitSession());
-        privileges.setCanModifySessionComments(courseLevel.isCanModifySessionComments());
 
         return privileges;
     }
@@ -294,30 +291,6 @@ public final class InstructorPrivileges {
             }
         }
         return false;
-    }
-
-    /**
-     * Validates the privileges in course level, section level and session level.
-     *
-     * <p>Makes sure there is nothing wrong with privileges hierarchy by adding the
-     * prerequisite privileges if they have not been granted yet.
-     */
-    public void validatePrivileges() {
-        if (this.courseLevel.isCanModifySessionComments()) {
-            this.courseLevel.setCanViewSession(true);
-        }
-        for (InstructorPermissionSet sectionMap : this.sectionLevel.values()) {
-            if (sectionMap.isCanModifySessionComments()) {
-                sectionMap.setCanViewSession(true);
-            }
-        }
-        for (Map<UUID, InstructorPermissionSet> section : this.sessionLevel.values()) {
-            for (InstructorPermissionSet sessionMap : section.values()) {
-                if (sessionMap.isCanModifySessionComments()) {
-                    sessionMap.setCanViewSession(true);
-                }
-            }
-        }
     }
 
     public InstructorPermissionSet getCourseLevelPrivileges() {

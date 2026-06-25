@@ -57,9 +57,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
     @Column(nullable = false)
     private boolean canSubmitSession;
 
-    @Column(nullable = false)
-    private boolean canModifySessionComments;
-
     protected InstructorCoursePrivilege() {
         // required by Hibernate
     }
@@ -105,7 +102,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
         privileges.setCanModifyStudent(canModifyStudent);
         privileges.setCanViewSession(canViewSession);
         privileges.setCanSubmitSession(canSubmitSession);
-        privileges.setCanModifySessionComments(canModifySessionComments);
         return privileges;
     }
 
@@ -119,7 +115,6 @@ public class InstructorCoursePrivilege extends BaseEntity {
         this.canModifyStudent = privileges.isCanModifyStudent();
         this.canViewSession = privileges.isCanViewSession();
         this.canSubmitSession = privileges.isCanSubmitSession();
-        this.canModifySessionComments = privileges.isCanModifySessionComments();
     }
 
     @Override
