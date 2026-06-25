@@ -572,8 +572,9 @@ describe('QuestionResponsePanelComponent', () => {
     expect(canSee).toBe(true);
   });
 
-  it('canUserSeeResponses: should return false when entityType does not allow seeing responses', () => {
+  it('canUserSeeResponses: should return false when no responses are visible to instructors', () => {
     component.entityType = 'instructor';
+    // Empty showResponsesTo should make the instructor branch return false.
     testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [];
     const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
 

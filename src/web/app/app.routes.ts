@@ -38,6 +38,9 @@ const routes: Routes = [
               import('./pages-session/session-result-page/session-result-page.component').then(
                 (m) => m.SessionResultPageComponent,
               ),
+            data: {
+              entityType: 'student',
+            },
           },
           {
             path: ':feedbackSessionId/submission',
@@ -45,6 +48,9 @@ const routes: Routes = [
               import('./pages-session/session-submission-page/session-submission-page.component').then(
                 (m) => m.SessionSubmissionPageComponent,
               ),
+            data: {
+              entityType: 'student',
+            },
           },
         ],
       },
