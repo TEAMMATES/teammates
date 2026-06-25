@@ -15,7 +15,6 @@
             <package name="teammates.logic.external.email" />
             <package name="teammates.logic.util" />
             <package name="teammates.storage.api" />
-            <package name="teammates.ui.devserverstartuperrorhandlers" />
             <package name="teammates.ui.request" />
             <package name="teammates.ui.loginmethodhandlers" />
             <package name="teammates.ui.servlets" />

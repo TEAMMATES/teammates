@@ -5,6 +5,7 @@ package teammates.ui.exception;
  */
 public class DevServerStartupException extends RuntimeException {
     public DevServerStartupException(String message) {
+        // Null cause to avoid printing the stack trace twice.
         super(message, null, true, false);
     }
 }
