@@ -1,7 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
 import { AuthInfo, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
