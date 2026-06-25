@@ -716,7 +716,6 @@ export interface Student extends ApiOutput {
   courseName: string;
   accountId?: string;
   comments?: string;
-  key?: string;
   joinState?: JoinState;
 }
 
