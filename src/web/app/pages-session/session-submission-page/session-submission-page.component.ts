@@ -230,7 +230,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             catchError(() => of(null)),
           );
         }
-        return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key }).pipe(
+        return this.studentService.getOwnStudent({ courseId: this.courseId, key: this.key }).pipe(
           tap((student: Student) => {
             this.personName = student.name;
             this.personEmail = student.email;

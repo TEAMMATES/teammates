@@ -171,7 +171,7 @@ export class SessionResultPageComponent implements OnInit {
     if (this.entityType === 'student' && this.previewAs) {
       return this.studentService.getStudent({ userId: this.previewAs });
     } else if (this.entityType === 'student') {
-      return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key });
+      return this.studentService.getOwnStudent({ courseId: this.courseId, key: this.key });
     } else if (this.previewAs) {
       return this.instructorService.getInstructor({ userId: this.previewAs });
     } else {
