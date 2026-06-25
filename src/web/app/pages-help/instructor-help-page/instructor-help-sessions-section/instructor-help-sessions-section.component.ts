@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
@@ -50,7 +50,6 @@ import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructo
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
 import { TemplateSession } from '../../../../data/template-sessions';
-import { ConfigService } from '../../../../services/config.service';
 
 /**
  * Sessions Section of the Instructor Help Page.
@@ -79,8 +78,6 @@ import { ConfigService } from '../../../../services/config.service';
   ],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-  private readonly configService = inject(ConfigService);
-
   // enums
   CommentRowMode!: typeof CommentRowMode;
   SessionEditFormMode!: typeof SessionEditFormMode;
@@ -89,7 +86,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   SessionsSectionQuestions!: typeof SessionsSectionQuestions;
   Sections!: typeof Sections;
 
-  frontendUrl = '';
   readonly supportEmail: string = environment.supportEmail;
   readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
@@ -145,12 +141,5 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;
-  }
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    this.configService.getConfig().subscribe((config) => {
-      this.frontendUrl = config.frontendUrl;
-    });
   }
 }
