@@ -317,6 +317,7 @@ describe('QuestionResponsePanelComponent', () => {
             } as FeedbackRubricResponseDetails,
             instructorComments: [
               {
+                giverId: 'comment-giver-id-1',
                 commentGiverName: 'comment-giver-name-1',
                 responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',
@@ -517,6 +518,7 @@ describe('QuestionResponsePanelComponent', () => {
             } as FeedbackRubricResponseDetails,
             instructorComments: [
               {
+                giverId: 'comment-giver-id-1',
                 commentGiverName: 'comment-giver-name-1',
                 responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',

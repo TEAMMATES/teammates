@@ -6,15 +6,17 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
     const pipe: InstructorCommentToCommentRowModelPipe = new InstructorCommentToCommentRowModelPipe();
     const comment: ResponseInstructorComment = {
       responseInstructorCommentId: 'comment-id',
+      giverId: 'comment-giver-id',
       commentGiverName: 'Instructor',
       commentText: 'comment text',
       createdAt: 1,
     };
 
-    expect(pipe.transform(comment, 'UTC')).toEqual({
+    expect(pipe.transform(comment, 'UTC', 'comment-giver-id')).toEqual({
       commentType: 'instructor',
       timezone: 'UTC',
       commentId: 'comment-id',
+      isOwnedByCurrentInstructor: true,
       commentGiverName: 'Instructor',
       createdAt: 1,
       originalCommentFormModel: {
