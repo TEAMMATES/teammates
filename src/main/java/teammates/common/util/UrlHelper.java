@@ -34,10 +34,17 @@ public final class UrlHelper {
      * If the URL doesn't have a path or is invalid, it returns the {@link #DEFAULT_REDIRECT_URL}.
      */
     public static String getRelativeUrl(String url) {
+        if (url == null) {
+            return DEFAULT_REDIRECT_URL;
+        }
+
         try {
             URI uri = new URI(url);
-            String relativeUrl = uri.getPath() + (uri.getQuery() != null ? "?" + uri.getQuery() : "");
-            return StringHelper.isEmpty(relativeUrl) ? DEFAULT_REDIRECT_URL : relativeUrl;
+            String relativeUrl = uri.getPath();
+            // Only preserve the query when there is a path.
+            return StringHelper.isEmpty(relativeUrl)
+                    ? DEFAULT_REDIRECT_URL
+                    : relativeUrl + (uri.getQuery() != null ? "?" + uri.getQuery() : "");
         } catch (URISyntaxException e) {
             return DEFAULT_REDIRECT_URL;
         }

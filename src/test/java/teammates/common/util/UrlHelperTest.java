@@ -20,18 +20,22 @@ import teammates.test.BaseTestCase;
  */
 public class UrlHelperTest extends BaseTestCase {
 
-    @Test
-    public void testIsSafeRedirectUrl_relativeUrl_returnsTrue() {
-        String url = "/web/instructor/home";
-
+    @Test(dataProvider = "relativeUrls")
+    public void testIsSafeRedirectUrl_relativeUrl_returnsTrue(String url) {
         assertTrue(isSafeRedirectUrl(url));
     }
 
-    @Test
-    public void testIsSafeRedirectUrl_configuredFrontendUrl_returnsTrue() {
-        String url = Config.APP_FRONTEND_URL + "/web/instructor/home";
-
+    @Test(dataProvider = "configuredFrontendUrls")
+    public void testIsSafeRedirectUrl_configuredFrontendUrl_returnsTrue(String url) {
         assertTrue(isSafeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] configuredFrontendUrls() {
+        return new Object[][] {
+                {Config.APP_FRONTEND_URL + "/web/instructor/home"},
+                {Config.APP_FRONTEND_URL + "/web/student/home?query=value"},
+        };
     }
 
     @Test(dataProvider = "externalUrls")
@@ -85,11 +89,42 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl(url));
     }
 
+    @Test(dataProvider = "invalidRedirectUrls")
+    public void testIsSafeRedirectUrl_invalidRedirectUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @Test(dataProvider = "invalidUrls")
+    public void testIsSafeRedirectUrl_invalidUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
     @DataProvider
     private Object[][] malformedUrls() {
         return new Object[][] {
                 {"https://[invalid"},
-                {"web/instructor/home"},
+                {"example.com/invalid path"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidRedirectUrls() {
+        return new Object[][] {
+                {""},
+                {"?query=param"},
+                {"web/instructor"},
+                {"https://evil.com"},
+                {"//evil.com"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidUrls() {
+        return new Object[][] {
+                {""},
+                {null},
+                {"https://[invalid"},
+                {"example.com/invalid path"},
         };
     }
 
@@ -108,19 +143,30 @@ public class UrlHelperTest extends BaseTestCase {
         assertEquals("with%2Fspecial%3Fchars%26", encodeQueryParam("with/special?chars&"));
     }
 
-    @Test
-    public void testGetRelativeUrl_absoluteUrl_returnsRelative() {
-        String absoluteUrl = "http://somedomain/web/instructor/home";
-        String expectedRelativeUrl = "/web/instructor/home";
-
+    @Test(dataProvider = "absoluteUrls")
+    public void testGetRelativeUrl_absoluteUrl_returnsRelative(String absoluteUrl, String expectedRelativeUrl) {
         assertEquals(expectedRelativeUrl, getRelativeUrl(absoluteUrl));
     }
 
-    @Test
-    public void testGetRelativeUrl_relativeUrl_returnsSame() {
-        String relativeUrl = "/web/instructor/home";
+    @DataProvider
+    private Object[][] absoluteUrls() {
+        return new Object[][] {
+                {"https://somedomain/web/instructor/home?query=value", "/web/instructor/home?query=value"},
+                {"https://somedomain/web/instructor/home", "/web/instructor/home"},
+        };
+    }
 
-        assertEquals(relativeUrl, getRelativeUrl(relativeUrl));
+    @Test(dataProvider = "relativeUrls")
+    public void testGetRelativeUrl_relativeUrl_returnsSame(String url) {
+        assertEquals(url, getRelativeUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] relativeUrls() {
+        return new Object[][] {
+                {"/web/instructor/home"},
+                {"/web/student/home?query=value"},
+        };
     }
 
     @Test
@@ -130,10 +176,26 @@ public class UrlHelperTest extends BaseTestCase {
         assertEquals("/", getRelativeUrl(emptyPathUrl));
     }
 
-    @Test
-    public void testGetRelativeUrl_malformedUrl_returnsDefault() {
-        String malformedUrl = "http://[invalid";
+    @Test(dataProvider = "malformedUrls")
+    public void testGetRelativeUrl_malformedUrl_returnsDefault(String url) {
+        assertEquals("/", getRelativeUrl(url));
+    }
 
-        assertEquals("/", getRelativeUrl(malformedUrl));
+    @Test(dataProvider = "invalidUrls")
+    public void testGetRelativeUrl_invalidUrl_returnsDefault(String url) {
+        assertEquals("/", getRelativeUrl(url));
+    }
+
+    @Test(dataProvider = "invalidRelativeUrls")
+    public void testGetRelativeUrl_invalidRedirectUrl_returnsDefault(String url) {
+        assertEquals("/", getRelativeUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] invalidRelativeUrls() {
+        return new Object[][] {
+                {""},
+                {"?query=param"},
+        };
     }
 }
