@@ -21,9 +21,13 @@ public class GetStudentsAction extends LoggedInAction {
             return;
         }
 
-        // Any instructor can access the list of students,
-        // but the list will be filtered to only include students visible to them.
-        gateKeeper.verifyInstructorInAnyCourse(requestContext);
+        List<String> courseIds = getCourseIds();
+        if (courseIds == null || courseIds.isEmpty()) {
+            throw new InvalidHttpParameterException(Const.ParamsNames.COURSE_ID + " parameter is required");
+        }
+        for (String courseId : courseIds) {
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
+        }
     }
 
     @Override
@@ -33,9 +37,9 @@ public class GetStudentsAction extends LoggedInAction {
                 getRequestParamValue(Const.ParamsNames.SEARCH_KEY),
                 getNullablePositiveIntRequestParamValue(Const.ParamsNames.LIMIT));
 
+        List<Student> students = logic.getStudents(query);
+        StudentsData studentsData = new StudentsData();
         if (requestContext.isAdmin()) {
-            List<Student> students = logic.getStudents(query);
-            StudentsData studentsData = new StudentsData();
             studentsData.setStudents(students.stream()
                     .map(student -> {
                         StudentData studentData = new StudentData(student);
@@ -43,14 +47,11 @@ public class GetStudentsAction extends LoggedInAction {
                         return studentData;
                     })
                     .toList());
-            return new JsonResult(studentsData);
+        } else {
+            studentsData.setStudents(students.stream()
+                    .map(StudentData::new)
+                    .toList());
         }
-
-        List<Student> students = logic.getStudentsVisibleToAccount(query, requestContext.getAccount());
-        StudentsData studentsData = new StudentsData();
-        studentsData.setStudents(students.stream()
-                .map(StudentData::new)
-                .toList());
         return new JsonResult(studentsData);
     }
 
