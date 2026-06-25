@@ -15,8 +15,6 @@ import { Intent } from '../types/api-request';
 export class AuthService {
   private httpRequestService = inject(HttpRequestService);
 
-  private frontendUrl: string = environment.frontendUrl;
-
   private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
 
   /**
@@ -29,7 +27,7 @@ export class AuthService {
       return of(cached);
     }
 
-    const params: Record<string, string> = { frontendUrl: this.frontendUrl };
+    const params: Record<string, string> = {};
     if (nextUrl) {
       params['nextUrl'] = nextUrl;
     }
