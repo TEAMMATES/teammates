@@ -41,7 +41,8 @@ public class LoginServlet extends AuthServlet {
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
-            String redirectUrl = resp.encodeRedirectURL(nextUrl);
+            String redirectUrl = Config.getFrontEndAppUrl(nextUrl).toAbsoluteString();
+            redirectUrl = resp.encodeRedirectURL(redirectUrl);
             resp.sendRedirect(redirectUrl);
             return;
         }
