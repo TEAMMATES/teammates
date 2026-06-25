@@ -46,8 +46,8 @@ public class RequestContext {
         return authContext.regKeyStudent();
     }
 
-    public LinkKey getLinkKey() {
-        return authContext.linkKey();
+    public SessionKey getSessionKey() {
+        return authContext.sessionKey();
     }
 
     /**

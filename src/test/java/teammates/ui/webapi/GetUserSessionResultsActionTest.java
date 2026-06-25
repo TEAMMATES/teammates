@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -71,7 +71,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
                 .withParam(Const.ParamsNames.IS_PREVIEW, "false")
-                .withStudentSessionKey(student.id(), LinkKeyType.RESULTS, student.regKey(), session.id());
+                .withStudentSessionKey(student.id(), SessionKeyType.RESULTS, student.regKey(), session.id());
 
         UserSessionResultsData result = execute(request);
 

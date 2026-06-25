@@ -690,7 +690,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams['fsid']}/submission`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/submission`);
   });
 
   it('should load an open feedback session', () => {

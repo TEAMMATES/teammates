@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
@@ -35,7 +35,7 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmi
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifySessionKey(requestContext, session.getId(), LinkKeyType.SUBMISSION);
+            gateKeeper.verifySessionKey(requestContext, session.getId(), SessionKeyType.SUBMISSION);
             Student student = getStudentOfCourseForSubmission(courseId, false);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             checkAccessControlForStudentFeedbackSubmission(student, session);

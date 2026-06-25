@@ -22,13 +22,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.LinkKeyUtil;
+import teammates.common.util.KeyUtil;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
@@ -121,7 +121,7 @@ public class UserProvisionTest extends BaseTestCase {
 
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
         req.addParam(Const.ParamsNames.REGKEY,
-                LinkKeyUtil.encrypt(studentId, LinkKeyType.SUBMISSION, regKey, feedbackSessionId));
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
@@ -130,7 +130,7 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
         assertEquals(student, authContext.regKeyStudent());
-        assertEquals(feedbackSessionId, authContext.linkKey().feedbackSessionId());
+        assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
     }
 
     @Test
@@ -145,16 +145,16 @@ public class UserProvisionTest extends BaseTestCase {
 
         MockHttpServletRequest req = createRequest();
         req.addParam(Const.ParamsNames.REGKEY,
-                LinkKeyUtil.encrypt(studentId, LinkKeyType.SUBMISSION, regKey, feedbackSessionId));
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
         assertEquals(AuthType.REG_KEY, authContext.authType());
         assertEquals(student, authContext.regKeyStudent());
-        assertEquals(studentId, authContext.linkKey().userId());
-        assertEquals(LinkKeyType.SUBMISSION, authContext.linkKey().type());
-        assertEquals(feedbackSessionId, authContext.linkKey().feedbackSessionId());
+        assertEquals(studentId, authContext.sessionKey().userId());
+        assertEquals(SessionKeyType.SUBMISSION, authContext.sessionKey().type());
+        assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
     }
 
     @Test

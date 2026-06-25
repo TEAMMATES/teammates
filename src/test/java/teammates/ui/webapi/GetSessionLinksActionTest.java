@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.SessionResultLink;
 import teammates.common.datatransfer.SessionSubmissionLink;
 import teammates.common.util.Const;
-import teammates.common.util.LinkKeyUtil;
+import teammates.common.util.KeyUtil;
 import teammates.common.util.LinksUtil;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
@@ -55,12 +55,12 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED,
                 submissionLinksById.get(closedSession.id()).submissionStatus());
         assertStudentSessionLink(submissionLinksById.get(openSession.id()).url(), openSession.id(),
-                student.id(), student.regKey(), LinkKeyType.SUBMISSION);
+                student.id(), student.regKey(), SessionKeyType.SUBMISSION);
 
         SessionResultLink resultsLink = result.getResultsLinks().get(0);
         assertEquals(publishedSession.id(), resultsLink.feedbackSessionId());
         assertStudentSessionLink(resultsLink.url(), publishedSession.id(), student.id(),
-                student.regKey(), LinkKeyType.RESULTS);
+                student.regKey(), SessionKeyType.RESULTS);
     }
 
     @Test(groups = GroupNames.ACTION)
@@ -106,13 +106,13 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     }
 
     private void assertStudentSessionLink(String url, UUID feedbackSessionId, UUID studentId,
-            String regKey, LinkKeyType type) throws Exception {
+            String regKey, SessionKeyType type) throws Exception {
         URI uri = URI.create(url);
         String key = uri.getQuery().substring("key=".length());
-        var linkKey = LinkKeyUtil.decrypt(key);
-        assertEquals(feedbackSessionId, linkKey.feedbackSessionId());
-        assertEquals(studentId, linkKey.userId());
-        assertEquals(regKey, linkKey.regKey());
-        assertEquals(type, linkKey.type());
+        var sessionKey = KeyUtil.decryptSessionKey(key);
+        assertEquals(feedbackSessionId, sessionKey.feedbackSessionId());
+        assertEquals(studentId, sessionKey.userId());
+        assertEquals(regKey, sessionKey.regKey());
+        assertEquals(type, sessionKey.type());
     }
 }

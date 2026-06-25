@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle.QuestionSubmissionBundle;
 import teammates.common.util.Const;
@@ -37,7 +37,7 @@ public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionActio
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifySessionKey(requestContext, feedbackSession.getId(), LinkKeyType.SUBMISSION);
+            gateKeeper.verifySessionKey(requestContext, feedbackSession.getId(), SessionKeyType.SUBMISSION);
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), true);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;

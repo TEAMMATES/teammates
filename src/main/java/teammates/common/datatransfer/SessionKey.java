@@ -12,9 +12,9 @@ import teammates.common.exception.InvalidParametersException;
  * @param regKey the student's current raw registration key
  * @param feedbackSessionId the feedback session associated with the link
  */
-public record LinkKey(
+public record SessionKey(
         UUID userId,
-        LinkKeyType type,
+        SessionKeyType type,
         String regKey,
         UUID feedbackSessionId) {
 

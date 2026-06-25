@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.ui.exception.EntityNotFoundException;
@@ -19,7 +19,7 @@ public class GetDeadlineExtensionAction extends RegKeyAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
-        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, LinkKeyType.SUBMISSION, LinkKeyType.RESULTS);
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
         gateKeeper.verifyCanViewDeadlineExtension(requestContext, feedbackSessionId, userId);
     }
 

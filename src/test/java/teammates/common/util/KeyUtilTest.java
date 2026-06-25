@@ -7,15 +7,15 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.LinkKey;
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.test.BaseTestCase;
 
 /**
- * Tests for {@link LinkKeyUtil}.
+ * Tests for {@link KeyUtil}.
  */
-public class LinkKeyUtilTest extends BaseTestCase {
+public class KeyUtilTest extends BaseTestCase {
 
     @Test
     public void encryptAndDecrypt_validPayload_roundTrips() throws Exception {
@@ -23,17 +23,17 @@ public class LinkKeyUtilTest extends BaseTestCase {
         UUID feedbackSessionId = UUID.fromString("00000000-0000-4000-8000-000000000002");
         String regKey = "sample-reg-key";
 
-        String encryptedKey = LinkKeyUtil.encrypt(userId, LinkKeyType.SUBMISSION, regKey, feedbackSessionId);
-        LinkKey linkKey = LinkKeyUtil.decrypt(encryptedKey);
+        String encryptedKey = KeyUtil.encryptSessionKey(userId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId);
+        SessionKey sessionKey = KeyUtil.decryptSessionKey(encryptedKey);
 
-        assertEquals(userId, linkKey.userId());
-        assertEquals(LinkKeyType.SUBMISSION, linkKey.type());
-        assertEquals(regKey, linkKey.regKey());
-        assertEquals(feedbackSessionId, linkKey.feedbackSessionId());
+        assertEquals(userId, sessionKey.userId());
+        assertEquals(SessionKeyType.SUBMISSION, sessionKey.type());
+        assertEquals(regKey, sessionKey.regKey());
+        assertEquals(feedbackSessionId, sessionKey.feedbackSessionId());
     }
 
     @Test
     public void decrypt_invalidCiphertext_throwsInvalidParametersException() {
-        assertThrows(InvalidParametersException.class, () -> LinkKeyUtil.decrypt("invalid"));
+        assertThrows(InvalidParametersException.class, () -> KeyUtil.decryptSessionKey("invalid"));
     }
 }

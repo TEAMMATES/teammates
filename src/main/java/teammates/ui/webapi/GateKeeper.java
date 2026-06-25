@@ -3,9 +3,9 @@ package teammates.ui.webapi;
 import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.datatransfer.LinkKey;
-import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.datatransfer.RequestContext;
+import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
@@ -238,21 +238,21 @@ final class GateKeeper {
      * Verifies that the current request uses a valid encrypted student session key
      * of the allowed type for the specified feedback session.
      */
-    void verifySessionKey(RequestContext requestContext, UUID feedbackSessionId, LinkKeyType... allowedTypes)
+    void verifySessionKey(RequestContext requestContext, UUID feedbackSessionId, SessionKeyType... allowedTypes)
             throws UnauthorizedAccessException {
-        LinkKey linkKey = requestContext.getLinkKey();
-        if (linkKey == null) {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
             return;
         }
 
         verifyNotNull(feedbackSessionId, "feedback session");
 
-        if (!feedbackSessionId.equals(linkKey.feedbackSessionId())) {
+        if (!feedbackSessionId.equals(sessionKey.feedbackSessionId())) {
             throw new UnauthorizedAccessException("This key is not valid for the feedback session.");
         }
 
-        for (LinkKeyType allowedType : allowedTypes) {
-            if (linkKey.type() == allowedType) {
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
                 return;
             }
         }
@@ -264,15 +264,15 @@ final class GateKeeper {
      * Verifies that the current request uses an allowed encrypted student session key
      * without constraining it to a specific session ID.
      */
-    void verifySessionKey(RequestContext requestContext, LinkKeyType... allowedTypes)
+    void verifySessionKey(RequestContext requestContext, SessionKeyType... allowedTypes)
             throws UnauthorizedAccessException {
-        LinkKey linkKey = requestContext.getLinkKey();
-        if (linkKey == null) {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
             return;
         }
 
-        for (LinkKeyType allowedType : allowedTypes) {
-            if (linkKey.type() == allowedType) {
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
                 return;
             }
         }

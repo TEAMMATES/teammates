@@ -2,7 +2,7 @@ package teammates.common.util;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 
 /**
  * Utility class for constructing frontend URL strings.
@@ -23,8 +23,8 @@ public final class LinksUtil {
     public static String getStudentSessionSubmitUrl(UUID feedbackSessionId, UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(LinkKeyUtil.encrypt(userId,
-                        LinkKeyType.SUBMISSION, regKey, feedbackSessionId))
+                .withRegistrationKey(KeyUtil.encryptSessionKey(userId,
+                        SessionKeyType.SUBMISSION, regKey, feedbackSessionId))
                 .toAbsoluteString();
     }
 
@@ -43,8 +43,8 @@ public final class LinksUtil {
     public static String getStudentSessionResultsUrl(UUID feedbackSessionId, UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(LinkKeyUtil.encrypt(userId,
-                        LinkKeyType.RESULTS, regKey, feedbackSessionId))
+                .withRegistrationKey(KeyUtil.encryptSessionKey(userId,
+                        SessionKeyType.RESULTS, regKey, feedbackSessionId))
                 .toAbsoluteString();
     }
 

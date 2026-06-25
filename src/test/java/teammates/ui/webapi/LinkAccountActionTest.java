@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -29,7 +29,7 @@ public class LinkAccountActionTest extends BaseActionTest<LinkAccountAction, Mes
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
-                .withStudentSessionKey(student.id(), LinkKeyType.SUBMISSION, student.regKey(), session.id())
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id())
                 .withRequest(requestBody);
 
         MessageOutput result = execute(request);
@@ -53,7 +53,7 @@ public class LinkAccountActionTest extends BaseActionTest<LinkAccountAction, Mes
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
-                .withStudentSessionKey(student.id(), LinkKeyType.SUBMISSION, student.regKey(), session.id())
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id())
                 .withRequest(requestBody);
 
         assertActionThrows(UnauthorizedAccessException.class, request);
@@ -73,7 +73,7 @@ public class LinkAccountActionTest extends BaseActionTest<LinkAccountAction, Mes
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
-                .withStudentSessionKey(student.id(), LinkKeyType.SUBMISSION, student.regKey(), session.id())
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id())
                 .withRequest(requestBody);
 
         assertActionThrows(UnauthorizedAccessException.class, request);
@@ -92,7 +92,7 @@ public class LinkAccountActionTest extends BaseActionTest<LinkAccountAction, Mes
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
-                .withStudentSessionKey(student.id(), LinkKeyType.SUBMISSION, student.regKey(), session.id())
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id())
                 .withRequest(requestBody);
 
         assertActionThrows(InvalidOperationException.class, request);
