@@ -13,11 +13,7 @@ import {
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
-import {
-  CommentVisibilityType,
-  FeedbackQuestionType,
-  NumberOfEntitiesToGiveFeedbackToSetting,
-} from '../../../../types/api-request';
+import { FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../types/api-request';
 import type { NewCommentRowModel } from '../../comment-box/comment.model';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
@@ -45,13 +41,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   const commentOutput: ResponseInstructorComment = {
     commentGiverName: 'Jennie Kim',
-    lastEditorName: 'Jennie Kim',
     responseInstructorCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
-    lastEditedAt: 0,
-    showGiverNameTo: [],
-    showCommentTo: [],
   };
 
   const responseOutput: ResponseOutput = {
@@ -94,8 +86,6 @@ describe('PerQuestionViewResponsesComponent', () => {
     commentType: 'new',
     commentEditFormModel: {
       commentText: '',
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },
     isEditing: false,
   };

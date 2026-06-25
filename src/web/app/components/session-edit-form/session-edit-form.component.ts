@@ -20,7 +20,7 @@ import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.co
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { TemplateSession } from '../../../data/template-sessions';
 
 /**
@@ -32,7 +32,7 @@ import { TemplateSession } from '../../../data/template-sessions';
   styleUrls: ['./session-edit-form.component.scss'],
   imports: [
     FormsModule,
-    TeammatesRouterDirective,
+    RouterLink,
     AjaxLoadingComponent,
     NgbTooltip,
     NgClass,

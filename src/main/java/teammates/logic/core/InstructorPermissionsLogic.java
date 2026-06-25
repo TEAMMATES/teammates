@@ -216,8 +216,6 @@ public final class InstructorPermissionsLogic {
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, src.isCanModifyInstructor());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, src.isCanModifySession());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, src.isCanModifyStudent());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT,
-                src.isCanViewStudent());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION,
                 src.isCanViewSession());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
@@ -227,8 +225,6 @@ public final class InstructorPermissionsLogic {
     }
 
     private void applyToSectionLevel(InstructorPrivileges dest, UUID sectionId, InstructorPermissionSet src) {
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT,
-                src.isCanViewStudent());
         dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION,
                 src.isCanViewSession());
         dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION,

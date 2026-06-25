@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { default as indexData } from '../../../data/index.json';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Testimonial from index.json
@@ -17,7 +17,7 @@ interface Testimonial {
   selector: 'tm-index-page',
   templateUrl: './index-page.component.html',
   styleUrls: ['./index-page.component.scss'],
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class IndexPageComponent implements OnInit {
   testimonial: Testimonial | null = null;

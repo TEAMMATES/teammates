@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -47,17 +46,9 @@ public class GetFeedbackSessionLogsAction extends LoggedInAction {
 
     @Override
     public JsonResult execute() {
-        String[] fslTypes = getNonNullRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
-
-        for (String fslType : fslTypes) {
-            try {
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType);
-                convertedFslTypes.add(convertedFslType);
-            } catch (IllegalArgumentException e) {
-                throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
-            }
-        }
+        List<FeedbackSessionLogType> fslTypes =
+                getEnumRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE,
+                        FeedbackSessionLogType.class);
 
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
@@ -102,7 +93,7 @@ public class GetFeedbackSessionLogsAction extends LoggedInAction {
             // log entry may reference a soft-deleted feedback session which is not in feedbackSessionIds
             UUID sessionId = logEntry.getFeedbackSession().getId();
 
-            return convertedFslTypes.contains(logType) && feedbackSessionIds.contains(sessionId);
+            return fslTypes.contains(logType) && feedbackSessionIds.contains(sessionId);
         }).toList();
 
         FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(fsLogEntries);

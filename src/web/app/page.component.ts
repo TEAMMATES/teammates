@@ -22,12 +22,13 @@ import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
-import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { NavItem } from './page.model';
 import { AuthService } from '../services/auth.service';
 import { finalize } from 'rxjs/operators';
+import { MasqueradeModeService } from '../services/masquerade-mode.service';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -63,7 +64,7 @@ export class ClickOutsideDirective {
   styleUrls: ['./page.component.scss'],
   imports: [
     forwardRef(() => ClickOutsideDirective),
-    TeammatesRouterDirective,
+    RouterLink,
     NgStyle,
     NgbDropdown,
     NgbDropdownToggle,
@@ -82,6 +83,7 @@ export class PageComponent implements OnInit {
   private readonly ngbModal = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly authService = inject(AuthService);
+  private readonly masqueradeModeService = inject(MasqueradeModeService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -204,6 +206,7 @@ export class PageComponent implements OnInit {
 
   logout(): void {
     this.authService.clearAuthCache();
+    this.masqueradeModeService.clearMasquerade();
     globalThis.location.href = this.logoutUrl;
   }
 }

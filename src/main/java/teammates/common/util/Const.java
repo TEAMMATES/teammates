@@ -99,7 +99,6 @@ public final class Const {
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String CAN_MODIFY_SESSION = "canmodifysession";
         public static final String CAN_MODIFY_STUDENT = "canmodifystudent";
-        public static final String CAN_VIEW_STUDENT = "canviewstudent";
         public static final String CAN_VIEW_SESSION = "canviewsession";
         public static final String CAN_SUBMIT_SESSION = "cansubmitsession";
         public static final String CAN_MODIFY_SESSION_COMMENT = "canmodifysessioncomment";
@@ -122,6 +121,7 @@ public final class Const {
 
         public static final String ACCOUNT_VERIFICATION_REQUEST_ID = "id";
         public static final String ACCOUNT_VERIFICATION_REQUEST_STATUS = "status";
+        public static final String INSTITUTE_ID = "instituteid";
 
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -152,6 +152,7 @@ public final class Const {
         public static final String ERROR = "error";
 
         public static final String SEARCH_KEY = "searchkey";
+        public static final String LIMIT = "limit";
 
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
@@ -182,6 +183,7 @@ public final class Const {
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
         public static final String AUTHORIZATION_KEY = "Authorization";
         public static final String REQUEST_ID = "X-Request-Id";
+        public static final String MASQUERADE_ACCOUNT_ID = "X-Masquerade-Account-Id";
     }
 
     /**
@@ -317,6 +319,7 @@ public final class Const {
         public static final String STUDENT_COURSES = URI_PREFIX + "/student/courses";
         public static final String INSTITUTES = URI_PREFIX + "/institutes";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
+        public static final String INSTRUCTORS_DISPLAYED = URI_PREFIX + "/instructors/displayed";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String OWN_INSTRUCTOR = URI_PREFIX + "/me/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
@@ -342,9 +345,6 @@ public final class Const {
         public static final String SESSION_SUBMISSION = URI_PREFIX + "/session/submission";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/search/accountrequests";
-        public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
-        public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
         public static final String QUESTIONS = URI_PREFIX + "/questions";
         public static final String QUESTION = URI_PREFIX + "/question";

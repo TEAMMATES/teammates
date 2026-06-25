@@ -74,6 +74,10 @@ public class Browser {
         this.driver.manage().addCookie(cookie);
     }
 
+    public void removeSessionStorageItem(String key) {
+        ((JavascriptExecutor) driver).executeScript("window.sessionStorage.removeItem(arguments[0]);", key);
+    }
+
     /**
      * Switches to new browser window for browsing.
      */

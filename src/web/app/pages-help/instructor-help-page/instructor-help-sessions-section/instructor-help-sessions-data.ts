@@ -1,5 +1,4 @@
 import {
-  CommentVisibilityType,
   Course,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
@@ -74,9 +73,6 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
  */
 export const EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
   commentText: '',
-
-  showCommentTo: [],
-  showGiverNameTo: [],
 };
 /**
  * Structure of example response
@@ -112,13 +108,9 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
   instructorComments: [
     {
       commentGiverName: 'Instructor',
-      lastEditorName: 'Instructor',
       responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
       commentText: 'Good to know!',
       createdAt: 1,
-      lastEditedAt: 1,
-      showGiverNameTo: [CommentVisibilityType.GIVER],
-      showCommentTo: [CommentVisibilityType.GIVER],
     },
   ],
 };
@@ -224,8 +216,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -238,8 +228,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        showCommentTo: [],
-        showGiverNameTo: [],
       },
       isEditing: false,
     },
@@ -420,6 +408,5 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [
     isLoaded: true,
     isLoading: false,
     hasResponseButNotVisibleForPreview: false,
-    hasCommentNotVisibleForPreview: false,
   },
 ];

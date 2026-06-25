@@ -32,7 +32,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
@@ -43,7 +43,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
     }
 
@@ -56,7 +56,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
 
         List<FeedbackResponse> responses;
         switch (intent) {
@@ -69,7 +69,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             responses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
 
         FeedbackResponsesData result = FeedbackResponsesData.createFromEntity(responses);

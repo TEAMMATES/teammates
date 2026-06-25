@@ -27,7 +27,7 @@ public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionActio
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -44,14 +44,14 @@ public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionActio
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
     }
 
     @Override
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -68,7 +68,7 @@ public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionActio
             instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), true);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
 
         boolean isPreview = !StringHelper.isEmpty(getRequestParamValue(Const.ParamsNames.PREVIEWAS));
@@ -84,19 +84,19 @@ public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionActio
                     isModeration);
             break;
         default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         }
         List<SessionSubmissionQuestionData> questionData = bundle.getQuestionSubmissionBundles().stream()
-                .map(this::buildQuestionData)
+                .map(questionSubmissionBundle -> buildQuestionData(questionSubmissionBundle, intent))
                 .toList();
 
         return new JsonResult(new SessionSubmissionData(questionData));
     }
 
-    private SessionSubmissionQuestionData buildQuestionData(QuestionSubmissionBundle questionSubmissionBundle) {
+    private SessionSubmissionQuestionData buildQuestionData(
+            QuestionSubmissionBundle questionSubmissionBundle, Intent intent) {
         FeedbackQuestionData questionData = new FeedbackQuestionData(questionSubmissionBundle.getQuestion(),
                 questionSubmissionBundle.getDynamicallyGeneratedOptions());
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         if (intent == Intent.STUDENT_SUBMISSION) {
             questionData.hideInformationForStudent();
         }

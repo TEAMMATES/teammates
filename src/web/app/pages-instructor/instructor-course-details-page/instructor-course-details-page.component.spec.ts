@@ -133,7 +133,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const studentListRowModel: StudentListRowModel = {
       student: testStudent,
-      isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
     };
     component.students = [studentListRowModel];
@@ -163,7 +162,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const studentListRowModel: StudentListRowModel = {
       student: testStudent,
-      isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
     };
     component.students = [studentListRowModel];

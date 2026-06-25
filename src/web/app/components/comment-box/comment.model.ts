@@ -1,9 +1,5 @@
-import { CommentVisibilityType } from '../../../types/api-output';
-
 export interface CommentEditFormModel {
   commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
 }
 
 interface CommentRowBaseModel {
@@ -27,9 +23,7 @@ export interface InstructorCommentRowModel extends SavedCommentRowBaseModel {
   commentType: 'instructor';
   commentId: string;
   commentGiverName: string;
-  lastEditorName: string;
   createdAt: number;
-  lastEditedAt: number;
   timezone: string;
 }
 

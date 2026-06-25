@@ -79,14 +79,6 @@ public class InstructorStudentListPage extends AppPage {
         }
     }
 
-    public void verifyStudentDetailsNotViewable(Course course) {
-        WebElement targetCourse = getCourseTab(course);
-        assertNotNull(targetCourse, "Course with ID " + course.getId() + " is not found");
-        String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
-        String expectedText = "You do not have permission to view the details of the students in this course.";
-        assertEquals(expectedText, noViewStudentsPermissionText);
-    }
-
     private WebElement getCourseTab(Course course) {
         String targetHeader = createHeaderText(course);
         List<WebElement> courseTabs = getCoursesTabs();

@@ -5,7 +5,6 @@ import type {
   SessionResults,
 } from '../../types/api-output';
 import {
-  CommentVisibilityType,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -86,18 +85,9 @@ const feedbackSessionResultsMcqResults: SessionResults = {
           instructorComments: [
             {
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000043`,
               commentText: `Instructor 1 comment to student 2`,
               createdAt: 1451692740000,
-              lastEditedAt: 1451692740000,
-              showGiverNameTo: [CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.RECIPIENT_TEAM_MEMBERS],
-              showCommentTo: [
-                CommentVisibilityType.GIVER,
-                CommentVisibilityType.RECIPIENT,
-                CommentVisibilityType.STUDENTS,
-                CommentVisibilityType.INSTRUCTORS,
-              ],
             },
           ],
         },

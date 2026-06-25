@@ -138,7 +138,6 @@
     "ICs.instructor.CS1101": {
       "instructorId": "00000000-0000-4000-8000-000000000301",
       "courseLevel": {
-        "canViewStudent": true,
         "canSubmitSession": true,
         "canModifySessionComments": true,
         "canModifyCourse": false,
@@ -153,7 +152,6 @@
     "ICs.instructor.CS1231": {
       "instructorId": "00000000-0000-4000-8000-000000000302",
       "courseLevel": {
-        "canViewStudent": true,
         "canSubmitSession": true,
         "canModifySessionComments": true,
         "canModifyCourse": true,

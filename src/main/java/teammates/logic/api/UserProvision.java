@@ -114,7 +114,7 @@ public class UserProvision {
      * Checks if the request is a masquerade request.
      */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
-        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        String masqueradeAccountId = req.getHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID);
         return masqueradeAccountId != null;
     }
 
@@ -152,13 +152,13 @@ public class UserProvision {
     }
 
     /**
-     * Gets a valid masquerade account id from the request parameters.
+     * Gets a valid masquerade account id from the request headers.
      *
      * @throws UnauthorizedAccessException if the masquerade account id is not a
      *                                     valid UUID
      */
     protected UUID getValidMasqueradeAccountId(HttpServletRequest req) throws UnauthorizedAccessException {
-        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        String masqueradeAccountId = req.getHeader(Const.HeaderNames.MASQUERADE_ACCOUNT_ID);
         try {
             return UUID.fromString(masqueradeAccountId);
         } catch (IllegalArgumentException | NullPointerException e) {

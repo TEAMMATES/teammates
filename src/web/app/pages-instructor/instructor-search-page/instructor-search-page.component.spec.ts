@@ -6,10 +6,18 @@ import { of } from 'rxjs';
 
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+import { CourseService } from '../../../services/course.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../../../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../../../types/api-const';
-import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import {
+  InstructorCourses,
+  InstructorPermissionSet,
+  InstructorPrivilege,
+  JoinState,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 
 describe('InstructorSearchPageComponent', () => {
@@ -17,6 +25,12 @@ describe('InstructorSearchPageComponent', () => {
   let fixture: ComponentFixture<InstructorSearchPageComponent>;
   let spyHttpRequestService: MockHttpRequestService;
   let coursesWithStudents: SearchStudentsListRowTable[];
+  const mockCourseService = {
+    getAllCoursesAsInstructor: vi.fn(),
+  };
+  const mockInstructorService = {
+    loadInstructorPrivilege: vi.fn(),
+  };
 
   const mockStudents: Students = {
     students: [
@@ -77,9 +91,55 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(async () => {
     spyHttpRequestService = createMockHttpRequestService();
+    mockCourseService.getAllCoursesAsInstructor.mockReturnValue(
+      of<InstructorCourses>({
+        courses: [
+          {
+            courseId: 'CS3281',
+            courseName: 'Course 1',
+            timeZone: 'UTC',
+            institute: 'Test Institute',
+            country: 'SG',
+            instituteId: 'test-institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
+          },
+          {
+            courseId: 'CS3282',
+            courseName: 'Course 2',
+            timeZone: 'UTC',
+            institute: 'Test Institute',
+            country: 'SG',
+            instituteId: 'test-institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
+          },
+        ],
+        instructorPermissions: {},
+      }),
+    );
+    mockInstructorService.loadInstructorPrivilege.mockReturnValue(
+      of<InstructorPrivilege>({
+        privileges: {
+          courseLevel: {
+            canModifyCourse: false,
+            canModifySession: false,
+            canModifyStudent: false,
+            canModifyInstructor: false,
+            canModifySessionComments: false,
+            canViewSession: false,
+            canSubmitSession: false,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
+      }),
+    );
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        { provide: CourseService, useValue: mockCourseService },
+        { provide: InstructorService, useValue: mockInstructorService },
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
@@ -130,7 +190,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-5',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -147,7 +206,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-6',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -164,7 +222,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-7',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
           {
@@ -181,7 +238,6 @@ describe('InstructorSearchPageComponent', () => {
               institute: 'Test Institute',
               userId: 'student-8',
             },
-            isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
           },
         ],
@@ -224,31 +280,10 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should execute GET when fetching privileges', () => {
-    spyHttpRequestService.get.mockImplementation((endpoint: string) => {
-      expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
-      return of<InstructorPrivilege>({
-        privileges: {
-          courseLevel: {
-            canModifyCourse: true,
-            canModifySession: true,
-            canModifyStudent: true,
-            canModifyInstructor: true,
-            canViewStudent: true,
-            canModifySessionComments: true,
-            canViewSession: true,
-            canSubmitSession: true,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      });
-    });
     component.getPrivileges(coursesWithStudents);
 
     for (const course of coursesWithStudents) {
-      expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, {
-        courseid: course.courseId,
-      });
+      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledWith({ courseId: course.courseId });
     }
   });
 
@@ -258,7 +293,6 @@ describe('InstructorSearchPageComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudent: true,
       canModifySessionComments: true,
       canViewSession: true,
       canSubmitSession: true,
@@ -275,7 +309,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: false,
             canModifyStudent: true,
           },
           sectionLevel: {},
@@ -286,7 +319,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: true,
             canModifyStudent: false,
           },
           sectionLevel: {},
@@ -297,7 +329,6 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudent: false,
             canModifyStudent: false,
           },
           sectionLevel: {},
@@ -308,19 +339,15 @@ describe('InstructorSearchPageComponent', () => {
     component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
 
     const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
-    expect(course1Student1.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
 
     const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
-    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(false);
     expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
 
     const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
-    expect(course1Student3.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
 
     const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
-    expect(course2Student1.isAllowedToViewStudentInSection).toEqual(false);
     expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
 
     expect(mockPrivilegesArray.length).toEqual(0);

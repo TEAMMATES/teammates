@@ -523,27 +523,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = comment.getLastEditedBy().getDisplayName();
         String commentGiver = comment.getGiver().getDisplayName();
-        verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
+        verifyCommentDetails(commentModal, commentGiver, comment.getCommentText(), true);
     }
 
     private void verifyGroupedResponseComment(WebElement groupedResponses, int qnNum,
                                               ResponseInstructorComment comment) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = comment.getLastEditedBy().getDisplayName();
         String commentGiver = comment.getGiver().getDisplayName();
-        verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
+        verifyCommentDetails(questionPanel, commentGiver, comment.getCommentText(), false);
     }
 
-    public void verifyCommentDetails(WebElement commentSection, String commentGiver, String commentEditor,
+    public void verifyCommentDetails(WebElement commentSection, String commentGiver,
                                      String commentString, boolean isClosable) {
         WebElement commentField = getCommentField(commentSection, commentString);
         assertEquals(commentGiver, getCommentGiver(commentField));
-        if (!commentEditor.isEmpty()) {
-            assertEquals(commentEditor, getCommentEditor(commentField));
-        }
         if (isClosable) {
             click(waitForElementPresence(By.id("btn-close-comments")));
             waitForPageToLoad();
@@ -984,11 +979,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private String getCommentGiver(WebElement commentField) {
         String commentGiverDescription = commentField.findElement(By.className("comment-giver-name")).getText();
         return commentGiverDescription.split(" commented")[0];
-    }
-
-    private String getCommentEditor(WebElement commentField) {
-        String editDescription = commentField.findElement(By.id("last-editor-name")).getText();
-        return editDescription.split("edited by ")[1];
     }
 
     private WebElement getCommentField(WebElement commentSection, String commentString) {

@@ -38,7 +38,7 @@ import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
@@ -67,7 +67,7 @@ export interface CourseTabModel {
   styleUrls: ['./instructor-home-page.component.scss'],
   imports: [
     LoadingSpinnerDirective,
-    TeammatesRouterDirective,
+    RouterLink,
     ProgressBarComponent,
     LoadingRetryComponent,
     NgbDropdown,

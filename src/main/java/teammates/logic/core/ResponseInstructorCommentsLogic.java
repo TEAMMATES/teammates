@@ -1,24 +1,14 @@
 package teammates.logic.core;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ResponseInstructorCommentsDb;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
-import teammates.storage.entity.User;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
@@ -65,15 +55,14 @@ public final class ResponseInstructorCommentsLogic {
      * @throws InvalidParametersException if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
+            String commentText)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackResponse feedbackResponse = frLogic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
             throw new EntityDoesNotExistException("The feedback response does not exist.");
         }
 
-        ResponseInstructorComment frc = new ResponseInstructorComment(giver, commentText,
-                showCommentTo, showGiverNameTo, giver);
+        ResponseInstructorComment frc = new ResponseInstructorComment(giver, commentText);
         feedbackResponse.addResponseInstructorComment(frc);
 
         validateResponseInstructorComment(frc);
@@ -119,9 +108,6 @@ public final class ResponseInstructorCommentsLogic {
         }
 
         comment.setCommentText(updateRequest.getCommentText());
-        comment.setShowCommentTo(updateRequest.getShowCommentTo());
-        comment.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
-        comment.setLastEditedBy(updater);
 
         return comment;
     }
@@ -133,177 +119,10 @@ public final class ResponseInstructorCommentsLogic {
         return frcDb.getResponseInstructorCommentsForResponses(feedbackResponseIds);
     }
 
-    /**
-     * Verifies whether the comment is visible to certain user.
-     * @return true/false
-     */
-    public boolean checkIsResponseCommentVisibleForUser(User user,
-            FeedbackResponse response, FeedbackQuestion relatedQuestion, ResponseInstructorComment relatedComment) {
-
-        if (response == null || relatedQuestion == null) {
-            return false;
-        }
-
-        boolean isVisibleToGiver = relatedComment.checkIsVisibleTo(CommentVisibilityType.GIVER);
-
-        boolean isVisibleToUser = checkIsVisibleToUser(user, response, relatedComment, isVisibleToGiver);
-
-        boolean isVisibleToUserTeam = false;
-        if (user instanceof Student student) {
-            isVisibleToUserTeam = checkIsVisibleToUserTeam(student, response,
-                    relatedQuestion, relatedComment);
-        }
-
-        return isVisibleToUser || isVisibleToUserTeam;
-    }
-
-    private boolean checkIsVisibleToUserTeam(Student student,
-            FeedbackResponse response, FeedbackQuestion relatedQuestion,
-            ResponseInstructorComment relatedComment) {
-        Team studentTeam = student.getTeam();
-
-        ResponseGiver responseGiver = response.getGiver();
-        Team giverTeam = null;
-        if (responseGiver.isGiverTeam()) {
-            giverTeam = responseGiver.getGiverTeam();
-        } else if (responseGiver.getGiverUser() instanceof Student studentGiver) {
-            giverTeam = studentGiver.getTeam();
-        }
-
-        ResponseRecipient responseRecipient = response.getRecipient();
-        Team recipientTeam = null;
-        if (responseRecipient.getRecipientTeam() != null) {
-            recipientTeam = responseRecipient.getRecipientTeam();
-        } else if (responseRecipient.getRecipientUser() instanceof Student studentRecipient) {
-            recipientTeam = studentRecipient.getTeam();
-        }
-
-        boolean isUserInGiverTeam = giverTeam != null && giverTeam.equals(studentTeam);
-        boolean isUserInRecipientTeam = recipientTeam != null && recipientTeam.equals(studentTeam);
-
-        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
-                relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
-                && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT)
-                && isUserInRecipientTeam;
-
-        boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
-                (relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                || checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.GIVER_TEAM_MEMBERS))
-                && isUserInGiverTeam;
-
-        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
-                checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT_TEAM_MEMBERS)
-                && isUserInRecipientTeam;
-
-        return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
-                || isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers
-                || isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers;
-    }
-
-    private boolean checkIsVisibleToUser(User user, FeedbackResponse response,
-            ResponseInstructorComment relatedComment,
-            boolean isVisibleToGiver) {
-        boolean isUserInstructor = user instanceof Instructor;
-
-        boolean isUserInstructorAndRelatedResponseCommentVisibleToInstructors =
-                isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.INSTRUCTORS);
-
-        boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                Objects.equals(response.getRecipient().getRecipientUser(), user)
-                        && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT);
-
-        boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-                Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
-
-        boolean isUserResponseCommentGiver = Objects.equals(user, relatedComment.getGiver());
-
-        boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
-                !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.STUDENTS);
-
-        return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
-                || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
-                || isUserResponseGiverAndRelatedResponseCommentVisibleToGivers
-                || isUserResponseCommentGiver
-                || isUserStudentAndRelatedResponseCommentVisibleToStudents;
-    }
-
-    private boolean checkIsResponseCommentVisibleTo(
-                                               ResponseInstructorComment relatedComment,
-                                               CommentVisibilityType viewerType) {
-        return relatedComment.checkIsVisibleTo(viewerType);
-    }
-
-    /**
-     * Returns true if the comment's giver name is visible to certain user.
-     */
-    public boolean checkIsNameVisibleToUser(ResponseInstructorComment comment, FeedbackResponse response, User user) {
-        //comment giver can always see
-        Instructor commentGiver = comment.getGiver();
-        if (Objects.equals(user, commentGiver)) {
-            return true;
-        }
-
-        List<CommentVisibilityType> showNameTo = comment.getShowGiverNameTo();
-        assert showNameTo != null : "showNameTo should not be null";
-
-        return checkIsFeedbackGiverNameVisibleToUser(response, user, showNameTo);
-    }
-
     private void validateResponseInstructorComment(ResponseInstructorComment responseInstructorComment)
             throws InvalidParametersException {
         if (!responseInstructorComment.isValid()) {
             throw new InvalidParametersException(responseInstructorComment.getInvalidityInfo());
         }
-    }
-
-    private boolean checkIsFeedbackGiverNameVisibleToUser(FeedbackResponse response,
-            User user, List<CommentVisibilityType> showNameTo) {
-        ResponseGiver responseGiver = response.getGiver();
-        ResponseRecipient responseRecipient = response.getRecipient();
-        for (CommentVisibilityType type : showNameTo) {
-            switch (type) {
-            case INSTRUCTORS:
-                if (user instanceof Instructor) {
-                    return true;
-                }
-                break;
-            case GIVER_TEAM_MEMBERS:
-                if (user instanceof Student student && student.getTeam().equals(responseGiver.getGiverTeam())) {
-                    return true;
-                }
-                break;
-            case RECIPIENT:
-                if (responseRecipient.isRecipientUser() && user.equals(responseRecipient.getRecipientUser())) {
-                    return true;
-                }
-                if (responseRecipient.isRecipientTeam() && user instanceof Student student
-                        && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
-                    return true;
-                }
-                break;
-            case RECIPIENT_TEAM_MEMBERS:
-                if (user instanceof Student student && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
-                    return true;
-                }
-                break;
-            case STUDENTS:
-                if (user instanceof Student) {
-                    return true;
-                }
-                break;
-            case GIVER:
-                if (responseGiver.isGiverUser() && user.equals(responseGiver.getGiverUser())) {
-                    return true;
-                }
-                if (responseGiver.isGiverTeam() && user instanceof Student student
-                        && student.getTeam().equals(responseGiver.getGiverTeam())) {
-                    return true;
-                }
-                break;
-            default:
-                break;
-            }
-        }
-        return false;
     }
 }

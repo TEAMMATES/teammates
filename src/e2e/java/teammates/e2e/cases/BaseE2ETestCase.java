@@ -66,6 +66,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected static final BackDoor BACKDOOR = BackDoor.getInstance();
 
+    private static final String MASQUERADE_ACCOUNT_ID_STORAGE_KEY = "masqueradeAccountId";
+
     /**
      * DataBundle used in tests.
      */
@@ -157,6 +159,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+        browser.waitForPageReadyState();
+        browser.removeSessionStorageItem(MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
 
         String cookieValue = BACKDOOR.getUserCookie(userEmail);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
@@ -180,6 +184,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             url = url.withParam("frontendUrl", TestProperties.TEAMMATES_FRONTEND_URL);
         }
 
+        browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+        browser.waitForPageReadyState();
+        browser.removeSessionStorageItem(MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
         browser.goToUrl(url.toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
     }
@@ -547,16 +554,5 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected DeadlineExtensionsData getDeadlineExtensions(UUID feedbackSessionId) {
         return BACKDOOR.getDeadlineExtensionsData(feedbackSessionId.toString());
-    }
-
-    /**
-     * Updates the feedback response comment in the database.
-     *
-     * @param commentId the ID of the comment to update
-     * @param commentText the new comment text
-     * @param instructorAccountId the ID of the instructor account
-     */
-    protected void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
-        BACKDOOR.updateResponseInstructorComment(commentId, commentText, instructorAccountId);
     }
 }

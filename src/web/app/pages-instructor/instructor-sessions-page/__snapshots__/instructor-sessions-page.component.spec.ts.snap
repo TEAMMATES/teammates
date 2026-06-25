@@ -125,8 +125,8 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -1601,8 +1601,8 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -3077,8 +3077,8 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -4452,7 +4452,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
      You have not created any courses yet, or you have no active courses. Go 
     <a
       href="/web/instructor/courses"
-      tmrouterlink="/web/instructor/courses"
+      routerlink="/web/instructor/courses"
     >
       here
     </a>
@@ -4534,8 +4534,8 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -6014,8 +6014,8 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -7490,8 +7490,8 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i
@@ -8966,8 +8966,8 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                       aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
+                      routerlink="/web/instructor/help"
                       target="_blank"
-                      tmrouterlink="/web/instructor/help"
                       type="button"
                     >
                       <i

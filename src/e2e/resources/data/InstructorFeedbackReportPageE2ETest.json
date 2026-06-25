@@ -458,19 +458,13 @@
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000971",
       "giverId": "00000000-0000-4000-8000-000000000501",
-      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor first comment to Alice",
-      "showCommentTo": ["STUDENTS"],
-      "showGiverNameTo": ["STUDENTS"],
       "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000972",
       "giverId": "00000000-0000-4000-8000-000000000501",
-      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor second comment to Alice",
-      "showCommentTo": ["STUDENTS"],
-      "showGiverNameTo": ["STUDENTS"],
       "responseId": "00000000-0000-4000-8000-000000000903"
     }
   },

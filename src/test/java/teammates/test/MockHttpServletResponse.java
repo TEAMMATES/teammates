@@ -43,7 +43,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public String encodeRedirectURL(String url) {
-        return null;
+        return url;
     }
 
     @Override
@@ -58,12 +58,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void sendError(int sc, String msg) {
-        // not used
+        this.statusCode = sc;
     }
 
     @Override
     public void sendError(int sc) {
-        // not used
+        this.statusCode = sc;
     }
 
     @Override

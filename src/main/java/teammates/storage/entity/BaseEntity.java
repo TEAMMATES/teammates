@@ -14,7 +14,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.JsonUtils;
 
@@ -158,21 +157,4 @@ public abstract class BaseEntity {
         }
     }
 
-    /**
-     * Attribute converter between a list of CommentVisibilityTypes and JSON.
-     */
-    @Converter
-    public static class CommentVisibilityTypeListConverter
-            implements AttributeConverter<List<CommentVisibilityType>, String> {
-
-        @Override
-        public String convertToDatabaseColumn(List<CommentVisibilityType> attribute) {
-            return JsonUtils.toJson(attribute);
-        }
-
-        @Override
-        public List<CommentVisibilityType> convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeReference<>(){});
-        }
-    }
 }

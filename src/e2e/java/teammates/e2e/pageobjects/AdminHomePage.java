@@ -1,21 +1,9 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import teammates.test.ThreadHelper;
-
 /**
  * Represents the admin home page of the website.
  */
 public class AdminHomePage extends AppPage {
-    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_NAME = 1;
-    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL = 2;
-    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE = 4;
 
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -24,47 +12,5 @@ public class AdminHomePage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Admin Home Page");
-    }
-
-    public void clickMoreInfoButtonForRegisteredInstructor(int i) {
-        By by = By.id("instructor-" + i + "-registered-info-button");
-        waitForElementVisibility(by);
-        WebElement element = browser.driver.findElement(by);
-        click(element);
-        waitForElementVisibility(By.id("reset-account-request-link"));
-    }
-
-    public void clickResetAccountVerificationRequestLink() {
-        By by = By.id("reset-account-request-link");
-        WebElement element = browser.driver.findElement(by);
-        click(element);
-        ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
-        List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
-        clickDismissModalButtonAndWaitForModalHidden(okButtons.get(1)); // Second modal is confirmation modal
-    }
-
-    public String removeSpanFromText(String text) {
-        return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
-    }
-
-    public WebElement getAccountVerificationRequestRow(String name, String email, String institute) {
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
-        for (WebElement row : rows) {
-            List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_NAME - 1)
-                    .getAttribute("innerHTML")).contains(name)
-                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL - 1)
-                    .getAttribute("innerHTML")).contains(email)
-                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE - 1)
-                    .getAttribute("innerHTML")).contains(institute)) {
-                return row;
-            }
-        }
-        return null;
-    }
-
-    public void verifyInstructorInAccountVerificationRequestTable(String name, String email, String institute) {
-        WebElement row = getAccountVerificationRequestRow(name, email, institute);
-        assertNotNull(row);
     }
 }

@@ -18,6 +18,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -59,6 +60,12 @@ public class AccountVerificationRequest extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String comments;
+
+    @Enumerated(EnumType.STRING)
+    private AccountVerificationRequestRejectionType rejectionType;
+
+    @Column(length = 2000)
+    private String rejectionAdditionalComments;
 
     private Instant createdDemoCourseAt;
 
@@ -159,6 +166,22 @@ public class AccountVerificationRequest extends BaseEntity {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public AccountVerificationRequestRejectionType getRejectionType() {
+        return this.rejectionType;
+    }
+
+    public void setRejectionType(AccountVerificationRequestRejectionType rejectionType) {
+        this.rejectionType = rejectionType;
+    }
+
+    public String getRejectionAdditionalComments() {
+        return this.rejectionAdditionalComments;
+    }
+
+    public void setRejectionAdditionalComments(String rejectionAdditionalComments) {
+        this.rejectionAdditionalComments = rejectionAdditionalComments;
     }
 
     public Instant getCreatedDemoCourseAt() {

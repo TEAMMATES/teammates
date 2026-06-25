@@ -5,7 +5,7 @@ import { ResponseInstructorCommentService } from './feedback-response-comment.se
 import { InstructorCommentService } from './instructor-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
-import { CommentVisibilityType, ResponseInstructorComment } from '../types/api-output';
+import { ResponseInstructorComment } from '../types/api-output';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
@@ -29,13 +29,9 @@ describe('InstructorCommentService', () => {
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
     commentGiverName: 'Original Instructor',
-    lastEditorName: 'Original Instructor',
     responseInstructorCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
-    lastEditedAt: 1000,
-    showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
-    showCommentTo: [CommentVisibilityType.INSTRUCTORS],
     ...overrides,
   });
 
@@ -44,18 +40,12 @@ describe('InstructorCommentService', () => {
     timezone,
     commentId: comment.responseInstructorCommentId,
     commentGiverName: comment.commentGiverName,
-    lastEditorName: comment.lastEditorName,
     createdAt: comment.createdAt,
-    lastEditedAt: comment.lastEditedAt,
     originalCommentFormModel: {
       commentText: comment.commentText,
-      showCommentTo: comment.showCommentTo,
-      showGiverNameTo: comment.showGiverNameTo,
     },
     commentEditFormModel: {
       commentText: comment.commentText,
-      showCommentTo: comment.showCommentTo,
-      showGiverNameTo: comment.showGiverNameTo,
     },
     isEditing: false,
   });
@@ -64,8 +54,6 @@ describe('InstructorCommentService', () => {
     commentType: 'new',
     commentEditFormModel: {
       commentText: 'new comment text',
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },
     isEditing: true,
   });
@@ -150,16 +138,11 @@ describe('InstructorCommentService', () => {
     const commentTableModel: CommentTableModel = createCommentTableModel([createCommentRow(originalComment)]);
     commentTableModel.commentRows[0].commentEditFormModel = {
       commentText: 'updated text',
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     };
     const updatedComment: ResponseInstructorComment = createComment({
       responseInstructorCommentId: 'comment-id-to-update',
       commentText: 'updated text',
       createdAt: 1000,
-      lastEditedAt: 2000,
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     });
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
@@ -175,8 +158,6 @@ describe('InstructorCommentService', () => {
     expect(spyResponseInstructorCommentService.updateComment).toHaveBeenCalledWith(
       {
         commentText: 'updated text',
-        showCommentTo: [CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.RECIPIENT],
       },
       'comment-id-to-update',
     );
@@ -236,8 +217,6 @@ describe('InstructorCommentService', () => {
     expect(spyResponseInstructorCommentService.createComment).toHaveBeenCalledWith(
       {
         commentText: 'new comment text',
-        showCommentTo: [CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.RECIPIENT],
       },
       'response-id',
     );

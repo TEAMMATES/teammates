@@ -1,6 +1,6 @@
 <div class="d-flex gap-1">
   @if (instructorPrivileges.canModifySession) {
-    <a [tmRouterLink]="['/web/instructor/sessions', fsId, 'edit']" [queryParams]="{ editingMode: true }">
+    <a [routerLink]="['/web/instructor/sessions', fsId, 'edit']" [queryParams]="{ editingMode: true }">
       <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
     </a>
   } @else {
@@ -27,7 +27,7 @@
   </button>
 
   @if (submissionStatus === FeedbackSessionSubmissionStatus.OPEN && instructorPrivileges.canSubmitSession) {
-    <a [tmRouterLink]="['/web/instructor/sessions', fsId, 'submission']" [queryParams]="{ editingMode: true }">
+    <a [routerLink]="['/web/instructor/sessions', fsId, 'submission']" [queryParams]="{ editingMode: true }">
       <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
     </a>
   } @else {
@@ -60,7 +60,7 @@
         [ngClass]="{
           disabled: !instructorPrivileges.canViewSession,
         }"
-        [tmRouterLink]="['/web/instructor/sessions', fsId, 'result']"
+        [routerLink]="['/web/instructor/sessions', fsId, 'result']"
         >View Results (from/to me)</a
       >
       <a
@@ -68,7 +68,7 @@
         [ngClass]="{
           disabled: !instructorPrivileges.canViewSession,
         }"
-        [tmRouterLink]="['/web/instructor/sessions', fsId, 'report']"
+        [routerLink]="['/web/instructor/sessions', fsId, 'report']"
         >View Results (course-wide)</a
       >
       @if (

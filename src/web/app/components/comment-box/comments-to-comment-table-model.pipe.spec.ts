@@ -17,23 +17,15 @@ describe('CommentsToCommentTableModelPipe', () => {
     const comments: ResponseInstructorComment[] = [
       {
         commentGiverName: 'commentGiverName',
-        lastEditorName: 'lastEditorName',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000000',
         commentText: 'commentText',
         createdAt: 0,
-        lastEditedAt: 0,
-        showGiverNameTo: [],
-        showCommentTo: [],
       },
       {
         commentGiverName: 'commentGiverName2',
-        lastEditorName: 'lastEditorName2',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
         commentText: 'commentText2',
         createdAt: 1,
-        lastEditedAt: 1,
-        showGiverNameTo: [],
-        showCommentTo: [],
       },
     ];
     expect(pipe.transform(comments, true, 'UTC')).toEqual({
@@ -42,19 +34,13 @@ describe('CommentsToCommentTableModelPipe', () => {
           commentType: 'instructor',
           timezone: 'UTC',
           commentGiverName: 'commentGiverName',
-          lastEditorName: 'lastEditorName',
           commentId: '00000000-0000-4000-8000-000000000000',
           createdAt: 0,
-          lastEditedAt: 0,
           originalCommentFormModel: {
             commentText: 'commentText',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           isEditing: false,
         },
@@ -62,19 +48,13 @@ describe('CommentsToCommentTableModelPipe', () => {
           commentType: 'instructor',
           timezone: 'UTC',
           commentGiverName: 'commentGiverName2',
-          lastEditorName: 'lastEditorName2',
           commentId: '00000000-0000-4000-8000-000000000001',
           createdAt: 1,
-          lastEditedAt: 1,
           originalCommentFormModel: {
             commentText: 'commentText2',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText2',
-            showCommentTo: [],
-            showGiverNameTo: [],
           },
           isEditing: false,
         },
@@ -83,8 +63,6 @@ describe('CommentsToCommentTableModelPipe', () => {
         commentType: 'new',
         commentEditFormModel: {
           commentText: '',
-          showCommentTo: ['GIVER'],
-          showGiverNameTo: ['GIVER'],
         },
         isEditing: false,
       },

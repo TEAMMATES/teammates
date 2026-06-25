@@ -1,68 +1,28 @@
 package teammates.ui.servlets;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.ui.loginmethodhandlers.DevServerLoginHandler;
+import teammates.ui.loginmethodhandlers.GoogleLoginHandler;
+import teammates.ui.loginmethodhandlers.LoginMethodHandler;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Common servlet class that serves user authentication-related functions.
  */
 abstract class AuthServlet extends HttpServlet {
 
-    private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
-    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final List<String> SCOPES = Arrays.asList("openid", "email");
-
-    /**
-     * Gets the Google authorization code flow to be used across all HTTP servlet requests.
-     */
-    GoogleAuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
-        return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OIDC_GOOGLE_CLIENT_ID, Config.OIDC_GOOGLE_CLIENT_SECRET, SCOPES)
-                .setDataStoreFactory(DATA_STORE_FACTORY)
-                .setAccessType("offline")
-                .build();
-    }
-
-    /**
-     * Returns the redirect URI for the given HTTP servlet request.
-     */
-    String getRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
-        url.setRawPath("/oauth2callback");
-        url.set("ngsw-bypass", "true");
-        return url.build();
-    }
-
-    /**
-     * Returns the Google ID token verifier to be used across all HTTP servlet requests.
-     */
-    GoogleIdTokenVerifier getGoogleIdTokenVerifier() {
-        return new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-                .setAudience(List.of(Config.OIDC_GOOGLE_CLIENT_ID))
-                .build();
-    }
+    private static final Map<LoginMethod, LoginMethodHandler> LOGIN_HANDLERS = Map.of(
+            LoginMethod.DEV_SERVER, new DevServerLoginHandler(),
+            LoginMethod.GOOGLE, new GoogleLoginHandler());
 
     Cookie getLoginInvalidationCookie() {
         Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, "");
@@ -84,25 +44,10 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     /**
-     * Represents the state object to be persisted during the callback.
+     * Returns the login handler for the given login method.
      */
-    static class AuthState {
-        private final String nextUrl;
-        private final String sessionId;
-
-        @JsonCreator
-        AuthState(String nextUrl, String sessionId) {
-            this.nextUrl = nextUrl;
-            this.sessionId = sessionId;
-        }
-
-        String getNextUrl() {
-            return nextUrl;
-        }
-
-        public String getSessionId() {
-            return sessionId;
-        }
+    LoginMethodHandler getLoginHandler(LoginMethod method) {
+        return LOGIN_HANDLERS.get(method);
     }
 
 }

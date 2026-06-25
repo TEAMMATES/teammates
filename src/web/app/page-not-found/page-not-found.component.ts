@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * "Page not found" page.
@@ -9,6 +9,6 @@ import { TeammatesRouterDirective } from '../components/teammates-router/teammat
 @Component({
   selector: 'tm-page-not-found',
   templateUrl: './page-not-found.component.html',
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class PageNotFoundComponent {}

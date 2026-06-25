@@ -1,4 +1,4 @@
-import { FeedbackVisibilityType, ResponseInstructorComment } from '../../types/api-output';
+import { ResponseInstructorComment } from '../../types/api-output';
 import { CommentTableModel } from '../components/comment-box/comment-table/comment-table.model';
 import {
   createNewCommentRowModel,
@@ -9,14 +9,13 @@ export function commentToReadOnlyComment(
   comments: ResponseInstructorComment[],
   isReadOnly: boolean,
   timezone: string,
-  questionShowResponsesTo: FeedbackVisibilityType[] = [],
 ): CommentTableModel {
   return {
     isReadOnly,
     commentRows: comments.map((comment: ResponseInstructorComment) => {
       return instructorCommentToCommentRowModel(comment, timezone);
     }),
-    newCommentRow: createNewCommentRowModel(questionShowResponsesTo),
+    newCommentRow: createNewCommentRowModel(),
     isAddingNewComment: false,
   };
 }

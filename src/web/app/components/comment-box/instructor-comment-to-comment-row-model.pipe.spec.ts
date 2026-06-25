@@ -1,5 +1,5 @@
 import { InstructorCommentToCommentRowModelPipe } from './instructor-comment-to-comment-row-model.pipe';
-import { CommentVisibilityType, ResponseInstructorComment } from '../../../types/api-output';
+import { ResponseInstructorComment } from '../../../types/api-output';
 
 describe('InstructorCommentToCommentRowModelPipe', () => {
   it('converts a feedback response comment to a comment row model', () => {
@@ -7,12 +7,8 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
     const comment: ResponseInstructorComment = {
       responseInstructorCommentId: 'comment-id',
       commentGiverName: 'Instructor',
-      lastEditorName: 'Editor',
       commentText: 'comment text',
       createdAt: 1,
-      lastEditedAt: 2,
-      showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.GIVER],
     };
 
     expect(pipe.transform(comment, 'UTC')).toEqual({
@@ -20,18 +16,12 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
       timezone: 'UTC',
       commentId: 'comment-id',
       commentGiverName: 'Instructor',
-      lastEditorName: 'Editor',
       createdAt: 1,
-      lastEditedAt: 2,
       originalCommentFormModel: {
         commentText: 'comment text',
-        showCommentTo: [CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER],
       },
       commentEditFormModel: {
         commentText: 'comment text',
-        showCommentTo: [CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER],
       },
       isEditing: false,
     });

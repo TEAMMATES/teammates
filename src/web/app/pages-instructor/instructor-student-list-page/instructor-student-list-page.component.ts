@@ -1,4 +1,3 @@
-import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { finalize } from 'rxjs/operators';
@@ -13,7 +12,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { joinStateToString } from '../../utils/join-state.util';
 
@@ -29,7 +28,6 @@ export interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
-  isAbleToViewStudents: boolean;
   stats: CourseStatistics;
 }
 
@@ -41,7 +39,7 @@ export interface CourseTab {
   templateUrl: './instructor-student-list-page.component.html',
   styleUrls: ['./instructor-student-list-page.component.scss'],
   imports: [
-    TeammatesRouterDirective,
+    RouterLink,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     PanelChevronComponent,
@@ -97,7 +95,6 @@ export class InstructorStudentListPageComponent implements OnInit {
               hasTabExpanded: false,
               hasStudentLoaded: false,
               hasLoadingFailed: false,
-              isAbleToViewStudents: true,
               stats: {
                 numOfSections: 0,
                 numOfStudents: 0,
@@ -133,7 +130,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
-    this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId }).subscribe({
+    this.studentService.getStudents({ courseIds: [courseTab.course.courseId] }).subscribe({
       next: (students: Students) => {
         courseTab.studentList = []; // Reset the list of students for the course
         const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -154,7 +151,6 @@ export class InstructorStudentListPageComponent implements OnInit {
           .subscribe({
             next: (instructorPrivilege: InstructorPrivilege) => {
               const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
-
               Object.keys(sections).forEach((sectionId: string) => {
                 const sectionLevelPrivilege: InstructorPermissionSet =
                   instructorPrivilege.privileges.sectionLevel[sectionId] || courseLevelPrivilege;
@@ -163,7 +159,6 @@ export class InstructorStudentListPageComponent implements OnInit {
                 const studentModels: StudentListRowModel[] = studentsInSection.map((stuInSection: Student) => {
                   return {
                     student: stuInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });
@@ -182,12 +177,8 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
       },
       error: (resp: ErrorMessageOutput) => {
-        if (resp.status === HttpStatusCode.Forbidden) {
-          courseTab.isAbleToViewStudents = false;
-          courseTab.hasStudentLoaded = true;
-        } else {
-          courseTab.hasLoadingFailed = true;
-        }
+        courseTab.hasLoadingFailed = true;
+        courseTab.hasStudentLoaded = true;
         courseTab.studentList = [];
         this.statusMessageService.showErrorToast(resp.error.message);
       },

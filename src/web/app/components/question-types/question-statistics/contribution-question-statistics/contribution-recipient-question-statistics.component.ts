@@ -4,12 +4,12 @@ import { FeedbackContributionRecipientStatistics } from '../../../../../types/ap
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
 import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
 import { ContributionComponent } from './contribution.component';
-import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tm-contribution-recipient-question-statistics',
   templateUrl: './contribution-recipient-question-statistics.component.html',
-  imports: [NgbTooltip, ContributionComponent, TeammatesRouterDirective],
+  imports: [NgbTooltip, ContributionComponent, RouterLink],
 })
 export class ContributionRecipientQuestionStatisticsComponent {
   private simpleModalService = inject(SimpleModalService);

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import { EMPTY, Observable, catchError, finalize, firstValueFrom, map, switchMap, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { AccountService } from '../../../services/account.service';
 import { DateFormatService } from '../../../services/date-format.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -7,32 +8,14 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { RouterLink } from '@angular/router';
+import { AccountVerificationRequestRejectionType } from '../../../types/api-request';
 import {
   AccountVerificationRequestDraft,
   toAccountVerificationRequestUpdateRequest,
 } from './account-verification-request-draft';
 import { RequestDetailsCardComponent } from './request-details-card/request-details-card.component';
-
-const mockRequestHistory: AccountVerificationRequest[] = [
-  {
-    accountVerificationRequestId: 'history-approved-request',
-    institute: 'Example Graduate School',
-    status: AccountVerificationRequestStatus.APPROVED,
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 48,
-    email: 'instructor@teammates.tmt',
-    name: 'instructor',
-    country: 'SG',
-  },
-  {
-    accountVerificationRequestId: 'history-rejected-request',
-    institute: 'Example Teaching Institute',
-    status: AccountVerificationRequestStatus.REJECTED,
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 180,
-    email: 'instructor@teammates.tmt',
-    name: 'instructor',
-    country: 'SG',
-  },
-];
+import { RejectRequestModalComponent } from './reject-request-modal/reject-request-modal.component';
 
 /**
  * Review page for a single account verification request.
@@ -41,11 +24,12 @@ const mockRequestHistory: AccountVerificationRequest[] = [
   selector: 'tm-admin-account-verification-request-page',
   templateUrl: './admin-account-verification-request-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent],
+  imports: [LoadingSpinnerDirective, RequestDetailsCardComponent, RouterLink],
 })
-export class AdminAccountVerificationRequestPageComponent implements OnInit {
+export class AdminAccountVerificationRequestPageComponent {
   private readonly accountService = inject(AccountService);
   private readonly dateFormatService = inject(DateFormatService);
+  private readonly modalService = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly timezoneService = inject(TimezoneService);
 
@@ -54,7 +38,7 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly isLoading = signal(true);
   readonly isInvalidLink = signal(false);
   readonly accountVerificationRequest = signal<AccountVerificationRequest | null>(null);
-  readonly historicalRequests = signal<AccountVerificationRequest[]>(mockRequestHistory);
+  readonly historicalRequests = signal<AccountVerificationRequest[]>([]);
 
   readonly isEditing = signal(false);
   readonly isApprovingOrRejecting = signal(false);
@@ -63,16 +47,33 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
   readonly submitRequestDraft = (draft: AccountVerificationRequestDraft): Promise<void> =>
     this.saveRequestDetails(draft);
 
-  ngOnInit(): void {
-    this.accountService.getAccountVerificationRequest(this.accountVerificationRequestId()).subscribe({
-      next: (accountVerificationRequest: AccountVerificationRequest) => {
-        this.accountVerificationRequest.set(accountVerificationRequest);
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.isInvalidLink.set(true);
-        this.isLoading.set(false);
-      },
+  constructor() {
+    effect((onCleanup) => {
+      const requestId = this.accountVerificationRequestId();
+      this.isInvalidLink.set(false);
+
+      const subscription = this.accountService
+        .getAccountVerificationRequest(requestId)
+        .pipe(
+          switchMap((accountVerificationRequest: AccountVerificationRequest) => {
+            this.accountVerificationRequest.set(accountVerificationRequest);
+
+            return this.accountService
+              .getAccountVerificationRequests({ accountId: accountVerificationRequest.accountId })
+              .pipe(map((resp) => ({ historicalRequests: resp.accountVerificationRequests })));
+          }),
+          tap(({ historicalRequests }) => this.historicalRequests.set(historicalRequests)),
+          catchError(() => {
+            this.isInvalidLink.set(true);
+            this.accountVerificationRequest.set(null);
+            this.historicalRequests.set([]);
+            return EMPTY;
+          }),
+          finalize(() => this.isLoading.set(false)),
+        )
+        .subscribe();
+
+      onCleanup(() => subscription.unsubscribe());
     });
   }
 
@@ -95,9 +96,19 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
       return;
     }
 
-    this.runStatusTransition(
-      this.accountService.rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId),
-      () => 'Account verification request was successfully rejected.',
+    const modalRef = this.modalService.open(RejectRequestModalComponent);
+    modalRef.componentInstance.instituteName = accountVerificationRequest.institute;
+    modalRef.result.then(
+      (result: { rejectionType: AccountVerificationRequestRejectionType; additionalComments?: string }) => {
+        this.runStatusTransition(
+          this.accountService.rejectAccountVerificationRequest(
+            { id: accountVerificationRequest.accountVerificationRequestId },
+            result,
+          ),
+          () => 'Account verification request was successfully rejected.',
+        );
+      },
+      () => {},
     );
   }
 
@@ -152,21 +163,31 @@ export class AdminAccountVerificationRequestPageComponent implements OnInit {
     return this.dateFormatService.formatDateDetailed(timestamp, this.timezone);
   }
 
+  isCurrentRequest(accountVerificationRequest: AccountVerificationRequest): boolean {
+    const currentRequest = this.accountVerificationRequest();
+    return currentRequest
+      ? accountVerificationRequest.accountVerificationRequestId === currentRequest.accountVerificationRequestId
+      : false;
+  }
+
   private runStatusTransition(
-    requestAction: ReturnType<AccountService['approveAccountVerificationRequest']>,
+    requestAction: Observable<AccountVerificationRequest>,
     getSuccessMessage: (updatedRequest: AccountVerificationRequest) => string,
   ): void {
     this.isApprovingOrRejecting.set(true);
-    requestAction.subscribe({
-      next: (updatedRequest: AccountVerificationRequest) => {
-        this.accountVerificationRequest.set(updatedRequest);
-        this.statusMessageService.showSuccessToast(getSuccessMessage(updatedRequest));
-        this.isApprovingOrRejecting.set(false);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingOrRejecting.set(false);
-      },
-    });
+
+    requestAction
+      .pipe(
+        tap((updatedRequest: AccountVerificationRequest) => {
+          this.accountVerificationRequest.set(updatedRequest);
+          this.statusMessageService.showSuccessToast(getSuccessMessage(updatedRequest));
+        }),
+        catchError((resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          return EMPTY;
+        }),
+        finalize(() => this.isApprovingOrRejecting.set(false)),
+      )
+      .subscribe();
   }
 }

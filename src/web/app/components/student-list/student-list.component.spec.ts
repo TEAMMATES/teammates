@@ -24,7 +24,6 @@ describe('StudentListComponent', () => {
   const studentListRowModelBuilder = createBuilder<StudentListRowModel>({
     student: studentBuilder.build(),
     isAllowedToModifyStudent: true,
-    isAllowedToViewStudentInSection: true,
   });
 
   const getButtonGroupByStudentEmail = (email: string): DebugElement | null => {
@@ -93,7 +92,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-001',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -110,7 +108,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-002',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -127,7 +124,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-003',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -144,7 +140,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-004',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -168,7 +163,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-005',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: false,
       },
       {
@@ -185,7 +179,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-006',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: false,
       },
       {
@@ -202,7 +195,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-007',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
 
@@ -220,7 +212,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-008',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -245,7 +236,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-009',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -262,7 +252,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-010',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -279,7 +268,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-011',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -296,7 +284,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-012',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -326,7 +313,6 @@ describe('StudentListComponent', () => {
             institute: 'Test Institute',
             userId: 'student-013',
           },
-          isAllowedToViewStudentInSection: true,
           isAllowedToModifyStudent: false,
         },
         {
@@ -343,7 +329,6 @@ describe('StudentListComponent', () => {
             institute: 'Test Institute',
             userId: 'student-014',
           },
-          isAllowedToViewStudentInSection: true,
           isAllowedToModifyStudent: true,
         },
         {
@@ -360,7 +345,6 @@ describe('StudentListComponent', () => {
             institute: 'Test Institute',
             userId: 'student-015',
           },
-          isAllowedToViewStudentInSection: true,
           isAllowedToModifyStudent: true,
         },
         {
@@ -377,7 +361,6 @@ describe('StudentListComponent', () => {
             institute: 'Test Institute',
             userId: 'student-016',
           },
-          isAllowedToViewStudentInSection: true,
           isAllowedToModifyStudent: true,
         },
       ];
@@ -405,7 +388,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-017',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -422,7 +404,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-018',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -439,7 +420,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-019',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
@@ -456,7 +436,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-020',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -483,7 +462,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-021',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -509,7 +487,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-022',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];
@@ -654,7 +631,6 @@ describe('StudentListComponent', () => {
           institute: 'Test Institute',
           userId: 'student-023',
         },
-        isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
     ];

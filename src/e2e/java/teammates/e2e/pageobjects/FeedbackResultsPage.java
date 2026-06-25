@@ -141,15 +141,12 @@ public class FeedbackResultsPage extends AppPage {
         assertEquals(questionSection.findElement(By.id("team-view-others")).getText().trim(), expectedStats[3]);
     }
 
-    public void verifyCommentDetails(int questionNum, String commentGiver, String commentEditor, String commentString) {
+    public void verifyCommentDetails(int questionNum, String commentGiver, String commentString) {
         WebElement commentField = getCommentField(questionNum, commentString);
         if (commentGiver.isEmpty()) {
             assertTrue(isCommentByResponseGiver(commentField));
         } else {
             assertEquals(commentGiver, getCommentGiver(commentField));
-        }
-        if (!commentEditor.isEmpty()) {
-            assertEquals(commentEditor, getCommentEditor(commentField));
         }
     }
 
@@ -604,11 +601,6 @@ public class FeedbackResultsPage extends AppPage {
     private String getCommentGiver(WebElement commentField) {
         String commentGiverDescription = commentField.findElement(By.className("comment-giver-name")).getText();
         return commentGiverDescription.split(" commented")[0];
-    }
-
-    private String getCommentEditor(WebElement commentField) {
-        String editDescription = commentField.findElement(By.id("last-editor-name")).getText();
-        return editDescription.split("edited by ")[1];
     }
 
     private List<WebElement> getCommentFields(int questionNum) {

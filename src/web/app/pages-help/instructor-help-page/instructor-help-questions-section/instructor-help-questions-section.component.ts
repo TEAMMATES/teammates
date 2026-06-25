@@ -51,7 +51,7 @@ import { QuestionEditFormComponent } from '../../../components/question-edit-for
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { QuestionSubmissionFormComponent } from '../../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { InstructorSessionResultQuestionViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
@@ -72,7 +72,7 @@ import { Response } from '../../../../types/question-statistics.model';
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     QuestionEditFormComponent,
-    TeammatesRouterDirective,
+    RouterLink,
     InstructorSessionResultQuestionViewComponent,
     NgbTooltip,
     QuestionSubmissionFormComponent,

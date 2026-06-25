@@ -86,6 +86,8 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-regenerateLinksResendAllCourseLinks.html");
         public static final String ACCOUNT_VERIFICATION_APPROVED =
                 FileHelper.readResourceFile("accountVerificationApproved.html");
+        public static final String ACCOUNT_VERIFICATION_REJECTED =
+                FileHelper.readResourceFile("accountVerificationRejected.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
         public static final String USER_DEADLINE_EXTENSION =

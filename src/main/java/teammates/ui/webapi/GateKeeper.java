@@ -87,6 +87,7 @@ final class GateKeeper {
      * Verifies that the user has student privileges in the specified course.
      */
     void verifyStudentInCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         verifyNotNull(student, "student");
 
@@ -101,6 +102,7 @@ final class GateKeeper {
      */
     void verifyUserInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         if (student != null && student.getCourseId().equals(courseId)) {
             return;
@@ -117,6 +119,7 @@ final class GateKeeper {
      */
     void verifyInstructorInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
+        verifyNotNull(courseId, "course ID");
         Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         verifyNotNull(instructor, "instructor");
 
@@ -137,14 +140,13 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the user has instructor privileges to view the specified student.
+     * Verifies that the user has instructor privileges in the same course as the specified student.
      */
-    void verifyInstructorCanViewStudent(RequestContext requestContext, UUID userId)
+    void verifyInstructorInSameCourseAsStudent(RequestContext requestContext, UUID userId)
             throws UnauthorizedAccessException {
         Student student = logic.getStudent(userId);
         verifyNotNull(student, "student");
-        verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
-                Const.InstructorPermissions.CAN_VIEW_STUDENT);
+        verifyInstructorInCourse(requestContext, student.getCourseId());
     }
 
     /**

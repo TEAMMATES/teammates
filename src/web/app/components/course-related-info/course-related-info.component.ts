@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Student } from '../../../types/api-output';
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * A simple table to show course-related information about a student
@@ -9,7 +9,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
   selector: 'tm-course-related-info',
   templateUrl: './course-related-info.component.html',
   styleUrls: ['./course-related-info.component.scss'],
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class CourseRelatedInfoComponent {
   @Input() student?: Student;

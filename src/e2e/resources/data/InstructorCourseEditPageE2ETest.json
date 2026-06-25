@@ -248,7 +248,6 @@
     "ICEdit.helper.CS2104": {
       "instructorId": "00000000-0000-4000-8000-000000000505",
       "courseLevel": {
-        "canViewStudent": false,
         "canSubmitSession": false,
         "canModifySessionComments": false,
         "canModifyCourse": false,
@@ -263,7 +262,6 @@
     "ICEdit.helper.CS2103T": {
       "instructorId": "00000000-0000-4000-8000-000000000508",
       "courseLevel": {
-        "canViewStudent": false,
         "canSubmitSession": false,
         "canModifySessionComments": false,
         "canModifyCourse": false,

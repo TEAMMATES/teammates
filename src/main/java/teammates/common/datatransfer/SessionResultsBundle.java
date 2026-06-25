@@ -24,33 +24,27 @@ public class SessionResultsBundle {
 
     private final List<FeedbackQuestion> questions;
     private final Set<FeedbackQuestion> questionsNotVisibleForPreviewSet;
-    private final Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet;
     private final Map<FeedbackQuestion, List<FeedbackResponse>> questionResponseMap;
     private final Map<FeedbackQuestion, List<FeedbackMissingResponse>> questionMissingResponseMap;
     private final Map<FeedbackResponse, List<ResponseInstructorComment>> responseCommentsMap;
     private final Map<UUID, Boolean> responseGiverVisibilityTable;
     private final Map<UUID, Boolean> responseRecipientVisibilityTable;
-    private final Map<UUID, Boolean> commentGiverVisibilityTable;
     private final CourseRoster roster;
 
     public SessionResultsBundle(List<FeedbackQuestion> questions,
                                 Set<FeedbackQuestion> questionsNotVisibleForPreviewSet,
-                                Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet,
                                 List<FeedbackResponse> responses,
                                 List<FeedbackMissingResponse> missingResponses,
                                 Map<UUID, Boolean> responseGiverVisibilityTable,
                                 Map<UUID, Boolean> responseRecipientVisibilityTable,
                                 Map<FeedbackResponse, List<ResponseInstructorComment>> responseCommentsMap,
-                                Map<UUID, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
         this.questions = questions;
         this.questionsNotVisibleForPreviewSet = questionsNotVisibleForPreviewSet;
-        this.questionsWithCommentNotVisibleForPreviewSet = questionsWithCommentNotVisibleForPreviewSet;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
-        this.commentGiverVisibilityTable = commentGiverVisibilityTable;
         this.roster = roster;
         this.questionResponseMap = buildQuestionToResponseMap(responses, FeedbackResponse::getFeedbackQuestion);
         this.questionMissingResponseMap =
@@ -88,14 +82,6 @@ public class SessionResultsBundle {
     public boolean isResponseRecipientVisible(UUID responseId, ResponseRecipientType recipientParticipantType) {
         return recipientParticipantType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT
                 || responseRecipientVisibilityTable.getOrDefault(responseId, false);
-    }
-
-    /**
-     * Returns true if the giver of a comment is visible to the current user.
-     * Returns false otherwise.
-     */
-    public boolean isCommentGiverVisible(ResponseInstructorComment comment) {
-        return commentGiverVisibilityTable.get(comment.getId());
     }
 
     /**
@@ -156,15 +142,7 @@ public class SessionResultsBundle {
         return responseRecipientVisibilityTable;
     }
 
-    public Map<UUID, Boolean> getCommentGiverVisibilityTable() {
-        return commentGiverVisibilityTable;
-    }
-
     public Set<FeedbackQuestion> getQuestionsNotVisibleForPreviewSet() {
         return questionsNotVisibleForPreviewSet;
-    }
-
-    public Set<FeedbackQuestion> getQuestionsWithCommentNotVisibleForPreviewSet() {
-        return questionsWithCommentNotVisibleForPreviewSet;
     }
 }

@@ -61,6 +61,7 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionsAction.class);
         map(ResourceURIs.INSTITUTES, GET, GetInstitutesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
+        map(ResourceURIs.INSTRUCTORS_DISPLAYED, GET, GetDisplayedInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.OWN_INSTRUCTOR, GET, GetOwnInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
@@ -95,11 +96,6 @@ public final class ActionFactory {
 
         // NOTIFICATIONS APIs
         map(ResourceURIs.NOTIFICATIONS, GET, GetNotificationsAction.class);
-
-        //SEARCH APIs
-        map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
-        map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
-        map(ResourceURIs.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, GET, SearchAccountVerificationRequestsAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);

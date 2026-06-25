@@ -23,7 +23,6 @@
               <td>
                 <tm-comment-row
                   [mode]="CommentRowMode.EDIT"
-                  [isVisibilityOptionEnabled]="false"
                   [isDisabled]="true"
                   [shouldHideSavingButton]="true"
                   [shouldHideClosingButton]="true"
@@ -31,10 +30,7 @@
                   [shouldHideDeleteButton]="true"
                   [isFeedbackParticipantComment]="true"
                   [response]="response"
-                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="
-                    response.participantComment | giverCommentToCommentRowModel: feedbackQuestion.showResponsesTo
-                  "
+                  [model]="response.participantComment | giverCommentToCommentRowModel"
                 ></tm-comment-row>
               </td>
             </tr>
@@ -44,11 +40,7 @@
               <td>
                 <tm-comment-table
                   [response]="response"
-                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="
-                    response.instructorComments
-                      | commentsToCommentTableModel: true : timezone : feedbackQuestion.showResponsesTo
-                  "
+                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
                   [shouldHideClosingButtonForNewComment]="true"
                 ></tm-comment-table>
               </td>
