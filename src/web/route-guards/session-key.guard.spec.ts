@@ -15,6 +15,7 @@ const mockRoute = (
   key = 'session-key',
   fsid = 'session-id',
   previewAs = '',
+  moderatedPerson = '',
 ): ActivatedRouteSnapshot =>
   ({
     data: { sessionKeyType: type },
@@ -22,6 +23,7 @@ const mockRoute = (
     queryParamMap: new Map([
       ['key', key],
       ['previewAs', previewAs],
+      ['moderatedPerson', moderatedPerson],
     ]) as never,
   }) as unknown as ActivatedRouteSnapshot;
 
@@ -144,6 +146,19 @@ describe('SessionKeyGuard', () => {
       guard.canActivate(
         mockRoute('SUBMISSION', '', 'session-id', 'student-id'),
         mockState('/web/sessions/session-id/submission?previewAs=student-id'),
+      ),
+    );
+
+    expect(spyFeedbackSessionsService.checkSessionKeyAccess).not.toHaveBeenCalled();
+    expect(spyAuthService.getAuthUser).not.toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+
+  it('should allow moderation routes without a key', async () => {
+    const result = await firstValueFrom(
+      guard.canActivate(
+        mockRoute('SUBMISSION', '', 'session-id', '', 'student-id'),
+        mockState('/web/sessions/session-id/submission?moderatedPerson=student-id'),
       ),
     );
 

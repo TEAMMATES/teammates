@@ -22,9 +22,10 @@ export class SessionKeyGuard implements CanActivate {
     const feedbackSessionId = route.paramMap.get('feedbackSessionId');
     const key = route.queryParamMap.get('key');
     const previewAs = route.queryParamMap.get('previewAs');
+    const moderatedPerson = route.queryParamMap.get('moderatedPerson');
     const type = route.data['sessionKeyType'] as SessionKeyType | undefined;
 
-    if (previewAs) {
+    if (previewAs || moderatedPerson) {
       return of(true);
     }
 
