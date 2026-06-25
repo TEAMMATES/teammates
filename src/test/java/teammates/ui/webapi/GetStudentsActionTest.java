@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.StudentsData;
