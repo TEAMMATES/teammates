@@ -784,7 +784,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                                    Copy 
                                 </button>
                                 <a
-                                  href="/web/instructor/sessions/first-session-id/submission?editingMode=true"
+                                  href="/web/instructor/sessions/first-session-id/submission"
                                 >
                                   <button
                                     class="btn btn-light btn-sm"
