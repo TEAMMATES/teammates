@@ -3,7 +3,6 @@ import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
-import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard, UserRole } from '../route-guards/role.guard';
 import { PageComponent } from './page.component';
@@ -40,7 +39,7 @@ const routes: Routes = [
                 (m) => m.SessionResultPageComponent,
               ),
             data: {
-              intent: Intent.STUDENT_RESULT,
+              entityType: 'student',
             },
           },
           {
@@ -50,7 +49,7 @@ const routes: Routes = [
                 (m) => m.SessionSubmissionPageComponent,
               ),
             data: {
-              intent: Intent.STUDENT_SUBMISSION,
+              entityType: 'student',
             },
           },
         ],

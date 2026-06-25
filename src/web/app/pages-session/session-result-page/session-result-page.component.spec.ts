@@ -28,7 +28,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -120,7 +119,6 @@ describe('SessionResultPageComponent', () => {
     component.feedbackSessionId = testQueryParams['fsid'];
     component.key = testQueryParams['key'];
     component.previewAs = testQueryParams['previewAs'];
-    component.intent = Intent.STUDENT_RESULT;
     // Set both loading flags to false initially for testing purposes only
     component.isCourseLoading = false;
     component.isFeedbackSessionDetailsLoading = false;
@@ -202,7 +200,6 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should snap when previewing results', () => {
-    component.intent = Intent.STUDENT_RESULT;
     component.key = '';
     component.previewAs = 'alice2@tmt.tmt';
     component.personName = 'Alice2';

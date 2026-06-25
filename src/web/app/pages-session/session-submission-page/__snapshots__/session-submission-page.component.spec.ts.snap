@@ -4,7 +4,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -26,7 +25,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -177,7 +175,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -199,7 +196,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -347,7 +343,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -369,7 +364,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -517,7 +511,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail={[Function String]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -539,7 +532,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -750,7 +742,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -772,7 +763,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -3818,7 +3808,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -3840,7 +3829,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -6924,7 +6912,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail={[Function String]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -6946,7 +6933,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -7096,7 +7082,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
@@ -7118,7 +7103,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
