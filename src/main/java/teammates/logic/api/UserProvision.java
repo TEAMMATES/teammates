@@ -7,16 +7,16 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyValidationResult;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.KeyUtil;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Student;
@@ -49,6 +49,8 @@ public class UserProvision {
     private final UsersLogic usersLogic = UsersLogic.inst();
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+
+    private final AuthLogic authLogic = AuthLogic.inst();
 
     private final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
 
@@ -131,6 +133,7 @@ public class UserProvision {
         // Temporarily exclude endpoints that accept the old regkey format
         return regKey != null
                 && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
+                && !Const.ResourceURIs.SESSION_KEY_ACCESS.equals(req.getRequestURI())
                 && !Const.ResourceURIs.JOIN.equals(req.getRequestURI());
     }
 
@@ -239,7 +242,11 @@ public class UserProvision {
         // 1. The encrypted session key is valid and belongs to a student, and
         // 2. The student associated with the key is not already associated with another account
         if (isRegKeyRequest(req)) {
-            SessionKeyValidationResult result = validateEncryptedSessionKey(req, effectiveAccount);
+            SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(req);
+            if (result.student().getAccount() != null
+                    && (effectiveAccount == null || !Objects.equals(effectiveAccount, result.student().getAccount()))) {
+                throw new UnauthorizedAccessException("Login is required to access this resource");
+            }
             validRegKeyUser = result.student();
             validatedSessionKey = result.sessionKey();
         }
@@ -266,7 +273,7 @@ public class UserProvision {
      */
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
-        SessionKeyValidationResult result = validateEncryptedSessionKey(req, null);
+        SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(req);
         Student regKeyStudent = result.student();
 
         if (regKeyStudent.getAccount() != null) {
@@ -282,34 +289,4 @@ public class UserProvision {
                 false);
     }
 
-    private SessionKeyValidationResult validateEncryptedSessionKey(HttpServletRequest req, Account effectiveAccount)
-            throws UnauthorizedAccessException {
-        String encryptedKey = req.getParameter(Const.ParamsNames.REGKEY);
-        SessionKey sessionKey;
-        try {
-            sessionKey = KeyUtil.decryptSessionKey(encryptedKey);
-            sessionKey.validate();
-        } catch (InvalidParametersException | IllegalArgumentException e) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key", e);
-        }
-
-        Student student = usersLogic.getStudent(sessionKey.userId());
-        if (student == null) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key: no student found");
-        }
-
-        if (!sessionKey.regKey().equals(student.getRegKey())) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key");
-        }
-
-        if (student.getAccount() != null
-                && (effectiveAccount == null || !Objects.equals(effectiveAccount, student.getAccount()))) {
-            throw new UnauthorizedAccessException("Login is required to access this resource");
-        }
-
-        return new SessionKeyValidationResult(student, sessionKey);
-    }
-
-    private record SessionKeyValidationResult(Student student, SessionKey sessionKey) {
-    }
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyAccessResult;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
@@ -150,6 +152,13 @@ public class Logic {
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Gets the access decision for a student session key request.
+     */
+    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req) {
+        return authLogic.getSessionKeyAccessResult(req);
     }
 
     /**

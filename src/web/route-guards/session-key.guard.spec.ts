@@ -1,0 +1,112 @@
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { firstValueFrom, of } from 'rxjs';
+import { Mock, vi } from 'vitest';
+import { AuthService } from '../services/auth.service';
+import { FeedbackSessionsService } from '../services/feedback-sessions.service';
+import { NavigationService } from '../services/navigation.service';
+import { SessionKeyAccessDecision } from '../types/api-output';
+import { SessionKeyGuard } from './session-key.guard';
+
+const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
+
+const mockRoute = (
+  type: 'SUBMISSION' | 'RESULTS' = 'SUBMISSION',
+  key = 'session-key',
+  fsid = 'session-id',
+): ActivatedRouteSnapshot =>
+  ({
+    data: { sessionKeyType: type },
+    paramMap: new Map([['feedbackSessionId', fsid]]) as never,
+    queryParamMap: new Map([['key', key]]) as never,
+  }) as unknown as ActivatedRouteSnapshot;
+
+describe('SessionKeyGuard', () => {
+  let guard: SessionKeyGuard;
+  let spyFeedbackSessionsService: { checkSessionKeyAccess: Mock };
+  let spyAuthService: { getAuthUser: Mock };
+  let spyNavigationService: { navigateWithErrorMessage: Mock };
+
+  beforeEach(() => {
+    spyFeedbackSessionsService = {
+      checkSessionKeyAccess: vi.fn(),
+    };
+    spyAuthService = {
+      getAuthUser: vi.fn(),
+    };
+    spyNavigationService = {
+      navigateWithErrorMessage: vi.fn(),
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        SessionKeyGuard,
+        { provide: FeedbackSessionsService, useValue: spyFeedbackSessionsService },
+        { provide: AuthService, useValue: spyAuthService },
+        { provide: NavigationService, useValue: spyNavigationService },
+      ],
+    });
+
+    guard = TestBed.inject(SessionKeyGuard);
+  });
+
+  it('should allow access when backend preflight allows access', async () => {
+    spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
+      of({ decision: SessionKeyAccessDecision.ALLOW, message: '' }),
+    );
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute(), mockState('/web/student/sessions/session-id/submission')),
+    );
+
+    expect(result).toBe(true);
+  });
+
+  it('should redirect to error route when key is invalid', async () => {
+    spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
+      of({ decision: SessionKeyAccessDecision.INVALID_KEY, message: 'This session link is invalid.' }),
+    );
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute(), mockState('/web/student/sessions/session-id/submission')),
+    );
+
+    expect(spyNavigationService.navigateWithErrorMessage).toHaveBeenCalledWith(
+      '/web/front',
+      'This session link is invalid.',
+    );
+    expect(result).toBe(false);
+  });
+
+  it('should redirect to home with a fallback error message when no message is provided', async () => {
+    spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
+      of({ decision: SessionKeyAccessDecision.INVALID_KEY, message: null }),
+    );
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute(), mockState('/web/student/sessions/session-id/submission')),
+    );
+
+    expect(spyNavigationService.navigateWithErrorMessage).toHaveBeenCalledWith(
+      '/web/front',
+      'This session link is invalid.',
+    );
+    expect(result).toBe(false);
+  });
+
+  it('should allow sign-in redirect when backend requires auth', async () => {
+    spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
+      of({ decision: SessionKeyAccessDecision.SIGN_IN_REQUIRED, message: null }),
+    );
+    spyAuthService.getAuthUser.mockReturnValue(
+      of({ loginUrl: '/login?next=/web/student/sessions/session-id/submission' }),
+    );
+
+    const result = await firstValueFrom(
+      guard.canActivate(mockRoute(), mockState('/web/student/sessions/session-id/submission')),
+    );
+
+    expect(spyAuthService.getAuthUser).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
+    expect(result).toBe(false);
+  });
+});

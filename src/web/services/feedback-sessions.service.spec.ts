@@ -105,6 +105,22 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
 
+  it('should call get when preflighting session key access', () => {
+    const paramMap: Record<string, string> = {
+      fsid: 'session-id',
+      key: 'session-key',
+      type: 'SUBMISSION',
+    };
+
+    service.checkSessionKeyAccess({
+      feedbackSessionId: paramMap['fsid'],
+      key: paramMap['key'],
+      type: 'SUBMISSION',
+    });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_KEY_ACCESS, paramMap);
+  });
+
   it('should call get when retrieving course feedback session results', () => {
     const paramMap: Record<string, string> = {
       fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',

@@ -31,6 +31,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.KeyUtil;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Student;
@@ -66,6 +67,7 @@ public class UserProvisionTest extends BaseTestCase {
         mockAccountsLogic = mock(AccountsLogic.class);
         mockAccountsLogicStatic = mockStatic(AccountsLogic.class);
         mockAccountsLogicStatic.when(AccountsLogic::inst).thenReturn(mockAccountsLogic);
+        AuthLogic.inst().initLogicDependencies(mockUsersLogic, mockAccountsLogic);
 
         userProvision = new UserProvision();
 

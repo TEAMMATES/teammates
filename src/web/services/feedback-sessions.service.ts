@@ -19,6 +19,7 @@ import {
   HasResponses,
   MessageOutput,
   OngoingSessions,
+  SessionKeyAccess,
   SessionLinksRecoveryResponse,
   SessionResults,
   SessionSubmission,
@@ -65,6 +66,23 @@ export class FeedbackSessionsService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
+  }
+
+  /**
+   * Preflights access to a student session link.
+   */
+  checkSessionKeyAccess(queryParams: {
+    feedbackSessionId: string;
+    key: string;
+    type: 'SUBMISSION' | 'RESULTS';
+  }): Observable<SessionKeyAccess> {
+    const paramMap: Record<string, string> = {
+      fsid: queryParams.feedbackSessionId,
+      key: queryParams.key,
+      type: queryParams.type,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_KEY_ACCESS, paramMap);
   }
 
   /**
