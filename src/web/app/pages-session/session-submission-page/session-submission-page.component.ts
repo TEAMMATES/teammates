@@ -167,21 +167,18 @@ export class SessionSubmissionPageComponent implements OnInit {
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAs));
         this.loginUrl = auth.loginUrl;
         if (auth.user) {
           this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
-        if (this.key && !isPreviewOrModeration && this.entityType === 'student') {
-          this.loadFeedbackSession(false, auth);
-        } else if (this.accountEmail) {
-          // Load information based on signed in user
-          // This will also cover moderation/preview cases
-          this.loadFeedbackSession(false, auth);
-        } else {
+
+        if (!auth.user && !this.key) {
           this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          return;
         }
+
+        this.loadFeedbackSession();
       },
       error: () => {
         this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
@@ -308,7 +305,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   /**
    * Loads the feedback session information.
    */
-  loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
+  loadFeedbackSession(): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     let cachedFeedbackSession: FeedbackSession;
@@ -397,23 +394,18 @@ export class SessionSubmissionPageComponent implements OnInit {
               { backdrop: 'static' },
             );
           } else if (resp.status === 403) {
-            if (loginRequired && !auth.user) {
-              // There is no logged in user for a valid, used registration key, redirect to login page
-              globalThis.location.href = `${this.backendUrl}${auth.loginUrl}`;
-            } else {
-              this.simpleModalService.openInformationModal(
-                'Not Authorised To Access!',
-                SimpleModalType.DANGER,
-                resp.error.message,
-                {
-                  onClosed: () =>
-                    this.navigationService.navigateByURL(
-                      this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
-                    ),
-                },
-                { backdrop: 'static' },
-              );
-            }
+            this.simpleModalService.openInformationModal(
+              'Not Authorised To Access!',
+              SimpleModalType.DANGER,
+              resp.error.message,
+              {
+                onClosed: () =>
+                  this.navigationService.navigateByURL(
+                    this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
+                  ),
+              },
+              { backdrop: 'static' },
+            );
           } else {
             this.navigationService.navigateWithErrorMessage(`/web/${this.entityType}/home`, resp.error.message);
           }

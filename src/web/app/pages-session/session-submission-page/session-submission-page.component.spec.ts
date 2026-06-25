@@ -699,7 +699,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -723,7 +723,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testClosedFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -743,7 +743,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -764,7 +764,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(
@@ -785,7 +785,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(

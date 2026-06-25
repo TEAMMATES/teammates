@@ -118,26 +118,18 @@ export class SessionResultPageComponent implements OnInit {
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        const isPreview = !!(auth.user && this.previewAs);
         this.loginUrl = auth.loginUrl;
         if (auth.user) {
           this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
-        // prevent having both key and previewas parameters in URL
-        if (this.key && isPreview) {
+
+        if (!auth.user && !this.key) {
           this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
           return;
         }
-        if (this.key && this.entityType === 'student') {
-          this.loadFeedbackSession();
-        } else if (this.accountEmail) {
-          // Load information based on signed in user
-          // This will also cover preview cases
-          this.loadFeedbackSession();
-        } else {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-        }
+
+        this.loadFeedbackSession();
       },
       error: () => {
         this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
