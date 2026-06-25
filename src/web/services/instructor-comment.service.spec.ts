@@ -28,6 +28,7 @@ describe('InstructorCommentService', () => {
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
+    giverId: 'current-instructor-id',
     commentGiverName: 'Original Instructor',
     responseInstructorCommentId: 'comment-id',
     commentText: 'comment text',
@@ -39,6 +40,7 @@ describe('InstructorCommentService', () => {
     commentType: 'instructor',
     timezone,
     commentId: comment.responseInstructorCommentId,
+    isOwnedByCurrentInstructor: comment.giverId === 'current-instructor-id',
     commentGiverName: comment.commentGiverName,
     createdAt: comment.createdAt,
     originalCommentFormModel: {
@@ -59,6 +61,7 @@ describe('InstructorCommentService', () => {
   });
 
   const createCommentTableModel = (commentRows: InstructorCommentRowModel[] = []): CommentTableModel => ({
+    currentInstructorId: 'current-instructor-id',
     commentRows,
     newCommentRow: createNewCommentRow(),
     isAddingNewComment: true,
@@ -165,6 +168,7 @@ describe('InstructorCommentService', () => {
       'updated text',
     );
     expect(instructorCommentTableModel['response-id'].commentRows[0].timezone).toBe(timezone);
+    expect(instructorCommentTableModel['response-id'].commentRows[0].isOwnedByCurrentInstructor).toBe(true);
   });
 
   it('should show error toast when updating an instructor comment fails', () => {

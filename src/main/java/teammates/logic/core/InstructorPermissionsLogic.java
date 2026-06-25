@@ -156,8 +156,6 @@ public final class InstructorPermissionsLogic {
         Objects.requireNonNull(instructor, "Instructor cannot be null");
         Objects.requireNonNull(newPrivileges, "Privileges cannot be null");
 
-        newPrivileges.validatePrivileges();
-
         instructorPermissionsDb.deleteAllForInstructor(instructor.getId());
 
         if (instructor.getRole() != InstructorPermissionRole.CUSTOM) {
@@ -220,8 +218,6 @@ public final class InstructorPermissionsLogic {
                 src.isCanViewSession());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                 src.isCanSubmitSession());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                src.isCanModifySessionComments());
     }
 
     private void applyToSectionLevel(InstructorPrivileges dest, UUID sectionId, InstructorPermissionSet src) {
@@ -229,8 +225,6 @@ public final class InstructorPermissionsLogic {
                 src.isCanViewSession());
         dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                 src.isCanSubmitSession());
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                src.isCanModifySessionComments());
     }
 
     private void applyToSessionLevel(InstructorPrivileges dest, UUID sectionId, UUID sessionId,
@@ -239,7 +233,5 @@ public final class InstructorPermissionsLogic {
                 src.isCanViewSession());
         dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                 src.isCanSubmitSession());
-        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                src.isCanModifySessionComments());
     }
 }

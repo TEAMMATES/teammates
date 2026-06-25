@@ -9,6 +9,7 @@ import teammates.storage.entity.ResponseInstructorComment;
  */
 public class ResponseInstructorCommentData implements ApiOutput {
     private UUID responseInstructorCommentId;
+    private UUID giverId;
 
     private String commentGiverName;
 
@@ -22,6 +23,7 @@ public class ResponseInstructorCommentData implements ApiOutput {
     public ResponseInstructorCommentData(ResponseInstructorComment frc) {
         this.commentGiverName = frc.getGiver().getDisplayName();
         this.responseInstructorCommentId = frc.getId();
+        this.giverId = frc.getGiverId();
         this.commentText = frc.getCommentText();
         this.createdAt = frc.getCreatedAt().toEpochMilli();
     }
@@ -32,6 +34,10 @@ public class ResponseInstructorCommentData implements ApiOutput {
 
     public UUID getResponseInstructorCommentId() {
         return responseInstructorCommentId;
+    }
+
+    public UUID getGiverId() {
+        return giverId;
     }
 
     public String getCommentGiverName() {

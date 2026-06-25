@@ -16,25 +16,29 @@ describe('CommentsToCommentTableModelPipe', () => {
   it('converts comments to comment table model correctly', () => {
     const comments: ResponseInstructorComment[] = [
       {
+        giverId: 'instructor-id',
         commentGiverName: 'commentGiverName',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000000',
         commentText: 'commentText',
         createdAt: 0,
       },
       {
+        giverId: 'other-instructor-id',
         commentGiverName: 'commentGiverName2',
         responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
         commentText: 'commentText2',
         createdAt: 1,
       },
     ];
-    expect(pipe.transform(comments, true, 'UTC')).toEqual({
+    expect(pipe.transform(comments, true, 'UTC', 'instructor-id')).toEqual({
+      currentInstructorId: 'instructor-id',
       commentRows: [
         {
           commentType: 'instructor',
           timezone: 'UTC',
           commentGiverName: 'commentGiverName',
           commentId: '00000000-0000-4000-8000-000000000000',
+          isOwnedByCurrentInstructor: true,
           createdAt: 0,
           originalCommentFormModel: {
             commentText: 'commentText',
@@ -49,6 +53,7 @@ describe('CommentsToCommentTableModelPipe', () => {
           timezone: 'UTC',
           commentGiverName: 'commentGiverName2',
           commentId: '00000000-0000-4000-8000-000000000001',
+          isOwnedByCurrentInstructor: false,
           createdAt: 1,
           originalCommentFormModel: {
             commentText: 'commentText2',

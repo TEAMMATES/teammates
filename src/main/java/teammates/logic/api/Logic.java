@@ -1042,13 +1042,6 @@ public class Logic {
     }
 
     /**
-     * Gets the students visible to the given account for the supplied query.
-     */
-    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
-        return usersLogic.getStudentsVisibleToAccount(query, account);
-    }
-
-    /**
      * Creates a student with the given parameters.
      */
     public Student createStudent(Course course, Team team, String name, String email, String comments)
