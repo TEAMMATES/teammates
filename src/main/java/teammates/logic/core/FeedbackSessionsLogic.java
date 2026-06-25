@@ -723,14 +723,14 @@ public final class FeedbackSessionsLogic {
     private String getSubmissionUrl(UserType userType, UUID feedbackSessionId, String regKey) {
         return switch (userType) {
         case STUDENT -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, regKey);
-        case INSTRUCTOR -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId, regKey);
+        case INSTRUCTOR -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
         };
     }
 
     private String getResultUrl(UserType userType, UUID feedbackSessionId, String regKey) {
         return switch (userType) {
         case STUDENT -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, regKey);
-        case INSTRUCTOR -> LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId, regKey);
+        case INSTRUCTOR -> LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
         };
     }
 

@@ -36,8 +36,8 @@ public final class AuthLogic {
      * and course ID.
      */
     public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.regKeyUser() instanceof Student student) {
-            return student;
+        if (authContext.regKeyStudent() != null) {
+            return authContext.regKeyStudent();
         }
 
         Account account = authContext.account();
@@ -53,16 +53,10 @@ public final class AuthLogic {
      * course ID.
      *
      * <p>
-     * If a valid registration key is present, it returns the unregistered instructor
-     * from the authentication context. Otherwise, it retrieves the instructor from
-     * the database linked to the account
-     * and course ID.
+     * Retrieves the instructor from the database linked to the account and course ID.
+     * Instructors cannot authenticate via registration key.
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.regKeyUser() instanceof Instructor instructor) {
-            return instructor;
-        }
-
         Account account = authContext.account();
         if (account == null) {
             return null;

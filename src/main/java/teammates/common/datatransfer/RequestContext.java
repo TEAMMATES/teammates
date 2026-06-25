@@ -7,7 +7,6 @@ import java.util.function.BiFunction;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.User;
 import teammates.ui.webapi.AuthType;
 
 /**
@@ -43,8 +42,8 @@ public class RequestContext {
         return authContext.account();
     }
 
-    public User getRegKeyUser() {
-        return authContext.regKeyUser();
+    public Student getRegKeyUser() {
+        return authContext.regKeyStudent();
     }
 
     /**
