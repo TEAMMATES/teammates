@@ -95,7 +95,11 @@ describe('AccountService', () => {
       userId: 'testUserId',
     };
     service.linkAccount(request, 'test-key');
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_LINK, { key: 'test-key' }, request);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_LINK,
+      { key: 'test-key' },
+      request,
+    );
   });
 
   it('should execute POST on account verification request approval endpoint', () => {

@@ -2,8 +2,8 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.User;

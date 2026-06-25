@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
-import { environment } from '../../../environments/environment';
+import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
@@ -23,7 +23,6 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
-  RegkeyValidity,
   UserSessionResults,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -220,30 +219,8 @@ describe('SessionResultPageComponent', () => {
     expect(component.accountEmail).toEqual('account@teammates.tmt');
   });
 
-  it('should verify allowed access and used reg key', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: true,
-      isValid: false,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/test-session-id/result');
-  });
-
   it('should load info and create log', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: false,
-      isValid: false,
-    };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(
       of({
         name: 'student-name',
@@ -268,41 +245,6 @@ describe('SessionResultPageComponent', () => {
     expect(logSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should deny access for reg key not belonging to logged in user', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: false,
-      isUsed: false,
-      isValid: true,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(
-      '/web/front',
-      `You are signed in as ${component.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
-    );
-  });
-
-  it('should deny access for invalid reg key', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: false,
-      isUsed: false,
-      isValid: false,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
-  });
-
   it('should navigate away when error occurs', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       throwError(() => ({
@@ -318,28 +260,30 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
   });
 
-  it('should link account and redirect when user click on join course link', () => {
+  it('should link account and redirect when join account is triggered', () => {
     component.accountId = 'account-id';
     component.userId = 'student-name-id';
-    const linkAccountSpy = vi.spyOn(TestBed.inject(AccountService), 'linkAccount').mockReturnValue(of({
-      message: 'Account linked successfully.',
-    }));
+    const linkAccountSpy = vi.spyOn(TestBed.inject(AccountService), 'linkAccount').mockReturnValue(
+      of({
+        message: 'Account linked successfully.',
+      }),
+    );
     const clearAuthSpy = vi.spyOn(authService, 'clearAuthCache');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
-    fixture.detectChanges();
-
-    const btn = fixture.debugElement.nativeElement.querySelector('#join-course-btn');
-    btn.click();
+    component.joinCourseForUnregisteredEntity();
 
     expect(linkAccountSpy).toHaveBeenCalledTimes(1);
-    expect(linkAccountSpy).toHaveBeenLastCalledWith({
-      accountId: 'account-id',
-      userId: 'student-name-id',
-    }, 'reg-key');
+    expect(linkAccountSpy).toHaveBeenLastCalledWith(
+      {
+        accountId: 'account-id',
+        userId: 'student-name-id',
+      },
+      'reg-key',
+    );
     expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/result`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams['fsid']}/result`);
   });
 
   it('should load session results and hydrate questions', () => {

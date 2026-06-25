@@ -5,6 +5,8 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -33,6 +35,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -51,6 +54,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -176,6 +180,8 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -204,6 +210,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -222,6 +229,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -344,6 +352,8 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -372,6 +382,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -390,6 +401,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -512,6 +524,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail={[Function String]}
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -540,6 +554,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -558,6 +573,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -743,6 +759,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -771,6 +789,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -789,6 +808,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -3809,6 +3829,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -3837,6 +3859,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isSubmissionFormsDisabled={[Function Boolean]}
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -3855,6 +3878,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -6913,6 +6937,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail={[Function String]}
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -6941,6 +6967,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -6959,6 +6986,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -7083,6 +7111,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -7111,6 +7141,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
+  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -7129,6 +7160,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"

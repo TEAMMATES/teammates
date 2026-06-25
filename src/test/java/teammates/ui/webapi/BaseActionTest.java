@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
-import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.LinkKeyType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;

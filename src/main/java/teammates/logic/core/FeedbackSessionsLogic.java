@@ -723,7 +723,8 @@ public final class FeedbackSessionsLogic {
         return switch (user) {
         case Student student -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, student.getId(),
                 student.getRegKey());
-        case @SuppressWarnings("unused") Instructor instructor -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
+        case @SuppressWarnings("unused") Instructor instructor ->
+                LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
     }
@@ -732,7 +733,8 @@ public final class FeedbackSessionsLogic {
         return switch (user) {
         case Student student -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, student.getId(),
                 student.getRegKey());
-        case @SuppressWarnings("unused") Instructor instructor -> LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
+        case @SuppressWarnings("unused") Instructor instructor ->
+                LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
     }

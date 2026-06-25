@@ -1,8 +1,8 @@
 package teammates.common.datatransfer;
 
-import teammates.common.exception.InvalidParametersException;
-
 import java.util.UUID;
+
+import teammates.common.exception.InvalidParametersException;
 
 /**
  * Represents the encrypted session key payload for student session links.

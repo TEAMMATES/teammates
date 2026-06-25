@@ -283,10 +283,13 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
 
     this.accountService
-      .linkAccount({
-        accountId: this.accountId,
-        userId: this.userId,
-      }, this.key)
+      .linkAccount(
+        {
+          accountId: this.accountId,
+          userId: this.userId,
+        },
+        this.key,
+      )
       .subscribe({
         next: () => {
           this.authService.clearAuthCache();
