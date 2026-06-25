@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.getRelativeUrl;
 import static teammates.common.util.UrlHelper.isSafeRedirectUrl;
 
 import java.net.URI;
@@ -107,4 +108,32 @@ public class UrlHelperTest extends BaseTestCase {
         assertEquals("with%2Fspecial%3Fchars%26", encodeQueryParam("with/special?chars&"));
     }
 
+    @Test
+    public void testGetRelativeUrl_absoluteUrl_returnsRelative() {
+        String absoluteUrl = "http://somedomain/web/instructor/home";
+        String expectedRelativeUrl = "/web/instructor/home";
+
+        assertEquals(expectedRelativeUrl, getRelativeUrl(absoluteUrl));
+    }
+
+    @Test
+    public void testGetRelativeUrl_relativeUrl_returnsSame() {
+        String relativeUrl = "/web/instructor/home";
+
+        assertEquals(relativeUrl, getRelativeUrl(relativeUrl));
+    }
+
+    @Test
+    public void testGetRelativeUrl_emptyPath_returnsDefault() {
+        String emptyPathUrl = "http://somedomain";
+
+        assertEquals("/", getRelativeUrl(emptyPathUrl));
+    }
+
+    @Test
+    public void testGetRelativeUrl_malformedUrl_returnsDefault() {
+        String malformedUrl = "http://[invalid";
+
+        assertEquals("/", getRelativeUrl(malformedUrl));
+    }
 }
