@@ -39,7 +39,7 @@ public class GetStudentsAction extends LoggedInAction {
             studentsData.setStudents(students.stream()
                     .map(student -> {
                         StudentData studentData = new StudentData(student);
-                        studentData.addAdditionalInformationForAdmin(student.getRegKey(), student.getAccountId());
+                        studentData.addAdditionalInformationForAdmin(student.getAccountId());
                         return studentData;
                     })
                     .toList());
