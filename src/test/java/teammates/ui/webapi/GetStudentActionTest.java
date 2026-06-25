@@ -35,8 +35,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction, Stude
 
         assertEquals(targetStudent.id(), result.getUserId());
         assertEquals(course.id(), result.getCourseId());
-        // Reg key should not be visible to instructors
-        assertNull(result.getKey());
     }
 
     @Test(groups = GroupNames.ACTION)

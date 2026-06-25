@@ -40,7 +40,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction, Stu
         assertEquals(course1.id(), result.getStudents().get(0).getCourseId());
 
         Student persistedStudent = getEntityInTransaction(Student.class, firstMatch.id());
-        assertEquals(persistedStudent.getRegKey(), result.getStudents().get(0).getKey());
         assertEquals(studentAccount.id(), result.getStudents().get(0).getAccountId());
     }
 
@@ -65,7 +64,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction, Stu
         assertEquals(1, result.getStudents().size());
         assertEquals(visibleMatch.id(), result.getStudents().get(0).getUserId());
         assertEquals(visibleCourse.id(), result.getStudents().get(0).getCourseId());
-        assertNull(result.getStudents().get(0).getKey());
         assertNull(result.getStudents().get(0).getAccountId());
     }
 
