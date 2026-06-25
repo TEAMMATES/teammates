@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.UUID;
 
+import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -27,6 +28,8 @@ public class CreateFeedbackSessionLogAction extends RegKeyAction {
         if (feedbackSession == null) {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
+
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, LinkKeyType.SUBMISSION, LinkKeyType.RESULTS);
 
         Student authenticatedStudent = getStudentFromRequest(feedbackSession.getCourseId());
         if (authenticatedStudent == null) {

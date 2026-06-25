@@ -720,10 +720,24 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should join course for unregistered student', () => {
+    component.accountId = 'account-id';
+    component.userId = testStudent.userId;
+    const linkAccountSpy = vi.spyOn(TestBed.inject(AccountService), 'linkAccount').mockReturnValue(of({
+      message: 'Account linked successfully.',
+    }));
+    const clearAuthSpy = vi.spyOn(authService, 'clearAuthCache');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
+
     component.joinCourseForUnregisteredEntity();
+
+    expect(linkAccountSpy).toHaveBeenCalledTimes(1);
+    expect(linkAccountSpy).toHaveBeenLastCalledWith({
+      accountId: 'account-id',
+      userId: testStudent.userId,
+    }, testQueryParams.key);
+    expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: testQueryParams.key });
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/submission`);
   });
 
   it('should load an open feedback session', () => {

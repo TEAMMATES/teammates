@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.datatransfer.LinkKey;
+import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.datatransfer.RequestContext;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
@@ -230,6 +232,52 @@ final class GateKeeper {
         }
 
         throw new UnauthorizedAccessException("Not authorized to view this feedback session result.");
+    }
+
+    /**
+     * Verifies that the current request uses a valid encrypted student session key
+     * of the allowed type for the specified feedback session.
+     */
+    void verifySessionKey(RequestContext requestContext, UUID feedbackSessionId, LinkKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        LinkKey linkKey = requestContext.getLinkKey();
+        if (linkKey == null) {
+            return;
+        }
+
+        verifyNotNull(feedbackSessionId, "feedback session");
+
+        if (!feedbackSessionId.equals(linkKey.feedbackSessionId())) {
+            throw new UnauthorizedAccessException("This key is not valid for the feedback session.");
+        }
+
+        for (LinkKeyType allowedType : allowedTypes) {
+            if (linkKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
+    }
+
+    /**
+     * Verifies that the current request uses an allowed encrypted student session key
+     * without constraining it to a specific session ID.
+     */
+    void verifySessionKey(RequestContext requestContext, LinkKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        LinkKey linkKey = requestContext.getLinkKey();
+        if (linkKey == null) {
+            return;
+        }
+
+        for (LinkKeyType allowedType : allowedTypes) {
+            if (linkKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
     }
 
     /**

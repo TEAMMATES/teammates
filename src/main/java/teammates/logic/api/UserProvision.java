@@ -6,12 +6,15 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.LinkKey;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LinkKeyUtil;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
@@ -31,11 +34,13 @@ public class UserProvision {
             AuthType.AUTOMATED_SERVICE,
             null,
             null,
+            null,
             false,
             false);
 
     private static final AuthContext PUBLIC_AUTH_CONTEXT = new AuthContext(
             AuthType.PUBLIC,
+            null,
             null,
             null,
             false,
@@ -123,7 +128,10 @@ public class UserProvision {
      */
     protected boolean isRegKeyRequest(HttpServletRequest req) {
         String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-        return regKey != null;
+        // Temporarily exclude endpoints that accept the old regkey format
+        return regKey != null
+                && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
+                && !Const.ResourceURIs.JOIN.equals(req.getRequestURI());
     }
 
     /**
@@ -187,6 +195,7 @@ public class UserProvision {
                 AuthType.ALL_ACCESS,
                 account,
                 null,
+                null,
                 true,
                 true);
     }
@@ -209,6 +218,7 @@ public class UserProvision {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
         Student validRegKeyUser = null;
+        LinkKey validatedLinkKey = null;
 
         if (isMasqueradeRequest(req)) {
             authType = AuthType.MASQUERADE;
@@ -226,23 +236,19 @@ public class UserProvision {
         }
 
         // If the request contains a registration key, include it in the auth context if
-        // 1. The registration key is valid and belongs to a student, and
-        // 2. The student associated with the registration key is not already associated with another account
+        // 1. The encrypted session key is valid and belongs to a student, and
+        // 2. The student associated with the key is not already associated with another account
         if (isRegKeyRequest(req)) {
-            String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-            Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
-
-            if (regKeyStudent != null
-                    && (regKeyStudent.getAccount() == null
-                            || Objects.equals(effectiveAccount, regKeyStudent.getAccount()))) {
-                validRegKeyUser = regKeyStudent;
-            }
+            LinkKeyValidationResult result = validateEncryptedLinkKey(req, effectiveAccount);
+            validRegKeyUser = result.student();
+            validatedLinkKey = result.linkKey();
         }
 
         return new AuthContext(
                 authType,
                 effectiveAccount,
                 validRegKeyUser,
+                validatedLinkKey,
                 isAdminUser(effectiveAccount),
                 isMaintainerUser(effectiveAccount));
     }
@@ -260,12 +266,8 @@ public class UserProvision {
      */
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
-        String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-        Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
-
-        if (regKeyStudent == null) {
-            throw new UnauthorizedAccessException("Invalid registration key: no user found for regkey");
-        }
+        LinkKeyValidationResult result = validateEncryptedLinkKey(req, null);
+        Student regKeyStudent = result.student();
 
         if (regKeyStudent.getAccount() != null) {
             throw new UnauthorizedAccessException("Login is required to access this resource");
@@ -275,7 +277,39 @@ public class UserProvision {
                 AuthType.REG_KEY,
                 null,
                 regKeyStudent,
+                result.linkKey(),
                 false,
                 false);
+    }
+
+    private LinkKeyValidationResult validateEncryptedLinkKey(HttpServletRequest req, Account effectiveAccount)
+            throws UnauthorizedAccessException {
+        String encryptedKey = req.getParameter(Const.ParamsNames.REGKEY);
+        LinkKey linkKey;
+        try {
+            linkKey = LinkKeyUtil.decrypt(encryptedKey);
+            linkKey.validate();
+        } catch (InvalidParametersException | IllegalArgumentException e) {
+            throw new UnauthorizedAccessException("Invalid encrypted session key", e);
+        }
+
+        Student student = usersLogic.getStudent(linkKey.userId());
+        if (student == null) {
+            throw new UnauthorizedAccessException("Invalid encrypted session key: no student found");
+        }
+
+        if (!linkKey.regKey().equals(student.getRegKey())) {
+            throw new UnauthorizedAccessException("Invalid encrypted session key");
+        }
+
+        if (student.getAccount() != null
+                && (effectiveAccount == null || !Objects.equals(effectiveAccount, student.getAccount()))) {
+            throw new UnauthorizedAccessException("Login is required to access this resource");
+        }
+
+        return new LinkKeyValidationResult(student, linkKey);
+    }
+
+    private record LinkKeyValidationResult(Student student, LinkKey linkKey) {
     }
 }

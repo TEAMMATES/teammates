@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.User;
@@ -20,6 +21,7 @@ public class GetUserSessionResultsAction extends RegKeyAction {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         boolean isPreview = getBooleanRequestParamValue(Const.ParamsNames.IS_PREVIEW);
 
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, LinkKeyType.RESULTS);
         if (isPreview) {
             gateKeeper.verifyCanPreviewUserSessionResults(requestContext, feedbackSessionId);
         } else {

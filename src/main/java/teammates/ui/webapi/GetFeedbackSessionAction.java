@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.LinkKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -19,6 +20,7 @@ public class GetFeedbackSessionAction extends RegKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, LinkKeyType.SUBMISSION, LinkKeyType.RESULTS);
         gateKeeper.verifyFeedbackSessionAccessible(requestContext, feedbackSessionId);
     }
 

@@ -318,9 +318,13 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
   });
 
-  it('should navigate to join course when user click on join course link', () => {
-    component.key = 'reg-key';
-    component.accountEmail = 'account@example.com';
+  it('should link account and redirect when user click on join course link', () => {
+    component.accountId = 'account-id';
+    component.userId = 'student-name-id';
+    const linkAccountSpy = vi.spyOn(TestBed.inject(AccountService), 'linkAccount').mockReturnValue(of({
+      message: 'Account linked successfully.',
+    }));
+    const clearAuthSpy = vi.spyOn(authService, 'clearAuthCache');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
@@ -328,8 +332,14 @@ describe('SessionResultPageComponent', () => {
     const btn = fixture.debugElement.nativeElement.querySelector('#join-course-btn');
     btn.click();
 
+    expect(linkAccountSpy).toHaveBeenCalledTimes(1);
+    expect(linkAccountSpy).toHaveBeenLastCalledWith({
+      accountId: 'account-id',
+      userId: 'student-name-id',
+    }, 'reg-key');
+    expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: 'reg-key' });
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/result`);
   });
 
   it('should load session results and hydrate questions', () => {

@@ -209,6 +209,11 @@ export interface InstructorUpdateRequest extends BasicRequest {
   privileges?: InstructorPrivileges;
 }
 
+export interface LinkAccountRequest extends BasicRequest {
+  accountId: string;
+  userId: string;
+}
+
 export interface MarkNotificationAsReadRequest extends BasicRequest {
   notificationId: string;
 }

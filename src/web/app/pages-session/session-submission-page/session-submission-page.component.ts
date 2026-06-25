@@ -7,6 +7,7 @@ import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionView } from './session-view.enum';
 import { environment } from '../../../environments/environment';
+import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -34,7 +35,6 @@ import {
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionRecipientType,
-  RegkeyValidity,
   Student,
   SessionSubmission,
   SessionSubmissionQuestion,
@@ -80,6 +80,7 @@ import { SingleQuestionSaveErrorModalComponent } from './single-question-save-er
 })
 export class SessionSubmissionPageComponent implements OnInit {
   private readonly statusMessageService = inject(StatusMessageService);
+  private readonly accountService = inject(AccountService);
   private readonly timezoneService = inject(TimezoneService);
   private readonly feedbackResponsesService = inject(FeedbackResponsesService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
@@ -108,6 +109,9 @@ export class SessionSubmissionPageComponent implements OnInit {
   courseId = '';
   feedbackSessionName = '';
   accountEmail = '';
+  accountId = '';
+  loginUrl = '';
+  userId = '';
 
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
@@ -164,48 +168,13 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
         const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAs));
+        this.loginUrl = auth.loginUrl;
         if (auth.user) {
+          this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
         if (this.key && !isPreviewOrModeration && this.entityType === 'student') {
-          this.authService.getAuthRegkeyValidity(this.key, this.getSubmissionIntent()).subscribe({
-            next: (resp: RegkeyValidity) => {
-              if (resp.isAllowedAccess) {
-                if (resp.isUsed) {
-                  // The signed in user matches the registration key; redirect to the signed in URL
-                  this.navigationService.navigateByURL(
-                    `/web/${this.entityType}/sessions/${this.feedbackSessionId}/submission`,
-                  );
-                } else {
-                  // Valid, unused registration key; load information based on the key
-                  this.loadFeedbackSession(false, auth);
-                }
-              } else if (resp.isValid) {
-                // At this point, registration key must already be used, otherwise access would be granted
-                if (this.accountEmail) {
-                  // Registration key belongs to another user who is not the signed in user
-                  this.navigationService.navigateWithErrorMessage(
-                    '/web/front',
-                    `You are signed in as ${this.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
-                  );
-                } else {
-                  this.loadFeedbackSession(true, auth);
-                }
-              } else {
-                // The registration key is invalid
-                this.navigationService.navigateWithErrorMessage(
-                  '/web/front',
-                  'You are not authorized to view this page.',
-                );
-              }
-            },
-            error: () => {
-              this.navigationService.navigateWithErrorMessage(
-                '/web/front',
-                'You are not authorized to view this page.',
-              );
-            },
-          });
+          this.loadFeedbackSession(false, auth);
         } else if (this.accountEmail) {
           // Load information based on signed in user
           // This will also cover moderation/preview cases
@@ -303,7 +272,30 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Redirects to join course link for unregistered student/instructor.
    */
   joinCourseForUnregisteredEntity(): void {
-    this.navigationService.navigateByURL('/web/join', { entityType: this.entityType, key: this.key });
+    if (!this.accountId) {
+      globalThis.location.href = `${this.backendUrl}${this.loginUrl}`;
+      return;
+    }
+
+    if (!this.userId) {
+      this.statusMessageService.showErrorToast('Unable to determine the student to link.');
+      return;
+    }
+
+    this.accountService
+      .linkAccount({
+        accountId: this.accountId,
+        userId: this.userId,
+      }, this.key)
+      .subscribe({
+        next: () => {
+          this.authService.clearAuthCache();
+          this.navigationService.navigateByURL(`/web/student/sessions/${this.feedbackSessionId}/submission`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   private getSubmissionIntent(): Intent {
@@ -349,6 +341,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           if (!userData?.userId) {
             return of(null);
           }
+          this.userId = userData.userId;
           return this.feedbackSessionsService
             .getDeadlineExtension({
               feedbackSessionId: this.feedbackSessionId,
