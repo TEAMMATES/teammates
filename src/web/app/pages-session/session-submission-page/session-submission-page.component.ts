@@ -176,7 +176,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         if (auth.user) {
           this.accountEmail = auth.user.accountEmail;
         }
-        if (this.key && !isPreviewOrModeration) {
+        if (this.key && !isPreviewOrModeration && this.entityType !== 'instructor') {
           this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
             next: (resp: RegkeyValidity) => {
               if (resp.isAllowedAccess) {
@@ -294,7 +294,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         return this.instructorService
           .getOwnInstructor({
             courseId: this.courseId,
-            key: this.key,
           })
           .pipe(
             tap((instructor: Instructor) => {

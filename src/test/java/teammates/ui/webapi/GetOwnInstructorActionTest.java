@@ -32,22 +32,6 @@ public class GetOwnInstructorActionTest extends BaseActionTest<GetOwnInstructorA
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getOwnInstructorAction_byRegKey_returnsInstructorData() {
-        var course = given.course("course");
-        var instructor = given.instructor("instructor", i -> i.course(course.alias()));
-        persistGivenData(given);
-
-        RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withRegKey(instructor.regKey());
-
-        InstructorData result = execute(request);
-
-        assertEquals(instructor.id(), result.getUserId());
-        assertEquals(course.id(), result.getCourseId());
-    }
-
-    @Test(groups = GroupNames.ACTION)
     public void getOwnInstructorAction_requestWithoutInstructor_throwsEntityNotFoundException() {
         var account = given.account("account");
         var course = given.course("course");
