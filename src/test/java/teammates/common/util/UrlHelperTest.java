@@ -66,19 +66,6 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl("//example.com/web/instructor/home"));
     }
 
-    @Test(dataProvider = "unsupportedSchemeUrls")
-    public void testIsSafeRedirectUrl_unsupportedScheme_returnsFalse(String url) {
-        assertFalse(isSafeRedirectUrl(url));
-    }
-
-    @DataProvider
-    private Object[][] unsupportedSchemeUrls() {
-        return new Object[][] {
-                {"javascript:alert(1)"},
-                {"ftp://example.com/web/instructor/home"},
-        };
-    }
-
     @Test
     public void testIsSafeRedirectUrl_nullUrl_returnsFalse() {
         assertFalse(isSafeRedirectUrl(null));
@@ -99,33 +86,9 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl(url));
     }
 
-    @DataProvider
-    private Object[][] malformedUrls() {
-        return new Object[][] {
-                {"https://[invalid"},
-                {"example.com/invalid path"},
-        };
-    }
-
-    @DataProvider
-    private Object[][] invalidRedirectUrls() {
-        return new Object[][] {
-                {""},
-                {"?query=param"},
-                {"web/instructor"},
-                {"https://evil.com"},
-                {"//evil.com"},
-        };
-    }
-
-    @DataProvider
-    private Object[][] invalidUrls() {
-        return new Object[][] {
-                {""},
-                {null},
-                {"https://[invalid"},
-                {"example.com/invalid path"},
-        };
+    @Test(dataProvider = "unsupportedSchemaUrls")
+    public void testIsSafeRedirectUrl_unsupportedSchemaUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
     }
 
     @Test
@@ -186,16 +149,40 @@ public class UrlHelperTest extends BaseTestCase {
         assertEquals("/", getRelativeUrl(url));
     }
 
-    @Test(dataProvider = "invalidRelativeUrls")
-    public void testGetRelativeUrl_invalidRedirectUrl_returnsDefault(String url) {
-        assertEquals("/", getRelativeUrl(url));
+    @DataProvider
+    private Object[][] unsupportedSchemaUrls() {
+        return new Object[][] {
+                {"ftp://example.com/resource"},
+                {"file:///path/to/file"},
+                {"mailto:example@example.com"},
+                {"../relative/path"},
+        };
     }
 
     @DataProvider
-    private Object[][] invalidRelativeUrls() {
+    private Object[][] malformedUrls() {
+        return new Object[][] {
+                {"https://[invalid"},
+                {"example.com/invalid path"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidRedirectUrls() {
+        return new Object[][] {
+                {"?query=param"},
+                {"web/instructor"},
+                {"https://evil.com"},
+                {"//evil.com"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidUrls() {
         return new Object[][] {
                 {""},
-                {"?query=param"},
+                {null},
+                {"javascript:alert(1)"},
         };
     }
 }
