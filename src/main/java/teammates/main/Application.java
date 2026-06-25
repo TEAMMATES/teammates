@@ -82,9 +82,7 @@ public final class Application {
             server.start();
         } catch (Exception e) {
             stopServer(server);
-            DevServerStartupErrorHandler.throwIfHandled(e);
-            // Re-throw if the exception is not recognized as a dev server startup failure.
-            throw e;
+            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
         }
 
         // By using the server.join() the server thread will join with the current thread.
