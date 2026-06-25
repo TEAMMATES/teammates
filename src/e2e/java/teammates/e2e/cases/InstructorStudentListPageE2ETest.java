@@ -86,21 +86,24 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
                 listPage.clickViewStudent(course3, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course3.getId(), studentEmail);
-        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentDetailsViewPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("link: edit student details page");
 
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
                 listPage.clickEditStudent(course3, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course3.getId(), studentEmail);
-        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentDetailsEditPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("link: view all records page");
 
         InstructorStudentRecordsPage studentRecordsPage =
                 listPage.clickViewAllRecords(course3, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course3.getId(), studentToView.getName());
-        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentRecordsPage.goBack();
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("action: delete student");
 

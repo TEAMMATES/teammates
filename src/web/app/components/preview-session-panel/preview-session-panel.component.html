@@ -24,8 +24,6 @@
             <a
               [routerLink]="['/web/sessions', feedbackSessionId, 'submission']"
               [queryParams]="{ previewAs: userIdOfStudentToPreview }"
-              target="_blank"
-              rel="noopener noreferrer"
               [ngbTooltip]="
                 userIdOfStudentToPreview.length !== 0
                   ? 'View how this session would look like to a student who is submitting feedback.'
@@ -75,8 +73,6 @@
             <a
               [routerLink]="['/web/instructor/sessions', feedbackSessionId, 'submission']"
               [queryParams]="{ previewAs: userIdOfInstructorToPreview }"
-              target="_blank"
-              rel="noopener noreferrer"
               ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list."
             >
               <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>

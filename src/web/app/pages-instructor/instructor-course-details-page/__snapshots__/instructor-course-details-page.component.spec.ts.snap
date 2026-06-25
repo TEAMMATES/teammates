@@ -570,8 +570,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                             class="btn btn-light btn-sm btn-margin-right custom-button"
                             href="/web/instructor/courses/CS101/students/student-jamie/details"
                             id="btn-view-details-CS101-0"
-                            rel="noopener noreferrer"
-                            target="_blank"
                           >
                              View 
                           </a>
@@ -579,8 +577,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                             class="btn btn-light btn-sm btn-margin-right custom-button"
                             href="/web/instructor/courses/CS101/students/student-jamie/edit"
                             id="btn-edit-details-CS101-0"
-                            rel="noopener noreferrer"
-                            target="_blank"
                           >
                              Edit 
                           </a>
@@ -600,8 +596,6 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                             class="btn btn-light btn-sm btn-margin-right custom-button"
                             href="/web/instructor/students/CS101/student-jamie/records"
                             id="btn-view-records-CS101-0"
-                            rel="noopener noreferrer"
-                            target="_blank"
                           >
                              All Records 
                           </a>
