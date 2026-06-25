@@ -201,7 +201,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         }
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.key);
+        request = this.courseService.getCourseAsInstructor(this.courseId);
         break;
       default:
         return of(null);
