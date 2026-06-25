@@ -8,7 +8,7 @@ import teammates.ui.output.InstructorData;
 /**
  * Get the information of the instructor associated with the request.
  */
-public class GetOwnInstructorAction extends RegKeyAction {
+public class GetOwnInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() {
         // No specific access control required.

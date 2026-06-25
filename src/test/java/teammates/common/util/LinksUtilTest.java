@@ -49,10 +49,9 @@ public class LinksUtilTest extends BaseTestCase {
     }
 
     @Test
-    public void getInstructorSessionSubmitUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
-        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission"
-                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
-        assertEquals(expected, LinksUtil.getInstructorSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
+    public void getInstructorSessionSubmitUrl_instructorUser_returnsAbsoluteUrlOnInstructorPath() {
+        String expected = TEST_BASE_URL + "/web/instructor/sessions/" + SAMPLE_SESSION_ID + "/submission";
+        assertEquals(expected, LinksUtil.getInstructorSessionSubmitUrl(SAMPLE_SESSION_ID));
     }
 
     @Test
@@ -63,10 +62,9 @@ public class LinksUtilTest extends BaseTestCase {
     }
 
     @Test
-    public void getInstructorSessionResultsUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
-        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result"
-                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
-        assertEquals(expected, LinksUtil.getInstructorSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
+    public void getInstructorSessionResultsUrl_instructorUser_returnsAbsoluteUrlOnInstructorPath() {
+        String expected = TEST_BASE_URL + "/web/instructor/sessions/" + SAMPLE_SESSION_ID + "/result";
+        assertEquals(expected, LinksUtil.getInstructorSessionResultsUrl(SAMPLE_SESSION_ID));
     }
 
     @Test

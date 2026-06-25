@@ -135,7 +135,7 @@ export class SessionResultPageComponent implements OnInit {
           this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
           return;
         }
-        if (this.key) {
+        if (this.key && this.entityType !== 'instructor') {
           this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
             next: (resp: RegkeyValidity) => {
               if (resp.isAllowedAccess) {
@@ -228,7 +228,7 @@ export class SessionResultPageComponent implements OnInit {
     } else if (this.previewAs) {
       return this.instructorService.getInstructor({ userId: this.previewAs });
     } else {
-      return this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key });
+      return this.instructorService.getOwnInstructor({ courseId: this.courseId });
     }
   }
 
