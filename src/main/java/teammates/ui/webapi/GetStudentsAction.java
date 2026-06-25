@@ -35,7 +35,7 @@ public class GetStudentsAction extends LoggedInAction {
         StudentQuery query = new StudentQuery(
                 getCourseIds(),
                 getRequestParamValue(Const.ParamsNames.SEARCH_KEY),
-                getNullablePositiveIntRequestParamValue(Const.ParamsNames.LIMIT));
+                getLimitParamValue());
 
         List<Student> students = logic.getStudents(query);
         StudentsData studentsData = new StudentsData();
@@ -60,23 +60,4 @@ public class GetStudentsAction extends LoggedInAction {
         return courseIds == null ? null : Arrays.asList(courseIds);
     }
 
-    private Integer getNullablePositiveIntRequestParamValue(String paramName) {
-        String value = getRequestParamValue(paramName);
-        if (value == null) {
-            return null;
-        }
-
-        int parsed;
-        try {
-            parsed = Integer.parseInt(value);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(
-                    "Expected integer value for " + paramName + " parameter, but found: [" + value + "]", e);
-        }
-        if (parsed <= 0) {
-            throw new InvalidHttpParameterException(
-                    "Expected positive integer value for " + paramName + " parameter, but found: [" + value + "]");
-        }
-        return parsed;
-    }
 }
