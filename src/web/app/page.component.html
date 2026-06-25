@@ -84,6 +84,16 @@
               @if (isStudent || isInstructor || isAdmin || isMaintainer) {
                 <div class="dropdown-divider"></div>
               }
+              @if (isMasquerading) {
+                <a
+                  class="dropdown-item"
+                  routerLink="/web/admin/home"
+                  id="exit-masquerade-mode-btn"
+                  style="cursor: pointer"
+                  (click)="exitMasqueradeMode()"
+                  >Exit masquerade mode</a
+                >
+              }
               <a
                 class="dropdown-item"
                 routerLink="/web/front/home"
