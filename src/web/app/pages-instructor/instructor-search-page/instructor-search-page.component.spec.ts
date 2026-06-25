@@ -126,7 +126,6 @@ describe('InstructorSearchPageComponent', () => {
             canModifySession: false,
             canModifyStudent: false,
             canModifyInstructor: false,
-            canModifySessionComments: false,
             canViewSession: false,
             canSubmitSession: false,
           },
@@ -293,7 +292,6 @@ describe('InstructorSearchPageComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canModifySessionComments: true,
       canViewSession: true,
       canSubmitSession: true,
     };

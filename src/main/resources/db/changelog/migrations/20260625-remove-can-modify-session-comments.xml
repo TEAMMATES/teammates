@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260625-remove-can-modify-session-comments-1">
+        <dropColumn tableName="instructor_course_privileges" columnName="can_modify_session_comments"/>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260625-remove-can-modify-session-comments-2">
+        <dropColumn tableName="instructor_section_privileges" columnName="can_modify_session_comments"/>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260625-remove-can-modify-session-comments-3">
+        <dropColumn tableName="instructor_session_privileges" columnName="can_modify_session_comments"/>
+    </changeSet>
+
+</databaseChangeLog>

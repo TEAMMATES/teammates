@@ -23,7 +23,6 @@ export class ViewRolePrivilegesModalComponent {
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,
-    canModifySessionComments: false,
     canViewSession: false,
     canSubmitSession: false,
   };

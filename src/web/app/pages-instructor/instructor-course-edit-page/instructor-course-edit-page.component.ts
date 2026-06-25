@@ -325,7 +325,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
           canModifySession: defaultPrivileges,
           canModifyStudent: defaultPrivileges,
           canModifyInstructor: defaultPrivileges,
-          canModifySessionComments: defaultPrivileges,
           canViewSession: defaultPrivileges,
           canSubmitSession: defaultPrivileges,
         },
@@ -618,12 +617,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
         permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
-            if (
-              sectionLevelPermission.privilege.canModifySessionComments !==
-              permission.privilege.canModifySessionComments
-            ) {
-              return true;
-            }
             if (sectionLevelPermission.privilege.canViewSession !== permission.privilege.canViewSession) {
               return true;
             }
@@ -634,8 +627,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
             return sectionLevelPermission.sessionLevel.some(
               (sessionLevelPermission: InstructorSessionLevelPermission) => {
                 return (
-                  sectionLevelPermission.privilege.canModifySessionComments !==
-                    sessionLevelPermission.privilege.canModifySessionComments ||
                   sectionLevelPermission.privilege.canViewSession !== sessionLevelPermission.privilege.canViewSession ||
                   sectionLevelPermission.privilege.canSubmitSession !==
                     sessionLevelPermission.privilege.canSubmitSession
@@ -649,7 +640,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
           if (
             sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
               return (
-                sectionLevel.privilege.canModifySessionComments === sessionLevel.privilege.canModifySessionComments &&
                 sectionLevel.privilege.canViewSession === sessionLevel.privilege.canViewSession &&
                 sectionLevel.privilege.canSubmitSession === sessionLevel.privilege.canSubmitSession
               );

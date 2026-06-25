@@ -127,8 +127,7 @@
         "canModifySession": false,
         "canModifyStudent": false,
         "canViewSession": false,
-        "canSubmitSession": false,
-        "canModifySessionComments": false
+        "canSubmitSession": false
       },
       "sectionLevel": {},
       "sessionLevel": {}

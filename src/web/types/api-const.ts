@@ -28,11 +28,11 @@ export enum ApiStringConst {
 }
 
 export enum DefaultInstructorPermissions {
-  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
-  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
-  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
-  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":false}",
-  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
+  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true}",
+  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true}",
+  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":false}",
+  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":true}",
+  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false}",
 }
 
 export enum QuestionTypeStructures {
