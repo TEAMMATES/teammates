@@ -1,5 +1,4 @@
 import { type Routes } from '@angular/router';
-import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -27,9 +26,6 @@ const routes: Routes = [
           import('../pages-session/session-result-page/session-result-page.component').then(
             (m) => m.SessionResultPageComponent,
           ),
-        data: {
-          intent: Intent.STUDENT_RESULT,
-        },
       },
       {
         path: ':feedbackSessionId/submission',
@@ -37,9 +33,6 @@ const routes: Routes = [
           import('../pages-session/session-submission-page/session-submission-page.component').then(
             (m) => m.SessionSubmissionPageComponent,
           ),
-        data: {
-          intent: Intent.STUDENT_SUBMISSION,
-        },
       },
     ],
   },

@@ -24,7 +24,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
 describe('QuestionResponsePanelComponent', () => {
@@ -565,23 +564,24 @@ describe('QuestionResponsePanelComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('canUserSeeResponses: should allow instructors to see responses when intent is INSTRUCTOR_RESULT', () => {
-    component.intent = Intent.INSTRUCTOR_RESULT;
+  it('canUserSeeResponses: should allow instructors to see responses when entityType is instructor', () => {
+    component.entityType = 'instructor';
     testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [FeedbackVisibilityType.INSTRUCTORS];
     const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
 
     expect(canSee).toBe(true);
   });
 
-  it('canUserSeeResponses: should return false when intent does not allow seeing responses', () => {
-    component.intent = Intent.FULL_DETAIL;
+  it('canUserSeeResponses: should return false when entityType does not allow seeing responses', () => {
+    component.entityType = 'instructor';
+    testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [];
     const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
 
     expect(canSee).toBe(false);
   });
 
-  it('canUserSeeResponses: should allow students when responses are visible to recipients and instructors', () => {
-    component.intent = Intent.STUDENT_RESULT;
+  it('canUserSeeResponses: should allow students when entityType is student and responses are visible to recipients and instructors', () => {
+    component.entityType = 'student';
     testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [
       FeedbackVisibilityType.RECIPIENT,
       FeedbackVisibilityType.INSTRUCTORS,

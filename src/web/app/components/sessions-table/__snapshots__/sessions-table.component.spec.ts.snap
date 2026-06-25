@@ -407,7 +407,7 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
                      Copy 
                   </button>
                   <a
-                    href="/web/instructor/sessions/first-session-id/submission?editingMode=true"
+                    href="/web/instructor/sessions/first-session-id/submission"
                   >
                     <button
                       class="btn btn-light btn-sm"
@@ -712,7 +712,7 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
                      Copy 
                   </button>
                   <a
-                    href="/web/instructor/sessions/first-session-id/submission?editingMode=true"
+                    href="/web/instructor/sessions/first-session-id/submission"
                   >
                     <button
                       class="btn btn-light btn-sm"
