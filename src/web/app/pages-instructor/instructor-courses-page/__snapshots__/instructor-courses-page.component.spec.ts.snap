@@ -6566,9 +6566,6 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                   <th>
                     Total Students
                   </th>
-                  <th>
-                    Total Unregistered
-                  </th>
                   <th
                     class="text-center"
                   >
@@ -6595,11 +6592,6 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                       container="body"
                     >
                        5 Nov 2018 
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                       1 
                     </span>
                   </td>
                   <td>
@@ -6696,11 +6688,6 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                       container="body"
                     >
                        2 Feb 2019 
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                       2 
                     </span>
                   </td>
                   <td>
@@ -13574,9 +13561,6 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                   <th>
                     Total Students
                   </th>
-                  <th>
-                    Total Unregistered
-                  </th>
                   <th
                     class="text-center"
                   >
@@ -13603,11 +13587,6 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                       container="body"
                     >
                        5 Nov 2018 
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                       1 
                     </span>
                   </td>
                   <td>
@@ -13704,11 +13683,6 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                       container="body"
                     >
                        2 Feb 2019 
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                       2 
                     </span>
                   </td>
                   <td>
@@ -20599,9 +20573,6 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                   <th>
                     Total Students
                   </th>
-                  <th>
-                    Total Unregistered
-                  </th>
                   <th
                     class="text-center"
                   >
@@ -20646,15 +20617,6 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                         id="show-statistics-0"
                       >
                          Show 
-                      </button>
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                      <button
-                        class="link-button"
-                      >
-                        Show
                       </button>
                     </span>
                   </td>
@@ -20764,15 +20726,6 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                         id="show-statistics-1"
                       >
                          Show 
-                      </button>
-                    </span>
-                  </td>
-                  <td>
-                    <span>
-                      <button
-                        class="link-button"
-                      >
-                        Show
                       </button>
                     </span>
                   </td>
