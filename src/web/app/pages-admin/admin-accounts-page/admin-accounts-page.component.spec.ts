@@ -40,7 +40,6 @@ const DEFAULT_ACCOUNT: Account = {
       sectionId: 'section-b',
       sectionName: 'Section B',
       joinState: JoinState.JOINED,
-      key: '',
       institute: 'NUS',
     },
   ],
