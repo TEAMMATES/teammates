@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
@@ -213,6 +214,30 @@ public abstract class Action {
             return null;
         }
         return getEnumFromParam(paramName, value, enumType);
+    }
+
+    /**
+     * Returns the value of the {@code limit} parameter as a positive integer, or null if not present.
+     */
+    Integer getLimitParamValue() {
+        String value = getRequestParamValue(Const.ParamsNames.LIMIT);
+        if (value == null) {
+            return null;
+        }
+        int parsed;
+        try {
+            parsed = Integer.parseInt(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected integer value for " + Const.ParamsNames.LIMIT + " parameter, but found: [" + value + "]",
+                    e);
+        }
+        if (parsed <= 0) {
+            throw new InvalidHttpParameterException(
+                    "Expected positive integer value for " + Const.ParamsNames.LIMIT
+                            + " parameter, but found: [" + value + "]");
+        }
+        return parsed;
     }
 
     /**

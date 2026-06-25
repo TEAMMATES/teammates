@@ -5,10 +5,8 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -632,36 +630,6 @@ public final class UsersLogic {
      */
     public List<Student> getStudents(StudentQuery query) {
         return usersDb.getStudents(query);
-    }
-
-    /**
-     * Gets the students visible to the given account for the supplied query.
-     */
-    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
-        Objects.requireNonNull(query);
-        Objects.requireNonNull(account);
-
-        List<Instructor> instructors = getInstructorsByAccountId(account.getId());
-        Set<String> courseIds = new HashSet<>();
-        for (Instructor instructor : instructors) {
-            courseIds.add(instructor.getCourseId());
-        }
-
-        if (courseIds.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<String> requestedCourseIds = query.courseIds();
-        List<String> effectiveCourseIds = requestedCourseIds == null
-                ? new ArrayList<>(courseIds)
-                : requestedCourseIds.stream()
-                        .filter(courseIds::contains)
-                        .toList();
-        if (effectiveCourseIds.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
     }
 
     /**
