@@ -14,11 +14,15 @@ const mockRoute = (
   type: 'SUBMISSION' | 'RESULTS' = 'SUBMISSION',
   key = 'session-key',
   fsid = 'session-id',
+  previewAs = '',
 ): ActivatedRouteSnapshot =>
   ({
     data: { sessionKeyType: type },
     paramMap: new Map([['feedbackSessionId', fsid]]) as never,
-    queryParamMap: new Map([['key', key]]) as never,
+    queryParamMap: new Map([
+      ['key', key],
+      ['previewAs', previewAs],
+    ]) as never,
   }) as unknown as ActivatedRouteSnapshot;
 
 describe('SessionKeyGuard', () => {
@@ -133,5 +137,18 @@ describe('SessionKeyGuard', () => {
 
     expect(spyAuthService.getAuthUser).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
     expect(result).toBe(false);
+  });
+
+  it('should allow preview routes without a key when the user is signed in', async () => {
+    const result = await firstValueFrom(
+      guard.canActivate(
+        mockRoute('SUBMISSION', '', 'session-id', 'student-id'),
+        mockState('/web/sessions/session-id/submission?previewAs=student-id'),
+      ),
+    );
+
+    expect(spyFeedbackSessionsService.checkSessionKeyAccess).not.toHaveBeenCalled();
+    expect(spyAuthService.getAuthUser).not.toHaveBeenCalled();
+    expect(result).toBe(true);
   });
 });

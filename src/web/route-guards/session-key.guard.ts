@@ -21,9 +21,14 @@ export class SessionKeyGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const feedbackSessionId = route.paramMap.get('feedbackSessionId');
     const key = route.queryParamMap.get('key');
+    const previewAs = route.queryParamMap.get('previewAs');
     const type = route.data['sessionKeyType'] as SessionKeyType | undefined;
 
-    if (!feedbackSessionId || !key || !type) {
+    if (previewAs) {
+      return of(true);
+    }
+
+    if (!feedbackSessionId || !type || !key) {
       this.navigationService.navigateWithErrorMessage('/web/front', 'This session link is invalid.');
       return of(false);
     }
