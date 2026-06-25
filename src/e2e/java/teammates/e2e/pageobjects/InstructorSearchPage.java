@@ -14,7 +14,6 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
-import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor search page.
