@@ -26,7 +26,7 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { joinStateToString } from '../../utils/join-state.util';
 
@@ -50,7 +50,7 @@ interface StudentIndexedData {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     AjaxLoadingComponent,
-    TeammatesRouterDirective,
+    RouterLink,
     StudentListComponent,
     InstructorRoleNamePipe,
   ],

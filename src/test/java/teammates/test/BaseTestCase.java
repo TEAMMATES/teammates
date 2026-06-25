@@ -177,7 +177,7 @@ public class BaseTestCase {
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         Instructor commentGiver = getTypicalInstructor();
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
-                "typical-comment", commentGiver);
+                "typical-comment");
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         responseInstructorComment.setCreatedAt(Instant.now());

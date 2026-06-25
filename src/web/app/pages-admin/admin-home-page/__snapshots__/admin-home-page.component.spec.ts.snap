@@ -20,7 +20,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
       <a
         class="btn btn-light btn-sm"
         href="/web/admin/account-verification-requests"
-        tmrouterlink="/web/admin/account-verification-requests"
+        routerlink="/web/admin/account-verification-requests"
       >
         View All
       </a>

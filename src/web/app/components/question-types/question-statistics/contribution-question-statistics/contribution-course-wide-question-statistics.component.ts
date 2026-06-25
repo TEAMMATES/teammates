@@ -10,12 +10,12 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../../sortable-table/sortable-table.component';
-import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tm-contribution-course-wide-question-statistics',
   templateUrl: './contribution-course-wide-question-statistics.component.html',
-  imports: [TeammatesRouterDirective, SortableTableComponent],
+  imports: [RouterLink, SortableTableComponent],
 })
 export class ContributionCourseWideQuestionStatisticsComponent implements OnChanges {
   @Input({ required: true }) statistics!: FeedbackContributionCourseWideStatistics;

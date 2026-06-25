@@ -66,12 +66,11 @@ const feedbackSessionResultsC1S1Q1: SessionResults = {
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-00000000006a`,
               commentText: `Instructor 1 comment to student 1 self feedback`,
               createdAt: 1772409540000,
-              lastEditedAt: 1333411140000,
             },
           ],
         },

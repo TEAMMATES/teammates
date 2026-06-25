@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
@@ -13,7 +13,7 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-courses-section',
   templateUrl: './instructor-help-courses-section.component.html',
   styleUrls: ['./instructor-help-courses-section.component.scss'],
-  imports: [InstructorHelpPanelComponent, TeammatesRouterDirective],
+  imports: [InstructorHelpPanelComponent, RouterLink],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums

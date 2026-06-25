@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { Instructor, Student } from '../../../types/api-output';
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Displaying the preview session panel.
@@ -12,7 +12,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
   selector: 'tm-preview-session-result-panel',
   templateUrl: './preview-session-result-panel.component.html',
   styleUrls: ['./preview-session-result-panel.component.scss'],
-  imports: [FormsModule, TeammatesRouterDirective, NgbTooltip, NgTemplateOutlet],
+  imports: [FormsModule, RouterLink, NgbTooltip, NgTemplateOutlet],
 })
 export class PreviewSessionResultPanelComponent {
   @Input()

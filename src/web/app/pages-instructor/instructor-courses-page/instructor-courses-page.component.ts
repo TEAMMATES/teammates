@@ -50,7 +50,7 @@ import { ModifiedTimestampModalComponent } from '../../components/modified-times
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 export interface CourseModel {
@@ -75,7 +75,7 @@ export interface CourseModel {
     LoadingSpinnerDirective,
     AjaxLoadingComponent,
     NgbTooltip,
-    TeammatesRouterDirective,
+    RouterLink,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,

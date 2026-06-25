@@ -11,12 +11,12 @@ import {
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
 
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'tm-group-buttons',
   templateUrl: './cell-with-group-buttons.component.html',
-  imports: [CommonModule, TeammatesRouterDirective, AjaxLoadingComponent, NgbDropdownModule, NgbTooltipModule],
+  imports: [CommonModule, RouterLink, AjaxLoadingComponent, NgbDropdownModule, NgbTooltipModule],
 })
 export class GroupButtonsComponent {
   @Input() idx = 0;

@@ -39,18 +39,6 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
     }
 
     /**
-     * Sets an instructor as the last editor.
-     */
-    public GivenResponseInstructorComment lastEditedBy(String instructorAlias) {
-        assert entity.getLastEditedBy() == null : "Last editor has already been set for this comment";
-        Instructor instructor = given.getOrCreate(
-                instructorAlias, given.dataBundle.instructors, (String iAlias) -> given.instructor(iAlias,
-                        i -> i.course(getFeedbackResponseCourseAlias())));
-        entity.setLastEditedBy(instructor);
-        return this;
-    }
-
-    /**
      * Sets the comment text.
      */
     public GivenResponseInstructorComment commentText(String commentText) {
@@ -66,10 +54,6 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
 
         if (entity.getGiver() == null) {
             this.giver("default:response-instructor-comment-giver:" + entity.getId());
-        }
-
-        if (entity.getLastEditedBy() == null) {
-            entity.setLastEditedBy(entity.getGiver());
         }
 
         String responseCourseId =
@@ -91,8 +75,8 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
     }
 
     private ResponseInstructorComment defaultResponseInstructorComment(UUID responseInstructorCommentId) {
-        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                null, "comment:" + responseInstructorCommentId, null);
+        ResponseInstructorComment responseInstructorComment =
+                new ResponseInstructorComment(null, "comment:" + responseInstructorCommentId);
         responseInstructorComment.setId(responseInstructorCommentId);
         return responseInstructorComment;
     }

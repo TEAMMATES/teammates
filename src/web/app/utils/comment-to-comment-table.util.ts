@@ -9,11 +9,13 @@ export function commentToReadOnlyComment(
   comments: ResponseInstructorComment[],
   isReadOnly: boolean,
   timezone: string,
+  currentInstructorId?: string,
 ): CommentTableModel {
   return {
+    currentInstructorId,
     isReadOnly,
     commentRows: comments.map((comment: ResponseInstructorComment) => {
-      return instructorCommentToCommentRowModel(comment, timezone);
+      return instructorCommentToCommentRowModel(comment, timezone, currentInstructorId);
     }),
     newCommentRow: createNewCommentRowModel(),
     isAddingNewComment: false,

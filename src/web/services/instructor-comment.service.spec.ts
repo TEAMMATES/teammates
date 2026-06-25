@@ -28,12 +28,11 @@ describe('InstructorCommentService', () => {
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
+    giverId: 'current-instructor-id',
     commentGiverName: 'Original Instructor',
-    lastEditorName: 'Original Instructor',
     responseInstructorCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
-    lastEditedAt: 1000,
     ...overrides,
   });
 
@@ -41,10 +40,9 @@ describe('InstructorCommentService', () => {
     commentType: 'instructor',
     timezone,
     commentId: comment.responseInstructorCommentId,
+    isOwnedByCurrentInstructor: comment.giverId === 'current-instructor-id',
     commentGiverName: comment.commentGiverName,
-    lastEditorName: comment.lastEditorName,
     createdAt: comment.createdAt,
-    lastEditedAt: comment.lastEditedAt,
     originalCommentFormModel: {
       commentText: comment.commentText,
     },
@@ -63,6 +61,7 @@ describe('InstructorCommentService', () => {
   });
 
   const createCommentTableModel = (commentRows: InstructorCommentRowModel[] = []): CommentTableModel => ({
+    currentInstructorId: 'current-instructor-id',
     commentRows,
     newCommentRow: createNewCommentRow(),
     isAddingNewComment: true,
@@ -147,7 +146,6 @@ describe('InstructorCommentService', () => {
       responseInstructorCommentId: 'comment-id-to-update',
       commentText: 'updated text',
       createdAt: 1000,
-      lastEditedAt: 2000,
     });
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
@@ -170,6 +168,7 @@ describe('InstructorCommentService', () => {
       'updated text',
     );
     expect(instructorCommentTableModel['response-id'].commentRows[0].timezone).toBe(timezone);
+    expect(instructorCommentTableModel['response-id'].commentRows[0].isOwnedByCurrentInstructor).toBe(true);
   });
 
   it('should show error toast when updating an instructor comment fails', () => {

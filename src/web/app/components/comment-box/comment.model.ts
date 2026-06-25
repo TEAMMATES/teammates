@@ -22,10 +22,9 @@ export interface GiverCommentRowModel extends SavedCommentRowBaseModel {
 export interface InstructorCommentRowModel extends SavedCommentRowBaseModel {
   commentType: 'instructor';
   commentId: string;
+  isOwnedByCurrentInstructor: boolean;
   commentGiverName: string;
-  lastEditorName: string;
   createdAt: number;
-  lastEditedAt: number;
   timezone: string;
 }
 

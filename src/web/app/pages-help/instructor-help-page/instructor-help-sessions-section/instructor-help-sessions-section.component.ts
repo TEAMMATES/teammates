@@ -36,7 +36,7 @@ import {
   RecycleBinFeedbackSessionRowModel,
   SessionsRecycleBinTableComponent,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 import { ViewResultsPanelComponent } from '../../../components/view-results-panel/view-results-panel.component';
 import { VisibilityPanelComponent } from '../../../components/visibility-panel/visibility-panel.component';
 import { InstructorSessionNoResponsePanelComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-no-response-panel.component';
@@ -62,7 +62,7 @@ import { TemplateSession } from '../../../../data/template-sessions';
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     SessionEditFormComponent,
-    TeammatesRouterDirective,
+    RouterLink,
     AddingQuestionPanelComponent,
     FeedbackPathPanelComponent,
     VisibilityPanelComponent,

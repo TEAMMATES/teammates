@@ -848,28 +848,24 @@
     "comment1ToResponse1ForQ1": {
       "id": "00000000-0000-4000-8000-000000002010",
       "giverId": "00000000-0000-4000-8000-000000000501",
-      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResponse2ForQ1": {
       "id": "00000000-0000-4000-8000-000000002011",
       "giverId": "00000000-0000-4000-8000-000000000502",
-      "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResponse1ForQ2s": {
       "id": "00000000-0000-4000-8000-000000002012",
       "giverId": "00000000-0000-4000-8000-000000000502",
-      "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "comment1ToResponse1ForQ3": {
       "id": "00000000-0000-4000-8000-000000002013",
       "giverId": "00000000-0000-4000-8000-000000000501",
-      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "responseId": "00000000-0000-4000-8000-000000000905"
     }

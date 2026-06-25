@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Student help page.
@@ -9,7 +9,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-student-help-page',
   templateUrl: './student-help-page.component.html',
   styleUrls: ['./student-help-page.component.scss'],
-  imports: [TeammatesRouterDirective],
+  imports: [RouterLink],
 })
 export class StudentHelpPageComponent {
   readonly supportEmail: string = environment.supportEmail;

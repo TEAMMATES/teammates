@@ -84,12 +84,11 @@ const feedbackSessionResultsMcqResults: SessionResults = {
           participantComment: `Student 2 comment`,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
-              lastEditorName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000043`,
               commentText: `Instructor 1 comment to student 2`,
               createdAt: 1451692740000,
-              lastEditedAt: 1451692740000,
             },
           ],
         },

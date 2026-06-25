@@ -41,11 +41,10 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   const commentOutput: ResponseInstructorComment = {
     commentGiverName: 'Jennie Kim',
-    lastEditorName: 'Jennie Kim',
+    giverId: 'instructor-id',
     responseInstructorCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
-    lastEditedAt: 0,
   };
 
   const responseOutput: ResponseOutput = {
@@ -93,6 +92,7 @@ describe('PerQuestionViewResponsesComponent', () => {
   };
 
   const commentTableModel: CommentTableModel = {
+    currentInstructorId: 'instructor-id',
     commentRows: [],
     newCommentRow: commentRowModel,
     isAddingNewComment: false,

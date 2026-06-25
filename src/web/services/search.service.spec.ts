@@ -24,7 +24,6 @@ describe('SearchService', () => {
     institute: 'National University of Singapore',
     name: 'Alice Brown',
     comments: 'Student record used for search service tests',
-    key: 'student-key-001',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
     teamId: 'team-1',

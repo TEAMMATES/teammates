@@ -53,7 +53,6 @@ import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.Intent;
-import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 import tools.jackson.databind.JsonNode;
 
@@ -471,28 +470,6 @@ public abstract class AbstractBackDoor {
                 && r.getRecipientIdentifier().equals(recipient.getKey()))
                 .findFirst()
                 .orElse(null);
-    }
-
-    /**
-     * Updates a feedback response comment via the backdoor.
-     * This triggers a new updatedAt timestamp in the database.
-     *
-     * @param commentId the ID of the comment to update
-     * @param commentText the new comment text
-     * @param instructorAccountId the ID of the instructor account
-     */
-    public void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
-        params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        Map<String, String> headers = Map.of(
-                Const.HeaderNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
-
-        ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
-                commentText
-        );
-
-        executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, headers, JsonUtils.toJson(body));
     }
 
     /**

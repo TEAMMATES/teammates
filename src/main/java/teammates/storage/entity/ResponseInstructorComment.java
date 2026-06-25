@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -43,14 +42,6 @@ public class ResponseInstructorComment extends BaseEntity {
     @JoinColumn(name = "giverId", nullable = false)
     private Instructor giver;
 
-    @Column(insertable = false, updatable = false)
-    private UUID lastEditedById;
-
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "lastEditedById")
-    private Instructor lastEditedBy;
-
     @Column(nullable = false)
     private String commentText;
 
@@ -61,13 +52,9 @@ public class ResponseInstructorComment extends BaseEntity {
         // required by Hibernate
     }
 
-    public ResponseInstructorComment(
-            Instructor giver, String commentText,
-            @Nullable Instructor lastEditedBy
-    ) {
+    public ResponseInstructorComment(Instructor giver, String commentText) {
         this.setGiver(giver);
         this.setCommentText(commentText);
-        this.setLastEditedBy(lastEditedBy);
         this.setId(UUID.randomUUID());
     }
 
@@ -128,25 +115,6 @@ public class ResponseInstructorComment extends BaseEntity {
     }
 
     /**
-     * Gets the last editor of the response comment.
-     */
-    public @Nullable Instructor getLastEditedBy() {
-        return lastEditedBy;
-    }
-
-    public UUID getLastEditedById() {
-        return lastEditedById;
-    }
-
-    /**
-     * Sets the last editor of the response comment.
-     */
-    public void setLastEditedBy(@Nullable Instructor lastEditedBy) {
-        this.lastEditedBy = lastEditedBy;
-        this.lastEditedById = lastEditedBy == null ? null : lastEditedBy.getId();
-    }
-
-    /**
      * Formats the entity before persisting in database.
      */
     public void sanitizeForSaving() {
@@ -161,8 +129,7 @@ public class ResponseInstructorComment extends BaseEntity {
     @Override
     public String toString() {
         return "ResponseInstructorComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
-                + ", lastEditedBy=" + lastEditedBy + ", createdAt=" + getCreatedAt()
-                + ", updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override

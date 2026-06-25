@@ -62,7 +62,7 @@ public final class ResponseInstructorCommentsLogic {
             throw new EntityDoesNotExistException("The feedback response does not exist.");
         }
 
-        ResponseInstructorComment frc = new ResponseInstructorComment(giver, commentText, giver);
+        ResponseInstructorComment frc = new ResponseInstructorComment(giver, commentText);
         feedbackResponse.addResponseInstructorComment(frc);
 
         validateResponseInstructorComment(frc);
@@ -108,7 +108,6 @@ public final class ResponseInstructorCommentsLogic {
         }
 
         comment.setCommentText(updateRequest.getCommentText());
-        comment.setLastEditedBy(updater);
 
         return comment;
     }

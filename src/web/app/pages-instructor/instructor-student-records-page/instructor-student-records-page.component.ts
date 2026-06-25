@@ -4,6 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -50,6 +51,7 @@ interface SessionTab {
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly instructorService = inject(InstructorService);
   private readonly studentService = inject(StudentService);
   private readonly tableComparatorService = inject(TableComparatorService);
   private readonly statusMessageService = inject(StatusMessageService);
@@ -60,6 +62,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   studentName = '';
   studentEmail = '';
   studentTeam = '';
+  currentInstructorId = '';
 
   sessionTabs: SessionTab[] = [];
   isStudentResultsLoading = false;
@@ -82,9 +85,13 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
     combineLatest({
       feedbackSession: this.getFeedbackSessions(courseId),
+      instructor: this.instructorService.getOwnInstructor({ courseId }),
       student: this.loadStudentRecords(studentId),
     })
       .pipe(
+        tap(({ instructor }) => {
+          this.currentInstructorId = instructor.userId;
+        }),
         mergeMap(({ feedbackSession }) => {
           return this.getFeedbackSessionResults(feedbackSession);
         }),
@@ -200,6 +207,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         response.instructorComments,
         false,
         timezone,
+        this.currentInstructorId,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

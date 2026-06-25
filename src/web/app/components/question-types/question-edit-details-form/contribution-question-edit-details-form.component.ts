@@ -6,7 +6,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { QuestionsSectionQuestions } from '../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../pages-help/instructor-help-page/sections';
-import { TeammatesRouterDirective } from '../../teammates-router/teammates-router.directive';
+import { RouterLink } from '@angular/router';
 
 /**
  * Question details edit form component for contribution question.
@@ -14,7 +14,7 @@ import { TeammatesRouterDirective } from '../../teammates-router/teammates-route
 @Component({
   selector: 'tm-contribution-question-edit-details-form',
   templateUrl: './contribution-question-edit-details-form.component.html',
-  imports: [FormsModule, TeammatesRouterDirective, NgbTooltip, NgClass],
+  imports: [FormsModule, RouterLink, NgbTooltip, NgClass],
 })
 export class ContributionQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {
   // enum

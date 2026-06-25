@@ -171,7 +171,7 @@
       <li>Scroll to the bottom of the page.</li>
       <li>
         Select between adding a question from our predefined
-        <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a> or copying a question from an existing
+        <a (click)="jumpTo('questions')" [routerLink]="">question types</a> or copying a question from an existing
         feedback session.
       </li>
       <li>Save changes to the question when you have finished creating the question</li>
@@ -181,7 +181,7 @@
     </tm-example-box>
     <p>
       TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-      <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a>, you can also customize your desired:
+      <a (click)="jumpTo('questions')" [routerLink]="">question types</a>, you can also customize your desired:
     </p>
     <ul>
       <li>
@@ -292,9 +292,8 @@
     <ol>
       <li>
         Ask students to go to
-        <a tmRouterLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request
-        TEAMMATES to resend the link. They should specify the exact email address that was used to enroll them in
-        TEAMMATES.
+        <a routerLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request TEAMMATES
+        to resend the link. They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
         Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button on your
@@ -432,7 +431,7 @@
             jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS);
             questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true
           "
-          [tmRouterLink]=""
+          [routerLink]=""
           >View the course-wide results</a
         >
         of the session.
@@ -570,7 +569,7 @@
             jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS);
             questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true
           "
-          [tmRouterLink]=""
+          [routerLink]=""
           >View the course-wide results</a
         >
         of the session.
@@ -615,9 +614,8 @@
     <ol>
       <li>
         Ask students to go to
-        <a tmRouterLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request
-        TEAMMATES to resend the link. They should specify the exact email address that was used to enroll them in
-        TEAMMATES.
+        <a routerLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request TEAMMATES
+        to resend the link. They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
         Go to the <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page and click the
@@ -656,7 +654,7 @@
             jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS);
             questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true
           "
-          [tmRouterLink]=""
+          [routerLink]=""
           >View the course-wide results</a
         >
         of the session.
@@ -705,7 +703,7 @@
             jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS);
             questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true
           "
-          [tmRouterLink]=""
+          [routerLink]=""
           >added the comment</a
         >
         that you want to edit or delete.
@@ -761,7 +759,7 @@
           jumpTo(SessionsSectionQuestions.RESTORE_SESSION);
           questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true
         "
-        [tmRouterLink]=""
+        [routerLink]=""
         >restore the session</a
       >.
     </p>
@@ -782,7 +780,7 @@
           jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION);
           questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true
         "
-        [tmRouterLink]=""
+        [routerLink]=""
         >view the session</a
       >
       that you would like to restore in the <span class="ui-text">Sessions</span> page.<br />
@@ -817,7 +815,7 @@
           jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION);
           questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true
         "
-        [tmRouterLink]=""
+        [routerLink]=""
         >view the session</a
       >
       that you would like to permanently delete in the <span class="ui-text">Sessions</span> page.<br />
@@ -853,7 +851,7 @@
           jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION);
           questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true
         "
-        [tmRouterLink]=""
+        [routerLink]=""
         >view the session</a
       >
       and check for sessions in Recycle Bin.<br />
