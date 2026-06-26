@@ -2,17 +2,12 @@ package teammates.logic.core;
 
 import java.util.Objects;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.SessionKey;
 import teammates.common.datatransfer.SessionKeyAccessDecision;
 import teammates.common.datatransfer.SessionKeyAccessResult;
 import teammates.common.datatransfer.SessionKeyValidationResult;
-import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.KeyUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
@@ -26,7 +21,6 @@ public final class AuthLogic {
     private static final AuthLogic instance = new AuthLogic();
 
     private UsersLogic usersLogic;
-    private AccountsLogic accountsLogic;
 
     private AuthLogic() {
         // prevent initialization
@@ -35,9 +29,8 @@ public final class AuthLogic {
     /**
      * Initializes the required dependencies.
      */
-    public void initLogicDependencies(UsersLogic usersLogic, AccountsLogic accountsLogic) {
+    public void initLogicDependencies(UsersLogic usersLogic) {
         this.usersLogic = usersLogic;
-        this.accountsLogic = accountsLogic;
     }
 
     public static AuthLogic inst() {
@@ -84,14 +77,13 @@ public final class AuthLogic {
         return usersLogic.getInstructorByAccountId(account.getId(), courseId);
     }
 
-    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req, String encryptedKey) {
+    public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
         try {
             if (encryptedKey == null) {
                 throw new UnauthorizedAccessException("Invalid encrypted session key");
             }
             SessionKeyValidationResult result = validateEncryptedSessionKey(encryptedKey);
             Student student = result.student();
-            Account currentAccount = getAccountFromRequest(req);
 
             if (student.getAccount() == null) {
                 return new SessionKeyAccessResult(SessionKeyAccessDecision.ALLOW_UNREGISTERED, null);
@@ -115,24 +107,6 @@ public final class AuthLogic {
                     SessionKeyAccessDecision.INVALID_KEY,
                     "This session link is invalid.");
         }
-    }
-
-    private Account getAccountFromRequest(HttpServletRequest req) {
-        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
-        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
-        if (uic != null && uic.isValid()) {
-            return accountsLogic.getAccount(uic.getAccountId());
-        }
-        return null;
-    }
-
-    /**
-     * Validates the encrypted session key from the request and returns the associated student and session key.
-     */
-    public SessionKeyValidationResult validateEncryptedSessionKey(HttpServletRequest req)
-            throws UnauthorizedAccessException {
-        String encryptedKey = req.getParameter(Const.ParamsNames.REGKEY);
-        return validateEncryptedSessionKey(encryptedKey);
     }
 
     public SessionKeyValidationResult validateEncryptedSessionKey(String encryptedKey)

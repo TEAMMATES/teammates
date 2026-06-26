@@ -129,7 +129,7 @@ public class UserProvision {
      * Checks if the request contains a registration key.
      */
     protected boolean isRegKeyRequest(HttpServletRequest req) {
-        String regKey = req.getParameter(Const.ParamsNames.REGKEY);
+        String regKey = getEncryptedSessionKeyFromRequest(req);
         // Temporarily exclude endpoints that accept the old regkey format
         return regKey != null
                 && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
@@ -184,6 +184,10 @@ public class UserProvision {
             return accountsLogic.getAccount(uic.getAccountId());
         }
         return null;
+    }
+
+    private String getEncryptedSessionKeyFromRequest(HttpServletRequest req) {
+        return req.getParameter(Const.ParamsNames.REGKEY);
     }
 
     private AuthContext handleBackdoorRequest(HttpServletRequest req) throws UnauthorizedAccessException {
@@ -241,7 +245,8 @@ public class UserProvision {
         // 1. The encrypted session key is valid and belongs to a student, and
         // 2. The student associated with the key is not already associated with another account
         if (isRegKeyRequest(req)) {
-            SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(req);
+            SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
+                    getEncryptedSessionKeyFromRequest(req));
             if (result.student().getAccount() != null
                     && (effectiveAccount == null || !Objects.equals(effectiveAccount, result.student().getAccount()))) {
                 throw new UnauthorizedAccessException("Login is required to access this resource");
@@ -272,7 +277,8 @@ public class UserProvision {
      */
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
-        SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(req);
+        SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
+                getEncryptedSessionKeyFromRequest(req));
         Student regKeyStudent = result.student();
 
         if (regKeyStudent.getAccount() != null) {

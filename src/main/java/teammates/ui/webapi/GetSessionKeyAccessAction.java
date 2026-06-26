@@ -13,7 +13,8 @@ public class GetSessionKeyAccessAction extends PublicAction {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         SessionKeyAccessRequest requestBody = getAndValidateRequestBody(SessionKeyAccessRequest.class);
-        SessionKeyAccessResult result = logic.getSessionKeyAccessResult(req, requestBody.getKey());
+        SessionKeyAccessResult result = logic.getSessionKeyAccessResult(requestContext.getAccount(),
+                requestBody.getKey());
         return new JsonResult(new SessionKeyAccessData(result.decision(), result.message()));
     }
 }

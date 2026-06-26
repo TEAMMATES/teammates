@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
-import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
@@ -157,8 +156,8 @@ public class Logic {
     /**
      * Gets the access decision for a student session key request using the supplied encrypted key.
      */
-    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req, String encryptedKey) {
-        return authLogic.getSessionKeyAccessResult(req, encryptedKey);
+    public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
+        return authLogic.getSessionKeyAccessResult(currentAccount, encryptedKey);
     }
 
     /**

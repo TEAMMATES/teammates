@@ -67,7 +67,7 @@ public class UserProvisionTest extends BaseTestCase {
         mockAccountsLogic = mock(AccountsLogic.class);
         mockAccountsLogicStatic = mockStatic(AccountsLogic.class);
         mockAccountsLogicStatic.when(AccountsLogic::inst).thenReturn(mockAccountsLogic);
-        AuthLogic.inst().initLogicDependencies(mockUsersLogic, mockAccountsLogic);
+        AuthLogic.inst().initLogicDependencies(mockUsersLogic);
 
         userProvision = new UserProvision();
 
