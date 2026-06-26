@@ -173,10 +173,6 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             return this;
         }
 
-        public RequestContext withRegKey(String regKey) {
-            return withParam(Const.ParamsNames.KEY, regKey);
-        }
-
         public RequestContext withStudentSessionKey(UUID userId, SessionKeyType keyType, String regKey,
                 UUID feedbackSessionId) {
             return withParam(Const.ParamsNames.KEY, KeyUtil.encryptSessionKey(
