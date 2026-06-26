@@ -147,7 +147,6 @@ export class PageComponent implements OnInit {
   }
 
   private loadAuthDetails(): void {
-
     this.configService.getConfig().subscribe((config) => {
       if (config.frontendUrl) {
         this.logoutUrl += `?frontendUrl=${encodeURIComponent(config.frontendUrl)}`;
