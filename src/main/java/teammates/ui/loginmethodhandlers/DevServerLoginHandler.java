@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -31,7 +32,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
         String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
-        String redirectUrl = String.format("/devServerLogin?state=%s",
+        String redirectUrl = String.format("/devServerLogin?" + Const.ParamsNames.AUTH_STATE + "=%s",
                 UrlHelper.encodeQueryParam(encryptedState));
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
@@ -45,7 +46,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
             throw new AuthException("Dev server login is not enabled");
         }
 
-        String email = req.getParameter("email");
+        String email = req.getParameter(Const.ParamsNames.EMAIL);
         if (email == null) {
             throw new AuthException("Missing email parameter in dev server login callback");
         }

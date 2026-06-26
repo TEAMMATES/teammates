@@ -72,7 +72,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_invalidState_returnsBadRequest() throws Exception {
-        req.addParam("state", "not-an-encrypted-state");
+        req.addParam(Const.ParamsNames.AUTH_STATE, "not-an-encrypted-state");
 
         servlet.doGet(req, resp);
 
@@ -81,7 +81,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_invalidState_invalidatesLoginCookie() throws Exception {
-        req.addParam("state", "not-an-encrypted-state");
+        req.addParam(Const.ParamsNames.AUTH_STATE, "not-an-encrypted-state");
 
         servlet.doGet(req, resp);
 
@@ -90,7 +90,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_nullAuthState_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState("null"));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState("null"));
 
         servlet.doGet(req, resp);
 
@@ -99,7 +99,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_missingSessionId_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState("""
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState("""
                 {"nextUrl":"/","loginMethod":"GOOGLE"}
                 """));
 
@@ -110,7 +110,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_missingLoginMethod_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState("""
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState("""
                 {"nextUrl":"/","sessionId":"1234"}
                 """));
 
@@ -121,7 +121,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_invalidLoginMethod_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState("""
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState("""
                 {"nextUrl":"/","sessionId":"1234","loginMethod":"INVALID"}
                 """));
 
@@ -132,7 +132,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_unsupportedLoginMethod_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState(LoginMethod.GOOGLE));
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
             servlet.doGet(req, resp);
@@ -143,7 +143,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_unsupportedLoginMethod_invalidatesLoginCookie() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState(LoginMethod.GOOGLE));
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
             servlet.doGet(req, resp);
@@ -154,7 +154,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_callbackHandlerThrows_returnsBadRequest() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState(LoginMethod.GOOGLE));
         LoginMethodHandler loginHandler = mockFailingLoginHandler();
         doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
@@ -167,7 +167,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_callbackHandlerThrows_invalidatesLoginCookie() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState(LoginMethod.GOOGLE));
         LoginMethodHandler loginHandler = mockFailingLoginHandler();
         doReturn(loginHandler).when(servlet).getLoginHandler(LoginMethod.GOOGLE);
 
@@ -180,7 +180,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
 
     @Test
     public void doGet_callbackHandlerReturnsAuthResult_redirectsToNextUrl() throws Exception {
-        req.addParam("state", getEncryptedState(LoginMethod.GOOGLE, "/web/instructor/home"));
+        req.addParam(Const.ParamsNames.AUTH_STATE, getEncryptedState(LoginMethod.GOOGLE, "/web/instructor/home"));
         LoginMethodHandler loginHandler = mockSuccessfulLoginHandler();
         mockSuccessfulAccountsLogic(accountsLogic);
 

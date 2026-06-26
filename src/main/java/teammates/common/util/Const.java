@@ -169,6 +169,11 @@ public final class Const {
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
         public static final String NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive";
+
+        public static final String NEXT_URL = "nextUrl";
+        public static final String LOGIN_METHOD = "loginMethod";
+        public static final String EMAIL = "email";
+        public static final String AUTH_STATE = "state";
     }
 
     /**

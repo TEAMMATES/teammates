@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 
 /**
@@ -38,8 +39,8 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        String email = req.getParameter("email");
-        String state = req.getParameter("state");
+        String email = req.getParameter(Const.ParamsNames.EMAIL);
+        String state = req.getParameter(Const.ParamsNames.AUTH_STATE);
         if (email == null || state == null) {
             resp.sendError(HttpStatus.SC_BAD_REQUEST);
             return;
@@ -47,7 +48,9 @@ public class DevServerLoginServlet extends AuthServlet {
 
         email = encodeQueryParam(email);
         state = encodeQueryParam(state);
-        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&state=" + state);
+        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?"
+                + Const.ParamsNames.EMAIL + "=" + email + "&"
+                + Const.ParamsNames.AUTH_STATE + "=" + state);
         resp.sendRedirect(redirectUrl);
     }
 
