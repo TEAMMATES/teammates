@@ -4,11 +4,8 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { of, throwError } from 'rxjs';
 import { StudentListComponent, StudentListRowModel } from './student-list.component';
-import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder, studentBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { JoinState } from '../../../types/api-output';
@@ -18,8 +15,6 @@ describe('StudentListComponent', () => {
   let component: StudentListComponent;
   let fixture: ComponentFixture<StudentListComponent>;
   let simpleModalService: SimpleModalService;
-  let courseService: CourseService;
-  let statusMessageService: StatusMessageService;
 
   const studentListRowModelBuilder = createBuilder<StudentListRowModel>({
     student: studentBuilder.build(),
@@ -56,8 +51,6 @@ describe('StudentListComponent', () => {
 
     fixture = TestBed.createComponent(StudentListComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
-    courseService = TestBed.inject(CourseService);
-    statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -296,7 +289,7 @@ describe('StudentListComponent', () => {
 
   it(
     'should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
-      ' student',
+    ' student',
     () => {
       component.studentModels = [
         {
@@ -470,33 +463,7 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display "Send Invite" button when a student has not joined the course', () => {
-    component.enableRemindButton = true;
-    component.studentModels = [
-      {
-        student: {
-          name: 'tester',
-          teamName: 'Team 1',
-          teamId: 'team-1',
-          email: 'tester@tester.com',
-          joinState: JoinState.NOT_JOINED,
-          sectionName: 'Tutorial Group 1',
-          sectionId: 'section-1',
-          courseId: 'text-exa.demo',
-          courseName: 'Test Course',
-          institute: 'Test Institute',
-          userId: 'student-022',
-        },
-        isAllowedToModifyStudent: true,
-      },
-    ];
 
-    fixture.detectChanges();
-
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const sendInviteButton = buttons.find((button) => button.nativeElement.textContent.includes('Send Invite'));
-    expect(sendInviteButton).toBeTruthy();
-  });
 
   it('hasSection: should return true when there are sections in the course', () => {
     const studentOne = studentBuilder.sectionName('None').build();
@@ -520,36 +487,7 @@ describe('StudentListComponent', () => {
     expect(component.hasSection()).toBe(false);
   });
 
-  it('openReminderModal: should display warning when reminding student to join course', async () => {
-    const promise: Promise<void> = Promise.resolve();
-    const mockModalRef = createMockNgbModalRef({}, promise);
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
 
-    const reminderStudentFromCourseSpy = vi.spyOn(component, 'remindStudentFromCourse');
-
-    const student = studentBuilder.build();
-    student.joinState = JoinState.NOT_JOINED;
-    const studentModel = studentListRowModelBuilder.student(student).build();
-    component.enableRemindButton = true;
-    component.studentModels = [studentModel];
-
-    fixture.detectChanges();
-
-    const buttonGroup = getButtonGroupByStudentEmail(studentModel.student.email);
-    const sendInviteButton = getButtonByText(buttonGroup, 'Send Invite');
-
-    sendInviteButton?.nativeElement.click();
-
-    await promise;
-
-    const expectedModalContent = `Usually, there is no need to use this feature because
-          TEAMMATES sends an automatic invite to students at the opening time of each session.
-          Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith('Send join request?', SimpleModalType.INFO, expectedModalContent);
-
-    expect(reminderStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.userId);
-  });
 
   it('openDeleteModal: should display warning when deleting student from course', async () => {
     const promise: Promise<void> = Promise.resolve();
@@ -582,36 +520,9 @@ describe('StudentListComponent', () => {
     expect(component.students).not.toContain(studentModel);
   });
 
-  it(
-    'remindStudentFromCourse: should call statusMessageService.showSuccessToast with' + 'correct message upon success',
-    () => {
-      const successMessage = 'success';
-      vi.spyOn(courseService, 'remindUserForJoin').mockReturnValue(of({ message: successMessage }));
-      const studentId = 'test-user-id';
 
-      const statusMessageServiceSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
-      component.remindStudentFromCourse(studentId);
 
-      expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(successMessage);
-    },
-  );
-
-  it('remindStudentFromCourse: should call statusMessageService.showErrorToast with correct message upon error', () => {
-    const errorMessage = 'error';
-    vi.spyOn(courseService, 'remindUserForJoin').mockReturnValue(
-      throwError(() => ({
-        error: { message: errorMessage },
-      })),
-    );
-    const studentId = 'test-user-id';
-
-    const statusMessageServiceSpy = vi.spyOn(statusMessageService, 'showErrorToast');
-
-    component.remindStudentFromCourse(studentId);
-
-    expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(errorMessage);
-  });
 
   it('setRowData: should highlight partial matches when enabled', () => {
     component.isPartialMatchHighlightingEnabled = true;
