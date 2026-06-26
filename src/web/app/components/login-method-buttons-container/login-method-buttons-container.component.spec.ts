@@ -26,7 +26,7 @@ describe('LoginMethodButtonsContainerComponent', () => {
     const getCompleteLoginUrl = component as unknown as { getCompleteLoginUrl: (method: LoginMethod) => string };
 
     expect(getCompleteLoginUrl.getCompleteLoginUrl(LoginMethod.GOOGLE)).toBe(
-      `${environment.backendUrl}/login?nextUrl=%2Fweb%2Fstudent%2Fhome&method=google`,
+      `${environment.backendUrl}/login?nextUrl=%2Fweb%2Fstudent%2Fhome&loginMethod=google`,
     );
   });
 
