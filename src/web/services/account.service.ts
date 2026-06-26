@@ -13,6 +13,7 @@ import {
   AccountCreateRequest,
   AccountVerificationRequestRejectionRequest,
   AccountVerificationRequestUpdateRequest,
+  LinkAccountRequest,
 } from '../types/api-request';
 
 export interface AccountVerificationRequestQueryParams {
@@ -67,6 +68,13 @@ export class AccountService {
       userid: userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
+  }
+
+  /**
+   * Links the current account to a student by calling API.
+   */
+  linkAccount(request: LinkAccountRequest, key: string): Observable<MessageOutput> {
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { key }, request);
   }
 
   /**

@@ -103,8 +103,8 @@ public final class DemoCourseLogic {
         assert createdInstructor != null : "Demo instructor should have been created in data bundle";
         assert createdStudent != null : "Demo instructor student should have been created in data bundle";
 
-        accountsLogic.joinCourse(createdInstructor.getRegKey(), account);
-        accountsLogic.joinCourse(createdStudent.getRegKey(), account);
+        accountsLogic.joinCourse(createdInstructor.getId(), account);
+        accountsLogic.joinCourse(createdStudent.getId(), account);
 
         avr.setCreatedDemoCourseAt(now);
     }

@@ -13,7 +13,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../types/api-output';
-import { Intent } from '../types/api-request';
+import { Intent, SessionKeyType } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
 
 describe('FeedbackSessionsService', () => {
@@ -103,6 +103,18 @@ describe('FeedbackSessionsService', () => {
     };
     service.loadSessionStatistics(model.feedbackSession.feedbackSessionId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
+  });
+
+  it('should call post when preflighting session key access', () => {
+    const request = {
+      feedbackSessionId: 'session-id',
+      key: 'session-key',
+      type: SessionKeyType.SUBMISSION,
+    };
+
+    service.checkSessionKeyAccess(request);
+
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_KEY_ACCESS, {}, request);
   });
 
   it('should call get when retrieving course feedback session results', () => {

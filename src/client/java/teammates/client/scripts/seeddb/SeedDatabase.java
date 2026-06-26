@@ -182,7 +182,7 @@ public final class SeedDatabase {
 
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             if (!instructors.isEmpty()) {
-                logic.joinCourse(instructors.get(0).getRegKey(), inst.getAccount());
+                logic.joinCourseAndNotify(instructors.get(0).getId(), inst.getAccount());
             }
             log.info("Seeded demo course: " + courseId);
         }

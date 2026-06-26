@@ -302,7 +302,9 @@ public final class Const {
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
+        public static final String SESSION_KEY_ACCESS = URI_PREFIX + "/session/key/access";
         public static final String ACCOUNT = URI_PREFIX + "/account";
+        public static final String ACCOUNT_LINK = URI_PREFIX + "/account/link";
         public static final String ACCOUNT_UNLINK = URI_PREFIX + "/account/unlink";
         public static final String ACCOUNT_VERIFICATION_REQUEST = URI_PREFIX + "/account/request";
         public static final String ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/account/requests";
@@ -351,6 +353,7 @@ public final class Const {
         public static final String USAGE_STATISTICS = URI_PREFIX + "/usagestats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
         public static final String JOIN = URI_PREFIX + "/join";
+        public static final String JOIN_KEY_ACCESS = URI_PREFIX + "/join/key/access";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";

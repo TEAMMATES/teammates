@@ -18,6 +18,10 @@ public class InvalidParametersException extends Exception {
         super(StringHelper.toString(messages));
     }
 
+    public InvalidParametersException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public InvalidParametersException(Throwable cause) {
         super(cause);
     }

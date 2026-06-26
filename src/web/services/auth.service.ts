@@ -2,8 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { AuthInfo, RegkeyValidity } from '../types/api-output';
-import { Intent } from '../types/api-request';
+import { AuthInfo } from '../types/api-output';
 
 /**
  * Handles user authentication.
@@ -41,13 +40,5 @@ export class AuthService {
    */
   clearAuthCache(): void {
     this.authInfo.set({ loginUrl: '/', masquerade: false });
-  }
-
-  /**
-   * Gets the validity of the given registration key for user.
-   */
-  getAuthRegkeyValidity(key: string, intent: Intent): Observable<RegkeyValidity> {
-    const params: Record<string, string> = { key, intent };
-    return this.httpRequestService.get(ResourceEndpoints.AUTH_REGKEY, params);
   }
 }

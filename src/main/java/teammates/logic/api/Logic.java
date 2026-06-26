@@ -13,6 +13,7 @@ import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.CourseJoinKeyAccessResult;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyAccessResult;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
@@ -150,6 +152,29 @@ public class Logic {
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Gets the access decision for a student session key request using the supplied encrypted key.
+     */
+    public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
+        return authLogic.getSessionKeyAccessResult(currentAccount, encryptedKey);
+    }
+
+    /**
+     * Gets the access decision for a course join key request using the supplied encrypted key.
+     */
+    public CourseJoinKeyAccessResult getCourseJoinKeyAccessResult(
+            Account currentAccount, String encryptedKey) {
+        return authLogic.getCourseJoinKeyAccessResult(currentAccount, encryptedKey);
+    }
+
+    /**
+     * Validates the encrypted course join key and returns the associated user.
+     */
+    public User validateEncryptedCourseJoinKey(String encryptedKey)
+            throws InvalidParametersException {
+        return authLogic.validateEncryptedCourseJoinKey(encryptedKey);
     }
 
     /**
@@ -942,22 +967,24 @@ public class Logic {
     }
 
     /**
-     * Makes the user join the course, i.e. associate the account to the user.
-     */
-    public User joinCourse(String regkey, Account account)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        return accountsLogic.joinCourse(regkey, account);
-    }
-
-    /**
      * Makes the user join the course and enqueues the registration confirmation
      * email.
      */
-    public User joinCourseAndNotify(String regkey, Account account)
+    public User joinCourseAndNotify(UUID userId, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        User user = accountsLogic.joinCourse(regkey, account);
+        User user = accountsLogic.joinCourse(userId, account);
         usersLogic.enqueueUserCourseRegisteredEmail(user);
         return user;
+    }
+
+    /**
+     * Validates the encrypted course join key, joins the course, and enqueues
+     * the registration confirmation email.
+     */
+    public User joinCourseAndNotify(String encryptedKey, Account account)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        User user = authLogic.validateEncryptedCourseJoinKey(encryptedKey);
+        return joinCourseAndNotify(user.getId(), account);
     }
 
     /**

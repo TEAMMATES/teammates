@@ -104,14 +104,14 @@ public class AuthLogicTest extends BaseLogicTest {
     }
 
     private AuthContext buildRegKeyAuthContext(Student student) {
-        return new AuthContext(AuthType.REG_KEY, null, student, false, false);
+        return new AuthContext(AuthType.REG_KEY, null, student, null, false, false);
     }
 
     private AuthContext buildAccountAuthContext(Account account) {
-        return new AuthContext(AuthType.LOGGED_IN, account, null, false, false);
+        return new AuthContext(AuthType.LOGGED_IN, account, null, null, false, false);
     }
 
     private AuthContext buildPublicAuthContext() {
-        return new AuthContext(AuthType.PUBLIC, null, null, false, false);
+        return new AuthContext(AuthType.PUBLIC, null, null, null, false, false);
     }
 }
