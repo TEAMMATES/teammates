@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static teammates.common.util.UrlHelper.encodeQueryParam;
+import static teammates.common.util.UrlHelper.getRelativeUrl;
 import static teammates.common.util.UrlHelper.isSafeRedirectUrl;
 
 import java.net.URI;
@@ -19,18 +20,22 @@ import teammates.test.BaseTestCase;
  */
 public class UrlHelperTest extends BaseTestCase {
 
-    @Test
-    public void testIsSafeRedirectUrl_relativeUrl_returnsTrue() {
-        String url = "/web/instructor/home";
-
+    @Test(dataProvider = "relativeUrls")
+    public void testIsSafeRedirectUrl_relativeUrl_returnsTrue(String url) {
         assertTrue(isSafeRedirectUrl(url));
     }
 
-    @Test
-    public void testIsSafeRedirectUrl_configuredFrontendUrl_returnsTrue() {
-        String url = Config.APP_FRONTEND_URL + "/web/instructor/home";
-
+    @Test(dataProvider = "configuredFrontendUrls")
+    public void testIsSafeRedirectUrl_configuredFrontendUrl_returnsTrue(String url) {
         assertTrue(isSafeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] configuredFrontendUrls() {
+        return new Object[][] {
+                {Config.APP_FRONTEND_URL + "/web/instructor/home"},
+                {Config.APP_FRONTEND_URL + "/web/student/home?query=value"},
+        };
     }
 
     @Test(dataProvider = "externalUrls")
@@ -61,19 +66,6 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl("//example.com/web/instructor/home"));
     }
 
-    @Test(dataProvider = "unsupportedSchemeUrls")
-    public void testIsSafeRedirectUrl_unsupportedScheme_returnsFalse(String url) {
-        assertFalse(isSafeRedirectUrl(url));
-    }
-
-    @DataProvider
-    private Object[][] unsupportedSchemeUrls() {
-        return new Object[][] {
-                {"javascript:alert(1)"},
-                {"ftp://example.com/web/instructor/home"},
-        };
-    }
-
     @Test
     public void testIsSafeRedirectUrl_nullUrl_returnsFalse() {
         assertFalse(isSafeRedirectUrl(null));
@@ -84,12 +76,19 @@ public class UrlHelperTest extends BaseTestCase {
         assertFalse(isSafeRedirectUrl(url));
     }
 
-    @DataProvider
-    private Object[][] malformedUrls() {
-        return new Object[][] {
-                {"https://[invalid"},
-                {"web/instructor/home"},
-        };
+    @Test(dataProvider = "invalidRedirectUrls")
+    public void testIsSafeRedirectUrl_invalidRedirectUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @Test(dataProvider = "invalidUrls")
+    public void testIsSafeRedirectUrl_invalidUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
+    }
+
+    @Test(dataProvider = "unsupportedSchemaUrls")
+    public void testIsSafeRedirectUrl_unsupportedSchemaUrl_returnsFalse(String url) {
+        assertFalse(isSafeRedirectUrl(url));
     }
 
     @Test
@@ -107,4 +106,83 @@ public class UrlHelperTest extends BaseTestCase {
         assertEquals("with%2Fspecial%3Fchars%26", encodeQueryParam("with/special?chars&"));
     }
 
+    @Test(dataProvider = "absoluteUrls")
+    public void testGetRelativeUrl_absoluteUrl_returnsRelative(String absoluteUrl, String expectedRelativeUrl) {
+        assertEquals(expectedRelativeUrl, getRelativeUrl(absoluteUrl));
+    }
+
+    @DataProvider
+    private Object[][] absoluteUrls() {
+        return new Object[][] {
+                {"https://somedomain/web/instructor/home?query=value", "/web/instructor/home?query=value"},
+                {"https://somedomain/web/instructor/home", "/web/instructor/home"},
+        };
+    }
+
+    @Test(dataProvider = "relativeUrls")
+    public void testGetRelativeUrl_relativeUrl_returnsSame(String url) {
+        assertEquals(url, getRelativeUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] relativeUrls() {
+        return new Object[][] {
+                {"/web/instructor/home"},
+                {"/web/student/home?query=value"},
+        };
+    }
+
+    @Test
+    public void testGetRelativeUrl_emptyPath_returnsDefault() {
+        String emptyPathUrl = "http://somedomain";
+
+        assertEquals("/", getRelativeUrl(emptyPathUrl));
+    }
+
+    @Test(dataProvider = "malformedUrls")
+    public void testGetRelativeUrl_malformedUrl_returnsDefault(String url) {
+        assertEquals("/", getRelativeUrl(url));
+    }
+
+    @Test(dataProvider = "invalidUrls")
+    public void testGetRelativeUrl_invalidUrl_returnsDefault(String url) {
+        assertEquals("/", getRelativeUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] unsupportedSchemaUrls() {
+        return new Object[][] {
+                {"ftp://example.com/resource"},
+                {"file:///path/to/file"},
+                {"mailto:example@example.com"},
+                {"../relative/path"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] malformedUrls() {
+        return new Object[][] {
+                {"https://[invalid"},
+                {"example.com/invalid path"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidRedirectUrls() {
+        return new Object[][] {
+                {"?query=param"},
+                {"web/instructor"},
+                {"https://evil.com"},
+                {"//evil.com"},
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidUrls() {
+        return new Object[][] {
+                {""},
+                {null},
+                {"javascript:alert(1)"},
+        };
+    }
 }

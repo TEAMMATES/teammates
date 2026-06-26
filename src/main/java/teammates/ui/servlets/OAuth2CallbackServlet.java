@@ -70,8 +70,9 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return;
         }
 
-        String nextUrl = UrlHelper.getSafeRedirectUrl(state.nextUrl());
-        String redirectUrl = resp.encodeRedirectURL(nextUrl);
+        String nextUrl = UrlHelper.getSafeRelativeRedirectUrl(state.nextUrl());
+        String redirectUrl = Config.getFrontEndAppUrl(nextUrl).toAbsoluteString();
+        redirectUrl = resp.encodeRedirectURL(redirectUrl);
         log.info("Going to redirect to: " + redirectUrl);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
