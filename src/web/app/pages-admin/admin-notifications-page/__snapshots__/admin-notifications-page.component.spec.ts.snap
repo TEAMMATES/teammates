@@ -440,6 +440,11 @@ exports[`AdminNotificationsPageComponent > should snap when notification edit fo
                           >
                             23:59H
                           </option>
+                          <option
+                            value="24: Object"
+                          >
+                            21:30H
+                          </option>
                         </select>
                       </div>
                     </tm-datetimepicker>
@@ -613,6 +618,11 @@ exports[`AdminNotificationsPageComponent > should snap when notification edit fo
                             value="0: Object"
                           >
                             23:59H
+                          </option>
+                          <option
+                            value="24: Object"
+                          >
+                            18:30H
                           </option>
                         </select>
                       </div>
@@ -1105,6 +1115,11 @@ exports[`AdminNotificationsPageComponent > should snap when notifications are lo
                           >
                             23:59H
                           </option>
+                          <option
+                            value="24: Object"
+                          >
+                            21:30H
+                          </option>
                         </select>
                       </div>
                     </tm-datetimepicker>
@@ -1278,6 +1293,11 @@ exports[`AdminNotificationsPageComponent > should snap when notifications are lo
                             value="0: Object"
                           >
                             23:59H
+                          </option>
+                          <option
+                            value="24: Object"
+                          >
+                            18:30H
                           </option>
                         </select>
                       </div>
@@ -1777,6 +1797,11 @@ exports[`AdminNotificationsPageComponent > should snap when notifications failed
                           >
                             23:59H
                           </option>
+                          <option
+                            value="24: Object"
+                          >
+                            21:30H
+                          </option>
                         </select>
                       </div>
                     </tm-datetimepicker>
@@ -1950,6 +1975,11 @@ exports[`AdminNotificationsPageComponent > should snap when notifications failed
                             value="0: Object"
                           >
                             23:59H
+                          </option>
+                          <option
+                            value="24: Object"
+                          >
+                            18:30H
                           </option>
                         </select>
                       </div>
@@ -2447,6 +2477,11 @@ exports[`AdminNotificationsPageComponent > should snap with default view 1`] = `
                           >
                             23:59H
                           </option>
+                          <option
+                            value="24: Object"
+                          >
+                            21:30H
+                          </option>
                         </select>
                       </div>
                     </tm-datetimepicker>
@@ -2620,6 +2655,11 @@ exports[`AdminNotificationsPageComponent > should snap with default view 1`] = `
                             value="0: Object"
                           >
                             23:59H
+                          </option>
+                          <option
+                            value="24: Object"
+                          >
+                            18:30H
                           </option>
                         </select>
                       </div>

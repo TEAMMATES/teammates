@@ -289,7 +289,7 @@ describe('StudentListComponent', () => {
 
   it(
     'should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
-    ' student',
+      ' student',
     () => {
       component.studentModels = [
         {
@@ -463,8 +463,6 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-
-
   it('hasSection: should return true when there are sections in the course', () => {
     const studentOne = studentBuilder.sectionName('None').build();
     const studentTwo = studentBuilder.sectionName('section-one').build();
@@ -486,8 +484,6 @@ describe('StudentListComponent', () => {
 
     expect(component.hasSection()).toBe(false);
   });
-
-
 
   it('openDeleteModal: should display warning when deleting student from course', async () => {
     const promise: Promise<void> = Promise.resolve();
@@ -519,10 +515,6 @@ describe('StudentListComponent', () => {
     expect(removeStudentFromCourseSpy).toHaveBeenCalledWith(studentModel);
     expect(component.students).not.toContain(studentModel);
   });
-
-
-
-
 
   it('setRowData: should highlight partial matches when enabled', () => {
     component.isPartialMatchHighlightingEnabled = true;

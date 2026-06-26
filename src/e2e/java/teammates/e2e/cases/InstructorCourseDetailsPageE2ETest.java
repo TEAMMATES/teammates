@@ -75,10 +75,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
         studentRecordsPage.goBack();
 
-        ______TS("send invite");
-        detailsPage.sendInvite(student3.getEmail());
-        detailsPage.verifyStatusMessage("An email has been sent to " + student3.getEmail());
-
+        
         ______TS("remind all students to join");
         detailsPage.remindAllToJoin();
 

@@ -1,36 +1,55 @@
 <div class="text-center">
-  <a class="btn btn-light btn-sm btn-margin-right custom-button" [id]="'btn-view-details-' + courseId + '-' + idx"
+  <a
+    class="btn btn-light btn-sm btn-margin-right custom-button"
+    [id]="'btn-view-details-' + courseId + '-' + idx"
     [ngbTooltip]="'View the details of the student'"
-    [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'details']">
+    [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'details']"
+  >
     View
   </a>
 
-  <a class="btn btn-light btn-sm btn-margin-right custom-button" [id]="'btn-edit-details-' + courseId + '-' + idx"
-    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }" [ngbTooltip]="
+  <a
+    class="btn btn-light btn-sm btn-margin-right custom-button"
+    [id]="'btn-edit-details-' + courseId + '-' + idx"
+    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
+    [ngbTooltip]="
       instructorPrivileges.canModifyStudent
         ? 'Use this to edit the details of this student. To edit multiple students' +
           ' in one go, you can use the enroll page: ' +
           'Simply enroll students using the updated data and existing data will be updated accordingly'
         : 'You do not have the permissions to access this feature'
-    " [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'edit']">
+    "
+    [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'edit']"
+  >
     Edit
   </a>
 
-  <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right custom-button"
-    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }" [ngbTooltip]="
+  <button
+    id="btn-delete-{{ courseId }}-{{ idx }}"
+    class="btn btn-light btn-sm btn-margin-right custom-button"
+    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
+    [ngbTooltip]="
       instructorPrivileges.canModifyStudent
         ? 'Delete the student and the corresponding submissions from the course'
         : 'You do not have the permissions to access this feature'
-    " [disabled]="!isActionButtonsEnabled" (click)="removeStudentFromCourse()">
+    "
+    [disabled]="!isActionButtonsEnabled"
+    (click)="removeStudentFromCourse()"
+  >
     Delete
   </button>
 
-  <a class="btn btn-light btn-sm btn-margin-right custom-button" [id]="'btn-view-records-' + courseId + '-' + idx"
-    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }" [ngbTooltip]="
+  <a
+    class="btn btn-light btn-sm btn-margin-right custom-button"
+    [id]="'btn-view-records-' + courseId + '-' + idx"
+    [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
+    [ngbTooltip]="
       instructorPrivileges.canModifyStudent
         ? 'View all data about this student'
         : 'You do not have the permissions to access this feature'
-    " [routerLink]="['/web/instructor/students', courseId, userId, 'records']">
+    "
+    [routerLink]="['/web/instructor/students', courseId, userId, 'records']"
+  >
     All Records
   </a>
 </div>
