@@ -63,13 +63,13 @@ export class CourseService {
   /**
    * Get course data by calling API as a student.
    */
-  getCourseAsStudent(courseId: string, regKey?: string): Observable<CourseView> {
+  getCourseAsStudent(courseId: string, key?: string): Observable<CourseView> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'student',
     };
-    if (regKey) {
-      paramMap['key'] = regKey;
+    if (key) {
+      paramMap['key'] = key;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }

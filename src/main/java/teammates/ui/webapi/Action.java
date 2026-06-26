@@ -94,7 +94,7 @@ public abstract class Action {
         RequestLogUser user = new RequestLogUser();
 
         Account account = getCurrentAccount();
-        User regKeyUser = requestContext.getRegKeyUser();
+        User regKeyUser = requestContext.getSessionKeyUser();
 
         if (account != null) {
             user.setEmail(account.getEmail());
@@ -319,7 +319,7 @@ public abstract class Action {
      * the instructor information will be returned.
      */
     User getUserFromRequest(String courseId) {
-        User regKeyUser = requestContext.getRegKeyUser();
+        User regKeyUser = requestContext.getSessionKeyUser();
         if (regKeyUser != null) {
             return regKeyUser;
         }
