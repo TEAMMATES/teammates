@@ -2,7 +2,9 @@ package teammates.ui.loginmethodhandlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -40,12 +42,14 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
 
     @BeforeMethod
     public void setUpMethod() {
-        microsoftLoginHandler = new MicrosoftLoginHandler();
+        microsoftLoginHandler = spy(new MicrosoftLoginHandler());
     }
 
     @Test
     public void handleLogin_validRequest_returnsValidRedirectUrl() throws Exception {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+        doReturn(createAuthorizationRequestUrl("state")).when(microsoftLoginHandler)
+                .getAuthorizationRequestUrl(eq(OAUTH_CALLBACK_URL), anyString());
 
         String loginUrl = microsoftLoginHandler.handleLogin(req, "/web/instructor/home");
 
@@ -58,6 +62,8 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     @Test
     public void handleLogin_validRequest_returnsRedirectUrlWithValidClientId() throws Exception {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+        doReturn(createAuthorizationRequestUrl("state")).when(microsoftLoginHandler)
+                .getAuthorizationRequestUrl(eq(OAUTH_CALLBACK_URL), anyString());
 
         String loginUrl = microsoftLoginHandler.handleLogin(req, "/web/instructor/home");
 
@@ -68,6 +74,8 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     @Test
     public void handleLogin_validRequest_returnsRedirectUrlWithValidState() throws Exception {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, LOGIN_URL);
+        doAnswer(invocation -> createAuthorizationRequestUrl(invocation.getArgument(1))).when(microsoftLoginHandler)
+                .getAuthorizationRequestUrl(eq(OAUTH_CALLBACK_URL), anyString());
 
         String loginUrl = microsoftLoginHandler.handleLogin(req, "/web/instructor/home");
 
@@ -162,6 +170,14 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
             return (String) ((List<?>) value).get(0);
         }
         return (String) value;
+    }
+
+    private static String createAuthorizationRequestUrl(String state) {
+        GenericUrl url = new GenericUrl("https://login.microsoftonline.com/"
+                + Config.OIDC_MICROSOFT_TENANT_ID + "/oauth2/v2.0/authorize");
+        url.set("client_id", Config.OIDC_MICROSOFT_CLIENT_ID);
+        url.set("state", state);
+        return url.build();
     }
 
     private static String createIdToken() {

@@ -52,12 +52,20 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
     @Override
     public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, AuthException {
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.MICROSOFT);
-        AuthorizationRequestUrlParameters parameters = AuthorizationRequestUrlParameters
-                .builder(getRedirectUri(req), SCOPES)
-                .state(StringHelper.encrypt(JsonUtils.toCompactJson(state)))
-                .build();
+        String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
+
+        String loginUrl = getAuthorizationRequestUrl(getRedirectUri(req), encryptedState);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Microsoft Entra sign-in page");
+
+        return loginUrl;
+    }
+
+    String getAuthorizationRequestUrl(String redirectUri, String encryptedState) throws AuthException {
+        AuthorizationRequestUrlParameters parameters = AuthorizationRequestUrlParameters
+                .builder(redirectUri, SCOPES)
+                .state(encryptedState)
+                .build();
 
         return getClientApplication().getAuthorizationRequestUrl(parameters).toString();
     }
