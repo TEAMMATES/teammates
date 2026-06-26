@@ -26,7 +26,6 @@ import {
   FeedbackSessionView,
   FeedbackSessions,
   AuthInfo,
-  JoinState,
   MessageOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -269,7 +268,6 @@ export class InstructorCoursesPageComponent implements OnInit {
             sections: new Set(students.students.map((value: Student) => value.sectionName)).size,
             teams: new Set(students.students.map((value: Student) => value.teamName)).size,
             students: students.students.length,
-            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
           };
         },
         error: (resp: ErrorMessageOutput) => {
