@@ -1,4 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" (tmClickOutside)="isCollapsed = true">
+<nav
+  class="navbar navbar-expand-lg navbar-dark fixed-top"
+  [class.masquerade-mode]="isMasquerading"
+  (tmClickOutside)="isCollapsed = true"
+>
   <a routerLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]" />
   </a>
@@ -139,7 +143,7 @@
     <router-outlet></router-outlet>
   </div>
 </main>
-<footer class="footer">
+<footer class="footer" [class.masquerade-mode]="isMasquerading">
   <div class="row text-center">
     <div class="col-sm-6 text-md-start">
       <i class="fas fa-bolt"></i>&nbsp;<a routerLink="/web/front/home">TEAMMATES</a> V{{ version }}
