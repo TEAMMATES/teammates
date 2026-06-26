@@ -251,6 +251,12 @@ export interface SendEmailRequest extends BasicRequest {
   email: EmailWrapper;
 }
 
+export interface SessionKeyAccessRequest extends BasicRequest {
+  feedbackSessionId: string;
+  key: string;
+  type: SessionKeyType;
+}
+
 export interface StudentEnrollRequest extends BasicRequest {
   name: string;
   email: string;
@@ -398,6 +404,11 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyType {
+  SUBMISSION = "SUBMISSION",
+  RESULTS = "RESULTS",
 }
 
 export enum SessionVisibleSetting {

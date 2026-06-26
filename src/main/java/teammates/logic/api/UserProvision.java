@@ -133,7 +133,6 @@ public class UserProvision {
         // Temporarily exclude endpoints that accept the old regkey format
         return regKey != null
                 && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
-                && !Const.ResourceURIs.SESSION_KEY_ACCESS.equals(req.getRequestURI())
                 && !Const.ResourceURIs.JOIN.equals(req.getRequestURI());
     }
 

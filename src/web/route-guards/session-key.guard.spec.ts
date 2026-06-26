@@ -6,12 +6,13 @@ import { AuthService } from '../services/auth.service';
 import { FeedbackSessionsService } from '../services/feedback-sessions.service';
 import { NavigationService } from '../services/navigation.service';
 import { SessionKeyAccessDecision } from '../types/api-output';
+import { SessionKeyType } from '../types/api-request';
 import { SessionKeyGuard } from './session-key.guard';
 
 const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
 
 const mockRoute = (
-  type: 'SUBMISSION' | 'RESULTS' = 'SUBMISSION',
+  type: SessionKeyType = SessionKeyType.SUBMISSION,
   key = 'session-key',
   fsid = 'session-id',
   previewAs = '',
@@ -90,7 +91,7 @@ describe('SessionKeyGuard', () => {
     );
 
     const result = await firstValueFrom(
-      guard.canActivate(mockRoute('SUBMISSION'), mockState('/web/sessions/session-id/submission?key=session-key')),
+      guard.canActivate(mockRoute(SessionKeyType.SUBMISSION), mockState('/web/sessions/session-id/submission?key=session-key')),
     );
 
     expect(spyNavigationService.navigateByURL).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
@@ -148,7 +149,7 @@ describe('SessionKeyGuard', () => {
   it('should allow preview routes without a key when the user is signed in', async () => {
     const result = await firstValueFrom(
       guard.canActivate(
-        mockRoute('SUBMISSION', '', 'session-id', 'student-id'),
+        mockRoute(SessionKeyType.SUBMISSION, '', 'session-id', 'student-id'),
         mockState('/web/sessions/session-id/submission?previewAs=student-id'),
       ),
     );
@@ -161,7 +162,7 @@ describe('SessionKeyGuard', () => {
   it('should allow moderation routes without a key', async () => {
     const result = await firstValueFrom(
       guard.canActivate(
-        mockRoute('SUBMISSION', '', 'session-id', '', 'student-id'),
+        mockRoute(SessionKeyType.SUBMISSION, '', 'session-id', '', 'student-id'),
         mockState('/web/sessions/session-id/submission?moderatedPerson=student-id'),
       ),
     );

@@ -1,7 +1,9 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.SessionKeyAccessResult;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.SessionKeyAccessData;
+import teammates.ui.request.SessionKeyAccessRequest;
 
 /**
  * Preflight access check for student session links.
@@ -9,8 +11,9 @@ import teammates.ui.output.SessionKeyAccessData;
 public class GetSessionKeyAccessAction extends PublicAction {
 
     @Override
-    public JsonResult execute() {
-        SessionKeyAccessResult result = logic.getSessionKeyAccessResult(req);
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
+        SessionKeyAccessRequest requestBody = getAndValidateRequestBody(SessionKeyAccessRequest.class);
+        SessionKeyAccessResult result = logic.getSessionKeyAccessResult(req, requestBody.getKey());
         return new JsonResult(new SessionKeyAccessData(result.decision(), result.message()));
     }
 }

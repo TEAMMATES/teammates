@@ -84,12 +84,12 @@ public final class AuthLogic {
         return usersLogic.getInstructorByAccountId(account.getId(), courseId);
     }
 
-    /**
-     * Gets the access decision for a student session key request.
-     */
-    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req) {
+    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req, String encryptedKey) {
         try {
-            SessionKeyValidationResult result = validateEncryptedSessionKey(req);
+            if (encryptedKey == null) {
+                throw new UnauthorizedAccessException("Invalid encrypted session key");
+            }
+            SessionKeyValidationResult result = validateEncryptedSessionKey(encryptedKey);
             Student student = result.student();
             Account currentAccount = getAccountFromRequest(req);
 
@@ -132,6 +132,11 @@ public final class AuthLogic {
     public SessionKeyValidationResult validateEncryptedSessionKey(HttpServletRequest req)
             throws UnauthorizedAccessException {
         String encryptedKey = req.getParameter(Const.ParamsNames.REGKEY);
+        return validateEncryptedSessionKey(encryptedKey);
+    }
+
+    public SessionKeyValidationResult validateEncryptedSessionKey(String encryptedKey)
+            throws UnauthorizedAccessException {
         SessionKey sessionKey;
         try {
             sessionKey = KeyUtil.decryptSessionKey(encryptedKey);

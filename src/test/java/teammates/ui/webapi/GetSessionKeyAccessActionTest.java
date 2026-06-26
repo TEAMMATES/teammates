@@ -9,6 +9,7 @@ import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.output.SessionKeyAccessData;
+import teammates.ui.request.SessionKeyAccessRequest;
 
 /**
  * Tests for {@link GetSessionKeyAccessAction}.
@@ -22,8 +23,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
-                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id());
+                .withRequest(sessionKeyRequest(session.id(), student.regKey(), SessionKeyType.SUBMISSION));
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
@@ -40,8 +40,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
-                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id());
+                .withRequest(sessionKeyRequest(session.id(), student.regKey(), SessionKeyType.SUBMISSION));
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
@@ -57,9 +56,8 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
-                .withAccountAuth(account.id())
-                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id());
+                .withRequest(sessionKeyRequest(session.id(), student.regKey(), SessionKeyType.SUBMISSION))
+                .withAccountAuth(account.id());
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
@@ -76,13 +74,21 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
-                .withAccountAuth(otherAccount.id())
-                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(), session.id());
+                .withRequest(sessionKeyRequest(session.id(), student.regKey(), SessionKeyType.SUBMISSION))
+                .withAccountAuth(otherAccount.id());
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
 
         assertEquals(SessionKeyAccessDecision.SIGN_IN_WITH_ANOTHER_ACCOUNT, result.getDecision());
+    }
+
+    private SessionKeyAccessRequest sessionKeyRequest(java.util.UUID feedbackSessionId, String regKey,
+            SessionKeyType type) {
+        SessionKeyAccessRequest requestBody = new SessionKeyAccessRequest();
+        requestBody.setFeedbackSessionId(feedbackSessionId);
+        requestBody.setKey(regKey);
+        requestBody.setType(type);
+        return requestBody;
     }
 }

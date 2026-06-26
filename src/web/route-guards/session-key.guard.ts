@@ -5,8 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { FeedbackSessionsService } from '../services/feedback-sessions.service';
 import { NavigationService } from '../services/navigation.service';
 import { SessionKeyAccessDecision, SessionKeyAccess } from '../types/api-output';
-
-type SessionKeyType = 'SUBMISSION' | 'RESULTS';
+import { SessionKeyType } from '../types/api-request';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +21,7 @@ export class SessionKeyGuard implements CanActivate {
     const key = route.queryParamMap.get('key');
     const previewAs = route.queryParamMap.get('previewAs');
     const moderatedPerson = route.queryParamMap.get('moderatedPerson');
-    const type = route.data['sessionKeyType'] as SessionKeyType | undefined;
+    const type = route.data['sessionKeyType'] as SessionKeyType;
 
     if (previewAs || moderatedPerson) {
       return of(true);
@@ -48,7 +47,7 @@ export class SessionKeyGuard implements CanActivate {
               return this.authService.getAuthUser(state.url).pipe(
                 map(() => {
                   const targetRoute =
-                    type === 'SUBMISSION'
+                    type === SessionKeyType.SUBMISSION
                       ? `/web/student/sessions/${feedbackSessionId}/submission`
                       : `/web/student/sessions/${feedbackSessionId}/result`;
                   this.navigationService.navigateByURL(targetRoute);

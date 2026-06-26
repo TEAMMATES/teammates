@@ -155,10 +155,10 @@ public class Logic {
     }
 
     /**
-     * Gets the access decision for a student session key request.
+     * Gets the access decision for a student session key request using the supplied encrypted key.
      */
-    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req) {
-        return authLogic.getSessionKeyAccessResult(req);
+    public SessionKeyAccessResult getSessionKeyAccessResult(HttpServletRequest req, String encryptedKey) {
+        return authLogic.getSessionKeyAccessResult(req, encryptedKey);
     }
 
     /**

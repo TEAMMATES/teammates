@@ -13,7 +13,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../types/api-output';
-import { Intent } from '../types/api-request';
+import { Intent, SessionKeyType } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
 
 describe('FeedbackSessionsService', () => {
@@ -105,20 +105,16 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
 
-  it('should call get when preflighting session key access', () => {
-    const paramMap: Record<string, string> = {
-      fsid: 'session-id',
+  it('should call post when preflighting session key access', () => {
+    const request = {
+      feedbackSessionId: 'session-id',
       key: 'session-key',
-      type: 'SUBMISSION',
+      type: SessionKeyType.SUBMISSION,
     };
 
-    service.checkSessionKeyAccess({
-      feedbackSessionId: paramMap['fsid'],
-      key: paramMap['key'],
-      type: 'SUBMISSION',
-    });
+    service.checkSessionKeyAccess(request);
 
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_KEY_ACCESS, paramMap);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_KEY_ACCESS, {}, request);
   });
 
   it('should call get when retrieving course feedback session results', () => {

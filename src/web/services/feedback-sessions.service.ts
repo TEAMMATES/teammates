@@ -33,6 +33,7 @@ import {
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
+  SessionKeyAccessRequest,
 } from '../types/api-request';
 
 /**
@@ -71,18 +72,8 @@ export class FeedbackSessionsService {
   /**
    * Preflights access to a student session link.
    */
-  checkSessionKeyAccess(queryParams: {
-    feedbackSessionId: string;
-    key: string;
-    type: 'SUBMISSION' | 'RESULTS';
-  }): Observable<SessionKeyAccess> {
-    const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
-      key: queryParams.key,
-      type: queryParams.type,
-    };
-
-    return this.httpRequestService.get(ResourceEndpoints.SESSION_KEY_ACCESS, paramMap);
+  checkSessionKeyAccess(request: SessionKeyAccessRequest): Observable<SessionKeyAccess> {
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_KEY_ACCESS, {}, request);
   }
 
   /**

@@ -7,6 +7,7 @@ import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard, UserRole } from '../route-guards/role.guard';
 import { PageComponent } from './page.component';
+import { SessionKeyType } from '../types/api-request';
 
 const routes: Routes = [
   {
@@ -42,7 +43,7 @@ const routes: Routes = [
               ),
             data: {
               entityType: 'student',
-              sessionKeyType: 'RESULTS',
+              sessionKeyType: SessionKeyType.RESULTS,
             },
           },
           {
@@ -54,7 +55,7 @@ const routes: Routes = [
               ),
             data: {
               entityType: 'student',
-              sessionKeyType: 'SUBMISSION',
+              sessionKeyType: SessionKeyType.SUBMISSION,
             },
           },
         ],
