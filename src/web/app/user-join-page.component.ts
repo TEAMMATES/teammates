@@ -4,7 +4,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
-import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
@@ -35,18 +34,16 @@ export class UserJoinPageComponent implements OnInit {
   key = '';
   accountEmail = '';
 
-  private backendUrl: string = environment.backendUrl;
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
       this.entityType = queryParams['entityType'];
       this.key = queryParams['key'];
 
-      const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
       this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
-          window.location.href = `${this.backendUrl}${auth.loginUrl}`;
+          this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
           return;
         }
         this.accountEmail = auth.user.accountEmail;
@@ -55,10 +52,8 @@ export class UserJoinPageComponent implements OnInit {
           next: (resp: CourseJoinKeyAccess) => {
             switch (resp.decision) {
               case CourseJoinKeyAccessDecision.ALREADY_JOINED:
-                this.navigationService.navigateByURL(`${this.backendUrl}${auth.loginUrl}`);
-                break;
               case CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED:
-                window.location.href = `${this.backendUrl}${auth.loginUrl}`;
+                this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
                 break;
               case CourseJoinKeyAccessDecision.VALID:
                 this.hasJoined = false;
