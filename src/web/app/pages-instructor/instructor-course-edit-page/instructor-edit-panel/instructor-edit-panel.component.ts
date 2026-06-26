@@ -91,7 +91,6 @@ export class InstructorEditPanelComponent {
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,
-        canModifySessionComments: false,
         canViewSession: false,
         canSubmitSession: false,
       },

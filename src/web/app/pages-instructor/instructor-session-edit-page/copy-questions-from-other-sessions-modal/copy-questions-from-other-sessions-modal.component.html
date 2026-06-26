@@ -64,36 +64,12 @@
                             <th
                               class="sortable-header"
                               (click)="
-                                sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)
-                              "
-                              [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TYPE)"
-                            >
-                              <button>
-                                Question Type
-                                <span class="fa-stack" aria-hidden="true">
-                                  <i class="fas fa-sort"></i>
-                                  @if (
-                                    isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)
-                                  ) {
-                                    <i class="fas fa-sort-down"></i>
-                                  }
-                                  @if (
-                                    isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)
-                                  ) {
-                                    <i class="fas fa-sort-up"></i>
-                                  }
-                                </span>
-                              </button>
-                            </th>
-                            <th
-                              class="sortable-header"
-                              (click)="
                                 sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)
                               "
                               [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TEXT)"
                             >
                               <button>
-                                Question Text
+                                Question
                                 <span class="fa-stack" aria-hidden="true">
                                   <i class="fas fa-sort"></i>
                                   @if (
@@ -109,6 +85,30 @@
                                 </span>
                               </button>
                             </th>
+                            <th
+                              class="sortable-header"
+                              (click)="
+                                sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)
+                              "
+                              [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TYPE)"
+                            >
+                              <button>
+                                Type
+                                <span class="fa-stack" aria-hidden="true">
+                                  <i class="fas fa-sort"></i>
+                                  @if (
+                                    isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)
+                                  ) {
+                                    <i class="fas fa-sort-down"></i>
+                                  }
+                                  @if (
+                                    isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)
+                                  ) {
+                                    <i class="fas fa-sort-up"></i>
+                                  }
+                                </span>
+                              </button>
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -118,8 +118,8 @@
                           ) {
                             <tr>
                               <td><input type="checkbox" [(ngModel)]="questionCandidate.isSelected" /></td>
-                              <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
                               <td>{{ questionCandidate.question.questionBrief }}</td>
+                              <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
                             </tr>
                           }
                         </tbody>
@@ -127,13 +127,6 @@
                     } @else {
                       <h5>There are no questions in this feedback session available for copying.</h5>
                     }
-                    <button
-                      (click)="loadQuestions(feedbackSessionTabModel)"
-                      class="btn btn-primary float-end mt-2 mb-3"
-                    >
-                      <i class="fas fa-redo" aria-hidden="true"></i>
-                      &nbsp;Reload
-                    </button>
                   </div>
                 }
               </div>

@@ -21,9 +21,13 @@ public class GetStudentsAction extends LoggedInAction {
             return;
         }
 
-        // Any instructor can access the list of students,
-        // but the list will be filtered to only include students visible to them.
-        gateKeeper.verifyInstructorInAnyCourse(requestContext);
+        List<String> courseIds = getCourseIds();
+        if (courseIds == null || courseIds.isEmpty()) {
+            throw new InvalidHttpParameterException(Const.ParamsNames.COURSE_ID + " parameter is required");
+        }
+        for (String courseId : courseIds) {
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
+        }
     }
 
     @Override
@@ -31,11 +35,11 @@ public class GetStudentsAction extends LoggedInAction {
         StudentQuery query = new StudentQuery(
                 getCourseIds(),
                 getRequestParamValue(Const.ParamsNames.SEARCH_KEY),
-                getNullablePositiveIntRequestParamValue(Const.ParamsNames.LIMIT));
+                getLimitParamValue());
 
+        List<Student> students = logic.getStudents(query);
+        StudentsData studentsData = new StudentsData();
         if (requestContext.isAdmin()) {
-            List<Student> students = logic.getStudents(query);
-            StudentsData studentsData = new StudentsData();
             studentsData.setStudents(students.stream()
                     .map(student -> {
                         StudentData studentData = new StudentData(student);
@@ -43,14 +47,11 @@ public class GetStudentsAction extends LoggedInAction {
                         return studentData;
                     })
                     .toList());
-            return new JsonResult(studentsData);
+        } else {
+            studentsData.setStudents(students.stream()
+                    .map(StudentData::new)
+                    .toList());
         }
-
-        List<Student> students = logic.getStudentsVisibleToAccount(query, requestContext.getAccount());
-        StudentsData studentsData = new StudentsData();
-        studentsData.setStudents(students.stream()
-                .map(StudentData::new)
-                .toList());
         return new JsonResult(studentsData);
     }
 
@@ -59,23 +60,4 @@ public class GetStudentsAction extends LoggedInAction {
         return courseIds == null ? null : Arrays.asList(courseIds);
     }
 
-    private Integer getNullablePositiveIntRequestParamValue(String paramName) {
-        String value = getRequestParamValue(paramName);
-        if (value == null) {
-            return null;
-        }
-
-        int parsed;
-        try {
-            parsed = Integer.parseInt(value);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(
-                    "Expected integer value for " + paramName + " parameter, but found: [" + value + "]", e);
-        }
-        if (parsed <= 0) {
-            throw new InvalidHttpParameterException(
-                    "Expected positive integer value for " + paramName + " parameter, but found: [" + value + "]");
-        }
-        return parsed;
-    }
 }

@@ -58,13 +58,10 @@ export class InstructorService {
   /**
    * Get the instructor associated with the current request in a course by calling API.
    */
-  getOwnInstructor(queryParams: { courseId: string; key?: string }): Observable<Instructor> {
+  getOwnInstructor(queryParams: { courseId: string }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
-    if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
-    }
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_INSTRUCTOR, paramMap);
   }

@@ -2,10 +2,9 @@
   <div class="alert alert-primary border mb-3">
     <div class="fw-semibold mb-1">
       You are moderating responses for
-      @if (intent === Intent.STUDENT_SUBMISSION) {
+      @if (entityType === 'student') {
         <span>student</span>
-      }
-      @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
+      } @else {
         <span>instructor</span>
       }
       {{ personName }} ({{ personEmail }}).
@@ -21,10 +20,9 @@
   <div class="alert alert-primary border mb-3">
     <div class="fw-semibold mb-1">
       You are previewing session as
-      @if (intent === Intent.STUDENT_SUBMISSION) {
+      @if (entityType === 'student') {
         <span>student</span>
-      }
-      @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
+      } @else {
         <span>instructor</span>
       }
       {{ personName }} ({{ personEmail }}).

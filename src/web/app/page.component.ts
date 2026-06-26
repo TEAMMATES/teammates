@@ -29,6 +29,7 @@ import { NavItem } from './page.model';
 import { AuthService } from '../services/auth.service';
 import { finalize } from 'rxjs/operators';
 import { MasqueradeModeService } from '../services/masquerade-mode.service';
+import { ConfigService } from '../services/config.service';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -84,6 +85,7 @@ export class PageComponent implements OnInit {
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly authService = inject(AuthService);
   private readonly masqueradeModeService = inject(MasqueradeModeService);
+  private readonly configService = inject(ConfigService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -140,6 +142,12 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.configService.getConfig().subscribe((config) => {
+      if (config.frontendUrl) {
+        this.logoutUrl += `?frontendUrl=${encodeURIComponent(config.frontendUrl)}`;
+      }
+    });
+
     this.isFetchingAuthDetails = true;
     this.authService
       .getAuthUser(this.router.url)

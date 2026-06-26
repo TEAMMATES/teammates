@@ -292,8 +292,8 @@ public final class DeadlineExtensionsLogic {
     private String getSubmitUrl(FeedbackSession feedbackSession, User user) {
         return switch (user) {
         case Student student -> LinksUtil.getStudentSessionSubmitUrl(feedbackSession.getId(), student.getRegKey());
-        case Instructor instructor -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSession.getId(),
-                instructor.getRegKey());
+        case @SuppressWarnings("unused") Instructor instructor ->
+                LinksUtil.getInstructorSessionSubmitUrl(feedbackSession.getId());
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
     }

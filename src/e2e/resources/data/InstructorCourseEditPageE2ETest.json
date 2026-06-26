@@ -249,7 +249,6 @@
       "instructorId": "00000000-0000-4000-8000-000000000505",
       "courseLevel": {
         "canSubmitSession": false,
-        "canModifySessionComments": false,
         "canModifyCourse": false,
         "canViewSession": false,
         "canModifySession": false,
@@ -263,7 +262,6 @@
       "instructorId": "00000000-0000-4000-8000-000000000508",
       "courseLevel": {
         "canSubmitSession": false,
-        "canModifySessionComments": false,
         "canModifyCourse": false,
         "canViewSession": false,
         "canModifySession": false,

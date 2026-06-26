@@ -51,7 +51,7 @@ public class GetAuthInfoAction extends PublicAction {
     }
 
     /**
-     * Returns a login URL containing the relative frontend URL to redirect to after authentication.
+     * Returns a LoginURL based on the nextURL.
      */
     public static String createLoginUrl(String nextUrl) {
         return Const.WebPageURIs.LOGIN + "?nextUrl=" + URLEncoder.encode(nextUrl, StandardCharsets.UTF_8);

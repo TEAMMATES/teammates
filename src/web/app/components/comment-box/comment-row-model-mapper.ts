@@ -32,6 +32,7 @@ export function giverCommentToCommentRowModel(commentText: string): GiverComment
 export function instructorCommentToCommentRowModel(
   comment: ResponseInstructorComment,
   timezone: string,
+  currentInstructorId?: string,
 ): InstructorCommentRowModel {
   const originalCommentFormModel: CommentEditFormModel = {
     commentText: comment.commentText,
@@ -40,6 +41,7 @@ export function instructorCommentToCommentRowModel(
   return {
     commentType: 'instructor',
     commentId: comment.responseInstructorCommentId,
+    isOwnedByCurrentInstructor: comment.giverId === currentInstructorId,
     commentGiverName: comment.commentGiverName,
     createdAt: comment.createdAt,
     timezone,

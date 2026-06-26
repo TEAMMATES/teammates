@@ -1,8 +1,6 @@
 <div class="text-center">
   <a
     class="btn btn-light btn-sm btn-margin-right custom-button"
-    target="_blank"
-    rel="noopener noreferrer"
     [id]="'btn-view-details-' + courseId + '-' + idx"
     [ngbTooltip]="'View the details of the student'"
     [routerLink]="['/web/instructor/courses', courseId, 'students', userId, 'details']"
@@ -11,8 +9,6 @@
   </a>
   <a
     class="btn btn-light btn-sm btn-margin-right custom-button"
-    target="_blank"
-    rel="noopener noreferrer"
     [id]="'btn-edit-details-' + courseId + '-' + idx"
     [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
     [ngbTooltip]="
@@ -62,8 +58,6 @@
   </button>
   <a
     class="btn btn-light btn-sm btn-margin-right custom-button"
-    target="_blank"
-    rel="noopener noreferrer"
     [id]="'btn-view-records-' + courseId + '-' + idx"
     [ngClass]="{ 'disabled mouse-hover-only': !instructorPrivileges.canModifyStudent }"
     [ngbTooltip]="

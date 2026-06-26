@@ -28,11 +28,9 @@ public final class LinksUtil {
     /**
      * Returns the absolute URL for an instructor to submit responses for the given feedback session.
      */
-    public static String getInstructorSessionSubmitUrl(UUID feedbackSessionId, String regKey) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+    public static String getInstructorSessionSubmitUrl(UUID feedbackSessionId) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(regKey)
-                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }
 
@@ -49,11 +47,9 @@ public final class LinksUtil {
     /**
      * Returns the absolute URL for an instructor to view results for the given feedback session.
      */
-    public static String getInstructorSessionResultsUrl(UUID feedbackSessionId, String regKey) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+    public static String getInstructorSessionResultsUrl(UUID feedbackSessionId) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(regKey)
-                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }
 

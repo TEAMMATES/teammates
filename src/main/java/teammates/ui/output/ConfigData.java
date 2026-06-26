@@ -9,13 +9,19 @@ import teammates.common.util.Config;
  */
 public class ConfigData implements ApiOutput {
     private final Set<LoginMethod> loginMethods;
+    private final String frontendUrl;
 
     public ConfigData() {
         this.loginMethods = Config.getSupportedLoginMethods();
+        this.frontendUrl = Config.APP_FRONTEND_URL;
     }
 
     public Set<LoginMethod> getLoginMethods() {
         return loginMethods;
+    }
+
+    public String getFrontendUrl() {
+        return frontendUrl;
     }
 
 }

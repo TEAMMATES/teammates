@@ -116,7 +116,7 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
-        assertNull(authContext.regKeyUser());
+        assertNull(authContext.regKeyStudent());
     }
 
     @Test

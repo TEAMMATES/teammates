@@ -134,11 +134,11 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview session as student");
         FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
-        previewPage.closeCurrentWindowAndSwitchToParentWindow();
+        previewPage.goBack();
 
         ______TS("preview session as instructor");
         previewPage = feedbackEditPage.previewAsInstructor(instructor);
-        previewPage.closeCurrentWindowAndSwitchToParentWindow();
+        previewPage.goBack();
 
         ______TS("copy session to other course");
         FeedbackSession copiedSession = EntityCopyUtil.copyFeedbackSession(feedbackSession);

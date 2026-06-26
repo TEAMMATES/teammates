@@ -61,6 +61,7 @@ const feedbackSessionResultsC1S1S1: SessionResults = {
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000057`,
               commentText: `Instructor 1 comment to instructor 1 self feedback Question 3`,
@@ -175,6 +176,7 @@ Multiline test.`,
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000056`,
               commentText: `Instructor 1 comment to response from student 2 to student 5 in feedback Question 2`,
@@ -703,6 +705,7 @@ Multiline test.`,
           } as FeedbackTextResponseDetails,
           instructorComments: [
             {
+              giverId: `00000000-0000-0000-0000-000000000001`,
               commentGiverName: `Instructor1 Course1`,
               responseInstructorCommentId: `00000000-0000-0000-0000-000000000055`,
               commentText: `Instructor 1 comment to student 1 self feedback`,

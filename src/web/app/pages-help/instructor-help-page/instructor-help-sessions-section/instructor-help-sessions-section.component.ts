@@ -87,7 +87,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   Sections!: typeof Sections;
 
   readonly supportEmail: string = environment.supportEmail;
-  readonly frontendUrl: string = environment.frontendUrl;
   readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
   readonly exampleResponse: ResponseOutput = EXAMPLE_RESPONSE;

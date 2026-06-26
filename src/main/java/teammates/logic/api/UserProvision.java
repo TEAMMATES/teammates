@@ -16,7 +16,7 @@ import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.User;
+import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.webapi.AuthType;
 
@@ -208,7 +208,7 @@ public class UserProvision {
             throws UnauthorizedAccessException {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
-        User validRegKeyUser = null;
+        Student validRegKeyUser = null;
 
         if (isMasqueradeRequest(req)) {
             authType = AuthType.MASQUERADE;
@@ -226,15 +226,16 @@ public class UserProvision {
         }
 
         // If the request contains a registration key, include it in the auth context if
-        // 1. The registration key is valid, and
-        // 2. The user associated with the registration key is not already associated with another account
+        // 1. The registration key is valid and belongs to a student, and
+        // 2. The student associated with the registration key is not already associated with another account
         if (isRegKeyRequest(req)) {
             String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-            User regKeyUser = usersLogic.getUserByRegistrationKey(regKey);
+            Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
 
-            if (regKeyUser != null
-                    && (regKeyUser.getAccount() == null || Objects.equals(effectiveAccount, regKeyUser.getAccount()))) {
-                validRegKeyUser = regKeyUser;
+            if (regKeyStudent != null
+                    && (regKeyStudent.getAccount() == null
+                            || Objects.equals(effectiveAccount, regKeyStudent.getAccount()))) {
+                validRegKeyUser = regKeyStudent;
             }
         }
 
@@ -260,20 +261,20 @@ public class UserProvision {
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
         String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-        User regKeyUser = usersLogic.getUserByRegistrationKey(regKey);
+        Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
 
-        if (regKeyUser == null) {
+        if (regKeyStudent == null) {
             throw new UnauthorizedAccessException("Invalid registration key: no user found for regkey");
         }
 
-        if (regKeyUser.getAccount() != null) {
+        if (regKeyStudent.getAccount() != null) {
             throw new UnauthorizedAccessException("Login is required to access this resource");
         }
 
         return new AuthContext(
                 AuthType.REG_KEY,
                 null,
-                regKeyUser,
+                regKeyStudent,
                 false,
                 false);
     }

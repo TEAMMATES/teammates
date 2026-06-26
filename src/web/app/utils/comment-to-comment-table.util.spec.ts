@@ -3,6 +3,7 @@ import { ResponseInstructorComment } from '../../types/api-output';
 
 const mockComment: ResponseInstructorComment = {
   responseInstructorCommentId: 'c1',
+  giverId: 'giver-1',
   commentGiverName: 'Instructor A',
   commentText: 'Good job',
   createdAt: 1000,
@@ -10,14 +11,15 @@ const mockComment: ResponseInstructorComment = {
 
 describe('commentToReadOnlyComment', () => {
   it('should set isReadOnly and isAddingNewComment correctly', () => {
-    const result = commentToReadOnlyComment([mockComment], true, 'UTC');
+    const result = commentToReadOnlyComment([mockComment], true, 'UTC', 'giver-1');
 
     expect(result.isReadOnly).toBe(true);
     expect(result.isAddingNewComment).toBe(false);
+    expect(result.currentInstructorId).toBe('giver-1');
   });
 
   it('should map each comment using instructorCommentToCommentRowModel', () => {
-    const result = commentToReadOnlyComment([mockComment], false, 'Asia/Singapore');
+    const result = commentToReadOnlyComment([mockComment], false, 'Asia/Singapore', 'giver-1');
 
     expect(result.commentRows).toEqual([
       {
@@ -25,6 +27,7 @@ describe('commentToReadOnlyComment', () => {
         timezone: 'Asia/Singapore',
         commentGiverName: 'Instructor A',
         commentId: 'c1',
+        isOwnedByCurrentInstructor: true,
         createdAt: 1000,
         originalCommentFormModel: { commentText: 'Good job' },
         commentEditFormModel: { commentText: 'Good job' },
@@ -34,7 +37,7 @@ describe('commentToReadOnlyComment', () => {
   });
 
   it('should create an empty newCommentRow', () => {
-    const result = commentToReadOnlyComment([], false, 'UTC');
+    const result = commentToReadOnlyComment([], false, 'UTC', 'giver-1');
 
     expect(result.newCommentRow).toEqual({
       commentType: 'new',

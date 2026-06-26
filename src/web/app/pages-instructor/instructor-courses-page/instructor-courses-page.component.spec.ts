@@ -105,13 +105,11 @@ describe('InstructorCoursesPageComponent', () => {
       sections: 1,
       teams: 1,
       students: 1,
-      unregistered: 1,
     },
     CS3282: {
       sections: 2,
       teams: 2,
       students: 2,
-      unregistered: 2,
     },
   };
 
@@ -389,7 +387,6 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.courseStats['CS1231']['sections']).toEqual(2);
     expect(component.courseStats['CS1231']['teams']).toEqual(3);
     expect(component.courseStats['CS1231']['students']).toEqual(8);
-    expect(component.courseStats['CS1231']['unregistered']).toEqual(1);
   });
 
   it('should restore a soft deleted course', () => {

@@ -65,11 +65,11 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     public void verifyActiveCourseStatistics(Course course, String numSections, String numTeams,
-                                             String numStudents, String numUnregistered) {
+                                             String numStudents) {
         showStatistics(course.getId());
         String[] courseDetail = { course.getId(), course.getName(),
                 getDateString(course.getCreatedAt()),
-                numSections, numTeams, numStudents, numUnregistered };
+                numSections, numTeams, numStudents };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
 
