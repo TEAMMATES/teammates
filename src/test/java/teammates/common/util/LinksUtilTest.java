@@ -120,17 +120,28 @@ public class LinksUtilTest extends BaseTestCase {
     // -------------------------------------------------------------------------
 
     @Test
-    public void getStudentCourseJoinUrl_studentUser_returnsAbsoluteUrlWithStudentEntityType() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE
-                + "?key=" + SAMPLE_REG_KEY + "&entityType=student";
-        assertEquals(expected, LinksUtil.getStudentCourseJoinUrl(SAMPLE_REG_KEY));
+    public void getStudentCourseJoinUrl_studentUser_returnsAbsoluteUrlWithStudentEntityType() throws Exception {
+        String url = LinksUtil.getStudentCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_REG_KEY, "student");
     }
 
     @Test
-    public void getInstructorCourseJoinUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE
-                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
-        assertEquals(expected, LinksUtil.getInstructorCourseJoinUrl(SAMPLE_REG_KEY));
+    public void getInstructorCourseJoinUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() throws Exception {
+        String url = LinksUtil.getInstructorCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_REG_KEY, "instructor");
+    }
+
+    private void assertCourseJoinUrl(String url, UUID expectedUserId, String expectedRegKey,
+            String expectedEntityType) throws Exception {
+        URI uri = URI.create(url);
+        assertEquals(TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE, uri.getScheme() + "://" + uri.getHost() + uri.getPath());
+        String query = uri.getQuery();
+        String encryptedKey = query.substring("key=".length(), query.indexOf("&entityType="));
+        String entityType = query.substring(query.indexOf("&entityType=") + "&entityType=".length());
+        assertEquals(expectedEntityType, entityType);
+        var joinKey = KeyUtil.decryptCourseJoinKey(encryptedKey);
+        assertEquals(expectedUserId, joinKey.userId());
+        assertEquals(expectedRegKey, joinKey.regKey());
     }
 
     @Test

@@ -18,7 +18,6 @@ import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultLink;
 import teammates.common.datatransfer.SessionSubmissionLink;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
-import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -151,7 +150,7 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        return new SessionLinksBundle(getCourseJoinUrl(user.getUserType(), user.getRegKey()),
+        return new SessionLinksBundle(getCourseJoinUrl(user),
                 submissionLinks, resultsLinks);
     }
 
@@ -457,7 +456,7 @@ public final class FeedbackSessionsLogic {
                 usersLogic.getCoOwnerContacts(course.getId()),
                 user instanceof Instructor,
                 user.getAccount() == null,
-                getCourseJoinUrl(user.getUserType(), user.getRegKey()),
+                getCourseJoinUrl(user),
                 sessionLinks.isEmpty()
                         ? List.of()
                         : List.of(new CourseSessionLinks(
@@ -532,7 +531,9 @@ public final class FeedbackSessionsLogic {
                         coOwner,
                         sessionEditUrl,
                         null,
-                        coOwner.isRegistered() ? null : LinksUtil.getInstructorCourseJoinUrl(coOwner.getRegKey())))
+                        coOwner.isRegistered()
+                                ? null
+                                : LinksUtil.getInstructorCourseJoinUrl(coOwner.getId(), coOwner.getRegKey())))
                 .toList();
     }
 
@@ -712,10 +713,10 @@ public final class FeedbackSessionsLogic {
                 usersLogic.getCoOwnerContacts(course.getId()));
     }
 
-    private String getCourseJoinUrl(UserType userType, String regKey) {
-        return switch (userType) {
-        case STUDENT -> LinksUtil.getStudentCourseJoinUrl(regKey);
-        case INSTRUCTOR -> LinksUtil.getInstructorCourseJoinUrl(regKey);
+    private String getCourseJoinUrl(User user) {
+        return switch (user.getUserType()) {
+        case STUDENT -> LinksUtil.getStudentCourseJoinUrl(user.getId(), user.getRegKey());
+        case INSTRUCTOR -> LinksUtil.getInstructorCourseJoinUrl(user.getId(), user.getRegKey());
         };
     }
 

@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
-import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
+import { CourseCreateRequest, CourseJoinKeyRequest, CourseUpdateRequest } from '../types/api-request';
 
 describe('CourseService', () => {
   let spyHttpRequestService: MockHttpRequestService;
@@ -104,21 +104,18 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_COURSE, paramMap);
   });
 
-  it('should execute GET to retrieve join course status', () => {
-    const regKey = 'ABC';
-    const paramMap: { [key: string]: string } = {
-      key: regKey,
-    };
-    service.getJoinCourseStatus(regKey);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
+  it('should execute POST to check course join key validity', () => {
+    const key = 'encrypted-key';
+    service.getCourseJoinKeyValidity({ key });
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_KEY_ACCESS, {}, { key });
   });
 
   it('should execute PUT when joining course', () => {
-    const regKeyRequest: RegKeyRequest = {
-      key: '123',
+    const courseJoinKeyRequest: CourseJoinKeyRequest = {
+      key: 'encrypted-key',
     };
-    service.joinCourse(regKeyRequest);
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, {}, regKeyRequest);
+    service.joinCourse(courseJoinKeyRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, {}, courseJoinKeyRequest);
   });
 
   it('should execute POST to remind unregistered students of a course', () => {

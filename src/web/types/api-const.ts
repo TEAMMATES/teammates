@@ -61,7 +61,6 @@ export enum QuestionTypeStructures {
 export enum ResourceEndpoints {
   ERROR_REPORT = "/webapi/errorreport",
   AUTH = "/webapi/auth",
-  AUTH_REGKEY = "/webapi/auth/regkey",
   ACCOUNT = "/webapi/account",
   ACCOUNT_LINK = "/webapi/account/link",
   ACCOUNT_UNLINK = "/webapi/account/unlink",
@@ -113,6 +112,7 @@ export enum ResourceEndpoints {
   NOTIFICATIONS = "/webapi/notifications",
   NOTIFICATION_READ = "/webapi/notification/read",
   JOIN = "/webapi/join",
+  JOIN_KEY_ACCESS = "/webapi/join/key/access",
   JOIN_REMIND = "/webapi/join/remind",
   TIMEZONE = "/webapi/timezone",
   SESSION_LINKS_RECOVERY = "/webapi/sessionlinksrecovery",

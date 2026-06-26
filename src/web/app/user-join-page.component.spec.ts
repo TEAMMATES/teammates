@@ -173,7 +173,7 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(`/web/${entityType}`);
   });
 
-  it('should redirect user to home page if user is logged in and join URL has been used', () => {
+  it('should redirect to login when join URL has already been used (ALREADY_JOINED)', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
         loginUrl: '/login',
@@ -189,22 +189,19 @@ describe('UserJoinPageComponent', () => {
         masquerade: false,
       }),
     );
-    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
       of({
-        hasJoined: true,
+        decision: 'ALREADY_JOINED' as any,
+        message: '',
       }),
     );
-    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
-    expect(component.hasJoined).toBeTruthy();
     expect(component.accountEmail).toEqual('user@teammates.tmt');
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
 
-  it('should stop loading and show error message if 404 is returned', () => {
+  it('should show join page when key is VALID', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
         loginUrl: '/login',
@@ -220,10 +217,41 @@ describe('UserJoinPageComponent', () => {
         masquerade: false,
       }),
     );
-    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
-      throwError(() => ({
-        status: 404,
-      })),
+    vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
+      of({
+        decision: 'VALID' as any,
+        message: '',
+      }),
+    );
+
+    component.ngOnInit();
+
+    expect(component.isLoading).toBeFalsy();
+    expect(component.hasJoined).toBeFalsy();
+    expect(component.validUrl).toBeTruthy();
+  });
+
+  it('should show invalid link when key is INVALID_KEY', () => {
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        loginUrl: '/login',
+        user: {
+          id: 'user',
+          accountEmail: 'user@teammates.tmt',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+          accountId: '',
+        },
+        masquerade: false,
+      }),
+    );
+    vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
+      of({
+        decision: 'INVALID_KEY' as any,
+        message: 'This course join link is invalid.',
+      }),
     );
 
     component.ngOnInit();
@@ -237,11 +265,6 @@ describe('UserJoinPageComponent', () => {
       of({
         loginUrl: '/login',
         masquerade: false,
-      }),
-    );
-    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
-      of({
-        hasJoined: true,
       }),
     );
 

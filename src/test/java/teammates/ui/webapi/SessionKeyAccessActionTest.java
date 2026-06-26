@@ -15,12 +15,12 @@ import teammates.ui.output.SessionKeyAccessData;
 import teammates.ui.request.SessionKeyAccessRequest;
 
 /**
- * Tests for {@link GetSessionKeyAccessAction}.
+ * Tests for {@link SessionKeyAccessAction}.
  */
-public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyAccessAction, SessionKeyAccessData> {
+public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessAction, SessionKeyAccessData> {
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionKeyAccessAction_studentWithoutAccount_allowsAccess() {
+    public void sessionKeyAccessAction_studentWithoutAccount_allowsAccess() {
         var student = given.student("student");
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
         persistGivenData(given);
@@ -36,7 +36,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionKeyAccessAction_studentWithLinkedAccount_requiresSignIn() {
+    public void sessionKeyAccessAction_studentWithLinkedAccount_requiresSignIn() {
         var account = given.account("account");
         var student = given.student("student", s -> s.account(account.alias()));
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
@@ -52,7 +52,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionKeyAccessAction_studentWithLinkedAccount_allowsSignedInAccess() {
+    public void sessionKeyAccessAction_studentWithLinkedAccount_allowsSignedInAccess() {
         var account = given.account("account");
         var student = given.student("student", s -> s.account(account.alias()));
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
@@ -69,7 +69,7 @@ public class GetSessionKeyAccessActionTest extends BaseActionTest<GetSessionKeyA
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionKeyAccessAction_studentWithWrongAccount_requiresAnotherAccount() {
+    public void sessionKeyAccessAction_studentWithWrongAccount_requiresAnotherAccount() {
         var account = given.account("account");
         var otherAccount = given.account("other-account");
         var student = given.student("student", s -> s.account(account.alias()));

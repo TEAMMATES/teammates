@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
-import { AuthInfo, JoinStatus } from '../types/api-output';
+import { AuthInfo, CourseJoinKeyAccess, CourseJoinKeyAccessDecision } from '../types/api-output';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
 /**
@@ -51,23 +51,25 @@ export class UserJoinPageComponent implements OnInit {
         }
         this.accountEmail = auth.user.accountEmail;
 
-        this.courseService.getJoinCourseStatus(this.key).subscribe({
-          next: (resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            if (this.hasJoined) {
-              // The regkey has been used; simply redirect the user to their home page,
-              // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
-            } else {
-              this.isLoading = false;
+        this.courseService.getCourseJoinKeyValidity({ key: this.key }).subscribe({
+          next: (resp: CourseJoinKeyAccess) => {
+            switch (resp.decision) {
+              case CourseJoinKeyAccessDecision.ALREADY_JOINED:
+                this.navigationService.navigateByURL(`${this.backendUrl}${auth.loginUrl}`);
+                break;
+              case CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED:
+                window.location.href = `${this.backendUrl}${auth.loginUrl}`;
+                break;
+              case CourseJoinKeyAccessDecision.VALID:
+                this.hasJoined = false;
+                this.isLoading = false;
+                break;
+              default:
+                this.validUrl = false;
+                this.isLoading = false;
             }
           },
           error: (resp: ErrorMessageOutput) => {
-            if (resp.status === 404) {
-              this.validUrl = false;
-              this.isLoading = false;
-              return;
-            }
             const modalRef: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
             modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;

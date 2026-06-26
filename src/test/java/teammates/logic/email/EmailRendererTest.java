@@ -420,7 +420,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "Please please fill in the following questions.",
                         LinksUtil.getInstructorSessionEditUrl(FEEDBACK_SESSION_ID),
                         null,
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, REG_KEY)));
 
         verifyEmailContent(actual.htmlContent(), "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -625,7 +625,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new StudentCourseJoinEmailContext(
                         "student@email.tmt",
                         "Student Name",
-                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getStudentCourseJoinUrl(USER_ID, REG_KEY)));
 
         verifyEmailContent(actual.htmlContent(), "/studentCourseJoinEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -638,7 +638,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new CourseRejoinAfterUnlinkEmailContext(
                         "student@email.tmt",
                         "Student Name",
-                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getStudentCourseJoinUrl(USER_ID, REG_KEY)));
 
         verifyEmailContent(actual.htmlContent(), "/studentCourseRejoinAfterUnlinkAccountEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -651,7 +651,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new InstructorCourseJoinEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY),
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, REG_KEY),
                         "Joe Wilson",
                         "instructor-joe@gmail.com"));
 
@@ -667,7 +667,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new CourseRejoinAfterUnlinkEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, REG_KEY)));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRejoinAfterUnlinkAccountEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -819,8 +819,8 @@ public class EmailRendererTest extends BaseTestCase {
                 isInstructor,
                 isYetToJoinCourse,
                 isInstructor
-                        ? LinksUtil.getInstructorCourseJoinUrl(REG_KEY)
-                        : LinksUtil.getStudentCourseJoinUrl(REG_KEY),
+                        ? LinksUtil.getInstructorCourseJoinUrl(USER_ID, REG_KEY)
+                        : LinksUtil.getStudentCourseJoinUrl(USER_ID, REG_KEY),
                 List.of(new CourseSessionLinks("CS101", "Software Engineering", "Africa/Johannesburg", sessionLinks)));
     }
 

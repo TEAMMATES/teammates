@@ -5,14 +5,14 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   Course,
   CourseSections,
+  CourseJoinKeyAccess,
   CourseView,
   Courses,
   InstructorCourses,
-  JoinStatus,
   MessageOutput,
   Student,
 } from '../types/api-output';
-import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
+import { CourseCreateRequest, CourseJoinKeyRequest, CourseUpdateRequest } from '../types/api-request';
 
 /**
  * The statistics of a course
@@ -114,21 +114,17 @@ export class CourseService {
   }
 
   /**
-   * Get the status of whether the entity has joined the course by calling API.
+   * Checks the access decision for a course join link.
    */
-  getJoinCourseStatus(regKey: string): Observable<JoinStatus> {
-    const paramMap: Record<string, string> = {
-      key: regKey,
-    };
-
-    return this.httpRequestService.get(ResourceEndpoints.JOIN, paramMap);
+  getCourseJoinKeyValidity(request: CourseJoinKeyRequest): Observable<CourseJoinKeyAccess> {
+    return this.httpRequestService.post(ResourceEndpoints.JOIN_KEY_ACCESS, {}, request);
   }
 
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKeyRequest: RegKeyRequest): Observable<MessageOutput> {
-    return this.httpRequestService.put(ResourceEndpoints.JOIN, {}, regKeyRequest);
+  joinCourse(request: CourseJoinKeyRequest): Observable<MessageOutput> {
+    return this.httpRequestService.put(ResourceEndpoints.JOIN, {}, request);
   }
 
   /**

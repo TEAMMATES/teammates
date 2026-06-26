@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.datatransfer.CourseJoinKey;
 import teammates.common.datatransfer.SessionKey;
 import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.exception.InvalidParametersException;
@@ -36,5 +37,25 @@ public final class KeyUtil {
 
         String decrypted = StringHelper.decrypt(encryptedKey);
         return JsonUtils.fromJson(decrypted, SessionKey.class);
+    }
+
+    /**
+     * Encrypts the course join key payload for a course join link.
+     */
+    public static String encryptCourseJoinKey(UUID userId, String regKey) {
+        Objects.requireNonNull(userId);
+        Objects.requireNonNull(regKey);
+
+        return StringHelper.encrypt(JsonUtils.toCompactJson(new CourseJoinKey(userId, regKey)));
+    }
+
+    /**
+     * Decrypts the supplied encrypted course join key.
+     */
+    public static CourseJoinKey decryptCourseJoinKey(String encryptedKey) throws InvalidParametersException {
+        Objects.requireNonNull(encryptedKey);
+
+        String decrypted = StringHelper.decrypt(encryptedKey);
+        return JsonUtils.fromJson(decrypted, CourseJoinKey.class);
     }
 }

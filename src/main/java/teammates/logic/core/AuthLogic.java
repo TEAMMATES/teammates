@@ -3,6 +3,9 @@ package teammates.logic.core;
 import java.util.Objects;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.CourseJoinKey;
+import teammates.common.datatransfer.CourseJoinKeyAccessDecision;
+import teammates.common.datatransfer.CourseJoinKeyAccessResult;
 import teammates.common.datatransfer.SessionKey;
 import teammates.common.datatransfer.SessionKeyAccessDecision;
 import teammates.common.datatransfer.SessionKeyAccessResult;
@@ -12,7 +15,7 @@ import teammates.common.util.KeyUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.storage.entity.User;
 
 /**
  * Handles operations related to authentication and authorization.
@@ -108,7 +111,7 @@ public final class AuthLogic {
             return new SessionKeyAccessResult(
                     SessionKeyAccessDecision.SIGN_IN_WITH_ANOTHER_ACCOUNT,
                     "This session link is associated with another account. Please sign in with that account.");
-        } catch (UnauthorizedAccessException e) {
+        } catch (InvalidParametersException e) {
             return new SessionKeyAccessResult(
                     SessionKeyAccessDecision.INVALID_KEY,
                     "This session link is invalid.");
@@ -116,25 +119,81 @@ public final class AuthLogic {
     }
 
     /**
+     * Returns the course join key access result based on the current account and the provided encrypted course join key.
+     */
+    public CourseJoinKeyAccessResult getCourseJoinKeyAccessResult(Account currentAccount, String encryptedKey) {
+        if (encryptedKey == null) {
+            return new CourseJoinKeyAccessResult(
+                    CourseJoinKeyAccessDecision.INVALID_KEY,
+                    "This course join link is invalid.");
+        }
+
+        User user;
+        try {
+            user = validateEncryptedCourseJoinKey(encryptedKey);
+        } catch (InvalidParametersException e) {
+            return new CourseJoinKeyAccessResult(
+                    CourseJoinKeyAccessDecision.INVALID_KEY,
+                    "This course join link is invalid.");
+        }
+
+        if (user.getAccount() != null) {
+            return new CourseJoinKeyAccessResult(CourseJoinKeyAccessDecision.ALREADY_JOINED, null);
+        }
+
+        if (currentAccount == null) {
+            return new CourseJoinKeyAccessResult(
+                    CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED,
+                    "Please sign in to join this course.");
+        }
+
+        return new CourseJoinKeyAccessResult(CourseJoinKeyAccessDecision.VALID, null);
+    }
+
+    /**
+     * Validates the provided encrypted course join key and returns the associated user.
+     */
+    public User validateEncryptedCourseJoinKey(String encryptedKey) throws InvalidParametersException {
+        CourseJoinKey joinKey;
+        try {
+            joinKey = KeyUtil.decryptCourseJoinKey(encryptedKey);
+            joinKey.validate();
+        } catch (InvalidParametersException | IllegalArgumentException e) {
+            throw new InvalidParametersException("Invalid encrypted course join key", e);
+        }
+
+        User user = usersLogic.getUser(joinKey.userId());
+        if (user == null) {
+            throw new InvalidParametersException("Invalid encrypted course join key: no user found");
+        }
+
+        if (!joinKey.regKey().equals(user.getRegKey())) {
+            throw new InvalidParametersException("Invalid encrypted course join key");
+        }
+
+        return user;
+    }
+
+    /**
      * Validates the provided encrypted session key and returns the associated student and session key.
      */
     public SessionKeyValidationResult validateEncryptedSessionKey(String encryptedKey)
-            throws UnauthorizedAccessException {
+            throws InvalidParametersException {
         SessionKey sessionKey;
         try {
             sessionKey = KeyUtil.decryptSessionKey(encryptedKey);
             sessionKey.validate();
         } catch (InvalidParametersException | IllegalArgumentException e) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key", e);
+            throw new InvalidParametersException("Invalid encrypted session key", e);
         }
 
         Student student = usersLogic.getStudent(sessionKey.userId());
         if (student == null) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key: no student found");
+            throw new InvalidParametersException("Invalid encrypted session key: no student found");
         }
 
         if (!sessionKey.regKey().equals(student.getRegKey())) {
-            throw new UnauthorizedAccessException("Invalid encrypted session key");
+            throw new InvalidParametersException("Invalid encrypted session key");
         }
 
         return new SessionKeyValidationResult(student, sessionKey);
