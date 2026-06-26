@@ -11,6 +11,7 @@ import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { createMockNgbModalRef } from '../test-helpers/mock-ngb-modal-ref';
+import { CourseJoinKeyAccessDecision } from '../types/api-output';
 
 describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;
@@ -191,7 +192,7 @@ describe('UserJoinPageComponent', () => {
     );
     vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
       of({
-        decision: 'ALREADY_JOINED' as any,
+        decision: CourseJoinKeyAccessDecision.ALREADY_JOINED,
         message: '',
       }),
     );
@@ -219,7 +220,7 @@ describe('UserJoinPageComponent', () => {
     );
     vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
       of({
-        decision: 'VALID' as any,
+        decision: CourseJoinKeyAccessDecision.VALID,
         message: '',
       }),
     );
@@ -249,7 +250,7 @@ describe('UserJoinPageComponent', () => {
     );
     vi.spyOn(courseService, 'getCourseJoinKeyValidity').mockReturnValue(
       of({
-        decision: 'INVALID_KEY' as any,
+        decision: CourseJoinKeyAccessDecision.INVALID_KEY,
         message: 'This course join link is invalid.',
       }),
     );
