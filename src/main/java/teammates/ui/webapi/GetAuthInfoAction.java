@@ -23,7 +23,7 @@ public class GetAuthInfoAction extends PublicAction {
 
     @Override
     public JsonResult execute() {
-        String nextUrl = getRequestParamValue("nextUrl");
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         if (nextUrl == null) {
             nextUrl = "";
         }
@@ -54,6 +54,7 @@ public class GetAuthInfoAction extends PublicAction {
      * Returns a LoginURL based on the nextURL.
      */
     public static String createLoginUrl(String nextUrl) {
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + URLEncoder.encode(nextUrl, StandardCharsets.UTF_8);
+        return Const.WebPageURIs.LOGIN + "?"
+                + Const.ParamsNames.NEXT_URL + "=" + URLEncoder.encode(nextUrl, StandardCharsets.UTF_8);
     }
 }

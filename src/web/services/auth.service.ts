@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { AuthInfo, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
 
@@ -28,7 +28,7 @@ export class AuthService {
 
     const params: Record<string, string> = {};
     if (nextUrl) {
-      params['nextUrl'] = nextUrl;
+      params[QueryParamKeys.NEXT_URL] = nextUrl;
     }
 
     return this.httpRequestService
