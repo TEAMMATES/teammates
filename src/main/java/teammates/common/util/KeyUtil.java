@@ -20,13 +20,12 @@ public final class KeyUtil {
     /**
      * Encrypts the session key payload for a student session link.
      */
-    public static String encryptSessionKey(UUID userId, SessionKeyType type, String regKey, UUID feedbackSessionId) {
+    public static String encryptSessionKey(UUID userId, SessionKeyType type, int linkVersion, UUID feedbackSessionId) {
         Objects.requireNonNull(userId);
         Objects.requireNonNull(type);
-        Objects.requireNonNull(regKey);
         Objects.requireNonNull(feedbackSessionId);
 
-        return StringHelper.encrypt(JsonUtils.toCompactJson(new SessionKey(userId, type, regKey, feedbackSessionId)));
+        return StringHelper.encrypt(JsonUtils.toCompactJson(new SessionKey(userId, type, linkVersion, feedbackSessionId)));
     }
 
     /**
@@ -42,11 +41,10 @@ public final class KeyUtil {
     /**
      * Encrypts the course join key payload for a course join link.
      */
-    public static String encryptCourseJoinKey(UUID userId, String regKey) {
+    public static String encryptCourseJoinKey(UUID userId, int linkVersion) {
         Objects.requireNonNull(userId);
-        Objects.requireNonNull(regKey);
 
-        return StringHelper.encrypt(JsonUtils.toCompactJson(new CourseJoinKey(userId, regKey)));
+        return StringHelper.encrypt(JsonUtils.toCompactJson(new CourseJoinKey(userId, linkVersion)));
     }
 
     /**

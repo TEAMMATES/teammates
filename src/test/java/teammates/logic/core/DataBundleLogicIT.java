@@ -138,7 +138,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor expectedInstructor1 = new Instructor(actualTypicalCourse, "Instructor 1", "instr1@teammates.tmt",
                 true, "Instructor", coOwner);
         expectedInstructor1.setId(actualInstructor1.getId());
-        expectedInstructor1.setRegKey(actualInstructor1.getRegKey());
+        expectedInstructor1.setLinkVersion(actualInstructor1.getLinkVersion());
         expectedInstructor1.setAccount(expectedInstructorAccount);
         assertEquals(expectedInstructor1, actualInstructor1);
 
@@ -147,7 +147,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor expectedInstructor2 = new Instructor(actualTypicalCourse, "Instructor 2", "instr2@teammates.tmt",
                 true, "Instructor", tutor);
         expectedInstructor2.setId(actualInstructor2.getId());
-        expectedInstructor2.setRegKey(actualInstructor2.getRegKey());
+        expectedInstructor2.setLinkVersion(actualInstructor2.getLinkVersion());
         assertEquals(expectedInstructor2, actualInstructor2);
 
         ______TS("verify students deserialized correctly");
@@ -157,7 +157,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 "student1@teammates.tmt", "comment for student1TypicalCourse");
         expectedStudent1.setAccount(expectedStudentAccount);
         expectedStudent1.setTeam(expectedTeam);
-        expectedStudent1.setRegKey(actualStudent1.getRegKey());
+        expectedStudent1.setLinkVersion(actualStudent1.getLinkVersion());
         expectedStudent1.setId(actualStudent1.getId());
         assertEquals(expectedStudent1, actualStudent1);
 
@@ -165,7 +165,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student expectedStudent2 = new Student(expectedTypicalCourse, "student2 In TypicalCourse",
                 "student2@teammates.tmt", "");
         expectedStudent2.setTeam(expectedTeam);
-        expectedStudent2.setRegKey(actualStudent2.getRegKey());
+        expectedStudent2.setLinkVersion(actualStudent2.getLinkVersion());
         expectedStudent2.setId(actualStudent2.getId());
         assertEquals(expectedStudent2, actualStudent2);
 

@@ -154,7 +154,7 @@ final class GateKeeper {
     /**
      * Verifies that the user can view the deadline extension for the given user in the given feedback session.
      *
-     * <p>Admins, the user themselves (via regkey or account), and instructors with CAN_MODIFY_SESSION
+     * <p>Admins, the user themselves (via sessionKey or account), and instructors with CAN_MODIFY_SESSION
      * are allowed to access.
      */
     void verifyCanViewDeadlineExtension(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
@@ -163,8 +163,8 @@ final class GateKeeper {
             return;
         }
 
-        User regKeyUser = requestContext.getSessionKeyUser();
-        if (regKeyUser != null && regKeyUser.getId().equals(userId)) {
+        User sessionKeyUser = requestContext.getSessionKeyUser();
+        if (sessionKeyUser != null && sessionKeyUser.getId().equals(userId)) {
             return;
         }
 

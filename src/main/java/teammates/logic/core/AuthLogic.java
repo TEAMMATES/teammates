@@ -167,7 +167,7 @@ public final class AuthLogic {
             throw new InvalidParametersException("Invalid encrypted course join key: no user found");
         }
 
-        if (!joinKey.regKey().equals(user.getRegKey())) {
+        if (joinKey.linkVersion() != user.getLinkVersion()) {
             throw new InvalidParametersException("Invalid encrypted course join key");
         }
 
@@ -192,7 +192,7 @@ public final class AuthLogic {
             throw new InvalidParametersException("Invalid encrypted session key: no student found");
         }
 
-        if (!sessionKey.regKey().equals(student.getRegKey())) {
+        if (sessionKey.linkVersion() != student.getLinkVersion()) {
             throw new InvalidParametersException("Invalid encrypted session key");
         }
 

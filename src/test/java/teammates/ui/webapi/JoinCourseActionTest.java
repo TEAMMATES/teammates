@@ -25,7 +25,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction, Messa
 
         Student persistedStudent = getEntityInTransaction(Student.class, student.id());
         CourseJoinKeyRequest requestBody = new CourseJoinKeyRequest();
-        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getRegKey()));
+        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getLinkVersion()));
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
@@ -47,7 +47,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction, Messa
 
         Student persistedStudent = getEntityInTransaction(Student.class, student.id());
         CourseJoinKeyRequest requestBody = new CourseJoinKeyRequest();
-        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getRegKey()));
+        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getLinkVersion()));
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())

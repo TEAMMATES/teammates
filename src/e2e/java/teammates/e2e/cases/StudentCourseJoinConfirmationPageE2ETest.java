@@ -42,7 +42,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Click join link: valid key");
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getRegKey()))
+                .withKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getLinkVersion()))
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);

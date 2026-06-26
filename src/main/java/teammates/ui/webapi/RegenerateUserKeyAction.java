@@ -3,10 +3,8 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.UnexpectedServerException;
 
 /**
  * Regenerates the key for a given user in a course. This will also resend the course registration
@@ -27,11 +25,9 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
         try {
-            logic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
+            logic.regenerateUserLinksAndEnqueueSummaryEmail(userId);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
-        } catch (UserUpdateException ex) {
-            throw new UnexpectedServerException(ex);
         }
 
         return new JsonResult(SUCCESSFUL_REGENERATION_WITH_EMAIL_QUEUED);

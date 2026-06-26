@@ -533,7 +533,7 @@ public final class FeedbackSessionsLogic {
                         null,
                         coOwner.isRegistered()
                                 ? null
-                                : LinksUtil.getInstructorCourseJoinUrl(coOwner.getId(), coOwner.getRegKey())))
+                                : LinksUtil.getInstructorCourseJoinUrl(coOwner.getId(), coOwner.getLinkVersion())))
                 .toList();
     }
 
@@ -715,15 +715,15 @@ public final class FeedbackSessionsLogic {
 
     private String getCourseJoinUrl(User user) {
         return switch (user.getUserType()) {
-        case STUDENT -> LinksUtil.getStudentCourseJoinUrl(user.getId(), user.getRegKey());
-        case INSTRUCTOR -> LinksUtil.getInstructorCourseJoinUrl(user.getId(), user.getRegKey());
+        case STUDENT -> LinksUtil.getStudentCourseJoinUrl(user.getId(), user.getLinkVersion());
+        case INSTRUCTOR -> LinksUtil.getInstructorCourseJoinUrl(user.getId(), user.getLinkVersion());
         };
     }
 
     private String getSubmissionUrl(User user, UUID feedbackSessionId) {
         return switch (user) {
         case Student student -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, student.getId(),
-                student.getRegKey());
+                student.getLinkVersion());
         case @SuppressWarnings("unused") Instructor instructor ->
                 LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
@@ -733,7 +733,7 @@ public final class FeedbackSessionsLogic {
     private String getResultUrl(User user, UUID feedbackSessionId) {
         return switch (user) {
         case Student student -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, student.getId(),
-                student.getRegKey());
+                student.getLinkVersion());
         case @SuppressWarnings("unused") Instructor instructor ->
                 LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
