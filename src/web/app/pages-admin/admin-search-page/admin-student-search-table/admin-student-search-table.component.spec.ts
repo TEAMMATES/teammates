@@ -78,7 +78,7 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(modalRef.componentInstance.userName).toBe(DEFAULT_STUDENT_SEARCH_RESULT.name);
   });
 
-  it('should show success message if student registration key is regenerated', async () => {
+  it('should show success message if student links are regenerated', async () => {
     component.students = [DEFAULT_STUDENT_SEARCH_RESULT];
     fixture.detectChanges();
 
@@ -86,7 +86,6 @@ describe('AdminStudentSearchTableComponent', () => {
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
         message: 'success',
-        newRegistrationKey: 'newKey',
       }),
     );
     const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
