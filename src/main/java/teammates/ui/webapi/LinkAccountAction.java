@@ -45,7 +45,7 @@ public class LinkAccountAction extends LoggedInAction {
         Student authenticatedStudent = requestContext.getRegKeyUser();
         LinkAccountRequest requestBody = getAndValidateRequestBody(LinkAccountRequest.class);
         try {
-            logic.joinCourseAndNotify(authenticatedStudent.getRegKey(), logic.getAccount(requestBody.getAccountId()));
+            logic.joinCourseAndNotify(authenticatedStudent.getId(), logic.getAccount(requestBody.getAccountId()));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         } catch (EntityAlreadyExistsException e) {

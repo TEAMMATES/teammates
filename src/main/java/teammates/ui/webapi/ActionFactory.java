@@ -38,8 +38,8 @@ public final class ActionFactory {
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
-        map(ResourceURIs.AUTH_REGKEY, GET, GetRegkeyValidityAction.class);
-        map(ResourceURIs.SESSION_KEY_ACCESS, POST, GetSessionKeyAccessAction.class);
+        map(ResourceURIs.SESSION_KEY_ACCESS, POST, SessionKeyAccessAction.class);
+        map(ResourceURIs.JOIN_KEY_ACCESS, POST, CourseJoinKeyAccessAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_LINK, PUT, LinkAccountAction.class);
@@ -127,7 +127,6 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
         map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
-        map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);

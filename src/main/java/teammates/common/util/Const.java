@@ -353,6 +353,7 @@ public final class Const {
         public static final String USAGE_STATISTICS = URI_PREFIX + "/usagestats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
         public static final String JOIN = URI_PREFIX + "/join";
+        public static final String JOIN_KEY_ACCESS = URI_PREFIX + "/join/key/access";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";

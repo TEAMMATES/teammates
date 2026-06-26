@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseJoinKey;
 import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
 import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.SessionResultLink;
@@ -42,7 +43,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         SessionLinksData result = execute(getRequest(student.id().toString(), adminAccount.id()));
 
-        assertEquals(LinksUtil.getStudentCourseJoinUrl(student.regKey()), result.getCourseJoinLink());
+        assertCourseJoinLink(result.getCourseJoinLink(), student.id(), student.regKey());
         assertEquals(4, result.getSubmissionLinks().size());
         assertEquals(1, result.getResultsLinks().size());
 
@@ -64,7 +65,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionLinksAction_adminForInstructor_returnsInstructorLinks() {
+    public void getSessionLinksAction_adminForInstructor_returnsInstructorLinks() throws Exception {
         var adminAccount = given.account("admin", a -> a.admin());
         var instructor = given.instructor("instructor", i -> i.defaultCourse());
         var openSession = given.feedbackSession("open-session", fs -> fs.defaultCourse().opened());
@@ -73,7 +74,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         SessionLinksData result = execute(getRequest(instructor.id().toString(), adminAccount.id()));
 
-        assertEquals(LinksUtil.getInstructorCourseJoinUrl(instructor.regKey()), result.getCourseJoinLink());
+        assertCourseJoinLink(result.getCourseJoinLink(), instructor.id(), instructor.regKey());
         assertTrue(result.getSubmissionLinks().stream().anyMatch(
                 link -> openSession.id().equals(link.feedbackSessionId())
                         && LinksUtil.getInstructorSessionSubmitUrl(openSession.id()).equals(link.url())));
@@ -103,6 +104,15 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
         return new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, userId)
                 .withAccountAuth(accountId);
+    }
+
+    private void assertCourseJoinLink(String url, UUID userId, String regKey) throws Exception {
+        URI uri = URI.create(url);
+        String query = uri.getQuery();
+        String encryptedKey = query.substring("key=".length(), query.indexOf("&entityType="));
+        CourseJoinKey joinKey = KeyUtil.decryptCourseJoinKey(encryptedKey);
+        assertEquals(userId, joinKey.userId());
+        assertEquals(regKey, joinKey.regKey());
     }
 
     private void assertStudentSessionLink(String url, UUID feedbackSessionId, UUID studentId,

@@ -120,21 +120,21 @@ public final class LinksUtil {
     // -------------------------------------------------------------------------
 
     /**
-     * Returns the absolute URL for a student to join a course using the given registration key.
+     * Returns the absolute URL for a student to join a course.
      */
-    public static String getStudentCourseJoinUrl(String regKey) {
+    public static String getStudentCourseJoinUrl(UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(regKey)
+                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
                 .withEntityType(Const.EntityType.STUDENT)
                 .toAbsoluteString();
     }
 
     /**
-     * Returns the absolute URL for an instructor to join a course using the given registration key.
+     * Returns the absolute URL for an instructor to join a course.
      */
-    public static String getInstructorCourseJoinUrl(String regKey) {
+    public static String getInstructorCourseJoinUrl(UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(regKey)
+                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }
