@@ -23,7 +23,7 @@ public final class LinksUtil {
     public static String getStudentSessionSubmitUrl(UUID feedbackSessionId, UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(KeyUtil.encryptSessionKey(userId,
+                .withKey(KeyUtil.encryptSessionKey(userId,
                         SessionKeyType.SUBMISSION, regKey, feedbackSessionId))
                 .toAbsoluteString();
     }
@@ -43,7 +43,7 @@ public final class LinksUtil {
     public static String getStudentSessionResultsUrl(UUID feedbackSessionId, UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(KeyUtil.encryptSessionKey(userId,
+                .withKey(KeyUtil.encryptSessionKey(userId,
                         SessionKeyType.RESULTS, regKey, feedbackSessionId))
                 .toAbsoluteString();
     }
@@ -124,7 +124,7 @@ public final class LinksUtil {
      */
     public static String getStudentCourseJoinUrl(UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
+                .withKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
                 .withEntityType(Const.EntityType.STUDENT)
                 .toAbsoluteString();
     }
@@ -134,7 +134,7 @@ public final class LinksUtil {
      */
     public static String getInstructorCourseJoinUrl(UUID userId, String regKey) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
+                .withKey(KeyUtil.encryptCourseJoinKey(userId, regKey))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }

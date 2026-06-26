@@ -51,8 +51,8 @@ public final class AuthLogic {
      * and course ID.
      */
     public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.regKeyStudent() != null) {
-            return authContext.regKeyStudent();
+        if (authContext.sessionKeyStudent() != null) {
+            return authContext.sessionKeyStudent();
         }
 
         Account account = authContext.account();

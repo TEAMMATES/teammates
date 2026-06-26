@@ -83,7 +83,7 @@ public final class EmailRenderer {
         String emptyStateMessage = context.courseSessionLinks().isEmpty() ? "<p>No links found.</p>" : "";
         String template = emailType == EmailType.STUDENT_EMAIL_CHANGED
                 ? EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
-                : EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
+                : EmailTemplates.USER_KEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
 
         return new RenderedEmail(Templates.populateTemplate(
                 template,
@@ -587,11 +587,11 @@ public final class EmailRenderer {
 
         String joinFragmentTemplate;
         if (context.isInstructor()) {
-            joinFragmentTemplate = EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET;
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_KEY_RESET;
         } else if (emailType == EmailType.STUDENT_EMAIL_CHANGED) {
             joinFragmentTemplate = EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN;
         } else {
-            joinFragmentTemplate = EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_KEY_RESET;
         }
 
         return Templates.populateTemplate(

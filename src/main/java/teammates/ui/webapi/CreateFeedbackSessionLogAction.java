@@ -18,7 +18,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
  */
-public class CreateFeedbackSessionLogAction extends RegKeyAction {
+public class CreateFeedbackSessionLogAction extends SessionKeyAction {
     private Clock clock = Clock.systemUTC();
 
     @Override

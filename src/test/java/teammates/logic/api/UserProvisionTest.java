@@ -122,7 +122,7 @@ public class UserProvisionTest extends BaseTestCase {
         when(student.getAccount()).thenReturn(account);
 
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.REGKEY,
+        req.addParam(Const.ParamsNames.KEY,
                 KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
@@ -131,7 +131,7 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
-        assertEquals(student, authContext.regKeyStudent());
+        assertEquals(student, authContext.sessionKeyStudent());
         assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
     }
 
@@ -146,14 +146,14 @@ public class UserProvisionTest extends BaseTestCase {
         when(student.getAccount()).thenReturn(null);
 
         MockHttpServletRequest req = createRequest();
-        req.addParam(Const.ParamsNames.REGKEY,
+        req.addParam(Const.ParamsNames.KEY,
                 KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.REG_KEY, authContext.authType());
-        assertEquals(student, authContext.regKeyStudent());
+        assertEquals(AuthType.SESSION_KEY, authContext.authType());
+        assertEquals(student, authContext.sessionKeyStudent());
         assertEquals(studentId, authContext.sessionKey().userId());
         assertEquals(SessionKeyType.SUBMISSION, authContext.sessionKey().type());
         assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());

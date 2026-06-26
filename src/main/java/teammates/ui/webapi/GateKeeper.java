@@ -163,7 +163,7 @@ final class GateKeeper {
             return;
         }
 
-        User regKeyUser = requestContext.getRegKeyUser();
+        User regKeyUser = requestContext.getSessionKeyUser();
         if (regKeyUser != null && regKeyUser.getId().equals(userId)) {
             return;
         }
@@ -226,8 +226,8 @@ final class GateKeeper {
             return;
         }
 
-        if (requestContext.getRegKeyUser() != null
-                && Objects.equals(requestContext.getRegKeyUser(), user)) {
+        if (requestContext.getSessionKeyUser() != null
+                && Objects.equals(requestContext.getSessionKeyUser(), user)) {
             return;
         }
 

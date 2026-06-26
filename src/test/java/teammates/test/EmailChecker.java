@@ -80,8 +80,8 @@ public final class EmailChecker {
      */
     private static String replaceUnpredictableValuesWithPlaceholders(String emailContent) {
         return emailContent // regkey in URLs
-                           .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_REGKEY,
-                                       Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
+                           .replaceAll(Const.ParamsNames.KEY + "=" + REGEX_REGKEY,
+                                       Const.ParamsNames.KEY + "=\\${regkey\\.enc}")
                            // feedbackSessionId (UUID) in path-based URLs e.g. /sessions/{uuid}/submission
                            .replaceAll("(/sessions/)" + REGEX_UUID + "(/)",
                                        "$1\\${fsid}$2");

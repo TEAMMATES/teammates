@@ -12,7 +12,7 @@ import teammates.ui.output.DeadlineExtensionData;
 /**
  * Gets the deadline extension for a specific user in a feedback session.
  */
-public class GetDeadlineExtensionAction extends RegKeyAction {
+public class GetDeadlineExtensionAction extends SessionKeyAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {

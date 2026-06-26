@@ -38,7 +38,7 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getOwnStudentAction_byRegKey_returnsStudentData() {
+    public void getOwnStudentAction_bySessionKey_returnsStudentData() {
         var course = given.course("course");
         var student = given.student("student", s ->
                 s.course(course.alias()).comments("student-comments"));

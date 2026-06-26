@@ -77,8 +77,8 @@ public class UserProvision {
         } else if (isLoggedInUser(account)) {
             assert account != null;
             return handleLoggedInAuthContext(req, account);
-        } else if (isRegKeyRequest(req)) {
-            return handleRegkeyUser(req);
+        } else if (isSessionKeyRequest(req)) {
+            return handleSessionKeyUser(req);
         } else {
             return PUBLIC_AUTH_CONTEXT;
         }
@@ -127,11 +127,11 @@ public class UserProvision {
     }
 
     /**
-     * Checks if the request contains a registration key.
+     * Checks if the request contains a session key.
      */
-    protected boolean isRegKeyRequest(HttpServletRequest req) {
-        String regKey = getEncryptedSessionKeyFromRequest(req);
-        return regKey != null;
+    protected boolean isSessionKeyRequest(HttpServletRequest req) {
+        String sessionKey = getEncryptedSessionKeyFromRequest(req);
+        return sessionKey != null;
     }
 
     /**
@@ -185,7 +185,7 @@ public class UserProvision {
     }
 
     private String getEncryptedSessionKeyFromRequest(HttpServletRequest req) {
-        return req.getParameter(Const.ParamsNames.REGKEY);
+        return req.getParameter(Const.ParamsNames.KEY);
     }
 
     private AuthContext handleBackdoorRequest(HttpServletRequest req) throws UnauthorizedAccessException {
@@ -221,7 +221,7 @@ public class UserProvision {
             throws UnauthorizedAccessException {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
-        Student validRegKeyUser = null;
+        Student validSessionKeyUser = null;
         SessionKey validatedSessionKey = null;
 
         if (isMasqueradeRequest(req)) {
@@ -239,10 +239,10 @@ public class UserProvision {
             }
         }
 
-        // If the request contains a registration key, include it in the auth context if
+        // If the request contains a session key, include it in the auth context if
         // 1. The encrypted session key is valid and belongs to a student, and
         // 2. The student associated with the key is not already associated with another account
-        if (isRegKeyRequest(req)) {
+        if (isSessionKeyRequest(req)) {
             SessionKeyValidationResult result;
             try {
                 result = authLogic.validateEncryptedSessionKey(getEncryptedSessionKeyFromRequest(req));
@@ -253,48 +253,48 @@ public class UserProvision {
                     && (effectiveAccount == null || !Objects.equals(effectiveAccount, result.student().getAccount()))) {
                 throw new UnauthorizedAccessException("Login is required to access this resource");
             }
-            validRegKeyUser = result.student();
+            validSessionKeyUser = result.student();
             validatedSessionKey = result.sessionKey();
         }
 
         return new AuthContext(
                 authType,
                 effectiveAccount,
-                validRegKeyUser,
+                validSessionKeyUser,
                 validatedSessionKey,
                 isAdminUser(effectiveAccount),
                 isMaintainerUser(effectiveAccount));
     }
 
     /**
-     * Handles the case where the request contains a registration key.
+     * Handles the case where the request contains a session key.
      *
      * <p>
-     * If the registration key is valid, returns an AuthContext with the associated
-     * user and REG_KEY auth type.
+     * If the session key is valid, returns an AuthContext with the associated
+     * user and SESSION_KEY auth type.
      *
      * @throws UnauthorizedAccessException if there is no user associated with the
-     *                                     registration key or if the associated
+     *                                     session key or if the associated
      *                                     user already has an account
      */
 
-    private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
+    private AuthContext handleSessionKeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
         SessionKeyValidationResult result;
         try {
             result = authLogic.validateEncryptedSessionKey(getEncryptedSessionKeyFromRequest(req));
         } catch (InvalidParametersException e) {
             throw new UnauthorizedAccessException("Invalid encrypted session key", e);
         }
-        Student regKeyStudent = result.student();
+        Student sessionKeyStudent = result.student();
 
-        if (regKeyStudent.getAccount() != null) {
+        if (sessionKeyStudent.getAccount() != null) {
             throw new UnauthorizedAccessException("Login is required to access this resource");
         }
 
         return new AuthContext(
-                AuthType.REG_KEY,
+                AuthType.SESSION_KEY,
                 null,
-                regKeyStudent,
+                sessionKeyStudent,
                 result.sessionKey(),
                 false,
                 false);

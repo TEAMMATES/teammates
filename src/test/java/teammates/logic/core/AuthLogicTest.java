@@ -104,7 +104,7 @@ public class AuthLogicTest extends BaseLogicTest {
     }
 
     private AuthContext buildRegKeyAuthContext(Student student) {
-        return new AuthContext(AuthType.REG_KEY, null, student, null, false, false);
+        return new AuthContext(AuthType.SESSION_KEY, null, student, null, false, false);
     }
 
     private AuthContext buildAccountAuthContext(Account account) {
