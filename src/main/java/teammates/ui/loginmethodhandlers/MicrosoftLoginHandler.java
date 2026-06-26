@@ -155,6 +155,7 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
         if (StringHelper.isEmpty(tenantId)) {
             return false;
         }
+        // Either expecting multi-tenant or the specific tenant ID.
         return MULTI_TENANT_AUTHORITIES.contains(expectedTenantId)
                 || expectedTenantId.equals(tenantId);
     }
