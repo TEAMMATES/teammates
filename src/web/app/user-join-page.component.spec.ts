@@ -174,7 +174,7 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(`/web/${entityType}`);
   });
 
-  it('should redirect to login when join URL has already been used (ALREADY_JOINED)', () => {
+  it('should redirect to home page when join URL has already been used (ALREADY_JOINED)', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
         loginUrl: '/login',
@@ -196,10 +196,12 @@ describe('UserJoinPageComponent', () => {
         message: '',
       }),
     );
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
+    component.entityType = 'student';
     component.ngOnInit();
 
-    expect(component.accountEmail).toEqual('user@teammates.tmt');
+    expect(navSpy).toHaveBeenCalledWith('/web/student');
   });
 
   it('should show join page when key is VALID', () => {

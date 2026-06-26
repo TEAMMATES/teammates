@@ -52,6 +52,8 @@ export class UserJoinPageComponent implements OnInit {
           next: (resp: CourseJoinKeyAccess) => {
             switch (resp.decision) {
               case CourseJoinKeyAccessDecision.ALREADY_JOINED:
+                this.navigationService.navigateByURL(`/web/${this.entityType}`);
+                break;
               case CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED:
                 this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
                 break;
