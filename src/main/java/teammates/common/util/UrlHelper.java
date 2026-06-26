@@ -34,7 +34,7 @@ public final class UrlHelper {
      * If the URL doesn't have a path or is invalid, it returns the {@link #DEFAULT_REDIRECT_URL}.
      */
     public static String getRelativeUrl(String url) {
-        if (url == null) {
+        if (StringHelper.isEmpty(url)) {
             return DEFAULT_REDIRECT_URL;
         }
 
@@ -65,7 +65,7 @@ public final class UrlHelper {
      * Checks whether the given URL is safe to use as a redirect target.
      */
     public static boolean isSafeRedirectUrl(String url) {
-        if (url == null) {
+        if (StringHelper.isEmpty(url)) {
             return false;
         }
 
