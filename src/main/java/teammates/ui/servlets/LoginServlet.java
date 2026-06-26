@@ -47,13 +47,20 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        LoginMethodHandler loginHandler;
-        if (Config.isDevServerLoginEnabled()) {
-            loginHandler = getLoginHandler(LoginMethod.DEV_SERVER);
-        } else {
-            loginHandler = getLoginHandler(LoginMethod.GOOGLE);
+        LoginMethod loginMethod;
+        try {
+            loginMethod = LoginMethod.fromString(req.getParameter("loginMethod"));
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpStatus.SC_BAD_REQUEST);
+            return;
         }
 
+        if (!Config.isSupportedLoginMethod(loginMethod)) {
+            resp.sendError(HttpStatus.SC_BAD_REQUEST);
+            return;
+        }
+
+        LoginMethodHandler loginHandler = getLoginHandler(loginMethod);
         try {
             String redirectUrl = loginHandler.handleLogin(req, nextUrl);
             redirectUrl = resp.encodeRedirectURL(redirectUrl);

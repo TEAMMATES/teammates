@@ -62,12 +62,10 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_noAuthCookie_redirectsToLoginHandlerUrl() throws Exception {
+        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(Config::isDevServerLoginEnabled).thenReturn(false);
-
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
         }
 
@@ -76,13 +74,11 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_loginHandlerThrows_returnsInternalServerError() throws Exception {
+        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/")))
                 .thenThrow(new AuthException("Login failed"));
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(Config::isDevServerLoginEnabled).thenReturn(false);
-
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
         }
 
@@ -109,13 +105,12 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_validCookieForMissingAccount_redirectsToLoginHandlerUrl() throws Exception {
         req.addCookie(getAuthCookie(UUID.randomUUID()));
+        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
         when(accountsLogic.getAccount(any())).thenReturn(null);
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS));
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true);
                 MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
-            mockConfig.when(Config::isDevServerLoginEnabled).thenReturn(false);
             mockHibernateUtil.when(HibernateUtil::beginTransaction).thenAnswer(invocation -> null);
             mockHibernateUtil.when(HibernateUtil::commitTransaction).thenAnswer(invocation -> null);
 
@@ -128,16 +123,34 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_invalidCookie_redirectsToLoginHandlerUrl() throws Exception {
         req.addCookie(new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, "not-an-auth-cookie"));
+        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(Config::isDevServerLoginEnabled).thenReturn(false);
-
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
             servlet.doGet(req, resp);
         }
 
         assertEquals("/oauthLogin", resp.getRedirectUrl());
+    }
+
+    @Test
+    public void doGet_invalidLoginMethod_returnsBadRequest() throws Exception {
+        req.addParam("loginMethod", "invalid-method");
+
+        servlet.doGet(req, resp);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
+    }
+
+    @Test
+    public void doGet_unsupportedLoginMethod_returnsBadRequest() throws Exception {
+        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+
+        try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
+            servlet.doGet(req, resp);
+        }
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, resp.getStatus());
     }
 
     private static Cookie getAuthCookie(UUID accountId) {
@@ -146,4 +159,10 @@ public class LoginServletTest extends BaseTestCase {
         return new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue);
     }
 
+    private static MockedStatic<Config> mockSupportedLoginMethod(LoginMethod method, boolean isSupported) {
+        MockedStatic<Config> mockConfig = mockStatic(Config.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS));
+        mockConfig.when(() -> Config.isSupportedLoginMethod(method)).thenReturn(isSupported);
+        return mockConfig;
+    }
 }
