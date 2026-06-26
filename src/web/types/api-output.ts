@@ -70,6 +70,11 @@ export interface Course extends ApiOutput {
   deletionTimestamp: number;
 }
 
+export interface CourseJoinKeyAccess extends ApiOutput {
+  decision: CourseJoinKeyAccessDecision;
+  message: string;
+}
+
 export interface Courses extends ApiOutput {
   courses: CourseView[];
 }
@@ -479,10 +484,6 @@ export interface JoinLink extends ApiOutput {
   joinLink: string;
 }
 
-export interface JoinStatus extends ApiOutput {
-  hasJoined: boolean;
-}
-
 export interface McqMsqOptionRow {
   option: string;
   weight?: number;
@@ -592,12 +593,6 @@ export interface RecipientView {
 export interface RegenerateKey extends ApiOutput {
   message: string;
   newRegistrationKey: string;
-}
-
-export interface RegkeyValidity extends ApiOutput {
-  isValid: boolean;
-  isUsed: boolean;
-  isAllowedAccess: boolean;
 }
 
 export interface ResponseInstructorComment extends ApiOutput {
@@ -789,6 +784,13 @@ export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
+}
+
+export enum CourseJoinKeyAccessDecision {
+  VALID = "VALID",
+  ALREADY_JOINED = "ALREADY_JOINED",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  INVALID_KEY = "INVALID_KEY",
 }
 
 export enum FeedbackConstantSumDistributePointsType {

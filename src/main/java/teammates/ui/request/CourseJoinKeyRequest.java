@@ -3,14 +3,14 @@ package teammates.ui.request;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
- * The request that contains a registration key.
+ * The request body for checking access to or performing a course join link.
  */
-public class RegKeyRequest extends BasicRequest {
+public class CourseJoinKeyRequest extends BasicRequest {
     private String key;
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        validateTrue(key != null, "Registration key cannot be null");
+        validateTrue(key != null, "Key cannot be null");
     }
 
     public String getKey() {

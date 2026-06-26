@@ -10,6 +10,7 @@ import teammates.common.datatransfer.SessionKey;
 import teammates.common.datatransfer.SessionKeyValidationResult;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -130,10 +131,7 @@ public class UserProvision {
      */
     protected boolean isRegKeyRequest(HttpServletRequest req) {
         String regKey = getEncryptedSessionKeyFromRequest(req);
-        // Temporarily exclude endpoints that accept the old regkey format
-        return regKey != null
-                && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
-                && !Const.ResourceURIs.JOIN.equals(req.getRequestURI());
+        return regKey != null;
     }
 
     /**
@@ -245,8 +243,12 @@ public class UserProvision {
         // 1. The encrypted session key is valid and belongs to a student, and
         // 2. The student associated with the key is not already associated with another account
         if (isRegKeyRequest(req)) {
-            SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
-                    getEncryptedSessionKeyFromRequest(req));
+            SessionKeyValidationResult result;
+            try {
+                result = authLogic.validateEncryptedSessionKey(getEncryptedSessionKeyFromRequest(req));
+            } catch (InvalidParametersException e) {
+                throw new UnauthorizedAccessException("Login is required to access this resource", e);
+            }
             if (result.student().getAccount() != null
                     && (effectiveAccount == null || !Objects.equals(effectiveAccount, result.student().getAccount()))) {
                 throw new UnauthorizedAccessException("Login is required to access this resource");
@@ -277,8 +279,12 @@ public class UserProvision {
      */
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
-        SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
-                getEncryptedSessionKeyFromRequest(req));
+        SessionKeyValidationResult result;
+        try {
+            result = authLogic.validateEncryptedSessionKey(getEncryptedSessionKeyFromRequest(req));
+        } catch (InvalidParametersException e) {
+            throw new UnauthorizedAccessException("Invalid encrypted session key", e);
+        }
         Student regKeyStudent = result.student();
 
         if (regKeyStudent.getAccount() != null) {

@@ -8,7 +8,7 @@ import teammates.ui.request.SessionKeyAccessRequest;
 /**
  * Preflight access check for student session links.
  */
-public class GetSessionKeyAccessAction extends PublicAction {
+public class SessionKeyAccessAction extends PublicAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {

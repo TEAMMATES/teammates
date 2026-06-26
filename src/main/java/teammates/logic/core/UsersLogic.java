@@ -410,7 +410,7 @@ public final class UsersLogic {
         StudentCourseJoinEmailContext studentContext = new StudentCourseJoinEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey()));
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmail(courseContext, studentContext);
     }
 
@@ -428,7 +428,7 @@ public final class UsersLogic {
                 .map(student -> new StudentCourseJoinEmailContext(
                         student.getEmail(),
                         student.getName(),
-                        LinksUtil.getStudentCourseJoinUrl(student.getRegKey())))
+                        LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey())))
                 .toList();
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmails(courseContext, studentContexts);
     }
@@ -445,7 +445,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey()));
         courseJoinEmailsLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(courseContext, studentContext);
     }
 
@@ -461,7 +461,7 @@ public final class UsersLogic {
         InstructorCourseJoinEmailContext instructorContext = new InstructorCourseJoinEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getRegKey()),
                 inviter.getName(),
                 inviter.getEmail());
         courseJoinEmailsLogic.enqueueInstructorCourseJoinEmail(courseContext, instructorContext);
@@ -479,7 +479,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()));
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getRegKey()));
         courseJoinEmailsLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(courseContext, instructorContext);
     }
 

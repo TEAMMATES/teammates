@@ -36,6 +36,10 @@ export interface CourseCreateRequest extends CourseBasicRequest {
   instituteId: string;
 }
 
+export interface CourseJoinKeyRequest extends BasicRequest {
+  key: string;
+}
+
 export interface CourseUpdateRequest extends CourseBasicRequest {
 }
 
@@ -231,10 +235,6 @@ export interface NotificationCreateRequest extends NotificationBasicRequest {
 }
 
 export interface NotificationUpdateRequest extends NotificationBasicRequest {
-}
-
-export interface RegKeyRequest extends BasicRequest {
-  key: string;
 }
 
 export interface ResponseInstructorCommentBasicRequest extends BasicRequest {

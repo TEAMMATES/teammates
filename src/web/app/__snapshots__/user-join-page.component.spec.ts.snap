@@ -4,7 +4,6 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
 <tm-user-join-page
   accountEmail=""
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
@@ -44,7 +43,6 @@ exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 <tm-user-join-page
   accountEmail=""
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
@@ -78,7 +76,6 @@ exports[`UserJoinPageComponent > should snap with invalid course join link 1`] =
 <tm-user-join-page
   accountEmail={[Function String]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
@@ -118,7 +115,6 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
 <tm-user-join-page
   accountEmail={[Function String]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined={[Function Boolean]}
@@ -158,7 +154,6 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
 <tm-user-join-page
   accountEmail={[Function String]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
