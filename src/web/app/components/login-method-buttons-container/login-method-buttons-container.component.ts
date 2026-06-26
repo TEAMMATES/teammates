@@ -32,7 +32,7 @@ export class LoginMethodButtonsContainerComponent {
   private getCompleteLoginUrl(method: LoginMethod): string {
     const url = new URL(this.backendLoginUrl, globalThis.location.origin);
     url.searchParams.set('nextUrl', this.nextUrl() || '/');
-    url.searchParams.set('method', method);
+    url.searchParams.set('loginMethod', method);
     return url.toString();
   }
 }
