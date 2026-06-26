@@ -93,15 +93,16 @@
                   (click)="exitMasqueradeMode()"
                   >Exit masquerade mode</a
                 >
+              } @else {
+                <a
+                  class="dropdown-item"
+                  routerLink="/web/front/home"
+                  id="logout-btn"
+                  style="cursor: pointer"
+                  (click)="logout()"
+                  >Sign out</a
+                >
               }
-              <a
-                class="dropdown-item"
-                routerLink="/web/front/home"
-                id="logout-btn"
-                style="cursor: pointer"
-                (click)="logout()"
-                >Sign out</a
-              >
             </div>
           </li>
         }
