@@ -1,10 +1,16 @@
 <nav
-  class="navbar navbar-expand-lg navbar-dark fixed-top"
-  [class.masquerade-mode]="isMasquerading"
+  class="navbar navbar-expand-lg fixed-top"
+  [class.navbar-dark]="!isMasquerading"
+  [class.navbar-light]="isMasquerading"
+  [class.bg-dark]="!isMasquerading"
+  [class.bg-warning]="isMasquerading"
   (tmClickOutside)="isCollapsed = true"
 >
   <a routerLink="/web" (click)="isCollapsed = true">
-    <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]" />
+    <img
+      [src]="isMasquerading ? 'assets/images/teammateslogo-black.png' : 'assets/images/teammateslogo.png'"
+      alt="TEAMMATES [Logo]"
+    />
   </a>
   <button
     class="navbar-toggler d-lg-none"
@@ -15,7 +21,13 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="navbar-collapse" [ngStyle]="{ display: isCollapsed ? 'none' : 'block' }">
+  <div
+    class="navbar-collapse d-lg-flex"
+    [class.d-none]="isCollapsed"
+    [class.d-block]="!isCollapsed"
+    [class.bg-dark]="!isMasquerading"
+    [class.bg-warning]="isMasquerading"
+  >
     <ul class="nav navbar-nav flex-nowrap me-auto">
       @for (navItem of navItems; track navItem) {
         @if (navItem.children) {
@@ -28,7 +40,13 @@
             >
               {{ navItem.display }}
             </button>
-            <div class="dropdown-menu" ngbDropdownMenu>
+            <div
+              class="dropdown-menu"
+              [class.dropdown-menu-dark]="!isMasquerading"
+              [class.bg-dark]="!isMasquerading"
+              [class.bg-warning]="isMasquerading"
+              ngbDropdownMenu
+            >
               @for (childItem of navItem.children; track childItem) {
                 <a class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse(); closeModal()">{{
                   childItem.display
@@ -57,7 +75,13 @@
             >
               Sign in
             </button>
-            <div class="dropdown-menu-right" ngbDropdownMenu>
+            <div
+              class="dropdown-menu-right"
+              [class.dropdown-menu-dark]="!isMasquerading"
+              [class.bg-dark]="!isMasquerading"
+              [class.bg-warning]="isMasquerading"
+              ngbDropdownMenu
+            >
               <a class="dropdown-item" id="student-login-btn" routerLink="/web/student/home">As Student</a>
               <a class="dropdown-item" id="instructor-login-btn" routerLink="/web/instructor/home">As Instructor</a>
             </div>
@@ -72,7 +96,13 @@
             >
               {{ accountEmail }}
             </button>
-            <div class="dropdown-menu-right" ngbDropdownMenu>
+            <div
+              class="dropdown-menu-right"
+              [class.dropdown-menu-dark]="!isMasquerading"
+              [class.bg-dark]="!isMasquerading"
+              [class.bg-warning]="isMasquerading"
+              ngbDropdownMenu
+            >
               @if (isStudent) {
                 <a class="dropdown-item" routerLink="/web/student" (click)="closeModal()">To student pages</a>
               }
@@ -143,7 +173,7 @@
     <router-outlet></router-outlet>
   </div>
 </main>
-<footer class="footer">
+<footer class="footer bg-dark">
   <div class="row text-center">
     <div class="col-sm-6 text-md-start">
       <i class="fas fa-bolt"></i>&nbsp;<a routerLink="/web/front/home">TEAMMATES</a> V{{ version }}

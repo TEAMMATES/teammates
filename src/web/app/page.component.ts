@@ -1,4 +1,4 @@
-import { Location, NgStyle } from '@angular/common';
+import { Location } from '@angular/common';
 import {
   Component,
   Directive,
@@ -66,7 +66,6 @@ export class ClickOutsideDirective {
   imports: [
     forwardRef(() => ClickOutsideDirective),
     RouterLink,
-    NgStyle,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,

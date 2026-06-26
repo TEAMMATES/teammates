@@ -1,15 +1,3 @@
-footer,
-nav {
-  background: #3c3c3c;
-
-  &.masquerade-mode,
-  &.masquerade-mode .navbar-collapse,
-  &.masquerade-mode .dropdown-menu,
-  &.masquerade-mode .dropdown-item {
-    background: #773600;
-  }
-}
-
 nav {
   height: 50px;
 
@@ -53,12 +41,9 @@ nav {
 }
 
 .dropdown-item {
-  color: rgb(255 255 255 / 75%);
-
   &:hover,
   &:focus {
     background-color: inherit;
-    color: white;
   }
 }
 
@@ -128,7 +113,6 @@ nav {
 
 .navbar-collapse,
 .dropdown-menu {
-  background: #3c3c3c;
   min-width: 0;
 }
 
