@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.RequestContext;
+import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
@@ -230,6 +232,52 @@ final class GateKeeper {
         }
 
         throw new UnauthorizedAccessException("Not authorized to view this feedback session result.");
+    }
+
+    /**
+     * Verifies that the current request uses a valid encrypted student session key
+     * of the allowed type for the specified feedback session.
+     */
+    void verifySessionKey(RequestContext requestContext, UUID feedbackSessionId, SessionKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
+            return;
+        }
+
+        verifyNotNull(feedbackSessionId, "feedback session");
+
+        if (!feedbackSessionId.equals(sessionKey.feedbackSessionId())) {
+            throw new UnauthorizedAccessException("This key is not valid for the feedback session.");
+        }
+
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
+    }
+
+    /**
+     * Verifies that the current request uses an allowed encrypted student session key
+     * without constraining it to a specific session ID.
+     */
+    void verifySessionKey(RequestContext requestContext, SessionKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
+            return;
+        }
+
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
     }
 
     /**

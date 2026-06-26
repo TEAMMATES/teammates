@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -47,6 +48,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         switch (intent) {
         case STUDENT_SUBMISSION:
+            gateKeeper.verifySessionKey(requestContext, feedbackSession.getId(), SessionKeyType.SUBMISSION);
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");

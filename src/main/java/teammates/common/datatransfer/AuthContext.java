@@ -17,6 +17,7 @@ import teammates.ui.webapi.AuthType;
  * @param account      The user's account. If masquerading, this is the account
  *                     of the user being masqueraded as.
  * @param regKeyStudent The student associated with the registration key.
+ * @param sessionKey    The decrypted encrypted session key payload.
  * @param isAdmin       Indicates whether the user has admin privilege.
  * @param isMaintainer  Indicates whether the user has maintainer privilege.
  */
@@ -24,6 +25,7 @@ public record AuthContext(
         AuthType authType,
         @Nullable Account account,
         @Nullable Student regKeyStudent,
+        @Nullable SessionKey sessionKey,
         boolean isAdmin,
         boolean isMaintainer) {
 }

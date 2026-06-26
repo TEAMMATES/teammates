@@ -46,6 +46,10 @@ public class RequestContext {
         return authContext.regKeyStudent();
     }
 
+    public SessionKey getSessionKey() {
+        return authContext.sessionKey();
+    }
+
     /**
      * Returns the instructor for the specified course ID, using the provided loader
      * function if not already cached.
