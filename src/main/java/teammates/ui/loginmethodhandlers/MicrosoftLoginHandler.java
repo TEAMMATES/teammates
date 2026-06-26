@@ -90,9 +90,14 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
                     + ", got " + tenantId);
         }
 
+        String email = getRequiredClaim(claims, "email");
+        if (StringHelper.isEmpty(email)) {
+            // Require a valid email.
+            // Microsoft Entra ID tokens may not always contain the email claim.
+            throw new AuthException("Missing email claim in Microsoft Entra ID token");
+        }
+
         String subject = getRequiredClaim(claims, "sub");
-        // Add a fallback as email claim may not be present in the ID token.
-        String email = getRequiredClaim(claims, "email", "preferred_username");
 
         return new AuthResult(Provider.MICROSOFT, subject, tenantId, email);
     }
@@ -130,26 +135,12 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
     }
 
     private String getRequiredClaim(Map<String, Object> claims, String claimName) throws AuthException {
-        return getRequiredClaim(claims, claimName, null);
-    }
-
-    private String getRequiredClaim(Map<String, Object> claims, String claimName, String fallbackClaimName)
-            throws AuthException {
         Object rawValue = claims.get(claimName);
         String value = rawValue instanceof String ? (String) rawValue : null;
-        if (!StringHelper.isEmpty(value)) {
-            return value;
+        if (StringHelper.isEmpty(value)) {
+            throw new AuthException("Missing " + claimName + " claim");
         }
-
-        if (!StringHelper.isEmpty(fallbackClaimName)) {
-            rawValue = claims.get(fallbackClaimName);
-            value = rawValue instanceof String ? (String) rawValue : null;
-            if (!StringHelper.isEmpty(value)) {
-                return value;
-            }
-        }
-
-        throw new AuthException("Missing " + claimName + " claim");
+        return value;
     }
 
     private boolean isExpectedTenantId(String tenantId) {

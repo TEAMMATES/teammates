@@ -98,24 +98,19 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     }
 
     @Test
-    public void handleCallback_validResponseWithFallbackEmailClaim_returnsValidAuthResult() throws Exception {
+    public void handleCallback_missingEmailClaim_throwsAuthException() throws Exception {
         MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler("actual-tenant-id"));
         IAuthenticationResult tokenResponse = mock(IAuthenticationResult.class);
         doReturn(createIdToken(Map.of(
                 "sub", "microsoft-subject",
-                "tid", "actual-tenant-id",
-                "preferred_username", "user@example.com"))).when(tokenResponse).idToken();
+                "tid", "actual-tenant-id"))).when(tokenResponse).idToken();
         doReturn(tokenResponse).when(loginHandler).requestToken(eq("authorization-code"), eq(OAUTH_CALLBACK_URL));
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         req.addParam("code", "authorization-code");
         AuthState state = new AuthState("/", "1234", LoginMethod.MICROSOFT);
 
-        AuthResult result = loginHandler.handleCallback(req, state);
-
-        assertEquals(Provider.MICROSOFT, result.provider());
-        assertEquals("microsoft-subject", result.subject());
-        assertEquals("actual-tenant-id", result.tenantId());
-        assertEquals("user@example.com", result.email());
+        assertThrows(AuthException.class,
+                () -> loginHandler.handleCallback(req, state));
     }
 
     @Test
