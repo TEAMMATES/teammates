@@ -77,11 +77,17 @@ public final class AuthLogic {
         return usersLogic.getInstructorByAccountId(account.getId(), courseId);
     }
 
+    /**
+     * Returns the session key access result based on the current account and the provided encrypted session key.
+     */
     public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
         try {
             if (encryptedKey == null) {
-                throw new UnauthorizedAccessException("Invalid encrypted session key");
+                return new SessionKeyAccessResult(
+                    SessionKeyAccessDecision.INVALID_KEY,
+                    "This session link is invalid.");
             }
+
             SessionKeyValidationResult result = validateEncryptedSessionKey(encryptedKey);
             Student student = result.student();
 
@@ -109,6 +115,9 @@ public final class AuthLogic {
         }
     }
 
+    /**
+     * Validates the provided encrypted session key and returns the associated student and session key.
+     */
     public SessionKeyValidationResult validateEncryptedSessionKey(String encryptedKey)
             throws UnauthorizedAccessException {
         SessionKey sessionKey;

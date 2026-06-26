@@ -91,7 +91,10 @@ describe('SessionKeyGuard', () => {
     );
 
     const result = await firstValueFrom(
-      guard.canActivate(mockRoute(SessionKeyType.SUBMISSION), mockState('/web/sessions/session-id/submission?key=session-key')),
+      guard.canActivate(
+        mockRoute(SessionKeyType.SUBMISSION),
+        mockState('/web/sessions/session-id/submission?key=session-key'),
+      ),
     );
 
     expect(spyNavigationService.navigateByURL).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
