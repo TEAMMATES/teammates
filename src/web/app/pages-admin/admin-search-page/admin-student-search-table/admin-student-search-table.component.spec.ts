@@ -101,7 +101,7 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(component.isRegeneratingStudentKeys[0]).toBe(false);
   });
 
-  it('should show error message if student registration key regeneration fails', async () => {
+  it('should show error message if student key regeneration fails', async () => {
     component.students = [DEFAULT_STUDENT_SEARCH_RESULT];
     fixture.detectChanges();
 

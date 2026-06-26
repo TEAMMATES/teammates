@@ -94,14 +94,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Get user by registration key.
-     */
-    public User getUserByRegistrationKey(String regKey) {
-        Objects.requireNonNull(regKey);
-        return usersDb.getUserByRegKey(regKey);
-    }
-
-    /**
      * Gets users for the specified course.
      */
     public List<User> getUsersForCourse(String courseId) {
@@ -274,18 +266,6 @@ public final class UsersLogic {
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         return usersDb.getInstructorForEmail(courseId, userEmail);
-    }
-
-    /**
-     * Gets an instructor by associated {@code regkey}.
-     */
-    public Instructor getInstructorByRegistrationKey(String regKey) {
-        User user = getUserByRegistrationKey(regKey);
-        if (user instanceof Instructor instructor) {
-            return instructor;
-        }
-
-        return null;
     }
 
     /**
@@ -673,19 +653,6 @@ public final class UsersLogic {
         sortByName(studentReturnList);
 
         return studentReturnList;
-    }
-
-    /**
-     * Gets a student by associated {@code regkey}.
-     */
-    public Student getStudentByRegistrationKey(String regKey) {
-        assert regKey != null;
-        User user = getUserByRegistrationKey(regKey);
-        if (user instanceof Student student) {
-            return student;
-        }
-
-        return null;
     }
 
     /**

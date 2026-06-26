@@ -74,7 +74,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(modalRef.componentInstance.userName).toBe(DEFAULT_INSTRUCTOR_SEARCH_RESULT.name);
   });
 
-  it('should show success message if instructor registration key is regenerated', async () => {
+  it('should show success message if instructor key is regenerated', async () => {
     component.instructors = [DEFAULT_INSTRUCTOR_SEARCH_RESULT];
     fixture.detectChanges();
 

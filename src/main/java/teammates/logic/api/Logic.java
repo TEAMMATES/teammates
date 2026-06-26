@@ -905,20 +905,6 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code regkey}.
-     */
-    public Instructor getInstructorByRegistrationKey(String regKey) {
-        return usersLogic.getInstructorByRegistrationKey(regKey);
-    }
-
-    /**
-     * Gets a user by associated {@code regkey}.
-     */
-    public User getUserByRegistrationKey(String regKey) {
-        return usersLogic.getUserByRegistrationKey(regKey);
-    }
-
-    /**
      * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
     public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
@@ -1084,13 +1070,6 @@ public class Logic {
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
         return usersLogic.getUnregisteredStudentsForCourse(courseId);
-    }
-
-    /**
-     * Gets a student by associated {@code regkey}.
-     */
-    public Student getStudentByRegistrationKey(String regKey) {
-        return usersLogic.getStudentByRegistrationKey(regKey);
     }
 
     /**

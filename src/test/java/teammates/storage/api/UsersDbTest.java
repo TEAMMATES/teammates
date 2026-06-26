@@ -42,17 +42,6 @@ public class UsersDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getUserByRegKey_userExists_returnsUser() {
-        var instructor = given.instructor("instructor");
-        persistGivenData(given);
-
-        User actual = inTransaction(() -> usersDb.getUserByRegKey(instructor.regKey()));
-
-        assertNotNull(actual);
-        assertEquals(instructor.id(), actual.getId());
-    }
-
-    @Test(groups = GroupNames.DB)
     public void getInstructorByAccountId_instructorExists_returnsInstructor() {
         var account = given.account("account");
         var course = given.course("course");
