@@ -2,7 +2,6 @@
 
 exports[`SessionResultPageComponent > should snap when previewing results 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -18,7 +17,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
@@ -149,7 +147,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
 
 exports[`SessionResultPageComponent > should snap when session results failed to load 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -165,7 +162,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
@@ -300,7 +296,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
 
 exports[`SessionResultPageComponent > should snap with an open feedback session with no questions 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -316,7 +311,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
@@ -448,7 +442,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
 
 exports[`SessionResultPageComponent > should snap with default fields 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -464,7 +457,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
@@ -596,7 +588,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
 
 exports[`SessionResultPageComponent > should snap with session details and results are loading 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -612,7 +603,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionDetailsLoading={[Function Boolean]}
   isFeedbackSessionResultsLoading={[Function Boolean]}
@@ -676,7 +666,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
 
 exports[`SessionResultPageComponent > should snap with session details loaded and results are loading 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -692,7 +681,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
@@ -824,7 +812,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
 
 exports[`SessionResultPageComponent > should snap with user that is logged in and using session link 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail={[Function String]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -840,7 +827,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
@@ -973,7 +959,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
 
 exports[`SessionResultPageComponent > should snap with user that is not logged in and using session link 1`] = `
 <tm-session-result-page
-  Intent={[Function Object]}
   accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
@@ -989,7 +974,6 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"

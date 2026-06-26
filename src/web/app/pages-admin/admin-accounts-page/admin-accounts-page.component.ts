@@ -171,7 +171,8 @@ export class AdminAccountsPageComponent implements OnInit {
   masqueradeAsUser(): void {
     this.masqueradeModeService.masqueradeAs(this.accountInfo.accountId);
     const url = this.linkService.generateInstructorHomePageLink();
-    globalThis.location.assign(url);
+    globalThis.open(url, '_blank');
+    this.masqueradeModeService.clearMasquerade();
   }
 
   private confirmAndUnlinkAccount(userId: string, name: string, courseId: string, onSuccess: () => void): void {

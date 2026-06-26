@@ -293,8 +293,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-5/details"
                               id="btn-view-details-test-exa.demo-0"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                View 
                             </a>
@@ -302,8 +300,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-5/edit"
                               id="btn-edit-details-test-exa.demo-0"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                Edit 
                             </a>
@@ -317,8 +313,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/students/test-exa.demo/student-5/records"
                               id="btn-view-records-test-exa.demo-0"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                All Records 
                             </a>
@@ -360,8 +354,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-6/details"
                               id="btn-view-details-test-exa.demo-1"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                View 
                             </a>
@@ -369,8 +361,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-6/edit"
                               id="btn-edit-details-test-exa.demo-1"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                Edit 
                             </a>
@@ -384,8 +374,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/students/test-exa.demo/student-6/records"
                               id="btn-view-records-test-exa.demo-1"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                All Records 
                             </a>
@@ -427,8 +415,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-7/details"
                               id="btn-view-details-test-exa.demo-2"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                View 
                             </a>
@@ -436,8 +422,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-7/edit"
                               id="btn-edit-details-test-exa.demo-2"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                Edit 
                             </a>
@@ -451,8 +435,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/students/test-exa.demo/student-7/records"
                               id="btn-view-records-test-exa.demo-2"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                All Records 
                             </a>
@@ -494,8 +476,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-8/details"
                               id="btn-view-details-test-exa.demo-3"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                View 
                             </a>
@@ -503,8 +483,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/courses/test-exa.demo/students/student-8/edit"
                               id="btn-edit-details-test-exa.demo-3"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                Edit 
                             </a>
@@ -518,8 +496,6 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                               class="btn btn-light btn-sm btn-margin-right custom-button"
                               href="/web/instructor/students/test-exa.demo/student-8/records"
                               id="btn-view-records-test-exa.demo-3"
-                              rel="noopener noreferrer"
-                              target="_blank"
                             >
                                All Records 
                             </a>

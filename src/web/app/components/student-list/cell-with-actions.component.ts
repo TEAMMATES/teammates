@@ -26,7 +26,6 @@ export class CellWithActionsComponent {
     canModifyStudent: false,
     canViewSession: false,
     canSubmitSession: false,
-    canModifySessionComments: false,
   };
 
   @Input() remindStudentFromCourse: () => void = () => {};

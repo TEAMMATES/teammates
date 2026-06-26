@@ -10,6 +10,5 @@ export const environment: Environment = {
   version: APPLICATION_VERSION,
   production: true,
   backendUrl: '',
-  frontendUrl: '',
   withCredentials: false,
 };

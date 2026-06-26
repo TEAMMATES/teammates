@@ -72,12 +72,10 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
         assertEquals(LinksUtil.getInstructorCourseJoinUrl(instructor.regKey()), result.getCourseJoinLink());
         assertTrue(result.getSubmissionLinks().stream().anyMatch(
                 link -> openSession.id().equals(link.feedbackSessionId())
-                        && LinksUtil.getInstructorSessionSubmitUrl(openSession.id(),
-                                instructor.regKey()).equals(link.url())));
+                        && LinksUtil.getInstructorSessionSubmitUrl(openSession.id()).equals(link.url())));
         assertTrue(result.getResultsLinks().stream().anyMatch(
                 link -> publishedSession.id().equals(link.feedbackSessionId())
-                        && LinksUtil.getInstructorSessionResultsUrl(publishedSession.id(), instructor.regKey())
-                                .equals(link.url())));
+                        && LinksUtil.getInstructorSessionResultsUrl(publishedSession.id()).equals(link.url())));
     }
 
     @Test(groups = GroupNames.ACTION)

@@ -1,7 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
 import { AuthInfo, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
@@ -15,8 +14,6 @@ import { Intent } from '../types/api-request';
 export class AuthService {
   private httpRequestService = inject(HttpRequestService);
 
-  private frontendUrl: string = environment.frontendUrl;
-
   private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
 
   /**
@@ -29,7 +26,7 @@ export class AuthService {
       return of(cached);
     }
 
-    const params: Record<string, string> = { frontendUrl: this.frontendUrl };
+    const params: Record<string, string> = {};
     if (nextUrl) {
       params['nextUrl'] = nextUrl;
     }

@@ -38,6 +38,7 @@ export interface AuthInfo extends ApiOutput {
 
 export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
+  frontendUrl: string;
 }
 
 export interface ConstsumOptionRow {
@@ -457,7 +458,6 @@ export interface InstructorPermissionSet {
   canModifyStudent: boolean;
   canViewSession: boolean;
   canSubmitSession: boolean;
-  canModifySessionComments: boolean;
 }
 
 export interface InstructorPrivilege extends ApiOutput {
@@ -602,6 +602,7 @@ export interface RegkeyValidity extends ApiOutput {
 
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
+  giverId: string;
   commentGiverName: string;
   commentText: string;
   createdAt: number;

@@ -60,19 +60,10 @@
             <label>
               <input
                 type="checkbox"
-                [disabled]="permission.privilege.canModifySessionComments"
-                [ngModel]="permission.privilege.canViewSession || permission.privilege.canModifySessionComments"
+                [ngModel]="permission.privilege.canViewSession"
                 (ngModelChange)="triggerOverallPermissionChange('canViewSession', $event)"
               />
               Sessions: View Responses and Comments
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                [ngModel]="permission.privilege.canModifySessionComments"
-                (ngModelChange)="triggerOverallPermissionChange('canModifySessionComments', $event)"
-              />
-              Sessions: Edit/Delete Responses/Comments by Others
             </label>
           </div>
         </div>
@@ -139,17 +130,9 @@
             <label>
               <input
                 type="checkbox"
-                [disabled]="sectionLevel.privilege.canModifySessionComments"
-                [ngModel]="sectionLevel.privilege.canViewSession || sectionLevel.privilege.canModifySessionComments"
+                [ngModel]="sectionLevel.privilege.canViewSession"
                 (ngModelChange)="triggerSectionLevelPermissionChange(i, 'canViewSession', $event)"
               />&nbsp; Sessions: View Responses and Comments
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                [ngModel]="sectionLevel.privilege.canModifySessionComments"
-                (ngModelChange)="triggerSectionLevelPermissionChange(i, 'canModifySessionComments', $event)"
-              />&nbsp; Sessions: Edit/Delete Responses/Comments by Others
             </label>
           </div>
         </div>
@@ -175,7 +158,6 @@
                 <th scope="col">Session Name</th>
                 <th scope="col">Submit Responses and Add Comments</th>
                 <th scope="col">View Responses and Comments</th>
-                <th scope="col">Edit/Delete Responses/Comments by Others</th>
               </tr>
             </thead>
             <tbody>
@@ -192,18 +174,8 @@
                   <td>
                     <input
                       type="checkbox"
-                      [disabled]="sessionLevel.privilege.canModifySessionComments"
-                      [ngModel]="
-                        sessionLevel.privilege.canViewSession || sessionLevel.privilege.canModifySessionComments
-                      "
+                      [ngModel]="sessionLevel.privilege.canViewSession"
                       (ngModelChange)="triggerSessionLevelPermissionChange(i, j, 'canViewSession', $event)"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      [ngModel]="sessionLevel.privilege.canModifySessionComments"
-                      (ngModelChange)="triggerSessionLevelPermissionChange(i, j, 'canModifySessionComments', $event)"
                     />
                   </td>
                 </tr>

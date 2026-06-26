@@ -97,14 +97,12 @@ export class SessionSubmissionPageComponent implements OnInit {
   // enum
   FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
-  Intent!: typeof Intent;
 
   @Input({ required: true }) feedbackSessionId!: string;
-  @Input() intent: Intent = Intent.STUDENT_SUBMISSION;
   @Input() key = '';
   @Input() moderatedPerson = '';
   @Input() previewAs = '';
-  @Input() entityType = 'student';
+  @Input() entityType: 'student' | 'instructor' = 'student';
   @Input() moderatedQuestionId = '';
 
   courseId = '';
@@ -150,18 +148,11 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
     this.FeedbackQuestionType = FeedbackQuestionType;
-    this.Intent = Intent;
     this.allSessionViews = SessionView;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
   ngOnInit(): void {
-    if (this.intent === Intent.INSTRUCTOR_SUBMISSION) {
-      this.entityType = 'instructor';
-    }
-    if (this.entityType === 'instructor') {
-      this.intent = Intent.INSTRUCTOR_SUBMISSION;
-    }
     // withComponentInputBinding() can reset @Input() defaults to undefined; restore the 'student' default
     this.entityType ||= 'student';
     if (this.previewAs) {
@@ -176,8 +167,8 @@ export class SessionSubmissionPageComponent implements OnInit {
         if (auth.user) {
           this.accountEmail = auth.user.accountEmail;
         }
-        if (this.key && !isPreviewOrModeration) {
-          this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
+        if (this.key && !isPreviewOrModeration && this.entityType === 'student') {
+          this.authService.getAuthRegkeyValidity(this.key, this.getSubmissionIntent()).subscribe({
             next: (resp: RegkeyValidity) => {
               if (resp.isAllowedAccess) {
                 if (resp.isUsed) {
@@ -230,8 +221,9 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   private loadCourseInfoData$(): Observable<CourseView | null> {
+    const intent = this.getSubmissionIntent();
     let request: Observable<CourseView>;
-    switch (this.intent) {
+    switch (intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAs) {
           request = this.courseService.getCourseAsInstructor(this.courseId);
@@ -259,7 +251,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Loads the name of the person involved in the submission.
    */
   private loadUserData$(): Observable<Student | Instructor | null> {
-    switch (this.intent) {
+    switch (this.getSubmissionIntent()) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAs) {
           const userId = this.moderatedPerson || this.previewAs;
@@ -294,7 +286,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         return this.instructorService
           .getOwnInstructor({
             courseId: this.courseId,
-            key: this.key,
           })
           .pipe(
             tap((instructor: Instructor) => {
@@ -313,6 +304,10 @@ export class SessionSubmissionPageComponent implements OnInit {
    */
   joinCourseForUnregisteredEntity(): void {
     this.navigationService.navigateByURL('/web/join', { entityType: this.entityType, key: this.key });
+  }
+
+  private getSubmissionIntent(): Intent {
+    return this.entityType === 'student' ? Intent.STUDENT_SUBMISSION : Intent.INSTRUCTOR_SUBMISSION;
   }
 
   /**
@@ -446,7 +441,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     return this.feedbackSessionsService
       .getSessionSubmissionData({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
         previewAs: this.previewAs,
@@ -808,7 +803,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         this.feedbackSessionId,
         { questionResponses },
         {
-          intent: this.intent,
+          intent: this.getSubmissionIntent(),
           key: this.key,
           moderatedperson: this.moderatedPerson,
         },
@@ -913,7 +908,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.submissionReceiptService
       .downloadSubmissionReceipt({
         questionSubmissionForms: this.questionSubmissionForms,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
         feedbackSessionTimezone: this.feedbackSessionTimezone,
@@ -957,7 +952,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.feedbackResponsesService
       .deleteGiverComment({
         responseId: recipientSubmissionFormModel.responseId,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
       })
@@ -1121,7 +1116,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Logs student activity after student/session details have been fetched.
    */
   logStudentAccess(): void {
-    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+    if (this.entityType !== 'student') {
       return;
     }
 
@@ -1142,7 +1137,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Logs student submission after successful response submission.
    */
   logStudentSubmission(): void {
-    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+    if (this.entityType !== 'student') {
       return;
     }
 

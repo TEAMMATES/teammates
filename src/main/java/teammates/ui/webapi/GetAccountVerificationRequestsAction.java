@@ -6,7 +6,6 @@ import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountVerificationRequest;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.AccountVerificationRequestsData;
 
 /**
@@ -20,7 +19,7 @@ public class GetAccountVerificationRequestsAction extends AdminOnlyAction {
                 getNullableUuidRequestParamValue(Const.ParamsNames.ACCOUNT_ID),
                 getNullableStatusRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_STATUS),
                 getRequestParamValue(Const.ParamsNames.SEARCH_KEY),
-                getNullablePositiveIntRequestParamValue(Const.ParamsNames.LIMIT));
+                getLimitParamValue());
 
         List<AccountVerificationRequest> accountVerificationRequests = logic.getAccountVerificationRequests(query);
         return new JsonResult(new AccountVerificationRequestsData(accountVerificationRequests));
@@ -30,22 +29,4 @@ public class GetAccountVerificationRequestsAction extends AdminOnlyAction {
         return getNullableEnumRequestParamValue(paramName, AccountVerificationRequestStatus.class);
     }
 
-    private Integer getNullablePositiveIntRequestParamValue(String paramName) {
-        String value = getRequestParamValue(paramName);
-        if (value == null) {
-            return null;
-        }
-        int parsed;
-        try {
-            parsed = Integer.parseInt(value);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException(
-                    "Expected integer value for " + paramName + " parameter, but found: [" + value + "]", e);
-        }
-        if (parsed <= 0) {
-            throw new InvalidHttpParameterException(
-                    "Expected positive integer value for " + paramName + " parameter, but found: [" + value + "]");
-        }
-        return parsed;
-    }
 }

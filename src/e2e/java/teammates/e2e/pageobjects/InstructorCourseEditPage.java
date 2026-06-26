@@ -36,15 +36,12 @@ public class InstructorCourseEditPage extends AppPage {
     private static final int COURSE_MODIFY_STUDENTS = 3;
     private static final int COURSE_GIVE_RESPONSES_IN_SESSION = 4;
     private static final int COURSE_VIEW_RESPONSES_IN_SESSION = 5;
-    private static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 6;
 
     private static final int SECTION_GIVE_RESPONSES_IN_SESSION = 0;
     private static final int SECTION_VIEW_RESPONSES_IN_SESSION = 1;
-    private static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 2;
 
     private static final int SESSION_GIVE_RESPONSES = 0;
     private static final int SESSION_VIEW_RESPONSES = 1;
-    private static final int SESSION_MODIFY_RESPONSES = 2;
 
     @FindBy(id = "course-id")
     private WebElement courseIdTextBox;
@@ -87,8 +84,6 @@ public class InstructorCourseEditPage extends AppPage {
                 permissionSet.isCanViewSession());
         map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                 permissionSet.isCanSubmitSession());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                permissionSet.isCanModifySessionComments());
         return map;
     }
 
@@ -625,8 +620,6 @@ public class InstructorCourseEditPage extends AppPage {
             return COURSE_GIVE_RESPONSES_IN_SESSION;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return COURSE_VIEW_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
-            return COURSE_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
         }
@@ -638,8 +631,6 @@ public class InstructorCourseEditPage extends AppPage {
             return SECTION_GIVE_RESPONSES_IN_SESSION;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return SECTION_VIEW_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
-            return SECTION_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
         }
@@ -651,8 +642,6 @@ public class InstructorCourseEditPage extends AppPage {
             return SESSION_GIVE_RESPONSES;
         case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return SESSION_VIEW_RESPONSES;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
-            return SESSION_MODIFY_RESPONSES;
         default:
             return -1;
         }

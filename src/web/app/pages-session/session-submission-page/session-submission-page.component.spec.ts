@@ -553,7 +553,6 @@ describe('SessionSubmissionPageComponent', () => {
     component = fixture.componentInstance;
     component.feedbackSessionId = testQueryParams.fsid;
     component.key = testQueryParams.key;
-    component.intent = Intent.STUDENT_SUBMISSION;
 
     // Default stubs for all service calls in the loadFeedbackSession pipeline.
     // Individual tests can override these with their own spies.
@@ -663,7 +662,7 @@ describe('SessionSubmissionPageComponent', () => {
   it('should fetch auth info on init', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
-    expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
+    expect(component.entityType).toEqual('student');
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
     expect(component.key).toEqual(testQueryParams.key);
     expect(component.accountEmail).toEqual(testInfo.user?.accountEmail);

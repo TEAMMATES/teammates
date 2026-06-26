@@ -83,6 +83,10 @@ export class CommentRowComponent {
     return this.model.commentType === 'instructor' ? this.model : undefined;
   }
 
+  get canEditSavedComment(): boolean {
+    return this.model.commentType !== 'instructor' || this.instructorCommentModel?.isOwnedByCurrentInstructor === true;
+  }
+
   /**
    * Closes editing of current comment and restore back the original comment.
    */
