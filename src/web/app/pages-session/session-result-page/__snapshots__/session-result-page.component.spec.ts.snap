@@ -6,7 +6,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -25,7 +24,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   isPreviewHintExpanded="false"
   key=""
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail={[Function String]}
@@ -154,7 +152,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -173,7 +170,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -306,7 +302,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -325,7 +320,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -455,7 +449,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -474,7 +467,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -604,7 +596,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -623,7 +614,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -685,7 +675,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -704,7 +693,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -834,7 +822,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -853,7 +840,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
@@ -984,7 +970,6 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   accountId=""
   accountService={[Function _AccountService]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -1003,7 +988,6 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   isPreviewHintExpanded="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""

@@ -9,7 +9,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -35,7 +34,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -184,7 +182,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -210,7 +207,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -356,7 +352,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -382,7 +377,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -528,7 +522,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
   courseName={[Function String]}
@@ -554,7 +547,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -763,7 +755,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -789,7 +780,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -3833,7 +3823,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -3859,7 +3848,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isSubmissionFormsDisabled={[Function Boolean]}
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -6941,7 +6929,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -6967,7 +6954,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
@@ -7115,7 +7101,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -7141,7 +7126,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isSubmissionFormsDisabled="false"
   key={[Function String]}
   logService={[Function _LogService]}
-  loginUrl=""
   moderatedPerson=""
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}

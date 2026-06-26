@@ -6,7 +6,6 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionView } from './session-view.enum';
-import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -110,7 +109,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   feedbackSessionName = '';
   accountEmail = '';
   accountId = '';
-  loginUrl = '';
   userId = '';
 
   // the name of the person involved
@@ -146,8 +144,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestionsSorted: number[] = [];
 
-  private readonly backendUrl: string = environment.backendUrl;
-
   constructor() {
     this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -167,14 +163,13 @@ export class SessionSubmissionPageComponent implements OnInit {
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        this.loginUrl = auth.loginUrl;
         if (auth.user) {
           this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
 
         if (!auth.user && !this.key) {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          this.navigationService.navigateByURL('/web/login', { nextUrl });
           return;
         }
 
@@ -270,7 +265,8 @@ export class SessionSubmissionPageComponent implements OnInit {
    */
   joinCourseForUnregisteredEntity(): void {
     if (!this.accountId) {
-      globalThis.location.href = `${this.backendUrl}${this.loginUrl}`;
+      const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
+      this.navigationService.navigateByURL('/web/login', { nextUrl });
       return;
     }
 

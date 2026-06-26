@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of, switchMap, tap, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { FeedbackSessionsService } from '../services/feedback-sessions.service';
 import { NavigationService } from '../services/navigation.service';
-import { environment } from '../environments/environment';
 import { SessionKeyAccessDecision, SessionKeyAccess } from '../types/api-output';
 
 type SessionKeyType = 'SUBMISSION' | 'RESULTS';
@@ -16,9 +15,9 @@ export class SessionKeyGuard implements CanActivate {
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly authService = inject(AuthService);
   private readonly navigationService = inject(NavigationService);
-  private readonly backendUrl: string = environment.backendUrl;
+  private readonly router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const feedbackSessionId = route.paramMap.get('feedbackSessionId');
     const key = route.queryParamMap.get('key');
     const previewAs = route.queryParamMap.get('previewAs');
@@ -57,12 +56,7 @@ export class SessionKeyGuard implements CanActivate {
                 }),
               );
             case SessionKeyAccessDecision.SIGN_IN_REQUIRED:
-              return this.authService.getAuthUser(state.url).pipe(
-                map((authInfo) => {
-                  globalThis.location.href = `${this.backendUrl}${authInfo.loginUrl}`;
-                  return false;
-                }),
-              );
+              return of(this.router.createUrlTree(['/web/login'], { queryParams: { nextUrl: state.url } }));
             case SessionKeyAccessDecision.SIGN_IN_WITH_ANOTHER_ACCOUNT:
             case SessionKeyAccessDecision.INVALID_KEY:
             default:

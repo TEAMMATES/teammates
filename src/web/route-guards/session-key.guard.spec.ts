@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { firstValueFrom, of } from 'rxjs';
 import { Mock, vi } from 'vitest';
 import { AuthService } from '../services/auth.service';
@@ -32,6 +32,7 @@ describe('SessionKeyGuard', () => {
   let spyFeedbackSessionsService: { checkSessionKeyAccess: Mock };
   let spyAuthService: { getAuthUser: Mock };
   let spyNavigationService: { navigateWithErrorMessage: Mock; navigateByURL: Mock };
+  let spyRouter: { createUrlTree: Mock };
 
   beforeEach(() => {
     spyFeedbackSessionsService = {
@@ -44,6 +45,9 @@ describe('SessionKeyGuard', () => {
       navigateWithErrorMessage: vi.fn(),
       navigateByURL: vi.fn(),
     };
+    spyRouter = {
+      createUrlTree: vi.fn().mockReturnValue('login-tree'),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -51,6 +55,7 @@ describe('SessionKeyGuard', () => {
         { provide: FeedbackSessionsService, useValue: spyFeedbackSessionsService },
         { provide: AuthService, useValue: spyAuthService },
         { provide: NavigationService, useValue: spyNavigationService },
+        { provide: Router, useValue: spyRouter },
       ],
     });
 
@@ -129,16 +134,15 @@ describe('SessionKeyGuard', () => {
     spyFeedbackSessionsService.checkSessionKeyAccess.mockReturnValue(
       of({ decision: SessionKeyAccessDecision.SIGN_IN_REQUIRED, message: null }),
     );
-    spyAuthService.getAuthUser.mockReturnValue(
-      of({ loginUrl: '/login?next=/web/student/sessions/session-id/submission' }),
-    );
 
     const result = await firstValueFrom(
       guard.canActivate(mockRoute(), mockState('/web/student/sessions/session-id/submission')),
     );
 
-    expect(spyAuthService.getAuthUser).toHaveBeenCalledWith('/web/student/sessions/session-id/submission');
-    expect(result).toBe(false);
+    expect(spyRouter.createUrlTree).toHaveBeenCalledWith(['/web/login'], {
+      queryParams: { nextUrl: '/web/student/sessions/session-id/submission' },
+    });
+    expect(result).toBe('login-tree');
   });
 
   it('should allow preview routes without a key when the user is signed in', async () => {

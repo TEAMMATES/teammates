@@ -3,7 +3,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FeedbackQuestionModel } from './feedback-question.model';
-import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -94,7 +93,6 @@ export class SessionResultPageComponent implements OnInit {
   @Input() entityType: 'student' | 'instructor' = 'student';
   accountEmail = '';
   accountId = '';
-  loginUrl = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   isPreviewHintExpanded = false;
@@ -103,8 +101,6 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionDetailsLoading = true;
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
-
-  private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
@@ -118,14 +114,13 @@ export class SessionResultPageComponent implements OnInit {
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        this.loginUrl = auth.loginUrl;
         if (auth.user) {
           this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
 
         if (!auth.user && !this.key) {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          this.navigationService.navigateByURL('/web/login', { nextUrl });
           return;
         }
 
@@ -277,7 +272,8 @@ export class SessionResultPageComponent implements OnInit {
    */
   joinCourseForUnregisteredEntity(): void {
     if (!this.accountId) {
-      globalThis.location.href = `${this.backendUrl}${this.loginUrl}`;
+      const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
+      this.navigationService.navigateByURL('/web/login', { nextUrl });
       return;
     }
 
