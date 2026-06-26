@@ -46,7 +46,7 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.regKey(),
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.linkVersion(),
                         given.uuid("feedback-session"));
 
         StudentData result = execute(request);

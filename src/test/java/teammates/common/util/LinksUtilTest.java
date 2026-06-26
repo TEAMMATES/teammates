@@ -23,7 +23,7 @@ public class LinksUtilTest extends BaseTestCase {
     private static final String TEST_BASE_URL = "http://teammates.tmt";
     private static final UUID SAMPLE_SESSION_ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
     private static final UUID SAMPLE_USER_ID = UUID.fromString("22222222-2222-2222-2222-222222222222");
-    private static final String SAMPLE_REG_KEY = "sampleRegKey";
+    private static final int SAMPLE_LINK_VERSION = 2;
 
     private MockedStatic<Config> mockConfig;
 
@@ -45,7 +45,7 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentSessionSubmitUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String url = LinksUtil.getStudentSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        String url = LinksUtil.getStudentSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_LINK_VERSION);
         assertEquals(TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission",
                 URI.create(url).getScheme() + "://" + URI.create(url).getAuthority() + URI.create(url).getPath());
     }
@@ -58,7 +58,7 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentSessionResultsUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String url = LinksUtil.getStudentSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        String url = LinksUtil.getStudentSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_LINK_VERSION);
         assertEquals(TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result",
                 URI.create(url).getScheme() + "://" + URI.create(url).getAuthority() + URI.create(url).getPath());
     }
@@ -121,17 +121,17 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentCourseJoinUrl_studentUser_returnsAbsoluteUrlWithStudentEntityType() throws Exception {
-        String url = LinksUtil.getStudentCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_REG_KEY);
-        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_REG_KEY, "student");
+        String url = LinksUtil.getStudentCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_LINK_VERSION);
+        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_LINK_VERSION, "student");
     }
 
     @Test
     public void getInstructorCourseJoinUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() throws Exception {
-        String url = LinksUtil.getInstructorCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_REG_KEY);
-        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_REG_KEY, "instructor");
+        String url = LinksUtil.getInstructorCourseJoinUrl(SAMPLE_USER_ID, SAMPLE_LINK_VERSION);
+        assertCourseJoinUrl(url, SAMPLE_USER_ID, SAMPLE_LINK_VERSION, "instructor");
     }
 
-    private void assertCourseJoinUrl(String url, UUID expectedUserId, String expectedRegKey,
+    private void assertCourseJoinUrl(String url, UUID expectedUserId, int expectedLinkVersion,
             String expectedEntityType) throws Exception {
         URI uri = URI.create(url);
         assertEquals(TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE, uri.getScheme() + "://" + uri.getHost() + uri.getPath());
@@ -141,7 +141,7 @@ public class LinksUtilTest extends BaseTestCase {
         assertEquals(expectedEntityType, entityType);
         var joinKey = KeyUtil.decryptCourseJoinKey(encryptedKey);
         assertEquals(expectedUserId, joinKey.userId());
-        assertEquals(expectedRegKey, joinKey.regKey());
+        assertEquals(expectedLinkVersion, joinKey.linkVersion());
     }
 
     @Test

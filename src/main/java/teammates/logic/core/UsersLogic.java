@@ -19,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.HibernateUtil;
@@ -53,8 +52,6 @@ import teammates.ui.request.InstructorUpdateRequest;
 public final class UsersLogic {
 
     private static final UsersLogic instance = new UsersLogic();
-
-    private static final int MAX_KEY_REGENERATION_TRIES = 10;
 
     private UsersDb usersDb;
 
@@ -390,7 +387,7 @@ public final class UsersLogic {
         StudentCourseJoinEmailContext studentContext = new StudentCourseJoinEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion()));
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmail(courseContext, studentContext);
     }
 
@@ -408,7 +405,7 @@ public final class UsersLogic {
                 .map(student -> new StudentCourseJoinEmailContext(
                         student.getEmail(),
                         student.getName(),
-                        LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey())))
+                        LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion())))
                 .toList();
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmails(courseContext, studentContexts);
     }
@@ -425,7 +422,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion()));
         courseJoinEmailsLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(courseContext, studentContext);
     }
 
@@ -441,7 +438,7 @@ public final class UsersLogic {
         InstructorCourseJoinEmailContext instructorContext = new InstructorCourseJoinEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getRegKey()),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getLinkVersion()),
                 inviter.getName(),
                 inviter.getEmail());
         courseJoinEmailsLogic.enqueueInstructorCourseJoinEmail(courseContext, instructorContext);
@@ -459,7 +456,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getRegKey()));
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getLinkVersion()));
         courseJoinEmailsLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(courseContext, instructorContext);
     }
 
@@ -516,40 +513,28 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId}.
+     * Increments the link version for the user with {@code userId}, invalidating all existing links.
      *
-     * @return the user with the new registration key.
-     * @throws UserUpdateException if system was unable to generate a new registration key.
+     * @return the user with the incremented link version.
      * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public User regenerateUserRegistrationKey(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
+    public User regenerateUserLinks(UUID userId) throws EntityDoesNotExistException {
         User user = usersDb.getUser(userId);
         if (user == null) {
             String errorMessage = String.format("The user with ID [%s] could not be found.", userId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        String oldKey = user.getRegKey();
-        int numTries = 0;
-        while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            user.generateNewRegistrationKey();
-            if (!user.getRegKey().equals(oldKey)) {
-                return user;
-            }
-            numTries++;
-        }
-
-        throw new UserUpdateException("Could not regenerate a new course registration key for the user.");
+        user.setLinkVersion(user.getLinkVersion() + 1);
+        return user;
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId} and enqueues the
+     * Increments the link version for the user with {@code userId} and enqueues the
      * corresponding feedback session summary email.
      */
-    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        User user = regenerateUserRegistrationKey(userId);
+    public User regenerateUserLinksAndEnqueueSummaryEmail(UUID userId) throws EntityDoesNotExistException {
+        User user = regenerateUserLinks(userId);
         feedbackSessionsLogic.enqueueFeedbackSessionSummaryEmail(
                 user,
                 user instanceof Student

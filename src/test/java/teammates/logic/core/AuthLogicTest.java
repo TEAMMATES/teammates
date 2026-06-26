@@ -19,13 +19,13 @@ public class AuthLogicTest extends BaseLogicTest {
     private final AuthLogic authLogic = AuthLogic.inst();
 
     @Test(groups = GroupNames.LOGIC)
-    public void getStudentFromAuthContext_regKeyAuthContext_returnsUnregisteredStudent() {
+    public void getStudentFromAuthContext_sessionKeyAuthContext_returnsUnregisteredStudent() {
         var course = given.course("course");
         var expectedStudent = given.student("student", s -> s.course(course.alias()));
         persistGivenData(given);
 
         Student actualStudent = inTransaction(() -> {
-            AuthContext authContext = buildRegKeyAuthContext(getEntity(Student.class, expectedStudent.id()));
+            AuthContext authContext = buildSessionKeyAuthContext(getEntity(Student.class, expectedStudent.id()));
             return authLogic.getStudentFromAuthContext(authContext, course.id());
         });
 
@@ -61,13 +61,13 @@ public class AuthLogicTest extends BaseLogicTest {
     }
 
     @Test(groups = GroupNames.LOGIC)
-    public void getInstructorFromAuthContext_regKeyAuthContext_returnsNull() {
+    public void getInstructorFromAuthContext_sessionKeyAuthContext_returnsNull() {
         var course = given.course("course");
         var expectedStudent = given.student("student", s -> s.course(course.alias()));
         persistGivenData(given);
 
         Instructor actualInstructor = inTransaction(() -> {
-            AuthContext authContext = buildRegKeyAuthContext(getEntity(Student.class, expectedStudent.id()));
+            AuthContext authContext = buildSessionKeyAuthContext(getEntity(Student.class, expectedStudent.id()));
             return authLogic.getInstructorFromAuthContext(authContext, course.id());
         });
 
@@ -103,7 +103,7 @@ public class AuthLogicTest extends BaseLogicTest {
         assertNull(actualInstructor);
     }
 
-    private AuthContext buildRegKeyAuthContext(Student student) {
+    private AuthContext buildSessionKeyAuthContext(Student student) {
         return new AuthContext(AuthType.SESSION_KEY, null, student, null, false, false);
     }
 

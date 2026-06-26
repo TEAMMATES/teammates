@@ -147,7 +147,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(session.getId())
                 .withKey(KeyUtil.encryptSessionKey(student.getId(), SessionKeyType.RESULTS,
-                        student.getRegKey(), session.getId()));
+                        student.getLinkVersion(), session.getId()));
     }
 
     private void verifyLoadedQuestions(Student currentStudent, boolean isPreview) {

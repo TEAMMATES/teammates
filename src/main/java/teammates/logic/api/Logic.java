@@ -37,7 +37,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
-import teammates.common.exception.UserUpdateException;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
@@ -1210,24 +1209,20 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId}.
+     * Increments the link version for the user with {@code userId}, invalidating all existing links.
      *
-     * @return the user with the new registration key.
-     * @throws UserUpdateException         if system was unable to generate a new
-     *                                     registration key.
+     * @return the user with the incremented link version.
      * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public User regenerateUserRegistrationKey(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegistrationKey(userId);
+    public User regenerateUserLinks(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinks(userId);
     }
 
     /**
-     * Regenerates the registration key and enqueues the corresponding feedback session summary email.
+     * Increments the link version and enqueues the corresponding feedback session summary email.
      */
-    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
+    public User regenerateUserLinksAndEnqueueSummaryEmail(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinksAndEnqueueSummaryEmail(userId);
     }
 
     /**
