@@ -3,6 +3,7 @@ package teammates.common.util;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockStatic;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.mockito.Answers;
@@ -21,6 +22,7 @@ public class LinksUtilTest extends BaseTestCase {
 
     private static final String TEST_BASE_URL = "http://teammates.tmt";
     private static final UUID SAMPLE_SESSION_ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
+    private static final UUID SAMPLE_USER_ID = UUID.fromString("22222222-2222-2222-2222-222222222222");
     private static final String SAMPLE_REG_KEY = "sampleRegKey";
 
     private MockedStatic<Config> mockConfig;
@@ -43,9 +45,9 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentSessionSubmitUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission"
-                + "?key=" + SAMPLE_REG_KEY;
-        assertEquals(expected, LinksUtil.getStudentSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
+        String url = LinksUtil.getStudentSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        assertEquals(TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission",
+                URI.create(url).getScheme() + "://" + URI.create(url).getAuthority() + URI.create(url).getPath());
     }
 
     @Test
@@ -56,9 +58,9 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentSessionResultsUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result"
-                + "?key=" + SAMPLE_REG_KEY;
-        assertEquals(expected, LinksUtil.getStudentSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
+        String url = LinksUtil.getStudentSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_USER_ID, SAMPLE_REG_KEY);
+        assertEquals(TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result",
+                URI.create(url).getScheme() + "://" + URI.create(url).getAuthority() + URI.create(url).getPath());
     }
 
     @Test

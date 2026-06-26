@@ -661,6 +661,11 @@ export interface RubricSubQuestionRow {
   weightAverage?: number;
 }
 
+export interface SessionKeyAccess extends ApiOutput {
+  decision: SessionKeyAccessDecision;
+  message: string;
+}
+
 export interface SessionLinks extends ApiOutput {
   courseJoinLink: string;
   submissionLinks: SessionSubmissionLink[];
@@ -903,6 +908,14 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyAccessDecision {
+  ALLOW_UNREGISTERED = "ALLOW_UNREGISTERED",
+  ALLOW_SIGNED_IN = "ALLOW_SIGNED_IN",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  SIGN_IN_WITH_ANOTHER_ACCOUNT = "SIGN_IN_WITH_ANOTHER_ACCOUNT",
+  INVALID_KEY = "INVALID_KEY",
 }
 
 export enum SessionVisibleSetting {

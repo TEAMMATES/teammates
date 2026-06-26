@@ -302,7 +302,9 @@ public final class Const {
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
+        public static final String SESSION_KEY_ACCESS = URI_PREFIX + "/session/key/access";
         public static final String ACCOUNT = URI_PREFIX + "/account";
+        public static final String ACCOUNT_LINK = URI_PREFIX + "/account/link";
         public static final String ACCOUNT_UNLINK = URI_PREFIX + "/account/unlink";
         public static final String ACCOUNT_VERIFICATION_REQUEST = URI_PREFIX + "/account/request";
         public static final String ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/account/requests";

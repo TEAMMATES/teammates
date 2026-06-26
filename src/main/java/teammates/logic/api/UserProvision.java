@@ -6,6 +6,8 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyValidationResult;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.AutomatedRequestAuth;
@@ -14,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Student;
@@ -31,11 +34,13 @@ public class UserProvision {
             AuthType.AUTOMATED_SERVICE,
             null,
             null,
+            null,
             false,
             false);
 
     private static final AuthContext PUBLIC_AUTH_CONTEXT = new AuthContext(
             AuthType.PUBLIC,
+            null,
             null,
             null,
             false,
@@ -44,6 +49,8 @@ public class UserProvision {
     private final UsersLogic usersLogic = UsersLogic.inst();
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+
+    private final AuthLogic authLogic = AuthLogic.inst();
 
     private final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
 
@@ -122,8 +129,11 @@ public class UserProvision {
      * Checks if the request contains a registration key.
      */
     protected boolean isRegKeyRequest(HttpServletRequest req) {
-        String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-        return regKey != null;
+        String regKey = getEncryptedSessionKeyFromRequest(req);
+        // Temporarily exclude endpoints that accept the old regkey format
+        return regKey != null
+                && !Const.ResourceURIs.AUTH_REGKEY.equals(req.getRequestURI())
+                && !Const.ResourceURIs.JOIN.equals(req.getRequestURI());
     }
 
     /**
@@ -176,6 +186,10 @@ public class UserProvision {
         return null;
     }
 
+    private String getEncryptedSessionKeyFromRequest(HttpServletRequest req) {
+        return req.getParameter(Const.ParamsNames.REGKEY);
+    }
+
     private AuthContext handleBackdoorRequest(HttpServletRequest req) throws UnauthorizedAccessException {
         Account account = null;
         if (isMasqueradeRequest(req)) {
@@ -186,6 +200,7 @@ public class UserProvision {
         return new AuthContext(
                 AuthType.ALL_ACCESS,
                 account,
+                null,
                 null,
                 true,
                 true);
@@ -209,6 +224,7 @@ public class UserProvision {
         AuthType authType = AuthType.LOGGED_IN;
         Account effectiveAccount = account;
         Student validRegKeyUser = null;
+        SessionKey validatedSessionKey = null;
 
         if (isMasqueradeRequest(req)) {
             authType = AuthType.MASQUERADE;
@@ -226,23 +242,24 @@ public class UserProvision {
         }
 
         // If the request contains a registration key, include it in the auth context if
-        // 1. The registration key is valid and belongs to a student, and
-        // 2. The student associated with the registration key is not already associated with another account
+        // 1. The encrypted session key is valid and belongs to a student, and
+        // 2. The student associated with the key is not already associated with another account
         if (isRegKeyRequest(req)) {
-            String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-            Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
-
-            if (regKeyStudent != null
-                    && (regKeyStudent.getAccount() == null
-                            || Objects.equals(effectiveAccount, regKeyStudent.getAccount()))) {
-                validRegKeyUser = regKeyStudent;
+            SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
+                    getEncryptedSessionKeyFromRequest(req));
+            if (result.student().getAccount() != null
+                    && (effectiveAccount == null || !Objects.equals(effectiveAccount, result.student().getAccount()))) {
+                throw new UnauthorizedAccessException("Login is required to access this resource");
             }
+            validRegKeyUser = result.student();
+            validatedSessionKey = result.sessionKey();
         }
 
         return new AuthContext(
                 authType,
                 effectiveAccount,
                 validRegKeyUser,
+                validatedSessionKey,
                 isAdminUser(effectiveAccount),
                 isMaintainerUser(effectiveAccount));
     }
@@ -260,12 +277,9 @@ public class UserProvision {
      */
 
     private AuthContext handleRegkeyUser(HttpServletRequest req) throws UnauthorizedAccessException {
-        String regKey = req.getParameter(Const.ParamsNames.REGKEY);
-        Student regKeyStudent = usersLogic.getStudentByRegistrationKey(regKey);
-
-        if (regKeyStudent == null) {
-            throw new UnauthorizedAccessException("Invalid registration key: no user found for regkey");
-        }
+        SessionKeyValidationResult result = authLogic.validateEncryptedSessionKey(
+                getEncryptedSessionKeyFromRequest(req));
+        Student regKeyStudent = result.student();
 
         if (regKeyStudent.getAccount() != null) {
             throw new UnauthorizedAccessException("Login is required to access this resource");
@@ -275,7 +289,9 @@ public class UserProvision {
                 AuthType.REG_KEY,
                 null,
                 regKeyStudent,
+                result.sessionKey(),
                 false,
                 false);
     }
+
 }

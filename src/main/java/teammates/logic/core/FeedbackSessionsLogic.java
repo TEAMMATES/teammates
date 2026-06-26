@@ -130,8 +130,6 @@ public final class FeedbackSessionsLogic {
 
         List<SessionSubmissionLink> submissionLinks = new ArrayList<>();
         List<SessionResultLink> resultsLinks = new ArrayList<>();
-        String regKey = user.getRegKey();
-
         for (FeedbackSession feedbackSession : getFeedbackSessionsForCourse(user.getCourseId())) {
             submissionLinks.add(new SessionSubmissionLink(
                     feedbackSession.getId(),
@@ -140,7 +138,7 @@ public final class FeedbackSessionsLogic {
                     feedbackSession.getEndTime().toEpochMilli(),
                     feedbackSession.getCourse().getTimeZone(),
                     getSubmissionStatus(feedbackSession),
-                    getSubmissionUrl(user.getUserType(), feedbackSession.getId(), regKey)));
+                    getSubmissionUrl(user, feedbackSession.getId())));
 
             if (feedbackSession.isPublished()) {
                 resultsLinks.add(new SessionResultLink(
@@ -149,11 +147,12 @@ public final class FeedbackSessionsLogic {
                         feedbackSession.getStartTime().toEpochMilli(),
                         feedbackSession.getEndTime().toEpochMilli(),
                         feedbackSession.getCourse().getTimeZone(),
-                        getResultUrl(user.getUserType(), feedbackSession.getId(), regKey)));
+                        getResultUrl(user, feedbackSession.getId())));
             }
         }
 
-        return new SessionLinksBundle(getCourseJoinUrl(user.getUserType(), regKey), submissionLinks, resultsLinks);
+        return new SessionLinksBundle(getCourseJoinUrl(user.getUserType(), user.getRegKey()),
+                submissionLinks, resultsLinks);
     }
 
     /**
@@ -472,10 +471,10 @@ public final class FeedbackSessionsLogic {
                         session.getName(),
                         session.getEndTime(),
                         session.isOpened() || session.isClosed()
-                                ? getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                ? getSubmissionUrl(user, session.getId())
                                 : null,
                         session.isPublished()
-                                ? getResultUrl(user.getUserType(), session.getId(), user.getRegKey())
+                                ? getResultUrl(user, session.getId())
                                 : null))
                 .toList();
     }
@@ -610,7 +609,7 @@ public final class FeedbackSessionsLogic {
                 deadline,
                 !session.getEndTime().equals(deadline),
                 session.getInstructionsString(),
-                getSubmissionUrl(user.getUserType(), session.getId(), user.getRegKey()),
+                getSubmissionUrl(user, session.getId()),
                 user instanceof Instructor,
                 coOwnerContacts);
     }
@@ -624,7 +623,7 @@ public final class FeedbackSessionsLogic {
                 course.getId(),
                 course.getName(),
                 session.getName(),
-                getResultUrl(user.getUserType(), session.getId(), user.getRegKey()),
+                getResultUrl(user, session.getId()),
                 user instanceof Instructor,
                 coOwnerContacts);
     }
@@ -720,17 +719,23 @@ public final class FeedbackSessionsLogic {
         };
     }
 
-    private String getSubmissionUrl(UserType userType, UUID feedbackSessionId, String regKey) {
-        return switch (userType) {
-        case STUDENT -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, regKey);
-        case INSTRUCTOR -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
+    private String getSubmissionUrl(User user, UUID feedbackSessionId) {
+        return switch (user) {
+        case Student student -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, student.getId(),
+                student.getRegKey());
+        case @SuppressWarnings("unused") Instructor instructor ->
+                LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId);
+        default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
     }
 
-    private String getResultUrl(UserType userType, UUID feedbackSessionId, String regKey) {
-        return switch (userType) {
-        case STUDENT -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, regKey);
-        case INSTRUCTOR -> LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
+    private String getResultUrl(User user, UUID feedbackSessionId) {
+        return switch (user) {
+        case Student student -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, student.getId(),
+                student.getRegKey());
+        case @SuppressWarnings("unused") Instructor instructor ->
+                LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId);
+        default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
     }
 

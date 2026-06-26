@@ -209,6 +209,11 @@ export interface InstructorUpdateRequest extends BasicRequest {
   privileges?: InstructorPrivileges;
 }
 
+export interface LinkAccountRequest extends BasicRequest {
+  accountId: string;
+  userId: string;
+}
+
 export interface MarkNotificationAsReadRequest extends BasicRequest {
   notificationId: string;
 }
@@ -244,6 +249,12 @@ export interface ResponseInstructorCommentUpdateRequest extends ResponseInstruct
 
 export interface SendEmailRequest extends BasicRequest {
   email: EmailWrapper;
+}
+
+export interface SessionKeyAccessRequest extends BasicRequest {
+  feedbackSessionId: string;
+  key: string;
+  type: SessionKeyType;
 }
 
 export interface StudentEnrollRequest extends BasicRequest {
@@ -393,6 +404,11 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyType {
+  SUBMISSION = "SUBMISSION",
+  RESULTS = "RESULTS",
 }
 
 export enum SessionVisibleSetting {

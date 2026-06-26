@@ -21,6 +21,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyAccessResult;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
@@ -150,6 +151,13 @@ public class Logic {
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Gets the access decision for a student session key request using the supplied encrypted key.
+     */
+    public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
+        return authLogic.getSessionKeyAccessResult(currentAccount, encryptedKey);
     }
 
     /**

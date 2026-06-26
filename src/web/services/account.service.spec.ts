@@ -10,6 +10,7 @@ import {
   AccountCreateRequest,
   AccountVerificationRequestRejectionType,
   AccountVerificationRequestUpdateRequest,
+  LinkAccountRequest,
 } from '../types/api-request';
 
 describe('AccountService', () => {
@@ -86,6 +87,19 @@ describe('AccountService', () => {
       userid: 'testUserId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
+  });
+
+  it('should execute PUT on account/link endpoint', () => {
+    const request: LinkAccountRequest = {
+      accountId: 'testAccountId',
+      userId: 'testUserId',
+    };
+    service.linkAccount(request, 'test-key');
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_LINK,
+      { key: 'test-key' },
+      request,
+    );
   });
 
   it('should execute POST on account verification request approval endpoint', () => {

@@ -43,6 +43,7 @@ import teammates.test.EmailChecker;
 public class EmailRendererTest extends BaseTestCase {
 
     private static final UUID FEEDBACK_SESSION_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    private static final UUID USER_ID = UUID.fromString("00000000-0000-0000-0000-000000000002");
     private static final String REG_KEY = "ABCDEF0123456789ABCDEF0123456789";
 
     @Test
@@ -106,7 +107,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -167,7 +168,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         true,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -230,7 +231,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -289,7 +290,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "idOfTypicalCourse1",
                         "Typical Course 1 with 2 Evals",
                         "First feedback session",
-                        LinksUtil.getStudentSessionResultsUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionResultsUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -680,7 +681,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_GRANTED));
@@ -694,7 +695,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_UPDATED));
@@ -708,7 +709,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, REG_KEY),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         EmailType.DEADLINE_EXTENSION_REVOKED));

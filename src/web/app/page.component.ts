@@ -142,10 +142,12 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationTargetUser ||= NotificationTargetUser.GENERAL;
     this.loadAuthDetails();
   }
 
   private loadAuthDetails(): void {
+
     this.configService.getConfig().subscribe((config) => {
       if (config.frontendUrl) {
         this.logoutUrl += `?frontendUrl=${encodeURIComponent(config.frontendUrl)}`;
