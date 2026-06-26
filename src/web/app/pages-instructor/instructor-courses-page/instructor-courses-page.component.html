@@ -111,7 +111,6 @@
                   <th>Sections</th>
                   <th>Teams</th>
                   <th>Total Students</th>
-                  <th>Total Unregistered</th>
                   <th class="text-center">Action(s)</th>
                 </tr>
               </thead>
@@ -179,22 +178,6 @@
                       @if (courseStats[course.course.courseId]) {
                         <span>
                           {{ courseStats[course.course.courseId]['students'] }}
-                        </span>
-                      }
-                    </td>
-                    <td>
-                      @if (!courseStats[course.course.courseId]) {
-                        <span>
-                          @if (!course.isLoadingCourseStats) {
-                            <button (click)="getCourseStats(i)" class="link-button">Show</button>
-                          } @else {
-                            <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
-                          }
-                        </span>
-                      }
-                      @if (courseStats[course.course.courseId]) {
-                        <span>
-                          {{ courseStats[course.course.courseId]['unregistered'] }}
                         </span>
                       }
                     </td>
