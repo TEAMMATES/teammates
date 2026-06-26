@@ -51,6 +51,7 @@ dependencies {
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
     implementation("com.google.api-client:google-api-client:2.9.0")
+    implementation("com.microsoft.azure:msal4j:1.25.0")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
