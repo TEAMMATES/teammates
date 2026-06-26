@@ -36,9 +36,18 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final Set<String> SCOPES = Set.of("openid", "email");
-    private static final String AUTHORITY = "https://login.microsoftonline.com/" + Config.OIDC_MICROSOFT_TENANT_ID;
+    private static final Set<String> SCOPES = Set.of("openid", "email", "profile");
     private static final Set<String> MULTI_TENANT_AUTHORITIES = Set.of("common", "organizations");
+
+    private final String expectedTenantId;
+
+    public MicrosoftLoginHandler() {
+        this(Config.OIDC_MICROSOFT_TENANT_ID);
+    }
+
+    MicrosoftLoginHandler(String expectedTenantId) {
+        this.expectedTenantId = expectedTenantId;
+    }
 
     @Override
     public String handleLogin(HttpServletRequest req, String nextUrl) throws IOException, AuthException {
@@ -77,11 +86,12 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
 
         String tenantId = getRequiredClaim(claims, "tid");
         if (!isExpectedTenantId(tenantId)) {
-            throw new AuthException("Invalid tenant ID: expected " + Config.OIDC_MICROSOFT_TENANT_ID
+            throw new AuthException("Invalid tenant ID: expected " + expectedTenantId
                     + ", got " + tenantId);
         }
 
         String subject = getRequiredClaim(claims, "sub");
+        // Add a fallback as email claim may not be present in the ID token.
         String email = getRequiredClaim(claims, "email", "preferred_username");
 
         return new AuthResult(Provider.MICROSOFT, subject, tenantId, email);
@@ -113,17 +123,17 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
         }
         try {
             String claimsJson = new String(Base64.getUrlDecoder().decode(tokenParts[1]), StandardCharsets.UTF_8);
-            return JsonUtils.fromJson(claimsJson, new TypeReference<Map<String, Object>>() {});
+            return JsonUtils.fromJson(claimsJson, new TypeReference<>() {});
         } catch (IllegalArgumentException e) {
             throw new AuthException("Invalid ID token claims", e);
         }
     }
 
     private String getRequiredClaim(Map<String, Object> claims, String claimName) throws AuthException {
-        return getRequiredClaim(claims, claimName, new String[0]);
+        return getRequiredClaim(claims, claimName, null);
     }
 
-    private String getRequiredClaim(Map<String, Object> claims, String claimName, String... fallbackClaimNames)
+    private String getRequiredClaim(Map<String, Object> claims, String claimName, String fallbackClaimName)
             throws AuthException {
         Object rawValue = claims.get(claimName);
         String value = rawValue instanceof String ? (String) rawValue : null;
@@ -131,7 +141,7 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
             return value;
         }
 
-        for (String fallbackClaimName : fallbackClaimNames) {
+        if (!StringHelper.isEmpty(fallbackClaimName)) {
             rawValue = claims.get(fallbackClaimName);
             value = rawValue instanceof String ? (String) rawValue : null;
             if (!StringHelper.isEmpty(value)) {
@@ -142,12 +152,12 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
         throw new AuthException("Missing " + claimName + " claim");
     }
 
-    boolean isExpectedTenantId(String tenantId) {
+    private boolean isExpectedTenantId(String tenantId) {
         if (StringHelper.isEmpty(tenantId)) {
             return false;
         }
-        return MULTI_TENANT_AUTHORITIES.contains(Config.OIDC_MICROSOFT_TENANT_ID)
-                || Config.OIDC_MICROSOFT_TENANT_ID.equals(tenantId);
+        return MULTI_TENANT_AUTHORITIES.contains(expectedTenantId)
+                || expectedTenantId.equals(tenantId);
     }
 
     private ConfidentialClientApplication getClientApplication() throws AuthException {
@@ -155,7 +165,7 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
             return ConfidentialClientApplication
                     .builder(Config.OIDC_MICROSOFT_CLIENT_ID,
                             ClientCredentialFactory.createFromSecret(Config.OIDC_MICROSOFT_CLIENT_SECRET))
-                    .authority(AUTHORITY)
+                    .authority("https://login.microsoftonline.com/" + expectedTenantId)
                     .build();
         } catch (Exception e) {
             throw new AuthException("Failed to create Microsoft Entra client application", e);

@@ -1,9 +1,7 @@
 package teammates.ui.loginmethodhandlers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -83,7 +81,7 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
 
     @Test
     public void handleCallback_validResponse_returnsValidAuthResult() throws Exception {
-        MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler());
+        MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler("actual-tenant-id"));
         IAuthenticationResult tokenResponse = mock(IAuthenticationResult.class);
         doReturn(createIdToken()).when(tokenResponse).idToken();
         doReturn(tokenResponse).when(loginHandler).requestToken(eq("authorization-code"), eq(OAUTH_CALLBACK_URL));
@@ -100,8 +98,8 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     }
 
     @Test
-    public void handleCallback_missingEmailClaim_usesPreferredUsername() throws Exception {
-        MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler());
+    public void handleCallback_validResponseWithFallbackEmailClaim_returnsValidAuthResult() throws Exception {
+        MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler("actual-tenant-id"));
         IAuthenticationResult tokenResponse = mock(IAuthenticationResult.class);
         doReturn(createIdToken(Map.of(
                 "sub", "microsoft-subject",
@@ -114,6 +112,9 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
 
         AuthResult result = loginHandler.handleCallback(req, state);
 
+        assertEquals(Provider.MICROSOFT, result.provider());
+        assertEquals("microsoft-subject", result.subject());
+        assertEquals("actual-tenant-id", result.tenantId());
         assertEquals("user@example.com", result.email());
     }
 
@@ -121,6 +122,15 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     public void handleCallback_errorResponse_throwsInvalidAuthStateException() {
         MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         req.addParam("error", "access_denied");
+        AuthState state = new AuthState("/", "1234", LoginMethod.MICROSOFT);
+
+        assertThrows(AuthException.class,
+                () -> microsoftLoginHandler.handleCallback(req, state));
+    }
+
+    @Test
+    public void handleCallback_missingCode_throwsInvalidAuthStateException() {
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
         AuthState state = new AuthState("/", "1234", LoginMethod.MICROSOFT);
 
         assertThrows(AuthException.class,
@@ -138,13 +148,17 @@ public class MicrosoftLoginHandlerTest extends BaseTestCase {
     }
 
     @Test
-    public void isExpectedTenantId_multiTenantAuthority_returnsTrue() {
-        assertTrue(microsoftLoginHandler.isExpectedTenantId("actual-tenant-id"));
-    }
+    public void handleCallback_invalidTenantId_throwsInvalidAuthStateException() throws Exception {
+        MicrosoftLoginHandler loginHandler = spy(new MicrosoftLoginHandler("actual-tenant-id"));
+        IAuthenticationResult tokenResponse = mock(IAuthenticationResult.class);
+        doReturn(createIdToken("invalid-tenant-id")).when(tokenResponse).idToken();
+        doReturn(tokenResponse).when(loginHandler).requestToken(eq("authorization-code"), eq(OAUTH_CALLBACK_URL));
+        MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, OAUTH_CALLBACK_URL);
+        req.addParam("code", "authorization-code");
+        AuthState state = new AuthState("/", "1234", LoginMethod.MICROSOFT);
 
-    @Test
-    public void isExpectedTenantId_blankTenantId_returnsFalse() {
-        assertFalse(microsoftLoginHandler.isExpectedTenantId(""));
+        assertThrows(AuthException.class,
+                () -> loginHandler.handleCallback(req, state));
     }
 
     private static String getQueryParam(GenericUrl url, String name) {
