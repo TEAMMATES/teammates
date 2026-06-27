@@ -854,6 +854,7 @@ export enum JoinState {
 
 export enum LoginMethod {
   GOOGLE = "google",
+  MICROSOFT = "microsoft",
   DEV_SERVER = "devserver",
 }
 
