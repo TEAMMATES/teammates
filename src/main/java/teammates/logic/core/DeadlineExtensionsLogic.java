@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,6 +102,44 @@ public final class DeadlineExtensionsLogic {
         }
 
         return deadlineExtension.getEndTime();
+    }
+
+    /**
+     * Gets deadlines for the given users and their feedback sessions.
+     */
+    public Map<FeedbackSession, Instant> getDeadlinesForUsers(
+            Map<User, List<FeedbackSession>> sessionsByUser) {
+        Map<FeedbackSession, Instant> deadlines = new LinkedHashMap<>();
+        if (sessionsByUser.isEmpty()) {
+            return deadlines;
+        }
+
+        List<UUID> userIds = sessionsByUser.keySet().stream()
+                .map(User::getId)
+                .distinct()
+                .toList();
+        List<UUID> sessionIds = sessionsByUser.values().stream()
+                .flatMap(List::stream)
+                .map(FeedbackSession::getId)
+                .distinct()
+                .toList();
+
+        Map<UserSession, Instant> extensionDeadlines = new LinkedHashMap<>();
+        List<DeadlineExtension> extensions =
+                deadlineExtensionsDb.getDeadlineExtensionsForUsersAndSessions(userIds, sessionIds);
+        for (DeadlineExtension extension : extensions) {
+            extensionDeadlines.put(
+                    new UserSession(extension.getUserId(), extension.getSessionId()),
+                    extension.getEndTime());
+        }
+
+        sessionsByUser.forEach((user, sessions) -> {
+            sessions.forEach(session -> {
+                UserSession userSession = new UserSession(user.getId(), session.getId());
+                deadlines.put(session, extensionDeadlines.getOrDefault(userSession, session.getEndTime()));
+            });
+        });
+        return deadlines;
     }
 
     /**
@@ -297,6 +336,9 @@ public final class DeadlineExtensionsLogic {
                 LinksUtil.getInstructorSessionSubmitUrl(feedbackSession.getId());
         default -> throw new AssertionError("User must be either an instructor or a student: " + user);
         };
+    }
+
+    private record UserSession(UUID userId, UUID sessionId) {
     }
 
 }

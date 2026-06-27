@@ -80,6 +80,31 @@ public class DeadlineExtensionsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void getDeadlineExtensionsForUsersAndSessions_matchingExtensionsExist_returnsOnlyMatchingExtensions() {
+        var student = given.student("student");
+        var anotherStudent = given.student("another-student");
+        var feedbackSession = given.feedbackSession("feedback-session");
+        var anotherFeedbackSession = given.feedbackSession("another-feedback-session");
+        var matchingExtension = given.deadlineExtension("matching-extension",
+                de -> de.student(student.alias()).feedbackSession(feedbackSession.alias()));
+        var anotherMatchingExtension = given.deadlineExtension("another-matching-extension",
+                de -> de.student(anotherStudent.alias()).feedbackSession(anotherFeedbackSession.alias()));
+        given.deadlineExtension("unrequested-user-extension",
+                de -> de.student("unrequested-student").feedbackSession(feedbackSession.alias()));
+        given.deadlineExtension("unrequested-session-extension",
+                de -> de.student(student.alias()).feedbackSession("unrequested-feedback-session"));
+        persistGivenData(given);
+
+        List<DeadlineExtension> actual = inTransaction(
+                () -> deadlineExtensionsDb.getDeadlineExtensionsForUsersAndSessions(
+                        List.of(student.id(), anotherStudent.id()),
+                        List.of(feedbackSession.id(), anotherFeedbackSession.id())));
+
+        assertEquals(Set.of(matchingExtension.id(), anotherMatchingExtension.id()),
+                actual.stream().map(DeadlineExtension::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
     public void persistDeadlineExtension_deadlineExtensionIsNew_deadlineExtensionIsPersisted() {
         var feedbackSessionRef = given.feedbackSession("feedback-session");
         var studentRef = given.student("student");
