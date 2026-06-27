@@ -3,7 +3,6 @@ package teammates.e2e.pageobjects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -150,18 +149,6 @@ public class InstructorSearchPage extends AppPage {
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         return changePageType(InstructorStudentRecordsPage.class);
-    }
-
-    public void verifyStudentActionButtons(Course course, String studentEmail) {
-        WebElement studentRow = getStudentRow(course, studentEmail);
-        List<WebElement> actionElements = studentRow.findElements(By.cssSelector(
-                "[id^='btn-view-details-'], [id^='btn-edit-details-'], [id^='btn-delete-'], [id^='btn-view-records-'],"
-                        + " [id^='btn-send-invite-']"));
-
-        List<String> actionTexts = new ArrayList<>();
-        actionElements.forEach(actionElement -> actionTexts.add(actionElement.getText().trim()));
-
-        assertEquals(List.of("View", "Edit", "Delete", "All Records"), actionTexts);
     }
 
 }

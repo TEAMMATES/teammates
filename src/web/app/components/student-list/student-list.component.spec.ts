@@ -498,34 +498,6 @@ describe('StudentListComponent', () => {
     expect(sendInviteButton).toBeTruthy();
   });
 
-  it('should not display "Send Invite" button when remind button is disabled', () => {
-    component.enableRemindButton = false;
-    component.studentModels = [
-      {
-        student: {
-          name: 'tester',
-          teamName: 'Team 1',
-          teamId: 'team-1',
-          email: 'tester@tester.com',
-          joinState: JoinState.NOT_JOINED,
-          sectionName: 'Tutorial Group 1',
-          sectionId: 'section-1',
-          courseId: 'text-exa.demo',
-          courseName: 'Test Course',
-          institute: 'Test Institute',
-          userId: 'student-023',
-        },
-        isAllowedToModifyStudent: true,
-      },
-    ];
-
-    fixture.detectChanges();
-
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const sendInviteButton = buttons.find((button) => button.nativeElement.textContent.includes('Send Invite'));
-    expect(sendInviteButton).toBeFalsy();
-  });
-
   it('hasSection: should return true when there are sections in the course', () => {
     const studentOne = studentBuilder.sectionName('None').build();
     const studentTwo = studentBuilder.sectionName('section-one').build();

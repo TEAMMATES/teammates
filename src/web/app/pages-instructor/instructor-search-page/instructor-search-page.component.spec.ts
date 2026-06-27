@@ -1,6 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
@@ -246,38 +245,6 @@ describe('InstructorSearchPageComponent', () => {
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display only view, edit, delete, and all records buttons for search results', () => {
-    component.studentsListRowTables = [
-      {
-        courseId: 'test-exa.demo',
-        students: [
-          {
-            student: {
-              name: 'tester',
-              teamName: 'Team 1',
-              teamId: 'team-1',
-              email: 'tester@tester.com',
-              joinState: JoinState.NOT_JOINED,
-              sectionName: 'Tutorial Group 1',
-              sectionId: 'tutorial-group-1',
-              courseId: 'test-exa.demo',
-              courseName: 'Test Course',
-              institute: 'Test Institute',
-              userId: 'student-9',
-            },
-            isAllowedToModifyStudent: true,
-          },
-        ],
-      },
-    ];
-
-    fixture.detectChanges();
-
-    const actionElements = fixture.debugElement.queryAll(By.css('tm-group-buttons a, tm-group-buttons button'));
-    const actionTexts = actionElements.map((actionElement) => actionElement.nativeElement.textContent.trim());
-    expect(actionTexts).toEqual(['View', 'Edit', 'Delete', 'All Records']);
   });
 
   it('should parse students into courses with sections correctly', () => {

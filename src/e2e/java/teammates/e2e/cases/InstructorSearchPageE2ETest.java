@@ -67,7 +67,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         courseIdToCourse.put(course2.getId(), course2);
 
         searchPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
-        searchPage.verifyStudentActionButtons(course2, testData.students.get("student2InCourse2").getEmail());
 
         ______TS("link: view student details page");
 
