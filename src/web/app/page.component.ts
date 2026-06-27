@@ -1,4 +1,4 @@
-import { Location, NgStyle } from '@angular/common';
+import { Location } from '@angular/common';
 import {
   Component,
   Directive,
@@ -66,7 +66,6 @@ export class ClickOutsideDirective {
   imports: [
     forwardRef(() => ClickOutsideDirective),
     RouterLink,
-    NgStyle,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -96,6 +95,7 @@ export class PageComponent implements OnInit {
   isInstructor = false;
   isAdmin = false;
   isMaintainer = false;
+  isMasquerading = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
   @Input() navItems: NavItem[] = [];
@@ -143,7 +143,10 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationTargetUser ||= NotificationTargetUser.GENERAL;
+    this.loadAuthDetails();
+  }
 
+  private loadAuthDetails(): void {
     this.configService.getConfig().subscribe((config) => {
       if (config.frontendUrl) {
         this.logoutUrl += `?frontendUrl=${encodeURIComponent(config.frontendUrl)}`;
@@ -161,9 +164,10 @@ export class PageComponent implements OnInit {
       .subscribe({
         next: (authInfo: AuthInfo) => {
           const user = authInfo.user;
+          this.isMasquerading = authInfo.masquerade;
           if (user) {
             this.accountEmail = user.accountEmail;
-            if (authInfo.masquerade) {
+            if (this.isMasquerading) {
               this.accountEmail += ' (M)';
             }
             this.isStudent = user.isStudent;
@@ -171,6 +175,7 @@ export class PageComponent implements OnInit {
             this.isAdmin = user.isAdmin;
             this.isMaintainer = user.isMaintainer;
           } else {
+            this.accountEmail = '';
             this.isStudent = false;
             this.isInstructor = false;
             this.isAdmin = false;
@@ -208,6 +213,12 @@ export class PageComponent implements OnInit {
    */
   getUrl(): string {
     return this.router.url;
+  }
+
+  exitMasqueradeMode(): void {
+    this.masqueradeModeService.clearMasquerade();
+    this.authService.clearAuthCache();
+    this.loadAuthDetails();
   }
 
   logout(): void {
