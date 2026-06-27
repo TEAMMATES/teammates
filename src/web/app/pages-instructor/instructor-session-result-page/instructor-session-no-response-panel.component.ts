@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NavigationService } from '../../../services/navigation.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
@@ -12,9 +12,6 @@ import {
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
-import { SendRemindersToRespondentsModalComponent } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
-import { ReminderResponseModel } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { RouterLink } from '@angular/router';
 
 /**
@@ -27,7 +24,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink, PanelChevronComponent, LoadingSpinnerDirective, NgbCollapse],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
-  private ngbModal = inject(NgbModal);
+  private readonly navigationService = inject(NavigationService);
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
@@ -63,8 +60,6 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   noResponseStudentsInSection: Student[] = [];
 
-  @Output() studentsToRemindEvent: EventEmitter<ReminderResponseModel> = new EventEmitter();
-
   constructor() {
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
     this.SortBy = SortBy;
@@ -89,38 +84,14 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     }
   }
 
-  openSendReminderModal(event: Event): void {
+  openSendReminderPage(event: Event): void {
     event.stopPropagation();
 
-    const courseId: string = this.session.courseId;
-    const feedbackSessionName: string = this.session.feedbackSessionName;
-
-    const nonResponseStudentEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
-    const nonResponseStudentEmailSet: Set<string> = new Set(nonResponseStudentEmails);
-
-    const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
-    modalRef.componentInstance.courseId = courseId;
-    modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-    modalRef.componentInstance.studentListInfoTableRowModels = this.allStudents.map(
-      (student: Student) =>
-        ({
-          id: student.userId,
-          email: student.email,
-          name: student.name,
-          teamName: student.teamName,
-          sectionName: student.sectionName,
-
-          hasSubmittedSession: !nonResponseStudentEmailSet.has(student.email),
-          isSelected: nonResponseStudentEmailSet.has(student.email),
-        }) satisfies StudentListInfoTableRowModel,
-    );
-
-    modalRef.result.then(
-      (reminderResponse: ReminderResponseModel) => {
-        this.studentsToRemindEvent.emit(reminderResponse);
-      },
-      () => {},
-    );
+    const returnUrl = `${globalThis.location.pathname}${globalThis.location.search}`;
+    this.navigationService.navigateByURL(`/web/instructor/sessions/${this.session.feedbackSessionId}/send-reminders`, {
+      preselectNonSubmitters: 'true',
+      returnUrl,
+    });
   }
 
   /**

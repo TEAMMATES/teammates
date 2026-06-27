@@ -1,0 +1,15 @@
+.align-row-right {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: right;
+}
+
+.remind-all {
+  width: 250px;
+}
+
+.top-padded-sm {
+  padding-top: 10px;
+}
