@@ -135,6 +135,10 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     studentService = TestBed.inject(StudentService);
   });
 
+  function getCheckbox(id: string): HTMLInputElement {
+    return fixture.nativeElement.querySelector(`#${id}`) as HTMLInputElement;
+  }
+
   function createComponent(preselectNonSubmitters = 'false', returnUrl = '/web/instructor/home'): void {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
@@ -165,6 +169,141 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     expect(component.instructorListInfoTableRowModels).toEqual([
       expect.objectContaining({ id: 'instructor-1', isSelected: true, hasSubmittedSession: false }),
     ]);
+  });
+
+  it('should select all students when the student selection handler is triggered', () => {
+    createComponent();
+    component.studentListInfoTableRowModels = [
+      { ...component.studentListInfoTableRowModels[0], isSelected: true },
+      { ...component.studentListInfoTableRowModels[1], isSelected: false },
+    ];
+
+    component.changeSelectionStatusForAllStudentsHandler(true);
+
+    expect(component.studentListInfoTableRowModels.map((model) => model.isSelected)).toEqual([true, true]);
+  });
+
+  it('should deselect all students when the student selection handler is triggered with false', () => {
+    createComponent();
+    component.studentListInfoTableRowModels = component.studentListInfoTableRowModels.map((model) => ({
+      ...model,
+      isSelected: true,
+    }));
+
+    component.changeSelectionStatusForAllStudentsHandler(false);
+
+    expect(component.studentListInfoTableRowModels.map((model) => model.isSelected)).toEqual([false, false]);
+  });
+
+  it('should select only students who have not submitted when the corresponding handler is triggered', () => {
+    createComponent();
+    component.studentListInfoTableRowModels = [
+      { ...component.studentListInfoTableRowModels[0], isSelected: false, hasSubmittedSession: false },
+      { ...component.studentListInfoTableRowModels[1], isSelected: false, hasSubmittedSession: true },
+    ];
+
+    component.changeSelectionStatusForAllYetSubmittedStudentsHandler(true);
+
+    expect(component.studentListInfoTableRowModels.map((model) => model.isSelected)).toEqual([true, false]);
+  });
+
+  it('should select all instructors when the instructor selection handler is triggered', () => {
+    createComponent();
+    component.instructorListInfoTableRowModels = [
+      { ...component.instructorListInfoTableRowModels[0], isSelected: false },
+      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: true },
+    ];
+
+    component.changeSelectionStatusForAllInstructorsHandler(true);
+
+    expect(component.instructorListInfoTableRowModels.map((model) => model.isSelected)).toEqual([true, true]);
+  });
+
+  it('should deselect all instructors when the instructor selection handler is triggered with false', () => {
+    createComponent();
+    component.instructorListInfoTableRowModels = [
+      { ...component.instructorListInfoTableRowModels[0], isSelected: true },
+      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: true },
+    ];
+
+    component.changeSelectionStatusForAllInstructorsHandler(false);
+
+    expect(component.instructorListInfoTableRowModels.map((model) => model.isSelected)).toEqual([false, false]);
+  });
+
+  it('should select only instructors who have not submitted when the corresponding handler is triggered', () => {
+    createComponent();
+    component.instructorListInfoTableRowModels = [
+      { ...component.instructorListInfoTableRowModels[0], isSelected: false, hasSubmittedSession: false },
+      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: false, hasSubmittedSession: true },
+    ];
+
+    component.changeSelectionStatusForAllYetSubmittedInstructorsHandler(true);
+
+    expect(component.instructorListInfoTableRowModels.map((model) => model.isSelected)).toEqual([true, false]);
+  });
+
+  it('should toggle sending a copy to the instructor when the handler is triggered', async () => {
+    createComponent();
+    await vi.waitFor(() => expect(getCheckbox('sendCopyToIns').checked).toBe(true));
+
+    component.changeSelectionStatusForSendingCopyToInstructorHandler(false);
+    fixture.detectChanges();
+
+    expect(component.isSendingCopyToInstructor).toBe(false);
+    await vi.waitFor(() => expect(getCheckbox('sendCopyToIns').checked).toBe(false));
+  });
+
+  it('should reflect student selection state in the selection button computed state', async () => {
+    createComponent();
+    component.studentListInfoTableRowModels = [
+      { ...component.studentListInfoTableRowModels[0], isSelected: true, hasSubmittedSession: false },
+      { ...component.studentListInfoTableRowModels[1], isSelected: false, hasSubmittedSession: true },
+    ];
+    fixture.detectChanges();
+
+    expect(component.isAllStudentsSelected).toBe(false);
+    expect(component.isAllYetToSubmitStudentsSelected).toBe(true);
+    await vi.waitFor(() => expect(getCheckbox('remindAllStu').checked).toBe(false));
+    await vi.waitFor(() => expect(getCheckbox('remindNotSubmittedStu').checked).toBe(true));
+  });
+
+  it('should reflect instructor selection state in the selection button computed state', async () => {
+    createComponent();
+    component.instructorListInfoTableRowModels = [
+      { ...component.instructorListInfoTableRowModels[0], isSelected: true, hasSubmittedSession: false },
+      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: false, hasSubmittedSession: true },
+    ];
+    fixture.detectChanges();
+
+    expect(component.isAllInstructorsSelected).toBe(false);
+    expect(component.isAllYetToSubmitInstructorsSelected).toBe(true);
+    await vi.waitFor(() => expect(getCheckbox('remindAllIns').checked).toBe(false));
+    await vi.waitFor(() => expect(getCheckbox('remindNotSubmittedIns').checked).toBe(true));
+  });
+
+  it('should check the select-all student checkbox when all students are selected', async () => {
+    createComponent();
+    component.studentListInfoTableRowModels = component.studentListInfoTableRowModels.map((model) => ({
+      ...model,
+      isSelected: true,
+    }));
+    fixture.detectChanges();
+
+    expect(component.isAllStudentsSelected).toBe(true);
+    await vi.waitFor(() => expect(getCheckbox('remindAllStu').checked).toBe(true));
+  });
+
+  it('should check the select-all instructor checkbox when all instructors are selected', async () => {
+    createComponent();
+    component.instructorListInfoTableRowModels = component.instructorListInfoTableRowModels.map((model) => ({
+      ...model,
+      isSelected: true,
+    }));
+    fixture.detectChanges();
+
+    expect(component.isAllInstructorsSelected).toBe(true);
+    await vi.waitFor(() => expect(getCheckbox('remindAllIns').checked).toBe(true));
   });
 
   it('should send reminders and navigate back to the return URL', () => {
