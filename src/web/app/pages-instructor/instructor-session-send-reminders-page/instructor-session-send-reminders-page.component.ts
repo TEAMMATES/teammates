@@ -188,11 +188,11 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.statusMessageService.showSuccessToast(
+          this.navigationService.navigateWithSuccessMessage(
+            this.getSafeReturnUrl(),
             'Reminder e-mails have been sent out to those students and instructors. ' +
               'Please allow up to 1 hour for all the notification emails to be sent out.',
           );
-          this.navigationService.navigateByURL(this.getSafeReturnUrl());
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

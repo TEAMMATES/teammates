@@ -311,8 +311,7 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     const remindSpy = vi
       .spyOn(feedbackSessionsService, 'remindFeedbackSessionSubmissionForRespondents')
       .mockReturnValue(of({ message: '' }));
-    const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
-    const navigateSpy = vi.spyOn(navigationService, 'navigateByURL').mockResolvedValue(true);
+    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
 
     component.sendReminders();
 
@@ -320,8 +319,11 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
       usersToRemind: ['student-1', 'instructor-1'],
       isSendingCopyToInstructor: true,
     });
-    expect(successSpy).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith('/web/instructor/sessions');
+    expect(navigateSpy).toHaveBeenCalledWith(
+      '/web/instructor/sessions',
+      'Reminder e-mails have been sent out to those students and instructors. ' +
+        'Please allow up to 1 hour for all the notification emails to be sent out.',
+    );
   });
 
   it('should fall back to the report page when returnUrl is invalid', () => {
