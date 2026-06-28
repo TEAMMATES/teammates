@@ -205,24 +205,25 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
     }
 
-    public void sendReminderEmailToSelectedStudent(FeedbackSession session, Student student) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToSelectedStudent(
+            FeedbackSession session, Student student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
         InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
         sendRemindersPage.submitReminderToSelectedStudent(student.getEmail());
-        changePageType(InstructorFeedbackSessionsPage.class);
+        return sendRemindersPage;
     }
 
-    public void sendReminderEmailToNonSubmitters(FeedbackSession session) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToNonSubmitters(FeedbackSession session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
         InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
         sendRemindersPage.submitReminderToPreselectedNonSubmitters();
-        changePageType(InstructorFeedbackSessionsPage.class);
+        return sendRemindersPage;
     }
 
     public void resendResultsLink(FeedbackSession session, Student student) {

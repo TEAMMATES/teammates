@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorHomePage;
+import teammates.e2e.pageobjects.InstructorSessionSendRemindersPage;
 import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -152,16 +153,21 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         verifySessionPublishedState(feedbackSessionOpen, true);
 
         ______TS("send reminder email to selected student");
-        homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
+        InstructorSessionSendRemindersPage sendRemindersPage =
+                homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
 
-        homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
+        homePage.sortCoursesByName();
 
         ______TS("send reminder email to all student non-submitters");
-        homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
+        sendRemindersPage = homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
 
-        homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
+        homePage.sortCoursesByName();
 
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);

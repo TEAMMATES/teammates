@@ -73,7 +73,8 @@ public class InstructorHomePage extends AppPage {
         clickAndConfirm(unpublishButtons.get(unpublishButtons.size() - 1));
     }
 
-    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, Student student) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToSelectedStudent(
+            int courseTabIndex, int sessionIndex, Student student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
@@ -82,10 +83,10 @@ public class InstructorHomePage extends AppPage {
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
         sendRemindersPage.submitReminderToSelectedStudent(student.getEmail());
-        changePageType(InstructorHomePage.class);
+        return sendRemindersPage;
     }
 
-    public void sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
         List<WebElement> remindSelectedButtons = browser.driver.findElements(
@@ -94,7 +95,7 @@ public class InstructorHomePage extends AppPage {
         click(remindSelectedButtons.get(remindSelectedButtons.size() - 1));
         InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
         sendRemindersPage.submitReminderToPreselectedNonSubmitters();
-        changePageType(InstructorHomePage.class);
+        return sendRemindersPage;
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, Student student) {
