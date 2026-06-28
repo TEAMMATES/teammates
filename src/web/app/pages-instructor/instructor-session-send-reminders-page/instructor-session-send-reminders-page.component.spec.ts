@@ -211,7 +211,12 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     createComponent();
     component.instructorListInfoTableRowModels = [
       { ...component.instructorListInfoTableRowModels[0], isSelected: false },
-      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: true },
+      {
+        ...component.instructorListInfoTableRowModels[0],
+        id: 'instructor-2',
+        email: 'prof2@example.com',
+        isSelected: true,
+      },
     ];
 
     component.changeSelectionStatusForAllInstructorsHandler(true);
@@ -223,7 +228,12 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     createComponent();
     component.instructorListInfoTableRowModels = [
       { ...component.instructorListInfoTableRowModels[0], isSelected: true },
-      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: true },
+      {
+        ...component.instructorListInfoTableRowModels[0],
+        id: 'instructor-2',
+        email: 'prof2@example.com',
+        isSelected: true,
+      },
     ];
 
     component.changeSelectionStatusForAllInstructorsHandler(false);
@@ -235,7 +245,13 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     createComponent();
     component.instructorListInfoTableRowModels = [
       { ...component.instructorListInfoTableRowModels[0], isSelected: false, hasSubmittedSession: false },
-      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: false, hasSubmittedSession: true },
+      {
+        ...component.instructorListInfoTableRowModels[0],
+        id: 'instructor-2',
+        email: 'prof2@example.com',
+        isSelected: false,
+        hasSubmittedSession: true,
+      },
     ];
 
     component.changeSelectionStatusForAllYetSubmittedInstructorsHandler(true);
@@ -272,7 +288,13 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     createComponent();
     component.instructorListInfoTableRowModels = [
       { ...component.instructorListInfoTableRowModels[0], isSelected: true, hasSubmittedSession: false },
-      { ...component.instructorListInfoTableRowModels[0], id: 'instructor-2', email: 'prof2@example.com', isSelected: false, hasSubmittedSession: true },
+      {
+        ...component.instructorListInfoTableRowModels[0],
+        id: 'instructor-2',
+        email: 'prof2@example.com',
+        isSelected: false,
+        hasSubmittedSession: true,
+      },
     ];
     fixture.detectChanges();
 

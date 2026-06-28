@@ -55,7 +55,8 @@ public class InstructorSessionSendRemindersPage extends AppPage {
             studentsByEmail.put(student.getEmail(), student);
         }
 
-        List<WebElement> rows = waitForElementVisibility(By.id("student-list-table")).findElements(By.cssSelector("tbody tr"));
+        List<WebElement> rows = waitForElementVisibility(By.id("student-list-table"))
+                .findElements(By.cssSelector("tbody tr"));
         assertEquals(studentsByEmail.size(), rows.size());
 
         for (WebElement row : rows) {
