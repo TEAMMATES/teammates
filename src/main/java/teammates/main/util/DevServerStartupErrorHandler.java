@@ -27,9 +27,9 @@ public final class DevServerStartupErrorHandler {
             "");
 
     /**
-     * A list of providers that can recognize startup errors and provide a dev-server-friendly message.
+     * A list of builders that can recognize startup errors and provide a dev-server-friendly message.
      */
-    private static final List<Function<Throwable, Optional<String>>> ERROR_MESSAGE_PROVIDERS = List.of(
+    private static final List<Function<Throwable, Optional<String>>> ERROR_MESSAGE_BUILDERS = List.of(
             DevServerStartupErrorHandler::buildPendingDatabaseMigrationsMessage);
 
     private DevServerStartupErrorHandler() {
@@ -38,33 +38,26 @@ public final class DevServerStartupErrorHandler {
 
     /**
      * Transforms a recognized startup error into a dev-server-friendly exception.
-     * Returns the original exception when no provider recognizes it.
+     * Returns the original exception when no builder recognizes it.
      */
     public static Exception transform(Exception e) {
-        return ERROR_MESSAGE_PROVIDERS.stream()
-                .map(provider -> provider.apply(e))
-                .flatMap(Optional::stream)
+        return ERROR_MESSAGE_BUILDERS.stream()
+                .map(builder -> builder.apply(e))
+                .flatMap(optional -> optional.stream())
                 .findFirst()
                 .<Exception>map(message -> new DevServerStartupException(message))
                 .orElse(e);
     }
 
+    /**
+     * Builds a dev-server-friendly message for a pending database migrations error.
+     */
     private static Optional<String> buildPendingDatabaseMigrationsMessage(Throwable error) {
-        PendingDatabaseMigrationsException pendingMigrationsFailure = findPendingDatabaseMigrationsFailure(error);
-        return pendingMigrationsFailure == null
-                ? Optional.empty()
-                : Optional.of(String.format(SCHEMA_OUT_OF_DATE_MESSAGE, pendingMigrationsFailure.getMigrationStatus()));
-    }
-
-    private static PendingDatabaseMigrationsException findPendingDatabaseMigrationsFailure(Throwable error) {
-        Throwable current = error;
-        while (current != null) {
-            if (current instanceof PendingDatabaseMigrationsException) {
-                return (PendingDatabaseMigrationsException) current;
-            }
-            current = current.getCause();
+        if (!(error instanceof PendingDatabaseMigrationsException)) {
+            return Optional.empty();
         }
-        return null;
+        PendingDatabaseMigrationsException pendingMigrationsFailure = (PendingDatabaseMigrationsException) error;
+        return Optional.of(String.format(SCHEMA_OUT_OF_DATE_MESSAGE, pendingMigrationsFailure.getMigrationStatus()));
     }
 
 }
