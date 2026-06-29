@@ -79,7 +79,11 @@ public final class Application {
         server.addEventListener(customLifeCycleListener);
         webapp.setThrowUnavailableOnStartupException(true);
 
-        assertLiquibaseSuccessStatus();
+        try {
+            LiquibaseStatusChecker.assertSuccessStatus();
+        } catch (Exception e) {
+            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+        }
 
         try {
             server.start();
@@ -91,14 +95,6 @@ public final class Application {
         // By using the server.join() the server thread will join with the current thread.
         // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
         server.join();
-    }
-
-    private static void assertLiquibaseSuccessStatus() throws Exception {
-        try {
-            LiquibaseStatusChecker.assertSuccessStatus();
-        } catch (Exception e) {
-            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
-        }
     }
 
     private static void stopServer(Server server) {

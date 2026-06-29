@@ -3,7 +3,7 @@ package teammates.common.exception;
 /**
  * Exception thrown when there are unapplied database migrations.
  */
-public class PendingDatabaseMigrationsException extends RuntimeException {
+public class PendingDatabaseMigrationsException extends Exception {
 
     private final String migrationStatus;
 
