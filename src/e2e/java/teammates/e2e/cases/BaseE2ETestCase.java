@@ -180,10 +180,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected void logout() {
         AppUrl url = createBackendUrl(Const.WebPageURIs.LOGOUT);
-        if (!TestProperties.TEAMMATES_FRONTEND_URL.equals(TestProperties.TEAMMATES_BACKEND_URL)) {
-            url = url.withParam("frontendUrl", TestProperties.TEAMMATES_FRONTEND_URL);
-        }
-
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
         browser.waitForPageReadyState();
         browser.removeSessionStorageItem(MASQUERADE_ACCOUNT_ID_STORAGE_KEY);
