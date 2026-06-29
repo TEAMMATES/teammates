@@ -9,8 +9,8 @@ import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
+import teammates.common.util.DatabaseMigrationStatusChecker;
 import teammates.common.util.Logger;
-import teammates.ui.errorhandlers.DevServerStartupErrorHandler;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
@@ -78,6 +78,8 @@ public final class Application {
         server.addEventListener(customLifeCycleListener);
         webapp.setThrowUnavailableOnStartupException(true);
 
+        checkDatabaseSchemaUpToDate();
+
         try {
             server.start();
         } catch (Exception e) {
@@ -88,6 +90,14 @@ public final class Application {
         // By using the server.join() the server thread will join with the current thread.
         // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
         server.join();
+    }
+
+    private static void checkDatabaseSchemaUpToDate() throws Exception {
+        try {
+            DatabaseMigrationStatusChecker.assertDatabaseUpToDate();
+        } catch (Exception e) {
+            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+        }
     }
 
     private static void stopServer(Server server) {

@@ -1,23 +1,20 @@
-package teammates.ui.errorhandlers;
+package teammates.main;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import org.hibernate.tool.schema.spi.SchemaManagementException;
-
-import teammates.ui.exception.DevServerStartupException;
+import teammates.common.exception.PendingDatabaseMigrationsException;
 
 /**
  * Handles startup errors with dev-server-friendly messages where possible.
  */
 public final class DevServerStartupErrorHandler {
 
-    private static final String SCHEMA_VALIDATION_PREFIX = "Schema-validation:";
-    private static final String SCHEMA_VALIDATION_MESSAGE = String.join(System.lineSeparator(),
+    private static final String SCHEMA_OUT_OF_DATE_MESSAGE = String.join(System.lineSeparator(),
             "",
             "============================================================",
-            "Database schema validation failed:",
+            "Database schema is not up to date:",
             "%s",
             "",
             "Your local database schema is out of date.",
@@ -29,10 +26,10 @@ public final class DevServerStartupErrorHandler {
             "");
 
     /**
-     * Add new common startup errors here in order of specificity.
+     * A list of providers that can recognize startup errors and provide a dev-server-friendly message.
      */
     private static final List<Function<Throwable, Optional<String>>> ERROR_MESSAGE_PROVIDERS = List.of(
-            DevServerStartupErrorHandler::buildSchemaValidationMessage);
+            DevServerStartupErrorHandler::buildPendingDatabaseMigrationsMessage);
 
     private DevServerStartupErrorHandler() {
         // Utility class
@@ -51,26 +48,18 @@ public final class DevServerStartupErrorHandler {
                 .orElse(e);
     }
 
-    private static Optional<String> buildSchemaValidationMessage(Throwable error) {
-        Throwable schemaValidationFailure = findSchemaValidationFailure(error);
-        if (schemaValidationFailure == null) {
-            return Optional.empty();
-        }
-
-        String details = Optional.ofNullable(schemaValidationFailure.getMessage())
-                .map(String::trim)
-                .filter(message -> !message.isEmpty())
-                .orElse("Hibernate reported a schema validation error.");
-        return Optional.of(String.format(SCHEMA_VALIDATION_MESSAGE, details));
+    private static Optional<String> buildPendingDatabaseMigrationsMessage(Throwable error) {
+        PendingDatabaseMigrationsException pendingMigrationsFailure = findPendingDatabaseMigrationsFailure(error);
+        return pendingMigrationsFailure == null
+                ? Optional.empty()
+                : Optional.of(String.format(SCHEMA_OUT_OF_DATE_MESSAGE, pendingMigrationsFailure.getMigrationStatus()));
     }
 
-    private static Throwable findSchemaValidationFailure(Throwable error) {
+    private static PendingDatabaseMigrationsException findPendingDatabaseMigrationsFailure(Throwable error) {
         Throwable current = error;
         while (current != null) {
-            String message = current.getMessage();
-            if (current instanceof SchemaManagementException
-                    || message != null && message.trim().startsWith(SCHEMA_VALIDATION_PREFIX)) {
-                return current;
+            if (current instanceof PendingDatabaseMigrationsException) {
+                return (PendingDatabaseMigrationsException) current;
             }
             current = current.getCause();
         }

@@ -56,6 +56,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-logging")
     implementation("tools.jackson.core:jackson-databind:3.1.1")
     implementation("commons-lang:commons-lang:2.6")
+    implementation("org.liquibase:liquibase-core:4.27.0")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
