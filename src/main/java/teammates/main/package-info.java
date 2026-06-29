@@ -1,4 +1,4 @@
 /**
- * Contains the entrypoint for the system.
+ * Contains a single class as the entrypoint to the system.
  */
 package teammates.main;
