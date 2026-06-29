@@ -225,7 +225,7 @@ public final class GivenData {
         options.accept(studentData);
         Student student = studentData.build();
         registerEntity(alias, student, dataBundle.students);
-        return new StudentRef(student.getId(), alias, student.getRegKey(), student.getEmail());
+        return new StudentRef(student.getId(), alias, student.getLinkVersion(), student.getEmail());
     }
 
     /**
@@ -244,7 +244,7 @@ public final class GivenData {
         options.accept(instructorData);
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
-        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey(), instructor.getEmail());
+        return new InstructorRef(instructor.getId(), alias, instructor.getLinkVersion(), instructor.getEmail());
     }
 
     /**
@@ -507,20 +507,20 @@ public final class GivenData {
      *
      * @param id generated entity ID
      * @param alias GivenData alias
-     * @param regKey registration key
+     * @param linkVersion link version
      * @param email email address
      */
-    public record StudentRef(UUID id, String alias, String regKey, String email) {}
+    public record StudentRef(UUID id, String alias, int linkVersion, String email) {}
 
     /**
      * Reference to an instructor created by GivenData.
      *
      * @param id generated entity ID
      * @param alias GivenData alias
-     * @param regKey registration key
+     * @param linkVersion link version
      * @param email email address
      */
-    public record InstructorRef(UUID id, String alias, String regKey, String email) {}
+    public record InstructorRef(UUID id, String alias, int linkVersion, String email) {}
 
     /**
      * Reference to a feedback session created by GivenData.

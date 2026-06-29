@@ -25,8 +25,8 @@ public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessA
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
         persistGivenData(given);
 
-        RequestContext request = new RequestContext()
-                .withRequest(sessionKeyRequest(session.id(), student.id(), student.regKey(), SessionKeyType.SUBMISSION));
+        RequestContext request = new RequestContext().withRequest(
+                sessionKeyRequest(session.id(), student.id(), student.linkVersion(), SessionKeyType.SUBMISSION));
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
@@ -42,8 +42,8 @@ public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessA
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().opened());
         persistGivenData(given);
 
-        RequestContext request = new RequestContext()
-                .withRequest(sessionKeyRequest(session.id(), student.id(), student.regKey(), SessionKeyType.SUBMISSION));
+        RequestContext request = new RequestContext().withRequest(
+                sessionKeyRequest(session.id(), student.id(), student.linkVersion(), SessionKeyType.SUBMISSION));
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
         SessionKeyAccessData result = execute(request);
@@ -59,7 +59,7 @@ public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withRequest(sessionKeyRequest(session.id(), student.id(), student.regKey(), SessionKeyType.SUBMISSION))
+                .withRequest(sessionKeyRequest(session.id(), student.id(), student.linkVersion(), SessionKeyType.SUBMISSION))
                 .withAccountAuth(account.id());
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
@@ -77,7 +77,7 @@ public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessA
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withRequest(sessionKeyRequest(session.id(), student.id(), student.regKey(), SessionKeyType.SUBMISSION))
+                .withRequest(sessionKeyRequest(session.id(), student.id(), student.linkVersion(), SessionKeyType.SUBMISSION))
                 .withAccountAuth(otherAccount.id());
         request.uri = Const.ResourceURIs.SESSION_KEY_ACCESS;
 
@@ -87,11 +87,11 @@ public class SessionKeyAccessActionTest extends BaseActionTest<SessionKeyAccessA
     }
 
     private SessionKeyAccessRequest sessionKeyRequest(UUID feedbackSessionId, UUID userId,
-            String regKey,
+            int linkVersion,
             SessionKeyType type) {
         SessionKeyAccessRequest requestBody = new SessionKeyAccessRequest();
         requestBody.setFeedbackSessionId(feedbackSessionId);
-        requestBody.setKey(KeyUtil.encryptSessionKey(userId, type, regKey, feedbackSessionId));
+        requestBody.setKey(KeyUtil.encryptSessionKey(userId, type, linkVersion, feedbackSessionId));
         requestBody.setType(type);
         return requestBody;
     }

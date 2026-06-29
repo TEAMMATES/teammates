@@ -590,11 +590,6 @@ export interface RecipientView {
   ofOthers: number[];
 }
 
-export interface RegenerateKey extends ApiOutput {
-  message: string;
-  newRegistrationKey: string;
-}
-
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
   giverId: string;

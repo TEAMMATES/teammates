@@ -6,7 +6,6 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
   entityType={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
-  regKey=""
   session={[Function Object]}
 >
   <div
@@ -413,7 +412,6 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
   entityType={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
-  regKey=""
   session={[Function Object]}
 >
   <div
@@ -704,7 +702,6 @@ exports[`QuestionResponsePanelComponent > should snap with questions and respons
   entityType={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
-  regKey=""
   session={[Function Object]}
 >
   <div

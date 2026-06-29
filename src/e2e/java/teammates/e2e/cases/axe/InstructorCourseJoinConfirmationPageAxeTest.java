@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
     @Override
     public void testAll() {
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(newInstructor.getId(), newInstructor.getRegKey()))
+                .withKey(KeyUtil.encryptCourseJoinKey(newInstructor.getId(), newInstructor.getLinkVersion()))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
                 joinLink, CourseJoinConfirmationPage.class, newInstructor.getEmail());

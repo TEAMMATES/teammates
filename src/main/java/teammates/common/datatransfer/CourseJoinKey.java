@@ -8,17 +8,17 @@ import teammates.common.exception.InvalidParametersException;
  * Represents the encrypted course join key payload.
  *
  * @param userId the user ID of the student or instructor to join
- * @param regKey the user's current raw registration key
+ * @param linkVersion the user's current link version
  */
 public record CourseJoinKey(
         UUID userId,
-        String regKey) {
+        int linkVersion) {
 
     /**
      * Validates that all required fields are present.
      */
     public void validate() throws InvalidParametersException {
-        if (userId == null || regKey == null) {
+        if (userId == null) {
             throw new InvalidParametersException("Invalid encrypted course join key");
         }
     }

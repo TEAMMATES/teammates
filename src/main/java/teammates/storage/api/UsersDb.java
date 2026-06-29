@@ -49,19 +49,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a user by {@code regKey}.
-     */
-    public User getUserByRegKey(String regKey) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<User> cr = cb.createQuery(User.class);
-        Root<User> userRoot = cr.from(User.class);
-
-        cr.select(userRoot).where(cb.equal(userRoot.get("regKey"), regKey));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets users for the specified course.
      */
     public List<User> getUsersForCourse(String courseId) {

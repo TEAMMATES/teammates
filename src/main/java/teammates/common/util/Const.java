@@ -143,7 +143,7 @@ public final class Const {
         public static final String ACCOUNT_EMAIL = "accountemail";
         public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
-        public static final String REGKEY = "key";
+        public static final String KEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
 
         public static final String TEAM_ID = "teamid";
@@ -301,7 +301,6 @@ public final class Const {
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";
-        public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String SESSION_KEY_ACCESS = URI_PREFIX + "/session/key/access";
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_LINK = URI_PREFIX + "/account/link";
