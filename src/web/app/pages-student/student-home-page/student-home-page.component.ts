@@ -43,7 +43,6 @@ interface StudentCourse {
 interface StudentSession {
   session: FeedbackSession;
   isOpened: boolean;
-  isWaitingToOpen: boolean;
   isPublished: boolean;
   isSubmitted: boolean;
   userDeadlineExtension?: number;
@@ -84,8 +83,6 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusPublished = 'The responses for the session have been published and can now be viewed.';
   studentFeedbackSessionStatusNotPublished =
     'The responses for the session have not yet been published and cannot be viewed.';
-  studentFeedbackSessionStatusAwaiting =
-    'The session is not open for submission at this time. It is expected to open later.';
   studentFeedbackSessionStatusPending = 'The feedback session is yet to be completed by you.';
   studentFeedbackSessionStatusExtension = ' An instructor has granted you a deadline extension.';
   studentFeedbackSessionStatusSubmitted = 'You have submitted your feedback for this session.';
@@ -209,13 +206,11 @@ export class StudentHomePageComponent implements OnInit {
                   rawStatus === FeedbackSessionSubmissionStatus.OPEN ||
                   rawStatus === FeedbackSessionSubmissionStatus.GRACE_PERIOD ||
                   (rawStatus === FeedbackSessionSubmissionStatus.CLOSED && hasActiveExtension);
-                const isWaitingToOpen: boolean = rawStatus === FeedbackSessionSubmissionStatus.NOT_VISIBLE;
                 const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
                 const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
                 courseRef.feedbackSessions.push({
                   isOpened,
-                  isWaitingToOpen,
                   isPublished,
                   isSubmitted,
                   session: fs,
@@ -254,9 +249,7 @@ export class StudentHomePageComponent implements OnInit {
       session.userDeadlineExtension,
     );
 
-    if (session.isWaitingToOpen) {
-      msg += this.studentFeedbackSessionStatusAwaiting;
-    } else if (session.isSubmitted) {
+    if (session.isSubmitted) {
       msg += this.studentFeedbackSessionStatusSubmitted;
     } else {
       msg += this.studentFeedbackSessionStatusPending;
@@ -266,7 +259,7 @@ export class StudentHomePageComponent implements OnInit {
       msg += this.studentFeedbackSessionStatusExtension;
     }
 
-    if (!session.isOpened && !session.isWaitingToOpen && !hasOngoingStudentExtension) {
+    if (!session.isOpened && !hasOngoingStudentExtension) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;
@@ -277,12 +270,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session, session.userDeadlineExtension);
-    return sessionSubmissionStatusDisplay(
-      session.isOpened,
-      session.isWaitingToOpen,
-      session.isSubmitted,
-      hasStudentExtension,
-    );
+    return sessionSubmissionStatusDisplay(session.isOpened, session.isSubmitted, hasStudentExtension);
   }
 
   /**

@@ -21,7 +21,6 @@ import { FormatDateDetailPipe } from '../../components/teammates-common/format-d
 interface StudentSession {
   session: FeedbackSession;
   isOpened: boolean;
-  isWaitingToOpen: boolean;
   isPublished: boolean;
   isSubmitted: boolean;
 }
@@ -65,7 +64,6 @@ const studentCourseA: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: true,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -87,7 +85,6 @@ const studentCourseA: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: false,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -128,7 +125,6 @@ const studentCourseB: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: true,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -150,7 +146,6 @@ const studentCourseB: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: false,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -191,7 +186,6 @@ const studentCourseC: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: true,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -213,7 +207,6 @@ const studentCourseC: StudentCourse = {
         createdAtTimestamp: 0,
       },
       isOpened: false,
-      isWaitingToOpen: false,
       isPublished: false,
       isSubmitted: true,
     },
@@ -515,7 +508,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: true,
         },
@@ -532,57 +524,6 @@ describe('StudentHomePageComponent', () => {
 
     const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0');
     expect(button.textContent).toEqual(' View Responses ');
-    expect(button.className).toContain('disabled');
-  });
-
-  it('should disable start submission button when session is waiting to open', () => {
-    const studentCourse: StudentCourse = {
-      course: {
-        courseId: 'CS1231',
-        courseName: 'Discrete Structures',
-        timeZone: 'Asia/Singapore',
-        institute: 'Test Institute',
-        country: 'SG',
-        instituteId: 'test-institute-id',
-        creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
-        deletionTimestamp: 0,
-      },
-      feedbackSessions: [
-        {
-          session: {
-            feedbackSessionId: 'test-feedback-session-id-015',
-            feedbackSessionName: 'First Session',
-            courseId: 'CS1231',
-            timeZone: 'Asia/Singapore',
-            instructions: '',
-            submissionStartTimestamp: 0,
-            submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
-            gracePeriod: 0,
-            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-            isClosingSoonEmailEnabled: true,
-            isPublishedEmailEnabled: true,
-            createdAtTimestamp: 0,
-          },
-          isOpened: false,
-          isWaitingToOpen: true,
-          isPublished: true,
-          isSubmitted: false,
-        },
-      ],
-      isFeedbackSessionsLoading: false,
-      hasFeedbackSessionsLoadingFailed: false,
-      isTabExpanded: true,
-      hasPopulated: true,
-    };
-
-    component.courses = [studentCourse];
-    component.isCoursesLoading = false;
-    fixture.detectChanges();
-
-    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#disabled-start-submit-btn-0');
-    expect(button.textContent).toEqual(' Start Submission ');
     expect(button.className).toContain('disabled');
   });
 
@@ -617,7 +558,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: true,
           isSubmitted: false,
         },
@@ -667,7 +607,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: true,
         },
@@ -717,7 +656,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: false,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: true,
         },
@@ -818,7 +756,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: true,
           isSubmitted: true,
         },
@@ -840,7 +777,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: false,
-          isWaitingToOpen: false,
           isPublished: true,
           isSubmitted: true,
         },
@@ -898,7 +834,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: false,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: true,
         },
@@ -920,7 +855,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: false,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: true,
         },
@@ -1080,7 +1014,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: true,
           isSubmitted: true,
         },
@@ -1102,7 +1035,6 @@ describe('StudentHomePageComponent', () => {
             createdAtTimestamp: 0,
           },
           isOpened: true,
-          isWaitingToOpen: false,
           isPublished: false,
           isSubmitted: false,
         },
