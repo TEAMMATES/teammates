@@ -50,9 +50,6 @@ export class QuestionResponsePanelComponent {
   @Input() entityType: 'student' | 'instructor' = 'student';
 
   @Input()
-  regKey = '';
-
-  @Input()
   previewAsPerson = '';
 
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {

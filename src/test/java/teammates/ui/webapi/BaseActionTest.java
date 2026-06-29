@@ -19,10 +19,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.KeyUtil;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.entity.Account;
@@ -171,8 +173,10 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             return this;
         }
 
-        public RequestContext withRegKey(String regKey) {
-            return withParam(Const.ParamsNames.REGKEY, regKey);
+        public RequestContext withStudentSessionKey(UUID userId, SessionKeyType keyType, int linkVersion,
+                UUID feedbackSessionId) {
+            return withParam(Const.ParamsNames.KEY, KeyUtil.encryptSessionKey(
+                    userId, keyType, linkVersion, feedbackSessionId));
         }
 
         public RequestContext withAccountAuth(UUID accountId) {

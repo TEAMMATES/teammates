@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -35,6 +36,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         Intent intent = getEnumRequestParamValue(Const.ParamsNames.INTENT, Intent.class);
         switch (intent) {
         case STUDENT_SUBMISSION:
+            gateKeeper.verifySessionKey(requestContext, feedbackSession.getId(), SessionKeyType.SUBMISSION);
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;

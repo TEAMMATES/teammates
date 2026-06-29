@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.ui.exception.EntityNotFoundException;
@@ -11,13 +12,14 @@ import teammates.ui.output.DeadlineExtensionData;
 /**
  * Gets the deadline extension for a specific user in a feedback session.
  */
-public class GetDeadlineExtensionAction extends RegKeyAction {
+public class GetDeadlineExtensionAction extends SessionKeyAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
         gateKeeper.verifyCanViewDeadlineExtension(requestContext, feedbackSessionId, userId);
     }
 

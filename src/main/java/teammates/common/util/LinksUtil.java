@@ -2,6 +2,8 @@ package teammates.common.util;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
+
 /**
  * Utility class for constructing frontend URL strings.
  */
@@ -18,10 +20,11 @@ public final class LinksUtil {
     /**
      * Returns the absolute URL for a student to submit responses for the given feedback session.
      */
-    public static String getStudentSessionSubmitUrl(UUID feedbackSessionId, String regKey) {
+    public static String getStudentSessionSubmitUrl(UUID feedbackSessionId, UUID userId, int linkVersion) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(regKey)
+                .withKey(KeyUtil.encryptSessionKey(userId,
+                        SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId))
                 .toAbsoluteString();
     }
 
@@ -37,10 +40,11 @@ public final class LinksUtil {
     /**
      * Returns the absolute URL for a student to view results for the given feedback session.
      */
-    public static String getStudentSessionResultsUrl(UUID feedbackSessionId, String regKey) {
+    public static String getStudentSessionResultsUrl(UUID feedbackSessionId, UUID userId, int linkVersion) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(feedbackSessionId)
-                .withRegistrationKey(regKey)
+                .withKey(KeyUtil.encryptSessionKey(userId,
+                        SessionKeyType.RESULTS, linkVersion, feedbackSessionId))
                 .toAbsoluteString();
     }
 
@@ -116,21 +120,21 @@ public final class LinksUtil {
     // -------------------------------------------------------------------------
 
     /**
-     * Returns the absolute URL for a student to join a course using the given registration key.
+     * Returns the absolute URL for a student to join a course.
      */
-    public static String getStudentCourseJoinUrl(String regKey) {
+    public static String getStudentCourseJoinUrl(UUID userId, int linkVersion) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(regKey)
+                .withKey(KeyUtil.encryptCourseJoinKey(userId, linkVersion))
                 .withEntityType(Const.EntityType.STUDENT)
                 .toAbsoluteString();
     }
 
     /**
-     * Returns the absolute URL for an instructor to join a course using the given registration key.
+     * Returns the absolute URL for an instructor to join a course.
      */
-    public static String getInstructorCourseJoinUrl(String regKey) {
+    public static String getInstructorCourseJoinUrl(UUID userId, int linkVersion) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(regKey)
+                .withKey(KeyUtil.encryptCourseJoinKey(userId, linkVersion))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }

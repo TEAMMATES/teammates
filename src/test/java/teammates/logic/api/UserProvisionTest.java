@@ -23,14 +23,18 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.KeyUtil;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -63,6 +67,7 @@ public class UserProvisionTest extends BaseTestCase {
         mockAccountsLogic = mock(AccountsLogic.class);
         mockAccountsLogicStatic = mockStatic(AccountsLogic.class);
         mockAccountsLogicStatic.when(AccountsLogic::inst).thenReturn(mockAccountsLogic);
+        AuthLogic.inst().initLogicDependencies(mockUsersLogic);
 
         userProvision = new UserProvision();
 
@@ -106,17 +111,52 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void getAuthContextFromRequest_loggedInRequestWithRegKey_returnsLoggedInAccountContext() throws Exception {
+    public void getAuthContextFromRequest_loggedInRequestWithSessionKey_returnsLoggedInAccountContext() throws Exception {
         Account account = createAccount("user@example.com");
+        UUID studentId = UUID.randomUUID();
+        UUID feedbackSessionId = UUID.randomUUID();
+        int linkVersion = 0;
+        Student student = mock(Student.class);
+        when(student.getId()).thenReturn(studentId);
+        when(student.getLinkVersion()).thenReturn(linkVersion);
+        when(student.getAccount()).thenReturn(account);
+
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.REGKEY, "registration-key");
+        req.addParam(Const.ParamsNames.KEY,
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId));
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
+        when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
-        assertNull(authContext.regKeyStudent());
+        assertEquals(student, authContext.sessionKeyStudent());
+        assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
+    }
+
+    @Test
+    public void getAuthContextFromRequest_encryptedSessionKey_returnsSessionKeyStudentContext() throws Exception {
+        UUID studentId = UUID.randomUUID();
+        UUID feedbackSessionId = UUID.randomUUID();
+        int linkVersion = 0;
+        Student student = mock(Student.class);
+        when(student.getId()).thenReturn(studentId);
+        when(student.getLinkVersion()).thenReturn(linkVersion);
+        when(student.getAccount()).thenReturn(null);
+
+        MockHttpServletRequest req = createRequest();
+        req.addParam(Const.ParamsNames.KEY,
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId));
+        when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
+
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
+
+        assertEquals(AuthType.SESSION_KEY, authContext.authType());
+        assertEquals(student, authContext.sessionKeyStudent());
+        assertEquals(studentId, authContext.sessionKey().userId());
+        assertEquals(SessionKeyType.SUBMISSION, authContext.sessionKey().type());
+        assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
     }
 
     @Test
@@ -180,7 +220,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void getUserInfo_nullOrPublicContext_returnsNull() {
         assertNull(userProvision.getUserInfo(null));
-        assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, false, false)));
+        assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, null, false, false)));
         verifyNoInteractions(mockUsersLogic);
     }
 

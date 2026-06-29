@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -15,10 +16,11 @@ import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 /**
  * Get a feedback session.
  */
-public class GetFeedbackSessionAction extends RegKeyAction {
+public class GetFeedbackSessionAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
         gateKeeper.verifyFeedbackSessionAccessible(requestContext, feedbackSessionId);
     }
 

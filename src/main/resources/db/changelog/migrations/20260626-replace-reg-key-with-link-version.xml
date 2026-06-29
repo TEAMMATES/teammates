@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuel (generated)" id="20260626-replace-reg-key-with-link-version-1">
+        <addColumn tableName="users">
+            <column name="link_version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropColumn tableName="users" columnName="reg_key"/>
+        <rollback>
+            <addColumn tableName="users">
+                <column name="reg_key" type="VARCHAR(512)">
+                    <constraints nullable="false"/>
+                </column>
+            </addColumn>
+            <dropColumn tableName="users" columnName="link_version"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

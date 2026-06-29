@@ -70,6 +70,11 @@ export interface Course extends ApiOutput {
   deletionTimestamp: number;
 }
 
+export interface CourseJoinKeyAccess extends ApiOutput {
+  decision: CourseJoinKeyAccessDecision;
+  message: string;
+}
+
 export interface Courses extends ApiOutput {
   courses: CourseView[];
 }
@@ -479,10 +484,6 @@ export interface JoinLink extends ApiOutput {
   joinLink: string;
 }
 
-export interface JoinStatus extends ApiOutput {
-  hasJoined: boolean;
-}
-
 export interface McqMsqOptionRow {
   option: string;
   weight?: number;
@@ -589,17 +590,6 @@ export interface RecipientView {
   ofOthers: number[];
 }
 
-export interface RegenerateKey extends ApiOutput {
-  message: string;
-  newRegistrationKey: string;
-}
-
-export interface RegkeyValidity extends ApiOutput {
-  isValid: boolean;
-  isUsed: boolean;
-  isAllowedAccess: boolean;
-}
-
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
   giverId: string;
@@ -659,6 +649,11 @@ export interface RubricSubQuestionRow {
   subQuestion: string;
   cells: RubricChoiceCell[];
   weightAverage?: number;
+}
+
+export interface SessionKeyAccess extends ApiOutput {
+  decision: SessionKeyAccessDecision;
+  message: string;
 }
 
 export interface SessionLinks extends ApiOutput {
@@ -786,6 +781,13 @@ export enum AccountVerificationRequestStatus {
   APPROVED = "APPROVED",
 }
 
+export enum CourseJoinKeyAccessDecision {
+  VALID = "VALID",
+  ALREADY_JOINED = "ALREADY_JOINED",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  INVALID_KEY = "INVALID_KEY",
+}
+
 export enum FeedbackConstantSumDistributePointsType {
   DISTRIBUTE_ALL_UNEVENLY = "All options",
   DISTRIBUTE_SOME_UNEVENLY = "At least some options",
@@ -903,6 +905,14 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyAccessDecision {
+  ALLOW_UNREGISTERED = "ALLOW_UNREGISTERED",
+  ALLOW_SIGNED_IN = "ALLOW_SIGNED_IN",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  SIGN_IN_WITH_ANOTHER_ACCOUNT = "SIGN_IN_WITH_ANOTHER_ACCOUNT",
+  INVALID_KEY = "INVALID_KEY",
 }
 
 export enum SessionVisibleSetting {

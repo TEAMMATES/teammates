@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -13,13 +14,14 @@ import teammates.ui.output.UserSessionResultsData;
 /**
  * Gets user-scoped feedback session results for instructor/student result views.
  */
-public class GetUserSessionResultsAction extends RegKeyAction {
+public class GetUserSessionResultsAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         boolean isPreview = getBooleanRequestParamValue(Const.ParamsNames.IS_PREVIEW);
 
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, SessionKeyType.RESULTS);
         if (isPreview) {
             gateKeeper.verifyCanPreviewUserSessionResults(requestContext, feedbackSessionId);
         } else {

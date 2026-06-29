@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
@@ -37,7 +38,7 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getOwnStudentAction_byRegKey_returnsStudentData() {
+    public void getOwnStudentAction_bySessionKey_returnsStudentData() {
         var course = given.course("course");
         var student = given.student("student", s ->
                 s.course(course.alias()).comments("student-comments"));
@@ -45,7 +46,8 @@ public class GetOwnStudentActionTest extends BaseActionTest<GetOwnStudentAction,
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.COURSE_ID, course.id())
-                .withRegKey(student.regKey());
+                .withStudentSessionKey(student.id(), SessionKeyType.SUBMISSION, student.linkVersion(),
+                        given.uuid("feedback-session"));
 
         StudentData result = execute(request);
 
