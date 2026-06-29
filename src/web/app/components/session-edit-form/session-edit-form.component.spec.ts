@@ -7,7 +7,7 @@ import { SessionEditFormMode } from './session-edit-form-model';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-output';
+import { Course, ResponseVisibleSetting } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 describe('SessionEditFormComponent', () => {
@@ -55,30 +55,6 @@ describe('SessionEditFormComponent', () => {
     });
   });
 
-  it('should emit the submission opening timestamp unchanged when it is within the allowed range', () => {
-    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
-    const future: number = moment().tz('UTC').add(1, 'day').hour(10).minute(0).second(0).millisecond(0).valueOf();
-    component.model.customSessionVisibleTimestamp = future;
-
-    component.triggerSubmissionOpeningTimestampChange(future);
-
-    expect(modelChangeSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ submissionStartTimestamp: future, customSessionVisibleTimestamp: future }),
-    );
-  });
-
-  it('should pull the custom session visible timestamp back when it is after the submission opening time', () => {
-    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
-    const opening: number = moment().tz('UTC').add(1, 'day').hour(10).minute(0).second(0).millisecond(0).valueOf();
-    component.model.customSessionVisibleTimestamp = opening + 3600 * 1000; // one hour later
-
-    component.triggerSubmissionOpeningTimestampChange(opening);
-
-    expect(modelChangeSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ submissionStartTimestamp: opening, customSessionVisibleTimestamp: opening }),
-    );
-  });
-
   it('should return the minimum submission opening timestamp as 2 hours before now', () => {
     const expected = moment().tz('UTC').subtract(2, 'hours').second(0).millisecond(0).valueOf();
     expect(component.minTimestampForSubmissionStart).toEqual(expected);
@@ -100,35 +76,8 @@ describe('SessionEditFormComponent', () => {
     expect(component.minTimestampForSubmissionEnd).toEqual(expected);
   });
 
-  it('should return the minimum session visible timestamp as 30 days before the submission opening time', () => {
+  it('should return the submission opening timestamp as the min response visible time', () => {
     component.model.submissionStartTimestamp = startTimestamp;
-    expect(component.minTimestampForSessionVisible).toEqual(
-      moment(startTimestamp).tz('UTC').subtract(30, 'days').valueOf(),
-    );
-  });
-
-  it('should return the submission opening timestamp as the max session visible time when response is LATER', () => {
-    component.model.responseVisibleSetting = ResponseVisibleSetting.LATER;
-    component.model.submissionStartTimestamp = startTimestamp;
-    expect(component.maxTimestampForSessionVisible).toEqual(startTimestamp);
-  });
-
-  it('should return the earlier of opening and response visible timestamps as the max session visible time when CUSTOM', () => {
-    component.model.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
-    component.model.submissionStartTimestamp = startTimestamp;
-    component.model.customResponseVisibleTimestamp = startTimestamp - 3600 * 1000;
-    expect(component.maxTimestampForSessionVisible).toEqual(startTimestamp - 3600 * 1000);
-  });
-
-  it('should return the submission opening timestamp as the min response visible time when session visible is AT_OPEN', () => {
-    component.model.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-    component.model.submissionStartTimestamp = startTimestamp;
-    expect(component.minTimestampForResponseVisible).toEqual(startTimestamp);
-  });
-
-  it('should return the custom session visible timestamp as the min response visible time when session visible is CUSTOM', () => {
-    component.model.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
-    component.model.customSessionVisibleTimestamp = startTimestamp;
     expect(component.minTimestampForResponseVisible).toEqual(startTimestamp);
   });
 

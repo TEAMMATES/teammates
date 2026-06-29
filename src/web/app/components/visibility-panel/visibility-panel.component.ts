@@ -137,7 +137,6 @@ export class VisibilityPanelComponent {
       case FeedbackSessionSubmissionStatus.OPEN:
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       case FeedbackSessionSubmissionStatus.CLOSED:
-      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
         return true;
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
         return false;

@@ -193,7 +193,6 @@ public class BaseTestCase {
                 "<p>test-instructions</p>",
                 startTime,
                 endTime,
-                startTime,
                 endTime,
                 Duration.ofMinutes(5),
                 false,

@@ -66,9 +66,6 @@ public class FeedbackSession extends BaseEntity {
     private Instant endTime;
 
     @Column(nullable = false)
-    private Instant sessionVisibleFromTime;
-
-    @Column(nullable = false)
     private Instant resultsVisibleFromTime;
 
     @Column(nullable = false)
@@ -112,7 +109,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String name, Instructor sessionCreator, String instructions, Instant startTime,
-            Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
+            Instant endTime, Instant resultsVisibleFromTime, Duration gracePeriod,
             boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
         this.setId(UUID.randomUUID());
         this.setName(name);
@@ -120,7 +117,6 @@ public class FeedbackSession extends BaseEntity {
         this.setInstructions(StringUtils.defaultString(instructions));
         this.setStartTime(startTime);
         this.setEndTime(endTime);
-        this.setSessionVisibleFromTime(sessionVisibleFromTime);
         this.setResultsVisibleFromTime(resultsVisibleFromTime);
         this.setGracePeriod(gracePeriod);
         this.setClosingSoonEmailEnabled(isClosingSoonEmailEnabled);
@@ -137,9 +133,6 @@ public class FeedbackSession extends BaseEntity {
 
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions),
                 errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                "time for the session to become visible", sessionVisibleFromTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
@@ -163,18 +156,6 @@ public class FeedbackSession extends BaseEntity {
         }
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                sessionVisibleFromTime, startTime), errors);
-
-        Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
-
-        if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            actualSessionVisibleFromTime = startTime;
-        }
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
                 endTime, deadlineExtensions), errors);
@@ -280,14 +261,6 @@ public class FeedbackSession extends BaseEntity {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
-    }
-
-    public Instant getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
-    }
-
-    public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
     public Instant getResultsVisibleFromTime() {
@@ -399,7 +372,6 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [id=" + id + ", courseId=" + course.getId() + ", name=" + name
                 + ", sessionCreator=" + sessionCreator
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
-                + ", sessionVisibleFromTime=" + sessionVisibleFromTime
                 + ", resultsVisibleFromTime=" + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod
                 + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
@@ -426,20 +398,6 @@ public class FeedbackSession extends BaseEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    /**
-     * Returns true if the session is visible; false otherwise.
-     */
-    public boolean isVisible() {
-        Instant visibleTime = this.sessionVisibleFromTime;
-
-        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            visibleTime = this.startTime;
-        }
-
-        Instant now = Instant.now();
-        return now.isAfter(visibleTime) || now.equals(visibleTime);
     }
 
     /**
@@ -499,7 +457,7 @@ public class FeedbackSession extends BaseEntity {
         Instant publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            return isVisible();
+            return isOpened();
         }
         if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return false;

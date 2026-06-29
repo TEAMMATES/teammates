@@ -6,10 +6,6 @@ describe('submissionsStatusNameToString', () => {
     expect(submissionsStatusNameToString(FeedbackSessionSubmissionStatus.NOT_VISIBLE)).toBe('Awaiting');
   });
 
-  it('should return "Awaiting" for VISIBLE_NOT_OPEN status', () => {
-    expect(submissionsStatusNameToString(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN)).toBe('Awaiting');
-  });
-
   it('should return "Open" for OPEN status', () => {
     expect(submissionsStatusNameToString(FeedbackSessionSubmissionStatus.OPEN)).toBe('Open');
   });

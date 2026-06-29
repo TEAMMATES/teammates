@@ -289,8 +289,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
                     actualFeedbackSession.getSubmissionStartTimestamp());
             assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(),
                     actualFeedbackSession.getSubmissionEndTimestamp());
-            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
-                    actualFeedbackSession.getSessionVisibleFromTimestamp().longValue());
             assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
                     actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
             assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),

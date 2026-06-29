@@ -44,7 +44,7 @@ const DEFAULT_SESSION_LINKS: SessionLinks = {
       submissionStartTimestamp: 1710432000000,
       submissionEndTimestamp: 1710518400000,
       timeZone: 'UTC',
-      submissionStatus: FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN,
+      submissionStatus: FeedbackSessionSubmissionStatus.NOT_VISIBLE,
       url: 'https://teammates.tmt/submission/visible-not-open',
     },
     {

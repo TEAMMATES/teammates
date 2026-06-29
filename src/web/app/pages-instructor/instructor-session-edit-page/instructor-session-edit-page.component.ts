@@ -28,7 +28,6 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -311,10 +310,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       submissionEndTimestamp: feedbackSession.submissionEndTimestamp,
       gracePeriod: feedbackSession.gracePeriod,
 
-      sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTimestamp:
-        feedbackSession.customSessionVisibleTimestamp ?? feedbackSession.submissionStartTimestamp,
-
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
       customResponseVisibleTimestamp:
         feedbackSession.customResponseVisibleTimestamp ?? feedbackSession.submissionStartTimestamp,
@@ -330,9 +325,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isSaving: false,
       isDeleting: false,
       isCopying: false,
-      hasVisibleSettingsPanelExpanded:
-        feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN ||
-        feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
+      hasVisibleSettingsPanelExpanded: feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded:
         !feedbackSession.isClosingSoonEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
@@ -346,10 +339,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp;
     const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp;
-    let sessionVisibleTime = 0;
-    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp;
-    }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp;
@@ -357,17 +346,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
       if (isUpdateSession) {
-        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, responseVisibleTime);
       }
     });
   }
 
-  updateFeedbackSession(
-    submissionStartTime: number,
-    submissionEndTime: number,
-    sessionVisibleTime: number,
-    responseVisibleTime: number,
-  ): void {
+  updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, responseVisibleTime: number): void {
     this.sessionEditFormModel.isSaving = true;
     this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService
@@ -377,9 +361,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         submissionStartTimestamp: submissionStartTime,
         submissionEndTimestamp: submissionEndTime,
         gracePeriod: this.sessionEditFormModel.gracePeriod,
-
-        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-        customSessionVisibleTimestamp: sessionVisibleTime,
 
         responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
         customResponseVisibleTimestamp: responseVisibleTime,

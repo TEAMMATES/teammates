@@ -361,7 +361,7 @@ final class GateKeeper {
             }
         }
 
-        if (!feedbackSession.isVisible()) {
+        if (!feedbackSession.isOpened()) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
         }
     }

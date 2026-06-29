@@ -548,17 +548,6 @@ export class SessionSubmissionPageComponent implements OnInit {
 
     let modalContent: string;
     switch (feedbackSession.submissionStatus) {
-      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-        this.isSubmissionFormsDisabled = true;
-        modalContent = `<p><strong>The feedback session is currently not open for submissions.</strong></p>
-                <p>You can view the questions and any submitted responses
-                for this feedback session but cannot submit new responses.</p>`;
-        this.simpleModalService.openInformationModal(
-          'Feedback Session Not Open',
-          SimpleModalType.WARNING,
-          modalContent,
-        );
-        break;
       case FeedbackSessionSubmissionStatus.OPEN:
         if (this.isFeedbackEndingLessThanFifteenMinutes(feedbackSession)) {
           modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';

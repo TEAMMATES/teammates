@@ -209,7 +209,7 @@ export class StudentHomePageComponent implements OnInit {
                   rawStatus === FeedbackSessionSubmissionStatus.OPEN ||
                   rawStatus === FeedbackSessionSubmissionStatus.GRACE_PERIOD ||
                   (rawStatus === FeedbackSessionSubmissionStatus.CLOSED && hasActiveExtension);
-                const isWaitingToOpen: boolean = rawStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                const isWaitingToOpen: boolean = rawStatus === FeedbackSessionSubmissionStatus.NOT_VISIBLE;
                 const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
                 const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];

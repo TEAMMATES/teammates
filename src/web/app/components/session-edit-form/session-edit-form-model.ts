@@ -5,7 +5,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 
 /**
@@ -37,9 +36,6 @@ export interface SessionEditFormModel {
   submissionStartTimestamp: number;
   submissionEndTimestamp: number;
   gracePeriod: number;
-
-  sessionVisibleSetting: SessionVisibleSetting;
-  customSessionVisibleTimestamp: number;
 
   responseVisibleSetting: ResponseVisibleSetting;
   customResponseVisibleTimestamp: number;

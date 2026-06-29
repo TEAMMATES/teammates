@@ -15,7 +15,6 @@ import {
   FeedbackSessionSubmissionStatus,
   HasResponses,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
@@ -58,7 +57,6 @@ const studentCourseA: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000,
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -81,7 +79,6 @@ const studentCourseA: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000,
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -123,7 +120,6 @@ const studentCourseB: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -146,7 +142,6 @@ const studentCourseB: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -188,7 +183,6 @@ const studentCourseC: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -211,7 +205,6 @@ const studentCourseC: StudentCourse = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -260,7 +253,6 @@ const studentFeedbackSessions: FeedbackSessions = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1611392191000, // Saturday, 23 January 2021 16:56:31 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -279,7 +271,6 @@ const studentFeedbackSessions: FeedbackSessions = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -298,7 +289,6 @@ const studentFeedbackSessions: FeedbackSessions = {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 1579769791000, // Thursday, 23 January 2020 16:56:31 GMT+08:00
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
         responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
         submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
         publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -345,7 +335,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -364,7 +353,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 1,
             submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -407,7 +395,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -426,7 +413,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 1,
             submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -521,7 +507,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -573,7 +558,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -625,7 +609,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -676,7 +659,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -727,7 +709,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -829,7 +810,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -852,7 +832,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -911,7 +890,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -934,7 +912,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -1095,7 +1072,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -1118,7 +1094,6 @@ describe('StudentHomePageComponent', () => {
             submissionStartTimestamp: 0,
             submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
             gracePeriod: 0,
-            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
             submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
             publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

@@ -7,7 +7,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -50,7 +49,6 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

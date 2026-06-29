@@ -8,12 +8,6 @@ describe('submissionStatusTooltipToString', () => {
     );
   });
 
-  it('should return correct message for VISIBLE_NOT_OPEN status', () => {
-    expect(submissionStatusTooltipToString(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN)).toBe(
-      'The feedback session is waiting to open for submissions, but is visible to respondents.',
-    );
-  });
-
   it('should return correct message for OPEN status', () => {
     expect(submissionStatusTooltipToString(FeedbackSessionSubmissionStatus.OPEN)).toBe(
       'The feedback session is open for submissions, and is visible to respondents.',

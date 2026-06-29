@@ -9,7 +9,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
-import { InstructorPermissionRole, ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
+import { InstructorPermissionRole, ResponseVisibleSetting } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   InstructorExtensionTableColumnModel,
@@ -28,7 +28,6 @@ describe('ExtensionConfirmModalComponent', () => {
     submissionStartTimestamp: 1000000000000,
     submissionEndTimestamp: 1500000000000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

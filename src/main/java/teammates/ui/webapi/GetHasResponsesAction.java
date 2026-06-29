@@ -48,8 +48,8 @@ public class GetHasResponsesAction extends LoggedInAction {
 
         // Verify that all sessions are accessible to the user.
         for (FeedbackSession feedbackSession : feedbackSessions) {
-            if (!feedbackSession.isVisible()) {
-                // Skip invisible sessions.
+            if (!feedbackSession.isOpened()) {
+                // Skip sessions not open for submission.
                 continue;
             }
 
@@ -76,8 +76,8 @@ public class GetHasResponsesAction extends LoggedInAction {
 
         Map<String, Boolean> sessionsHasResponses = new HashMap<>();
         for (FeedbackSession feedbackSession : feedbackSessions) {
-            if (!feedbackSession.isVisible()) {
-                // Skip invisible sessions.
+            if (!feedbackSession.isOpened()) {
+                // Skip sessions not open for submission.
                 continue;
             }
 

@@ -11,7 +11,6 @@ import {
   FeedbackSessionSubmissionStatus,
   InstructorPermissionSet,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 
 describe('SessionsTableComponent', () => {
@@ -45,7 +44,6 @@ describe('SessionsTableComponent', () => {
     submissionStartTimestamp: 1555232400,
     submissionEndTimestamp: 1555332400,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -63,7 +61,6 @@ describe('SessionsTableComponent', () => {
     submissionStartTimestamp: 1554232400,
     submissionEndTimestamp: 1554332400,
     gracePeriod: 100,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.LATER,
     submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

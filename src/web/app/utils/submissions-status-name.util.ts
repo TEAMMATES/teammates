@@ -1,24 +1,16 @@
 import { FeedbackSessionSubmissionStatus } from '../../types/api-output';
 
 export function submissionsStatusNameToString(status: FeedbackSessionSubmissionStatus): string {
-  let string = '';
   switch (status) {
     case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-    case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-      string += 'Awaiting';
-      break;
+      return 'Awaiting';
     case FeedbackSessionSubmissionStatus.OPEN:
-      string += 'Open';
-      break;
+      return 'Open';
     case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-      string += 'Open (grace period)';
-      break;
+      return 'Open (grace period)';
     case FeedbackSessionSubmissionStatus.CLOSED:
-      string += 'Closed';
-      break;
+      return 'Closed';
     default:
       return 'Unknown';
   }
-
-  return string;
 }

@@ -11,7 +11,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -50,7 +49,6 @@ export class SessionEditFormComponent {
 
   // enum
   SessionEditFormMode!: typeof SessionEditFormMode;
-  SessionVisibleSetting!: typeof SessionVisibleSetting;
   ResponseVisibleSetting!: typeof ResponseVisibleSetting;
 
   // const
@@ -68,9 +66,6 @@ export class SessionEditFormComponent {
     submissionStartTimestamp: Date.now(),
     submissionEndTimestamp: Date.now(),
     gracePeriod: 0,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: Date.now(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     customResponseVisibleTimestamp: Date.now(),
@@ -131,7 +126,6 @@ export class SessionEditFormComponent {
 
   constructor() {
     this.SessionEditFormMode = SessionEditFormMode;
-    this.SessionVisibleSetting = SessionVisibleSetting;
     this.ResponseVisibleSetting = ResponseVisibleSetting;
     this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
   }
@@ -148,19 +142,12 @@ export class SessionEditFormComponent {
 
   /**
    * Triggers the change of the model when the submission opening time changes.
-   *
-   * Pulls the custom session visibility time back so that it never occurs after the submission opening
-   * time. The picker guarantees the incoming value already satisfies the configured range.
    */
   triggerSubmissionOpeningTimestampChange(timestamp: number): void {
-    const updatedModel: SessionEditFormModel = {
+    this.modelChange.emit({
       ...this.model,
       submissionStartTimestamp: timestamp,
-    };
-    if (updatedModel.customSessionVisibleTimestamp > timestamp) {
-      updatedModel.customSessionVisibleTimestamp = timestamp;
-    }
-    this.modelChange.emit(updatedModel);
+    });
   }
 
   /**
@@ -220,42 +207,10 @@ export class SessionEditFormComponent {
   }
 
   /**
-   * Gets the minimum timestamp for a session to be visible based on the input model.
-   *
-   * The minimum session visible datetime is 30 days before the session opening datetime.
-   */
-  get minTimestampForSessionVisible(): number {
-    return moment(this.model.submissionStartTimestamp).tz(this.model.timeZone).subtract(30, 'days').valueOf();
-  }
-
-  /**
-   * Gets the maximum timestamp for a session to be visible based on the input model.
-   *
-   * The maximum session visible datetime is on the response visible datetime.
-   */
-  get maxTimestampForSessionVisible(): number {
-    switch (this.model.responseVisibleSetting) {
-      case ResponseVisibleSetting.CUSTOM:
-        return Math.min(this.model.submissionStartTimestamp, this.model.customResponseVisibleTimestamp);
-      default:
-        return this.model.submissionStartTimestamp;
-    }
-  }
-
-  /**
    * Gets the minimum timestamp for responses to be visible based on the input model.
-   *
-   * The minimum response visible datetime is on the session visible datetime.
    */
   get minTimestampForResponseVisible(): number {
-    switch (this.model.sessionVisibleSetting) {
-      case SessionVisibleSetting.AT_OPEN:
-        return this.model.submissionStartTimestamp;
-      case SessionVisibleSetting.CUSTOM:
-        return this.model.customSessionVisibleTimestamp;
-      default:
-        return this.model.submissionStartTimestamp;
-    }
+    return this.model.submissionStartTimestamp;
   }
 
   private endOfDay(inst: moment.Moment): number {

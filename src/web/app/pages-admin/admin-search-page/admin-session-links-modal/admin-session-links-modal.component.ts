@@ -46,13 +46,11 @@ export class AdminSessionLinksModalComponent implements OnInit {
     [FeedbackSessionSubmissionStatus.GRACE_PERIOD]: 'bg-success',
     [FeedbackSessionSubmissionStatus.CLOSED]: 'bg-dark',
     [FeedbackSessionSubmissionStatus.NOT_VISIBLE]: 'bg-secondary',
-    [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 'bg-secondary',
   };
 
   private readonly submissionStatusOrder: Record<FeedbackSessionSubmissionStatus, number> = {
     [FeedbackSessionSubmissionStatus.OPEN]: 0,
     [FeedbackSessionSubmissionStatus.GRACE_PERIOD]: 0,
-    [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 1,
     [FeedbackSessionSubmissionStatus.NOT_VISIBLE]: 1,
     [FeedbackSessionSubmissionStatus.CLOSED]: 2,
   };

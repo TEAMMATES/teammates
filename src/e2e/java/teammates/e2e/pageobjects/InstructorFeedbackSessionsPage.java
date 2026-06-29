@@ -47,15 +47,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-change-visibility")
     private WebElement changeVisibilityButton;
 
-    @FindBy(id = "session-visibility-custom")
-    private WebElement customSessionVisibleTimeButton;
-
-    @FindBy(css = "#session-visibility-datetime tm-datetimepicker")
-    private WebElement sessionVisibilityDateTimePicker;
-
-    @FindBy(id = "session-visibility-at-open")
-    private WebElement openSessionVisibleTimeButton;
-
     @FindBy(id = "response-visibility-custom")
     private WebElement customResponseVisibleTimeButton;
 
@@ -281,7 +272,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         details[1] = session.getName();
         if (session.isClosed()) {
             details[2] = "Closed";
-        } else if (session.isVisible() && (session.isOpened() || session.isInGracePeriod())) {
+        } else if (session.isOpened() || session.isInGracePeriod()) {
             details[2] = "Open";
         } else {
             details[2] = "Awaiting";
@@ -335,10 +326,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         setDateTime(endDateTimePicker, endInstant, timeZone);
     }
 
-    private void setVisibilityDateTime(Instant startInstant, String timeZone) {
-        setDateTime(sessionVisibilityDateTimePicker, startInstant, timeZone);
-    }
-
     private void setResponseDateTime(Instant endInstant, String timeZone) {
         setDateTime(responseVisibilityDateTimePicker, endInstant, timeZone);
     }
@@ -355,18 +342,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     private void setVisibilitySettings(FeedbackSession newFeedbackSession) {
         showVisibilitySettings();
 
-        setSessionVisibilitySettings(newFeedbackSession);
         setResponseVisibilitySettings(newFeedbackSession);
-    }
-
-    private void setSessionVisibilitySettings(FeedbackSession newFeedbackSession) {
-        Instant sessionDateTime = newFeedbackSession.getSessionVisibleFromTime();
-        if (sessionDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            click(openSessionVisibleTimeButton);
-        } else {
-            click(customSessionVisibleTimeButton);
-            setVisibilityDateTime(sessionDateTime, newFeedbackSession.getCourse().getTimeZone());
-        }
     }
 
     private void setResponseVisibilitySettings(FeedbackSession newFeedbackSession) {
