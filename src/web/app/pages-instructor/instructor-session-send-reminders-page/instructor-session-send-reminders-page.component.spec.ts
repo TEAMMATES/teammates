@@ -21,7 +21,6 @@ import {
   Instructors,
   JoinState,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Students,
 } from '../../../types/api-output';
 
@@ -50,7 +49,6 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     submissionStartTimestamp: 1000,
     submissionEndTimestamp: 2000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
