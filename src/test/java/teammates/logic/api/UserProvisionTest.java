@@ -111,19 +111,19 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void getAuthContextFromRequest_loggedInRequestWithRegKey_returnsLoggedInAccountContext() throws Exception {
+    public void getAuthContextFromRequest_loggedInRequestWithSessionKey_returnsLoggedInAccountContext() throws Exception {
         Account account = createAccount("user@example.com");
         UUID studentId = UUID.randomUUID();
         UUID feedbackSessionId = UUID.randomUUID();
-        String regKey = "registration-key";
+        int linkVersion = 0;
         Student student = mock(Student.class);
         when(student.getId()).thenReturn(studentId);
-        when(student.getRegKey()).thenReturn(regKey);
+        when(student.getLinkVersion()).thenReturn(linkVersion);
         when(student.getAccount()).thenReturn(account);
 
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.REGKEY,
-                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
+        req.addParam(Const.ParamsNames.KEY,
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId));
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
@@ -131,29 +131,29 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(AuthType.LOGGED_IN, authContext.authType());
         assertEquals(account, authContext.account());
-        assertEquals(student, authContext.regKeyStudent());
+        assertEquals(student, authContext.sessionKeyStudent());
         assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());
     }
 
     @Test
-    public void getAuthContextFromRequest_encryptedSessionKey_returnsRegKeyStudentContext() throws Exception {
+    public void getAuthContextFromRequest_encryptedSessionKey_returnsSessionKeyStudentContext() throws Exception {
         UUID studentId = UUID.randomUUID();
         UUID feedbackSessionId = UUID.randomUUID();
-        String regKey = "registration-key";
+        int linkVersion = 0;
         Student student = mock(Student.class);
         when(student.getId()).thenReturn(studentId);
-        when(student.getRegKey()).thenReturn(regKey);
+        when(student.getLinkVersion()).thenReturn(linkVersion);
         when(student.getAccount()).thenReturn(null);
 
         MockHttpServletRequest req = createRequest();
-        req.addParam(Const.ParamsNames.REGKEY,
-                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId));
+        req.addParam(Const.ParamsNames.KEY,
+                KeyUtil.encryptSessionKey(studentId, SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId));
         when(mockUsersLogic.getStudent(studentId)).thenReturn(student);
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.REG_KEY, authContext.authType());
-        assertEquals(student, authContext.regKeyStudent());
+        assertEquals(AuthType.SESSION_KEY, authContext.authType());
+        assertEquals(student, authContext.sessionKeyStudent());
         assertEquals(studentId, authContext.sessionKey().userId());
         assertEquals(SessionKeyType.SUBMISSION, authContext.sessionKey().type());
         assertEquals(feedbackSessionId, authContext.sessionKey().feedbackSessionId());

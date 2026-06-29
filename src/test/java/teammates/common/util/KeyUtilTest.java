@@ -21,14 +21,14 @@ public class KeyUtilTest extends BaseTestCase {
     public void encryptAndDecrypt_validPayload_roundTrips() throws Exception {
         UUID userId = UUID.fromString("00000000-0000-4000-8000-000000000001");
         UUID feedbackSessionId = UUID.fromString("00000000-0000-4000-8000-000000000002");
-        String regKey = "sample-reg-key";
+        int linkVersion = 3;
 
-        String encryptedKey = KeyUtil.encryptSessionKey(userId, SessionKeyType.SUBMISSION, regKey, feedbackSessionId);
+        String encryptedKey = KeyUtil.encryptSessionKey(userId, SessionKeyType.SUBMISSION, linkVersion, feedbackSessionId);
         SessionKey sessionKey = KeyUtil.decryptSessionKey(encryptedKey);
 
         assertEquals(userId, sessionKey.userId());
         assertEquals(SessionKeyType.SUBMISSION, sessionKey.type());
-        assertEquals(regKey, sessionKey.regKey());
+        assertEquals(linkVersion, sessionKey.linkVersion());
         assertEquals(feedbackSessionId, sessionKey.feedbackSessionId());
     }
 

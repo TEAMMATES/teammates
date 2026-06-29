@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { RegenerateKey, SessionLinks } from '../types/api-output';
+import { MessageOutput, SessionLinks } from '../types/api-output';
 
 /**
  * Handles user-related logic provision.
@@ -14,9 +14,9 @@ export class UserService {
   private httpRequestService = inject(HttpRequestService);
 
   /**
-   * Regenerates the registration key for a user in a course.
+   * Regenerates the key for a user in a course.
    */
-  regenerateUserKey(userId: string): Observable<RegenerateKey> {
+  regenerateUserKey(userId: string): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       userid: userId,
     };

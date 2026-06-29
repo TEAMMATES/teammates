@@ -45,14 +45,14 @@ public final class AuthLogic {
      * course ID.
      *
      * <p>
-     * If a valid registration key is present, it returns the unregistered student
+     * If a valid session key is present, it returns the unregistered student
      * from the authentication context.
      * Otherwise, it retrieves the student from the database linked to the account
      * and course ID.
      */
     public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
-        if (authContext.regKeyStudent() != null) {
-            return authContext.regKeyStudent();
+        if (authContext.sessionKeyStudent() != null) {
+            return authContext.sessionKeyStudent();
         }
 
         Account account = authContext.account();
@@ -69,7 +69,7 @@ public final class AuthLogic {
      *
      * <p>
      * Retrieves the instructor from the database linked to the account and course ID.
-     * Instructors cannot authenticate via registration key.
+     * Instructors cannot authenticate via session key.
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         Account account = authContext.account();
@@ -167,7 +167,7 @@ public final class AuthLogic {
             throw new InvalidParametersException("Invalid encrypted course join key: no user found");
         }
 
-        if (!joinKey.regKey().equals(user.getRegKey())) {
+        if (joinKey.linkVersion() != user.getLinkVersion()) {
             throw new InvalidParametersException("Invalid encrypted course join key");
         }
 
@@ -192,7 +192,7 @@ public final class AuthLogic {
             throw new InvalidParametersException("Invalid encrypted session key: no student found");
         }
 
-        if (!sessionKey.regKey().equals(student.getRegKey())) {
+        if (sessionKey.linkVersion() != student.getLinkVersion()) {
             throw new InvalidParametersException("Invalid encrypted session key");
         }
 

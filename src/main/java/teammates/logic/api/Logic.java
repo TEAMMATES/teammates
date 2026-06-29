@@ -37,7 +37,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
-import teammates.common.exception.UserUpdateException;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
@@ -905,20 +904,6 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code regkey}.
-     */
-    public Instructor getInstructorByRegistrationKey(String regKey) {
-        return usersLogic.getInstructorByRegistrationKey(regKey);
-    }
-
-    /**
-     * Gets a user by associated {@code regkey}.
-     */
-    public User getUserByRegistrationKey(String regKey) {
-        return usersLogic.getUserByRegistrationKey(regKey);
-    }
-
-    /**
      * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
     public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
@@ -1087,13 +1072,6 @@ public class Logic {
     }
 
     /**
-     * Gets a student by associated {@code regkey}.
-     */
-    public Student getStudentByRegistrationKey(String regKey) {
-        return usersLogic.getStudentByRegistrationKey(regKey);
-    }
-
-    /**
      * Gets students by associated {@code teamId} and {@code courseId}.
      */
     public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
@@ -1231,24 +1209,20 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId}.
+     * Increments the link version for the user with {@code userId}, invalidating all existing links.
      *
-     * @return the user with the new registration key.
-     * @throws UserUpdateException         if system was unable to generate a new
-     *                                     registration key.
+     * @return the user with the incremented link version.
      * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public User regenerateUserRegistrationKey(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegistrationKey(userId);
+    public User regenerateUserLinks(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinks(userId);
     }
 
     /**
-     * Regenerates the registration key and enqueues the corresponding feedback session summary email.
+     * Increments the link version and enqueues the corresponding feedback session summary email.
      */
-    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
+    public User regenerateUserLinksAndEnqueueSummaryEmail(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinksAndEnqueueSummaryEmail(userId);
     }
 
     /**

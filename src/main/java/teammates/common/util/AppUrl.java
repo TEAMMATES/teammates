@@ -96,8 +96,8 @@ public class AppUrl {
         return withParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, accountId.toString());
     }
 
-    public AppUrl withRegistrationKey(String key) {
-        return withParam(Const.ParamsNames.REGKEY, key);
+    public AppUrl withKey(String key) {
+        return withParam(Const.ParamsNames.KEY, key);
     }
 
     public AppUrl withIsCreatingAccount(String isCreatingAccount) {

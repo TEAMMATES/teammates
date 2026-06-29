@@ -31,7 +31,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getRegKey()))
+                .withKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getLinkVersion()))
                 .withCourseId(testData.courses.get("SCJoinConf.CS2104").getId())
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(

@@ -61,7 +61,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getUserSessionResultsAction_byRegKey_returnsUserSessionResultsData() {
+    public void getUserSessionResultsAction_bySessionKey_returnsUserSessionResultsData() {
         var student = given.student("student", s -> s.defaultCourse());
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().published());
         given.feedbackQuestion("question", q -> q.feedbackSession(session.alias()).studentsToSelf().text());
@@ -71,7 +71,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
                 .withParam(Const.ParamsNames.IS_PREVIEW, "false")
-                .withStudentSessionKey(student.id(), SessionKeyType.RESULTS, student.regKey(), session.id());
+                .withStudentSessionKey(student.id(), SessionKeyType.RESULTS, student.linkVersion(), session.id());
 
         UserSessionResultsData result = execute(request);
 

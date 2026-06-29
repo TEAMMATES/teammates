@@ -29,7 +29,7 @@ public class LinkAccountAction extends LoggedInAction {
             throw new UnauthorizedAccessException("Not authorized to link this account.");
         }
 
-        Student authenticatedStudent = requestContext.getRegKeyUser();
+        Student authenticatedStudent = requestContext.getSessionKeyUser();
         if (authenticatedStudent == null) {
             throw new UnauthorizedAccessException("Not authorized to link this account.");
         }
@@ -42,7 +42,7 @@ public class LinkAccountAction extends LoggedInAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        Student authenticatedStudent = requestContext.getRegKeyUser();
+        Student authenticatedStudent = requestContext.getSessionKeyUser();
         LinkAccountRequest requestBody = getAndValidateRequestBody(LinkAccountRequest.class);
         try {
             logic.joinCourseAndNotify(authenticatedStudent.getId(), logic.getAccount(requestBody.getAccountId()));

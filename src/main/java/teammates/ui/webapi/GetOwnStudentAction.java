@@ -9,7 +9,7 @@ import teammates.ui.output.StudentData;
 /**
  * Get the information of the student associated with the request.
  */
-public class GetOwnStudentAction extends RegKeyAction {
+public class GetOwnStudentAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws teammates.ui.exception.UnauthorizedAccessException {
         gateKeeper.verifySessionKey(requestContext, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);

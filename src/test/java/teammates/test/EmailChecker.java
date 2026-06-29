@@ -13,7 +13,7 @@ import teammates.common.util.Const;
  */
 public final class EmailChecker {
 
-    private static final String REGEX_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_KEY = "[A-F0-9]{32,}";
     private static final String REGEX_UUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
 
     private EmailChecker() {
@@ -79,9 +79,9 @@ public final class EmailChecker {
      * These values are identified using their known, unique formats.
      */
     private static String replaceUnpredictableValuesWithPlaceholders(String emailContent) {
-        return emailContent // regkey in URLs
-                           .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_REGKEY,
-                                       Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
+        return emailContent // key in URLs
+                           .replaceAll(Const.ParamsNames.KEY + "=" + REGEX_KEY,
+                                       Const.ParamsNames.KEY + "=\\${key\\.enc}")
                            // feedbackSessionId (UUID) in path-based URLs e.g. /sessions/{uuid}/submission
                            .replaceAll("(/sessions/)" + REGEX_UUID + "(/)",
                                        "$1\\${fsid}$2");

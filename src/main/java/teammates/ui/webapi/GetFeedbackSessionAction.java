@@ -16,7 +16,7 @@ import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 /**
  * Get a feedback session.
  */
-public class GetFeedbackSessionAction extends RegKeyAction {
+public class GetFeedbackSessionAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

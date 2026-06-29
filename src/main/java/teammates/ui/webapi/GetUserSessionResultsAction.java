@@ -14,7 +14,7 @@ import teammates.ui.output.UserSessionResultsData;
 /**
  * Gets user-scoped feedback session results for instructor/student result views.
  */
-public class GetUserSessionResultsAction extends RegKeyAction {
+public class GetUserSessionResultsAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

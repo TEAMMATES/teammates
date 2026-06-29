@@ -13,7 +13,7 @@ import teammates.ui.output.InstructorCoursePermissionsData;
 /**
  * Get a course for an instructor or student.
  */
-public class GetCourseAction extends RegKeyAction {
+public class GetCourseAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

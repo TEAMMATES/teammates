@@ -188,7 +188,6 @@ public final class DataBundleLogic {
                 Account account = accountsMap.get(instructor.getAccountId());
                 instructor.setAccount(account);
             }
-            instructor.generateNewRegistrationKey();
         }
 
         for (FeedbackSession session : sessions) {
@@ -232,7 +231,6 @@ public final class DataBundleLogic {
                 Account account = accountsMap.get(student.getAccountId());
                 student.setAccount(account);
             }
-            student.generateNewRegistrationKey();
         }
 
         for (FeedbackResponse response : responses) {
