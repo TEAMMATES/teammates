@@ -100,7 +100,7 @@ abstract class BasicFeedbackSubmissionAction extends SessionKeyAction {
             checkAccessControlForPreview(feedbackSession);
         } else {
             gateKeeper.verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
-            if (!feedbackSession.isOpened()) {
+            if (feedbackSession.isWaitingToOpen()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
             }
         }
