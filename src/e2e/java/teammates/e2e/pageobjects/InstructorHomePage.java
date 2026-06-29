@@ -109,7 +109,7 @@ public class InstructorHomePage extends AppPage {
     public void downloadResults(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
-        click(waitForElementPresence(By.className("btn-download-" + sessionIndex)));
+        click(getVisibleDropdownAction("btn-download-" + sessionIndex));
     }
 
     public void deleteSession(int courseTabIndex, int sessionIndex) {
@@ -201,6 +201,11 @@ public class InstructorHomePage extends AppPage {
                 break;
             }
         }
+    }
+
+    private WebElement getVisibleDropdownAction(String className) {
+        By selector = By.cssSelector(".dropdown-menu.show ." + className);
+        return waitForElementVisibility(selector);
     }
 
     private void selectStudentToEmail(String studentEmail) {
