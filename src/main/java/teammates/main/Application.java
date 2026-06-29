@@ -10,6 +10,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.liquibase.LiquibaseStatusChecker;
+import teammates.main.util.DevServerStartupErrorHandler;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
@@ -75,12 +77,32 @@ public final class Application {
         server.setHandler(webapp);
         server.setStopAtShutdown(true);
         server.addEventListener(customLifeCycleListener);
+        webapp.setThrowUnavailableOnStartupException(true);
 
-        server.start();
+        try {
+            LiquibaseStatusChecker.assertSuccessStatus();
+        } catch (Exception e) {
+            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+        }
+
+        try {
+            server.start();
+        } catch (Exception e) {
+            stopServer(server);
+            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+        }
 
         // By using the server.join() the server thread will join with the current thread.
         // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
         server.join();
+    }
+
+    private static void stopServer(Server server) {
+        try {
+            server.stop();
+        } catch (Exception e) {
+            log.severe("Failed to stop server after web application startup failure.", e);
+        }
     }
 
 }
