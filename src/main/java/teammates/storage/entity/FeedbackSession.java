@@ -440,6 +440,14 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
+     * Checks if the feedback session is visible to students (i.e. has started).
+     * Covers opened, grace-period, and closed states.
+     */
+    public boolean isVisible() {
+        return !isWaitingToOpen();
+    }
+
+    /**
      * Checks if the feedback session is accessible for submission given the user's effective deadline.
      * Grace period applies only to the session's regular end time, not to personal deadline extensions.
      */
@@ -457,7 +465,7 @@ public class FeedbackSession extends BaseEntity {
         Instant publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            return !isWaitingToOpen();
+            return isVisible();
         }
         if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return false;

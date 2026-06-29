@@ -741,7 +741,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private FeedbackSessionSubmissionStatus getSubmissionStatus(FeedbackSession feedbackSession) {
-        if (feedbackSession.isWaitingToOpen()) {
+        if (!feedbackSession.isVisible()) {
             return FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         }
         if (feedbackSession.isInGracePeriod()) {
@@ -1129,7 +1129,7 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        return !session.isWaitingToOpen() && !questionsWithVisibleResponses.isEmpty();
+        return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
 
     /**

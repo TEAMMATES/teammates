@@ -80,7 +80,7 @@ public class FeedbackSessionData implements ApiOutput {
             this.customResponseVisibleTimestamp = this.resultVisibleFromTimestamp;
         }
 
-        if (feedbackSession.isWaitingToOpen()) {
+        if (!feedbackSession.isVisible()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         } else if (feedbackSession.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
