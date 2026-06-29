@@ -175,10 +175,15 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
    * Sends reminders to the selected respondents.
    */
   sendReminders(): void {
+    const selectedUserIds = this.selectedRespondents.map((model) => model.id);
+    if (selectedUserIds.length == 0) {
+      this.statusMessageService.showErrorToast('Please select at least one respondent to remind.');
+      return;
+    }
     this.isSubmittingReminders = true;
     this.feedbackSessionsService
       .remindFeedbackSessionSubmissionForRespondents(this.feedbackSessionId, {
-        usersToRemind: this.selectedRespondents.map((model) => model.id),
+        usersToRemind: selectedUserIds,
         isSendingCopyToInstructor: this.isSendingCopyToInstructor,
       })
       .pipe(
