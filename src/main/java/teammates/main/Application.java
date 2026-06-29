@@ -9,8 +9,9 @@ import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
-import teammates.common.util.DatabaseMigrationStatusChecker;
 import teammates.common.util.Logger;
+import teammates.main.util.DevServerStartupErrorHandler;
+import teammates.main.util.LiquibaseStatusChecker;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
@@ -78,7 +79,7 @@ public final class Application {
         server.addEventListener(customLifeCycleListener);
         webapp.setThrowUnavailableOnStartupException(true);
 
-        checkDatabaseSchemaUpToDate();
+        assertLiquibaseSuccessStatus();
 
         try {
             server.start();
@@ -92,9 +93,9 @@ public final class Application {
         server.join();
     }
 
-    private static void checkDatabaseSchemaUpToDate() throws Exception {
+    private static void assertLiquibaseSuccessStatus() throws Exception {
         try {
-            DatabaseMigrationStatusChecker.assertDatabaseUpToDate();
+            LiquibaseStatusChecker.assertSuccessStatus();
         } catch (Exception e) {
             throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
         }

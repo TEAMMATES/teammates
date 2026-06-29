@@ -1,10 +1,11 @@
-package teammates.main;
+package teammates.main.util;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
 import teammates.common.exception.PendingDatabaseMigrationsException;
+import teammates.main.exception.DevServerStartupException;
 
 /**
  * Handles startup errors with dev-server-friendly messages where possible.

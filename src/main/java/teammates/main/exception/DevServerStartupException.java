@@ -1,4 +1,4 @@
-package teammates.main;
+package teammates.main.exception;
 
 /**
  * Exception thrown when an error occurs during dev server startup.
