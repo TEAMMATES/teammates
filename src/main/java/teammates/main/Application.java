@@ -10,8 +10,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.liquibase.LiquibaseStatusChecker;
 import teammates.main.util.DevServerStartupErrorHandler;
-import teammates.main.util.LiquibaseStatusChecker;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**

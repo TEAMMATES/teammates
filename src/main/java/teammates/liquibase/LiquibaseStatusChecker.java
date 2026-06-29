@@ -1,4 +1,4 @@
-package teammates.main.util;
+package teammates.liquibase;
 
 import java.util.List;
 import java.util.Optional;
