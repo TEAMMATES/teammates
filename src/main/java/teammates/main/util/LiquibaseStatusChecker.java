@@ -1,13 +1,19 @@
 package teammates.main.util;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Optional;
 
 import teammates.common.exception.PendingDatabaseMigrationsException;
 import teammates.common.util.Config;
 
-import liquibase.command.CommandScope;
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.changelog.ChangeSet;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.resource.ResourceAccessor;
 
 /**
  * Checks whether the liquibase status is successful.
@@ -15,7 +21,6 @@ import liquibase.command.CommandScope;
 public final class LiquibaseStatusChecker {
 
     private static final String CHANGELOG_FILE = "db/changelog/db.changelog-root.xml";
-    private static final String LIQUIBASE_PENDING_CHANGESETS_PHRASE = "not been applied";
 
     private LiquibaseStatusChecker() {
         // utility class
@@ -43,20 +48,31 @@ public final class LiquibaseStatusChecker {
     }
 
     private static Optional<String> getPendingMigrationStatus() throws Exception {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        new CommandScope("status")
-                .addArgumentValue("changelogFile", CHANGELOG_FILE)
-                .addArgumentValue("url", Config.getDbConnectionUrl())
-                .addArgumentValue("username", Config.POSTGRES_USERNAME)
-                .addArgumentValue("password", Config.POSTGRES_PASSWORD)
-                .addArgumentValue("verbose", false)
-                .setOutput(output)
-                .execute();
+        List<ChangeSet> unrunChangeSets = listUnrunChangeSets();
+        return unrunChangeSets.isEmpty()
+                ? Optional.empty()
+                : Optional.of(formatPendingMigrationStatus(unrunChangeSets));
+    }
 
-        String status = output.toString(StandardCharsets.UTF_8).trim();
-        return status.contains(LIQUIBASE_PENDING_CHANGESETS_PHRASE)
-                ? Optional.of(status)
-                : Optional.empty();
+    private static List<ChangeSet> listUnrunChangeSets() throws Exception {
+        try (ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor();
+                Liquibase liquibase = createLiquibase(resourceAccessor)) {
+            return liquibase.listUnrunChangeSets(new Contexts(), new LabelExpression());
+        }
+    }
+
+    private static Liquibase createLiquibase(ResourceAccessor resourceAccessor) throws Exception {
+        Database database = DatabaseFactory.getInstance().openDatabase(
+                Config.getDbConnectionUrl(),
+                Config.POSTGRES_USERNAME,
+                Config.POSTGRES_PASSWORD,
+                null,
+                resourceAccessor);
+        return new Liquibase(CHANGELOG_FILE, resourceAccessor, database);
+    }
+
+    private static String formatPendingMigrationStatus(List<ChangeSet> unrunChangeSets) {
+        return unrunChangeSets.size() + " pending Liquibase changeset(s).";
     }
 
 }
