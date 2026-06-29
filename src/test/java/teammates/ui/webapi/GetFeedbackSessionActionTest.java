@@ -30,7 +30,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertNotNull(result);
         assertNotNull(result.getFeedbackSession());
-        assertNull(result.getFeedbackSession().getSessionVisibleFromTimestamp());
         assertNull(result.getInstructorPermissions());
     }
 
@@ -48,7 +47,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         FeedbackSessionViewData result = execute(request);
 
         assertNotNull(result);
-        assertNotNull(result.getFeedbackSession().getSessionVisibleFromTimestamp());
+        assertNotNull(result.getFeedbackSession());
         assertNotNull(result.getInstructorPermissions());
     }
 
@@ -66,7 +65,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         FeedbackSessionViewData result = execute(request);
 
         assertNotNull(result);
-        assertNull(result.getFeedbackSession().getSessionVisibleFromTimestamp());
+        assertNotNull(result.getFeedbackSession());
         assertNotNull(result.getInstructorPermissions());
     }
 

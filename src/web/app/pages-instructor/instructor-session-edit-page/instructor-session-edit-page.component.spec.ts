@@ -38,7 +38,6 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
   Students,
   InstructorCourses,
@@ -87,7 +86,6 @@ describe('InstructorSessionEditPageComponent', () => {
     submissionStartTimestamp: 1000000000000,
     submissionEndTimestamp: 1500000000000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -236,9 +234,6 @@ describe('InstructorSessionEditPageComponent', () => {
     submissionEndTimestamp: Date.UTC(2024, 0, 1, 4, 0),
     gracePeriod: 0,
 
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: Date.UTC(2024, 0, 1, 1, 0),
-
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     customResponseVisibleTimestamp: Date.UTC(2024, 0, 1, 5, 0),
 
@@ -362,7 +357,6 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.sessionEditFormModel.feedbackSessionName).toBe(testFeedbackSession.feedbackSessionName);
     expect(component.sessionEditFormModel.timeZone).toBe(testFeedbackSession.timeZone);
     expect(component.sessionEditFormModel.instructions).toBe(testFeedbackSession.instructions);
-    expect(component.sessionEditFormModel.sessionVisibleSetting).toBe(testFeedbackSession.sessionVisibleSetting);
     expect(component.sessionEditFormModel.responseVisibleSetting).toBe(testFeedbackSession.responseVisibleSetting);
   });
 

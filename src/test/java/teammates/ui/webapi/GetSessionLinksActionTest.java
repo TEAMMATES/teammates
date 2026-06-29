@@ -49,7 +49,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         Map<UUID, SessionSubmissionLink> submissionLinksById = result.getSubmissionLinks().stream()
                 .collect(Collectors.toMap(SessionSubmissionLink::feedbackSessionId, Function.identity()));
-        assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN,
+        assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE,
                 submissionLinksById.get(awaitingSession.id()).submissionStatus());
         assertEquals(FeedbackSessionSubmissionStatus.OPEN,
                 submissionLinksById.get(openSession.id()).submissionStatus());

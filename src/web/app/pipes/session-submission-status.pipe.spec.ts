@@ -12,22 +12,18 @@ describe('SubmissionStatusPipe', () => {
   });
 
   it('should return Submitted if session is open and feedback is submitted', () => {
-    expect(submissionStatusPipe.transform(true, false, true)).toBe('Submitted');
+    expect(submissionStatusPipe.transform(true, true)).toBe('Submitted');
   });
 
   it('should return Pending if session is open and feedback is not submitted', () => {
-    expect(submissionStatusPipe.transform(true, false, false)).toBe('Pending');
-  });
-
-  it('should return Awaiting if session is waiting to open', () => {
-    expect(submissionStatusPipe.transform(false, true, false)).toBe('Awaiting');
+    expect(submissionStatusPipe.transform(true, false)).toBe('Pending');
   });
 
   it('should return Closed if session is not open and feedback is submitted', () => {
-    expect(submissionStatusPipe.transform(false, false, true)).toBe('Closed');
+    expect(submissionStatusPipe.transform(false, true)).toBe('Closed');
   });
 
   it('should return Closed if session is not open and feedback is not submitted', () => {
-    expect(submissionStatusPipe.transform(false, false, false)).toBe('Closed');
+    expect(submissionStatusPipe.transform(false, false)).toBe('Closed');
   });
 });

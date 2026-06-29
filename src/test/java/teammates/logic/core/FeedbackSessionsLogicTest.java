@@ -40,7 +40,6 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.ResponseVisibleSetting;
-import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -268,7 +267,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testIsFeedbackSessionViewableToUserType_hasQuestionsForUser_returnsTrue() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setSessionVisibleFromTime(Instant.now().minusSeconds(3600)); // Visible
+        session.setStartTime(Instant.now().minusSeconds(3600));
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         session.setFeedbackQuestions(Set.of(question));
 
@@ -283,7 +282,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testIsFeedbackSessionForUserTypeToAnswer_sessionNotVisible_returnsFalse() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setSessionVisibleFromTime(Instant.now().plusSeconds(86400)); // Not visible yet
 
         boolean result = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
 
@@ -509,7 +507,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         assertEquals(updateRequest.getInstructions(), session.getInstructions());
         assertEquals(updateRequest.getGracePeriod(), session.getGracePeriod());
-        assertEquals(updateRequest.getSessionVisibleFromTime(), session.getSessionVisibleFromTime());
         assertEquals(updateRequest.getResultsVisibleFromTime(), session.getResultsVisibleFromTime());
         assertEquals(updateRequest.getSubmissionStartTime(), session.getStartTime());
         assertEquals(updateRequest.getSubmissionEndTime(), session.getEndTime());
@@ -568,25 +565,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateFeedbackSession_invalidSessionVisibleTime_throwsInvalidParametersException() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        // Session visible time more than 30 days before start time
-        Instant newSessionVisibleTime = TimeHelper.getInstantNearestHourBefore(
-                TimeHelper.getInstantDaysOffsetFromNow(-40)
-        );
-        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleTime.toEpochMilli());
-        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
-        assertEquals("Invalid session visible time: "
-                + "The time when the session will be visible for this feedback session "
-                + "cannot be earlier than 30 days before start time.", ex.getMessage());
-    }
-
-    @Test
     public void testUpdateFeedbackSession_endTimeBeforeStartTime_throwsInvalidParametersException() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
@@ -616,7 +594,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
                 TimeHelper.getInstantHoursOffsetFromNow(24)
         );
-        Instant newSessionVisibleFromTime = newStartTime;
         Instant newResultsVisibleFromTime = TimeHelper.getInstantNearestHourBefore(
                 TimeHelper.getInstantHoursOffsetFromNow(48)
         );
@@ -624,11 +601,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("new instructions");
         updateRequest.setGracePeriod(60);
-        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
-        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleFromTime.toEpochMilli());
         updateRequest.setCustomResponseVisibleTimestamp(newResultsVisibleFromTime.toEpochMilli());
         updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);

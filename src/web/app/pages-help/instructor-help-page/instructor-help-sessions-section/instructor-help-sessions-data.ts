@@ -16,7 +16,6 @@ import {
   QuestionRecipientType,
   ResponseOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../../../../types/api-output';
 import {
@@ -46,9 +45,6 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
   submissionStartTimestamp: Date.UTC(2020, 2, 13, 10, 0),
   submissionEndTimestamp: Date.UTC(2020, 2, 13, 12, 0),
   gracePeriod: 0,
-
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  customSessionVisibleTimestamp: Date.UTC(2020, 2, 13, 9, 0),
 
   responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
   customResponseVisibleTimestamp: Date.UTC(2020, 2, 13, 13, 0),
@@ -188,7 +184,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   submissionStartTimestamp: 0,
   submissionEndTimestamp: 0,
   gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

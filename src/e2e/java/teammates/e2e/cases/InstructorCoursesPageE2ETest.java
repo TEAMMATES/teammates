@@ -84,10 +84,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                     .plus(Duration.ofDays(7))
                     .truncatedTo(ChronoUnit.HOURS)
                     .toInstant(),
-                ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
-                    .minus(Duration.ofDays(28))
-                    .truncatedTo(ChronoUnit.HOURS)
-                    .toInstant(),
                 Const.TIME_REPRESENTS_LATER,
                 session.getGracePeriod(),
                 session.isClosingSoonEmailEnabled(),
@@ -102,7 +98,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.getInstructions(),
                 copySession.getStartTime(),
                 copySession.getEndTime(),
-                copySession.getSessionVisibleFromTime(),
                 copySession.getResultsVisibleFromTime(),
                 copySession.getGracePeriod(),
                 copySession.isClosingSoonEmailEnabled(),

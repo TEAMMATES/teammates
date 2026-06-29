@@ -8,7 +8,6 @@ import jakarta.annotation.Nullable;
 import teammates.common.util.Const;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.ResponseVisibleSetting;
-import teammates.ui.output.SessionVisibleSetting;
 
 /**
  * The basic request body format for creating/saving of feedback session.
@@ -19,10 +18,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     private long submissionStartTimestamp;
     private long submissionEndTimestamp;
     private long gracePeriod;
-
-    private SessionVisibleSetting sessionVisibleSetting;
-    @Nullable
-    private Long customSessionVisibleTimestamp;
 
     private ResponseVisibleSetting responseVisibleSetting;
     @Nullable
@@ -63,20 +58,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         }
     }
 
-    /**
-     * Gets the session visible from time.
-     */
-    public Instant getSessionVisibleFromTime() {
-        switch (sessionVisibleSetting) {
-        case AT_OPEN:
-            return Const.TIME_REPRESENTS_FOLLOW_OPENING;
-        case CUSTOM:
-            return Instant.ofEpochMilli(customSessionVisibleTimestamp);
-        default:
-            throw new IllegalStateException("Unknown sessionVisibleSetting");
-        }
-    }
-
     public boolean isClosingSoonEmailEnabled() {
         return isClosingSoonEmailEnabled;
     }
@@ -101,14 +82,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         this.gracePeriod = gracePeriod;
     }
 
-    public void setSessionVisibleSetting(SessionVisibleSetting sessionVisibleSetting) {
-        this.sessionVisibleSetting = sessionVisibleSetting;
-    }
-
-    public void setCustomSessionVisibleTimestamp(Long customSessionVisibleTimestamp) {
-        this.customSessionVisibleTimestamp = customSessionVisibleTimestamp;
-    }
-
     public void setResponseVisibleSetting(ResponseVisibleSetting responseVisibleSetting) {
         this.responseVisibleSetting = responseVisibleSetting;
     }
@@ -130,14 +103,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         validateTrue(instructions != null, "Instructions cannot be null");
         validateTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
         validateTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
-
-        validateTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
-        if (sessionVisibleSetting == SessionVisibleSetting.CUSTOM) {
-            validateTrue(customSessionVisibleTimestamp != null,
-                    "Session visible timestamp should not be null");
-            validateTrue(customSessionVisibleTimestamp > 0L,
-                    "Session visible timestamp should be more than zero");
-        }
 
         validateTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {

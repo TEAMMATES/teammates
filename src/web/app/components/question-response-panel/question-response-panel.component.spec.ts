@@ -22,7 +22,6 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
@@ -36,7 +35,6 @@ describe('QuestionResponsePanelComponent', () => {
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 1549095330000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

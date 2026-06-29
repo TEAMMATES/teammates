@@ -9,7 +9,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 
 describe('CopySessionModalComponent', () => {
@@ -45,7 +44,6 @@ describe('CopySessionModalComponent', () => {
     submissionStartTimestamp: 1555232400,
     submissionEndTimestamp: 1555332400,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

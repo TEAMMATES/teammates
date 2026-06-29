@@ -146,8 +146,6 @@ export interface FeedbackSessionBasicRequest extends BasicRequest {
   submissionStartTimestamp: number;
   submissionEndTimestamp: number;
   gracePeriod: number;
-  sessionVisibleSetting: SessionVisibleSetting;
-  customSessionVisibleTimestamp?: number;
   responseVisibleSetting: ResponseVisibleSetting;
   customResponseVisibleTimestamp?: number;
   isClosingSoonEmailEnabled: boolean;
@@ -409,9 +407,4 @@ export enum ResponseVisibleSetting {
 export enum SessionKeyType {
   SUBMISSION = "SUBMISSION",
   RESULTS = "RESULTS",
-}
-
-export enum SessionVisibleSetting {
-  CUSTOM = "CUSTOM",
-  AT_OPEN = "AT_OPEN",
 }

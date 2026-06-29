@@ -32,21 +32,18 @@ public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
         FeedbackSession openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
         openFeedbackSession.setStartTime(INSTANT_3_DAYS_AGO);
         openFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
-        openFeedbackSession.setSessionVisibleFromTime(INSTANT_3_DAYS_AGO);
         openFeedbackSession.setEndTime(INSTANT_3_DAYS_LATER);
         openFeedbackSession.setResultsVisibleFromTime(INSTANT_3_DAYS_LATER);
 
         FeedbackSession awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
         awaitingFeedbackSession.setStartTime(INSTANT_TOMORROW);
         awaitingFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
-        awaitingFeedbackSession.setSessionVisibleFromTime(INSTANT_TOMORROW);
         awaitingFeedbackSession.setEndTime(INSTANT_3_DAYS_LATER);
         awaitingFeedbackSession.setResultsVisibleFromTime(INSTANT_3_DAYS_LATER);
 
         FeedbackSession futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
         futureFeedbackSession.setStartTime(INSTANT_10_DAYS_LATER);
         futureFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
-        futureFeedbackSession.setSessionVisibleFromTime(INSTANT_10_DAYS_LATER);
         futureFeedbackSession.setEndTime(INSTANT_24_DAYS_LATER);
         futureFeedbackSession.setResultsVisibleFromTime(INSTANT_24_DAYS_LATER);
 

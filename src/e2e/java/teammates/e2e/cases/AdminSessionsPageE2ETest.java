@@ -45,21 +45,18 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
         openFeedbackSession.setStartTime(instant3DaysAgo);
         openFeedbackSession.setCreatedAt(instant3DaysAgo);
-        openFeedbackSession.setSessionVisibleFromTime(instant3DaysAgo);
         openFeedbackSession.setEndTime(instant3DaysLater);
         openFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
 
         awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
         awaitingFeedbackSession.setStartTime(instantTomorrow);
         awaitingFeedbackSession.setCreatedAt(instant3DaysAgo);
-        awaitingFeedbackSession.setSessionVisibleFromTime(instantTomorrow);
         awaitingFeedbackSession.setEndTime(instant3DaysLater);
         awaitingFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
 
         futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
         futureFeedbackSession.setStartTime(instant10DaysLater);
         futureFeedbackSession.setCreatedAt(instant3DaysAgo);
-        futureFeedbackSession.setSessionVisibleFromTime(instant10DaysLater);
         futureFeedbackSession.setEndTime(instant24DaysLater);
         futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
 

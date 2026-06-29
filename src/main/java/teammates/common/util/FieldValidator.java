@@ -667,48 +667,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if Session Visibility Start Time is before Session Start Time.
-     * @return Error string if {@code visibilityStart} is before {@code sessionStart}
-     *         Empty string if {@code visibilityStart} is after {@code sessionStart}
-     */
-    public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-            Instant visibilityStart, Instant sessionStart) {
-        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
-                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
-    }
-
-    /**
-     * Checks if the {@code visibilityStart} is valid to be used as a session visible start time.
-     * Returns an empty string if it is valid, or an error message otherwise.
-     *
-     * <p>The {@code visibilityStart} is valid if it is less than 30 days before {@code sessionStart}.
-     */
-    public static String getInvalidityInfoForTimeForNewVisibilityStart(Instant visibilityStart, Instant sessionStart) {
-        Instant visibilityStartThirtyDaysBeforeSessionStart = sessionStart.minus(Duration.ofDays(30));
-        String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
-                getInvalidityInfoForFirstTimeComparedToSecondTime(
-                        visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
-                        "30 days before start time", SESSION_VISIBLE_TIME_FIELD_NAME,
-                        (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
-                        "The %s for this %s cannot be earlier than %s.");
-        if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
-            return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
-        }
-        return "";
-    }
-
-    /**
-     * Checks if Visibility Start Time is before Results Publish Time.
-     * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
-     *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
-     */
-    public static String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-            Instant visibilityStart, Instant resultsPublish) {
-        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
-                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
-    }
-
-    /**
      * Checks if the session end time is before all extended deadlines.
      * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
      */

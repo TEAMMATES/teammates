@@ -27,7 +27,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
+import { ResponseVisibleSetting } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 describe('InstructorSessionIndividualExtensionPageComponent', () => {
@@ -55,7 +55,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     submissionStartTimestamp: 1000000000000,
     submissionEndTimestamp: 1500000000000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
