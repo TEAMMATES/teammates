@@ -1099,7 +1099,7 @@ public final class FeedbackSessionsLogic {
      * Returns true if there are any questions for the specified user type (students/instructors) to answer.
      */
     public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSession session, boolean isInstructor) {
-        if (!session.isOpened()) {
+        if (!session.isOpened() && !session.isInGracePeriod()) {
             return false;
         }
 

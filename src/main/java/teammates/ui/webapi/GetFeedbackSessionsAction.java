@@ -107,7 +107,7 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
             });
         } else if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide sessions not visible to student
-            sessionToDeadline.keySet().removeIf(session -> !session.isOpened());
+            sessionToDeadline.keySet().removeIf(session -> session.isWaitingToOpen());
             responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());
         } else {
