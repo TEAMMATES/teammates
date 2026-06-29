@@ -1,3 +1,8 @@
+footer,
+nav {
+  background: #3c3c3c;
+}
+
 nav {
   height: 50px;
 
@@ -43,6 +48,7 @@ nav {
   &:hover,
   &:focus {
     background-color: inherit;
+    color: white;
   }
 }
 
@@ -112,6 +118,7 @@ nav {
 
 .navbar-collapse,
 .dropdown-menu {
+  background: #3c3c3c;
   min-width: 0;
 }
 

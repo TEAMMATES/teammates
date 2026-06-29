@@ -2,7 +2,6 @@
   class="navbar navbar-expand-lg fixed-top"
   [class.navbar-dark]="!isMasquerading"
   [class.navbar-light]="isMasquerading"
-  [class.bg-dark]="!isMasquerading"
   [class.bg-warning]="isMasquerading"
   (tmClickOutside)="isCollapsed = true"
 >
@@ -25,7 +24,6 @@
     class="navbar-collapse d-lg-flex"
     [class.d-none]="isCollapsed"
     [class.d-block]="!isCollapsed"
-    [class.bg-dark]="!isMasquerading"
     [class.bg-warning]="isMasquerading"
   >
     <ul class="nav navbar-nav flex-nowrap me-auto">
@@ -43,7 +41,7 @@
             <div
               class="dropdown-menu"
               [class.dropdown-menu-dark]="!isMasquerading"
-              [class.bg-dark]="!isMasquerading"
+              [class.dropdown-menu-light]="isMasquerading"
               [class.bg-warning]="isMasquerading"
               ngbDropdownMenu
             >
@@ -75,13 +73,7 @@
             >
               Sign in
             </button>
-            <div
-              class="dropdown-menu-right"
-              [class.dropdown-menu-dark]="!isMasquerading"
-              [class.bg-dark]="!isMasquerading"
-              [class.bg-warning]="isMasquerading"
-              ngbDropdownMenu
-            >
+            <div class="dropdown-menu-right dropdown-menu-dark" ngbDropdownMenu>
               <a class="dropdown-item" id="student-login-btn" routerLink="/web/student/home">As Student</a>
               <a class="dropdown-item" id="instructor-login-btn" routerLink="/web/instructor/home">As Instructor</a>
             </div>
@@ -97,9 +89,9 @@
               {{ accountEmail }}
             </button>
             <div
-              class="dropdown-menu-right"
+              class="dropdown-menu-right dropdown-menu-dark"
               [class.dropdown-menu-dark]="!isMasquerading"
-              [class.bg-dark]="!isMasquerading"
+              [class.dropdown-menu-light]="isMasquerading"
               [class.bg-warning]="isMasquerading"
               ngbDropdownMenu
             >
@@ -173,7 +165,7 @@
     <router-outlet></router-outlet>
   </div>
 </main>
-<footer class="footer bg-dark text-white text-opacity-75">
+<footer class="footer text-white text-opacity-75">
   <div class="row text-center">
     <div class="col-sm-6 text-md-start">
       <i class="fas fa-bolt"></i>&nbsp;<a routerLink="/web/front/home">TEAMMATES</a> V{{ version }}
