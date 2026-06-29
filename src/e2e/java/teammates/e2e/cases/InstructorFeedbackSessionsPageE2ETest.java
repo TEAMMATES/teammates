@@ -21,6 +21,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
+import teammates.e2e.pageobjects.InstructorSessionSendRemindersPage;
 import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -160,16 +161,19 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifySessionPublishedState(openSession, FeedbackSessionPublishStatus.PUBLISHED);
 
         ______TS("send reminder email to selected student");
-        feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
+        InstructorSessionSendRemindersPage sendRemindersPage =
+                feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
 
-        feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        feedbackSessionsPage = sendRemindersPage.changePageType(InstructorFeedbackSessionsPage.class);
 
         ______TS("send reminder email to all student non-submitters");
-        feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
+        sendRemindersPage = feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
 
-        feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        feedbackSessionsPage = sendRemindersPage.changePageType(InstructorFeedbackSessionsPage.class);
 
         ______TS("resend results link");
         feedbackSessionsPage.resendResultsLink(openSession, studentToEmail);

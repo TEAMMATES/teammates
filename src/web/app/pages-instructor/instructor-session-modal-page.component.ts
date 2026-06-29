@@ -9,8 +9,6 @@ import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
-import { SendRemindersToRespondentsModalComponent } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
-import { ReminderResponseModel } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import { inject } from '@angular/core';
@@ -115,90 +113,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel, selectAllRespondents: boolean): void {
-    this.isSendReminderLoading = true;
-    const courseId = model.feedbackSession.courseId;
-    const feedbackSessionName = model.feedbackSession.feedbackSessionName;
     const feedbackSessionId = model.feedbackSession.feedbackSessionId;
+    const returnUrl = `${globalThis.location.pathname}${globalThis.location.search}`;
 
-    forkJoin({
-      students: this.studentService.getStudents({ courseIds: [courseId] }),
-      submittedGiverSet: this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
-      instructors: this.instructorService.loadInstructors({ courseId }),
-    })
-      .pipe(
-        finalize(() => {
-          this.isSendReminderLoading = false;
-        }),
-      )
-      .subscribe({
-        next: ({ students, submittedGiverSet, instructors }) => {
-          const studentsList = students.students;
-          const instructorsList = instructors.instructors;
-          const studentNonGiverSet = new Set(submittedGiverSet.studentNonGivers);
-          const instructorNonGiverSet = new Set(submittedGiverSet.instructorNonGivers);
-
-          const modalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
-
-          modalRef.componentInstance.courseId = courseId;
-          modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-          modalRef.componentInstance.studentListInfoTableRowModels = studentsList.map(
-            (student: Student) =>
-              ({
-                id: student.userId,
-                email: student.email,
-                name: student.name,
-                teamName: student.teamName,
-                sectionName: student.sectionName,
-
-                hasSubmittedSession: !studentNonGiverSet.has(student.userId),
-
-                isSelected: selectAllRespondents && studentNonGiverSet.has(student.userId),
-              }) satisfies StudentListInfoTableRowModel,
-          );
-          modalRef.componentInstance.instructorListInfoTableRowModels = instructorsList.map(
-            (instructor: Instructor) =>
-              ({
-                id: instructor.userId,
-                email: instructor.email,
-                name: instructor.name,
-
-                hasSubmittedSession: !instructorNonGiverSet.has(instructor.userId),
-
-                isSelected: selectAllRespondents && instructorNonGiverSet.has(instructor.userId),
-              }) satisfies InstructorListInfoTableRowModel,
-          );
-
-          modalRef.result.then(
-            (reminderResponse: ReminderResponseModel) => {
-              this.isSendReminderLoading = true;
-              this.feedbackSessionsService
-                .remindFeedbackSessionSubmissionForRespondents(feedbackSessionId, {
-                  usersToRemind: reminderResponse.respondentsToSend.map((m) => m.id),
-                  isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
-                })
-                .pipe(
-                  finalize(() => {
-                    this.isSendReminderLoading = false;
-                  }),
-                )
-                .subscribe({
-                  next: () => {
-                    this.statusMessageService.showSuccessToast(
-                      'Reminder e-mails have been sent out to those students and instructors. ' +
-                        'Please allow up to 1 hour for all the notification emails to be sent out.',
-                    );
-                  },
-                  error: (resp: ErrorMessageOutput) => {
-                    this.statusMessageService.showErrorToast(resp.error.message);
-                  },
-                });
-            },
-            () => {},
-          );
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    this.navigationService.navigateByURL(`/web/instructor/sessions/${feedbackSessionId}/send-reminders`, {
+      preselectNonSubmitters: String(selectAllRespondents),
+      returnUrl,
+    });
   }
 }

@@ -134,9 +134,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyTableBodyValues(getNoResponseTable(), getExpectedNoResponseDetails(noResponseStudents));
     }
 
-    public void remindAllNonResponders() {
+    public InstructorSessionSendRemindersPage remindAllNonResponders() {
         click(remindAllButton);
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
+        sendRemindersPage.submitReminderToPreselectedNonSubmitters();
+        return sendRemindersPage;
     }
 
     public void includeGroupingByTeam(boolean isIncluded) {

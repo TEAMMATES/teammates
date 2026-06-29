@@ -205,21 +205,25 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
     }
 
-    public void sendReminderEmailToSelectedStudent(FeedbackSession session, Student student) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToSelectedStudent(
+            FeedbackSession session, Student student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
-        selectStudentToEmail(student.getEmail());
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
+        sendRemindersPage.submitReminderToSelectedStudent(student.getEmail());
+        return sendRemindersPage;
     }
 
-    public void sendReminderEmailToNonSubmitters(FeedbackSession session) {
+    public InstructorSessionSendRemindersPage sendReminderEmailToNonSubmitters(FeedbackSession session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        InstructorSessionSendRemindersPage sendRemindersPage = changePageType(InstructorSessionSendRemindersPage.class);
+        sendRemindersPage.submitReminderToPreselectedNonSubmitters();
+        return sendRemindersPage;
     }
 
     public void resendResultsLink(FeedbackSession session, Student student) {
@@ -427,14 +431,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     private void selectStudentToEmail(String studentEmail) {
         WebElement studentList = waitForElementVisibility(By.id("student-list-table"));
+        List<WebElement> rows = studentList.findElements(By.cssSelector("tbody tr"));
 
-        List<WebElement> rows = studentList.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.cssSelector("td"));
-            if (cells.isEmpty()) {
-                continue;
-            }
-            if (cells.get(4).getText().equals(studentEmail)) {
+            if (!cells.isEmpty() && cells.get(4).getText().equals(studentEmail)) {
                 click(cells.get(0).findElement(By.tagName("input")));
                 break;
             }
