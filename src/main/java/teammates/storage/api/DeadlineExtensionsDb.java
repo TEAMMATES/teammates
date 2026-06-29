@@ -68,6 +68,26 @@ public final class DeadlineExtensionsDb {
     }
 
     /**
+     * Gets deadline extensions for the given users and feedback sessions.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsForUsersAndSessions(
+            List<UUID> userIds, List<UUID> feedbackSessionIds) {
+        if (userIds.isEmpty() || feedbackSessionIds.isEmpty()) {
+            return List.of();
+        }
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
+        Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+
+        cr.select(root).where(cb.and(
+                root.get("userId").in(userIds),
+                root.get("sessionId").in(feedbackSessionIds)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Removes a deadline extension.
      */
     public void removeDeadlineExtension(DeadlineExtension de) {

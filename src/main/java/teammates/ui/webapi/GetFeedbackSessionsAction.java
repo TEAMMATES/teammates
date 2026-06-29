@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
@@ -56,39 +57,13 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         List<Instructor> instructors = new ArrayList<>();
         Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
 
-        if (courseId == null) {
-            if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByAccountId(requestContext.getAccount().getId());
-                for (Student student : students) {
-                    String studentCourseId = student.getCourseId();
-                    List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
-                    for (FeedbackSession session : sessions) {
-                        sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
-                    }
-                }
-            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
-
-                instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
-
-                if (isInRecycleBin) {
-                    feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
-                } else {
-                    feedbackSessions = logic.getFeedbackSessionsForInstructors(instructors);
-                }
-            }
-        } else {
+        if (Const.EntityType.STUDENT.equals(entityType)) {
+            sessionToDeadline.putAll(getStudentSessionDeadlines(courseId));
+        } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            instructors = getInstructors(courseId);
+            feedbackSessions = getInstructorFeedbackSessions(courseId, instructors);
+        } else if (courseId != null) {
             feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-            if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = getStudentFromRequest(courseId);
-                assert student != null;
-                for (FeedbackSession session : feedbackSessions) {
-                    sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
-                }
-            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                instructors = Collections.singletonList(
-                        getInstructorFromRequest(courseId));
-            }
         }
 
         FeedbackSessionsData responseData;
@@ -96,10 +71,8 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            for (FeedbackSession session : feedbackSessions) {
-                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                sessionToDeadline.put(session, logic.getDeadlineForUser(session, instructor));
-            }
+            sessionToDeadline.putAll(logic.getDeadlinesForUsers(
+                    mapUserToFeedbackSessions(feedbackSessions, courseIdToInstructor)));
             responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> {
                 var permissionsData = getPermissionsData(courseIdToInstructor, session);
@@ -115,6 +88,62 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         }
 
         return new JsonResult(responseData);
+    }
+
+    private Map<FeedbackSession, Instant> getStudentSessionDeadlines(String courseId) {
+        if (courseId != null) {
+            List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(courseId);
+            if (sessions.isEmpty()) {
+                return Map.of();
+            }
+
+            Student student = getStudentFromRequest(courseId);
+            assert student != null;
+            return logic.getDeadlinesForUsers(Map.of(student, sessions));
+        }
+
+        List<Student> students = logic.getStudentsByAccountId(requestContext.getAccount().getId());
+        List<String> courseIds = students.stream()
+                .map(Student::getCourseId)
+                .distinct()
+                .toList();
+        List<FeedbackSession> sessions =
+                logic.getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(courseIds);
+        Map<String, Student> studentByCourseId = new LinkedHashMap<>();
+        students.forEach(student -> studentByCourseId.put(student.getCourseId(), student));
+        return logic.getDeadlinesForUsers(mapUserToFeedbackSessions(sessions, studentByCourseId));
+    }
+
+    private List<Instructor> getInstructors(String courseId) {
+        if (courseId == null) {
+            return logic.getInstructorsByAccountId(requestContext.getAccount().getId());
+        }
+        return Collections.singletonList(getInstructorFromRequest(courseId));
+    }
+
+    private List<FeedbackSession> getInstructorFeedbackSessions(
+            String courseId, List<Instructor> instructors) {
+        if (courseId != null) {
+            return logic.getFeedbackSessionsForCourse(courseId);
+        }
+
+        boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
+        if (isInRecycleBin) {
+            return logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
+        }
+        return logic.getFeedbackSessionsForInstructors(instructors);
+    }
+
+    private <T extends User> Map<User, List<FeedbackSession>> mapUserToFeedbackSessions(
+            List<FeedbackSession> sessions, Map<String, T> userByCourseId) {
+        Map<User, List<FeedbackSession>> sessionsByUser = new LinkedHashMap<>();
+        for (FeedbackSession session : sessions) {
+            User user = userByCourseId.get(session.getCourseId());
+            if (user != null) {
+                sessionsByUser.computeIfAbsent(user, ignored -> new ArrayList<>()).add(session);
+            }
+        }
+        return sessionsByUser;
     }
 
     private InstructorFeedbackSessionPermissionsData getPermissionsData(Map<String, Instructor> courseIdToInstructor,
