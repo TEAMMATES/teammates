@@ -371,7 +371,7 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       questionid: '[dummy question ID]',
       intent: dummyIntent,
-      key: '[dummy registration key]',
+      key: '[dummy key]',
       moderatedperson: '',
     };
     service.getFeedbackResponse({
@@ -388,7 +388,7 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       fsid: '[dummy session ID]',
       intent: dummyIntent,
-      key: '[dummy registration key]',
+      key: '[dummy key]',
       moderatedperson: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
@@ -406,7 +406,7 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       responseid: '[dummy response ID]',
       intent: dummyIntent,
-      key: '[dummy registration key]',
+      key: '[dummy key]',
       moderatedperson: '',
     };
     service.deleteGiverComment({

@@ -82,6 +82,16 @@ public class OriginCheckFilterTest extends BaseTestCase {
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
+        ______TS("POST request to session key access without CSRF token will be passed");
+
+        mockRequest = new MockHttpServletRequest(HttpPost.METHOD_NAME, Const.ResourceURIs.SESSION_KEY_ACCESS);
+        mockRequest.setRequestedSessionId("requestedsessionid.node0");
+        mockResponse = new MockHttpServletResponse();
+        mockFilterChain = new MockFilterChain();
+
+        FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
         ______TS("POST request with non-existent CSRF token with CSRF key will be passed");
 
         setupMocks(HttpPost.METHOD_NAME);

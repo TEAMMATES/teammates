@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.UUID;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -17,7 +18,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
  */
-public class CreateFeedbackSessionLogAction extends RegKeyAction {
+public class CreateFeedbackSessionLogAction extends SessionKeyAction {
     private Clock clock = Clock.systemUTC();
 
     @Override
@@ -27,6 +28,8 @@ public class CreateFeedbackSessionLogAction extends RegKeyAction {
         if (feedbackSession == null) {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
+
+        gateKeeper.verifySessionKey(requestContext, feedbackSessionId, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
 
         Student authenticatedStudent = getStudentFromRequest(feedbackSession.getCourseId());
         if (authenticatedStudent == null) {

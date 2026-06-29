@@ -1,6 +1,5 @@
 package teammates.storage.entity;
 
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -23,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 /**
  * Represents a User.
@@ -64,8 +62,8 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 512)
-    private String regKey;
+    @Column(nullable = false)
+    private int linkVersion;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -132,9 +130,6 @@ public abstract class User extends BaseEntity {
     public void setCourse(Course course) {
         this.course = course;
         this.courseId = course == null ? null : course.getId();
-        // Set a new registration key since the registration key is tied to the course and email of the user.
-        // In future, if registration key is no longer tied to the course, this can be set in the constructor instead.
-        this.generateNewRegistrationKey();
     }
 
     public String getName() {
@@ -161,30 +156,12 @@ public abstract class User extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public String getRegKey() {
-        return this.regKey;
+    public int getLinkVersion() {
+        return this.linkVersion;
     }
 
-    public void setRegKey(String regKey) {
-        this.regKey = regKey;
-    }
-
-    /**
-     * Generates a new registration key for the user.
-     */
-    public void generateNewRegistrationKey() {
-        this.setRegKey(generateRegistrationKey());
-    }
-
-    /**
-     * Returns unique registration key for the user.
-     */
-    private String generateRegistrationKey() {
-        String uniqueId = this.email + '%' + this.course.getId();
-
-        SecureRandom prng = new SecureRandom();
-
-        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
+    public void setLinkVersion(int linkVersion) {
+        this.linkVersion = linkVersion;
     }
 
     public boolean isRegistered() {

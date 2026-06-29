@@ -74,7 +74,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(modalRef.componentInstance.userName).toBe(DEFAULT_INSTRUCTOR_SEARCH_RESULT.name);
   });
 
-  it('should show success message if instructor registration key is regenerated', async () => {
+  it('should show success message if instructor key is regenerated', async () => {
     component.instructors = [DEFAULT_INSTRUCTOR_SEARCH_RESULT];
     fixture.detectChanges();
 
@@ -82,7 +82,6 @@ describe('AdminInstructorSearchTableComponent', () => {
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
         message: 'success',
-        newRegistrationKey: 'newKey',
       }),
     );
     const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
@@ -97,7 +96,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(component.isRegeneratingInstructorKeys[0]).toBe(false);
   });
 
-  it('should show error message if instructor registration key regeneration fails', async () => {
+  it('should show error message if instructor links regeneration fails', async () => {
     component.instructors = [DEFAULT_INSTRUCTOR_SEARCH_RESULT];
     fixture.detectChanges();
 

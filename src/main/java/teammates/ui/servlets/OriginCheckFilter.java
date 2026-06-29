@@ -94,6 +94,9 @@ public class OriginCheckFilter implements Filter {
         case HttpPost.METHOD_NAME:
         case HttpPut.METHOD_NAME:
         case HttpDelete.METHOD_NAME:
+            if (isCsrfExemptRequest(request)) {
+                break;
+            }
             String message = getCsrfTokenErrorIfAny(request);
             if (message != null) {
                 denyAccess(message, request, response);
@@ -181,6 +184,11 @@ public class OriginCheckFilter implements Filter {
         } catch (InvalidParametersException e) {
             return "Invalid CSRF token.";
         }
+    }
+
+    private boolean isCsrfExemptRequest(HttpServletRequest request) {
+        return HttpPost.METHOD_NAME.equals(request.getMethod())
+                && Const.ResourceURIs.SESSION_KEY_ACCESS.equals(request.getRequestURI());
     }
 
     private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response)

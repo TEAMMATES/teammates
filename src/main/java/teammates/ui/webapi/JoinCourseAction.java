@@ -2,15 +2,17 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.request.RegKeyRequest;
+import teammates.ui.request.CourseJoinKeyRequest;
 
 /**
  * Action: joins a course for a student/instructor.
  */
 public class JoinCourseAction extends LoggedInAction {
+
     @Override
     void checkSpecificAccessControl() {
         // Any user can use a join link as long as its parameters are valid
@@ -18,13 +20,11 @@ public class JoinCourseAction extends LoggedInAction {
 
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
-        RegKeyRequest requestBody = getAndValidateRequestBody(RegKeyRequest.class);
-        return joinCourse(requestBody.getKey());
-    }
-
-    private JsonResult joinCourse(String regKey) throws InvalidOperationException {
+        CourseJoinKeyRequest requestBody = getAndValidateRequestBody(CourseJoinKeyRequest.class);
         try {
-            logic.joinCourseAndNotify(regKey, requestContext.getAccount());
+            logic.joinCourseAndNotify(requestBody.getKey(), requestContext.getAccount());
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {

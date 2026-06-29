@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.KeyUtil;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
 import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.storage.entity.Student;
@@ -30,7 +31,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
         String invalidKey = "invalidKey";
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(invalidKey)
+                .withKey(invalidKey)
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
@@ -41,7 +42,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Click join link: valid key");
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(newStudent.getRegKey())
+                .withKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getLinkVersion()))
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);

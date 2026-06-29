@@ -51,7 +51,7 @@ public final class DemoCourseLogic {
      * Creates a demo course for the given account verification request.
      *
      * <p>The demo course is populated with sample data and the instructor/student
-     * registration keys are joined to the given account.
+     * is linked to the given account.
      *
      * @param id the ID of the account verification request
      * @param timezone the timezone for the demo course; if null or invalid, defaults to UTC
@@ -103,8 +103,8 @@ public final class DemoCourseLogic {
         assert createdInstructor != null : "Demo instructor should have been created in data bundle";
         assert createdStudent != null : "Demo instructor student should have been created in data bundle";
 
-        accountsLogic.joinCourse(createdInstructor.getRegKey(), account);
-        accountsLogic.joinCourse(createdStudent.getRegKey(), account);
+        accountsLogic.joinCourse(createdInstructor.getId(), account);
+        accountsLogic.joinCourse(createdStudent.getId(), account);
 
         avr.setCreatedDemoCourseAt(now);
     }

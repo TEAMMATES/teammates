@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.KeyUtil;
 import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
-import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.RegKeyRequest;
+import teammates.ui.request.CourseJoinKeyRequest;
 
 /**
  * Tests for {@link JoinCourseAction}.
@@ -22,8 +23,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction, Messa
         var student = given.student("student");
         persistGivenData(given);
 
-        RegKeyRequest requestBody = new RegKeyRequest();
-        requestBody.setKey(getEntityInTransaction(Student.class, student.id()).getRegKey());
+        Student persistedStudent = getEntityInTransaction(Student.class, student.id());
+        CourseJoinKeyRequest requestBody = new CourseJoinKeyRequest();
+        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getLinkVersion()));
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
@@ -43,8 +45,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction, Messa
         var student = given.student("student", s -> s.account(account.alias()));
         persistGivenData(given);
 
-        RegKeyRequest requestBody = new RegKeyRequest();
-        requestBody.setKey(getEntityInTransaction(Student.class, student.id()).getRegKey());
+        Student persistedStudent = getEntityInTransaction(Student.class, student.id());
+        CourseJoinKeyRequest requestBody = new CourseJoinKeyRequest();
+        requestBody.setKey(KeyUtil.encryptCourseJoinKey(persistedStudent.getId(), persistedStudent.getLinkVersion()));
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
@@ -56,17 +59,17 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction, Messa
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void joinCourseAction_invalidRegKey_throwsEntityNotFoundException() {
+    public void joinCourseAction_invalidKey_throwsInvalidHttpRequestBodyException() {
         var account = given.account("account");
         persistGivenData(given);
 
-        RegKeyRequest requestBody = new RegKeyRequest();
-        requestBody.setKey("invalid-reg-key");
+        CourseJoinKeyRequest requestBody = new CourseJoinKeyRequest();
+        requestBody.setKey("invalid-encrypted-key");
 
         RequestContext request = new RequestContext()
                 .withAccountAuth(account.id())
                 .withRequest(requestBody);
 
-        assertActionThrows(EntityNotFoundException.class, request);
+        assertActionThrows(InvalidHttpRequestBodyException.class, request);
     }
 }

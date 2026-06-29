@@ -48,10 +48,10 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailTemplate-courseRejoinAfterUnlinkAccount.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
-                FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
-        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
-                FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
+        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_KEY_RESET =
+                FileHelper.readResourceFile("studentEmailFragment-keyReset.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_KEY_RESET =
+                FileHelper.readResourceFile("instructorEmailFragment-keyReset.html");
         public static final String USER_FEEDBACK_SESSION_OPENED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_OPENED_PREVIEW =
@@ -82,7 +82,7 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String USER_FEEDBACK_SESSION_RESEND_ALL_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
-        public static final String USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS =
+        public static final String USER_KEY_REGENERATION_RESEND_ALL_COURSE_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-regenerateLinksResendAllCourseLinks.html");
         public static final String ACCOUNT_VERIFICATION_APPROVED =
                 FileHelper.readResourceFile("accountVerificationApproved.html");

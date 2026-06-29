@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -12,7 +13,7 @@ import teammates.ui.output.InstructorCoursePermissionsData;
 /**
  * Get a course for an instructor or student.
  */
-public class GetCourseAction extends RegKeyAction {
+public class GetCourseAction extends SessionKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {
@@ -21,6 +22,8 @@ public class GetCourseAction extends RegKeyAction {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+
+        gateKeeper.verifySessionKey(requestContext, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             gateKeeper.verifyInstructorInCourse(requestContext, courseId);

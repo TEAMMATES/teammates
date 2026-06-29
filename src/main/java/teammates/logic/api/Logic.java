@@ -13,6 +13,7 @@ import teammates.common.datatransfer.AccountVerificationRequestQuery;
 import teammates.common.datatransfer.AccountVerificationRequestRejectionType;
 import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.CourseJoinKeyAccessResult;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorQuery;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionKeyAccessResult;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
@@ -35,7 +37,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidVerificationRequestStateException;
-import teammates.common.exception.UserUpdateException;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
@@ -150,6 +151,29 @@ public class Logic {
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Gets the access decision for a student session key request using the supplied encrypted key.
+     */
+    public SessionKeyAccessResult getSessionKeyAccessResult(Account currentAccount, String encryptedKey) {
+        return authLogic.getSessionKeyAccessResult(currentAccount, encryptedKey);
+    }
+
+    /**
+     * Gets the access decision for a course join key request using the supplied encrypted key.
+     */
+    public CourseJoinKeyAccessResult getCourseJoinKeyAccessResult(
+            Account currentAccount, String encryptedKey) {
+        return authLogic.getCourseJoinKeyAccessResult(currentAccount, encryptedKey);
+    }
+
+    /**
+     * Validates the encrypted course join key and returns the associated user.
+     */
+    public User validateEncryptedCourseJoinKey(String encryptedKey)
+            throws InvalidParametersException {
+        return authLogic.validateEncryptedCourseJoinKey(encryptedKey);
     }
 
     /**
@@ -880,20 +904,6 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code regkey}.
-     */
-    public Instructor getInstructorByRegistrationKey(String regKey) {
-        return usersLogic.getInstructorByRegistrationKey(regKey);
-    }
-
-    /**
-     * Gets a user by associated {@code regkey}.
-     */
-    public User getUserByRegistrationKey(String regKey) {
-        return usersLogic.getUserByRegistrationKey(regKey);
-    }
-
-    /**
      * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
     public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
@@ -942,22 +952,24 @@ public class Logic {
     }
 
     /**
-     * Makes the user join the course, i.e. associate the account to the user.
-     */
-    public User joinCourse(String regkey, Account account)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        return accountsLogic.joinCourse(regkey, account);
-    }
-
-    /**
      * Makes the user join the course and enqueues the registration confirmation
      * email.
      */
-    public User joinCourseAndNotify(String regkey, Account account)
+    public User joinCourseAndNotify(UUID userId, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        User user = accountsLogic.joinCourse(regkey, account);
+        User user = accountsLogic.joinCourse(userId, account);
         usersLogic.enqueueUserCourseRegisteredEmail(user);
         return user;
+    }
+
+    /**
+     * Validates the encrypted course join key, joins the course, and enqueues
+     * the registration confirmation email.
+     */
+    public User joinCourseAndNotify(String encryptedKey, Account account)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        User user = authLogic.validateEncryptedCourseJoinKey(encryptedKey);
+        return joinCourseAndNotify(user.getId(), account);
     }
 
     /**
@@ -1057,13 +1069,6 @@ public class Logic {
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
         return usersLogic.getUnregisteredStudentsForCourse(courseId);
-    }
-
-    /**
-     * Gets a student by associated {@code regkey}.
-     */
-    public Student getStudentByRegistrationKey(String regKey) {
-        return usersLogic.getStudentByRegistrationKey(regKey);
     }
 
     /**
@@ -1204,24 +1209,20 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId}.
+     * Increments the link version for the user with {@code userId}, invalidating all existing links.
      *
-     * @return the user with the new registration key.
-     * @throws UserUpdateException         if system was unable to generate a new
-     *                                     registration key.
+     * @return the user with the incremented link version.
      * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public User regenerateUserRegistrationKey(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegistrationKey(userId);
+    public User regenerateUserLinks(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinks(userId);
     }
 
     /**
-     * Regenerates the registration key and enqueues the corresponding feedback session summary email.
+     * Increments the link version and enqueues the corresponding feedback session summary email.
      */
-    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        return usersLogic.regenerateUserRegKeyAndEnqueueSummaryEmail(userId);
+    public User regenerateUserLinksAndEnqueueSummaryEmail(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.regenerateUserLinksAndEnqueueSummaryEmail(userId);
     }
 
     /**

@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
@@ -8,10 +9,10 @@ import teammates.ui.output.StudentData;
 /**
  * Get the information of the student associated with the request.
  */
-public class GetOwnStudentAction extends RegKeyAction {
+public class GetOwnStudentAction extends SessionKeyAction {
     @Override
-    void checkSpecificAccessControl() {
-        // No specific access control required.
+    void checkSpecificAccessControl() throws teammates.ui.exception.UnauthorizedAccessException {
+        gateKeeper.verifySessionKey(requestContext, SessionKeyType.SUBMISSION, SessionKeyType.RESULTS);
     }
 
     @Override

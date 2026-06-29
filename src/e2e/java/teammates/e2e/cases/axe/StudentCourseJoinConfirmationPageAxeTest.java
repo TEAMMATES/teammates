@@ -6,6 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.KeyUtil;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
 import teammates.storage.entity.Student;
 
@@ -30,7 +31,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(newStudent.getRegKey())
+                .withKey(KeyUtil.encryptCourseJoinKey(newStudent.getId(), newStudent.getLinkVersion()))
                 .withCourseId(testData.courses.get("SCJoinConf.CS2104").getId())
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(

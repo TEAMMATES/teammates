@@ -42,8 +42,12 @@ public class RequestContext {
         return authContext.account();
     }
 
-    public Student getRegKeyUser() {
-        return authContext.regKeyStudent();
+    public Student getSessionKeyUser() {
+        return authContext.sessionKeyStudent();
+    }
+
+    public SessionKey getSessionKey() {
+        return authContext.sessionKey();
     }
 
     /**
