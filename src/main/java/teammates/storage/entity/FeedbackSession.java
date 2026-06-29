@@ -457,7 +457,7 @@ public class FeedbackSession extends BaseEntity {
         Instant publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            return isOpened();
+            return !isWaitingToOpen();
         }
         if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return false;
