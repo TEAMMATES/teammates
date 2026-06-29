@@ -36,7 +36,7 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final Set<String> SCOPES = Set.of("openid", "email", "profile");
+    private static final Set<String> SCOPES = Set.of("openid", "email");
     private static final Set<String> MULTI_TENANT_AUTHORITIES = Set.of("common", "organizations");
 
     private final String expectedTenantId;
@@ -45,6 +45,7 @@ public class MicrosoftLoginHandler implements LoginMethodHandler {
         this(Config.OIDC_MICROSOFT_TENANT_ID);
     }
 
+    // For dependency injection.
     MicrosoftLoginHandler(String expectedTenantId) {
         this.expectedTenantId = expectedTenantId;
     }
