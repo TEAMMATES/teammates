@@ -58,19 +58,6 @@ exports[`ModifiedTimestampModalComponent > should snap with coursesOfModifiedSes
         class="text-color-lightgray"
       >
         <td>
-          Session visible time
-        </td>
-        <td>
-          On submission opening time
-        </td>
-        <td>
-          On submission opening time
-        </td>
-      </tr>
-      <tr
-        class="text-color-lightgray"
-      >
-        <td>
           Response visible time
         </td>
         <td>
@@ -173,19 +160,6 @@ exports[`ModifiedTimestampModalComponent > should snap with modifiedSessions 1`]
         </td>
         <td>
           27 Apr 2023 11:59 PM
-        </td>
-      </tr>
-      <tr
-        class="text-color-lightgray"
-      >
-        <td>
-          Session visible time
-        </td>
-        <td>
-          On submission opening time
-        </td>
-        <td>
-          On submission opening time
         </td>
       </tr>
       <tr

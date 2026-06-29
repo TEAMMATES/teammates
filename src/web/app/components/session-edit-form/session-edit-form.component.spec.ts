@@ -7,7 +7,7 @@ import { SessionEditFormMode } from './session-edit-form-model';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, ResponseVisibleSetting } from '../../../types/api-output';
+import { Course } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 describe('SessionEditFormComponent', () => {
