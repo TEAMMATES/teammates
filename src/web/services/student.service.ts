@@ -66,12 +66,12 @@ export class StudentService {
   /**
    * Gets the student associated with the current request by calling API.
    */
-  getOwnStudent(queryParams: { courseId: string; regKey?: string }): Observable<Student> {
+  getOwnStudent(queryParams: { courseId: string; key?: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
-    if (queryParams.regKey) {
-      paramsMap['key'] = queryParams.regKey;
+    if (queryParams.key) {
+      paramsMap['key'] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_STUDENT, paramsMap);

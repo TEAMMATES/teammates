@@ -38,6 +38,7 @@ export interface AuthInfo extends ApiOutput {
 
 export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
+  frontendUrl: string;
 }
 
 export interface ConstsumOptionRow {
@@ -67,6 +68,11 @@ export interface Course extends ApiOutput {
   instituteId: string;
   creationTimestamp: number;
   deletionTimestamp: number;
+}
+
+export interface CourseJoinKeyAccess extends ApiOutput {
+  decision: CourseJoinKeyAccessDecision;
+  message: string;
 }
 
 export interface Courses extends ApiOutput {
@@ -457,7 +463,6 @@ export interface InstructorPermissionSet {
   canModifyStudent: boolean;
   canViewSession: boolean;
   canSubmitSession: boolean;
-  canModifySessionComments: boolean;
 }
 
 export interface InstructorPrivilege extends ApiOutput {
@@ -477,10 +482,6 @@ export interface Instructors extends ApiOutput {
 
 export interface JoinLink extends ApiOutput {
   joinLink: string;
-}
-
-export interface JoinStatus extends ApiOutput {
-  hasJoined: boolean;
 }
 
 export interface McqMsqOptionRow {
@@ -589,19 +590,9 @@ export interface RecipientView {
   ofOthers: number[];
 }
 
-export interface RegenerateKey extends ApiOutput {
-  message: string;
-  newRegistrationKey: string;
-}
-
-export interface RegkeyValidity extends ApiOutput {
-  isValid: boolean;
-  isUsed: boolean;
-  isAllowedAccess: boolean;
-}
-
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
+  giverId: string;
   commentGiverName: string;
   commentText: string;
   createdAt: number;
@@ -660,6 +651,11 @@ export interface RubricSubQuestionRow {
   weightAverage?: number;
 }
 
+export interface SessionKeyAccess extends ApiOutput {
+  decision: SessionKeyAccessDecision;
+  message: string;
+}
+
 export interface SessionLinks extends ApiOutput {
   courseJoinLink: string;
   submissionLinks: SessionSubmissionLink[];
@@ -716,7 +712,6 @@ export interface Student extends ApiOutput {
   courseName: string;
   accountId?: string;
   comments?: string;
-  key?: string;
   joinState?: JoinState;
 }
 
@@ -784,6 +779,13 @@ export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
+}
+
+export enum CourseJoinKeyAccessDecision {
+  VALID = "VALID",
+  ALREADY_JOINED = "ALREADY_JOINED",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  INVALID_KEY = "INVALID_KEY",
 }
 
 export enum FeedbackConstantSumDistributePointsType {
@@ -903,6 +905,14 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyAccessDecision {
+  ALLOW_UNREGISTERED = "ALLOW_UNREGISTERED",
+  ALLOW_SIGNED_IN = "ALLOW_SIGNED_IN",
+  SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
+  SIGN_IN_WITH_ANOTHER_ACCOUNT = "SIGN_IN_WITH_ANOTHER_ACCOUNT",
+  INVALID_KEY = "INVALID_KEY",
 }
 
 export enum SessionVisibleSetting {

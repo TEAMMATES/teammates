@@ -77,7 +77,6 @@ describe('SessionsTableComponent', () => {
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,
-    canModifySessionComments: true,
     canViewSession: true,
     canSubmitSession: true,
   };
@@ -87,7 +86,6 @@ describe('SessionsTableComponent', () => {
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,
-    canModifySessionComments: false,
     canViewSession: false,
     canSubmitSession: false,
   };

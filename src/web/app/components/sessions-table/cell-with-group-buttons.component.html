@@ -27,7 +27,7 @@
   </button>
 
   @if (submissionStatus === FeedbackSessionSubmissionStatus.OPEN && instructorPrivileges.canSubmitSession) {
-    <a [routerLink]="['/web/instructor/sessions', fsId, 'submission']" [queryParams]="{ editingMode: true }">
+    <a [routerLink]="['/web/instructor/sessions', fsId, 'submission']">
       <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
     </a>
   } @else {

@@ -6,7 +6,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionView } from './session-view.enum';
-import { environment } from '../../../environments/environment';
+import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -34,7 +34,6 @@ import {
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionRecipientType,
-  RegkeyValidity,
   Student,
   SessionSubmission,
   SessionSubmissionQuestion,
@@ -80,6 +79,7 @@ import { SingleQuestionSaveErrorModalComponent } from './single-question-save-er
 })
 export class SessionSubmissionPageComponent implements OnInit {
   private readonly statusMessageService = inject(StatusMessageService);
+  private readonly accountService = inject(AccountService);
   private readonly timezoneService = inject(TimezoneService);
   private readonly feedbackResponsesService = inject(FeedbackResponsesService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
@@ -97,19 +97,19 @@ export class SessionSubmissionPageComponent implements OnInit {
   // enum
   FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
-  Intent!: typeof Intent;
 
   @Input({ required: true }) feedbackSessionId!: string;
-  @Input() intent: Intent = Intent.STUDENT_SUBMISSION;
   @Input() key = '';
   @Input() moderatedPerson = '';
   @Input() previewAs = '';
-  @Input() entityType = 'student';
+  @Input() entityType: 'student' | 'instructor' = 'student';
   @Input() moderatedQuestionId = '';
 
   courseId = '';
   feedbackSessionName = '';
   accountEmail = '';
+  accountId = '';
+  userId = '';
 
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
@@ -144,24 +144,15 @@ export class SessionSubmissionPageComponent implements OnInit {
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestionsSorted: number[] = [];
 
-  private readonly backendUrl: string = environment.backendUrl;
-
   constructor() {
     this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
     this.FeedbackQuestionType = FeedbackQuestionType;
-    this.Intent = Intent;
     this.allSessionViews = SessionView;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
   ngOnInit(): void {
-    if (this.intent === Intent.INSTRUCTOR_SUBMISSION) {
-      this.entityType = 'instructor';
-    }
-    if (this.entityType === 'instructor') {
-      this.intent = Intent.INSTRUCTOR_SUBMISSION;
-    }
     // withComponentInputBinding() can reset @Input() defaults to undefined; restore the 'student' default
     this.entityType ||= 'student';
     if (this.previewAs) {
@@ -172,56 +163,17 @@ export class SessionSubmissionPageComponent implements OnInit {
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAs));
         if (auth.user) {
+          this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
-        if (this.key && !isPreviewOrModeration) {
-          this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
-            next: (resp: RegkeyValidity) => {
-              if (resp.isAllowedAccess) {
-                if (resp.isUsed) {
-                  // The signed in user matches the registration key; redirect to the signed in URL
-                  this.navigationService.navigateByURL(
-                    `/web/${this.entityType}/sessions/${this.feedbackSessionId}/submission`,
-                  );
-                } else {
-                  // Valid, unused registration key; load information based on the key
-                  this.loadFeedbackSession(false, auth);
-                }
-              } else if (resp.isValid) {
-                // At this point, registration key must already be used, otherwise access would be granted
-                if (this.accountEmail) {
-                  // Registration key belongs to another user who is not the signed in user
-                  this.navigationService.navigateWithErrorMessage(
-                    '/web/front',
-                    `You are signed in as ${this.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
-                  );
-                } else {
-                  this.loadFeedbackSession(true, auth);
-                }
-              } else {
-                // The registration key is invalid
-                this.navigationService.navigateWithErrorMessage(
-                  '/web/front',
-                  'You are not authorized to view this page.',
-                );
-              }
-            },
-            error: () => {
-              this.navigationService.navigateWithErrorMessage(
-                '/web/front',
-                'You are not authorized to view this page.',
-              );
-            },
-          });
-        } else if (this.accountEmail) {
-          // Load information based on signed in user
-          // This will also cover moderation/preview cases
-          this.loadFeedbackSession(false, auth);
-        } else {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+
+        if (!auth.user && !this.key) {
+          this.navigationService.navigateByURL('/web/login', { nextUrl });
+          return;
         }
+
+        this.loadFeedbackSession();
       },
       error: () => {
         this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
@@ -230,8 +182,9 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   private loadCourseInfoData$(): Observable<CourseView | null> {
+    const intent = this.getSubmissionIntent();
     let request: Observable<CourseView>;
-    switch (this.intent) {
+    switch (intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAs) {
           request = this.courseService.getCourseAsInstructor(this.courseId);
@@ -240,7 +193,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         }
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.key);
+        request = this.courseService.getCourseAsInstructor(this.courseId);
         break;
       default:
         return of(null);
@@ -259,7 +212,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Loads the name of the person involved in the submission.
    */
   private loadUserData$(): Observable<Student | Instructor | null> {
-    switch (this.intent) {
+    switch (this.getSubmissionIntent()) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAs) {
           const userId = this.moderatedPerson || this.previewAs;
@@ -272,7 +225,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             catchError(() => of(null)),
           );
         }
-        return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key }).pipe(
+        return this.studentService.getOwnStudent({ courseId: this.courseId, key: this.key }).pipe(
           tap((student: Student) => {
             this.personName = student.name;
             this.personEmail = student.email;
@@ -294,7 +247,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         return this.instructorService
           .getOwnInstructor({
             courseId: this.courseId,
-            key: this.key,
           })
           .pipe(
             tap((instructor: Instructor) => {
@@ -312,13 +264,44 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Redirects to join course link for unregistered student/instructor.
    */
   joinCourseForUnregisteredEntity(): void {
-    this.navigationService.navigateByURL('/web/join', { entityType: this.entityType, key: this.key });
+    if (!this.accountId) {
+      const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
+      this.navigationService.navigateByURL('/web/login', { nextUrl });
+      return;
+    }
+
+    if (!this.userId) {
+      this.statusMessageService.showErrorToast('Unable to determine the student to link.');
+      return;
+    }
+
+    this.accountService
+      .linkAccount(
+        {
+          accountId: this.accountId,
+          userId: this.userId,
+        },
+        this.key,
+      )
+      .subscribe({
+        next: () => {
+          this.authService.clearAuthCache();
+          this.navigationService.navigateByURL(`/web/student/sessions/${this.feedbackSessionId}/submission`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+  }
+
+  private getSubmissionIntent(): Intent {
+    return this.entityType === 'student' ? Intent.STUDENT_SUBMISSION : Intent.INSTRUCTOR_SUBMISSION;
   }
 
   /**
    * Loads the feedback session information.
    */
-  loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
+  loadFeedbackSession(): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     let cachedFeedbackSession: FeedbackSession;
@@ -354,6 +337,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           if (!userData?.userId) {
             return of(null);
           }
+          this.userId = userData.userId;
           return this.feedbackSessionsService
             .getDeadlineExtension({
               feedbackSessionId: this.feedbackSessionId,
@@ -406,23 +390,18 @@ export class SessionSubmissionPageComponent implements OnInit {
               { backdrop: 'static' },
             );
           } else if (resp.status === 403) {
-            if (loginRequired && !auth.user) {
-              // There is no logged in user for a valid, used registration key, redirect to login page
-              globalThis.location.href = `${this.backendUrl}${auth.loginUrl}`;
-            } else {
-              this.simpleModalService.openInformationModal(
-                'Not Authorised To Access!',
-                SimpleModalType.DANGER,
-                resp.error.message,
-                {
-                  onClosed: () =>
-                    this.navigationService.navigateByURL(
-                      this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
-                    ),
-                },
-                { backdrop: 'static' },
-              );
-            }
+            this.simpleModalService.openInformationModal(
+              'Not Authorised To Access!',
+              SimpleModalType.DANGER,
+              resp.error.message,
+              {
+                onClosed: () =>
+                  this.navigationService.navigateByURL(
+                    this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
+                  ),
+              },
+              { backdrop: 'static' },
+            );
           } else {
             this.navigationService.navigateWithErrorMessage(`/web/${this.entityType}/home`, resp.error.message);
           }
@@ -446,7 +425,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     return this.feedbackSessionsService
       .getSessionSubmissionData({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
         previewAs: this.previewAs,
@@ -808,7 +787,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         this.feedbackSessionId,
         { questionResponses },
         {
-          intent: this.intent,
+          intent: this.getSubmissionIntent(),
           key: this.key,
           moderatedperson: this.moderatedPerson,
         },
@@ -913,7 +892,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.submissionReceiptService
       .downloadSubmissionReceipt({
         questionSubmissionForms: this.questionSubmissionForms,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
         feedbackSessionTimezone: this.feedbackSessionTimezone,
@@ -957,7 +936,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.feedbackResponsesService
       .deleteGiverComment({
         responseId: recipientSubmissionFormModel.responseId,
-        intent: this.intent,
+        intent: this.getSubmissionIntent(),
         key: this.key,
         moderatedPerson: this.moderatedPerson,
       })
@@ -1121,7 +1100,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Logs student activity after student/session details have been fetched.
    */
   logStudentAccess(): void {
-    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+    if (this.entityType !== 'student') {
       return;
     }
 
@@ -1142,7 +1121,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Logs student submission after successful response submission.
    */
   logStudentSubmission(): void {
-    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+    if (this.entityType !== 'student') {
       return;
     }
 

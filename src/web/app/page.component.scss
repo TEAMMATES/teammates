@@ -32,7 +32,6 @@ nav {
 
 .footer {
   padding: 5px 70px;
-  color: rgb(255 255 255 / 75%);
 
   a {
     &:hover {
@@ -46,8 +45,6 @@ nav {
 }
 
 .dropdown-item {
-  color: rgb(255 255 255 / 75%);
-
   &:hover,
   &:focus {
     background-color: inherit;

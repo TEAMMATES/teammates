@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -60,7 +61,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getUserSessionResultsAction_byRegKey_returnsUserSessionResultsData() {
+    public void getUserSessionResultsAction_bySessionKey_returnsUserSessionResultsData() {
         var student = given.student("student", s -> s.defaultCourse());
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().published());
         given.feedbackQuestion("question", q -> q.feedbackSession(session.alias()).studentsToSelf().text());
@@ -70,7 +71,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, session.id().toString())
                 .withParam(Const.ParamsNames.USER_ID, student.id().toString())
                 .withParam(Const.ParamsNames.IS_PREVIEW, "false")
-                .withRegKey(student.regKey());
+                .withStudentSessionKey(student.id(), SessionKeyType.RESULTS, student.linkVersion(), session.id());
 
         UserSessionResultsData result = execute(request);
 

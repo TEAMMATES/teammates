@@ -142,6 +142,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
   userIdOfStudentToPreview = '';
   allInstructorsInCourse: Instructor[] = [];
   userIdOfInstructorToPreview = '';
+  currentInstructorId = '';
 
   FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
   isExpandAll = false;
@@ -228,106 +229,15 @@ export class InstructorSessionResultPageComponent implements OnInit {
           } else {
             this.formattedResultVisibleFromTime = 'Not applicable';
           }
-          this.isFeedbackSessionLoading = false;
-
-          // load section tabs
-          this.courseService.getCourseSections(this.courseId).subscribe({
-            next: (courseSections) => {
-              this.sectionsModel[NO_SPECIFIC_SECTION_ID] = {
-                section: {
-                  sectionId: NO_SPECIFIC_SECTION_ID,
-                  sectionName: NO_SPECIFIC_SECTION_NAME,
-                },
-                questions: [],
-                hasPopulated: false,
-                isTabExpanded: false,
-              };
-              for (const section of courseSections.sections) {
-                this.sectionsModel[section.sectionId] = {
-                  section,
-                  questions: [],
-                  hasPopulated: false,
-                  isTabExpanded: false,
-                };
-              }
-              this.isSectionsLoaded = true;
+          this.instructorService.getOwnInstructor({ courseId: this.courseId }).subscribe({
+            next: (instructor: Instructor) => {
+              this.currentInstructorId = instructor.userId;
+              this.isFeedbackSessionLoading = false;
+              this.loadPageData(feedbackSessionId);
             },
             error: (resp: ErrorMessageOutput) => {
-              this.hasSectionsLoadingFailed = true;
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-          });
-
-          // load question tabs
-          this.feedbackQuestionsService
-            .getFeedbackQuestions({
-              feedbackSessionId,
-            })
-            .subscribe({
-              next: (feedbackQuestions: FeedbackQuestions) => {
-                for (const question of feedbackQuestions.questions) {
-                  this.questionsModel[question.feedbackQuestionId] = {
-                    question,
-                    responses: [],
-                    statistics: undefined,
-                    hasPopulated: false,
-                    isTabExpanded: false,
-                  };
-                }
-                this.isQuestionsLoaded = true;
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.hasQuestionsLoadingFailed = true;
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            });
-
-          // load all students in course
-          this.studentService
-            .getStudents({
-              courseIds: [this.courseId],
-            })
-            .subscribe({
-              next: (allStudents: Students) => {
-                this.allStudentsInCourse = allStudents.students;
-
-                // sort the student list based on team name and student name
-                this.allStudentsInCourse.sort((a: Student, b: Student): number => {
-                  const teamNameCompare: number = a.teamName.localeCompare(b.teamName);
-                  if (teamNameCompare === 0) {
-                    return a.name.localeCompare(b.name);
-                  }
-                  return teamNameCompare;
-                });
-
-                // select the first student
-                if (this.allStudentsInCourse.length >= 1) {
-                  this.userIdOfStudentToPreview = this.allStudentsInCourse[0].userId;
-                }
-
-                this.loadNoResponseStudents(feedbackSessionId);
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            });
-
-          // load all instructors in course
-          this.instructorService.loadInstructors({ courseId: this.courseId }).subscribe({
-            next: (instructors: Instructors) => {
-              this.allInstructorsInCourse = instructors.instructors;
-
-              // sort the instructor list based on name
-              this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
-                return a.name.localeCompare(b.name);
-              });
-
-              // select the first instructor
-              if (this.allInstructorsInCourse.length >= 1) {
-                this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
-              }
-            },
-            error: (resp: ErrorMessageOutput) => {
+              this.isFeedbackSessionLoading = false;
+              this.hasFeedbackSessionLoadingFailed = true;
               this.statusMessageService.showErrorToast(resp.error.message);
             },
           });
@@ -338,6 +248,110 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  private loadPageData(feedbackSessionId: string): void {
+    // load section tabs
+    this.courseService.getCourseSections(this.courseId).subscribe({
+      next: (courseSections) => {
+        this.sectionsModel[NO_SPECIFIC_SECTION_ID] = {
+          section: {
+            sectionId: NO_SPECIFIC_SECTION_ID,
+            sectionName: NO_SPECIFIC_SECTION_NAME,
+          },
+          questions: [],
+          hasPopulated: false,
+          isTabExpanded: false,
+        };
+        for (const section of courseSections.sections) {
+          this.sectionsModel[section.sectionId] = {
+            section,
+            questions: [],
+            hasPopulated: false,
+            isTabExpanded: false,
+          };
+        }
+        this.isSectionsLoaded = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasSectionsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+
+    // load question tabs
+    this.feedbackQuestionsService
+      .getFeedbackQuestions({
+        feedbackSessionId,
+      })
+      .subscribe({
+        next: (feedbackQuestions: FeedbackQuestions) => {
+          for (const question of feedbackQuestions.questions) {
+            this.questionsModel[question.feedbackQuestionId] = {
+              question,
+              responses: [],
+              statistics: undefined,
+              hasPopulated: false,
+              isTabExpanded: false,
+            };
+          }
+          this.isQuestionsLoaded = true;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasQuestionsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+
+    // load all students in course
+    this.studentService
+      .getStudents({
+        courseIds: [this.courseId],
+      })
+      .subscribe({
+        next: (allStudents: Students) => {
+          this.allStudentsInCourse = allStudents.students;
+
+          // sort the student list based on team name and student name
+          this.allStudentsInCourse.sort((a: Student, b: Student): number => {
+            const teamNameCompare: number = a.teamName.localeCompare(b.teamName);
+            if (teamNameCompare === 0) {
+              return a.name.localeCompare(b.name);
+            }
+            return teamNameCompare;
+          });
+
+          // select the first student
+          if (this.allStudentsInCourse.length >= 1) {
+            this.userIdOfStudentToPreview = this.allStudentsInCourse[0].userId;
+          }
+
+          this.loadNoResponseStudents(feedbackSessionId);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+
+    // load all instructors in course
+    this.instructorService.loadInstructors({ courseId: this.courseId }).subscribe({
+      next: (instructors: Instructors) => {
+        this.allInstructorsInCourse = instructors.instructors;
+
+        // sort the instructor list based on name
+        this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
+          return a.name.localeCompare(b.name);
+        });
+
+        // select the first instructor
+        if (this.allInstructorsInCourse.length >= 1) {
+          this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   loadNoResponseStudents(feedbackSessionId: string): void {
@@ -479,6 +493,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         response.instructorComments,
         false,
         this.session.timeZone,
+        this.currentInstructorId,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

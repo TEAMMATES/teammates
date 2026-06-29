@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.RequestContext;
+import teammates.common.datatransfer.SessionKey;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
@@ -152,7 +154,7 @@ final class GateKeeper {
     /**
      * Verifies that the user can view the deadline extension for the given user in the given feedback session.
      *
-     * <p>Admins, the user themselves (via regkey or account), and instructors with CAN_MODIFY_SESSION
+     * <p>Admins, the user themselves (via sessionKey or account), and instructors with CAN_MODIFY_SESSION
      * are allowed to access.
      */
     void verifyCanViewDeadlineExtension(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
@@ -161,8 +163,8 @@ final class GateKeeper {
             return;
         }
 
-        User regKeyUser = requestContext.getRegKeyUser();
-        if (regKeyUser != null && regKeyUser.getId().equals(userId)) {
+        User sessionKeyUser = requestContext.getSessionKeyUser();
+        if (sessionKeyUser != null && sessionKeyUser.getId().equals(userId)) {
             return;
         }
 
@@ -224,12 +226,58 @@ final class GateKeeper {
             return;
         }
 
-        if (requestContext.getRegKeyUser() != null
-                && Objects.equals(requestContext.getRegKeyUser(), user)) {
+        if (requestContext.getSessionKeyUser() != null
+                && Objects.equals(requestContext.getSessionKeyUser(), user)) {
             return;
         }
 
         throw new UnauthorizedAccessException("Not authorized to view this feedback session result.");
+    }
+
+    /**
+     * Verifies that the current request uses a valid encrypted student session key
+     * of the allowed type for the specified feedback session.
+     */
+    void verifySessionKey(RequestContext requestContext, UUID feedbackSessionId, SessionKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
+            return;
+        }
+
+        verifyNotNull(feedbackSessionId, "feedback session");
+
+        if (!feedbackSessionId.equals(sessionKey.feedbackSessionId())) {
+            throw new UnauthorizedAccessException("This key is not valid for the feedback session.");
+        }
+
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
+    }
+
+    /**
+     * Verifies that the current request uses an allowed encrypted student session key
+     * without constraining it to a specific session ID.
+     */
+    void verifySessionKey(RequestContext requestContext, SessionKeyType... allowedTypes)
+            throws UnauthorizedAccessException {
+        SessionKey sessionKey = requestContext.getSessionKey();
+        if (sessionKey == null) {
+            return;
+        }
+
+        for (SessionKeyType allowedType : allowedTypes) {
+            if (sessionKey.type() == allowedType) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("This key is not valid for the requested resource.");
     }
 
     /**

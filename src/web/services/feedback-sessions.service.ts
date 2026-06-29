@@ -19,6 +19,7 @@ import {
   HasResponses,
   MessageOutput,
   OngoingSessions,
+  SessionKeyAccess,
   SessionLinksRecoveryResponse,
   SessionResults,
   SessionSubmission,
@@ -32,6 +33,7 @@ import {
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
+  SessionKeyAccessRequest,
 } from '../types/api-request';
 
 /**
@@ -65,6 +67,13 @@ export class FeedbackSessionsService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
+  }
+
+  /**
+   * Preflights access to a student session link.
+   */
+  checkSessionKeyAccess(request: SessionKeyAccessRequest): Observable<SessionKeyAccess> {
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_KEY_ACCESS, {}, request);
   }
 
   /**

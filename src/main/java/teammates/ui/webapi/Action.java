@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
@@ -93,12 +94,12 @@ public abstract class Action {
         RequestLogUser user = new RequestLogUser();
 
         Account account = getCurrentAccount();
-        User regKeyUser = requestContext.getRegKeyUser();
+        User sessionKeyUser = requestContext.getSessionKeyUser();
 
         if (account != null) {
             user.setEmail(account.getEmail());
-        } else if (regKeyUser != null) {
-            user.setEmail(regKeyUser.getEmail());
+        } else if (sessionKeyUser != null) {
+            user.setEmail(sessionKeyUser.getEmail());
         }
 
         return user;
@@ -216,6 +217,30 @@ public abstract class Action {
     }
 
     /**
+     * Returns the value of the {@code limit} parameter as a positive integer, or null if not present.
+     */
+    Integer getLimitParamValue() {
+        String value = getRequestParamValue(Const.ParamsNames.LIMIT);
+        if (value == null) {
+            return null;
+        }
+        int parsed;
+        try {
+            parsed = Integer.parseInt(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected integer value for " + Const.ParamsNames.LIMIT + " parameter, but found: [" + value + "]",
+                    e);
+        }
+        if (parsed <= 0) {
+            throw new InvalidHttpParameterException(
+                    "Expected positive integer value for " + Const.ParamsNames.LIMIT
+                            + " parameter, but found: [" + value + "]");
+        }
+        return parsed;
+    }
+
+    /**
      * Returns the first value or null for the specified parameter expected to be present in the HTTP request as UUID.
      */
     UUID getNullableUuidRequestParamValue(String paramName) {
@@ -294,9 +319,9 @@ public abstract class Action {
      * the instructor information will be returned.
      */
     User getUserFromRequest(String courseId) {
-        User regKeyUser = requestContext.getRegKeyUser();
-        if (regKeyUser != null) {
-            return regKeyUser;
+        User sessionKeyUser = requestContext.getSessionKeyUser();
+        if (sessionKeyUser != null) {
+            return sessionKeyUser;
         }
         Instructor instructor = getInstructorFromRequest(courseId);
         if (instructor != null) {

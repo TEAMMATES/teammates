@@ -196,12 +196,9 @@
                         <td>{{ session.endTimeString }}</td>
                         <td>
                           @if (session.ongoingSession.accountId) {
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              [routerLink]="'/web/admin/accounts/' + session.ongoingSession.accountId"
-                              >{{ session.ongoingSession.creatorEmail }}</a
-                            >
+                            <a [routerLink]="'/web/admin/accounts/' + session.ongoingSession.accountId">{{
+                              session.ongoingSession.creatorEmail
+                            }}</a>
                           } @else {
                             {{ session.ongoingSession.creatorEmail }}
                           }

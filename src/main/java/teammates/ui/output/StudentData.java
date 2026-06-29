@@ -23,8 +23,6 @@ public class StudentData implements ApiOutput {
     @Nullable
     private String comments;
     @Nullable
-    private String key;
-    @Nullable
     private JoinState joinState;
 
     private final UUID teamId;
@@ -106,10 +104,6 @@ public class StudentData implements ApiOutput {
         return sectionId;
     }
 
-    public String getKey() {
-        return key;
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -124,10 +118,6 @@ public class StudentData implements ApiOutput {
 
     public void setJoinState(JoinState joinState) {
         this.joinState = joinState;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     public void setInstitute(String institute) {
@@ -148,11 +138,9 @@ public class StudentData implements ApiOutput {
 
     /**
      * Adds additional information for admin.
-     * @param key The registration key
      * @param accountId The accountId of the student
      */
-    public void addAdditionalInformationForAdmin(String key, UUID accountId) {
-        this.setKey(key);
+    public void addAdditionalInformationForAdmin(UUID accountId) {
         this.setAccountId(accountId);
     }
 

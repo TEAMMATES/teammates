@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
-import { environment } from '../../../environments/environment';
+import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -46,7 +46,6 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
-  RegkeyValidity,
   ResponseVisibleSetting,
   SessionSubmission,
   SessionVisibleSetting,
@@ -553,7 +552,6 @@ describe('SessionSubmissionPageComponent', () => {
     component = fixture.componentInstance;
     component.feedbackSessionId = testQueryParams.fsid;
     component.key = testQueryParams.key;
-    component.intent = Intent.STUDENT_SUBMISSION;
 
     // Default stubs for all service calls in the loadFeedbackSession pipeline.
     // Individual tests can override these with their own spies.
@@ -663,68 +661,36 @@ describe('SessionSubmissionPageComponent', () => {
   it('should fetch auth info on init', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
-    expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
+    expect(component.entityType).toEqual('student');
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
     expect(component.key).toEqual(testQueryParams.key);
     expect(component.accountEmail).toEqual(testInfo.user?.accountEmail);
   });
 
-  it('should verify allowed access with used reg key', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: true,
-      isValid: false,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/00000000-0000-4000-8000-000000000001/submission');
-  });
-
-  it('should deny unallowed access with valid reg key for logged in user', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: false,
-      isUsed: false,
-      isValid: true,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(
-      '/web/front',
-      `You are signed in as ${component.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
-    );
-  });
-
-  it('should deny unallowed access with invalid reg key', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: false,
-      isUsed: false,
-      isValid: false,
-    };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-
-    component.ngOnInit();
-
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
-  });
-
   it('should join course for unregistered student', () => {
+    component.accountId = 'account-id';
+    component.userId = testStudent.userId;
+    const linkAccountSpy = vi.spyOn(TestBed.inject(AccountService), 'linkAccount').mockReturnValue(
+      of({
+        message: 'Account linked successfully.',
+      }),
+    );
+    const clearAuthSpy = vi.spyOn(authService, 'clearAuthCache');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
+
     component.joinCourseForUnregisteredEntity();
+
+    expect(linkAccountSpy).toHaveBeenCalledTimes(1);
+    expect(linkAccountSpy).toHaveBeenLastCalledWith(
+      {
+        accountId: 'account-id',
+        userId: testStudent.userId,
+      },
+      testQueryParams.key,
+    );
+    expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: testQueryParams.key });
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/submission`);
   });
 
   it('should load an open feedback session', () => {
@@ -733,7 +699,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -757,7 +723,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testClosedFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -777,7 +743,7 @@ describe('SessionSubmissionPageComponent', () => {
       .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -798,7 +764,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(
@@ -819,7 +785,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.loadFeedbackSession(false, testInfo);
+    component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(

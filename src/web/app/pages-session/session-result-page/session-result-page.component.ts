@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FeedbackQuestionModel } from './feedback-question.model';
-import { environment } from '../../../environments/environment';
+import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -22,7 +22,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
-  RegkeyValidity,
   UserQuestionOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -48,6 +47,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class SessionResultPageComponent implements OnInit {
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly accountService = inject(AccountService);
   private readonly timezoneService = inject(TimezoneService);
   private readonly navigationService = inject(NavigationService);
   private readonly authService = inject(AuthService);
@@ -57,9 +57,6 @@ export class SessionResultPageComponent implements OnInit {
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly logService = inject(LogService);
   private readonly ngbModal = inject(NgbModal);
-
-  // enum
-  Intent!: typeof Intent;
 
   retryAttempts!: number;
 
@@ -91,11 +88,11 @@ export class SessionResultPageComponent implements OnInit {
   courseId = '';
   feedbackSessionName = '';
   @Input({ required: true }) feedbackSessionId!: string;
-  @Input() intent: Intent = Intent.STUDENT_RESULT;
   @Input() key = '';
   @Input() previewAs = '';
-  @Input() entityType = 'student';
+  @Input() entityType: 'student' | 'instructor' = 'student';
   accountEmail = '';
+  accountId = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   isPreviewHintExpanded = false;
@@ -105,84 +102,29 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
 
-  private readonly backendUrl: string = environment.backendUrl;
-
   constructor() {
-    this.Intent = Intent;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
     this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
   }
 
   ngOnInit(): void {
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      this.entityType = 'instructor';
-    }
-    if (this.entityType === 'instructor') {
-      this.intent = Intent.INSTRUCTOR_RESULT;
-    }
     // withComponentInputBinding() can reset @Input() defaults to undefined; restore the 'student' default
     this.entityType ||= 'student';
 
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({
       next: (auth: AuthInfo) => {
-        const isPreview = !!(auth.user && this.previewAs);
         if (auth.user) {
+          this.accountId = auth.user.accountId;
           this.accountEmail = auth.user.accountEmail;
         }
-        // prevent having both key and previewas parameters in URL
-        if (this.key && isPreview) {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+
+        if (!auth.user && !this.key) {
+          this.navigationService.navigateByURL('/web/login', { nextUrl });
           return;
         }
-        if (this.key) {
-          this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
-            next: (resp: RegkeyValidity) => {
-              if (resp.isAllowedAccess) {
-                if (resp.isUsed) {
-                  // The signed in user matches the registration key; redirect to the signed in URL
 
-                  this.navigationService.navigateByURL(
-                    `/web/${this.entityType}/sessions/${this.feedbackSessionId}/result`,
-                  );
-                } else {
-                  // Valid, unused registration key; load information based on the key
-                  this.loadFeedbackSession();
-                }
-              } else if (resp.isValid) {
-                // At this point, registration key must already be used, otherwise access would be granted
-                if (this.accountEmail) {
-                  // Registration key belongs to another user who is not the signed in user
-                  this.navigationService.navigateWithErrorMessage(
-                    '/web/front',
-                    `You are signed in as ${this.accountEmail}, but this course is linked to a different TEAMMATES account. If you used a different account to join/access TEAMMATES before, please use that account to access TEAMMATES. If you cannot remember which account you used before, please email us at ${environment.supportEmail} for help.`,
-                  );
-                } else {
-                  // There is no logged in user for a valid, used registration key, redirect to login page
-                  globalThis.location.href = `${this.backendUrl}${auth.loginUrl}`;
-                }
-              } else {
-                // The registration key is invalid
-                this.navigationService.navigateWithErrorMessage(
-                  '/web/front',
-                  'You are not authorized to view this page.',
-                );
-              }
-            },
-            error: () => {
-              this.navigationService.navigateWithErrorMessage(
-                '/web/front',
-                'You are not authorized to view this page.',
-              );
-            },
-          });
-        } else if (this.accountEmail) {
-          // Load information based on signed in user
-          // This will also cover preview cases
-          this.loadFeedbackSession();
-        } else {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-        }
+        this.loadFeedbackSession();
       },
       error: () => {
         this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
@@ -193,7 +135,7 @@ export class SessionResultPageComponent implements OnInit {
   private loadCourseInfo(): void {
     this.isCourseLoading = true;
     let request: Observable<CourseView>;
-    switch (this.intent) {
+    switch (this.getResultIntent()) {
       case Intent.STUDENT_RESULT:
         if (this.previewAs) {
           request = this.courseService.getCourseAsInstructor(this.courseId);
@@ -202,7 +144,7 @@ export class SessionResultPageComponent implements OnInit {
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.key);
+        request = this.courseService.getCourseAsInstructor(this.courseId);
         break;
       default:
         this.isCourseLoading = false;
@@ -224,11 +166,11 @@ export class SessionResultPageComponent implements OnInit {
     if (this.entityType === 'student' && this.previewAs) {
       return this.studentService.getStudent({ userId: this.previewAs });
     } else if (this.entityType === 'student') {
-      return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key });
+      return this.studentService.getOwnStudent({ courseId: this.courseId, key: this.key });
     } else if (this.previewAs) {
       return this.instructorService.getInstructor({ userId: this.previewAs });
     } else {
-      return this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key });
+      return this.instructorService.getOwnInstructor({ courseId: this.courseId });
     }
   }
 
@@ -329,7 +271,38 @@ export class SessionResultPageComponent implements OnInit {
    * Redirects to join course link for unregistered student/instructor.
    */
   joinCourseForUnregisteredEntity(): void {
-    this.navigationService.navigateByURL('/web/join', { entityType: this.entityType, key: this.key });
+    if (!this.accountId) {
+      const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
+      this.navigationService.navigateByURL('/web/login', { nextUrl });
+      return;
+    }
+
+    if (!this.userId) {
+      this.statusMessageService.showErrorToast('Unable to determine the student to link.');
+      return;
+    }
+
+    this.accountService
+      .linkAccount(
+        {
+          accountId: this.accountId,
+          userId: this.userId,
+        },
+        this.key,
+      )
+      .subscribe({
+        next: () => {
+          this.authService.clearAuthCache();
+          this.navigationService.navigateByURL(`/web/student/sessions/${this.feedbackSessionId}/result`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+  }
+
+  getResultIntent(): Intent {
+    return this.entityType === 'student' ? Intent.STUDENT_RESULT : Intent.INSTRUCTOR_RESULT;
   }
 
   navigateToSessionReportPage(): void {
@@ -362,7 +335,7 @@ export class SessionResultPageComponent implements OnInit {
    * Logs student activity after student/session details have been fetched.
    */
   logStudentView(): void {
-    if (this.intent !== Intent.STUDENT_RESULT) {
+    if (this.entityType !== 'student') {
       return;
     }
 

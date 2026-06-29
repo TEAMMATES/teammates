@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.net.URI;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
@@ -10,10 +11,13 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseJoinKey;
 import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.SessionResultLink;
 import teammates.common.datatransfer.SessionSubmissionLink;
 import teammates.common.util.Const;
+import teammates.common.util.KeyUtil;
 import teammates.common.util.LinksUtil;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
@@ -28,7 +32,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
     private static final String DUMMY_UUID = UUID.fromString("5d17a2a8-3e2a-40a9-b9e2-3e4a3f6a8680").toString();
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionLinksAction_adminForStudent_returnsStudentLinks() {
+    public void getSessionLinksAction_adminForStudent_returnsStudentLinks() throws Exception {
         var adminAccount = given.account("admin", a -> a.admin());
         var student = given.student("student", s -> s.defaultCourse());
         var awaitingSession = given.feedbackSession("awaiting-session", fs -> fs.defaultCourse().waitingToOpen());
@@ -39,7 +43,7 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         SessionLinksData result = execute(getRequest(student.id().toString(), adminAccount.id()));
 
-        assertEquals(LinksUtil.getStudentCourseJoinUrl(student.regKey()), result.getCourseJoinLink());
+        assertCourseJoinLink(result.getCourseJoinLink(), student.id(), student.linkVersion());
         assertEquals(4, result.getSubmissionLinks().size());
         assertEquals(1, result.getResultsLinks().size());
 
@@ -51,16 +55,17 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
                 submissionLinksById.get(openSession.id()).submissionStatus());
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED,
                 submissionLinksById.get(closedSession.id()).submissionStatus());
-        assertEquals(LinksUtil.getStudentSessionSubmitUrl(openSession.id(), student.regKey()),
-                submissionLinksById.get(openSession.id()).url());
+        assertStudentSessionLink(submissionLinksById.get(openSession.id()).url(), openSession.id(),
+                student.id(), student.linkVersion(), SessionKeyType.SUBMISSION);
 
         SessionResultLink resultsLink = result.getResultsLinks().get(0);
         assertEquals(publishedSession.id(), resultsLink.feedbackSessionId());
-        assertEquals(LinksUtil.getStudentSessionResultsUrl(publishedSession.id(), student.regKey()), resultsLink.url());
+        assertStudentSessionLink(resultsLink.url(), publishedSession.id(), student.id(),
+                student.linkVersion(), SessionKeyType.RESULTS);
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getSessionLinksAction_adminForInstructor_returnsInstructorLinks() {
+    public void getSessionLinksAction_adminForInstructor_returnsInstructorLinks() throws Exception {
         var adminAccount = given.account("admin", a -> a.admin());
         var instructor = given.instructor("instructor", i -> i.defaultCourse());
         var openSession = given.feedbackSession("open-session", fs -> fs.defaultCourse().opened());
@@ -69,15 +74,13 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         SessionLinksData result = execute(getRequest(instructor.id().toString(), adminAccount.id()));
 
-        assertEquals(LinksUtil.getInstructorCourseJoinUrl(instructor.regKey()), result.getCourseJoinLink());
+        assertCourseJoinLink(result.getCourseJoinLink(), instructor.id(), instructor.linkVersion());
         assertTrue(result.getSubmissionLinks().stream().anyMatch(
                 link -> openSession.id().equals(link.feedbackSessionId())
-                        && LinksUtil.getInstructorSessionSubmitUrl(openSession.id(),
-                                instructor.regKey()).equals(link.url())));
+                        && LinksUtil.getInstructorSessionSubmitUrl(openSession.id()).equals(link.url())));
         assertTrue(result.getResultsLinks().stream().anyMatch(
                 link -> publishedSession.id().equals(link.feedbackSessionId())
-                        && LinksUtil.getInstructorSessionResultsUrl(publishedSession.id(), instructor.regKey())
-                                .equals(link.url())));
+                        && LinksUtil.getInstructorSessionResultsUrl(publishedSession.id()).equals(link.url())));
     }
 
     @Test(groups = GroupNames.ACTION)
@@ -101,5 +104,25 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
         return new RequestContext()
                 .withParam(Const.ParamsNames.USER_ID, userId)
                 .withAccountAuth(accountId);
+    }
+
+    private void assertCourseJoinLink(String url, UUID userId, int linkVersion) throws Exception {
+        URI uri = URI.create(url);
+        String query = uri.getQuery();
+        String encryptedKey = query.substring("key=".length(), query.indexOf("&entityType="));
+        CourseJoinKey joinKey = KeyUtil.decryptCourseJoinKey(encryptedKey);
+        assertEquals(userId, joinKey.userId());
+        assertEquals(linkVersion, joinKey.linkVersion());
+    }
+
+    private void assertStudentSessionLink(String url, UUID feedbackSessionId, UUID studentId,
+            int linkVersion, SessionKeyType type) throws Exception {
+        URI uri = URI.create(url);
+        String key = uri.getQuery().substring("key=".length());
+        var sessionKey = KeyUtil.decryptSessionKey(key);
+        assertEquals(feedbackSessionId, sessionKey.feedbackSessionId());
+        assertEquals(studentId, sessionKey.userId());
+        assertEquals(linkVersion, sessionKey.linkVersion());
+        assertEquals(type, sessionKey.type());
     }
 }

@@ -11,9 +11,9 @@ public enum AuthType {
     PUBLIC(0),
 
     /**
-     * Access via registration key.
+     * Access via session key.
      */
-    REG_KEY(1),
+    SESSION_KEY(1),
 
     /**
      * Logged in user.

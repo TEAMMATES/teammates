@@ -7,7 +7,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
+import { FeedbackVisibilityType } from '../../../types/api-request';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 import { SingleStatisticsComponent } from '../question-responses/single-statistics/single-statistics.component';
 import { StudentViewResponsesComponent } from '../question-responses/student-view-responses/student-view-responses.component';
@@ -47,18 +47,14 @@ export class QuestionResponsePanelComponent {
     createdAtTimestamp: 0,
   };
 
-  @Input()
-  intent: Intent = Intent.STUDENT_RESULT;
-
-  @Input()
-  regKey = '';
+  @Input() entityType: 'student' | 'instructor' = 'student';
 
   @Input()
   previewAsPerson = '';
 
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
-    if (this.intent === Intent.STUDENT_RESULT) {
+    if (this.entityType === 'student') {
       return (
         showResponsesTo.includes(FeedbackVisibilityType.RECIPIENT) ||
         showResponsesTo.includes(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS) ||
@@ -66,7 +62,7 @@ export class QuestionResponsePanelComponent {
         showResponsesTo.includes(FeedbackVisibilityType.STUDENTS)
       );
     }
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
+    if (this.entityType === 'instructor') {
       return showResponsesTo.includes(FeedbackVisibilityType.INSTRUCTORS);
     }
     return false;

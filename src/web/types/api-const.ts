@@ -28,11 +28,11 @@ export enum ApiStringConst {
 }
 
 export enum DefaultInstructorPermissions {
-  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
-  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
-  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
-  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":false}",
-  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
+  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true}",
+  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true}",
+  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":false}",
+  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":true,\"canSubmitSession\":true}",
+  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false}",
 }
 
 export enum QuestionTypeStructures {
@@ -61,8 +61,8 @@ export enum QuestionTypeStructures {
 export enum ResourceEndpoints {
   ERROR_REPORT = "/webapi/errorreport",
   AUTH = "/webapi/auth",
-  AUTH_REGKEY = "/webapi/auth/regkey",
   ACCOUNT = "/webapi/account",
+  ACCOUNT_LINK = "/webapi/account/link",
   ACCOUNT_UNLINK = "/webapi/account/unlink",
   ACCOUNT_VERIFICATION_REQUEST = "/webapi/account/request",
   ACCOUNT_VERIFICATION_REQUESTS = "/webapi/account/requests",
@@ -93,6 +93,7 @@ export enum ResourceEndpoints {
   SESSION = "/webapi/session",
   SESSION_DEADLINE_EXTENSION = "/webapi/session/deadlineextension",
   SESSION_DEADLINE_EXTENSIONS = "/webapi/session/deadlineextensions",
+  SESSION_KEY_ACCESS = "/webapi/session/key/access",
   SESSION_LINKS = "/webapi/session/links",
   SESSION_LOGS = "/webapi/logs/session",
   SESSION_PUBLISH = "/webapi/session/publish",
@@ -111,6 +112,7 @@ export enum ResourceEndpoints {
   NOTIFICATIONS = "/webapi/notifications",
   NOTIFICATION_READ = "/webapi/notification/read",
   JOIN = "/webapi/join",
+  JOIN_KEY_ACCESS = "/webapi/join/key/access",
   JOIN_REMIND = "/webapi/join/remind",
   TIMEZONE = "/webapi/timezone",
   SESSION_LINKS_RECOVERY = "/webapi/sessionlinksrecovery",

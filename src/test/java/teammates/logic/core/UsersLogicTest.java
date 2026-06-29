@@ -23,7 +23,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
-import teammates.common.datatransfer.StudentQuery;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.email.CourseJoinEmailsLogic;
@@ -140,26 +139,6 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals(1, unregisteredStudents.size());
         assertEquals(unregisteredStudentNullAccount, unregisteredStudents.get(0));
-    }
-
-    @Test
-    public void testGetStudentsVisibleToAccount_instructorInCourse_canViewAllStudents() {
-        Account requesterAccount = getTypicalAccount();
-        Instructor requester = createInstructor("requester@teammates.tmt", true);
-        requester.setAccount(requesterAccount);
-        requester.setRole(InstructorPermissionRole.CUSTOM);
-
-        Student student1 = new Student(course, "student-1", "student1@teammates.tmt", "comments");
-        Student student2 = new Student(course, "student-2", "student2@teammates.tmt", "comments");
-
-        when(usersDb.getInstructorsByAccountId(requesterAccount.getId())).thenReturn(List.of(requester));
-        when(usersDb.getStudents(new StudentQuery(List.of(course.getId()), null, null)))
-                .thenReturn(List.of(student1, student2));
-
-        List<Student> actual = usersLogic.getStudentsVisibleToAccount(
-                new StudentQuery(List.of(course.getId()), null, null), requesterAccount);
-
-        assertEquals(List.of(student1, student2), actual);
     }
 
     @Test

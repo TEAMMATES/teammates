@@ -43,7 +43,8 @@ import teammates.test.EmailChecker;
 public class EmailRendererTest extends BaseTestCase {
 
     private static final UUID FEEDBACK_SESSION_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
-    private static final String REG_KEY = "ABCDEF0123456789ABCDEF0123456789";
+    private static final UUID USER_ID = UUID.fromString("00000000-0000-0000-0000-000000000002");
+    private static final int LINK_VERSION = 0;
 
     @Test
     public void renderSessionLinksRecoveryEmail_courseSectionsExist_returnsRecoveryEmailBody() throws IOException {
@@ -106,7 +107,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -127,7 +128,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         true,
                         buildCourseContext().coOwnerContacts()));
 
@@ -167,7 +168,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         true,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -189,7 +190,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         true,
                         buildCourseContext().coOwnerContacts()));
 
@@ -230,7 +231,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -252,7 +253,7 @@ public class EmailRendererTest extends BaseTestCase {
                         Instant.parse("2027-04-30T21:59:00Z"),
                         false,
                         "Please please fill in the following questions.",
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         true,
                         buildCourseContext().coOwnerContacts()));
 
@@ -289,7 +290,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "idOfTypicalCourse1",
                         "Typical Course 1 with 2 Evals",
                         "First feedback session",
-                        LinksUtil.getStudentSessionResultsUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionResultsUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         false,
                         buildCourseContext().coOwnerContacts()));
 
@@ -307,7 +308,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "idOfTypicalCourse1",
                         "Typical Course 1 with 2 Evals",
                         "First feedback session",
-                        LinksUtil.getInstructorSessionResultsUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionResultsUrl(FEEDBACK_SESSION_ID),
                         true,
                         buildCourseContext().coOwnerContacts()));
 
@@ -419,7 +420,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "Please please fill in the following questions.",
                         LinksUtil.getInstructorSessionEditUrl(FEEDBACK_SESSION_ID),
                         null,
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, LINK_VERSION)));
 
         verifyEmailContent(actual.htmlContent(), "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -624,7 +625,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new StudentCourseJoinEmailContext(
                         "student@email.tmt",
                         "Student Name",
-                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getStudentCourseJoinUrl(USER_ID, LINK_VERSION)));
 
         verifyEmailContent(actual.htmlContent(), "/studentCourseJoinEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -637,7 +638,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new CourseRejoinAfterUnlinkEmailContext(
                         "student@email.tmt",
                         "Student Name",
-                        LinksUtil.getStudentCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getStudentCourseJoinUrl(USER_ID, LINK_VERSION)));
 
         verifyEmailContent(actual.htmlContent(), "/studentCourseRejoinAfterUnlinkAccountEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -650,7 +651,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new InstructorCourseJoinEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY),
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, LINK_VERSION),
                         "Joe Wilson",
                         "instructor-joe@gmail.com"));
 
@@ -666,7 +667,7 @@ public class EmailRendererTest extends BaseTestCase {
                 new CourseRejoinAfterUnlinkEmailContext(
                         "instructor@email.tmt",
                         "Instructor Name",
-                        LinksUtil.getInstructorCourseJoinUrl(REG_KEY)));
+                        LinksUtil.getInstructorCourseJoinUrl(USER_ID, LINK_VERSION)));
 
         verifyEmailContent(actual.htmlContent(), "/instructorCourseRejoinAfterUnlinkAccountEmail.html");
         assertFalse(actual.htmlContent().contains("${"));
@@ -680,7 +681,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_GRANTED));
@@ -694,7 +695,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_UPDATED));
@@ -708,7 +709,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "student2@course1.tmt",
                         "student2 In Course1",
                         false,
-                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getStudentSessionSubmitUrl(FEEDBACK_SESSION_ID, USER_ID, LINK_VERSION),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         EmailType.DEADLINE_EXTENSION_REVOKED));
@@ -722,7 +723,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "instructor2@course1.tmt",
                         "Instructor2 Course1",
                         true,
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_GRANTED));
@@ -736,7 +737,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "instructor2@course1.tmt",
                         "Instructor2 Course1",
                         true,
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         EmailType.DEADLINE_EXTENSION_UPDATED));
@@ -750,7 +751,7 @@ public class EmailRendererTest extends BaseTestCase {
                         "instructor2@course1.tmt",
                         "Instructor2 Course1",
                         true,
-                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID, REG_KEY),
+                        LinksUtil.getInstructorSessionSubmitUrl(FEEDBACK_SESSION_ID),
                         Instant.parse("2027-04-30T23:00:00Z"),
                         Instant.parse("2027-04-30T21:59:00Z"),
                         EmailType.DEADLINE_EXTENSION_REVOKED));
@@ -818,8 +819,8 @@ public class EmailRendererTest extends BaseTestCase {
                 isInstructor,
                 isYetToJoinCourse,
                 isInstructor
-                        ? LinksUtil.getInstructorCourseJoinUrl(REG_KEY)
-                        : LinksUtil.getStudentCourseJoinUrl(REG_KEY),
+                        ? LinksUtil.getInstructorCourseJoinUrl(USER_ID, LINK_VERSION)
+                        : LinksUtil.getStudentCourseJoinUrl(USER_ID, LINK_VERSION),
                 List.of(new CourseSessionLinks("CS101", "Software Engineering", "Africa/Johannesburg", sessionLinks)));
     }
 

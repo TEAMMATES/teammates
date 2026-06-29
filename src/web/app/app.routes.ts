@@ -2,11 +2,12 @@ import { type Routes } from '@angular/router';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
+import { SessionKeyGuard } from '../route-guards/session-key.guard';
 import { StaticPageComponent } from './pages-static/static-page.component';
-import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard, UserRole } from '../route-guards/role.guard';
 import { PageComponent } from './page.component';
+import { SessionKeyType } from '../types/api-request';
 
 const routes: Routes = [
   {
@@ -35,22 +36,26 @@ const routes: Routes = [
         children: [
           {
             path: ':feedbackSessionId/result',
+            canActivate: [SessionKeyGuard],
             loadComponent: () =>
               import('./pages-session/session-result-page/session-result-page.component').then(
                 (m) => m.SessionResultPageComponent,
               ),
             data: {
-              intent: Intent.STUDENT_RESULT,
+              entityType: 'student',
+              sessionKeyType: SessionKeyType.RESULTS,
             },
           },
           {
             path: ':feedbackSessionId/submission',
+            canActivate: [SessionKeyGuard],
             loadComponent: () =>
               import('./pages-session/session-submission-page/session-submission-page.component').then(
                 (m) => m.SessionSubmissionPageComponent,
               ),
             data: {
-              intent: Intent.STUDENT_SUBMISSION,
+              entityType: 'student',
+              sessionKeyType: SessionKeyType.SUBMISSION,
             },
           },
         ],
@@ -109,6 +114,16 @@ const routes: Routes = [
         ],
         canActivate: [RoleGuard],
         canActivateChild: [RoleGuard],
+      },
+      {
+        path: 'login',
+        component: PageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./page-login/login-page.component').then((m) => m.LoginPageComponent),
+          },
+        ],
       },
       {
         path: '**',

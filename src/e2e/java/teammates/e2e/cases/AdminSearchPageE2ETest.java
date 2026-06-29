@@ -37,7 +37,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
         searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink);
 
-        ______TS("Typical case: Regenerate registration key for a course student");
+        ______TS("Typical case: Regenerate key for a course student");
         searchPage.regenerateStudentKey(student);
         searchPage.verifyRegenerateStudentKey();
         searchPage.waitForPageToLoad();
@@ -50,7 +50,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
         searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink);
 
-        ______TS("Typical case: Regenerate registration key for an instructor");
+        ______TS("Typical case: Regenerate key for an instructor");
         searchPage.regenerateInstructorKey(instructor);
         searchPage.verifyRegenerateInstructorKey();
     }

@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -39,34 +39,43 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction, Stu
         assertEquals(firstMatch.id(), result.getStudents().get(0).getUserId());
         assertEquals(course1.id(), result.getStudents().get(0).getCourseId());
 
-        Student persistedStudent = getEntityInTransaction(Student.class, firstMatch.id());
-        assertEquals(persistedStudent.getRegKey(), result.getStudents().get(0).getKey());
         assertEquals(studentAccount.id(), result.getStudents().get(0).getAccountId());
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getStudentsAction_instructorSearchFiltersByVisibleCourseIds_returnsOnlyVisibleStudents() {
+    public void getStudentsAction_instructorSearchWithAuthorizedCourseId_returnsStudents() {
         var requesterAccount = given.account("requester-account");
-        var visibleCourse = given.course("visible-course", c -> c.name("Visible Course"));
-        var invisibleCourse = given.course("invisible-course", c -> c.name("Invisible Course"));
-        var visibleMatch = given.student("visible-match", s -> s.course(visibleCourse.alias()).name("Shared Alice"));
-        given.student("invisible-match", s -> s.course(invisibleCourse.alias()).name("Shared Alice"));
-        given.instructor("requester", i -> i.account(requesterAccount.alias()).course(visibleCourse.alias()).coOwner());
+        var course = given.course("visible-course", c -> c.name("Visible Course"));
+        var match = given.student("match", s -> s.course(course.alias()).name("Shared Alice"));
+        given.instructor("requester", i -> i.account(requesterAccount.alias()).course(course.alias()).coOwner());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
-                .withParam(Const.ParamsNames.COURSE_ID, visibleCourse.id())
-                .withParam(Const.ParamsNames.COURSE_ID, invisibleCourse.id())
+                .withParam(Const.ParamsNames.COURSE_ID, course.id())
                 .withParam(Const.ParamsNames.SEARCH_KEY, "shared")
                 .withAccountAuth(requesterAccount.id());
 
         StudentsData result = execute(request);
 
         assertEquals(1, result.getStudents().size());
-        assertEquals(visibleMatch.id(), result.getStudents().get(0).getUserId());
-        assertEquals(visibleCourse.id(), result.getStudents().get(0).getCourseId());
-        assertNull(result.getStudents().get(0).getKey());
+        assertEquals(match.id(), result.getStudents().get(0).getUserId());
+        assertEquals(course.id(), result.getStudents().get(0).getCourseId());
         assertNull(result.getStudents().get(0).getAccountId());
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getStudentsAction_instructorSearchWithUnauthorizedCourseId_throwsUnauthorizedAccessException() {
+        var requesterAccount = given.account("requester-account");
+        var course = given.course("visible-course", c -> c.name("Visible Course"));
+        var unauthorizedCourse = given.course("unauthorized-course", c -> c.name("Unauthorized Course"));
+        given.instructor("requester", i -> i.account(requesterAccount.alias()).course(course.alias()).coOwner());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.COURSE_ID, unauthorizedCourse.id())
+                .withAccountAuth(requesterAccount.id());
+
+        assertActionThrows(UnauthorizedAccessException.class, request);
     }
 
     @Test(groups = GroupNames.ACTION)

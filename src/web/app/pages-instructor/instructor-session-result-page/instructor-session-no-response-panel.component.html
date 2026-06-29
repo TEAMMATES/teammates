@@ -71,8 +71,6 @@
                     @if (!isDisplayOnly) {
                       <a
                         [routerLink]="['/web/sessions', session.feedbackSessionId, 'submission']"
-                        rel="noopener noreferrer"
-                        target="_blank"
                         [queryParams]="{ moderatedPerson: noResponseStudent.userId }"
                         class="btn btn-light btn-sm button"
                       >

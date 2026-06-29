@@ -36,6 +36,10 @@ export interface CourseCreateRequest extends CourseBasicRequest {
   instituteId: string;
 }
 
+export interface CourseJoinKeyRequest extends BasicRequest {
+  key: string;
+}
+
 export interface CourseUpdateRequest extends CourseBasicRequest {
 }
 
@@ -191,7 +195,6 @@ export interface InstructorPermissionSet {
   canModifyStudent: boolean;
   canViewSession: boolean;
   canSubmitSession: boolean;
-  canModifySessionComments: boolean;
 }
 
 export interface InstructorPrivileges {
@@ -208,6 +211,11 @@ export interface InstructorUpdateRequest extends BasicRequest {
   displayName?: string;
   isDisplayedToStudent: boolean;
   privileges?: InstructorPrivileges;
+}
+
+export interface LinkAccountRequest extends BasicRequest {
+  accountId: string;
+  userId: string;
 }
 
 export interface MarkNotificationAsReadRequest extends BasicRequest {
@@ -229,10 +237,6 @@ export interface NotificationCreateRequest extends NotificationBasicRequest {
 export interface NotificationUpdateRequest extends NotificationBasicRequest {
 }
 
-export interface RegKeyRequest extends BasicRequest {
-  key: string;
-}
-
 export interface ResponseInstructorCommentBasicRequest extends BasicRequest {
   commentText: string;
 }
@@ -245,6 +249,12 @@ export interface ResponseInstructorCommentUpdateRequest extends ResponseInstruct
 
 export interface SendEmailRequest extends BasicRequest {
   email: EmailWrapper;
+}
+
+export interface SessionKeyAccessRequest extends BasicRequest {
+  feedbackSessionId: string;
+  key: string;
+  type: SessionKeyType;
 }
 
 export interface StudentEnrollRequest extends BasicRequest {
@@ -394,6 +404,11 @@ export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
   LATER = "LATER",
+}
+
+export enum SessionKeyType {
+  SUBMISSION = "SUBMISSION",
+  RESULTS = "RESULTS",
 }
 
 export enum SessionVisibleSetting {

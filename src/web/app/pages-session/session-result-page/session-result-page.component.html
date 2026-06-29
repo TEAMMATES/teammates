@@ -4,18 +4,16 @@
     <div class="col-12 text-center text-break">
       <h4>
         Previewing Session Results as
-        @if (intent === Intent.STUDENT_RESULT) {
+        @if (entityType === 'student') {
           <span>student</span>
-        }
-        @if (intent === Intent.INSTRUCTOR_RESULT) {
+        } @else {
           <span>instructor</span>
         }
         {{ personName }} ({{ personEmail }})
-        @if (!isPreviewHintExpanded) {
-          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = true">[more]</button>
-        }
         @if (isPreviewHintExpanded) {
           <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = false">[less]</button>
+        } @else {
+          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = true">[more]</button>
         }
       </h4>
       @if (isPreviewHintExpanded) {
@@ -90,7 +88,7 @@
   </div>
 </div>
 
-@if (intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading) {
+@if (entityType === 'instructor' && !isCourseLoading && !isFeedbackSessionDetailsLoading) {
   <div class="card bg-light" style="margin-bottom: 20px">
     <div class="card-body">
       If you wish to view the feedback results of the entire course,
@@ -127,8 +125,7 @@
       <tm-question-response-panel
         [questions]="questions"
         [session]="session"
-        [intent]="intent"
-        [regKey]="key"
+        [entityType]="entityType"
         [previewAsPerson]="previewAs"
       ></tm-question-response-panel>
     </div>

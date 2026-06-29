@@ -5,10 +5,8 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -21,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.HibernateUtil;
@@ -55,8 +52,6 @@ import teammates.ui.request.InstructorUpdateRequest;
 public final class UsersLogic {
 
     private static final UsersLogic instance = new UsersLogic();
-
-    private static final int MAX_KEY_REGENERATION_TRIES = 10;
 
     private UsersDb usersDb;
 
@@ -93,14 +88,6 @@ public final class UsersLogic {
      */
     public User getUser(UUID id) {
         return usersDb.getUser(id);
-    }
-
-    /**
-     * Get user by registration key.
-     */
-    public User getUserByRegistrationKey(String regKey) {
-        Objects.requireNonNull(regKey);
-        return usersDb.getUserByRegKey(regKey);
     }
 
     /**
@@ -279,18 +266,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets an instructor by associated {@code regkey}.
-     */
-    public Instructor getInstructorByRegistrationKey(String regKey) {
-        User user = getUserByRegistrationKey(regKey);
-        if (user instanceof Instructor instructor) {
-            return instructor;
-        }
-
-        return null;
-    }
-
-    /**
      * Gets instructors matching the specified query.
      *
      * @return List of found instructors. Returns an empty list if no results are found.
@@ -412,7 +387,7 @@ public final class UsersLogic {
         StudentCourseJoinEmailContext studentContext = new StudentCourseJoinEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion()));
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmail(courseContext, studentContext);
     }
 
@@ -430,7 +405,7 @@ public final class UsersLogic {
                 .map(student -> new StudentCourseJoinEmailContext(
                         student.getEmail(),
                         student.getName(),
-                        LinksUtil.getStudentCourseJoinUrl(student.getRegKey())))
+                        LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion())))
                 .toList();
         courseJoinEmailsLogic.enqueueStudentCourseJoinEmails(courseContext, studentContexts);
     }
@@ -447,7 +422,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext studentContext = new CourseRejoinAfterUnlinkEmailContext(
                 student.getEmail(),
                 student.getName(),
-                LinksUtil.getStudentCourseJoinUrl(student.getRegKey()));
+                LinksUtil.getStudentCourseJoinUrl(student.getId(), student.getLinkVersion()));
         courseJoinEmailsLogic.enqueueStudentCourseRejoinAfterUnlinkAccountEmail(courseContext, studentContext);
     }
 
@@ -463,7 +438,7 @@ public final class UsersLogic {
         InstructorCourseJoinEmailContext instructorContext = new InstructorCourseJoinEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()),
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getLinkVersion()),
                 inviter.getName(),
                 inviter.getEmail());
         courseJoinEmailsLogic.enqueueInstructorCourseJoinEmail(courseContext, instructorContext);
@@ -481,7 +456,7 @@ public final class UsersLogic {
         CourseRejoinAfterUnlinkEmailContext instructorContext = new CourseRejoinAfterUnlinkEmailContext(
                 instructor.getEmail(),
                 instructor.getName(),
-                LinksUtil.getInstructorCourseJoinUrl(instructor.getRegKey()));
+                LinksUtil.getInstructorCourseJoinUrl(instructor.getId(), instructor.getLinkVersion()));
         courseJoinEmailsLogic.enqueueInstructorCourseRejoinAfterUnlinkAccountEmail(courseContext, instructorContext);
     }
 
@@ -538,40 +513,28 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId}.
+     * Increments the link version for the user with {@code userId}, invalidating all existing links.
      *
-     * @return the user with the new registration key.
-     * @throws UserUpdateException if system was unable to generate a new registration key.
+     * @return the user with the incremented link version.
      * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public User regenerateUserRegistrationKey(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
+    public User regenerateUserLinks(UUID userId) throws EntityDoesNotExistException {
         User user = usersDb.getUser(userId);
         if (user == null) {
             String errorMessage = String.format("The user with ID [%s] could not be found.", userId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        String oldKey = user.getRegKey();
-        int numTries = 0;
-        while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            user.generateNewRegistrationKey();
-            if (!user.getRegKey().equals(oldKey)) {
-                return user;
-            }
-            numTries++;
-        }
-
-        throw new UserUpdateException("Could not regenerate a new course registration key for the user.");
+        user.setLinkVersion(user.getLinkVersion() + 1);
+        return user;
     }
 
     /**
-     * Regenerates the registration key for the user with {@code userId} and enqueues the
+     * Increments the link version for the user with {@code userId} and enqueues the
      * corresponding feedback session summary email.
      */
-    public User regenerateUserRegKeyAndEnqueueSummaryEmail(UUID userId)
-            throws EntityDoesNotExistException, UserUpdateException {
-        User user = regenerateUserRegistrationKey(userId);
+    public User regenerateUserLinksAndEnqueueSummaryEmail(UUID userId) throws EntityDoesNotExistException {
+        User user = regenerateUserLinks(userId);
         feedbackSessionsLogic.enqueueFeedbackSessionSummaryEmail(
                 user,
                 user instanceof Student
@@ -635,36 +598,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the students visible to the given account for the supplied query.
-     */
-    public List<Student> getStudentsVisibleToAccount(StudentQuery query, Account account) {
-        Objects.requireNonNull(query);
-        Objects.requireNonNull(account);
-
-        List<Instructor> instructors = getInstructorsByAccountId(account.getId());
-        Set<String> courseIds = new HashSet<>();
-        for (Instructor instructor : instructors) {
-            courseIds.add(instructor.getCourseId());
-        }
-
-        if (courseIds.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<String> requestedCourseIds = query.courseIds();
-        List<String> effectiveCourseIds = requestedCourseIds == null
-                ? new ArrayList<>(courseIds)
-                : requestedCourseIds.stream()
-                        .filter(courseIds::contains)
-                        .toList();
-        if (effectiveCourseIds.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return usersDb.getStudents(new StudentQuery(effectiveCourseIds, query.searchKey(), query.limit()));
-    }
-
-    /**
      * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
@@ -705,19 +638,6 @@ public final class UsersLogic {
         sortByName(studentReturnList);
 
         return studentReturnList;
-    }
-
-    /**
-     * Gets a student by associated {@code regkey}.
-     */
-    public Student getStudentByRegistrationKey(String regKey) {
-        assert regKey != null;
-        User user = getUserByRegistrationKey(regKey);
-        if (user instanceof Student student) {
-            return student;
-        }
-
-        return null;
     }
 
     /**

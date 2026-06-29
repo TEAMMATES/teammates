@@ -4,11 +4,11 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -26,7 +26,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -53,6 +52,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -177,11 +177,11 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -199,7 +199,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -226,6 +225,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -347,11 +347,11 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -369,7 +369,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -396,6 +395,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -517,11 +517,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail={[Function String]}
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
   courseName={[Function String]}
@@ -539,7 +539,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -566,6 +565,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -750,11 +750,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -772,7 +772,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -799,6 +798,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -3818,11 +3818,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -3840,7 +3840,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -3867,6 +3866,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -6924,11 +6924,11 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail={[Function String]}
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -6946,7 +6946,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -6973,6 +6972,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"
@@ -7096,11 +7096,11 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
 <tm-session-submission-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  Intent={[Function Object]}
   accountEmail=""
+  accountId=""
+  accountService={[Function _AccountService]}
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -7118,7 +7118,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function _InstructorService]}
-  intent={[Function String]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -7145,6 +7144,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
   userDeadlineExtension="undefined"
+  userId=""
 >
   <div
     class="alert alert-light border mb-3"

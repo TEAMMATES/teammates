@@ -188,7 +188,6 @@ public final class DataBundleLogic {
                 Account account = accountsMap.get(instructor.getAccountId());
                 instructor.setAccount(account);
             }
-            instructor.generateNewRegistrationKey();
         }
 
         for (FeedbackSession session : sessions) {
@@ -232,7 +231,6 @@ public final class DataBundleLogic {
                 Account account = accountsMap.get(student.getAccountId());
                 student.setAccount(account);
             }
-            student.generateNewRegistrationKey();
         }
 
         for (FeedbackResponse response : responses) {
@@ -341,9 +339,6 @@ public final class DataBundleLogic {
             newPrivileges.updatePrivilege(
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                     courseLevel.isCanSubmitSession());
-            newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                    courseLevel.isCanModifySessionComments());
 
             // Copy and remap section level privileges
             oldPrivileges.getSectionLevelPrivileges().forEach((sectionId, permissions) -> {
@@ -357,10 +352,6 @@ public final class DataBundleLogic {
                             section.getId(),
                             Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                             permissions.isCanSubmitSession());
-                    newPrivileges.updatePrivilege(
-                            section.getId(),
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                            permissions.isCanModifySessionComments());
                 }
             });
 
@@ -383,11 +374,6 @@ public final class DataBundleLogic {
                                 session.getId(),
                                 Const.InstructorPermissions.CAN_SUBMIT_SESSION,
                                 permissions.isCanSubmitSession());
-                        newPrivileges.updatePrivilege(
-                                section.getId(),
-                                session.getId(),
-                                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
-                                permissions.isCanModifySessionComments());
                     }
                 });
             });

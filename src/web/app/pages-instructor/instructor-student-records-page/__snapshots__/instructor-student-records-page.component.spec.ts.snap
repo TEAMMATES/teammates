@@ -4,9 +4,11 @@ exports[`InstructorStudentRecordsPageComponent > should snap when student result
 <tm-instructor-student-records-page
   commentService={[Function _InstructorCommentService]}
   courseId={[Function String]}
+  currentInstructorId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
+  instructorService={[Function _InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
@@ -55,9 +57,11 @@ exports[`InstructorStudentRecordsPageComponent > should snap with default fields
 <tm-instructor-student-records-page
   commentService={[Function _InstructorCommentService]}
   courseId={[Function String]}
+  currentInstructorId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
+  instructorService={[Function _InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
@@ -106,9 +110,11 @@ exports[`InstructorStudentRecordsPageComponent > should snap with populated fiel
 <tm-instructor-student-records-page
   commentService={[Function _InstructorCommentService]}
   courseId={[Function String]}
+  currentInstructorId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
+  instructorService={[Function _InstructorService]}
   isStudentResultsLoading="false"
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}

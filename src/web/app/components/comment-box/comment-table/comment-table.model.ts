@@ -4,6 +4,7 @@ import type { InstructorCommentRowModel, NewCommentRowModel } from '../comment.m
  * Model for CommentTableComponent.
  */
 export interface CommentTableModel {
+  currentInstructorId?: string;
   commentRows: InstructorCommentRowModel[];
   newCommentRow: NewCommentRowModel;
   isAddingNewComment: boolean;

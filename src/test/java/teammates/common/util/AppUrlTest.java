@@ -203,9 +203,9 @@ public class AppUrlTest extends BaseTestCase {
     }
 
     @Test
-    public void withRegistrationKey_addsRegkeyParameter() {
+    public void withKey_addskeyParameter() {
         AppUrl url = new AppUrl("http://www.teammates.tmt/page");
-        AppUrl urlWithKey = url.withRegistrationKey("somekey123");
+        AppUrl urlWithKey = url.withKey("somekey123");
         assertEquals("/page?key=somekey123", urlWithKey.toString());
     }
 

@@ -118,7 +118,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedbac
                         class="sortable-header"
                       >
                         <button>
-                           Question Type 
+                           Question 
                           <span
                             aria-hidden="true"
                             class="fa-stack"
@@ -134,7 +134,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedbac
                         class="sortable-header"
                       >
                         <button>
-                           Question Text 
+                           Type 
                           <span
                             aria-hidden="true"
                             class="fa-stack"
@@ -156,10 +156,10 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedbac
                         />
                       </td>
                       <td>
-                        Essay question
+                        question brief
                       </td>
                       <td>
-                        question brief
+                        Essay question
                       </td>
                     </tr>
                     <tr>
@@ -170,23 +170,14 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedbac
                         />
                       </td>
                       <td>
-                        Multiple-choice (single answer) question
+                        question brief
                       </td>
                       <td>
-                        question brief
+                        Multiple-choice (single answer) question
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  class="btn btn-primary float-end mt-2 mb-3"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="fas fa-redo"
-                  />
-                    Reload 
-                </button>
               </div>
             </div>
           </tm-loading-retry>

@@ -16,7 +16,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * The basic action for feedback submission.
  */
-abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
+abstract class BasicFeedbackSubmissionAction extends SessionKeyAction {
     /**
      * Checks whether instructors can see the question.
      */
@@ -95,7 +95,7 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, feedbackSession.getCourseId(),
                     student.getSectionId(),
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             checkAccessControlForPreview(feedbackSession);
         } else {
@@ -121,7 +121,7 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),

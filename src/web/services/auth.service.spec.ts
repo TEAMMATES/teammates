@@ -2,14 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
-import { Intent } from '../types/api-request';
 import { of } from 'rxjs';
 
 describe('AuthService', () => {
-  const frontendUrl: string = environment.frontendUrl;
-
   let spyHttpRequestService: MockHttpRequestService;
   let service: AuthService;
 
@@ -28,14 +24,6 @@ describe('AuthService', () => {
   it('should execute GET on auth endpoint', () => {
     spyHttpRequestService.get.mockReturnValue(of({ loginUrl: '/login', masquerade: false }));
     service.getAuthUser();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
-  });
-
-  it('should execute GET on auth regkey endpoint', () => {
-    const key = 'key';
-    const intent: Intent = Intent.FULL_DETAIL;
-    const paramMap: Record<string, string> = { key, intent };
-    service.getAuthRegkeyValidity(key, intent);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH_REGKEY, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, {});
   });
 });

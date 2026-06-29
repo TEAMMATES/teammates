@@ -135,23 +135,23 @@ public final class AccountsLogic {
     /**
      * Makes the user join the course, i.e. associate the account to the user.
      */
-    public User joinCourse(String registrationKey, Account account)
+    public User joinCourse(UUID userId, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         Objects.requireNonNull(account);
-        Objects.requireNonNull(registrationKey);
+        Objects.requireNonNull(userId);
 
-        User user = validateJoinRequest(registrationKey, account.getId());
+        User user = validateJoinRequest(userId, account.getId());
         assert user.getAccount() == null;
         user.setAccount(account);
         return user;
     }
 
-    private User validateJoinRequest(String registrationKey, UUID accountId)
+    private User validateJoinRequest(UUID userId, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        User user = usersLogic.getUserByRegistrationKey(registrationKey);
+        User user = usersLogic.getUser(userId);
 
         if (user == null) {
-            throw new EntityDoesNotExistException("No user with given registration key: " + registrationKey);
+            throw new EntityDoesNotExistException("No user with given ID: " + userId);
         }
 
         if (user.isRegistered()) {

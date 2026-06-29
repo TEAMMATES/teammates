@@ -23,18 +23,14 @@ public class GetAuthInfoAction extends PublicAction {
 
     @Override
     public JsonResult execute() {
-        String frontendUrl = getRequestParamValue("frontendUrl");
         String nextUrl = getRequestParamValue("nextUrl");
-        if (frontendUrl == null) {
-            frontendUrl = "";
-        }
         if (nextUrl == null) {
             nextUrl = "";
         }
 
         UserInfo userInfo = userProvision.getUserInfo(requestContext.getAuthContext());
         AuthInfo output = new AuthInfo(
-                createLoginUrl(frontendUrl, nextUrl), userInfo, requestContext.getAuthType() == AuthType.MASQUERADE);
+                createLoginUrl(nextUrl), userInfo, requestContext.getAuthType() == AuthType.MASQUERADE);
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);
@@ -55,10 +51,9 @@ public class GetAuthInfoAction extends PublicAction {
     }
 
     /**
-     * Returns a LoginURL based on the frontendURL and nextURL.
+     * Returns a LoginURL based on the nextURL.
      */
-    public static String createLoginUrl(String frontendUrl, String nextUrl) {
-        String redirectUrl = frontendUrl + nextUrl;
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + URLEncoder.encode(redirectUrl, StandardCharsets.UTF_8);
+    public static String createLoginUrl(String nextUrl) {
+        return Const.WebPageURIs.LOGIN + "?nextUrl=" + URLEncoder.encode(nextUrl, StandardCharsets.UTF_8);
     }
 }

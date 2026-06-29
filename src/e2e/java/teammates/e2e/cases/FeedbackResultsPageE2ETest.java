@@ -8,10 +8,12 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SessionKeyType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.KeyUtil;
 import teammates.e2e.pageobjects.FeedbackResultsPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -50,9 +52,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("unregistered student: can access results");
         Student unregistered = testData.students.get("Unregistered");
-        AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId())
-                .withRegistrationKey(unregistered.getRegKey());
+        AppUrl url = getStudentResultsPageUrl(openSession, unregistered);
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
@@ -141,6 +141,13 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
+    }
+
+    private AppUrl getStudentResultsPageUrl(FeedbackSession session, Student student) {
+        return createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                .withFeedbackSessionId(session.getId())
+                .withKey(KeyUtil.encryptSessionKey(student.getId(), SessionKeyType.RESULTS,
+                        student.getLinkVersion(), session.getId()));
     }
 
     private void verifyLoadedQuestions(Student currentStudent, boolean isPreview) {

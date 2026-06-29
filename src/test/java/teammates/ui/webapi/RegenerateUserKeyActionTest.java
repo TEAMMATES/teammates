@@ -12,13 +12,13 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.Logic;
 import teammates.test.GroupNames;
-import teammates.ui.output.RegenerateKeyData;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
 
 /**
  * Tests for {@link RegenerateUserKeyAction}.
  */
-public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKeyAction, RegenerateKeyData> {
+public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKeyAction, MessageOutput> {
 
     @Test(groups = GroupNames.ACTION)
     public void regenerateUserKeyAction_student_queuesStudentSummaryEmail() {
@@ -29,7 +29,7 @@ public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKe
 
         String studentEmail = inTransaction(() -> Logic.inst().getStudent(given.uuid("student"))).getEmail();
 
-        RegenerateKeyData result = execute(new RequestContext()
+        MessageOutput result = execute(new RequestContext()
                 .withAdminAuth()
                 .withParam(Const.ParamsNames.USER_ID, given.uuid("student").toString()));
 
@@ -48,7 +48,7 @@ public class RegenerateUserKeyActionTest extends BaseActionTest<RegenerateUserKe
 
         String instructorEmail = inTransaction(() -> Logic.inst().getInstructor(given.uuid("instructor"))).getEmail();
 
-        RegenerateKeyData result = execute(new RequestContext()
+        MessageOutput result = execute(new RequestContext()
                 .withAdminAuth()
                 .withParam(Const.ParamsNames.USER_ID, given.uuid("instructor").toString()));
 
