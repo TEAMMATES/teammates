@@ -354,11 +354,8 @@ export interface FeedbackSession extends ApiOutput {
   submissionStartTimestamp: number;
   submissionEndTimestamp: number;
   deletedAtTimestamp?: number;
-  sessionVisibleFromTimestamp?: number;
   resultVisibleFromTimestamp?: number;
   gracePeriod: number;
-  sessionVisibleSetting: SessionVisibleSetting;
-  customSessionVisibleTimestamp?: number;
   responseVisibleSetting: ResponseVisibleSetting;
   customResponseVisibleTimestamp?: number;
   submissionStatus: FeedbackSessionSubmissionStatus;
@@ -825,7 +822,6 @@ export enum FeedbackSessionPublishStatus {
 
 export enum FeedbackSessionSubmissionStatus {
   NOT_VISIBLE = "NOT_VISIBLE",
-  VISIBLE_NOT_OPEN = "VISIBLE_NOT_OPEN",
   OPEN = "OPEN",
   GRACE_PERIOD = "GRACE_PERIOD",
   CLOSED = "CLOSED",
@@ -913,9 +909,4 @@ export enum SessionKeyAccessDecision {
   SIGN_IN_REQUIRED = "SIGN_IN_REQUIRED",
   SIGN_IN_WITH_ANOTHER_ACCOUNT = "SIGN_IN_WITH_ANOTHER_ACCOUNT",
   INVALID_KEY = "INVALID_KEY",
-}
-
-export enum SessionVisibleSetting {
-  CUSTOM = "CUSTOM",
-  AT_OPEN = "AT_OPEN",
 }

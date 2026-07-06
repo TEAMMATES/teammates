@@ -3,6 +3,7 @@ import { LoginMethod } from '../../../types/api-output';
 import { DevServerLoginButtonComponent } from '../login-method-buttons/dev-server-login-button/dev-server-login-button.component';
 import { GoogleLoginButtonComponent } from '../login-method-buttons/google-login-button/google-login-button.component';
 import { environment } from '../../../environments/environment';
+import { QueryParamKeys } from '../../../types/api-const';
 
 @Component({
   selector: 'tm-login-method-buttons-container',
@@ -31,8 +32,8 @@ export class LoginMethodButtonsContainerComponent {
 
   private getCompleteLoginUrl(method: LoginMethod): string {
     const url = new URL(this.backendLoginUrl, globalThis.location.origin);
-    url.searchParams.set('nextUrl', this.nextUrl() || '/');
-    url.searchParams.set('loginMethod', method);
+    url.searchParams.set(QueryParamKeys.NEXT_URL, this.nextUrl() || '/');
+    url.searchParams.set(QueryParamKeys.LOGIN_METHOD, method);
     return url.toString();
   }
 }

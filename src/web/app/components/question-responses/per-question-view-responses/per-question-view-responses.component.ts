@@ -10,7 +10,6 @@ import {
   FeedbackSessionSubmissionStatus,
   ResponseOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -59,7 +58,6 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

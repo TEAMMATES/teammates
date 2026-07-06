@@ -28,7 +28,6 @@ import {
   AuthInfo,
   MessageOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -498,34 +497,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       isModified = true;
     }
 
-    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
-    let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
-      .tz(newTimeZone)
-      .subtract(30, 'days')
-      .valueOf();
-    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
-      .tz(newTimeZone)
-      .subtract(30, 'days')
-      .startOf('hour')
-      .valueOf();
-    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
-        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
-        isModified = true;
-      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
-        copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-        isModified = true;
-      }
-    }
-
     let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
     const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
     if (
       copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM &&
-      ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN &&
-        copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp) ||
-        copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)
+      copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp
     ) {
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
       isModified = true;
@@ -542,19 +518,11 @@ export class InstructorCoursesPageComponent implements OnInit {
             fromFeedbackSession.submissionEndTimestamp,
             fromFeedbackSession.timeZone,
           ),
-          sessionVisibleTimestamp:
-            fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-              ? 'On submission opening time'
-              : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
         newTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
           submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
-          sessionVisibleTimestamp:
-            copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-              ? 'On submission opening time'
-              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
       };
@@ -590,9 +558,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       submissionStartTimestamp: copiedSubmissionStartTimestamp,
       submissionEndTimestamp: copiedSubmissionEndTimestamp,
       gracePeriod: fromFeedbackSession.gracePeriod,
-
-      sessionVisibleSetting: copiedSessionVisibleSetting,
-      customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
 
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
@@ -847,7 +812,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 interface SessionTimestampData {
   submissionStartTimestamp: string;
   submissionEndTimestamp: string;
-  sessionVisibleTimestamp: string;
   responseVisibleTimestamp: string;
 }
 

@@ -17,7 +17,6 @@ import {
   FeedbackSessionView,
   FeedbackSessions,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   MessageOutput,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -246,7 +245,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     // Submission closes at the end of tomorrow (represented as the following midnight, i.e. 23:59 displayed).
     this.sessionEditFormModel.submissionEndTimestamp = moment().tz(timeZone).add(2, 'days').startOf('day').valueOf();
 
-    this.sessionEditFormModel.customSessionVisibleTimestamp = this.sessionEditFormModel.submissionStartTimestamp;
     this.sessionEditFormModel.customResponseVisibleTimestamp = this.sessionEditFormModel.submissionEndTimestamp;
   }
 
@@ -258,10 +256,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp;
     const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp;
-    let sessionVisibleTime = 0;
-    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp;
-    }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp;
@@ -275,9 +269,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         submissionStartTimestamp: submissionStartTime,
         submissionEndTimestamp: submissionEndTime,
         gracePeriod: this.sessionEditFormModel.gracePeriod,
-
-        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-        customSessionVisibleTimestamp: sessionVisibleTime,
 
         responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
         customResponseVisibleTimestamp: responseVisibleTime,

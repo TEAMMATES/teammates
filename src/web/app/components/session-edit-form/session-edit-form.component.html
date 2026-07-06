@@ -382,63 +382,6 @@
               <div class="col-12">
                 <label
                   class="ngb-tooltip-class label-control font-bold"
-                  ngbTooltip="Session can be visible before it is open for submissions so that users can preview the questions."
-                  >Make session visible
-                </label>
-              </div>
-            </div>
-            <div class="row mt-md-2 ms-md-1">
-              <div class="col-md-2 mt-md-1">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      id="session-visibility-custom"
-                      class="form-check-input"
-                      type="radio"
-                      name="sessionVisibleRadio"
-                      [value]="SessionVisibleSetting.CUSTOM"
-                      [ngModel]="model.sessionVisibleSetting"
-                      (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)"
-                      [disabled]="!model.isEditable"
-                    />
-                    At
-                  </label>
-                </div>
-              </div>
-              <div id="session-visibility-datetime" class="col-md-10">
-                <tm-datetimepicker
-                  [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"
-                  [timestamp]="model.customSessionVisibleTimestamp"
-                  [minTimestamp]="minTimestampForSessionVisible"
-                  [maxTimestamp]="maxTimestampForSessionVisible"
-                  [timeZone]="model.timeZone"
-                  (timestampChange)="triggerModelChange('customSessionVisibleTimestamp', $event)"
-                ></tm-datetimepicker>
-              </div>
-            </div>
-            <div class="row mt-md-1 ms-md-3">
-              <div class="col-12 form-check">
-                <label class="form-check-label">
-                  <input
-                    id="session-visibility-at-open"
-                    class="form-check-input"
-                    type="radio"
-                    name="sessionVisibleRadio"
-                    [value]="SessionVisibleSetting.AT_OPEN"
-                    [ngModel]="model.sessionVisibleSetting"
-                    (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)"
-                    [disabled]="!model.isEditable"
-                  />
-                  Submission opening time
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-start">
-            <div class="row ms-md-1">
-              <div class="col-12">
-                <label
-                  class="ngb-tooltip-class label-control font-bold"
                   ngbTooltip="Make responses for the feedback session visible to designated recipients."
                   >Make response visible
                 </label>

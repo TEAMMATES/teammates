@@ -28,7 +28,6 @@ import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.GroupNames;
 import teammates.ui.output.ResponseVisibleSetting;
-import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -206,7 +205,6 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
                 TimeHelper.getInstantHoursOffsetFromNow(24)
         );
-        Instant newSessionVisibleFromTime = newStartTime;
         Instant newResultsVisibleFromTime = TimeHelper.getInstantNearestHourBefore(
                 TimeHelper.getInstantHoursOffsetFromNow(48)
         );
@@ -214,11 +212,9 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("new instructions");
         updateRequest.setGracePeriod(60);
-        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
-        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleFromTime.toEpochMilli());
         updateRequest.setCustomResponseVisibleTimestamp(newResultsVisibleFromTime.toEpochMilli());
         updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
@@ -227,7 +223,6 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(updateRequest.getInstructions(), updatedFs.getInstructions());
         assertEquals(updateRequest.getGracePeriod(), updatedFs.getGracePeriod());
-        assertEquals(updateRequest.getSessionVisibleFromTime(), updatedFs.getSessionVisibleFromTime());
         assertEquals(updateRequest.getResultsVisibleFromTime(), updatedFs.getResultsVisibleFromTime());
         assertEquals(updateRequest.getSubmissionStartTime(), updatedFs.getStartTime());
         assertEquals(updateRequest.getSubmissionEndTime(), updatedFs.getEndTime());

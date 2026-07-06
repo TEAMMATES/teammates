@@ -27,7 +27,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
@@ -185,7 +184,6 @@ describe('CourseEditFormComponent', () => {
       submissionStartTimestamp: 1000000000000,
       submissionEndTimestamp: 1500000000000,
       gracePeriod: 0,
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
       responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
       submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
       publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

@@ -17,7 +17,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
@@ -86,7 +85,6 @@ describe('InstructorStudentActivityLogsComponent', () => {
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 1549095330000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

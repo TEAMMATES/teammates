@@ -59,7 +59,6 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         feedbackSession.setGracePeriod(Duration.ofMinutes(20));
-        feedbackSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         feedbackSession.setClosingSoonEmailEnabled(false);
 

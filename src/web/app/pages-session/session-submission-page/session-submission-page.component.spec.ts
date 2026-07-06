@@ -48,7 +48,6 @@ import {
   QuestionRecipientType,
   ResponseVisibleSetting,
   SessionSubmission,
-  SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
@@ -73,7 +72,6 @@ describe('SessionSubmissionPageComponent', () => {
     submissionStartTimestamp: 1000000000000,
     submissionEndTimestamp: Date.now() + Milliseconds.IN_TEN_MINUTES, // 10 minutes before closing
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -732,26 +730,6 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.feedbackSessionInstructions).toEqual(testClosedFeedbackSession.instructions);
     expect(component.feedbackSessionSubmissionStatus).toEqual(testClosedFeedbackSession.submissionStatus);
     expect(component.feedbackSessionTimezone).toEqual(testClosedFeedbackSession.timeZone);
-    expect(component.isSubmissionFormsDisabled).toEqual(true);
-  });
-
-  it('should load a visible not open feedback session', () => {
-    const testVisibleNotOpenFeedbackSession: FeedbackSession = structuredClone(testOpenFeedbackSession);
-    testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-    const fsSpy = vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
-
-    component.loadFeedbackSession();
-
-    expect(fsSpy).toHaveBeenCalledTimes(1);
-    expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Not Open', SimpleModalType.WARNING, expect.anything());
-    expect(component.feedbackSessionInstructions).toEqual(testVisibleNotOpenFeedbackSession.instructions);
-    expect(component.feedbackSessionSubmissionStatus).toEqual(testVisibleNotOpenFeedbackSession.submissionStatus);
-    expect(component.feedbackSessionTimezone).toEqual(testVisibleNotOpenFeedbackSession.timeZone);
     expect(component.isSubmissionFormsDisabled).toEqual(true);
   });
 

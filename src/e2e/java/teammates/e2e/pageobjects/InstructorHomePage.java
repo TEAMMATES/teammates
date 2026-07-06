@@ -163,7 +163,7 @@ public class InstructorHomePage extends AppPage {
 
         if (session.isClosed()) {
             details[3] = "Closed";
-        } else if (session.isVisible() && (session.isOpened() || session.isInGracePeriod())) {
+        } else if (session.isOpened() || session.isInGracePeriod()) {
             details[3] = "Open";
         } else {
             details[3] = "Awaiting";

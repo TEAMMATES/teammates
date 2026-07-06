@@ -25,7 +25,6 @@ import {
   QuestionRecipientType,
   UserSessionResults,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 
 describe('SessionResultPageComponent', () => {
@@ -38,7 +37,6 @@ describe('SessionResultPageComponent', () => {
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 1549095330000,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -185,7 +183,6 @@ describe('SessionResultPageComponent', () => {
       submissionStartTimestamp: 1555232400,
       submissionEndTimestamp: 1555233400,
       gracePeriod: 0,
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
       responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
       submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
       publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

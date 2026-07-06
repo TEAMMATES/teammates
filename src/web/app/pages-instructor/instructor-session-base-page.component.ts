@@ -22,7 +22,6 @@ import {
   FeedbackSessionSubmissionStatus,
   FeedbackSessionView,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../types/api-output';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
@@ -75,9 +74,6 @@ export abstract class InstructorSessionBasePageComponent {
     submissionStartTimestamp: Date.now(),
     submissionEndTimestamp: Date.now(),
     gracePeriod: 0,
-
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: Date.now(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     customResponseVisibleTimestamp: Date.now(),
@@ -160,34 +156,11 @@ export abstract class InstructorSessionBasePageComponent {
       isModified = true;
     }
 
-    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
-    let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
-      .tz(fromFeedbackSession.timeZone)
-      .subtract(30, 'days')
-      .valueOf();
-    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
-      .tz(fromFeedbackSession.timeZone)
-      .subtract(30, 'days')
-      .startOf('hour')
-      .valueOf();
-    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
-        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
-        isModified = true;
-      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
-        copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-        isModified = true;
-      }
-    }
-
     let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
     const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
     if (
       copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM &&
-      ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN &&
-        copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp) ||
-        copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)
+      copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp
     ) {
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
       isModified = true;
@@ -206,19 +179,11 @@ export abstract class InstructorSessionBasePageComponent {
             fromFeedbackSession.submissionEndTimestamp,
             fromFeedbackSession.timeZone,
           ),
-          sessionVisibleTimestamp:
-            fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-              ? 'On submission opening time'
-              : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
         newTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
           submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
-          sessionVisibleTimestamp:
-            copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-              ? 'On submission opening time'
-              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
       };
@@ -254,9 +219,6 @@ export abstract class InstructorSessionBasePageComponent {
       submissionStartTimestamp: copiedSubmissionStartTimestamp,
       submissionEndTimestamp: copiedSubmissionEndTimestamp,
       gracePeriod: fromFeedbackSession.gracePeriod,
-
-      sessionVisibleSetting: copiedSessionVisibleSetting,
-      customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
 
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
@@ -641,7 +603,6 @@ export abstract class InstructorSessionBasePageComponent {
 interface SessionTimestampData {
   submissionStartTimestamp: string;
   submissionEndTimestamp: string;
-  sessionVisibleTimestamp: string;
   responseVisibleTimestamp: string;
 }
 

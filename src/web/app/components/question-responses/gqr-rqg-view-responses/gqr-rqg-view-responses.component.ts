@@ -9,7 +9,6 @@ import {
   QuestionOutput,
   ResponseOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { NO_SPECIFIC_SECTION_ID } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
@@ -61,7 +60,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

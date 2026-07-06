@@ -112,8 +112,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 .getHour();
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(7))
                 .withHour(endHour).truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession.setSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone()))
-                .minus(Duration.ofDays(28)).withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 

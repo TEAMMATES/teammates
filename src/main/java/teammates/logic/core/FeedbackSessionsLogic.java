@@ -750,11 +750,7 @@ public final class FeedbackSessionsLogic {
         if (feedbackSession.isOpened()) {
             return FeedbackSessionSubmissionStatus.OPEN;
         }
-        if (feedbackSession.isClosed()) {
-            return FeedbackSessionSubmissionStatus.CLOSED;
-        }
-
-        return FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+        return FeedbackSessionSubmissionStatus.CLOSED;
     }
 
     /**
@@ -900,9 +896,8 @@ public final class FeedbackSessionsLogic {
         String timeZone = course.getTimeZone();
         Instant startTime = createRequest.getSubmissionStartTime();
         Instant endTime = createRequest.getSubmissionEndTime();
-        Instant sessionVisibleTime = createRequest.getSessionVisibleFromTime();
 
-        validateNewFeedbackSessionTiming(null, timeZone, startTime, endTime, sessionVisibleTime);
+        validateNewFeedbackSessionTiming(null, timeZone, startTime, endTime);
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
@@ -910,7 +905,6 @@ public final class FeedbackSessionsLogic {
                 createRequest.getInstructions(),
                 startTime,
                 endTime,
-                sessionVisibleTime,
                 createRequest.getResultsVisibleFromTime(),
                 createRequest.getGracePeriod(),
                 createRequest.isClosingSoonEmailEnabled(),
@@ -959,16 +953,14 @@ public final class FeedbackSessionsLogic {
         String timeZone = session.getCourse().getTimeZone();
         Instant startTime = updateRequest.getSubmissionStartTime();
         Instant endTime = updateRequest.getSubmissionEndTime();
-        Instant sessionVisibleTime = updateRequest.getSessionVisibleFromTime();
         Instant resultsVisibleTime = updateRequest.getResultsVisibleFromTime();
 
-        validateNewFeedbackSessionTiming(session, timeZone, startTime, endTime, sessionVisibleTime);
+        validateNewFeedbackSessionTiming(session, timeZone, startTime, endTime);
 
         session.setInstructions(updateRequest.getInstructions());
         session.setStartTime(startTime);
         session.setEndTime(endTime);
         session.setGracePeriod(updateRequest.getGracePeriod());
-        session.setSessionVisibleFromTime(sessionVisibleTime);
         session.setResultsVisibleFromTime(resultsVisibleTime);
         session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
         session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
@@ -984,11 +976,9 @@ public final class FeedbackSessionsLogic {
      * Validates that the new timing fields of the feedback session are valid.
      */
     private void validateNewFeedbackSessionTiming(FeedbackSession session, String timeZone,
-            Instant newStartTime, Instant newEndTime, Instant newSessionVisibleTime) throws InvalidParametersException {
+            Instant newStartTime, Instant newEndTime) throws InvalidParametersException {
         boolean isStartTimeChanged = session == null || !newStartTime.equals(session.getStartTime());
         boolean isEndTimeChanged = session == null || !newEndTime.equals(session.getEndTime());
-        boolean isSessionVisibleTimeChanged = session == null
-                || !newSessionVisibleTime.equals(session.getSessionVisibleFromTime());
 
         if (isStartTimeChanged) {
             String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(newStartTime, timeZone);
@@ -1001,15 +991,6 @@ public final class FeedbackSessionsLogic {
             String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(newEndTime, timeZone);
             if (!endTimeError.isEmpty()) {
                 throw new InvalidParametersException("Invalid submission closing time: " + endTimeError);
-            }
-        }
-
-        if (isSessionVisibleTimeChanged) {
-            String visibilityStartAndSessionStartTimeError = FieldValidator
-                    .getInvalidityInfoForTimeForNewVisibilityStart(newSessionVisibleTime, newStartTime);
-            if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
-                throw new InvalidParametersException("Invalid session visible time: "
-                        + visibilityStartAndSessionStartTimeError);
             }
         }
     }
@@ -1118,7 +1099,7 @@ public final class FeedbackSessionsLogic {
      * Returns true if there are any questions for the specified user type (students/instructors) to answer.
      */
     public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSession session, boolean isInstructor) {
-        if (!session.isVisible()) {
+        if (!session.isOpened() && !session.isInGracePeriod()) {
             return false;
         }
 

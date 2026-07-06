@@ -46,16 +46,6 @@
       <tr
         [ngClass]="{
           'text-color-lightgray':
-            session.value.oldTimestamp.sessionVisibleTimestamp === session.value.newTimestamp.sessionVisibleTimestamp,
-        }"
-      >
-        <td>Session visible time</td>
-        <td>{{ session.value.oldTimestamp.sessionVisibleTimestamp }}</td>
-        <td>{{ session.value.newTimestamp.sessionVisibleTimestamp }}</td>
-      </tr>
-      <tr
-        [ngClass]="{
-          'text-color-lightgray':
             session.value.oldTimestamp.responseVisibleTimestamp === session.value.newTimestamp.responseVisibleTimestamp,
         }"
       >

@@ -58,14 +58,12 @@ public final class Const {
 
     public static final String GENERAL_QUESTION = "%GENERAL%";
 
-    public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;
     public static final Instant TIME_REPRESENTS_LATER;
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31T00:00:00Z");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22T00:00:00Z");
         TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01T00:00:00Z");
         TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14T00:00:00Z");
@@ -169,6 +167,11 @@ public final class Const {
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
         public static final String NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive";
+
+        public static final String NEXT_URL = "nextUrl";
+        public static final String LOGIN_METHOD = "loginMethod";
+        public static final String EMAIL = "email";
+        public static final String AUTH_STATE = "state";
     }
 
     /**

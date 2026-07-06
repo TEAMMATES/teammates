@@ -62,7 +62,7 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_noAuthCookie_redirectsToLoginHandlerUrl() throws Exception {
-        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
@@ -74,7 +74,7 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_loginHandlerThrows_returnsInternalServerError() throws Exception {
-        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/")))
                 .thenThrow(new AuthException("Login failed"));
 
@@ -89,7 +89,7 @@ public class LoginServletTest extends BaseTestCase {
     public void doGet_validCookieForExistingAccount_redirectsToNextUrl() throws Exception {
         Account account = new Account(Provider.GOOGLE, "google-subject", Account.NO_TENANT, "user@example.com");
         req.addCookie(getAuthCookie(account.getId()));
-        req.addParam("nextUrl", "/web/instructor/home");
+        req.addParam(Const.ParamsNames.NEXT_URL, "/web/instructor/home");
         when(accountsLogic.getAccount(any())).thenReturn(account);
 
         try (MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
@@ -105,7 +105,7 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_validCookieForMissingAccount_redirectsToLoginHandlerUrl() throws Exception {
         req.addCookie(getAuthCookie(UUID.randomUUID()));
-        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, LoginMethod.GOOGLE.getMethod());
         when(accountsLogic.getAccount(any())).thenReturn(null);
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
@@ -123,7 +123,7 @@ public class LoginServletTest extends BaseTestCase {
     @Test
     public void doGet_invalidCookie_redirectsToLoginHandlerUrl() throws Exception {
         req.addCookie(new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, "not-an-auth-cookie"));
-        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, LoginMethod.GOOGLE.getMethod());
         when(loginHandler.handleLogin(any(), eq("/"))).thenReturn("/oauthLogin");
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, true)) {
@@ -135,7 +135,7 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_invalidLoginMethod_returnsBadRequest() throws Exception {
-        req.addParam("loginMethod", "invalid-method");
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, "invalid-method");
 
         servlet.doGet(req, resp);
 
@@ -144,7 +144,7 @@ public class LoginServletTest extends BaseTestCase {
 
     @Test
     public void doGet_unsupportedLoginMethod_returnsBadRequest() throws Exception {
-        req.addParam("loginMethod", LoginMethod.GOOGLE.getMethod());
+        req.addParam(Const.ParamsNames.LOGIN_METHOD, LoginMethod.GOOGLE.getMethod());
 
         try (MockedStatic<Config> ignored = mockSupportedLoginMethod(LoginMethod.GOOGLE, false)) {
             servlet.doGet(req, resp);

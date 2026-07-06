@@ -10,6 +10,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -111,7 +112,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
      */
     private AuthState getValidAuthStateFromCallback(HttpServletRequest req)
             throws IOException, AuthException {
-        String encryptedState = req.getParameter("state");
+        String encryptedState = req.getParameter(Const.ParamsNames.AUTH_STATE);
         if (encryptedState == null) {
             throw new AuthException("Missing or invalid state parameter");
         }

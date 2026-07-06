@@ -35,6 +35,11 @@ export enum DefaultInstructorPermissions {
   CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false}",
 }
 
+export enum QueryParamKeys {
+  NEXT_URL = "nextUrl",
+  LOGIN_METHOD = "loginMethod",
+}
+
 export enum QuestionTypeStructures {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS = "{\"questionType\":\"CONTRIB\",\"questionText\":\"\",\"isZeroSum\":true,\"isNotSureAllowed\":false}",
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS = "{\"questionType\":\"CONTRIB\",\"answer\":-999}",

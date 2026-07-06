@@ -24,7 +24,6 @@ import {
   Instructor,
   UserQuestionOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
@@ -69,7 +68,6 @@ export class SessionResultPageComponent implements OnInit {
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

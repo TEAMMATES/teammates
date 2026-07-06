@@ -231,7 +231,6 @@ public final class FeedbackSessionsDb {
         Join<FeedbackSession, Course> courseJoin = root.join("course");
         Instant now = Instant.now();
         Predicate nonSpecialResultsVisibleTime = root.get("resultsVisibleFromTime").in(
-                Const.TIME_REPRESENTS_FOLLOW_OPENING,
                 Const.TIME_REPRESENTS_FOLLOW_VISIBLE,
                 Const.TIME_REPRESENTS_LATER,
                 Const.TIME_REPRESENTS_NOW).not();
