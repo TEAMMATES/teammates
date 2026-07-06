@@ -38,11 +38,7 @@ jobs:
       - name: Start Docker services
         run: docker compose up -d
       - name: Create Config Files
-        run: ./gradlew createConfigs
-      - name: Set CI Frontend URL
-        run: sed -i 's#^app.frontend.url *=.*#app.frontend.url = http\\://localhost:8080#' src/main/resources/build-dev.properties
-      - name: Compile Test Classes
-        run: ./gradlew testClasses
+        run: ./gradlew createConfigs testClasses
       - name: Install Frontend Dependencies
         run: npm ci
       - name: Build Frontend Bundle
