@@ -25,10 +25,8 @@ export class AuthService {
       return of(cached);
     }
 
-    const params: Record<string, string> = {};
-
     return this.httpRequestService
-      .get<AuthInfo>(ResourceEndpoints.AUTH, params)
+      .get<AuthInfo>(ResourceEndpoints.AUTH)
       .pipe(tap((authInfo: AuthInfo) => this.authInfo.set(authInfo)));
   }
 
