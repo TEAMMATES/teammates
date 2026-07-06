@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
+import { ResourceEndpoints } from '../types/api-const';
 import { AuthInfo } from '../types/api-output';
 
 /**
