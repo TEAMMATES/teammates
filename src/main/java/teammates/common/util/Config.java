@@ -310,7 +310,7 @@ public final class Config {
     /**
      * Returns the backend URL for local development.
      */
-    public static String getLocalBackEndUrl() {
+    public static String getLocalBackendUrl() {
         return "http://localhost:" + getPort();
     }
 

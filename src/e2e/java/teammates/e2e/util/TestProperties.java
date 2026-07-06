@@ -69,7 +69,7 @@ public final class TestProperties {
             }
 
             TEAMMATES_FRONTEND_URL = Config.APP_FRONTEND_URL;
-            TEAMMATES_BACKEND_URL = Config.getLocalBackEndUrl();
+            TEAMMATES_BACKEND_URL = Config.getLocalBackendUrl();
 
             TEST_ADMIN = prop.getProperty("test.admin");
 

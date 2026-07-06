@@ -165,14 +165,7 @@ npm run build
 ```
 
 <box type="important">
-If you run the frontend and backend separately, ensure the frontend URL in build-dev.properties is set to the
-frontend server:
-
-```
-app.frontend.url=http\://localhost:4200
-```
-
-Then start both the frontend and backend servers.
+If you run the frontend and backend separately on different ports (check <code>app.frontend.url</code> in <code>build-dev.properties</code>), ensure you have started both the frontend and backend servers.
 
 ```
 npm run start
@@ -189,14 +182,7 @@ gradlew.bat serverRun
 ```
 
 <box type="important">
-If you run the frontend and backend separately, ensure the frontend URL in build-dev.properties is set to the
-frontend server:
-
-```
-app.frontend.url=http\://localhost:4200
-```
-
-Then start both the frontend and backend servers.
+If you run the frontend and backend separately on different ports (check <code>app.frontend.url</code> in <code>build-dev.properties</code>), ensure you have started both the frontend and backend servers.
 
 ```
 npm run start
