@@ -23,8 +23,7 @@ export class RequestPageComponent implements OnInit {
   readonly submittedFormData = signal<InstructorRequestFormModel | null>(null);
 
   ngOnInit(): void {
-    const nextUrl = globalThis.location.pathname;
-    this.authService.getAuthUser(nextUrl).subscribe({
+    this.authService.getAuthUser().subscribe({
       next: (auth: AuthInfo) => {
         this.authInfo.set(auth);
         this.isLoading.set(false);

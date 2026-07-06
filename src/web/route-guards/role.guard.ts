@@ -25,7 +25,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const expectedRole: UserRole = route.data['role'];
 
-    return this.authService.getAuthUser(state.url).pipe(
+    return this.authService.getAuthUser().pipe(
       map((authInfo: AuthInfo) => {
         if (!authInfo.user) {
           return this.redirectToLogin(state.url);

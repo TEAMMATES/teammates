@@ -155,7 +155,7 @@ export class PageComponent implements OnInit {
 
     this.isFetchingAuthDetails = true;
     this.authService
-      .getAuthUser(this.router.url)
+      .getAuthUser()
       .pipe(
         finalize(() => {
           this.isFetchingAuthDetails = false;

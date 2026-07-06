@@ -19,16 +19,13 @@ export class AuthService {
    * Gets the user authentication information.
    * Returns the cached value if the user is already authenticated, otherwise fetches from the server.
    */
-  getAuthUser(nextUrl?: string): Observable<AuthInfo> {
+  getAuthUser(): Observable<AuthInfo> {
     const cached = this.authInfo();
     if (cached?.user) {
       return of(cached);
     }
 
     const params: Record<string, string> = {};
-    if (nextUrl) {
-      params[QueryParamKeys.NEXT_URL] = nextUrl;
-    }
 
     return this.httpRequestService
       .get<AuthInfo>(ResourceEndpoints.AUTH, params)
