@@ -13,7 +13,7 @@ import { AuthInfo } from '../types/api-output';
 export class AuthService {
   private httpRequestService = inject(HttpRequestService);
 
-  private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
+  private authInfo = signal<AuthInfo>({ masquerade: false });
 
   /**
    * Gets the user authentication information.
@@ -39,6 +39,6 @@ export class AuthService {
    * Clears the cached authentication information.
    */
   clearAuthCache(): void {
-    this.authInfo.set({ loginUrl: '/', masquerade: false });
+    this.authInfo.set({ masquerade: false });
   }
 }

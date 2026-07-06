@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { AuthInfo } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -18,13 +17,10 @@ import { InstructorRequestFormModel } from './instructor-request-form/instructor
 })
 export class RequestPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
-  private readonly backendUrl: string = environment.backendUrl;
 
   readonly isLoading = signal(true);
   readonly authInfo = signal<AuthInfo | null>(null);
   readonly submittedFormData = signal<InstructorRequestFormModel | null>(null);
-
-  readonly loginUrl = computed(() => `${this.backendUrl}${this.authInfo()?.loginUrl ?? '/'}`);
 
   ngOnInit(): void {
     const nextUrl = globalThis.location.pathname;
