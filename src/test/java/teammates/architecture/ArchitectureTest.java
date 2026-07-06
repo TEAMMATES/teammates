@@ -356,6 +356,14 @@ public class ArchitectureTest {
     }
 
     @Test
+    public void testArchitecture_e2e_onlyTestPropertiesShouldAccessConfig() {
+        noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
+                 .and().doNotHaveFullyQualifiedName("teammates.e2e.util.TestProperties")
+                 .should().accessClassesThat().haveSimpleName("Config")
+                 .check(forClasses(E2E_PACKAGE));
+    }
+
+    @Test
     public void testArchitecture_e2e_e2eTestCasesShouldBeIndependentOfEachOther() {
         noClasses().that(new DescribedPredicate<>("") {
             @Override
