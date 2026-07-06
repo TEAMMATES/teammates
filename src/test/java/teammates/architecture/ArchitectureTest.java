@@ -353,10 +353,6 @@ public class ArchitectureTest {
                     }
                 })
                 .check(forClasses(E2E_PACKAGE));
-
-        noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
-                .should().accessClassesThat().haveSimpleName("Config")
-                .check(forClasses(E2E_PACKAGE));
     }
 
     @Test

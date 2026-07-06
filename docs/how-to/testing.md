@@ -165,11 +165,11 @@ npm run build
 ```
 
 <box type="important">
-If you run the frontend and backend separately update your URLs in test.properties:
+If you run the frontend and backend separately, ensure the frontend URL in `build-dev.properties` is set to the
+frontend server:
 
 ```
-test.app.frontend.url=http://localhost:4200
-test.app.backend.url=http://localhost:8080
+app.frontend.url=http://localhost:4200
 ```
 
 Then start both the frontend and backend servers.
@@ -189,11 +189,11 @@ gradlew.bat serverRun
 ```
 
 <box type="important">
-If you run the frontend and backend separately update your URLs in test.properties:
+If you run the frontend and backend separately, ensure the frontend URL in `build-dev.properties` is set to the
+frontend server:
 
 ```
-test.app.frontend.url=http://localhost:4200
-test.app.backend.url=http://localhost:8080
+app.frontend.url=http://localhost:4200
 ```
 
 Then start both the frontend and backend servers.
@@ -209,7 +209,9 @@ gradlew.bat serverRun
 
 2. Configure `src/e2e/resources/test.properties`:
    - Browser to use (`test.selenium.browser`)
-   - Server URLs (`test.app.frontend.url`, `test.app.backend.url`)
+   - Test keys (`test.csrf.key`, `test.backdoor.key`)
+
+   Server URLs are taken from the application configuration.
 
 <br>
 
