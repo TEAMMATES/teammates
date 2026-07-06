@@ -45,9 +45,13 @@ jobs:
         run: npm run build
       - name: Run DB Migrations
         run: ./gradlew liquibaseUpdate -PrunList=main
-      - name: Start Server
+      - name: Start Backend Server
         run: |
           ./gradlew serverRun &
-          ./wait-for-server.sh
+          ./wait-for-server.sh 8080 /ping
+      - name: Start Frontend Server
+        run: |
+          npm run start &
+          ./wait-for-server.sh 4200
       - name: Start Axe Tests
         run: ./gradlew axeTests
