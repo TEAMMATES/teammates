@@ -40,7 +40,7 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams['key'];
 
       const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
-      this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
+      this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
           this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
