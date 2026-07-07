@@ -27,14 +27,14 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
-        classpath "org.liquibase:liquibase-core:4.27.0"
+        classpath "org.liquibase:liquibase-core:5.0.3"
     }
 }
 
 configurations {
     staticAnalysis
 
-    liquibaseRuntime.extendsFrom testImplementation
+    liquibaseRuntime.extendsFrom implementation
 }
 
 
@@ -82,7 +82,6 @@ dependencies {
     testImplementation("com.deque.html.axe-core:selenium:4.11.2")
     testImplementation(testng)
     testImplementation("org.testcontainers:testcontainers-postgresql:2.0.5")
-    testImplementation("org.liquibase:liquibase-core:5.0.3")
     testImplementation("org.mockito:mockito-core:5.21.0")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
