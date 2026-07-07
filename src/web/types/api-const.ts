@@ -38,6 +38,13 @@ export enum DefaultInstructorPermissions {
 export enum QueryParamKeys {
   NEXT_URL = "nextUrl",
   LOGIN_METHOD = "loginMethod",
+  FEEDBACK_SESSION_ID = "fsid",
+  FEEDBACK_SESSION_START_TIME = "starttime",
+  FEEDBACK_SESSION_END_TIME = "endtime",
+  FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson",
+  FEEDBACK_SESSION_LOG_START_TIME = "fslstarttime",
+  FEEDBACK_SESSION_LOG_END_TIME = "fslendtime",
+  FEEDBACK_SESSION_LOG_TYPE = "fsltype",
 }
 
 export enum QuestionTypeStructures {

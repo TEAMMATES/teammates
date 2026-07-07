@@ -61,6 +61,7 @@ import type { GiverCommentRowModel } from '../../components/comment-box/comment.
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
+import { QueryParamKeys } from '../../../types/api-const';
 
 describe('SessionSubmissionPageComponent', () => {
   const testOpenFeedbackSession: FeedbackSession = {
@@ -475,17 +476,17 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const testQueryParams = {
-    fsid: '00000000-0000-4000-8000-000000000001',
+    [QueryParamKeys.FEEDBACK_SESSION_ID]: '00000000-0000-4000-8000-000000000001',
     key: 'reg-key',
   };
 
   const getFeedbackSessionArgs = {
-    feedbackSessionId: testQueryParams.fsid,
+    feedbackSessionId: testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID],
     key: testQueryParams.key,
   };
 
   const getSessionSubmissionDataArgs = {
-    feedbackSessionId: testQueryParams.fsid,
+    feedbackSessionId: testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID],
     intent: Intent.STUDENT_SUBMISSION,
     key: testQueryParams.key,
     moderatedPerson: '',
@@ -548,7 +549,7 @@ describe('SessionSubmissionPageComponent', () => {
     studentService = TestBed.inject(StudentService);
     courseService = TestBed.inject(CourseService);
     component = fixture.componentInstance;
-    component.feedbackSessionId = testQueryParams.fsid;
+    component.feedbackSessionId = testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID];
     component.key = testQueryParams.key;
 
     // Default stubs for all service calls in the loadFeedbackSession pipeline.
@@ -660,7 +661,7 @@ describe('SessionSubmissionPageComponent', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
     expect(component.entityType).toEqual('student');
-    expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
+    expect(component.feedbackSessionId).toEqual(testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID]);
     expect(component.key).toEqual(testQueryParams.key);
     expect(component.accountEmail).toEqual(testInfo.user?.accountEmail);
   });
@@ -688,7 +689,9 @@ describe('SessionSubmissionPageComponent', () => {
     );
     expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams.fsid}/submission`);
+    expect(navSpy).toHaveBeenLastCalledWith(
+      `/web/student/sessions/${testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID]}/submission`,
+    );
   });
 
   it('should load an open feedback session', () => {

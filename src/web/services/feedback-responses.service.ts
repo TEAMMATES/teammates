@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
@@ -196,7 +196,7 @@ export class FeedbackResponsesService {
       questionid: queryParams.questionId,
       intent: queryParams.intent,
       key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: queryParams.moderatedPerson,
     };
     return this.httpRequestService.get(ResourceEndpoints.RESPONSES, paramMap);
   }
@@ -210,13 +210,13 @@ export class FeedbackResponsesService {
     params: {
       intent: Intent;
       key: string;
-      moderatedperson: string;
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: string;
     },
   ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSES,
       {
-        fsid: feedbackSessionId,
+        [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
         ...params,
       },
       request,
@@ -230,13 +230,13 @@ export class FeedbackResponsesService {
     responseId: string;
     intent: Intent;
     key: string;
-    moderatedPerson: string;
+    [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: string;
   }): Observable<MessageOutput> {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_GIVER_COMMENT, {
       responseid: params.responseId,
       intent: params.intent,
       key: params.key,
-      moderatedperson: params.moderatedPerson,
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
   }
 }
