@@ -11,7 +11,6 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../types/api-output';
 import { Intent, SessionKeyType } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
@@ -33,7 +32,6 @@ describe('FeedbackSessionsService', () => {
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
     createdAtTimestamp: 1333324740000,
     gracePeriod: 1,
-    sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     isClosingSoonEmailEnabled: false,
     isPublishedEmailEnabled: false,
@@ -59,7 +57,6 @@ describe('FeedbackSessionsService', () => {
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 0,
         gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
         responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
         submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
         publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

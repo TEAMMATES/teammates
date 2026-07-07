@@ -125,11 +125,6 @@
                                 >
                                   View Responses
                                 </a>
-                                @if (session.isWaitingToOpen) {
-                                  <a id="disabled-start-submit-btn-{{ i }}" class="btn btn-light btn-sm disabled">
-                                    Start Submission
-                                  </a>
-                                }
                                 @if (session.isOpened && !session.isSubmitted) {
                                   <a
                                     [routerLink]="[
@@ -156,7 +151,7 @@
                                     Edit Submission
                                   </a>
                                 }
-                                @if (!session.isOpened && !session.isWaitingToOpen) {
+                                @if (!session.isOpened) {
                                   <a
                                     [routerLink]="[
                                       '/web/student/sessions',

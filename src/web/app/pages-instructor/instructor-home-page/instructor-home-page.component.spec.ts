@@ -18,7 +18,6 @@ import {
   FeedbackSessionSubmissionStatus,
   InstructorPermissionSet,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
@@ -74,7 +73,6 @@ const testFeedbackSession1: FeedbackSession = {
   submissionStartTimestamp: 0,
   submissionEndTimestamp: 1610371317000, // Monday, 11 January 2021 21:21:57 GMT+08:00
   gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
   publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
@@ -92,7 +90,6 @@ const testFeedbackSession2: FeedbackSession = {
   submissionStartTimestamp: 0,
   submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
   gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
   publishStatus: FeedbackSessionPublishStatus.PUBLISHED,

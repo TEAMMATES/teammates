@@ -89,15 +89,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "btn-change-visibility")
     private WebElement changeVisibilityButton;
 
-    @FindBy(id = "session-visibility-custom")
-    private WebElement customSessionVisibleTimeButton;
-
-    @FindBy(css = "#session-visibility-datetime tm-datetimepicker")
-    private WebElement sessionVisibilityDateTimePicker;
-
-    @FindBy(id = "session-visibility-at-open")
-    private WebElement openSessionVisibleTimeButton;
-
     @FindBy(id = "response-visibility-custom")
     private WebElement customResponseVisibleTimeButton;
 
@@ -169,7 +160,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String submissionStatus = getSubmissionStatus();
         if (feedbackSession.isClosed()) {
             assertEquals(submissionStatus, "Closed");
-        } else if (feedbackSession.isVisible() && (feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+        } else if (feedbackSession.isOpened() || feedbackSession.isInGracePeriod()) {
             assertEquals(submissionStatus, "Open");
         } else {
             assertEquals(submissionStatus, "Awaiting");
@@ -186,30 +177,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyVisibilitySettings(FeedbackSession feedbackSession) {
-        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
         Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
 
         // Default settings, assert setting section not expanded
-        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-                && responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
             assertTrue(isElementPresent("btn-change-visibility"));
             return;
         }
-        verifySessionVisibilitySettings(sessionVisibleTime, feedbackSession);
         verifyResponseVisibilitySettings(responseVisibleTime, feedbackSession);
-    }
-
-    private void verifySessionVisibilitySettings(Instant sessionVisibleTime,
-                                                 FeedbackSession feedbackSession) {
-        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            assertTrue(openSessionVisibleTimeButton.isSelected());
-        } else {
-            assertTrue(customSessionVisibleTimeButton.isSelected());
-            assertEquals(getSessionVisibilityDate(), getDateString(feedbackSession.getSessionVisibleFromTime(),
-                    "UTC"));
-            assertEquals(getSessionVisibilityTime(), getTimeString(feedbackSession.getSessionVisibleFromTime(),
-                    "UTC"));
-        }
     }
 
     private void verifyResponseVisibilitySettings(Instant responseVisibleTime,
@@ -219,7 +194,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
             assertTrue(manualResponseVisibleTimeButton.isSelected());
         } else {
-            assertTrue(customSessionVisibleTimeButton.isSelected());
+            assertTrue(customResponseVisibleTimeButton.isSelected());
             assertEquals(getResponseVisibilityDate(), getDateString(feedbackSession.getResultsVisibleFromTime(),
                     "UTC"));
             assertEquals(getResponseVisibilityTime(), getTimeString(feedbackSession.getResultsVisibleFromTime(),
@@ -818,14 +793,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getSelectedDropdownOptionText(endDateTimePicker.findElement(By.tagName("select")));
     }
 
-    private String getSessionVisibilityDate() {
-        return sessionVisibilityDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
-    }
-
-    private String getSessionVisibilityTime() {
-        return getSelectedDropdownOptionText(sessionVisibilityDateTimePicker.findElement(By.tagName("select")));
-    }
-
     private String getResponseVisibilityDate() {
         return responseVisibilityDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
     }
@@ -870,10 +837,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         setDateTime(endDateTimePicker, endInstant, timeZone);
     }
 
-    private void setVisibilityDateTime(Instant startInstant, String timeZone) {
-        setDateTime(sessionVisibilityDateTimePicker, startInstant, timeZone);
-    }
-
     private void setResponseDateTime(Instant endInstant, String timeZone) {
         setDateTime(responseVisibilityDateTimePicker, endInstant, timeZone);
     }
@@ -890,18 +853,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void setVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
         showVisibilitySettings();
 
-        setSessionVisibilitySettings(newFeedbackSession, course);
         setResponseVisibilitySettings(newFeedbackSession, course);
-    }
-
-    private void setSessionVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {
-        Instant sessionDateTime = newFeedbackSession.getSessionVisibleFromTime();
-        if (sessionDateTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            click(openSessionVisibleTimeButton);
-        } else {
-            click(customSessionVisibleTimeButton);
-            setVisibilityDateTime(sessionDateTime, course.getTimeZone());
-        }
     }
 
     private void setResponseVisibilitySettings(FeedbackSession newFeedbackSession, Course course) {

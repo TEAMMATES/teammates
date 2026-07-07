@@ -103,26 +103,11 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
-     * Sets the session visible time for the feedback session.
-     */
-    public GivenFeedbackSession sessionVisibleFromTime(Instant sessionVisibleFromTime) {
-        entity.setSessionVisibleFromTime(sessionVisibleFromTime);
-        return this;
-    }
-
-    /**
      * Sets the results visible time for the feedback session.
      */
     public GivenFeedbackSession resultsVisibleFromTime(Instant resultsVisibleFromTime) {
         entity.setResultsVisibleFromTime(resultsVisibleFromTime);
         return this;
-    }
-
-    /**
-     * Sets the session visibility to follow the opening time.
-     */
-    public GivenFeedbackSession sessionVisibleFromOpening() {
-        return sessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
     }
 
     /**
@@ -141,11 +126,10 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
-     * Marks the feedback session as not yet visible to students.
+     * Marks the feedback session as not yet open to students.
      */
     public GivenFeedbackSession notVisible() {
-        return sessionVisibleFromTime(now.plus(2, ChronoUnit.HOURS))
-                .startTime(now.plus(3, ChronoUnit.HOURS))
+        return startTime(now.plus(3, ChronoUnit.HOURS))
                 .endTime(now.plus(5, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.plus(6, ChronoUnit.HOURS));
     }
@@ -154,8 +138,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as waiting to open.
      */
     public GivenFeedbackSession waitingToOpen() {
-        return sessionVisibleFromTime(now.minus(1, ChronoUnit.HOURS))
-                .startTime(now.plus(1, ChronoUnit.HOURS))
+        return startTime(now.plus(1, ChronoUnit.HOURS))
                 .endTime(now.plus(3, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.plus(4, ChronoUnit.HOURS));
     }
@@ -164,8 +147,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as opened.
      */
     public GivenFeedbackSession opened() {
-        return sessionVisibleFromTime(now.minus(2, ChronoUnit.HOURS))
-                .startTime(now.minus(1, ChronoUnit.HOURS))
+        return startTime(now.minus(1, ChronoUnit.HOURS))
                 .endTime(now.plus(1, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.plus(2, ChronoUnit.HOURS));
     }
@@ -174,8 +156,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as closed.
      */
     public GivenFeedbackSession closed() {
-        return sessionVisibleFromTime(now.minus(4, ChronoUnit.HOURS))
-                .startTime(now.minus(3, ChronoUnit.HOURS))
+        return startTime(now.minus(3, ChronoUnit.HOURS))
                 .endTime(now.minus(2, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.plus(1, ChronoUnit.HOURS));
     }
@@ -184,8 +165,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as opening soon.
      */
     public GivenFeedbackSession openingSoon() {
-        return sessionVisibleFromTime(now)
-                .startTime(now.plus(23, ChronoUnit.HOURS))
+        return startTime(now.plus(23, ChronoUnit.HOURS))
                 .endTime(now.plus(25, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.plus(26, ChronoUnit.HOURS));
     }
@@ -194,8 +174,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as closing soon.
      */
     public GivenFeedbackSession closingSoon() {
-        return sessionVisibleFromTime(now.minus(26, ChronoUnit.HOURS))
-                .startTime(now.minus(25, ChronoUnit.HOURS))
+        return startTime(now.minus(25, ChronoUnit.HOURS))
                 .endTime(now.plus(23, ChronoUnit.HOURS));
     }
 
@@ -203,8 +182,7 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
      * Marks the feedback session as published.
      */
     public GivenFeedbackSession published() {
-        return sessionVisibleFromTime(now.minus(3, ChronoUnit.HOURS))
-                .startTime(now.minus(2, ChronoUnit.HOURS))
+        return startTime(now.minus(2, ChronoUnit.HOURS))
                 .endTime(now.minus(1, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(now.minus(30, ChronoUnit.MINUTES));
     }
@@ -299,7 +277,6 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
                 "<p>instructions:" + feedbackSessionId.toString() + "</p>",
                 now.minus(1, ChronoUnit.HOURS),
                 now.plus(1, ChronoUnit.HOURS),
-                now.minus(2, ChronoUnit.HOURS),
                 now.plus(2, ChronoUnit.HOURS),
                 Duration.ZERO,
                 true,

@@ -143,8 +143,7 @@ public final class TimeHelper {
             return false;
         }
 
-        return instant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-                || instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+        return instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                 || instant.equals(Const.TIME_REPRESENTS_LATER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
     }

@@ -37,7 +37,7 @@ public class LoginServlet extends AuthServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter("nextUrl"));
+        String nextUrl = UrlHelper.getSafeRedirectUrl(req.getParameter(Const.ParamsNames.NEXT_URL));
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
@@ -48,7 +48,7 @@ public class LoginServlet extends AuthServlet {
 
         LoginMethod loginMethod;
         try {
-            loginMethod = LoginMethod.fromString(req.getParameter("loginMethod"));
+            loginMethod = LoginMethod.fromString(req.getParameter(Const.ParamsNames.LOGIN_METHOD));
         } catch (IllegalArgumentException e) {
             resp.sendError(HttpStatus.SC_BAD_REQUEST);
             return;

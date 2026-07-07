@@ -72,9 +72,8 @@
         >View Results (course-wide)</a
       >
       @if (
-        ![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(
-          submissionStatus
-        ) && publishStatus === FeedbackSessionPublishStatus.PUBLISHED
+        submissionStatus !== FeedbackSessionSubmissionStatus.NOT_VISIBLE &&
+        publishStatus === FeedbackSessionPublishStatus.PUBLISHED
       ) {
         <button
           class="btn-unpublish-{{ idx }} btn dropdown-item clickable"
@@ -90,9 +89,7 @@
         <button
           class="btn-publish-{{ idx }} btn dropdown-item clickable"
           [disabled]="
-            [FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(
-              submissionStatus
-            ) ||
+            submissionStatus === FeedbackSessionSubmissionStatus.NOT_VISIBLE ||
             publishStatus === FeedbackSessionPublishStatus.PUBLISHED ||
             !instructorPrivileges.canModifySession
           "

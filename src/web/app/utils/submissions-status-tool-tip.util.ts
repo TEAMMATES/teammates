@@ -5,7 +5,6 @@ export function submissionStatusTooltipToString(status: FeedbackSessionSubmissio
 
   switch (status) {
     case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-    case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
       msg += ' is waiting to open for submissions';
       break;
     case FeedbackSessionSubmissionStatus.OPEN:
@@ -21,9 +20,6 @@ export function submissionStatusTooltipToString(status: FeedbackSessionSubmissio
   }
 
   switch (status) {
-    case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-      msg += ', but is visible to respondents';
-      break;
     case FeedbackSessionSubmissionStatus.OPEN:
     case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
     case FeedbackSessionSubmissionStatus.CLOSED:

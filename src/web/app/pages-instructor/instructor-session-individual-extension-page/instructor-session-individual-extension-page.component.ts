@@ -26,7 +26,6 @@ import {
   DeadlineExtensionsUpdateRequest,
   FeedbackSessionBasicRequest,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
@@ -69,8 +68,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: 0,
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     customResponseVisibleTimestamp: 0,
     isClosingSoonEmailEnabled: false,
@@ -206,8 +203,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       submissionStartTimestamp: feedbackSession.submissionStartTimestamp,
       submissionEndTimestamp: feedbackSession.submissionEndTimestamp,
       gracePeriod: feedbackSession.gracePeriod,
-      sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTimestamp: feedbackSession.customSessionVisibleTimestamp,
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
       customResponseVisibleTimestamp: feedbackSession.customResponseVisibleTimestamp,
       isClosingSoonEmailEnabled: feedbackSession.isClosingSoonEmailEnabled,

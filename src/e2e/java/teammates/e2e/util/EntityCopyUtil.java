@@ -22,7 +22,7 @@ public final class EntityCopyUtil {
         FeedbackSession fs = new FeedbackSession(
                 original.getName(), original.getSessionCreator(), original.getInstructions(),
                 original.getStartTime(),
-                original.getEndTime(), original.getSessionVisibleFromTime(), original.getResultsVisibleFromTime(),
+                original.getEndTime(), original.getResultsVisibleFromTime(),
                 original.getGracePeriod(), original.isClosingSoonEmailEnabled(),
                 original.isPublishedEmailEnabled());
         fs.setId(null);

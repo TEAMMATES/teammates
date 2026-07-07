@@ -111,7 +111,6 @@ export class FeedbackPathPanelComponent {
       case FeedbackSessionSubmissionStatus.OPEN:
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
         return true;
-      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
         return false;
     }

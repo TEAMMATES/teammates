@@ -26,14 +26,8 @@ public class FeedbackSessionData implements ApiOutput {
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
     @Nullable
-    private Long sessionVisibleFromTimestamp;
-    @Nullable
     private Long resultVisibleFromTimestamp;
     private Long gracePeriod;
-
-    private SessionVisibleSetting sessionVisibleSetting;
-    @Nullable
-    private Long customSessionVisibleTimestamp;
 
     private ResponseVisibleSetting responseVisibleSetting;
     @Nullable
@@ -75,15 +69,6 @@ public class FeedbackSessionData implements ApiOutput {
         this.submissionEndTimestamp = feedbackSession.getEndTime().toEpochMilli();
         this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
 
-        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
-        this.sessionVisibleFromTimestamp = sessionVisibleTime.toEpochMilli();
-        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-        } else {
-            this.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
-            this.customSessionVisibleTimestamp = this.sessionVisibleFromTimestamp;
-        }
-
         Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
         this.resultVisibleFromTimestamp = responseVisibleTime.toEpochMilli();
         if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
@@ -97,9 +82,6 @@ public class FeedbackSessionData implements ApiOutput {
 
         if (!feedbackSession.isVisible()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
-        } else if (feedbackSession.isVisible() && !feedbackSession.isOpened()
-                && !feedbackSession.isClosed() && !feedbackSession.isInGracePeriod()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         } else if (feedbackSession.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
         } else if (feedbackSession.isOpened()) {
@@ -153,24 +135,12 @@ public class FeedbackSessionData implements ApiOutput {
         return submissionEndTimestamp;
     }
 
-    public Long getSessionVisibleFromTimestamp() {
-        return sessionVisibleFromTimestamp;
-    }
-
     public Long getResultVisibleFromTimestamp() {
         return resultVisibleFromTimestamp;
     }
 
     public Long getGracePeriod() {
         return gracePeriod;
-    }
-
-    public SessionVisibleSetting getSessionVisibleSetting() {
-        return sessionVisibleSetting;
-    }
-
-    public Long getCustomSessionVisibleTimestamp() {
-        return customSessionVisibleTimestamp;
     }
 
     public ResponseVisibleSetting getResponseVisibleSetting() {
@@ -197,24 +167,12 @@ public class FeedbackSessionData implements ApiOutput {
         return isPublishedEmailEnabled;
     }
 
-    public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
-        this.sessionVisibleFromTimestamp = sessionVisibleFromTimestamp;
-    }
-
     public void setResultVisibleFromTimestamp(Long resultVisibleFromTimestamp) {
         this.resultVisibleFromTimestamp = resultVisibleFromTimestamp;
     }
 
     public void setGracePeriod(Long gracePeriod) {
         this.gracePeriod = gracePeriod;
-    }
-
-    public void setSessionVisibleSetting(SessionVisibleSetting sessionVisibleSetting) {
-        this.sessionVisibleSetting = sessionVisibleSetting;
-    }
-
-    public void setCustomSessionVisibleTimestamp(Long customSessionVisibleTimestamp) {
-        this.customSessionVisibleTimestamp = customSessionVisibleTimestamp;
     }
 
     public void setResponseVisibleSetting(ResponseVisibleSetting responseVisibleSetting) {
@@ -261,10 +219,7 @@ public class FeedbackSessionData implements ApiOutput {
     }
 
     private void hideSessionVisibilityTimestamps() {
-        setSessionVisibleFromTimestamp(null);
         setResultVisibleFromTimestamp(null);
-        setSessionVisibleSetting(null);
-        setCustomSessionVisibleTimestamp(null);
         setResponseVisibleSetting(null);
         setCustomResponseVisibleTimestamp(null);
     }

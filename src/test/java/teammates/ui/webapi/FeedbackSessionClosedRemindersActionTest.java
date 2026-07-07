@@ -25,7 +25,6 @@ public class FeedbackSessionClosedRemindersActionTest
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(3, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(30, ChronoUnit.MINUTES))
-                .sessionVisibleFromTime(Instant.now().minus(4, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(Instant.now().plus(1, ChronoUnit.HOURS))
                 .closedEmailSent(false));
         persistGivenData(given);
@@ -43,7 +42,6 @@ public class FeedbackSessionClosedRemindersActionTest
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(3, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(30, ChronoUnit.MINUTES))
-                .sessionVisibleFromTime(Instant.now().minus(4, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(Instant.now().plus(1, ChronoUnit.HOURS))
                 .closedEmailSent(true));
         persistGivenData(given);
@@ -61,7 +59,6 @@ public class FeedbackSessionClosedRemindersActionTest
         var session = given.feedbackSession("session", fs -> fs.defaultCourse().noCreator()
                 .startTime(Instant.now().minus(7, ChronoUnit.HOURS))
                 .endTime(Instant.now().minus(3, ChronoUnit.HOURS))
-                .sessionVisibleFromTime(Instant.now().minus(8, ChronoUnit.HOURS))
                 .resultsVisibleFromTime(Instant.now().plus(1, ChronoUnit.HOURS))
                 .closedEmailSent(false));
         persistGivenData(given);

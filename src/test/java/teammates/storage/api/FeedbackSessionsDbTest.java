@@ -238,7 +238,6 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
                 "<p>Feedback Session Instructions</p>",
                 now.minus(1, ChronoUnit.HOURS),
                 now.plus(1, ChronoUnit.HOURS),
-                now.minus(2, ChronoUnit.HOURS),
                 now.plus(2, ChronoUnit.HOURS),
                 Duration.ZERO,
                 true,

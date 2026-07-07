@@ -43,7 +43,6 @@ import {
   ResponseOutput,
   ResponseVisibleSetting,
   SessionResults,
-  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -156,7 +155,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -207,19 +205,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
             TIME_FORMAT,
           );
           if (this.session.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-            if (this.session.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN) {
-              this.formattedResultVisibleFromTime = this.timezoneService.formatToString(
-                this.session.submissionStartTimestamp,
-                this.session.timeZone,
-                TIME_FORMAT,
-              );
-            } else if (this.session.sessionVisibleFromTimestamp) {
-              this.formattedResultVisibleFromTime = this.timezoneService.formatToString(
-                this.session.sessionVisibleFromTimestamp,
-                this.session.timeZone,
-                TIME_FORMAT,
-              );
-            }
+            this.formattedResultVisibleFromTime = this.timezoneService.formatToString(
+              this.session.submissionStartTimestamp,
+              this.session.timeZone,
+              TIME_FORMAT,
+            );
           } else if (this.session.resultVisibleFromTimestamp) {
             this.formattedResultVisibleFromTime = this.timezoneService.formatToString(
               this.session.resultVisibleFromTimestamp,

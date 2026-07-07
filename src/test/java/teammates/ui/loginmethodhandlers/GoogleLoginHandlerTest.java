@@ -20,6 +20,7 @@ import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.test.BaseTestCase;
@@ -103,7 +104,7 @@ public class GoogleLoginHandlerTest extends BaseTestCase {
         String loginUrl = googleLoginHandler.handleLogin(req, "/web/instructor/home");
 
         GenericUrl url = new GenericUrl(loginUrl);
-        String encryptedState = getQueryParam(url, "state");
+        String encryptedState = getQueryParam(url, Const.ParamsNames.AUTH_STATE);
         AuthState state = JsonUtils.fromJson(StringHelper.decrypt(encryptedState), AuthState.class);
         assertEquals("/web/instructor/home", state.nextUrl());
         assertEquals("1234", state.sessionId());

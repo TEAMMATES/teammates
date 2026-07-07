@@ -16,9 +16,6 @@ describe('SubmissionStatusNamePipe', () => {
     const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE);
     expect(notVisibleWithExtension).toEqual('Awaiting');
 
-    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN);
-    expect(visibleWithExtension).toEqual('Awaiting');
-
     const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN);
     expect(openWithExtension).toEqual('Open');
 

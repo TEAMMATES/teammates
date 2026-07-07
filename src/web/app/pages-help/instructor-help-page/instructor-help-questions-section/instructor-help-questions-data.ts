@@ -20,7 +20,6 @@ import {
   QuestionRecipientType,
   ResponseOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
@@ -498,7 +497,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   submissionStartTimestamp: 0,
   submissionEndTimestamp: 0,
   gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

@@ -67,7 +67,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         newSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriod(Duration.ZERO);
 
@@ -125,13 +124,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setEndTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 Instant.ofEpochMilli(actualSessionData.getSubmissionEndTimestamp()),
                 actualSessionData.getTimeZone(), false));
-        if (actualSessionData.getCustomSessionVisibleTimestamp() != null) {
-            copiedSession.setSessionVisibleFromTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    Instant.ofEpochMilli(actualSessionData.getCustomSessionVisibleTimestamp()),
-                    actualSessionData.getTimeZone(), false));
-        } else {
-            copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        }
         feedbackSessionsPage.verifySessionDetails(copiedSession);
         verifyPresentInDatabase(copiedSession);
 
@@ -155,13 +147,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession2.setEndTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 Instant.ofEpochMilli(actualSessionData2.getSubmissionEndTimestamp()),
                 actualSessionData2.getTimeZone(), false));
-        if (actualSessionData2.getCustomSessionVisibleTimestamp() != null) {
-            copiedSession2.setSessionVisibleFromTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    Instant.ofEpochMilli(actualSessionData2.getCustomSessionVisibleTimestamp()),
-                    actualSessionData2.getTimeZone(), false));
-        } else {
-            copiedSession2.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        }
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
         verifyPresentInDatabase(copiedSession2);
 

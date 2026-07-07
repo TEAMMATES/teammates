@@ -18,11 +18,6 @@ describe('SubmissionStatusTooltipPipe', () => {
       'The feedback session is waiting to open for submissions, and is not yet visible to respondents.',
     );
 
-    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN);
-    expect(visibleWithExtension).toEqual(
-      'The feedback session is waiting to open for submissions, but is visible to respondents.',
-    );
-
     const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN);
     expect(openWithExtension).toEqual('The feedback session is open for submissions, and is visible to respondents.');
 

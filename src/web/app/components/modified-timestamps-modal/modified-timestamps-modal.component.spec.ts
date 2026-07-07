@@ -14,13 +14,11 @@ describe('ModifiedTimestampModalComponent', () => {
       newTimestamp: {
         submissionStartTimestamp: '23 Apr 2023 9:00 PM',
         submissionEndTimestamp: '27 Apr 2023 11:59 PM',
-        sessionVisibleTimestamp: 'On submission opening time',
         responseVisibleTimestamp: 'Not now (publish manually)',
       },
       oldTimestamp: {
         submissionStartTimestamp: '22 Mar 2023 9:00 PM',
         submissionEndTimestamp: '31 Mar 2023 11:59 PM',
-        sessionVisibleTimestamp: 'On submission opening time',
         responseVisibleTimestamp: 'Not now (publish manually)',
       },
     },

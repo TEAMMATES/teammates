@@ -7,7 +7,6 @@ import {
   QuestionOutput,
   ResponseOutput,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
@@ -54,7 +53,6 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
