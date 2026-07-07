@@ -931,7 +931,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
 
@@ -983,7 +983,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
     expect(toastSpy).toHaveBeenCalledWith(
@@ -1040,7 +1040,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
 

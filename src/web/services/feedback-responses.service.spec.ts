@@ -6,7 +6,7 @@ import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
@@ -372,13 +372,13 @@ describe('FeedbackResponsesService', () => {
       questionid: '[dummy question ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      moderatedPerson: '',
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     service.getFeedbackResponse({
       questionId: paramMap['questionid'],
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap['moderatedPerson'],
+      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap);
   });
@@ -407,13 +407,13 @@ describe('FeedbackResponsesService', () => {
       responseid: '[dummy response ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      moderatedPerson: '',
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     service.deleteGiverComment({
       responseId: paramMap['responseid'],
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap['moderatedPerson'],
+      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_GIVER_COMMENT, paramMap);
