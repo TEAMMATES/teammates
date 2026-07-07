@@ -8,7 +8,6 @@ import { NavigationService } from '../services/navigation.service';
 import { SessionKeyAccessDecision } from '../types/api-output';
 import { SessionKeyType } from '../types/api-request';
 import { SessionKeyGuard } from './session-key.guard';
-import { QueryParamKeys } from '../types/api-const';
 
 const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
 
@@ -21,11 +20,11 @@ const mockRoute = (
 ): ActivatedRouteSnapshot =>
   ({
     data: { sessionKeyType: type },
-    paramMap: new Map([[QueryParamKeys.FEEDBACK_SESSION_ID, fsid]]) as never,
+    paramMap: new Map([['feedbackSessionId', fsid]]) as never,
     queryParamMap: new Map([
       ['key', key],
       ['previewAs', previewAs],
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson],
+      ['moderatedPerson', moderatedPerson],
     ]) as never,
   }) as unknown as ActivatedRouteSnapshot;
 

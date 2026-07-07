@@ -96,7 +96,7 @@ describe('SessionResultPageComponent', () => {
   let logService: LogService;
 
   const testQueryParams: Record<string, string> = {
-    feedbackSessionId: 'test-session-id',
+    fsid: 'test-session-id',
     key: 'reg-key',
     previewAs: '',
   };
@@ -113,7 +113,7 @@ describe('SessionResultPageComponent', () => {
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
-    component.feedbackSessionId = testQueryParams['feedbackSessionId'];
+    component.feedbackSessionId = testQueryParams['fsid'];
     component.key = testQueryParams['key'];
     component.previewAs = testQueryParams['previewAs'];
     // Set both loading flags to false initially for testing purposes only
@@ -280,7 +280,7 @@ describe('SessionResultPageComponent', () => {
     );
     expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams['feedbackSessionId']}/result`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams['fsid']}/result`);
   });
 
   it('should load session results and hydrate questions', () => {
@@ -331,7 +331,7 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
     expect(getResultsSpy).toHaveBeenLastCalledWith({
-      feedbackSessionId: testQueryParams['feedbackSessionId'],
+      feedbackSessionId: testQueryParams['fsid'],
       userId: 'student-name-id',
       isPreview: false,
     });

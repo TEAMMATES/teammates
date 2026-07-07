@@ -372,13 +372,13 @@ describe('FeedbackResponsesService', () => {
       questionid: '[dummy question ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
+      moderatedPerson: '',
     };
     service.getFeedbackResponse({
       questionId: paramMap['questionid'],
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      moderatedPerson: paramMap['moderatedPerson'],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap);
   });
@@ -386,18 +386,18 @@ describe('FeedbackResponsesService', () => {
   it('should call put when submitting a feedback response', () => {
     const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
     const paramMap: Record<string, string> = {
-      [QueryParamKeys.FEEDBACK_SESSION_ID]: '[dummy session ID]',
+      fsid: '[dummy session ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
+      moderatedPerson: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
     const dummyParams = {
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      moderatedPerson: paramMap['moderatedPerson'],
     };
-    service.submitFeedbackResponses(paramMap[QueryParamKeys.FEEDBACK_SESSION_ID], dummyRequest, dummyParams);
+    service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 
@@ -407,13 +407,13 @@ describe('FeedbackResponsesService', () => {
       responseid: '[dummy response ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
+      moderatedPerson: '',
     };
     service.deleteGiverComment({
       responseId: paramMap['responseid'],
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      moderatedPerson: paramMap['moderatedPerson'],
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_GIVER_COMMENT, paramMap);
