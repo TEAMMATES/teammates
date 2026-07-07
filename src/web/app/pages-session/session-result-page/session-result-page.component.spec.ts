@@ -26,7 +26,6 @@ import {
   UserSessionResults,
   ResponseVisibleSetting,
 } from '../../../types/api-output';
-import { QueryParamKeys } from '../../../types/api-const';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -97,7 +96,7 @@ describe('SessionResultPageComponent', () => {
   let logService: LogService;
 
   const testQueryParams: Record<string, string> = {
-    [QueryParamKeys.FEEDBACK_SESSION_ID]: 'test-session-id',
+    feedbackSessionId: 'test-session-id',
     key: 'reg-key',
     previewAs: '',
   };
@@ -114,7 +113,7 @@ describe('SessionResultPageComponent', () => {
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
-    component.feedbackSessionId = testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID];
+    component.feedbackSessionId = testQueryParams['feedbackSessionId'];
     component.key = testQueryParams['key'];
     component.previewAs = testQueryParams['previewAs'];
     // Set both loading flags to false initially for testing purposes only
@@ -281,9 +280,7 @@ describe('SessionResultPageComponent', () => {
     );
     expect(clearAuthSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(
-      `/web/student/sessions/${testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID]}/result`,
-    );
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/student/sessions/${testQueryParams['feedbackSessionId']}/result`);
   });
 
   it('should load session results and hydrate questions', () => {
@@ -334,7 +331,7 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
     expect(getResultsSpy).toHaveBeenLastCalledWith({
-      feedbackSessionId: testQueryParams[QueryParamKeys.FEEDBACK_SESSION_ID],
+      feedbackSessionId: testQueryParams['feedbackSessionId'],
       userId: 'student-name-id',
       isPreview: false,
     });

@@ -210,7 +210,7 @@ export class FeedbackResponsesService {
     params: {
       intent: Intent;
       key: string;
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: string;
+      moderatedPerson: string;
     },
   ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
@@ -230,13 +230,13 @@ export class FeedbackResponsesService {
     responseId: string;
     intent: Intent;
     key: string;
-    [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: string;
+    moderatedPerson: string;
   }): Observable<MessageOutput> {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_GIVER_COMMENT, {
       responseid: params.responseId,
       intent: params.intent,
       key: params.key,
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params.moderatedPerson,
     });
   }
 }

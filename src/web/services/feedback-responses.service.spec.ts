@@ -395,7 +395,7 @@ describe('FeedbackResponsesService', () => {
     const dummyParams = {
       intent: dummyIntent,
       key: paramMap['key'],
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     };
     service.submitFeedbackResponses(paramMap[QueryParamKeys.FEEDBACK_SESSION_ID], dummyRequest, dummyParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
@@ -413,7 +413,7 @@ describe('FeedbackResponsesService', () => {
       responseId: paramMap['responseid'],
       intent: dummyIntent,
       key: paramMap['key'],
-      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
+      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_GIVER_COMMENT, paramMap);
