@@ -79,17 +79,18 @@ public final class Application {
         server.addEventListener(customLifeCycleListener);
         webapp.setThrowUnavailableOnStartupException(true);
 
+        // Fail fast checks.
         try {
             LiquibaseStatusChecker.assertSuccessStatus();
         } catch (Exception e) {
-            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+            throw transformStartupException(e);
         }
 
         try {
             server.start();
         } catch (Exception e) {
             stopServer(server);
-            throw Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
+            throw transformStartupException(e);
         }
 
         // By using the server.join() the server thread will join with the current thread.
@@ -103,6 +104,10 @@ public final class Application {
         } catch (Exception e) {
             log.severe("Failed to stop server after web application startup failure.", e);
         }
+    }
+
+    private static Exception transformStartupException(Exception e) {
+        return Config.IS_DEV_SERVER ? DevServerStartupErrorHandler.transform(e) : e;
     }
 
 }
