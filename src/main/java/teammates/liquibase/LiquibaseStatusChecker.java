@@ -23,6 +23,7 @@ import liquibase.resource.ResourceAccessor;
 public final class LiquibaseStatusChecker {
 
     private static final String CHANGELOG_FILE = "db/changelog/db.changelog-root.xml";
+    private static final String GRADLE_CHANGELOG_FILE_PREFIX = "src/main/resources/";
 
     private LiquibaseStatusChecker() {
         // utility class
@@ -59,9 +60,20 @@ public final class LiquibaseStatusChecker {
     private static List<ChangeSet> listUnrunChangeSets() throws LiquibaseException {
         try (ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor();
                 Liquibase liquibase = createLiquibase(resourceAccessor)) {
+            normalizeChangeSetFilePaths(liquibase);
             return liquibase.listUnrunChangeSets(new Contexts(), new LabelExpression());
         } catch (Exception e) {
             throw new LiquibaseException("Failed to check Liquibase status", e);
+        }
+    }
+
+    /**
+     * Normalizes file paths to match the paths used in the Gradle build,
+     * so that the unrun changesets can be correctly identified.
+     */
+    private static void normalizeChangeSetFilePaths(Liquibase liquibase) throws LiquibaseException {
+        for (ChangeSet changeSet : liquibase.getDatabaseChangeLog().getChangeSets()) {
+            changeSet.setFilePath(GRADLE_CHANGELOG_FILE_PREFIX + changeSet.getFilePath());
         }
     }
 
