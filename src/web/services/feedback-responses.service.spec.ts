@@ -389,13 +389,13 @@ describe('FeedbackResponsesService', () => {
       fsid: '[dummy session ID]',
       intent: dummyIntent,
       key: '[dummy key]',
-      moderatedPerson: '',
+      [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
     const dummyParams = {
       intent: dummyIntent,
       key: paramMap['key'],
-      moderatedPerson: paramMap['moderatedPerson'],
+      moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     };
     service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);

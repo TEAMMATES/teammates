@@ -217,7 +217,9 @@ export class FeedbackResponsesService {
       ResourceEndpoints.RESPONSES,
       {
         [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
-        ...params,
+        intent: params.intent,
+        key: params.key,
+        [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params.moderatedPerson,
       },
       request,
     );
