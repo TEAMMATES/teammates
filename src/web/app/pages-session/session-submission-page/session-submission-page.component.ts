@@ -59,6 +59,7 @@ import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
+import { QueryParamKeys } from '../../../types/api-const';
 
 /**
  * Feedback session submission page.
@@ -778,7 +779,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         {
           intent: this.getSubmissionIntent(),
           key: this.key,
-          moderatedperson: this.moderatedPerson,
+          [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: this.moderatedPerson,
         },
       )
       .pipe(
@@ -927,7 +928,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         responseId: recipientSubmissionFormModel.responseId,
         intent: this.getSubmissionIntent(),
         key: this.key,
-        moderatedPerson: this.moderatedPerson,
+        [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: this.moderatedPerson,
       })
       .subscribe({
         next: () => {
