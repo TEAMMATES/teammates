@@ -6,7 +6,7 @@ import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
+import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
   FeedbackConstantSumRecipientsResponseDetails,
