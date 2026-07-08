@@ -173,7 +173,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       return;
     }
 
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor({ courseIds: [courseId] }).subscribe({
       next: (response: FeedbackSessions) => {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.oldCourseId = courseId;
@@ -366,7 +366,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const model: CourseTabModel = this.courseTabModels[rowIndex];
     model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
-      this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId).subscribe({
+      this.feedbackSessionsService.getFeedbackSessionsForInstructor({ courseIds: [model.course.courseId] }).subscribe({
         next: (response: FeedbackSessions) => {
           response.feedbackSessions.forEach((feedbackSessionView: FeedbackSessionView) => {
             const feedbackSession: FeedbackSession = feedbackSessionView.feedbackSession;
