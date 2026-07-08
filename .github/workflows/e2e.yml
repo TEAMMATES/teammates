@@ -41,6 +41,8 @@ jobs:
         run: docker compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses
+      - name: Configure Frontend URL
+        run: sed -i 's#^app.frontend.url *=.*#app.frontend.url = http\\://localhost:8080#' src/main/resources/build-dev.properties
       - name: Install Frontend Dependencies
         run: npm ci
       - name: Build Frontend Bundle
@@ -50,10 +52,6 @@ jobs:
       - name: Start Backend Server
         run: |
           ./gradlew serverRun &
-          ./wait-for-server.sh 8080 /ping
-      - name: Start Frontend Server
-        run: |
-          npm run start &
-          ./wait-for-server.sh 4200
+          ./wait-for-server.sh
       - name: Start Tests
         run: ./gradlew e2eTests

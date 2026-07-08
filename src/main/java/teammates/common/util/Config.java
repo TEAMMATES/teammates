@@ -308,13 +308,6 @@ public final class Config {
     }
 
     /**
-     * Returns the backend URL for local development.
-     */
-    public static String getLocalBackendUrl() {
-        return "http://localhost:" + getPort();
-    }
-
-    /**
      * Resolves effective deployment environment: {@code APP_ENV} environment variable, then {@code app.env} in
      * {@code build-dev.properties}, then {@code build.properties}. The value must be {@code development} or
      * {@code production}.

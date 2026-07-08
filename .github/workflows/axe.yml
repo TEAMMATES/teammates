@@ -48,10 +48,6 @@ jobs:
       - name: Start Backend Server
         run: |
           ./gradlew serverRun &
-          ./wait-for-server.sh 8080 /ping
-      - name: Start Frontend Server
-        run: |
-          npm run start &
-          ./wait-for-server.sh 4200
+          ./wait-for-server.sh
       - name: Start Axe Tests
         run: ./gradlew axeTests
