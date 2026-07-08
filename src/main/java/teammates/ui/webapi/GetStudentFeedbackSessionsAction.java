@@ -15,6 +15,7 @@ import teammates.ui.output.FeedbackSessionsData;
  * Get a list of feedback sessions for a student in a course.
  */
 public class GetStudentFeedbackSessionsAction extends LoggedInAction {
+
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -38,4 +39,5 @@ public class GetStudentFeedbackSessionsAction extends LoggedInAction {
         responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());
         return new JsonResult(responseData);
     }
+
 }
