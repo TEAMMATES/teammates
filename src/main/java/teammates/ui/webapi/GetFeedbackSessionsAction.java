@@ -2,17 +2,18 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
@@ -28,93 +29,59 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
             return;
         }
 
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-
-        if (!(Const.EntityType.STUDENT.equals(entityType) || Const.EntityType.INSTRUCTOR.equals(entityType))) {
-            throw new UnauthorizedAccessException("entity type not supported.");
+        List<String> courseIds = getCourseIds();
+        if (courseIds == null || courseIds.isEmpty()) {
+            throw new InvalidHttpParameterException(Const.ParamsNames.COURSE_ID + " parameter is required");
         }
-
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        if (Const.EntityType.STUDENT.equals(entityType)) {
-            if (courseId != null) {
-                gateKeeper.verifyStudentInCourse(requestContext, courseId);
-            }
-        } else {
-            if (courseId != null) {
-                gateKeeper.verifyInstructorInCourse(requestContext, courseId);
-            }
+        for (String courseId : courseIds) {
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
         }
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-
-        List<FeedbackSession> feedbackSessions = new ArrayList<>();
-        List<Instructor> instructors = new ArrayList<>();
-        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
-
-        if (courseId == null) {
-            if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByAccountId(requestContext.getAccount().getId());
-                for (Student student : students) {
-                    String studentCourseId = student.getCourseId();
-                    List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
-                    for (FeedbackSession session : sessions) {
-                        sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
-                    }
-                }
-            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
-
-                instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
-
-                if (isInRecycleBin) {
-                    feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
-                } else {
-                    feedbackSessions = logic.getFeedbackSessionsForInstructors(instructors);
-                }
-            }
-        } else {
-            feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-            if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = getStudentFromRequest(courseId);
-                assert student != null;
-                for (FeedbackSession session : feedbackSessions) {
-                    sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
-                }
-            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                instructors = Collections.singletonList(
-                        getInstructorFromRequest(courseId));
-            }
+        List<FeedbackSession> feedbackSessions = getFeedbackSessions();
+        if (requestContext.isAdmin()) {
+            return new JsonResult(new FeedbackSessionsData(feedbackSessions));
         }
 
-        FeedbackSessionsData responseData;
+        List<Instructor> instructors = getInstructorsForRequestedCourses(getCourseIds());
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
-        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            for (FeedbackSession session : feedbackSessions) {
-                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                sessionToDeadline.put(session, logic.getDeadlineForUser(session, instructor));
-            }
-            responseData = new FeedbackSessionsData(sessionToDeadline);
-            responseData.getFeedbackSessions().forEach(session -> {
-                var permissionsData = getPermissionsData(courseIdToInstructor, session);
-                session.setInstructorPermissions(permissionsData);
-            });
-        } else if (Const.EntityType.STUDENT.equals(entityType)) {
-            // hide sessions not visible to student
-            sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
-            responseData = new FeedbackSessionsData(sessionToDeadline);
-            responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());
-        } else {
-            responseData = new FeedbackSessionsData(feedbackSessions);
+        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
+        for (FeedbackSession session : feedbackSessions) {
+            Instructor instructor = courseIdToInstructor.get(session.getCourseId());
+            sessionToDeadline.put(session, logic.getDeadlineForUser(session, instructor));
         }
 
+        FeedbackSessionsData responseData = new FeedbackSessionsData(sessionToDeadline);
+        responseData.getFeedbackSessions().forEach(session -> {
+            InstructorFeedbackSessionPermissionsData permissionsData =
+                    getPermissionsData(courseIdToInstructor, session);
+            session.setInstructorPermissions(permissionsData);
+        });
         return new JsonResult(responseData);
+    }
+
+    private List<FeedbackSession> getFeedbackSessions() {
+        FeedbackSessionQuery query = new FeedbackSessionQuery(
+                getCourseIds(),
+                getNullableBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN).orElse(null));
+        return logic.getFeedbackSessions(query);
+    }
+
+    private List<Instructor> getInstructorsForRequestedCourses(List<String> courseIds) {
+        List<Instructor> instructors = new ArrayList<>();
+        for (String courseId : courseIds) {
+            instructors.add(getInstructorFromRequest(courseId));
+        }
+        return instructors;
+    }
+
+    private List<String> getCourseIds() {
+        String[] courseIds = req.getParameterValues(Const.ParamsNames.COURSE_ID);
+        return courseIds == null ? null : Arrays.asList(courseIds);
     }
 
     private InstructorFeedbackSessionPermissionsData getPermissionsData(Map<String, Instructor> courseIdToInstructor,

@@ -193,9 +193,7 @@ export class FeedbackSessionsService {
     courseIds: string[];
     isInRecycleBin?: boolean;
   }): Observable<FeedbackSessions> {
-    const paramMap: Record<string, string | string[]> = {
-      entitytype: 'instructor',
-    };
+    const paramMap: Record<string, string | string[]> = {};
     if (queryParams.courseIds?.length) {
       paramMap['courseid'] = queryParams.courseIds;
     }

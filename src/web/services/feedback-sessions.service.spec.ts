@@ -200,7 +200,6 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving feedback sessions for an instructor', () => {
     const courseIds = ['CS1231', 'CS3281'];
     const paramMap: Record<string, string | string[]> = {
-      entitytype: 'instructor',
       courseid: courseIds,
     };
 
@@ -212,7 +211,6 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving recycle bin feedback sessions for an instructor', () => {
     const courseIds = ['CS1231', 'CS3281'];
     const paramMap: Record<string, string | string[]> = {
-      entitytype: 'instructor',
       courseid: courseIds,
       isinrecyclebin: 'true',
     };
