@@ -90,8 +90,4 @@ public final class TestProperties {
         // access static fields directly
     }
 
-    public static boolean isDevServer() {
-        return TEAMMATES_FRONTEND_URL.matches("^https?://localhost:[0-9]+(/.*)?");
-    }
-
 }

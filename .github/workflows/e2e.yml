@@ -49,7 +49,7 @@ jobs:
         run: npm run build
       - name: Run DB Migrations
         run: ./gradlew liquibaseUpdate -PrunList=main
-      - name: Start Backend Server
+      - name: Start Server
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
