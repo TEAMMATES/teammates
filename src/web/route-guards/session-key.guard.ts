@@ -44,7 +44,7 @@ export class SessionKeyGuard implements CanActivate {
             case SessionKeyAccessDecision.ALLOW_UNREGISTERED:
               return of(true);
             case SessionKeyAccessDecision.ALLOW_SIGNED_IN:
-              return this.authService.getAuthUser(state.url).pipe(
+              return this.authService.getAuthUser().pipe(
                 map(() => {
                   const targetRoute =
                     type === SessionKeyType.SUBMISSION

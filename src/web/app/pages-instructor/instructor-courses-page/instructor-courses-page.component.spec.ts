@@ -328,7 +328,6 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should load all courses by the instructor', () => {
     const mockAuthInfo: AuthInfo = {
-      loginUrl: '',
       masquerade: false,
       user: {
         accountId: 'test-account-id',

@@ -110,7 +110,7 @@ export class SessionResultPageComponent implements OnInit {
     this.entityType ||= 'student';
 
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
-    this.authService.getAuthUser(nextUrl).subscribe({
+    this.authService.getAuthUser().subscribe({
       next: (auth: AuthInfo) => {
         if (auth.user) {
           this.accountId = auth.user.accountId;

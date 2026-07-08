@@ -1,5 +1,6 @@
 import { type Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { RoleGuard } from '../../route-guards/role.guard';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'request',
+    canActivate: [RoleGuard],
     loadComponent: () => import('./request-page/request-page.component').then((m) => m.RequestPageComponent),
   },
   {

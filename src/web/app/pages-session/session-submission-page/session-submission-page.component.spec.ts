@@ -463,7 +463,6 @@ describe('SessionSubmissionPageComponent', () => {
 
   const testInfo: AuthInfo = {
     masquerade: false,
-    loginUrl: 'http://localhost:8080/auth',
     user: {
       accountId: 'account-id',
       accountEmail: 'user@teammates.tmt',

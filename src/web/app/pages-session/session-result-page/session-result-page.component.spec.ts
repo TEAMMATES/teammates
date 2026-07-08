@@ -49,7 +49,6 @@ describe('SessionResultPageComponent', () => {
   };
 
   const testInfo: AuthInfo = {
-    loginUrl: '/login',
     masquerade: false,
     user: {
       accountEmail: 'account@teammates.tmt',

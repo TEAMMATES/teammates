@@ -22,8 +22,8 @@ describe('AuthService', () => {
   });
 
   it('should execute GET on auth endpoint', () => {
-    spyHttpRequestService.get.mockReturnValue(of({ loginUrl: '/login', masquerade: false }));
+    spyHttpRequestService.get.mockReturnValue(of({ masquerade: false }));
     service.getAuthUser();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, {});
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH);
   });
 });
