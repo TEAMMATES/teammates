@@ -33,6 +33,7 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         if (courseIds == null || courseIds.isEmpty()) {
             throw new InvalidHttpParameterException(Const.ParamsNames.COURSE_ID + " parameter is required");
         }
+
         for (String courseId : courseIds) {
             gateKeeper.verifyInstructorInCourse(requestContext, courseId);
         }

@@ -20,6 +20,24 @@ import teammates.ui.output.FeedbackSessionsData;
 public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSessionsAction, FeedbackSessionsData> {
 
     @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionsAction_adminWithoutCourseId_returnsAllFeedbackSessionsInActiveCourses() {
+        var course1 = given.course("course-1");
+        var course2 = given.course("course-2");
+        var softDeletedCourse = given.course("soft-deleted-course", c -> c.softDeleted());
+        var session1 = given.feedbackSession("session-1", fs -> fs.course(course1.alias()).opened());
+        var session2 = given.feedbackSession("session-2", fs -> fs.course(course2.alias()).opened());
+        given.feedbackSession("session-in-deleted-course", fs -> fs.course(softDeletedCourse.alias()).opened());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withAdminAuth();
+
+        FeedbackSessionsData result = execute(request);
+
+        assertEquals(Set.of(session1.id(), session2.id()), getFeedbackSessionIds(result));
+    }
+
+    @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionsAction_instructorWithMultipleCourseIds_returnsSessionsFromAllCourses() {
         var requesterAccount = given.account("requester-account");
         var course1 = given.course("course-1");
