@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -108,6 +109,46 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
 
         List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getSoftDeletedFeedbackSessionsForCourses(
                 List.of(course.id(), softDeletedCourse.id())));
+
+        assertEquals(Set.of(softDeletedFeedbackSession.id()),
+                actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getFeedbackSessions_noCourseFilter_returnsNonSoftDeletedSessionsInActiveCourses() {
+        var course = given.course("course");
+        var anotherCourse = given.course("another-course");
+        var softDeletedCourse = given.course("soft-deleted-course", c -> c.softDeleted());
+        var feedbackSession = given.feedbackSession("feedback-session", fs -> fs.course(course.alias()));
+        var anotherCourseFeedbackSession = given.feedbackSession("another-course-feedback-session",
+                fs -> fs.course(anotherCourse.alias()));
+        given.feedbackSession("soft-deleted-feedback-session", fs -> fs.course(course.alias()).softDeleted());
+        given.feedbackSession("feedback-session-in-soft-deleted-course", fs -> fs.course(softDeletedCourse.alias()));
+        persistGivenData(given);
+
+        List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSessions(
+                new FeedbackSessionQuery(null, null)));
+
+        assertEquals(Set.of(feedbackSession.id(), anotherCourseFeedbackSession.id()),
+                actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getFeedbackSessions_withCourseAndRecycleBinFilters_returnsSoftDeletedSessionsInActiveCourses() {
+        var course = given.course("course");
+        var anotherCourse = given.course("another-course");
+        var softDeletedCourse = given.course("soft-deleted-course", c -> c.softDeleted());
+        var softDeletedFeedbackSession = given.feedbackSession("soft-deleted-feedback-session",
+                fs -> fs.course(course.alias()).softDeleted());
+        given.feedbackSession("feedback-session", fs -> fs.course(course.alias()));
+        given.feedbackSession("soft-deleted-feedback-session-in-another-course",
+                fs -> fs.course(anotherCourse.alias()).softDeleted());
+        given.feedbackSession("soft-deleted-feedback-session-in-soft-deleted-course",
+                fs -> fs.course(softDeletedCourse.alias()).softDeleted());
+        persistGivenData(given);
+
+        List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSessions(
+                new FeedbackSessionQuery(List.of(course.id(), softDeletedCourse.id()), true)));
 
         assertEquals(Set.of(softDeletedFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
