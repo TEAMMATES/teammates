@@ -42,7 +42,7 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
     @Override
     public JsonResult execute() {
         List<FeedbackSession> feedbackSessions = getFeedbackSessions();
-        if (requestContext.isAdmin()) {
+        if (requestContext.isAdmin() && getCourseIds() == null) {
             return new JsonResult(new FeedbackSessionsData(feedbackSessions));
         }
 
@@ -53,7 +53,8 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
         for (FeedbackSession session : feedbackSessions) {
             Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-            sessionToDeadline.put(session, logic.getDeadlineForUser(session, instructor));
+            Instant deadline = instructor == null ? session.getEndTime() : logic.getDeadlineForUser(session, instructor);
+            sessionToDeadline.put(session, deadline);
         }
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(sessionToDeadline);
@@ -75,7 +76,10 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
     private List<Instructor> getInstructorsForRequestedCourses(List<String> courseIds) {
         List<Instructor> instructors = new ArrayList<>();
         for (String courseId : courseIds) {
-            instructors.add(getInstructorFromRequest(courseId));
+            Instructor instructor = getInstructorFromRequest(courseId);
+            if (instructor != null) {
+                instructors.add(instructor);
+            }
         }
         return instructors;
     }

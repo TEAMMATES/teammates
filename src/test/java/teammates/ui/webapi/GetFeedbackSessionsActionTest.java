@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 import java.util.UUID;
@@ -35,6 +36,25 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData result = execute(request);
 
         assertEquals(Set.of(session1.id(), session2.id()), getFeedbackSessionIds(result));
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionsAction_adminWithCourseIds_returnsInstructorPermissions() {
+        var adminAccount = given.account("admin-account", a -> a.admin());
+        var course = given.course("course");
+        given.instructor("admin-instructor", i -> i.account(adminAccount.alias()).course(course.alias()).manager());
+        var session = given.feedbackSession("session", fs -> fs.course(course.alias()).opened());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.COURSE_ID, course.id())
+                .withAccountAuth(adminAccount.id());
+
+        FeedbackSessionsData result = execute(request);
+
+        assertEquals(Set.of(session.id()), getFeedbackSessionIds(result));
+        assertNotNull(result.getFeedbackSessions().get(0).getInstructorPermissions());
+        assertTrue(result.getFeedbackSessions().get(0).getInstructorPermissions().getCanModifySession());
     }
 
     @Test(groups = GroupNames.ACTION)
