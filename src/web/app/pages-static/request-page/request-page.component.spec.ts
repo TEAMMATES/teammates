@@ -8,7 +8,6 @@ import { AuthInfo } from '../../../types/api-output';
 import { RequestPageComponent } from './request-page.component';
 
 const loggedInAuthInfo: AuthInfo = {
-  loginUrl: '/login',
   masquerade: false,
   user: {
     accountId: 'acc1',
@@ -21,7 +20,6 @@ const loggedInAuthInfo: AuthInfo = {
 };
 
 const loggedOutAuthInfo: AuthInfo = {
-  loginUrl: '/login',
   masquerade: false,
 };
 

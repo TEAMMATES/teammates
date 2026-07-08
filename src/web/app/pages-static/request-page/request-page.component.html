@@ -57,11 +57,6 @@
             (requestSubmissionEvent)="onRequestSubmitted($event)"
           ></tm-instructor-request-form>
           <hr />
-        } @else {
-          <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
-            <span>You must be signed in to submit this form.</span>
-            <a [href]="loginUrl()" class="btn btn-warning">Sign in</a>
-          </div>
         }
       }
     </div>
