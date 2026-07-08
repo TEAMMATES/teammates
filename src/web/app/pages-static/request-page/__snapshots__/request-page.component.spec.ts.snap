@@ -4,9 +4,7 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
 <tm-request-page
   authInfo={[Function Function]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   isLoading={[Function Function]}
-  loginUrl={[Function Function]}
   submittedFormData={[Function Function]}
 >
   <div
@@ -102,9 +100,7 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
 <tm-request-page
   authInfo={[Function Function]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   isLoading={[Function Function]}
-  loginUrl={[Function Function]}
   submittedFormData={[Function Function]}
 >
   <div
@@ -333,9 +329,7 @@ exports[`RequestPageComponent > should render correctly when not signed in 1`] =
 <tm-request-page
   authInfo={[Function Function]}
   authService={[Function _AuthService]}
-  backendUrl={[Function String]}
   isLoading={[Function Function]}
-  loginUrl={[Function Function]}
   submittedFormData={[Function Function]}
 >
   <div
@@ -359,20 +353,6 @@ exports[`RequestPageComponent > should render correctly when not signed in 1`] =
           </p>
         </div>
         <hr />
-        <div
-          class="alert alert-warning d-flex align-items-center justify-content-between"
-          role="alert"
-        >
-          <span>
-            You must be signed in to submit this form.
-          </span>
-          <a
-            class="btn btn-warning"
-            href="http://localhost:8080/login"
-          >
-            Sign in
-          </a>
-        </div>
       </div>
     </div>
   </div>

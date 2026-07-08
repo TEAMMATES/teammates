@@ -14,10 +14,9 @@ const mockRoute = (role: string | undefined, parent: ActivatedRouteSnapshot | nu
 
 const authInfoFor = (role: 'student' | 'instructor' | 'admin' | 'maintainer' | null): AuthInfo => {
   if (!role) {
-    return { loginUrl: '/login', masquerade: false };
+    return { masquerade: false };
   }
   return {
-    loginUrl: '/login',
     masquerade: false,
     user: {
       accountId: `acc_${role}`,
