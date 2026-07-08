@@ -166,7 +166,7 @@ export class StudentHomePageComponent implements OnInit {
     courseRef.isFeedbackSessionsLoading = true;
     courseRef.hasFeedbackSessionsLoadingFailed = false;
     courseRef.feedbackSessions = [];
-    this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId).subscribe({
+    this.feedbackSessionsService.getFeedbackSessionsForStudent(courseId).subscribe({
       next: (fss: FeedbackSessions) => {
         const sortedFss: FeedbackSessionView[] = this.sortFeedbackSessions(fss);
 
