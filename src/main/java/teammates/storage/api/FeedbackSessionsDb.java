@@ -61,6 +61,22 @@ public final class FeedbackSessionsDb {
     }
 
     /**
+     * Gets all non-soft-deleted feedback sessions for the given course IDs.
+     * Includes sessions from soft-deleted courses.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCoursesIncludingSoftDeletedCourses(List<String> courseIds) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                fsJoin.get("id").in(courseIds),
+                cb.isNull(fsRoot.get("deletedAt"))
+        ));
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
      * Gets soft-deleted feedback sessions for the given course IDs, excluding sessions in deleted courses.
      */
     public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourses(List<String> courseIds) {
