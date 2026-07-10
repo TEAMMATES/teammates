@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   Course,
   CourseSections,
@@ -69,7 +69,7 @@ export class CourseService {
       entitytype: 'student',
     };
     if (key) {
-      paramMap['key'] = key;
+      paramMap[QueryParamKeys.KEY] = key;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }

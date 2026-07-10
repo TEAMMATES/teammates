@@ -140,10 +140,10 @@ export class AccountService {
       paramMap['status'] = queryParams.status;
     }
     if (queryParams.searchKey) {
-      paramMap['searchkey'] = queryParams.searchKey;
+      paramMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramMap['limit'] = String(queryParams.limit);
+      paramMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
