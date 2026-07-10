@@ -60,6 +60,7 @@ public final class UrlHelper {
 
     /**
      * Checks whether the given relative URL is safe to use as a redirect target.
+     * Rejects absolute URLs.
      */
     public static boolean isSafeRelativeRedirectUrl(String url) {
         if (StringHelper.isEmpty(url)) {
