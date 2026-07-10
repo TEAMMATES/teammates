@@ -110,7 +110,7 @@ export class FeedbackSessionsService {
    * Creates a feedback session by calling API.
    */
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
-    const paramMap: Record<string, string> = { courseid: courseId };
+    const paramMap: Record<string, string> = { [QueryParamKeys.COURSE_ID]: courseId };
     return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
   }
 
@@ -194,7 +194,7 @@ export class FeedbackSessionsService {
     if (courseId) {
       paramMap = {
         entitytype: 'instructor',
-        courseid: courseId,
+        [QueryParamKeys.COURSE_ID]: courseId,
       };
     } else {
       paramMap = {
@@ -226,7 +226,7 @@ export class FeedbackSessionsService {
     if (courseId) {
       paramMap = {
         entitytype: entityType,
-        courseid: courseId,
+        [QueryParamKeys.COURSE_ID]: courseId,
       };
     } else {
       paramMap = {
@@ -257,7 +257,7 @@ export class FeedbackSessionsService {
   ): Observable<HasResponses> {
     const paramMap: Record<string, string> = {
       entitytype: entityType,
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
