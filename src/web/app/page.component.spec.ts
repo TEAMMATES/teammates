@@ -21,4 +21,17 @@ describe('PageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show a generic sign-in link before login', () => {
+    component.isFetchingAuthDetails = false;
+    component.accountEmail = '';
+    fixture.detectChanges();
+
+    const loginLink: HTMLAnchorElement = fixture.nativeElement.querySelector('#login-btn');
+
+    expect(loginLink).not.toBeNull();
+    expect(loginLink.textContent?.trim()).toBe('Sign in');
+    expect(fixture.nativeElement.querySelector('#student-login-btn')).toBeNull();
+    expect(fixture.nativeElement.querySelector('#instructor-login-btn')).toBeNull();
+  });
 });

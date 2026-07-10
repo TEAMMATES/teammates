@@ -64,19 +64,15 @@
     @if (!isFetchingAuthDetails) {
       <ul class="nav navbar-nav pull-right">
         @if (!accountEmail) {
-          <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
-            <button
-              class="bg-transparent btn btn-link nav-link dropdown-toggle"
-              data-toggle="dropdown"
-              tabindex="0"
-              ngbDropdownToggle
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="login-btn"
+              routerLink="/web/instructor/home"
+              (click)="toggleCollapse(); closeModal()"
             >
               Sign in
-            </button>
-            <div class="dropdown-menu-right dropdown-menu-dark" ngbDropdownMenu>
-              <a class="dropdown-item" id="student-login-btn" routerLink="/web/student/home">As Student</a>
-              <a class="dropdown-item" id="instructor-login-btn" routerLink="/web/instructor/home">As Instructor</a>
-            </div>
+            </a>
           </li>
         } @else {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
