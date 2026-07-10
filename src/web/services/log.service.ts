@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { FeedbackSessionLogs, FeedbackSessionLogType } from '../types/api-output';
 
 /**
@@ -22,8 +22,8 @@ export class LogService {
     key?: string;
   }): Observable<string> {
     const paramMap: Record<string, string> = {
-      fsltype: queryParams.logType.toString(),
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_LOG_TYPE]: queryParams.logType.toString(),
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
@@ -46,9 +46,9 @@ export class LogService {
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string | string[]> = {
       courseid: queryParams.courseId,
-      fslstarttime: queryParams.searchFrom.toString(),
-      fslendtime: queryParams.searchUntil.toString(),
-      fsltype: queryParams.logTypes.map((type) => type.toString()),
+      [QueryParamKeys.FEEDBACK_SESSION_LOG_START_TIME]: queryParams.searchFrom.toString(),
+      [QueryParamKeys.FEEDBACK_SESSION_LOG_END_TIME]: queryParams.searchUntil.toString(),
+      [QueryParamKeys.FEEDBACK_SESSION_LOG_TYPE]: queryParams.logTypes.map((type) => type.toString()),
     };
 
     if (queryParams.userId) {
@@ -56,7 +56,7 @@ export class LogService {
     }
 
     if (queryParams.sessionId) {
-      paramMap['fsid'] = queryParams.sessionId;
+      paramMap[QueryParamKeys.FEEDBACK_SESSION_ID] = queryParams.sessionId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);

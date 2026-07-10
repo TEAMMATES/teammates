@@ -21,6 +21,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -493,6 +494,21 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals(session, result.get(0));
         assertNotNull(result.get(0).getDeletedAt());
+    }
+
+    @Test
+    public void testGetFeedbackSessions_queryGiven_success() {
+        Course course = getTypicalCourse();
+        FeedbackSessionQuery query = new FeedbackSessionQuery(List.of(course.getId()), false);
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+
+        when(fsDb.getFeedbackSessions(query)).thenReturn(List.of(session));
+
+        List<FeedbackSession> result = fsLogic.getFeedbackSessions(query);
+
+        assertNotNull(result);
+        assertEquals(List.of(session), result);
+        verify(fsDb).getFeedbackSessions(query);
     }
 
     @Test

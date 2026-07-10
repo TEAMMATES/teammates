@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
 import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultLink;
@@ -779,6 +780,13 @@ public final class FeedbackSessionsLogic {
                 .distinct()
                 .collect(Collectors.toList());
         return fsDb.getSoftDeletedFeedbackSessionsForCourses(courseIds);
+    }
+
+    /**
+     * Gets feedback sessions matching the given query.
+     */
+    public List<FeedbackSession> getFeedbackSessions(FeedbackSessionQuery query) {
+        return fsDb.getFeedbackSessions(query);
     }
 
     /**
