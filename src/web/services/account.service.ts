@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   AccountVerificationRequest,
   AccountVerificationRequests,
@@ -74,7 +74,7 @@ export class AccountService {
    * Links the current account to a student by calling API.
    */
   linkAccount(request: LinkAccountRequest, key: string): Observable<MessageOutput> {
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { key }, request);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { [QueryParamKeys.KEY]: key }, request);
   }
 
   /**

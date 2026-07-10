@@ -7,7 +7,7 @@ import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
 import * as studentCsvListWithSection from './test-data/student-csv-list-with-section';
 import * as studentCsvListWithoutSection from './test-data/student-csv-list-without-section';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Course, CourseView, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
 
@@ -123,8 +123,8 @@ describe('StudentService', () => {
 
   it('should execute GET when loading students with search parameters', () => {
     const paramMap: Record<string, string> = {
-      searchkey: 'Alice',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Alice',
+      [QueryParamKeys.LIMIT]: '50',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 

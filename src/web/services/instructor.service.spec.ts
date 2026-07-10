@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequest } from '../types/api-request';
 
@@ -85,8 +85,8 @@ describe('InstructorService', () => {
   it('should execute GET when searching instructors with limit', () => {
     service.loadInstructors({ searchKey: 'Lee Wong', limit: 50 });
     const paramMap: Record<string, string> = {
-      searchkey: 'Lee Wong',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Lee Wong',
+      [QueryParamKeys.LIMIT]: '50',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });

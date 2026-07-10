@@ -48,6 +48,9 @@ export enum QueryParamKeys {
   FEEDBACK_SESSION_LOG_START_TIME = "fslstarttime",
   FEEDBACK_SESSION_LOG_END_TIME = "fslendtime",
   FEEDBACK_SESSION_LOG_TYPE = "fsltype",
+  KEY = "key",
+  SEARCH_KEY = "searchkey",
+  LIMIT = "limit",
 }
 
 export enum QuestionTypeStructures {

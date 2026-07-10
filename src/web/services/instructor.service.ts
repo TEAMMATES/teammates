@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Instructor, InstructorPrivilege, Instructors, MessageOutput } from '../types/api-output';
 import { InstructorCreateRequest, InstructorUpdateRequest } from '../types/api-request';
 
@@ -24,10 +24,10 @@ export class InstructorService {
       paramMap['courseid'] = queryParams.courseId;
     }
     if (queryParams.searchKey !== undefined) {
-      paramMap['searchkey'] = queryParams.searchKey;
+      paramMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramMap['limit'] = String(queryParams.limit);
+      paramMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);

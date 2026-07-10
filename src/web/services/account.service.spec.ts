@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { AccountVerificationRequestStatus } from '../types/api-output';
 import {
   AccountCreateRequest,
@@ -97,7 +97,7 @@ describe('AccountService', () => {
     service.linkAccount(request, 'test-key');
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.ACCOUNT_LINK,
-      { key: 'test-key' },
+      { [QueryParamKeys.KEY]: 'test-key' },
       request,
     );
   });
