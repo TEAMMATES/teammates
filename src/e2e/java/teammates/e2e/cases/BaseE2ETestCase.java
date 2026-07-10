@@ -136,7 +136,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of test.app.frontend.url in test.properties.
+     * The base URL will be the frontend URL from the application configuration.
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createFrontendUrl(String relativeUrl) {
@@ -145,7 +145,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of test.app.backend.url in test.properties.
+     * The base URL will be the backend URL from the application configuration.
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createBackendUrl(String relativeUrl) {

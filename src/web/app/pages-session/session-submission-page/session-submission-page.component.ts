@@ -161,7 +161,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
 
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
-    this.authService.getAuthUser(nextUrl).subscribe({
+    this.authService.getAuthUser().subscribe({
       next: (auth: AuthInfo) => {
         if (auth.user) {
           this.accountId = auth.user.accountId;
@@ -778,7 +778,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         {
           intent: this.getSubmissionIntent(),
           key: this.key,
-          moderatedperson: this.moderatedPerson,
+          moderatedPerson: this.moderatedPerson,
         },
       )
       .pipe(

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
 import { TemplateQuestion, templateQuestions } from '../data/template-questions';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
@@ -595,7 +595,7 @@ export class FeedbackQuestionsService {
    */
   getFeedbackQuestions(queryParams: { feedbackSessionId: string }): Observable<FeedbackQuestions> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
@@ -616,7 +616,7 @@ export class FeedbackQuestionsService {
     request: FeedbackQuestionCreateRequest,
   ): Observable<FeedbackQuestion> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);

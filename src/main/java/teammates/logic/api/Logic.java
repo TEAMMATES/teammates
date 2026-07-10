@@ -16,6 +16,7 @@ import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.CourseJoinKeyAccessResult;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -636,6 +637,13 @@ public class Logic {
     public List<FeedbackSession> getFeedbackSessionsForInstructors(
             List<Instructor> instructorList) {
         return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets feedback sessions matching the given query.
+     */
+    public List<FeedbackSession> getFeedbackSessions(FeedbackSessionQuery query) {
+        return feedbackSessionsLogic.getFeedbackSessions(query);
     }
 
     /**

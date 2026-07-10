@@ -22,7 +22,7 @@ public class RequestPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ACCOUNT_VERIFICATION_REQUEST_PAGE);
-        RequestPage requestPage = getNewPageInstance(url, RequestPage.class);
+        RequestPage requestPage = loginAdminToPage(url, RequestPage.class);
 
         Results results = getAxeBuilder().analyze(requestPage.getBrowser().getDriver());
         formatViolations(results);

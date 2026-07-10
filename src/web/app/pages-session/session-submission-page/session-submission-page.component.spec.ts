@@ -463,7 +463,6 @@ describe('SessionSubmissionPageComponent', () => {
 
   const testInfo: AuthInfo = {
     masquerade: false,
-    loginUrl: 'http://localhost:8080/auth',
     user: {
       accountId: 'account-id',
       accountEmail: 'user@teammates.tmt',
@@ -931,7 +930,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
 
@@ -983,7 +982,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
     expect(toastSpy).toHaveBeenCalledWith(
@@ -1040,7 +1039,7 @@ describe('SessionSubmissionPageComponent', () => {
       {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
-        moderatedperson: '',
+        moderatedPerson: '',
       },
     );
 
