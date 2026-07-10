@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { MessageOutput, Notification, Notifications, ReadNotifications } from '../types/api-output';
 import {
   MarkNotificationAsReadRequest,
@@ -35,8 +35,8 @@ export class NotificationService {
    */
   getNotifications(params: GetNotificationsParams): Observable<Notifications> {
     const paramMap: Record<string, string | string[]> = {
-      usertype: params.targetUsers,
-      isfetchingactive: String(params.isFetchingActive),
+      [QueryParamKeys.NOTIFICATION_TARGET_USER]: params.targetUsers,
+      [QueryParamKeys.NOTIFICATION_IS_FETCHING_ACTIVE]: String(params.isFetchingActive),
     };
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }
@@ -46,7 +46,7 @@ export class NotificationService {
    */
   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
     const paramMap: Record<string, string> = {
-      notificationid: notificationId,
+      [QueryParamKeys.NOTIFICATION_ID]: notificationId,
     };
     return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramMap, request);
   }
@@ -56,7 +56,7 @@ export class NotificationService {
    */
   deleteNotification(notificationId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      notificationid: notificationId,
+      [QueryParamKeys.NOTIFICATION_ID]: notificationId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramMap);
   }
