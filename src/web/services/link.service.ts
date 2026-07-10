@@ -1,6 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-
-import { NavigationService } from './navigation.service';
+import { Injectable } from '@angular/core';
 import { Student } from '../types/api-output';
 
 /**
@@ -10,8 +8,6 @@ import { Student } from '../types/api-output';
   providedIn: 'root',
 })
 export class LinkService {
-  private readonly navigationService = inject(NavigationService);
-
   URI_PREFIX = '/web';
   JOIN_PAGE = '/join';
   STUDENT_HOME_PAGE = '/student/home';
@@ -46,12 +42,9 @@ export class LinkService {
   /**
    * Generates student profile page link.
    */
-  generateProfilePageLink(student: Student, instructorAccountId: string): string {
+  generateProfilePageLink(student: Student): string {
     const { courseId, userId } = student;
-    const params: { [key: string]: string } = { masqueradeaccountid: instructorAccountId };
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}/${courseId}/students/${userId}/details${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}/${courseId}/students/${userId}/details`;
   }
 
   /**

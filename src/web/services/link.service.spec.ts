@@ -42,8 +42,8 @@ describe('Link Service', () => {
   });
 
   it('should generate the student profile page link', () => {
-    expect(service.generateProfilePageLink(mockStudent, 'account-admin-01')).toBe(
-      '/web/instructor/courses/cs1010-demo/students/student-alice/details?masqueradeaccountid=account-admin-01',
+    expect(service.generateProfilePageLink(mockStudent)).toBe(
+      '/web/instructor/courses/cs1010-demo/students/student-alice/details',
     );
   });
 
