@@ -36,6 +36,11 @@ export class RoleGuard implements CanActivate, CanActivateChild {
           return true;
         }
 
+        // Admin and Maintainer have access to all routes regardless of expected role.
+        if (this.isPrivilegedUser(authInfo)) {
+          return true;
+        }
+
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
         if (!isRoleMatch) {
           return this.redirectToUnauthorized(expectedRole);
@@ -62,6 +67,10 @@ export class RoleGuard implements CanActivate, CanActivateChild {
       (expectedRole === UserRole.ADMIN && !!user?.isAdmin) ||
       (expectedRole === UserRole.MAINTAINER && !!user?.isMaintainer)
     );
+  }
+
+  private isPrivilegedUser(authInfo: AuthInfo): boolean {
+    return !!authInfo.user?.isAdmin || !!authInfo.user?.isMaintainer;
   }
 
   private redirectToLogin(nextUrl: string) {

@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, provideRouter, RouterStateSnapshot } from '@angular/router';
 import { firstValueFrom, of } from 'rxjs';
 import { Mock, vi } from 'vitest';
 import { AuthService } from '../services/auth.service';
-import { NavigationService } from '../services/navigation.service';
 import { AuthInfo } from '../types/api-output';
-import { RoleGuard } from './role.guard';
+import { RoleGuard, UserRole } from './role.guard';
 
 const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
 
@@ -32,19 +31,17 @@ const authInfoFor = (role: 'student' | 'instructor' | 'admin' | 'maintainer' | n
 describe('RoleGuard', () => {
   let guard: RoleGuard;
   let spyAuthService: { getAuthUser: Mock };
-  let spyNavigationService: Partial<NavigationService>;
 
   beforeEach(() => {
     spyAuthService = {
       getAuthUser: vi.fn(),
     };
-    spyNavigationService = {};
 
     TestBed.configureTestingModule({
       providers: [
+        provideRouter([]),
         RoleGuard,
         { provide: AuthService, useValue: spyAuthService },
-        { provide: NavigationService, useValue: spyNavigationService },
       ],
     });
 
@@ -92,6 +89,22 @@ describe('RoleGuard', () => {
 
       expect(result).toBe(true);
     });
+
+    it.each([
+      ['admin', UserRole.STUDENT],
+      ['admin', UserRole.INSTRUCTOR],
+      ['maintainer', UserRole.STUDENT],
+      ['maintainer', UserRole.INSTRUCTOR],
+    ] as const)(
+      'should return true for a %s accessing a %s route without the matching role',
+      async (userRole: 'admin' | 'maintainer', routeRole: UserRole) => {
+        spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor(userRole)));
+
+        const result = await firstValueFrom(guard.canActivate(mockRoute(routeRole), mockState(`/web/${routeRole}`)));
+
+        expect(result).toBe(true);
+      },
+    );
 
     it('should return false and redirect to unauthorized warning page when user has wrong role', async () => {
       spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('student')));
