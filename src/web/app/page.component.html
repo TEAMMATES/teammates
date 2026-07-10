@@ -68,7 +68,8 @@
             <a
               class="nav-link"
               id="login-btn"
-              routerLink="/web/instructor/home"
+              routerLink="/web/login"
+              [queryParams]="{ nextUrl: '/' }"
               (click)="toggleCollapse(); closeModal()"
             >
               Sign in
