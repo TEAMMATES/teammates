@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequest } from '../types/api-request';
 
@@ -101,10 +101,10 @@ describe('InstructorService', () => {
 
   it('should execute GET when getting an instructor by user id', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
 
-    service.getInstructor({ userId: paramMap['userid'] });
+    service.getInstructor({ userId: paramMap[QueryParamKeys.USER_ID] });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });
@@ -130,7 +130,7 @@ describe('InstructorService', () => {
   it('should execute PUT when updating an instructor for a course', () => {
     service.updateInstructor({ instructorId: '00000000-0000-4000-8000-000000000001' }, defaultUpdateRequestBody);
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.INSTRUCTOR,
@@ -142,7 +142,7 @@ describe('InstructorService', () => {
   it('should execute DELETE when deleting an instructor for a course', () => {
     service.deleteInstructor({ userId: '00000000-0000-4000-8000-000000000001' });
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });
@@ -176,10 +176,10 @@ describe('InstructorService', () => {
 
   it('should call get when loading instructor privileges by user ID', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
 
-    service.loadInstructorPrivilege({ userId: paramMap['userid'] });
+    service.loadInstructorPrivilege({ userId: paramMap[QueryParamKeys.USER_ID] });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 });

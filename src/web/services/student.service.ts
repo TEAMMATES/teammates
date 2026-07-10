@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { CourseView, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
@@ -57,7 +57,7 @@ export class StudentService {
    */
   getStudent(queryParams: { userId: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
@@ -87,7 +87,7 @@ export class StudentService {
     requestBody: StudentUpdateRequest,
   ): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, requestBody);
   }
@@ -97,7 +97,7 @@ export class StudentService {
    */
   deleteStudent(queryParams: { userId: string }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
   }

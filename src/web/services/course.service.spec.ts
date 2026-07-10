@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { CourseCreateRequest, CourseJoinKeyRequest, CourseUpdateRequest } from '../types/api-request';
 
 describe('CourseService', () => {
@@ -128,7 +128,7 @@ describe('CourseService', () => {
   it('should execute POST to remind particular user', () => {
     const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);

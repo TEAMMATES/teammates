@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpRequestService } from './http-request.service';
 import { UserService } from './user.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { createMockHttpRequestService, MockHttpRequestService } from '../test-helpers/mock-http-request';
 
 describe('UserService', () => {
@@ -28,22 +28,22 @@ describe('UserService', () => {
 
   it('should execute POST when regenerating key of a user in a course', () => {
     const paramMap: Record<string, string> = {
-      userid: 'user-id',
+      [QueryParamKeys.USER_ID]: 'user-id',
     };
     vi.spyOn(spyHttpRequestService, 'post');
 
-    service.regenerateUserKey(paramMap['userid']);
+    service.regenerateUserKey(paramMap[QueryParamKeys.USER_ID]);
 
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.USER_KEY, paramMap);
   });
 
   it('should execute GET when retrieving session links for a user', () => {
     const paramMap: Record<string, string> = {
-      userid: 'user-id',
+      [QueryParamKeys.USER_ID]: 'user-id',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
-    service.getSessionLinks(paramMap['userid']);
+    service.getSessionLinks(paramMap[QueryParamKeys.USER_ID]);
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_LINKS, paramMap);
   });

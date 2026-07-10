@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Instructor, InstructorPrivilege, Instructors, MessageOutput } from '../types/api-output';
 import { InstructorCreateRequest, InstructorUpdateRequest } from '../types/api-request';
 
@@ -49,7 +49,7 @@ export class InstructorService {
    */
   getInstructor(queryParams: { userId: string }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR, paramMap);
@@ -84,7 +84,7 @@ export class InstructorService {
     requestBody: InstructorUpdateRequest,
   ): Observable<Instructor> {
     const paramMap: Record<string, string> = {
-      userid: queryParams.instructorId,
+      [QueryParamKeys.USER_ID]: queryParams.instructorId,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, requestBody);
   }
@@ -94,7 +94,7 @@ export class InstructorService {
    */
   deleteInstructor(queryParams: { userId: string }): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);

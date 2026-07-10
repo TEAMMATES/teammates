@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   Course,
   CourseSections,
@@ -142,7 +142,7 @@ export class CourseService {
    */
   remindUserForJoin(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
   }
