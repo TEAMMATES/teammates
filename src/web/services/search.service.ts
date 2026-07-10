@@ -52,28 +52,41 @@ export class SearchService {
       map((value: [Students, Instructors]): [Student[], Instructor[]] => [value[0].students, value[1].instructors]),
       mergeMap((value: [Student[], Instructor[]]) => {
         const [students, instructors] = value;
-        return forkJoin([of(students), of(instructors), this.getDistinctCoursesMap(students, instructors)]);
+        return forkJoin([
+          of(students),
+          of(instructors),
+          this.getDistinctCoursesMap(students, instructors),
+          this.getCourseInstructorAccountIds(students, instructors),
+        ]);
       }),
-      map(([students, instructors, distinctCoursesMap]: [Student[], Instructor[], DistinctCoursesMap]) => {
-        return {
-          students: this.createStudentAccountSearchResults(students, distinctCoursesMap),
-          instructors: this.createInstructorAccountSearchResults(instructors, distinctCoursesMap),
-        };
-      }),
+      map(
+        ([students, instructors, distinctCoursesMap, instructorAccountIds]: [
+          Student[],
+          Instructor[],
+          DistinctCoursesMap,
+          CourseInstructorAccountIdMap,
+        ]) => {
+          return {
+            students: this.createStudentAccountSearchResults(students, distinctCoursesMap, instructorAccountIds),
+            instructors: this.createInstructorAccountSearchResults(instructors, distinctCoursesMap),
+          };
+        },
+      ),
     );
   }
 
   createStudentAccountSearchResults(
     students: Student[],
     distinctCoursesMap: DistinctCoursesMap,
+    instructorAccountIds: CourseInstructorAccountIdMap = {},
   ): StudentAccountSearchResult[] {
     return students.map((student: Student) => {
       const { courseId }: Student = student;
-      return this.joinAdminStudent(student, distinctCoursesMap[courseId]);
+      return this.joinAdminStudent(student, distinctCoursesMap[courseId], instructorAccountIds[courseId] ?? '');
     });
   }
 
-  joinAdminStudent(student: Student, course: Course): StudentAccountSearchResult {
+  joinAdminStudent(student: Student, course: Course, courseInstructorAccountId = ''): StudentAccountSearchResult {
     let studentResult: StudentAccountSearchResult = {
       userId: '',
       email: '',
@@ -87,6 +100,7 @@ export class SearchService {
       institute: '',
       manageAccountLink: '',
       profilePageLink: '',
+      courseInstructorAccountId: '',
     };
     const {
       userId,
@@ -105,6 +119,7 @@ export class SearchService {
 
     // Generate links for students
     studentResult.profilePageLink = this.linkService.generateProfilePageLink(student);
+    studentResult.courseInstructorAccountId = courseInstructorAccountId;
     studentResult.manageAccountLink = accountId
       ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
       : '';
@@ -170,6 +185,36 @@ export class SearchService {
       }),
     );
   }
+
+  private getCourseInstructorAccountIds(
+    students: Student[],
+    instructors: Instructor[],
+  ): Observable<CourseInstructorAccountIdMap> {
+    const distinctCourseIds: string[] = Array.from(
+      new Set([
+        ...students.map((student: Student) => student.courseId),
+        ...instructors.map((instructor: Instructor) => instructor.courseId),
+      ]),
+    );
+    if (distinctCourseIds.length === 0) {
+      return of({});
+    }
+
+    return forkJoin(
+      distinctCourseIds.map((id: string) => this.instructorService.loadInstructors({ courseId: id })),
+    ).pipe(
+      map((instructorsForCourses: Instructors[]) => {
+        const instructorAccountIds: CourseInstructorAccountIdMap = {};
+        instructorsForCourses.forEach((instructorsForCourse: Instructors, index: number) => {
+          const instructor: Instructor | undefined = instructorsForCourse.instructors.find(
+            (courseInstructor: Instructor) => !!courseInstructor.accountId,
+          );
+          instructorAccountIds[distinctCourseIds[index]] = instructor?.accountId ?? '';
+        });
+        return instructorAccountIds;
+      }),
+    );
+  }
 }
 
 /**
@@ -209,8 +254,13 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   profilePageLink: string;
+  courseInstructorAccountId: string;
 }
 
 interface DistinctCoursesMap {
   [courseId: string]: Course;
+}
+
+interface CourseInstructorAccountIdMap {
+  [courseId: string]: string;
 }

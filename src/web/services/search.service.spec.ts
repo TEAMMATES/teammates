@@ -70,8 +70,13 @@ describe('SearchService', () => {
   });
 
   it('should join students with correct profile page link', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(mockStudent, mockCourse);
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
+      mockStudent,
+      mockCourse,
+      mockInstructorA.accountId,
+    );
     expect(result.profilePageLink).toBe('/web/instructor/courses/cs1010-demo/students/student-alice/details');
+    expect(result.courseInstructorAccountId).toBe(mockInstructorA.accountId);
   });
 
   it('should join instructors accurately when calling as admin', () => {

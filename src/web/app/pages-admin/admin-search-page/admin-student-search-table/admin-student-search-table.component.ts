@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
+import { MasqueradeModeService } from '../../../../services/masquerade-mode.service';
 import { StudentAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -23,6 +24,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
   private userService = inject(UserService);
   private ngbModal = inject(NgbModal);
+  private masqueradeModeService = inject(MasqueradeModeService);
 
   @Input()
   students: StudentAccountSearchResult[] = [];
@@ -45,6 +47,22 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     const modalRef: NgbModalRef = this.ngbModal.open(AdminSessionLinksModalComponent, { size: 'xl' });
     modalRef.componentInstance.userId = student.userId;
     modalRef.componentInstance.userName = student.name;
+  }
+
+  openStudentProfileAsInstructor(event: MouseEvent, student: StudentAccountSearchResult): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!student.courseInstructorAccountId) {
+      this.statusMessageService.showErrorToast(
+        `There is no registered instructor account to masquerade as for course "${student.courseId}".`,
+      );
+      return;
+    }
+
+    this.masqueradeModeService.masqueradeAs(student.courseInstructorAccountId);
+    globalThis.open(student.profilePageLink, '_blank');
+    this.masqueradeModeService.clearMasquerade();
   }
 
   regenerateUserKey(student: StudentAccountSearchResult, index: number): void {

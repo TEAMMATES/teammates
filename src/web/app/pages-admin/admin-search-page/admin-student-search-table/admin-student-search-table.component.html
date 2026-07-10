@@ -37,7 +37,7 @@
             <td>
               <a
                 href="{{ student.profilePageLink }}"
-                (click)="$event.stopPropagation()"
+                (click)="openStudentProfileAsInstructor($event, student)"
                 target="_blank"
                 rel="noopener noreferrer"
                 [innerHtml]="student.name | highlighter: searchString : true"
