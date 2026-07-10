@@ -120,9 +120,9 @@ public final class Const {
         public static final String ACCOUNT_VERIFICATION_REQUEST_STATUS = "status";
         public static final String INSTITUTE_ID = "instituteid";
 
-        public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
-        public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
-        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_STARTTIME = "fsstarttime";
+        public static final String FEEDBACK_SESSION_ENDTIME = "fsendtime";
+        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "fsmoderatedperson";
         public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
         public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";

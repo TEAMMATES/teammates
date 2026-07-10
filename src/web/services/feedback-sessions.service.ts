@@ -6,7 +6,7 @@ import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { TemplateSession, templateSessions } from '../data/template-sessions';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   DeadlineExtension,
   DeadlineExtensions,
@@ -59,7 +59,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSession(queryParams: { feedbackSessionId: string; key?: string }): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
@@ -88,7 +88,7 @@ export class FeedbackSessionsService {
   }): Observable<SessionSubmission> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
@@ -96,7 +96,7 @@ export class FeedbackSessionsService {
     }
 
     if (queryParams.moderatedPerson) {
-      paramMap['moderatedperson'] = queryParams.moderatedPerson;
+      paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON] = queryParams.moderatedPerson;
     }
 
     if (queryParams.previewAs) {
@@ -119,7 +119,7 @@ export class FeedbackSessionsService {
    */
   updateFeedbackSession(feedbackSessionId: string, request: FeedbackSessionUpdateRequest): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
   }
@@ -133,7 +133,7 @@ export class FeedbackSessionsService {
     key?: string;
   }): Observable<DeadlineExtension> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
       userid: queryParams.userId,
     };
     if (queryParams.key) {
@@ -147,7 +147,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionDeadlineExtensions(feedbackSessionId: string): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
     return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSIONS, paramMap);
   }
@@ -161,7 +161,7 @@ export class FeedbackSessionsService {
     isNotifyDeadlines: boolean,
   ): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
       notifydeadlines: String(isNotifyDeadlines),
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION_DEADLINE_EXTENSIONS, paramMap, request);
@@ -171,7 +171,7 @@ export class FeedbackSessionsService {
    * Deletes a feedback session by calling API.
    */
   deleteFeedbackSession(feedbackSessionId: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { fsid: feedbackSessionId };
+    const paramMap: Record<string, string> = { [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId };
     return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
   }
 
@@ -180,8 +180,8 @@ export class FeedbackSessionsService {
    */
   getOngoingSessions(startTime: number, endTime: number): Observable<OngoingSessions> {
     const paramMap: Record<string, string> = {
-      starttime: String(startTime),
-      endtime: String(endTime),
+      [QueryParamKeys.FEEDBACK_SESSION_START_TIME]: String(startTime),
+      [QueryParamKeys.FEEDBACK_SESSION_END_TIME]: String(endTime),
     };
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS_ONGOING, paramMap);
   }
@@ -271,7 +271,7 @@ export class FeedbackSessionsService {
     request: FeedbackSessionRespondentRemindRequest,
   ): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_SUBMISSION, paramMap, request);
@@ -285,7 +285,7 @@ export class FeedbackSessionsService {
     request: FeedbackSessionRespondentRemindRequest,
   ): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_RESULT, paramMap, request);
@@ -298,7 +298,7 @@ export class FeedbackSessionsService {
     feedbackSessionId: string;
   }): Observable<FeedbackSessionSubmittedGiverSet> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
@@ -338,7 +338,7 @@ export class FeedbackSessionsService {
    */
   publishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_PUBLISH, paramMap);
@@ -349,7 +349,7 @@ export class FeedbackSessionsService {
    */
   unpublishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.SESSION_PUBLISH, paramMap);
@@ -360,7 +360,7 @@ export class FeedbackSessionsService {
    */
   loadSessionStatistics(feedbackSessionId: string): Observable<FeedbackSessionStats> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);
@@ -402,7 +402,7 @@ export class FeedbackSessionsService {
    */
   getCourseSessionResults(queryParams: { feedbackSessionId: string; questionId?: string }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
     };
 
     if (queryParams.questionId) {
@@ -422,7 +422,7 @@ export class FeedbackSessionsService {
     key?: string;
   }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
-      fsid: queryParams.feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
       userid: queryParams.userId,
       ispreview: String(queryParams.isPreview),
     };
@@ -439,7 +439,7 @@ export class FeedbackSessionsService {
    */
   moveSessionToRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);
@@ -450,7 +450,7 @@ export class FeedbackSessionsService {
    */
   restoreSessionFromRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      fsid: feedbackSessionId,
+      [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);

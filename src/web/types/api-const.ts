@@ -41,6 +41,13 @@ export enum QueryParamKeys {
   NOTIFICATION_ID = "notificationid",
   NOTIFICATION_TARGET_USER = "usertype",
   NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive",
+  FEEDBACK_SESSION_ID = "fsid",
+  FEEDBACK_SESSION_START_TIME = "fsstarttime",
+  FEEDBACK_SESSION_END_TIME = "fsendtime",
+  FEEDBACK_SESSION_MODERATED_PERSON = "fsmoderatedperson",
+  FEEDBACK_SESSION_LOG_START_TIME = "fslstarttime",
+  FEEDBACK_SESSION_LOG_END_TIME = "fslendtime",
+  FEEDBACK_SESSION_LOG_TYPE = "fsltype",
 }
 
 export enum QuestionTypeStructures {
