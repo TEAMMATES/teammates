@@ -38,11 +38,7 @@ describe('RoleGuard', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        RoleGuard,
-        { provide: AuthService, useValue: spyAuthService },
-      ],
+      providers: [provideRouter([]), RoleGuard, { provide: AuthService, useValue: spyAuthService }],
     });
 
     guard = TestBed.inject(RoleGuard);
