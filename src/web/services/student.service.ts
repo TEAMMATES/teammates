@@ -32,10 +32,10 @@ export class StudentService {
       paramsMap['courseid'] = queryParams.courseIds;
     }
     if (queryParams.searchKey !== undefined) {
-      paramsMap['searchkey'] = queryParams.searchKey;
+      paramsMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramsMap['limit'] = String(queryParams.limit);
+      paramsMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
@@ -71,7 +71,7 @@ export class StudentService {
       [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
     if (queryParams.key) {
-      paramsMap['key'] = queryParams.key;
+      paramsMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_STUDENT, paramsMap);

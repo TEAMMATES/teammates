@@ -69,7 +69,7 @@ export class CourseService {
       entitytype: 'student',
     };
     if (key) {
-      paramMap['key'] = key;
+      paramMap[QueryParamKeys.KEY] = key;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }

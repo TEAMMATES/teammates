@@ -27,7 +27,7 @@ export class LogService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_LOGS, paramMap);

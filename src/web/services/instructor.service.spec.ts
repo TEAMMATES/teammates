@@ -85,8 +85,8 @@ describe('InstructorService', () => {
   it('should execute GET when searching instructors with limit', () => {
     service.loadInstructors({ searchKey: 'Lee Wong', limit: 50 });
     const paramMap: Record<string, string> = {
-      searchkey: 'Lee Wong',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Lee Wong',
+      [QueryParamKeys.LIMIT]: '50',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });
