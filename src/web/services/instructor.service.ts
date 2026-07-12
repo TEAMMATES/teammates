@@ -21,7 +21,7 @@ export class InstructorService {
     const paramMap: Record<string, string> = {};
 
     if (queryParams.courseId !== undefined) {
-      paramMap['courseid'] = queryParams.courseId;
+      paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseId;
     }
     if (queryParams.searchKey !== undefined) {
       paramMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
@@ -38,7 +38,7 @@ export class InstructorService {
    */
   loadDisplayedInstructors(queryParams: { courseId: string }): Observable<Instructors> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS_DISPLAYED, paramMap);
@@ -60,7 +60,7 @@ export class InstructorService {
    */
   getOwnInstructor(queryParams: { courseId: string }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_INSTRUCTOR, paramMap);
@@ -71,7 +71,7 @@ export class InstructorService {
    */
   createInstructor(queryParams: { courseId: string }, requestBody: InstructorCreateRequest): Observable<Instructor> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
     return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, requestBody);
   }
@@ -111,7 +111,7 @@ export class InstructorService {
     const paramMap: Record<string, string> = {};
 
     if ('courseId' in queryParams) {
-      paramMap['courseid'] = queryParams.courseId;
+      paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseId;
     } else {
       paramMap['userid'] = queryParams.userId;
     }

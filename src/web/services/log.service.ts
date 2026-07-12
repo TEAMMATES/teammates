@@ -45,7 +45,7 @@ export class LogService {
     sessionId?: string;
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string | string[]> = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
       [QueryParamKeys.FEEDBACK_SESSION_LOG_START_TIME]: queryParams.searchFrom.toString(),
       [QueryParamKeys.FEEDBACK_SESSION_LOG_END_TIME]: queryParams.searchUntil.toString(),
       [QueryParamKeys.FEEDBACK_SESSION_LOG_TYPE]: queryParams.logTypes.map((type) => type.toString()),

@@ -198,7 +198,7 @@ describe('FeedbackSessionsService', () => {
     const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     service.hasResponsesForAllFeedbackSessionsInCourse(courseId, 'instructor');
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
