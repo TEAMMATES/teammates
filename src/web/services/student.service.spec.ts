@@ -97,12 +97,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting the current student of a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getOwnStudent({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_STUDENT, paramMap);
@@ -110,12 +110,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting all students in a course', () => {
     const paramMap = {
-      courseid: ['CS3281'],
+      [QueryParamKeys.COURSE_ID]: ['CS3281'],
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudents({
-      courseIds: paramMap.courseid,
+      courseIds: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
@@ -138,12 +138,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting own team students', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getOwnTeamStudents({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_TEAM_STUDENTS, paramMap);
@@ -151,12 +151,12 @@ describe('StudentService', () => {
 
   it('should execute DELETE when deleting all students in a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'delete');
 
     service.deleteStudentsFromCourse({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);

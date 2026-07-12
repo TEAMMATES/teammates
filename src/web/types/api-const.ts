@@ -38,6 +38,8 @@ export enum DefaultInstructorPermissions {
 export enum QueryParamKeys {
   NEXT_URL = "nextUrl",
   LOGIN_METHOD = "loginMethod",
+  COURSE_ID = "courseid",
+  COURSE_STATUS = "coursestatus",
   NOTIFICATION_ID = "notificationid",
   NOTIFICATION_TARGET_USER = "usertype",
   NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive",
