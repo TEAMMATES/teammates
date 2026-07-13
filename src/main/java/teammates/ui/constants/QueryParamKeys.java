@@ -33,6 +33,9 @@ public enum QueryParamKeys {
     USER_ID(ParamsNames.USER_ID),
     ACCOUNT_ID(ParamsNames.ACCOUNT_ID),
 
+    PREVIEWAS(ParamsNames.PREVIEWAS),
+    IS_PREVIEW(ParamsNames.IS_PREVIEW),
+
     KEY(ParamsNames.KEY),
     SEARCH_KEY(ParamsNames.SEARCH_KEY),
     LIMIT(ParamsNames.LIMIT);

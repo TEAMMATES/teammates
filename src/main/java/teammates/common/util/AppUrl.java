@@ -96,10 +96,6 @@ public class AppUrl {
         return withParam(Const.ParamsNames.KEY, key);
     }
 
-    public AppUrl withIsCreatingAccount(String isCreatingAccount) {
-        return withParam(Const.ParamsNames.IS_CREATING_ACCOUNT, isCreatingAccount);
-    }
-
     public AppUrl withCourseId(String courseId) {
         String newPath = relativeUrl.replace("{courseId}", courseId);
         return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);

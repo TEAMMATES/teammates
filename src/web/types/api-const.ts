@@ -54,6 +54,8 @@ export enum QueryParamKeys {
   QUERY_LOGS_ENDTIME = "qlendtime",
   USER_ID = "userid",
   ACCOUNT_ID = "accountid",
+  PREVIEWAS = "previewas",
+  IS_PREVIEW = "ispreview",
   KEY = "key",
   SEARCH_KEY = "searchkey",
   LIMIT = "limit",
