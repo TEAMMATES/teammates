@@ -123,10 +123,6 @@ const routes: Routes = [
             path: '',
             loadComponent: () =>
               import('./page-role-selection/role-selection-page.component').then((m) => m.RoleSelectionPageComponent),
-            data: {
-              pageTitle: '',
-              htmlTitle: 'TEAMMATES - Choose Role',
-            },
           },
         ],
         canActivate: [RoleGuard],
