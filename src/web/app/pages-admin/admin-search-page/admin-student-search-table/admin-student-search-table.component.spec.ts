@@ -7,7 +7,6 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StudentAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { UserService } from '../../../../services/user.service';
-import { MasqueradeModeService } from '../../../../services/masquerade-mode.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { AdminSessionLinksModalComponent } from '../admin-session-links-modal/admin-session-links-modal.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
@@ -24,8 +23,6 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   section: 'section',
   team: 'team',
   comments: 'comments',
-  profilePageLink: 'profilePageLink',
-  courseInstructorAccountId: 'course-instructor-account-id',
 };
 
 describe('AdminStudentSearchTableComponent', () => {
@@ -35,7 +32,6 @@ describe('AdminStudentSearchTableComponent', () => {
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
-  let masqueradeModeService: MasqueradeModeService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,12 +44,7 @@ describe('AdminStudentSearchTableComponent', () => {
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
-    masqueradeModeService = TestBed.inject(MasqueradeModeService);
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
   });
 
   it('should create', () => {
@@ -84,38 +75,6 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(openSpy).toHaveBeenCalledWith(AdminSessionLinksModalComponent, { size: 'xl' });
     expect(modalRef.componentInstance.userId).toBe(DEFAULT_STUDENT_SEARCH_RESULT.userId);
     expect(modalRef.componentInstance.userName).toBe(DEFAULT_STUDENT_SEARCH_RESULT.name);
-  });
-
-  it('should open student profile in masquerade mode as course instructor', () => {
-    const event = new MouseEvent('click');
-    const preventDefaultSpy = vi.spyOn(event, 'preventDefault');
-    const stopPropagationSpy = vi.spyOn(event, 'stopPropagation');
-    const masqueradeSpy = vi.spyOn(masqueradeModeService, 'masqueradeAs');
-    const clearMasqueradeSpy = vi.spyOn(masqueradeModeService, 'clearMasquerade');
-    const openSpy = vi.spyOn(globalThis, 'open').mockReturnValue(null);
-
-    component.openStudentProfileAsInstructor(event, DEFAULT_STUDENT_SEARCH_RESULT);
-
-    expect(preventDefaultSpy).toHaveBeenCalled();
-    expect(stopPropagationSpy).toHaveBeenCalled();
-    expect(masqueradeSpy).toHaveBeenCalledWith(DEFAULT_STUDENT_SEARCH_RESULT.courseInstructorAccountId);
-    expect(openSpy).toHaveBeenCalledWith(DEFAULT_STUDENT_SEARCH_RESULT.profilePageLink, '_blank');
-    expect(clearMasqueradeSpy).toHaveBeenCalled();
-  });
-
-  it('should show error when student profile cannot be opened as course instructor', () => {
-    const errorSpy = vi.spyOn(statusMessageService, 'showErrorToast');
-    const openSpy = vi.spyOn(globalThis, 'open').mockReturnValue(null);
-
-    component.openStudentProfileAsInstructor(new MouseEvent('click'), {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      courseInstructorAccountId: '',
-    });
-
-    expect(errorSpy).toHaveBeenCalledWith(
-      `There is no registered instructor account to masquerade as for course "${DEFAULT_STUDENT_SEARCH_RESULT.courseId}".`,
-    );
-    expect(openSpy).not.toHaveBeenCalled();
   });
 
   it('should show success message if student links are regenerated', async () => {

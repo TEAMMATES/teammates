@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { provideRouter } from '@angular/router';
 import { LinkService } from './link.service';
-import { JoinState, Student } from '../types/api-output';
 
 describe('Link Service', () => {
   let service: LinkService;
@@ -14,21 +13,6 @@ describe('Link Service', () => {
     service = TestBed.inject(LinkService);
   });
 
-  const mockStudent: Student = {
-    userId: 'student-alice',
-    email: 'alice.brown@example.edu',
-    courseId: 'cs1010-demo',
-    courseName: 'Introduction to Software Engineering',
-    institute: 'National University of Singapore',
-    name: 'Alice Brown',
-    comments: 'Student record used for link generation tests',
-    joinState: JoinState.JOINED,
-    teamName: 'Team 1',
-    teamId: 'team-1',
-    sectionName: 'Tutorial Group 1',
-    sectionId: 'section-1',
-  };
-
   it('should generate the instructor welcome link', () => {
     expect(service.generateInstructorWelcomeLink('student-key-001')).toBe(
       `${globalThis.location.origin}/web/instructor/welcome/student-key-001`,
@@ -38,12 +22,6 @@ describe('Link Service', () => {
   it('should generate the manage account link', () => {
     expect(service.generateManageAccountLink('00000000-0000-4000-8000-000000000001', '/manage-account')).toBe(
       '/web/admin/accounts/00000000-0000-4000-8000-000000000001',
-    );
-  });
-
-  it('should generate the student profile page link', () => {
-    expect(service.generateProfilePageLink(mockStudent)).toBe(
-      '/web/instructor/courses/cs1010-demo/students/student-alice/details',
     );
   });
 

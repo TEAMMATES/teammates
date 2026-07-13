@@ -49,22 +49,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     modalRef.componentInstance.userName = student.name;
   }
 
-  openStudentProfileAsInstructor(event: MouseEvent, student: StudentAccountSearchResult): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (!student.courseInstructorAccountId) {
-      this.statusMessageService.showErrorToast(
-        `There is no registered instructor account to masquerade as for course "${student.courseId}".`,
-      );
-      return;
-    }
-
-    this.masqueradeModeService.masqueradeAs(student.courseInstructorAccountId);
-    globalThis.open(student.profilePageLink, '_blank');
-    this.masqueradeModeService.clearMasquerade();
-  }
-
   regenerateUserKey(student: StudentAccountSearchResult, index: number): void {
     this.isRegeneratingStudentKeys[index] = true;
     const modalContent = `Are you sure you want to regenerate the links for
