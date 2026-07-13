@@ -1,0 +1,33 @@
+<div *tmIsLoading="isLoadingRoles()">
+  <div class="card bg-light mx-auto" style="max-width: 800px">
+    <div class="card-header bg-primary text-white">
+      <h1 class="mb-0 h3">Welcome to TEAMMATES!</h1>
+    </div>
+    <div class="card-body">
+      @if (hasRolePages()) {
+        <p>Choose a page to continue.</p>
+        <div style="margin-top: 20px">
+          @for (rolePage of rolePages(); track rolePage.url) {
+            <div class="d-sm-flex align-items-center justify-content-between border-top py-3">
+              <div class="mb-2 mb-sm-0">
+                <strong>{{ rolePage.display }}</strong>
+                <div>{{ rolePage.description }}</div>
+              </div>
+              <a class="btn btn-success" [routerLink]="rolePage.url">Continue</a>
+            </div>
+          }
+        </div>
+      } @else {
+        <p>You do not have access to any instructor or student pages yet.</p>
+        <p>
+          If you expected access, please contact your instructor or email us at
+          <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a
+          >.
+        </p>
+        <div class="text-center" style="margin-top: 20px">
+          <a class="btn btn-primary" routerLink="/web/front/">Return to main page</a>
+        </div>
+      }
+    </div>
+  </div>
+</div>
