@@ -123,8 +123,8 @@ describe('StudentService', () => {
 
   it('should execute GET when loading students with search parameters', () => {
     const paramMap: Record<string, string> = {
-      searchkey: 'Alice',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Alice',
+      [QueryParamKeys.LIMIT]: '50',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 

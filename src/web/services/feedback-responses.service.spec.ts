@@ -371,13 +371,13 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       questionid: '[dummy question ID]',
       intent: dummyIntent,
-      key: '[dummy key]',
+      [QueryParamKeys.KEY]: '[dummy key]',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     service.getFeedbackResponse({
       questionId: paramMap['questionid'],
       intent: dummyIntent,
-      key: paramMap['key'],
+      key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap);
@@ -388,16 +388,16 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       fsid: '[dummy session ID]',
       intent: dummyIntent,
-      key: '[dummy key]',
+      [QueryParamKeys.KEY]: '[dummy key]',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
     const dummyParams = {
       intent: dummyIntent,
-      key: paramMap['key'],
+      key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     };
-    service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyParams);
+    service.submitFeedbackResponses(paramMap[QueryParamKeys.FEEDBACK_SESSION_ID], dummyRequest, dummyParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 
@@ -406,13 +406,13 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       responseid: '[dummy response ID]',
       intent: dummyIntent,
-      key: '[dummy key]',
+      [QueryParamKeys.KEY]: '[dummy key]',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: '',
     };
     service.deleteGiverComment({
       responseId: paramMap['responseid'],
       intent: dummyIntent,
-      key: paramMap['key'],
+      key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
     });
 

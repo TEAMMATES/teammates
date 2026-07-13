@@ -97,7 +97,7 @@ describe('AccountService', () => {
     service.linkAccount(request, 'test-key');
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.ACCOUNT_LINK,
-      { key: 'test-key' },
+      { [QueryParamKeys.KEY]: 'test-key' },
       request,
     );
   });

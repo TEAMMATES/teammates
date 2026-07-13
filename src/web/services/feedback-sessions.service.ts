@@ -63,7 +63,7 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
@@ -92,7 +92,7 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     if (queryParams.moderatedPerson) {
@@ -137,7 +137,7 @@ export class FeedbackSessionsService {
       [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
     return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
   }
@@ -428,7 +428,7 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
