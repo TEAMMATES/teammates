@@ -2,7 +2,6 @@ import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { MasqueradeModeService } from '../../../../services/masquerade-mode.service';
 import { StudentAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -24,7 +23,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
   private userService = inject(UserService);
   private ngbModal = inject(NgbModal);
-  private masqueradeModeService = inject(MasqueradeModeService);
 
   @Input()
   students: StudentAccountSearchResult[] = [];

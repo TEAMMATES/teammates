@@ -138,8 +138,6 @@ describe('AdminSearchPageComponent', () => {
         section: 'section1',
         team: 'team1',
         comments: 'comments1',
-        profilePageLink: 'profilePageLink1',
-        courseInstructorAccountId: 'course-instructor-account-id-1',
       },
       {
         userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
@@ -153,8 +151,6 @@ describe('AdminSearchPageComponent', () => {
         section: 'section2',
         team: 'team2',
         comments: 'comments2',
-        profilePageLink: 'profilePageLink2',
-        courseInstructorAccountId: 'course-instructor-account-id-2',
       },
     ];
 
