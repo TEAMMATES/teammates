@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { ConfigService } from './config.service';
 import { createMockHttpRequestService, MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { HttpRequestService } from './http-request.service';
@@ -21,7 +22,7 @@ describe('ConfigService', () => {
   });
 
   it('should execute GET on config endpoint', () => {
-    spyHttpRequestService.get.mockReturnValue({});
+    spyHttpRequestService.get.mockReturnValue(of({}));
     service.getConfig();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.CONFIG);
   });
