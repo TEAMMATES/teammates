@@ -161,8 +161,8 @@ public final class Const {
 
         public static final String NOTIFY_ABOUT_DEADLINES = "notifydeadlines";
 
-        public static final String QUERY_LOGS_STARTTIME = "starttime";
-        public static final String QUERY_LOGS_ENDTIME = "endtime";
+        public static final String QUERY_LOGS_STARTTIME = "qlstarttime";
+        public static final String QUERY_LOGS_ENDTIME = "qlendtime";
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
