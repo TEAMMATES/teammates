@@ -27,6 +27,9 @@ public enum QueryParamKeys {
     FEEDBACK_SESSION_LOG_END_TIME(ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME),
     FEEDBACK_SESSION_LOG_TYPE(ParamsNames.FEEDBACK_SESSION_LOG_TYPE),
 
+    USER_ID(ParamsNames.USER_ID),
+    ACCOUNT_ID(ParamsNames.ACCOUNT_ID),
+
     KEY(ParamsNames.KEY),
     SEARCH_KEY(ParamsNames.SEARCH_KEY),
     LIMIT(ParamsNames.LIMIT);

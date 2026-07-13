@@ -134,7 +134,7 @@ export class FeedbackSessionsService {
   }): Observable<DeadlineExtension> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     if (queryParams.key) {
       paramMap[QueryParamKeys.KEY] = queryParams.key;
@@ -423,7 +423,7 @@ export class FeedbackSessionsService {
   }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
       ispreview: String(queryParams.isPreview),
     };
 

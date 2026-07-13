@@ -128,7 +128,7 @@ describe('CourseService', () => {
   it('should execute POST to remind particular user', () => {
     const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);

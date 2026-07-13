@@ -150,7 +150,7 @@ export class CourseService {
    */
   remindUserForJoin(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
   }

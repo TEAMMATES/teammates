@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { MessageOutput, SessionLinks } from '../types/api-output';
 
 /**
@@ -18,7 +18,7 @@ export class UserService {
    */
   regenerateUserKey(userId: string): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.USER_KEY, paramsMap);
   }
@@ -28,7 +28,7 @@ export class UserService {
    */
   getSessionLinks(userId: string): Observable<SessionLinks> {
     const paramsMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LINKS, paramsMap);
   }

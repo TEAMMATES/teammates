@@ -64,13 +64,13 @@ describe('StudentService', () => {
 
   it('should execute PUT when updating students in a course', () => {
     const paramMap: Record<string, string> = {
-      userid: '12345',
+      [QueryParamKeys.USER_ID]: '12345',
     };
     vi.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent(
       {
-        userId: paramMap['userid'],
+        userId: paramMap[QueryParamKeys.USER_ID],
       },
       defaultStudentUpdateRequest,
     );
@@ -84,12 +84,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting a student by user ID', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-9000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-9000-000000000001',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudent({
-      userId: paramMap['userid'],
+      userId: paramMap[QueryParamKeys.USER_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramMap);

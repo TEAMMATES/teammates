@@ -50,6 +50,8 @@ export enum QueryParamKeys {
   FEEDBACK_SESSION_LOG_START_TIME = "fslstarttime",
   FEEDBACK_SESSION_LOG_END_TIME = "fslendtime",
   FEEDBACK_SESSION_LOG_TYPE = "fsltype",
+  USER_ID = "userid",
+  ACCOUNT_ID = "accountid",
   KEY = "key",
   SEARCH_KEY = "searchkey",
   LIMIT = "limit",
