@@ -121,11 +121,11 @@ public class AppUrl {
     }
 
     public AppUrl withEntityType(String entityType) {
-        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
+        return withParam("entityType", entityType);
     }
 
     public AppUrl withPreviewAs(String previewAs) {
-        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
+        return withParam("previewAs", previewAs);
     }
 
     @Override
