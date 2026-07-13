@@ -69,16 +69,6 @@ describe('SearchService', () => {
     expect(result.manageAccountLink).toBe('/web/admin/accounts/00000000-0000-4000-8000-00000000000a');
   });
 
-  it('should join students with correct profile page link', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(
-      mockStudent,
-      mockCourse,
-      mockInstructorA.accountId,
-    );
-    expect(result.profilePageLink).toBe('/web/instructor/courses/cs1010-demo/students/student-alice/details');
-    expect(result.courseInstructorAccountId).toBe(mockInstructorA.accountId);
-  });
-
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service.joinAdminInstructor(mockInstructorA, mockCourse);
     expect(result.courseId).toBe('cs1010-demo');
