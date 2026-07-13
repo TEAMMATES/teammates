@@ -129,7 +129,7 @@ describe('FeedbackSessionsService', () => {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
       [QueryParamKeys.USER_ID]: 'student-user-id',
-      ispreview: 'false',
+      [QueryParamKeys.IS_PREVIEW]: 'false',
     };
 
     service.getUserSessionResults({
@@ -146,7 +146,7 @@ describe('FeedbackSessionsService', () => {
       intent: Intent.STUDENT_SUBMISSION,
       [QueryParamKeys.KEY]: 'reg-key',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: 'moderated-person',
-      previewas: 'preview-person',
+      [QueryParamKeys.PREVIEWAS]: 'preview-person',
     };
 
     service.getSessionSubmissionData({
@@ -154,7 +154,7 @@ describe('FeedbackSessionsService', () => {
       intent: Intent.STUDENT_SUBMISSION,
       key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
-      previewAs: paramMap['previewas'],
+      previewAs: paramMap[QueryParamKeys.PREVIEWAS],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
   });

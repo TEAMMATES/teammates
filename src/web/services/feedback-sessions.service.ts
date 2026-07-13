@@ -100,7 +100,7 @@ export class FeedbackSessionsService {
     }
 
     if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
+      paramMap[QueryParamKeys.PREVIEWAS] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
@@ -424,7 +424,7 @@ export class FeedbackSessionsService {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
       [QueryParamKeys.USER_ID]: queryParams.userId,
-      ispreview: String(queryParams.isPreview),
+      [QueryParamKeys.IS_PREVIEW]: String(queryParams.isPreview),
     };
 
     if (queryParams.key) {
