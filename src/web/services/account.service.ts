@@ -45,7 +45,7 @@ export class AccountService {
    */
   deleteAccount(accountId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      accountid: accountId,
+      [QueryParamKeys.ACCOUNT_ID]: accountId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT, paramMap);
   }
@@ -65,7 +65,7 @@ export class AccountService {
    */
   unlinkAccount(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   }
@@ -118,7 +118,7 @@ export class AccountService {
    */
   getAccount(accountId: string): Observable<Account> {
     const paramMap: Record<string, string> = {
-      accountid: accountId,
+      [QueryParamKeys.ACCOUNT_ID]: accountId,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
   }

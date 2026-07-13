@@ -37,7 +37,7 @@ describe('AccountService', () => {
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
     const paramMap: Record<string, string> = {
-      accountid: id,
+      [QueryParamKeys.ACCOUNT_ID]: id,
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
@@ -68,7 +68,7 @@ describe('AccountService', () => {
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
     const paramMap: Record<string, string> = {
-      accountid: id,
+      [QueryParamKeys.ACCOUNT_ID]: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
@@ -84,7 +84,7 @@ describe('AccountService', () => {
   it('should execute PUT on account/unlink endpoint', () => {
     service.unlinkAccount('testUserId');
     const paramMap: Record<string, string> = {
-      userid: 'testUserId',
+      [QueryParamKeys.USER_ID]: 'testUserId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   });

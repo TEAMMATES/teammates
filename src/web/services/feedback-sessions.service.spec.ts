@@ -128,13 +128,13 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving user feedback session results', () => {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
-      userid: 'student-user-id',
+      [QueryParamKeys.USER_ID]: 'student-user-id',
       ispreview: 'false',
     };
 
     service.getUserSessionResults({
       feedbackSessionId: paramMap[QueryParamKeys.FEEDBACK_SESSION_ID],
-      userId: paramMap['userid'],
+      userId: paramMap[QueryParamKeys.USER_ID],
       isPreview: false,
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
@@ -209,7 +209,7 @@ describe('FeedbackSessionsService', () => {
     const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     service.getDeadlineExtension({ feedbackSessionId, userId });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
