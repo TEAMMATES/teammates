@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   Course,
   CourseSections,
@@ -37,7 +37,7 @@ export class CourseService {
    */
   getAllCoursesAsInstructor(courseStatus: 'active' | 'softDeleted'): Observable<InstructorCourses> {
     const paramMap: Record<string, string> = {
-      coursestatus: courseStatus,
+      [QueryParamKeys.COURSE_STATUS]: courseStatus,
     };
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_COURSES, paramMap);
   }
@@ -47,7 +47,7 @@ export class CourseService {
    */
   getCourseAsInstructor(courseId: string): Observable<CourseView> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
       entitytype: 'instructor',
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
@@ -65,11 +65,11 @@ export class CourseService {
    */
   getCourseAsStudent(courseId: string, key?: string): Observable<CourseView> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
       entitytype: 'student',
     };
     if (key) {
-      paramMap['key'] = key;
+      paramMap[QueryParamKeys.KEY] = key;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
@@ -84,32 +84,40 @@ export class CourseService {
   /**
    * Updates a course by calling API.
    */
-  updateCourse(courseid: string, request: CourseUpdateRequest): Observable<Course> {
-    const paramMap: Record<string, string> = { courseid };
+  updateCourse(courseId: string, request: CourseUpdateRequest): Observable<Course> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
     return this.httpRequestService.put(ResourceEndpoints.COURSE, paramMap, request);
   }
 
   /**
    * Deletes a course by calling API.
    */
-  deleteCourse(courseid: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { courseid };
+  deleteCourse(courseId: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
     return this.httpRequestService.delete(ResourceEndpoints.COURSE, paramMap);
   }
 
   /**
    * Bin (soft-delete) a course by calling API.
    */
-  binCourse(courseid: string): Observable<Course> {
-    const paramMap: Record<string, string> = { courseid };
+  binCourse(courseId: string): Observable<Course> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
     return this.httpRequestService.put(ResourceEndpoints.BIN_COURSE, paramMap);
   }
 
   /**
    * Restore a soft-deleted course by calling API.
    */
-  restoreCourse(courseid: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { courseid };
+  restoreCourse(courseId: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
     return this.httpRequestService.delete(ResourceEndpoints.BIN_COURSE, paramMap);
   }
 
@@ -132,7 +140,7 @@ export class CourseService {
    */
   remindUnregisteredStudentsForJoin(courseId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
   }
@@ -152,7 +160,7 @@ export class CourseService {
    */
   getCourseSections(courseId: string): Observable<CourseSections> {
     const paramsMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
   }

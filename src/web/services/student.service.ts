@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { CourseView, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
@@ -32,10 +32,10 @@ export class StudentService {
       paramsMap['courseid'] = queryParams.courseIds;
     }
     if (queryParams.searchKey !== undefined) {
-      paramsMap['searchkey'] = queryParams.searchKey;
+      paramsMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramsMap['limit'] = String(queryParams.limit);
+      paramsMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
@@ -46,7 +46,7 @@ export class StudentService {
    */
   getOwnTeamStudents(queryParams: { courseId: string }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_TEAM_STUDENTS, paramsMap);
@@ -68,10 +68,10 @@ export class StudentService {
    */
   getOwnStudent(queryParams: { courseId: string; key?: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
     if (queryParams.key) {
-      paramsMap['key'] = queryParams.key;
+      paramsMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.OWN_STUDENT, paramsMap);
@@ -108,7 +108,7 @@ export class StudentService {
    */
   enrollStudents(courseId: string, requestBody: StudentsEnrollRequest): Observable<EnrollStudents> {
     const paramsMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
   }
@@ -118,7 +118,7 @@ export class StudentService {
    */
   deleteStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+      [QueryParamKeys.COURSE_ID]: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
   }

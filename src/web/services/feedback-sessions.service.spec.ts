@@ -144,7 +144,7 @@ describe('FeedbackSessionsService', () => {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
       intent: Intent.STUDENT_SUBMISSION,
-      key: 'reg-key',
+      [QueryParamKeys.KEY]: 'reg-key',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: 'moderated-person',
       previewas: 'preview-person',
     };
@@ -152,7 +152,7 @@ describe('FeedbackSessionsService', () => {
     service.getSessionSubmissionData({
       feedbackSessionId: paramMap[QueryParamKeys.FEEDBACK_SESSION_ID],
       intent: Intent.STUDENT_SUBMISSION,
-      key: paramMap['key'],
+      key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
       previewAs: paramMap['previewas'],
     });
@@ -198,7 +198,7 @@ describe('FeedbackSessionsService', () => {
     const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     service.hasResponsesForAllFeedbackSessionsInCourse(courseId, 'instructor');
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);

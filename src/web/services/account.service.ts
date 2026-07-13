@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   AccountVerificationRequest,
   AccountVerificationRequests,
@@ -74,7 +74,7 @@ export class AccountService {
    * Links the current account to a student by calling API.
    */
   linkAccount(request: LinkAccountRequest, key: string): Observable<MessageOutput> {
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { key }, request);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { [QueryParamKeys.KEY]: key }, request);
   }
 
   /**
@@ -140,10 +140,10 @@ export class AccountService {
       paramMap['status'] = queryParams.status;
     }
     if (queryParams.searchKey) {
-      paramMap['searchkey'] = queryParams.searchKey;
+      paramMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramMap['limit'] = String(queryParams.limit);
+      paramMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
