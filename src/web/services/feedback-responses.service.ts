@@ -195,7 +195,7 @@ export class FeedbackResponsesService {
     const paramMap: Record<string, string> = {
       questionid: queryParams.questionId,
       intent: queryParams.intent,
-      key: queryParams.key,
+      [QueryParamKeys.KEY]: queryParams.key,
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: queryParams.moderatedPerson,
     };
     return this.httpRequestService.get(ResourceEndpoints.RESPONSES, paramMap);
@@ -218,7 +218,7 @@ export class FeedbackResponsesService {
       {
         [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
         intent: params.intent,
-        key: params.key,
+        [QueryParamKeys.KEY]: params.key,
         [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params.moderatedPerson,
       },
       request,
@@ -237,7 +237,7 @@ export class FeedbackResponsesService {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_GIVER_COMMENT, {
       responseid: params.responseId,
       intent: params.intent,
-      key: params.key,
+      [QueryParamKeys.KEY]: params.key,
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: params.moderatedPerson,
     });
   }
