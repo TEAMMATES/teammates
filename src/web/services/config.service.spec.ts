@@ -9,6 +9,10 @@ import { Config } from '../types/api-output';
 describe('ConfigService', () => {
   let service: ConfigService;
   let spyHttpRequestService: MockHttpRequestService;
+  const mockConfig: Config = {
+    loginMethods: [],
+    frontendUrl: '',
+  };
 
   beforeEach(() => {
     spyHttpRequestService = createMockHttpRequestService();
@@ -23,18 +27,17 @@ describe('ConfigService', () => {
   });
 
   it('should execute GET on config endpoint', () => {
-    spyHttpRequestService.get.mockReturnValue({});
+    spyHttpRequestService.get.mockReturnValue(of(mockConfig));
     service.getConfig();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.CONFIG);
   });
 
   it('should return cached config if already fetched', () => {
-    const config = { frontendUrl: '', loginMethods: [] } as Config;
-    spyHttpRequestService.get.mockReturnValue(of(config));
+    spyHttpRequestService.get.mockReturnValue(of(mockConfig));
 
     service.getConfig().subscribe();
     service.getConfig().subscribe((cachedConfig: Config) => {
-      expect(cachedConfig).toEqual(config);
+      expect(cachedConfig).toEqual(mockConfig);
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledOnce();
