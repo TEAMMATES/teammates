@@ -100,10 +100,6 @@ public class AppUrl {
         return withParam(Const.ParamsNames.KEY, key);
     }
 
-    public AppUrl withIsCreatingAccount(String isCreatingAccount) {
-        return withParam(Const.ParamsNames.IS_CREATING_ACCOUNT, isCreatingAccount);
-    }
-
     public AppUrl withCourseId(String courseId) {
         String newPath = relativeUrl.replace("{courseId}", courseId);
         return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
@@ -125,11 +121,11 @@ public class AppUrl {
     }
 
     public AppUrl withEntityType(String entityType) {
-        return withParam("entityType", entityType);
+        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
     }
 
     public AppUrl withPreviewAs(String previewAs) {
-        return withParam("previewAs", previewAs);
+        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
     }
 
     @Override

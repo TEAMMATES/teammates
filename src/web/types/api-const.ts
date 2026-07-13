@@ -52,6 +52,8 @@ export enum QueryParamKeys {
   FEEDBACK_SESSION_LOG_TYPE = "fsltype",
   USER_ID = "userid",
   ACCOUNT_ID = "accountid",
+  PREVIEWAS = "previewas",
+  IS_PREVIEW = "ispreview",
   KEY = "key",
   SEARCH_KEY = "searchkey",
   LIMIT = "limit",
