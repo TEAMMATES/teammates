@@ -34,16 +34,7 @@
                 ></i>
               }
             </td>
-            <td>
-              <a
-                href="{{ student.profilePageLink }}"
-                (click)="$event.stopPropagation()"
-                target="_blank"
-                rel="noopener noreferrer"
-                [innerHtml]="student.name | highlighter: searchString : true"
-              >
-              </a>
-            </td>
+            <td [innerHtml]="student.name | highlighter: searchString : true"></td>
             <td [innerHtml]="student.email | highlighter: searchString : true"></td>
             <td [innerHtml]="student.institute | highlighter: searchString : true"></td>
             <td [innerHtml]="student.comments | highlighter: searchString : true"></td>

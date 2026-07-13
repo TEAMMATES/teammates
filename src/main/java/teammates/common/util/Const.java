@@ -136,7 +136,6 @@ public final class Const {
         public static final String USER_ID = "userid";
         public static final String ACCOUNT_ID = "accountid";
         public static final String ACCOUNT_EMAIL = "accountemail";
-        public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
         public static final String KEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -158,8 +157,8 @@ public final class Const {
 
         public static final String NOTIFY_ABOUT_DEADLINES = "notifydeadlines";
 
-        public static final String QUERY_LOGS_STARTTIME = "starttime";
-        public static final String QUERY_LOGS_ENDTIME = "endtime";
+        public static final String QUERY_LOGS_STARTTIME = "qlstarttime";
+        public static final String QUERY_LOGS_ENDTIME = "qlendtime";
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
