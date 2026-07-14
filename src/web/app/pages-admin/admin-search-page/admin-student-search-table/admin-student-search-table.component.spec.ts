@@ -23,7 +23,6 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   section: 'section',
   team: 'team',
   comments: 'comments',
-  profilePageLink: 'profilePageLink',
 };
 
 describe('AdminStudentSearchTableComponent', () => {
