@@ -12,6 +12,20 @@
         <div class="separate-content-holder">
           <hr />
         </div>
+        <h2 id="become-instructor">Become an instructor</h2>
+        <div>
+          <p>
+            To create courses in TEAMMATES, you must first have an instructor account.
+            If you do not have one, you can request an instructor account by filling in the
+            <a routerLink="/web/front/request">instructor account request form</a>.
+          </p>
+          <p>
+            After you submit the request, we will verify your affiliation with your institution and notify you via email once your account has been approved.
+          </p>
+        </div>
+        <div class="separate-content-holder">
+          <hr />
+        </div>
         <h2 id="course-setup">1. Set up a course</h2>
         <div>
           <p>
@@ -369,6 +383,9 @@
         </b>
       </p>
       <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a (click)="jumpTo('become-instructor')" [routerLink]="[]">Become an instructor</a>
+        </li>
         <li class="nav-item">
           <a (click)="jumpTo('course-setup')" [routerLink]="[]">Set up a course</a>
         </li>
