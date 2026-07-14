@@ -100,7 +100,7 @@ export class FeedbackSessionsService {
     }
 
     if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
+      paramMap[QueryParamKeys.PREVIEWAS] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
@@ -134,7 +134,7 @@ export class FeedbackSessionsService {
   }): Observable<DeadlineExtension> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     if (queryParams.key) {
       paramMap[QueryParamKeys.KEY] = queryParams.key;
@@ -423,8 +423,8 @@ export class FeedbackSessionsService {
   }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
-      ispreview: String(queryParams.isPreview),
+      [QueryParamKeys.USER_ID]: queryParams.userId,
+      [QueryParamKeys.IS_PREVIEW]: String(queryParams.isPreview),
     };
 
     if (queryParams.key) {
