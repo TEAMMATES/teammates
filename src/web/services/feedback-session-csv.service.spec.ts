@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { FeedbackSessionMailMergeCsvService } from './feedback-session-mail-merge-csv.service';
+import { FeedbackSessionCsvService } from './feedback-session-csv.service';
 
-describe('FeedbackSessionMailMergeCsvService', () => {
-  let service: FeedbackSessionMailMergeCsvService;
+describe('FeedbackSessionCsvService', () => {
+  let service: FeedbackSessionCsvService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FeedbackSessionMailMergeCsvService);
+    service = TestBed.inject(FeedbackSessionCsvService);
   });
 
-  it('should generate submission link mail merge csv', () => {
+  it('should generate submission link csv', () => {
     const result: string = service.getCsvForSubmissionLinks({
       courseId: 'CS101',
       courseName: 'Programming',
@@ -35,7 +35,7 @@ describe('FeedbackSessionMailMergeCsvService', () => {
     );
   });
 
-  it('should generate result link mail merge csv', () => {
+  it('should generate result link csv', () => {
     const result: string = service.getCsvForResultLinks({
       courseId: 'CS101',
       courseName: 'Programming',

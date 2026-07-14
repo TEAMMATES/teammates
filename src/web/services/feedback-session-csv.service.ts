@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CsvHelper } from './csv-helper';
 
-export interface FeedbackSessionMailMergeData {
+export interface FeedbackSessionCsvData {
   courseId: string;
   courseName: string;
   feedbackSessionName: string;
@@ -10,23 +10,23 @@ export interface FeedbackSessionMailMergeData {
   supportEmail?: string;
 }
 
-export interface FeedbackSessionSubmissionMailMergeData extends FeedbackSessionMailMergeData {
+export interface FeedbackSessionSubmissionCsvData extends FeedbackSessionCsvData {
   sessionInstructions: string;
-  recipients: FeedbackSessionSubmissionMailMergeRecipient[];
+  recipients: FeedbackSessionSubmissionCsvRecipient[];
 }
 
-export interface FeedbackSessionResultMailMergeData extends FeedbackSessionMailMergeData {
-  recipients: FeedbackSessionResultMailMergeRecipient[];
+export interface FeedbackSessionResultCsvData extends FeedbackSessionCsvData {
+  recipients: FeedbackSessionResultCsvRecipient[];
 }
 
-export interface FeedbackSessionSubmissionMailMergeRecipient {
+export interface FeedbackSessionSubmissionCsvRecipient {
   email: string;
   name: string;
   submissionLink: string;
   deadline?: string;
 }
 
-export interface FeedbackSessionResultMailMergeRecipient {
+export interface FeedbackSessionResultCsvRecipient {
   email: string;
   name: string;
   resultLink: string;
@@ -34,13 +34,13 @@ export interface FeedbackSessionResultMailMergeRecipient {
 }
 
 /**
- * Service to generate mail merge CSV data for feedback session emails.
+ * Service to generate CSV data for feedback session emails.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class FeedbackSessionMailMergeCsvService {
-  getCsvForSubmissionLinks(data: FeedbackSessionSubmissionMailMergeData): string {
+export class FeedbackSessionCsvService {
+  getCsvForSubmissionLinks(data: FeedbackSessionSubmissionCsvData): string {
     const csvRows: string[][] = [
       [
         'Email',
@@ -54,7 +54,7 @@ export class FeedbackSessionMailMergeCsvService {
         'Co-owner Emails',
         'Support Email',
       ],
-      ...data.recipients.map((recipient: FeedbackSessionSubmissionMailMergeRecipient) => [
+      ...data.recipients.map((recipient: FeedbackSessionSubmissionCsvRecipient) => [
         recipient.email,
         recipient.name,
         recipient.submissionLink,
@@ -71,7 +71,7 @@ export class FeedbackSessionMailMergeCsvService {
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
   }
 
-  getCsvForResultLinks(data: FeedbackSessionResultMailMergeData): string {
+  getCsvForResultLinks(data: FeedbackSessionResultCsvData): string {
     const csvRows: string[][] = [
       [
         'Email',
@@ -84,7 +84,7 @@ export class FeedbackSessionMailMergeCsvService {
         'Co-owner Emails',
         'Support Email',
       ],
-      ...data.recipients.map((recipient: FeedbackSessionResultMailMergeRecipient) => [
+      ...data.recipients.map((recipient: FeedbackSessionResultCsvRecipient) => [
         recipient.email,
         recipient.name,
         recipient.resultLink,
