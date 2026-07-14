@@ -92,16 +92,8 @@ public class AppUrl {
         return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
-    public AppUrl withMasqueradeAccount(UUID accountId) {
-        return withParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, accountId.toString());
-    }
-
     public AppUrl withKey(String key) {
         return withParam(Const.ParamsNames.KEY, key);
-    }
-
-    public AppUrl withIsCreatingAccount(String isCreatingAccount) {
-        return withParam(Const.ParamsNames.IS_CREATING_ACCOUNT, isCreatingAccount);
     }
 
     public AppUrl withCourseId(String courseId) {

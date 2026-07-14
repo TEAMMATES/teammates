@@ -1,7 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-
-import { NavigationService } from './navigation.service';
-import { Student } from '../types/api-output';
+import { Injectable } from '@angular/core';
 
 /**
  * Handles the logic for generating links on the client.
@@ -10,14 +7,11 @@ import { Student } from '../types/api-output';
   providedIn: 'root',
 })
 export class LinkService {
-  private readonly navigationService = inject(NavigationService);
-
   URI_PREFIX = '/web';
   JOIN_PAGE = '/join';
   STUDENT_HOME_PAGE = '/student/home';
   INSTRUCTOR_HOME_PAGE = '/instructor/home';
   ADMIN_ACCOUNTS_PAGE = '/admin/accounts';
-  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses';
   SESSIONS_SUBMISSION_PAGE = '/sessions/{feedbackSessionId}/submission';
   SESSIONS_RESULT_PAGE = '/sessions/{feedbackSessionId}/result';
 
@@ -41,17 +35,6 @@ export class LinkService {
    */
   generateManageAccountLink(accountId: string, _accountsPage: string): string {
     return `${this.URI_PREFIX}${this.ADMIN_ACCOUNTS_PAGE}/${accountId}`;
-  }
-
-  /**
-   * Generates student profile page link.
-   */
-  generateProfilePageLink(student: Student, instructorAccountId: string): string {
-    const { courseId, userId } = student;
-    const params: { [key: string]: string } = { masqueradeaccountid: instructorAccountId };
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}/${courseId}/students/${userId}/details${encodedParams}`;
   }
 
   /**

@@ -110,9 +110,6 @@ public final class Const {
 
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_STATUS = "coursestatus";
-        public static final String INSTRUCTOR_ID = "instructorid";
-        public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
-        public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
 
         public static final String FEEDBACK_SESSION_ID = "fsid";
 
@@ -120,9 +117,9 @@ public final class Const {
         public static final String ACCOUNT_VERIFICATION_REQUEST_STATUS = "status";
         public static final String INSTITUTE_ID = "instituteid";
 
-        public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
-        public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
-        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_STARTTIME = "fsstarttime";
+        public static final String FEEDBACK_SESSION_ENDTIME = "fsendtime";
+        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "fsmoderatedperson";
         public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
         public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
@@ -139,7 +136,6 @@ public final class Const {
         public static final String USER_ID = "userid";
         public static final String ACCOUNT_ID = "accountid";
         public static final String ACCOUNT_EMAIL = "accountemail";
-        public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
         public static final String KEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -161,8 +157,8 @@ public final class Const {
 
         public static final String NOTIFY_ABOUT_DEADLINES = "notifydeadlines";
 
-        public static final String QUERY_LOGS_STARTTIME = "starttime";
-        public static final String QUERY_LOGS_ENDTIME = "endtime";
+        public static final String QUERY_LOGS_STARTTIME = "qlstarttime";
+        public static final String QUERY_LOGS_ENDTIME = "qlendtime";
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";

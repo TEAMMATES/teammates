@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
@@ -57,6 +58,29 @@ public final class FeedbackSessionsDb {
                 cb.isNull(fsJoin.get("deletedAt")),
                 cb.isNull(fsRoot.get("deletedAt"))
         ));
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets feedback sessions matching the given query, excluding sessions in deleted courses.
+     */
+    public List<FeedbackSession> getFeedbackSessions(FeedbackSessionQuery query) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+
+        Predicate predicate = cb.isNull(fsJoin.get("deletedAt"));
+        if (query.courseIds() != null) {
+            predicate = cb.and(predicate, fsJoin.get("id").in(query.courseIds()));
+        }
+        if (Boolean.TRUE.equals(query.isInRecycleBin())) {
+            predicate = cb.and(predicate, cb.isNotNull(fsRoot.get("deletedAt")));
+        } else {
+            predicate = cb.and(predicate, cb.isNull(fsRoot.get("deletedAt")));
+        }
+
+        cq.select(fsRoot).where(predicate);
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
