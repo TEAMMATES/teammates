@@ -7,8 +7,7 @@ import { AuthInfo } from '../../types/api-output';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
 
 interface RolePage {
-  display: string;
-  description: string;
+  role: string;
   url: string;
 }
 
@@ -42,32 +41,28 @@ export class RoleSelectionPageComponent implements OnInit {
 
           if (user?.isStudent) {
             rolePages.push({
-              display: 'Student',
-              description: 'View courses and submit feedback.',
+              role: 'Student',
               url: '/web/student',
             });
           }
 
           if (user?.isInstructor) {
             rolePages.push({
-              display: 'Instructor',
-              description: 'Manage courses, sessions, and feedback.',
+              role: 'Instructor',
               url: '/web/instructor',
             });
           }
 
           if (user?.isAdmin) {
             rolePages.push({
-              display: 'Admin',
-              description: 'Manage system administration tasks.',
+              role: 'Admin',
               url: '/web/admin',
             });
           }
 
           if (user?.isMaintainer) {
             rolePages.push({
-              display: 'Maintainer',
-              description: 'Access maintenance and monitoring tools.',
+              role: 'Maintainer',
               url: '/web/maintainer',
             });
           }

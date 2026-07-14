@@ -1,5 +1,5 @@
 <div *tmIsLoading="isLoadingRoles()">
-  <div class="card bg-light mx-auto" style="max-width: 800px">
+  <div class="card bg-light mx-auto" style="max-width: 600px">
     <div class="card-header bg-primary text-white">
       <h1 class="mb-0 h3">Welcome to TEAMMATES!</h1>
     </div>
@@ -10,8 +10,7 @@
           @for (rolePage of rolePages(); track rolePage.url) {
             <div class="d-sm-flex align-items-center justify-content-between border-top py-3">
               <div class="mb-2 mb-sm-0">
-                <strong>{{ rolePage.display }}</strong>
-                <div>{{ rolePage.description }}</div>
+                <strong>{{ rolePage.role }}</strong>
               </div>
               <a class="btn btn-success" [routerLink]="rolePage.url">Continue</a>
             </div>
