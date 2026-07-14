@@ -19,7 +19,7 @@ public class GetStudentFeedbackSessionsActionTest
         extends BaseActionTest<GetStudentFeedbackSessionsAction, FeedbackSessionsData> {
 
     @Test(groups = GroupNames.ACTION)
-    public void getStudentFeedbackSessionsAction_validCourse_returnsVisibleSessionsWithHiddenData() {
+    public void getStudentFeedbackSessionsAction_validCourse_returnsVisibleSessionsWithoutHiddenData() {
         var account = given.account("account");
         var course = given.course("course");
         given.student("student", s -> s.course(course.alias()).account(account.alias()));
