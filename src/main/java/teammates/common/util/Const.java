@@ -37,7 +37,7 @@ public final class Const {
     public static final Duration FEEDBACK_SESSION_EVENT_EMAIL_LOOKBACK_WINDOW = Duration.ofDays(2);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
-    public static final Duration MAGIC_LINK_VALIDITY_PERIOD = Duration.ofMinutes(15);
+    public static final Duration MAGIC_LINK_VALIDITY_PERIOD = Duration.ofHours(1);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
 
