@@ -11,7 +11,7 @@ exports[`LoginPageComponent snapshot > should match snapshot with login methods 
   <div>
     <div
       class="card bg-light mx-auto"
-      style="max-width: 800px;"
+      style="max-width: 600px;"
     >
       <div
         class="card-header bg-primary text-white"
@@ -30,11 +30,11 @@ exports[`LoginPageComponent snapshot > should match snapshot with login methods 
         </p>
         <tm-login-method-buttons-container>
           <div
-            class="login-method-buttons d-flex flex-column gap-3 mx-auto w-100"
+            class="login-method-buttons d-flex flex-column gap-3 mx-auto"
           >
             <tm-google-login-button>
               <button
-                class="btn btn-danger text-white w-100"
+                class="btn btn-danger btn-lg w-100"
                 type="button"
               >
                 <span
