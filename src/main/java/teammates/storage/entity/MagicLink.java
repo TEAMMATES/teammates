@@ -37,11 +37,6 @@ public class MagicLink extends BaseEntity {
     @Column(nullable = false)
     private Instant expiresAt;
 
-    private Instant usedAt;
-
-    @Column(nullable = false)
-    private boolean revoked;
-
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -54,8 +49,6 @@ public class MagicLink extends BaseEntity {
         this.setEmail(email);
         this.setTokenHash(tokenHash);
         this.setExpiresAt(now.plus(Const.MAGIC_LINK_VALIDITY_PERIOD));
-        this.setUsedAt(null);
-        this.setRevoked(false);
     }
 
     @Override
@@ -99,22 +92,6 @@ public class MagicLink extends BaseEntity {
         this.expiresAt = expiresAt;
     }
 
-    public Instant getUsedAt() {
-        return usedAt;
-    }
-
-    public void setUsedAt(Instant usedAt) {
-        this.usedAt = usedAt;
-    }
-
-    public boolean isRevoked() {
-        return revoked;
-    }
-
-    public void setRevoked(boolean revoked) {
-        this.revoked = revoked;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -131,34 +108,10 @@ public class MagicLink extends BaseEntity {
     }
 
     /**
-     * Returns true if the magic link has already been used.
-     */
-    public boolean isUsed() {
-        return usedAt != null;
-    }
-
-    /**
      * Returns true if the magic link can still be used.
      */
     public boolean isUsable(Instant now) {
-        return !isUsed() && !isRevoked() && !isExpired(now);
-    }
-
-    /**
-     * Marks the magic link as used if it has not already been used.
-     */
-    public void markUsed(Instant now) {
-        if (isUsed()) {
-            return;
-        }
-        this.usedAt = now;
-    }
-
-    /**
-     * Revokes the magic link.
-     */
-    public void revoke() {
-        this.revoked = true;
+        return !isExpired(now);
     }
 
     @Override
@@ -182,7 +135,6 @@ public class MagicLink extends BaseEntity {
     @Override
     public String toString() {
         return "MagicLink [id=" + id + ", email=" + email + ", expiresAt=" + expiresAt
-                + ", usedAt=" + usedAt + ", revoked=" + revoked
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 }
