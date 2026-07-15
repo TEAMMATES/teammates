@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import org.testng.annotations.Test;
 
 import teammates.storage.entity.MagicLink;
@@ -20,27 +17,31 @@ public class MagicLinksDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void upsertMagicLink_magicLinkDoesNotExist_magicLinkIsInserted() {
-        UUID magicLinkId = given.uuid("magic-link");
-        MagicLink magicLink = buildDefaultMagicLink(magicLinkId, "insert@example.com", "insert-token-hash");
+        var magicLinkRef = given.magicLink("magic-link",
+                ml -> ml.email("insert@example.com").tokenHash("insert-token-hash"));
+        MagicLink magicLink = given.getDataBundle().magicLinks.get(magicLinkRef.alias());
 
         MagicLink actual = inTransaction(() -> magicLinksDb.upsertMagicLink(magicLink));
 
-        assertEquals(magicLinkId, actual.getId());
+        assertEquals(magicLinkRef.id(), actual.getId());
         assertEquals("insert@example.com", actual.getEmail());
         assertEquals("insert-token-hash", actual.getTokenHash());
-        verifyPresentInDatabase(MagicLink.class, magicLinkId);
+        verifyPresentInDatabase(MagicLink.class, magicLinkRef.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void upsertMagicLink_emailExists_updatesExistingMagicLink() {
-        MagicLink existingMagicLink = inTransaction(() -> magicLinksDb.upsertMagicLink(
-                buildDefaultMagicLink(given.uuid("existing-magic-link"), "upsert@example.com", "old-upsert-token-hash")));
-        MagicLink updatedMagicLink = buildDefaultMagicLink(
-                given.uuid("updated-magic-link"), "upsert@example.com", "new-upsert-token-hash");
+        var existingMagicLink = given.magicLink("existing-magic-link",
+                ml -> ml.email("upsert@example.com").tokenHash("old-upsert-token-hash"));
+        var updatedMagicLink = given.magicLink("updated-magic-link",
+                ml -> ml.email("upsert@example.com").tokenHash("new-upsert-token-hash"));
+        inTransaction(() -> magicLinksDb.upsertMagicLink(
+                given.getDataBundle().magicLinks.get(existingMagicLink.alias())));
 
-        MagicLink actual = inTransaction(() -> magicLinksDb.upsertMagicLink(updatedMagicLink));
+        MagicLink actual = inTransaction(
+                () -> magicLinksDb.upsertMagicLink(given.getDataBundle().magicLinks.get(updatedMagicLink.alias())));
 
-        assertEquals(existingMagicLink.getId(), actual.getId());
+        assertEquals(existingMagicLink.id(), actual.getId());
         assertEquals("upsert@example.com", actual.getEmail());
         assertEquals("new-upsert-token-hash", actual.getTokenHash());
         assertNull(inTransaction(() -> magicLinksDb.getMagicLinkByTokenHash("old-upsert-token-hash")));
@@ -48,19 +49,21 @@ public class MagicLinksDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getMagicLinkByTokenHash_magicLinkExists_returnsMagicLink() {
-        MagicLink magicLink = inTransaction(() -> magicLinksDb.upsertMagicLink(
-                buildDefaultMagicLink(given.uuid("magic-link"), "lookup@example.com", "lookup-token-hash")));
+        var magicLink = given.magicLink("magic-link",
+                ml -> ml.email("lookup@example.com").tokenHash("lookup-token-hash"));
+        persistGivenData(given);
 
         MagicLink actual = inTransaction(() -> magicLinksDb.getMagicLinkByTokenHash("lookup-token-hash"));
 
         assertNotNull(actual);
-        assertEquals(magicLink.getId(), actual.getId());
+        assertEquals(magicLink.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void getMagicLinkByTokenHash_magicLinkDoesNotExist_returnsNull() {
-        inTransaction(() -> magicLinksDb.upsertMagicLink(
-                buildDefaultMagicLink(given.uuid("magic-link"), "missing-lookup@example.com", "existing-token-hash")));
+        given.magicLink("magic-link",
+                ml -> ml.email("missing-lookup@example.com").tokenHash("existing-token-hash"));
+        persistGivenData(given);
 
         MagicLink actual = inTransaction(() -> magicLinksDb.getMagicLinkByTokenHash("non-existent-token-hash"));
 
@@ -69,17 +72,12 @@ public class MagicLinksDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void deleteMagicLink_magicLinkExists_magicLinkIsRemoved() {
-        MagicLink magicLink = inTransaction(() -> magicLinksDb.upsertMagicLink(
-                buildDefaultMagicLink(given.uuid("magic-link"), "delete@example.com", "delete-token-hash")));
+        var magicLink = given.magicLink("magic-link",
+                ml -> ml.email("delete@example.com").tokenHash("delete-token-hash"));
+        persistGivenData(given);
 
         inTransaction(() -> magicLinksDb.deleteMagicLink(magicLinksDb.getMagicLinkByTokenHash("delete-token-hash")));
 
-        verifyAbsentInDatabase(MagicLink.class, magicLink.getId());
-    }
-
-    private static MagicLink buildDefaultMagicLink(UUID magicLinkId, String email, String tokenHash) {
-        MagicLink magicLink = new MagicLink(email, tokenHash, Instant.now());
-        magicLink.setId(magicLinkId);
-        return magicLink;
+        verifyAbsentInDatabase(MagicLink.class, magicLink.id());
     }
 }

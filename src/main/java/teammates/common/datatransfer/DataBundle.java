@@ -13,6 +13,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.MagicLink;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -42,6 +43,7 @@ public class DataBundle {
     public Map<String, FeedbackResponse> feedbackResponses = new LinkedHashMap<>();
     public Map<String, ResponseInstructorComment> responseInstructorComments = new LinkedHashMap<>();
     public Map<String, FeedbackSessionLog> feedbackSessionLogs = new LinkedHashMap<>();
+    public Map<String, MagicLink> magicLinks = new LinkedHashMap<>();
     public Map<String, Notification> notifications = new LinkedHashMap<>();
     public Map<String, ReadNotification> readNotifications = new LinkedHashMap<>();
 }

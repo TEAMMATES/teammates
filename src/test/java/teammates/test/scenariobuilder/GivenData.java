@@ -18,6 +18,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.MagicLink;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -383,6 +384,25 @@ public final class GivenData {
     }
 
     /**
+     * Creates a magic link with default values.
+     */
+    public MagicLinkRef magicLink(String alias) {
+        return magicLink(alias, ml -> {
+        });
+    }
+
+    /**
+     * Creates a magic link and applies the provided options to customize it.
+     */
+    public MagicLinkRef magicLink(String alias, Consumer<GivenMagicLink> options) {
+        GivenMagicLink magicLinkData = new GivenMagicLink(this, uuid(alias));
+        options.accept(magicLinkData);
+        MagicLink magicLink = magicLinkData.build();
+        registerEntity(alias, magicLink, dataBundle.magicLinks);
+        return new MagicLinkRef(magicLink.getId(), alias, magicLink.getEmail(), magicLink.getTokenHash());
+    }
+
+    /**
      * Creates a read notification with default values.
      */
     public ReadNotificationRef readNotification(String alias) {
@@ -569,6 +589,16 @@ public final class GivenData {
      * @param alias GivenData alias
      */
     public record FeedbackSessionLogRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a magic link created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     * @param email email address
+     * @param tokenHash token hash
+     */
+    public record MagicLinkRef(UUID id, String alias, String email, String tokenHash) {}
 
     /**
      * Reference to a notification created by GivenData.
