@@ -30,6 +30,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.InstructorCoursePrivilege;
 import teammates.storage.entity.InstructorSectionPrivilege;
 import teammates.storage.entity.InstructorSessionPrivilege;
+import teammates.storage.entity.MagicLink;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -67,6 +68,7 @@ public final class HibernateUtil {
             Course.class,
             FeedbackSession.class,
             Account.class,
+            MagicLink.class,
             Notification.class,
             ReadNotification.class,
             User.class,
