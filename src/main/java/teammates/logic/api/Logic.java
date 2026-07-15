@@ -52,6 +52,7 @@ import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstitutesLogic;
 import teammates.logic.core.InstructorPermissionsLogic;
+import teammates.logic.core.MagicLinksLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
@@ -66,6 +67,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.MagicLink;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -115,6 +117,7 @@ public class Logic {
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+    final MagicLinksLogic magicLinksLogic = MagicLinksLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
     final InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
@@ -1145,6 +1148,35 @@ public class Logic {
     public List<Notification> getNotificationsByTargetUsers(
             List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
         return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
+    }
+
+    /**
+     * Creates or replaces a magic link for the given email address.
+     *
+     * @return the raw one-time token.
+     */
+    public String createMagicLink(String email) throws InvalidParametersException {
+        return magicLinksLogic.createMagicLink(email);
+    }
+
+    /**
+     * Returns a magic link for the given raw token, or null if no matching link exists.
+     */
+    public MagicLink getMagicLinkByToken(String token) {
+        return magicLinksLogic.getMagicLinkByToken(token);
+    }
+
+    /**
+     * Consumes a usable magic link for the given raw token.
+     *
+     * <p>Successful consumption deletes the magic link to enforce one-time use.
+     *
+     * @return the consumed magic link.
+     * @throws EntityDoesNotExistException if the token is unknown.
+     * @throws InvalidParametersException if the token is expired.
+     */
+    public MagicLink consumeMagicLink(String token) throws EntityDoesNotExistException, InvalidParametersException {
+        return magicLinksLogic.consumeMagicLink(token);
     }
 
     /**
