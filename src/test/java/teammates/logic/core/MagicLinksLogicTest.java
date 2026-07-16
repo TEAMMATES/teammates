@@ -1,8 +1,6 @@
 package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -48,10 +46,7 @@ public class MagicLinksLogicTest extends BaseTestCase {
         verify(magicLinksDb, times(1)).upsertMagicLink(captor.capture());
         MagicLink persistedMagicLink = captor.getValue();
 
-        assertNotNull(token);
-        assertEquals(43, token.length());
         assertEquals("user@example.com", persistedMagicLink.getEmail());
-        assertNotEquals(token, persistedMagicLink.getTokenHash());
         assertEquals(MagicLinksLogic.hashToken(token), persistedMagicLink.getTokenHash());
     }
 

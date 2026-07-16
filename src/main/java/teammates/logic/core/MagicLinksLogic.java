@@ -69,7 +69,8 @@ public final class MagicLinksLogic {
      * <p>Successful consumption deletes the magic link to enforce one-time use.
      *
      * @return the consumed magic link.
-     * @throws InvalidParametersException if the token is unknown or expired.
+     * @throws EntityDoesNotExistException if the token is unknown.
+     * @throws InvalidParametersException if the token is not usable.
      */
     public MagicLink consumeMagicLink(String token) throws InvalidParametersException, EntityDoesNotExistException {
         Objects.requireNonNull(token);

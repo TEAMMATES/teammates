@@ -1154,6 +1154,7 @@ public class Logic {
      * Creates or replaces a magic link for the given email address.
      *
      * @return the raw one-time token.
+     * @throws InvalidParametersException if the magic link is not valid.
      */
     public String createMagicLink(String email) throws InvalidParametersException {
         return magicLinksLogic.createMagicLink(email);
@@ -1173,7 +1174,7 @@ public class Logic {
      *
      * @return the consumed magic link.
      * @throws EntityDoesNotExistException if the token is unknown.
-     * @throws InvalidParametersException if the token is expired.
+     * @throws InvalidParametersException if the token is not usable.
      */
     public MagicLink consumeMagicLink(String token) throws EntityDoesNotExistException, InvalidParametersException {
         return magicLinksLogic.consumeMagicLink(token);
