@@ -10,7 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -27,7 +26,6 @@ public class MagicLink extends BaseEntity {
     @Id
     private UUID id;
 
-    @NaturalId
     @Column(nullable = false, unique = true)
     private String email;
 
