@@ -56,7 +56,7 @@
                 [ngModel]="isAllStudentsSelected"
                 (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"
               />
-              <label for="remindAllStu" class="remind-all form-check-label">Select all students</label>
+              <label for="remindAllStu" class="form-check-label">Select all students</label>
             </div>
             <div class="form-check form-check-inline">
               <input
@@ -83,7 +83,7 @@
                 [ngModel]="isAllInstructorsSelected"
                 (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)"
               />
-              <label for="remindAllIns" class="remind-all form-check-label">Select all instructors</label>
+              <label for="remindAllIns" class="form-check-label">Select all instructors</label>
             </div>
             <div class="form-check form-check-inline">
               <input
@@ -116,7 +116,7 @@
       }
 
       <br />
-      <div class="align-row-right">
+      <div class="d-flex flex-wrap align-items-center justify-content-end gap-12">
         <span class="form-check">
           <input
             id="sendCopyToIns"
