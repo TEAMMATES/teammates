@@ -347,12 +347,19 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
   });
 
   it('should fall back to the report page when returnUrl is invalid', () => {
-    createComponent('false', 'https://example.com');
-    const navigateSpy = vi.spyOn(navigationService, 'navigateByURL').mockResolvedValue(true);
+    createComponent('true', 'https://example.com');
+    vi.spyOn(feedbackSessionsService, 'remindFeedbackSessionSubmissionForRespondents').mockReturnValue(
+      of({ message: '' }),
+    );
+    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
 
-    component.cancel();
+    component.sendReminders();
 
-    expect(navigateSpy).toHaveBeenCalledWith('/web/instructor/sessions/session-id/report');
+    expect(navigateSpy).toHaveBeenCalledWith(
+      '/web/instructor/sessions/session-id/report',
+      'Reminder e-mails have been sent out to those students and instructors. ' +
+        'Please allow up to 1 hour for all the notification emails to be sent out.',
+    );
   });
 
   it('should show an error when loading fails', () => {

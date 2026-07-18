@@ -205,10 +205,6 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
       });
   }
 
-  cancel(): void {
-    this.navigationService.navigateByURL(this.getSafeReturnUrl());
-  }
-
   get hasRespondents(): boolean {
     return this.studentListInfoTableRowModels.length > 0 || this.instructorListInfoTableRowModels.length > 0;
   }
