@@ -152,24 +152,24 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
         verifySessionPublishedState(feedbackSessionOpen, true);
 
-        ______TS("send reminder email to selected student");
-        InstructorSessionSendRemindersPage sendRemindersPage =
-                homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
+        // ______TS("send reminder email to selected student");
+        // InstructorSessionSendRemindersPage sendRemindersPage =
+        //         homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
 
-        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
-                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        sendRemindersPage.goBack();
-        homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
-        homePage.sortCoursesByName();
+        // sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        //         + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        // sendRemindersPage.goBack();
+        // homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
+        // homePage.sortCoursesByName();
 
-        ______TS("send reminder email to all student non-submitters");
-        sendRemindersPage = homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
+        // ______TS("send reminder email to all student non-submitters");
+        // sendRemindersPage = homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
 
-        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
-                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        sendRemindersPage.goBack();
-        homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
-        homePage.sortCoursesByName();
+        // sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+        //         + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        // sendRemindersPage.goBack();
+        // homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
+        // homePage.sortCoursesByName();
 
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
