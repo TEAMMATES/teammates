@@ -87,10 +87,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   openSendReminderPage(event: Event): void {
     event.stopPropagation();
 
-    const returnUrl = `${globalThis.location.pathname}${globalThis.location.search}`;
     this.navigationService.navigateByURL(`/web/instructor/sessions/${this.session.feedbackSessionId}/send-reminders`, {
       preselectNonSubmitters: 'true',
-      returnUrl,
     });
   }
 

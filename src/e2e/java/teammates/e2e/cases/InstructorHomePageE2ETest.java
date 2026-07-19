@@ -158,6 +158,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        sendRemindersPage.goBack();
         homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
         homePage.sortCoursesByName();
 
@@ -166,6 +167,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        sendRemindersPage.goBack();
         homePage = sendRemindersPage.changePageType(InstructorHomePage.class);
         homePage.sortCoursesByName();
 

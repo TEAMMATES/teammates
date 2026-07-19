@@ -33,7 +33,6 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
 
     expect(navigateSpy).toHaveBeenCalledWith('/web/instructor/sessions/session-id/send-reminders', {
       preselectNonSubmitters: 'true',
-      returnUrl: `${globalThis.location.pathname}${globalThis.location.search}`,
     });
   });
 });

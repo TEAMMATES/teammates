@@ -114,11 +114,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
    */
   sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel, selectAllRespondents: boolean): void {
     const feedbackSessionId = model.feedbackSession.feedbackSessionId;
-    const returnUrl = `${globalThis.location.pathname}${globalThis.location.search}`;
 
     this.navigationService.navigateByURL(`/web/instructor/sessions/${feedbackSessionId}/send-reminders`, {
       preselectNonSubmitters: String(selectAllRespondents),
-      returnUrl,
     });
   }
 }

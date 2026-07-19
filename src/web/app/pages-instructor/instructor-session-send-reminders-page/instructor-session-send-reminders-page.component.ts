@@ -5,7 +5,6 @@ import { finalize, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -46,7 +45,6 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
   private readonly courseService = inject(CourseService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly instructorService = inject(InstructorService);
-  private readonly navigationService = inject(NavigationService);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly studentService = inject(StudentService);
 
@@ -66,11 +64,9 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
 
   @Input({ required: true }) feedbackSessionId!: string;
   @Input() preselectNonSubmitters = 'false';
-  @Input() returnUrl = '';
 
   ngOnInit(): void {
     this.preselectNonSubmitters ||= 'false';
-    this.returnUrl ||= '';
     this.loadPageData();
   }
 
@@ -193,8 +189,7 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.navigationService.navigateWithSuccessMessage(
-            this.getSafeReturnUrl(),
+          this.statusMessageService.showSuccessToast(
             'Reminder e-mails have been sent out to those students and instructors. ' +
               'Please allow up to 1 hour for all the notification emails to be sent out.',
           );
@@ -280,13 +275,5 @@ export class InstructorSessionSendRemindersPageComponent implements OnInit {
     return [...this.studentListInfoTableRowModels, ...this.instructorListInfoTableRowModels].filter((model) => {
       return model.isSelected;
     });
-  }
-
-  private getSafeReturnUrl(): string {
-    if (this.returnUrl.startsWith('/web/')) {
-      return this.returnUrl;
-    }
-
-    return `/web/instructor/sessions/${this.feedbackSessionId}/report`;
   }
 }

@@ -7,7 +7,6 @@ import { InstructorSessionSendRemindersPageComponent } from './instructor-sessio
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -116,7 +115,6 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
   let courseService: CourseService;
   let feedbackSessionsService: FeedbackSessionsService;
   let instructorService: InstructorService;
-  let navigationService: NavigationService;
   let statusMessageService: StatusMessageService;
   let studentService: StudentService;
 
@@ -128,7 +126,6 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     courseService = TestBed.inject(CourseService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     instructorService = TestBed.inject(InstructorService);
-    navigationService = TestBed.inject(NavigationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     studentService = TestBed.inject(StudentService);
   });
@@ -137,7 +134,7 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     return fixture.nativeElement.querySelector(`#${id}`) as HTMLInputElement;
   }
 
-  function createComponent(preselectNonSubmitters = 'false', returnUrl = '/web/instructor/home'): void {
+  function createComponent(preselectNonSubmitters = 'false'): void {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
     vi.spyOn(studentService, 'getStudents').mockReturnValue(of(testStudents));
@@ -148,7 +145,6 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     component = fixture.componentInstance;
     component.feedbackSessionId = testFeedbackSession.feedbackSessionId;
     component.preselectNonSubmitters = preselectNonSubmitters;
-    component.returnUrl = returnUrl;
     fixture.detectChanges();
   }
 
@@ -326,12 +322,12 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
     await vi.waitFor(() => expect(getCheckbox('remindAllIns').checked).toBe(true));
   });
 
-  it('should send reminders and navigate back to the return URL', () => {
-    createComponent('true', '/web/instructor/sessions');
+  it('should send reminders and show a success message', () => {
+    createComponent('true');
     const remindSpy = vi
       .spyOn(feedbackSessionsService, 'remindFeedbackSessionSubmissionForRespondents')
       .mockReturnValue(of({ message: '' }));
-    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
+    const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
 
     component.sendReminders();
 
@@ -339,24 +335,7 @@ describe('InstructorSessionSendRemindersPageComponent', () => {
       usersToRemind: ['student-1', 'instructor-1'],
       isSendingCopyToInstructor: true,
     });
-    expect(navigateSpy).toHaveBeenCalledWith(
-      '/web/instructor/sessions',
-      'Reminder e-mails have been sent out to those students and instructors. ' +
-        'Please allow up to 1 hour for all the notification emails to be sent out.',
-    );
-  });
-
-  it('should fall back to the report page when returnUrl is invalid', () => {
-    createComponent('true', 'https://example.com');
-    vi.spyOn(feedbackSessionsService, 'remindFeedbackSessionSubmissionForRespondents').mockReturnValue(
-      of({ message: '' }),
-    );
-    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
-
-    component.sendReminders();
-
-    expect(navigateSpy).toHaveBeenCalledWith(
-      '/web/instructor/sessions/session-id/report',
+    expect(successSpy).toHaveBeenCalledWith(
       'Reminder e-mails have been sent out to those students and instructors. ' +
         'Please allow up to 1 hour for all the notification emails to be sent out.',
     );

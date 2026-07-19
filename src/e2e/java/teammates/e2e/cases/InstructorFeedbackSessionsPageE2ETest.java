@@ -166,6 +166,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        sendRemindersPage.goBack();
         feedbackSessionsPage = sendRemindersPage.changePageType(InstructorFeedbackSessionsPage.class);
 
         ______TS("send reminder email to all student non-submitters");
@@ -173,6 +174,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        sendRemindersPage.goBack();
         feedbackSessionsPage = sendRemindersPage.changePageType(InstructorFeedbackSessionsPage.class);
 
         ______TS("resend results link");
