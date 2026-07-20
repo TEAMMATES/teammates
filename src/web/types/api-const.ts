@@ -130,6 +130,7 @@ export enum ResourceEndpoints {
   SESSION_SUBMITTED_GIVER_SET = "/webapi/session/submitted/giverset",
   SESSIONS = "/webapi/sessions",
   BIN_SESSION = "/webapi/bin/session",
+  STUDENT_SESSIONS = "/webapi/student/sessions",
   QUESTIONS = "/webapi/questions",
   QUESTION = "/webapi/question",
   RESPONSES = "/webapi/responses",

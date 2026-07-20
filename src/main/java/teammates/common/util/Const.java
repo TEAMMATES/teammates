@@ -316,6 +316,7 @@ public final class Const {
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
         public static final String INSTRUCTOR_COURSES = URI_PREFIX + "/instructor/courses";
         public static final String STUDENT_COURSES = URI_PREFIX + "/student/courses";
+        public static final String STUDENT_SESSIONS = URI_PREFIX + "/student/sessions";
         public static final String INSTITUTES = URI_PREFIX + "/institutes";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTORS_DISPLAYED = URI_PREFIX + "/instructors/displayed";
