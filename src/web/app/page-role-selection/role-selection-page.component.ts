@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { map, finalize } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
+import { ConfigService } from '../../services/config.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface RolePage {
   role: string;
@@ -19,11 +20,14 @@ interface RolePage {
 })
 export class RoleSelectionPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly configService = inject(ConfigService);
 
   readonly isLoadingRoles = signal(true);
   readonly rolePages = signal<RolePage[]>([]);
   readonly hasRolePages = computed(() => this.rolePages().length > 0);
-  readonly supportEmail = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
 
   ngOnInit(): void {
     this.isLoadingRoles.set(true);
