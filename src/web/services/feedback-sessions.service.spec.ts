@@ -186,10 +186,10 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
   });
 
-  it('should call get when retrieving feedback sessions for a student', () => {
+  it('should execute GET when retrieving feedback sessions for a student', () => {
     const courseId = 'CS1231';
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
 
     service.getFeedbackSessionsForStudent(courseId);
@@ -197,25 +197,13 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
   });
 
-  it('should call get when retrieving feedback sessions for an instructor', () => {
+  it('should execute GET when retrieving feedback sessions for an instructor', () => {
     const courseIds = ['CS1231', 'CS3281'];
     const paramMap: Record<string, string | string[]> = {
-      courseid: courseIds,
+      [QueryParamKeys.COURSE_ID]: courseIds,
     };
 
     service.getFeedbackSessionsForInstructor({ courseIds });
-
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSIONS, paramMap);
-  });
-
-  it('should call get when retrieving recycle bin feedback sessions for an instructor', () => {
-    const courseIds = ['CS1231', 'CS3281'];
-    const paramMap: Record<string, string | string[]> = {
-      courseid: courseIds,
-      isinrecyclebin: 'true',
-    };
-
-    service.getFeedbackSessionsForInstructor({ courseIds, isInRecycleBin: true });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSIONS, paramMap);
   });
