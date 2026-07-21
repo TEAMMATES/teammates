@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import {
   AccountVerificationRequest,
   AccountVerificationRequests,
@@ -45,7 +45,7 @@ export class AccountService {
    */
   deleteAccount(accountId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      accountid: accountId,
+      [QueryParamKeys.ACCOUNT_ID]: accountId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT, paramMap);
   }
@@ -65,7 +65,7 @@ export class AccountService {
    */
   unlinkAccount(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   }
@@ -74,7 +74,7 @@ export class AccountService {
    * Links the current account to a student by calling API.
    */
   linkAccount(request: LinkAccountRequest, key: string): Observable<MessageOutput> {
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { key }, request);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_LINK, { [QueryParamKeys.KEY]: key }, request);
   }
 
   /**
@@ -118,7 +118,7 @@ export class AccountService {
    */
   getAccount(accountId: string): Observable<Account> {
     const paramMap: Record<string, string> = {
-      accountid: accountId,
+      [QueryParamKeys.ACCOUNT_ID]: accountId,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
   }
@@ -140,10 +140,10 @@ export class AccountService {
       paramMap['status'] = queryParams.status;
     }
     if (queryParams.searchKey) {
-      paramMap['searchkey'] = queryParams.searchKey;
+      paramMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;
     }
     if (queryParams.limit !== undefined) {
-      paramMap['limit'] = String(queryParams.limit);
+      paramMap[QueryParamKeys.LIMIT] = String(queryParams.limit);
     }
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }

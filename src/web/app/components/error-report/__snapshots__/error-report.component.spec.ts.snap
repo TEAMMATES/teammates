@@ -2,6 +2,7 @@
 
 exports[`ErrorReportComponent > should snap with default view 1`] = `
 <tm-error-report
+  configService={[Function _ConfigService]}
   content=""
   csrfErrorMessages={[Function Array]}
   errorMessage=""
@@ -13,7 +14,7 @@ exports[`ErrorReportComponent > should snap with default view 1`] = `
   sendButtonEnabled={[Function Boolean]}
   statusMessageService={[Function _StatusMessageService]}
   subject={[Function String]}
-  supportEmail={[Function String]}
+  supportEmail={[Function Function]}
 >
   <div
     class="container error-container"

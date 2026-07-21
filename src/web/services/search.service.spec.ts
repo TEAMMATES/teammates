@@ -3,14 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
-import {
-  Course,
-  Instructor,
-  InstructorPermissionRole,
-  InstructorPrivilege,
-  JoinState,
-  Student,
-} from '../types/api-output';
+import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 
 describe('SearchService', () => {
   let service: SearchService;
@@ -45,82 +38,6 @@ describe('SearchService', () => {
     joinState: JoinState.JOINED,
   };
 
-  const mockInstructorB: Instructor = {
-    userId: '00000000-0000-4000-8000-000000000002',
-    accountId: '00000000-0000-4000-8000-000000000002',
-    courseId: 'cs1010-demo',
-    courseName: 'Introduction to Software Engineering',
-    institute: 'National University of Singapore',
-    email: 'brown.instructor@example.edu',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: 'Instructor',
-    name: 'Brown Taylor',
-    role: InstructorPermissionRole.CUSTOM,
-    joinState: JoinState.JOINED,
-  };
-
-  const mockInstructorC: Instructor = {
-    userId: '00000000-0000-4000-8000-000000000003',
-    accountId: '00000000-0000-4000-8000-000000000003',
-    courseId: 'cs1010-demo',
-    courseName: 'Introduction to Software Engineering',
-    institute: 'National University of Singapore',
-    email: 'chen.instructor@example.edu',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: 'Instructor',
-    name: 'Chen Lim',
-    role: InstructorPermissionRole.CUSTOM,
-    joinState: JoinState.JOINED,
-  };
-
-  const mockPrivilegeA: InstructorPrivilege = {
-    privileges: {
-      courseLevel: {
-        canModifyCourse: true,
-        canModifySession: true,
-        canModifyStudent: true,
-        canModifyInstructor: true,
-
-        canViewSession: true,
-        canSubmitSession: true,
-      },
-      sectionLevel: {},
-      sessionLevel: {},
-    },
-  };
-
-  const mockPrivilegeB: InstructorPrivilege = {
-    privileges: {
-      courseLevel: {
-        canModifyCourse: true,
-        canModifySession: true,
-        canModifyStudent: true,
-        canModifyInstructor: false,
-
-        canViewSession: true,
-        canSubmitSession: true,
-      },
-      sectionLevel: {},
-      sessionLevel: {},
-    },
-  };
-
-  const mockPrivilegeC: InstructorPrivilege = {
-    privileges: {
-      courseLevel: {
-        canModifyCourse: false,
-        canModifySession: false,
-        canModifyStudent: false,
-        canModifyInstructor: true,
-
-        canViewSession: false,
-        canSubmitSession: false,
-      },
-      sectionLevel: {},
-      sessionLevel: {},
-    },
-  };
-
   const mockCourse: Course = {
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
@@ -144,43 +61,12 @@ describe('SearchService', () => {
   });
 
   it('should join students accurately when calling as admin', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(
-      mockStudent,
-      { instructors: [mockInstructorA] },
-      mockCourse,
-      [mockPrivilegeA],
-    );
+    const result: StudentAccountSearchResult = service.joinAdminStudent(mockStudent, mockCourse);
     expect(result.comments).toBe('Student record used for search service tests');
     expect(result.courseId).toBe('cs1010-demo');
     expect(result.courseName).toBe('Introduction to Software Engineering');
     expect(result.email).toBe('alice.brown@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts/00000000-0000-4000-8000-00000000000a');
-  });
-
-  it('should join students with correct profile page link when course has co-owner', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(
-      mockStudent,
-      { instructors: [mockInstructorC, mockInstructorB, mockInstructorA] },
-      mockCourse,
-      [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
-    );
-    expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/cs1010-demo/students/student-alice/details?' +
-        'masqueradeaccountid=00000000-0000-4000-8000-000000000001',
-    );
-  });
-
-  it('should join students with correct profile page link when course has no co-owner', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(
-      mockStudent,
-      { instructors: [mockInstructorB, mockInstructorC] },
-      mockCourse,
-      [mockPrivilegeB, mockPrivilegeC],
-    );
-    expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/cs1010-demo/students/student-alice/details?' +
-        'masqueradeaccountid=00000000-0000-4000-8000-000000000003',
-    );
   });
 
   it('should join instructors accurately when calling as admin', () => {

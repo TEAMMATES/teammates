@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import teammates.common.util.Config;
+
 /**
  * Represents properties in test.properties file.
  */
@@ -18,10 +20,10 @@ public final class TestProperties {
     /** The directory where webdriver downloads files to. */
     public static final String TEST_DOWNLOADS_FOLDER = "src/e2e/resources/downloads";
 
-    /** The value of "test.app.frontend.url" in test.properties file. */
+    /** The frontend URL from the application configuration. */
     public static final String TEAMMATES_FRONTEND_URL;
 
-    /** The value of "test.app.backend.url" in test.properties file. */
+    /** The backend URL from the application configuration. */
     public static final String TEAMMATES_BACKEND_URL;
 
     /** The Google ID of user with admin permission. */
@@ -66,8 +68,8 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_FRONTEND_URL = prop.getProperty("test.app.frontend.url");
-            TEAMMATES_BACKEND_URL = prop.getProperty("test.app.backend.url");
+            TEAMMATES_FRONTEND_URL = Config.APP_FRONTEND_URL;
+            TEAMMATES_BACKEND_URL = "http://localhost:" + Config.getPort();
 
             TEST_ADMIN = prop.getProperty("test.admin");
 
@@ -86,10 +88,6 @@ public final class TestProperties {
 
     private TestProperties() {
         // access static fields directly
-    }
-
-    public static boolean isDevServer() {
-        return TEAMMATES_FRONTEND_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 
 }
