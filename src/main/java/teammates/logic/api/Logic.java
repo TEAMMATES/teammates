@@ -694,6 +694,13 @@ public class Logic {
     }
 
     /**
+     * Gets all visible feedback sessions of a course for a user, along with the deadline for each session.
+     */
+    public Map<FeedbackSession, Instant> getVisibleFeedbackSessionsWithDeadlineForUser(String courseId, User user) {
+        return feedbackSessionsLogic.getVisibleFeedbackSessionsWithDeadlineForUser(courseId, user);
+    }
+
+    /**
      * Creates a feedback question from a create request, validating giver/recipient visibility and question details.
      *
      * @return the created feedback question

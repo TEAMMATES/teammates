@@ -120,6 +120,21 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all visible feedback sessions of a course for a user, along with the deadline for each session.
+     */
+    public Map<FeedbackSession, Instant> getVisibleFeedbackSessionsWithDeadlineForUser(String courseId, User user) {
+        List<FeedbackSession> feedbackSessions = getFeedbackSessionsForCourse(courseId);
+        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
+
+        for (FeedbackSession session : feedbackSessions) {
+            if (session.isVisible()) {
+                sessionToDeadline.put(session, deadlineExtensionsLogic.getDeadlineForUser(session, user));
+            }
+        }
+        return sessionToDeadline;
+    }
+
+    /**
      * Gets all feedback session links for the user with {@code userId}.
      */
     public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
