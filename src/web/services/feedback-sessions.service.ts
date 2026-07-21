@@ -197,7 +197,8 @@ export class FeedbackSessionsService {
     if (queryParams.courseIds?.length) {
       paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseIds;
     }
-    if (queryParams.isInRecycleBin !== undefined) {
+
+    if (queryParams.isInRecycleBin) {
       paramMap['isinrecyclebin'] = String(queryParams.isInRecycleBin);
     }
 
