@@ -133,6 +133,8 @@ export enum ResourceEndpoints {
   STUDENT_SESSIONS = "/webapi/student/sessions",
   QUESTIONS = "/webapi/questions",
   QUESTION = "/webapi/question",
+  STUDENT_RESPONSES = "/webapi/student/responses",
+  INSTRUCTOR_RESPONSES = "/webapi/instructor/responses",
   RESPONSES = "/webapi/responses",
   HAS_RESPONSES = "/webapi/hasResponses",
   NOTIFICATION = "/webapi/notification",

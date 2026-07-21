@@ -124,6 +124,8 @@ public final class ActionFactory {
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, DELETE, DeleteFeedbackQuestionAction.class);
+        map(ResourceURIs.STUDENT_RESPONSES, GET, GetStudentFeedbackResponsesAction.class);
+        map(ResourceURIs.INSTRUCTOR_RESPONSES, GET, GetInstructorFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
