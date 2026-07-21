@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorHomePage;
-// import teammates.e2e.pageobjects.InstructorSessionSendRemindersPage;
 import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
