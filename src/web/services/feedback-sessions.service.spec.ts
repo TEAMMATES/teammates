@@ -189,7 +189,7 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving feedback sessions for a student', () => {
     const courseId = 'CS1231';
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
 
     service.getFeedbackSessionsForStudent(courseId);
