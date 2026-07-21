@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequest } from '../types/api-request';
 
@@ -77,7 +77,7 @@ describe('InstructorService', () => {
   it('should execute GET when getting instructors for a course', () => {
     service.loadInstructors({ courseId: 'CS3281' });
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });
@@ -85,8 +85,8 @@ describe('InstructorService', () => {
   it('should execute GET when searching instructors with limit', () => {
     service.loadInstructors({ searchKey: 'Lee Wong', limit: 50 });
     const paramMap: Record<string, string> = {
-      searchkey: 'Lee Wong',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Lee Wong',
+      [QueryParamKeys.LIMIT]: '50',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });
@@ -94,27 +94,27 @@ describe('InstructorService', () => {
   it('should execute GET when getting displayed instructors for a course', () => {
     service.loadDisplayedInstructors({ courseId: 'CS3281' });
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS_DISPLAYED, paramMap);
   });
 
   it('should execute GET when getting an instructor by user id', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
 
-    service.getInstructor({ userId: paramMap['userid'] });
+    service.getInstructor({ userId: paramMap[QueryParamKeys.USER_ID] });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });
 
   it('should execute GET when getting the current instructor for a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
 
-    service.getOwnInstructor({ courseId: paramMap['courseid'] });
+    service.getOwnInstructor({ courseId: paramMap[QueryParamKeys.COURSE_ID] });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_INSTRUCTOR, paramMap);
   });
@@ -122,7 +122,7 @@ describe('InstructorService', () => {
   it('should execute POST when creating an instructor for a course', () => {
     service.createInstructor({ courseId: 'CS3281' }, defaultRequestBody);
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap, defaultRequestBody);
   });
@@ -130,7 +130,7 @@ describe('InstructorService', () => {
   it('should execute PUT when updating an instructor for a course', () => {
     service.updateInstructor({ instructorId: '00000000-0000-4000-8000-000000000001' }, defaultUpdateRequestBody);
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.INSTRUCTOR,
@@ -142,7 +142,7 @@ describe('InstructorService', () => {
   it('should execute DELETE when deleting an instructor for a course', () => {
     service.deleteInstructor({ userId: '00000000-0000-4000-8000-000000000001' });
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });
@@ -150,7 +150,7 @@ describe('InstructorService', () => {
   it('should send the correct course id', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: Record<string, string>) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
-      const courseid: string = paramMap['courseid'];
+      const courseid: string = paramMap[QueryParamKeys.COURSE_ID];
       return of<Instructors>({
         instructors: defaultInstructors.instructors.filter(
           (instructor: Instructor) => instructor.courseId === courseid,
@@ -167,19 +167,19 @@ describe('InstructorService', () => {
 
   it('should call get when loading instructor privileges', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
 
-    service.loadInstructorPrivilege({ courseId: paramMap['courseid'] });
+    service.loadInstructorPrivilege({ courseId: paramMap[QueryParamKeys.COURSE_ID] });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 
   it('should call get when loading instructor privileges by user ID', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-8000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-8000-000000000001',
     };
 
-    service.loadInstructorPrivilege({ userId: paramMap['userid'] });
+    service.loadInstructorPrivilege({ userId: paramMap[QueryParamKeys.USER_ID] });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 });

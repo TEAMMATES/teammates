@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
@@ -26,14 +24,8 @@ public class GetStudentFeedbackSessionsAction extends LoggedInAction {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Student student = getStudentFromRequest(courseId);
-        List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
-
-        for (FeedbackSession session : feedbackSessions) {
-            if (session.isVisible()) {
-                sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
-            }
-        }
+        Map<FeedbackSession, Instant> sessionToDeadline =
+                logic.getVisibleFeedbackSessionsWithDeadlineForUser(courseId, student);
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(sessionToDeadline);
         responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());

@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { AccountVerificationRequestStatus } from '../types/api-output';
 import {
   AccountCreateRequest,
@@ -37,7 +37,7 @@ describe('AccountService', () => {
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
     const paramMap: Record<string, string> = {
-      accountid: id,
+      [QueryParamKeys.ACCOUNT_ID]: id,
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
@@ -68,7 +68,7 @@ describe('AccountService', () => {
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
     const paramMap: Record<string, string> = {
-      accountid: id,
+      [QueryParamKeys.ACCOUNT_ID]: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
@@ -84,7 +84,7 @@ describe('AccountService', () => {
   it('should execute PUT on account/unlink endpoint', () => {
     service.unlinkAccount('testUserId');
     const paramMap: Record<string, string> = {
-      userid: 'testUserId',
+      [QueryParamKeys.USER_ID]: 'testUserId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   });
@@ -97,7 +97,7 @@ describe('AccountService', () => {
     service.linkAccount(request, 'test-key');
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.ACCOUNT_LINK,
-      { key: 'test-key' },
+      { [QueryParamKeys.KEY]: 'test-key' },
       request,
     );
   });

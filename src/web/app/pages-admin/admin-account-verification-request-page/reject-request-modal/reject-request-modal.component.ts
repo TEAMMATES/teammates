@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../../services/config.service';
 import { AccountVerificationRequestRejectionType } from '../../../../types/api-request';
 
 @Component({
@@ -12,6 +14,7 @@ import { AccountVerificationRequestRejectionType } from '../../../../types/api-r
 })
 export class RejectRequestModalComponent {
   readonly activeModal = inject(NgbActiveModal);
+  private readonly configService = inject(ConfigService);
 
   @Input() instituteName = '';
 
@@ -52,7 +55,9 @@ export class RejectRequestModalComponent {
     return { reason, comments };
   });
 
-  readonly supportEmail = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
 
   confirm(): void {
     const rejectionType = this.selectedRejectionType();

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { UsageStatisticsRange } from '../types/api-output';
 
 /**
@@ -15,8 +15,8 @@ export class UsageStatisticsService {
 
   getUsageStatistics(startTime: number, endTime: number): Observable<UsageStatisticsRange> {
     const paramMap: Record<string, string> = {
-      starttime: `${startTime}`,
-      endtime: `${endTime}`,
+      [QueryParamKeys.QUERY_LOGS_STARTTIME]: `${startTime}`,
+      [QueryParamKeys.QUERY_LOGS_ENDTIME]: `${endTime}`,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.USAGE_STATISTICS, paramMap);

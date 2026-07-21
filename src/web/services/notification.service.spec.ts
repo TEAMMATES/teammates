@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpRequestService } from './http-request.service';
 import { NotificationService } from './notification.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { NotificationBasicRequest, NotificationStyle, NotificationTargetUser } from '../types/api-request';
 
 const requestBody: NotificationBasicRequest = {
@@ -38,8 +38,8 @@ describe('NotificationService', () => {
 
   it('should execute GET when retrieving notifications', () => {
     const paramsMap: Record<string, string | string[]> = {
-      usertype: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
-      isfetchingactive: 'true',
+      [QueryParamKeys.NOTIFICATION_TARGET_USER]: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
+      [QueryParamKeys.NOTIFICATION_IS_FETCHING_ACTIVE]: 'true',
     };
     service.getNotifications({
       targetUsers: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
@@ -56,7 +56,7 @@ describe('NotificationService', () => {
 
   it('should execute PUT when updating notifications', () => {
     const paramsMap: Record<string, string> = {
-      notificationid: 'notification1',
+      [QueryParamKeys.NOTIFICATION_ID]: 'notification1',
     };
     service.updateNotification(requestBody, 'notification1');
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATION, paramsMap, requestBody);
@@ -64,7 +64,7 @@ describe('NotificationService', () => {
 
   it('should execute DELETE when deleting notifications', () => {
     const paramsMap: Record<string, string> = {
-      notificationid: 'notification1',
+      [QueryParamKeys.NOTIFICATION_ID]: 'notification1',
     };
     service.deleteNotification('notification1');
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATION, paramsMap);

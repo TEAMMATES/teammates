@@ -38,6 +38,7 @@ export interface AuthInfo extends ApiOutput {
 export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
   frontendUrl: string;
+  supportEmail: string;
 }
 
 export interface ConstsumOptionRow {

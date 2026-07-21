@@ -778,7 +778,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         {
           intent: this.getSubmissionIntent(),
           key: this.key,
-          moderatedperson: this.moderatedPerson,
+          moderatedPerson: this.moderatedPerson,
         },
       )
       .pipe(

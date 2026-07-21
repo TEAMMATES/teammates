@@ -1,5 +1,4 @@
 export interface AppConfig {
-  supportEmail: string;
   captchaSiteKey: string;
   maintenance: boolean;
 }

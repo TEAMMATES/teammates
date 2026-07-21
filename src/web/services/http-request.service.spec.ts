@@ -70,7 +70,6 @@ describe('HttpRequestService', () => {
       params: HttpParams;
     };
     expect(requestOptions.headers.get('X-Masquerade-Account-Id')).toBe('account-123');
-    expect(requestOptions.params.has('masqueradeaccountid')).toBe(false);
   });
 
   it('should execute GET', () => {

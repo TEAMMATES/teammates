@@ -302,7 +302,7 @@
         spam box.
       </li>
       <li>
-        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail() }}">{{ supportEmail() }}</a
         >. We can resend the email using an alternate means. When they email us, they should use the email address
         currently registered in TEAMMATES (for identification).
       </li>
@@ -460,7 +460,8 @@
     [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE]"
   >
     <p>
-      Not at the moment. If there is such a need, email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a
+      Not at the moment. If there is such a need, email us at
+      <a href="mailto:{{ supportEmail() }}">{{ supportEmail() }}</a
       >, and we'll try to find that information for you.
     </p>
   </tm-instructor-help-panel>
@@ -624,7 +625,7 @@
         specific students. Make sure the session results are published if you are unable to see the option.
       </li>
       <li>
-        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail() }}">{{ supportEmail() }}</a
         >. We can resend the email using an alternate means. When they email us, they should use the email address
         currently registered in TEAMMATES (for identification).
       </li>
