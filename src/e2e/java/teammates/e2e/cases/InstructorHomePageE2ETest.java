@@ -152,23 +152,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
         verifySessionPublishedState(feedbackSessionOpen, true);
 
-        ______TS("send reminder email to selected student");
-        InstructorSessionSendRemindersPage sendRemindersPage =
-                homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
-
-        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
-                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
-        homePage.sortCoursesByName();
-
-        ______TS("send reminder email to all student non-submitters");
-        sendRemindersPage = homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
-
-        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
-                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
-        homePage.sortCoursesByName();
-
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
 
@@ -211,6 +194,24 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + "You can restore it from the Recycle Bin manually.");
         homePage.verifyNumCourses(1);
         assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
+
+        ______TS("send reminder email to selected student");
+        courseIndex = 0;
+        sessionIndex = 0;
+        homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
+        InstructorSessionSendRemindersPage sendRemindersPage =
+                homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
+
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+
+        ______TS("send reminder email to all student non-submitters");
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
+        sendRemindersPage = homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
+
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
     }
 
     private String getExpectedResponseRate(FeedbackSession session) {
