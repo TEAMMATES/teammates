@@ -54,6 +54,8 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.ui.output.FeedbackSessionsData;
+import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
@@ -79,6 +81,7 @@ public final class FeedbackSessionsLogic {
     private UsersLogic usersLogic;
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
     private FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -92,7 +95,8 @@ public final class FeedbackSessionsLogic {
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
             UsersLogic usersLogic, CoursesLogic coursesLogic,
             DeadlineExtensionsLogic deadlineExtensionsLogic,
-            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic) {
+            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic,
+            InstructorPermissionsLogic instructorPermissionsLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
@@ -100,6 +104,7 @@ public final class FeedbackSessionsLogic {
         this.coursesLogic = coursesLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
         this.feedbackSessionsEmailsLogic = feedbackSessionsEmailsLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -110,6 +115,60 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession getFeedbackSession(UUID id) {
         assert id != null;
         return fsDb.getFeedbackSession(id);
+    }
+
+    /**
+     * Gets feedback session list data matching the given query.
+     */
+    public FeedbackSessionsData getFeedbackSessionsData(FeedbackSessionQuery query,
+            Map<String, Instructor> courseIdToInstructor, boolean shouldIncludeInstructorDetails) {
+        List<FeedbackSession> feedbackSessions = getFeedbackSessions(query);
+        if (!shouldIncludeInstructorDetails) {
+            return new FeedbackSessionsData(feedbackSessions);
+        }
+
+        FeedbackSessionsData responseData =
+                new FeedbackSessionsData(getFeedbackSessionsWithDeadline(feedbackSessions, courseIdToInstructor));
+        responseData.getFeedbackSessions().forEach(session -> {
+            Instructor instructor = courseIdToInstructor.get(session.getFeedbackSession().getCourseId());
+            session.setInstructorPermissions(getPermissionsData(session.getFeedbackSession().getFeedbackSessionId(),
+                    instructor));
+        });
+
+        return responseData;
+    }
+
+    private Map<FeedbackSession, Instant> getFeedbackSessionsWithDeadline(List<FeedbackSession> feedbackSessions,
+            Map<String, Instructor> courseIdToInstructor) {
+        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
+        for (FeedbackSession session : feedbackSessions) {
+            Instructor instructor = courseIdToInstructor.get(session.getCourseId());
+            Instant deadline = instructor == null
+                    ? session.getEndTime()
+                    : deadlineExtensionsLogic.getDeadlineForUser(session, instructor);
+            sessionToDeadline.put(session, deadline);
+        }
+        return sessionToDeadline;
+    }
+
+    private InstructorFeedbackSessionPermissionsData getPermissionsData(UUID sessionId, Instructor instructor) {
+        if (instructor == null) {
+            return new InstructorFeedbackSessionPermissionsData(false, false, false);
+        }
+        boolean canModifySession = instructorPermissionsLogic.hasPermissions(instructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSession = instructorPermissionsLogic.hasPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionId,
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = instructorPermissionsLogic.hasPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionId,
+                        Const.InstructorPermissions.CAN_VIEW_SESSION);
+        return new InstructorFeedbackSessionPermissionsData(
+                canModifySession,
+                canSubmitSession,
+                canViewSession);
     }
 
     /**

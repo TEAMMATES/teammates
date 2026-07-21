@@ -74,6 +74,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.UsageStatisticsData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -644,6 +645,15 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessions(FeedbackSessionQuery query) {
         return feedbackSessionsLogic.getFeedbackSessions(query);
+    }
+
+    /**
+     * Gets feedback session list data matching the given query.
+     */
+    public FeedbackSessionsData getFeedbackSessionsData(FeedbackSessionQuery query,
+            Map<String, Instructor> courseIdToInstructor, boolean shouldIncludeInstructorDetails) {
+        return feedbackSessionsLogic.getFeedbackSessionsData(
+                query, courseIdToInstructor, shouldIncludeInstructorDetails);
     }
 
     /**
