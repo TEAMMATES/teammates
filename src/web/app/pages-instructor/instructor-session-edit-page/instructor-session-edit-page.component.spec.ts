@@ -682,7 +682,10 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should copy question from other session', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
     vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({ questionToCopyCandidates: [] }, promise));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(testFeedbackSessions));
+    vi.spyOn(courseService, 'getAllCoursesAsInstructor').mockReturnValue(of(testCourses));
+    const feedbackSessionsSpy = vi
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+      .mockReturnValue(of(testFeedbackSessions));
     vi.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(
       of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }),
     );
@@ -691,6 +694,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.copyQuestionsFromOtherSessionsHandler();
     await promise;
 
+    expect(feedbackSessionsSpy).toHaveBeenCalledWith({ courseIds: [testCourse2.courseId] });
     expect(ngbModal.open).toHaveBeenCalledWith(CopyQuestionsFromOtherSessionsModalComponent);
     expect(component.questionEditFormModels.length).toEqual(1);
     expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(
