@@ -195,7 +195,7 @@ export class FeedbackSessionsService {
   }): Observable<FeedbackSessions> {
     const paramMap: Record<string, string | string[]> = {};
     if (queryParams.courseIds?.length) {
-      paramMap['courseid'] = queryParams.courseIds;
+      paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseIds;
     }
     if (queryParams.isInRecycleBin !== undefined) {
       paramMap['isinrecyclebin'] = String(queryParams.isInRecycleBin);
@@ -209,7 +209,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsForStudent(courseId: string): Observable<FeedbackSessions> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
