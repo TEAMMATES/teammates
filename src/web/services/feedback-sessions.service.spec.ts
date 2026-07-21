@@ -186,7 +186,7 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
   });
 
-  it('should call get when retrieving feedback sessions for a student', () => {
+  it('should execute GET when retrieving feedback sessions for a student', () => {
     const courseId = 'CS1231';
     const paramMap: Record<string, string> = {
       [QueryParamKeys.COURSE_ID]: courseId,
