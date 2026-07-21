@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
@@ -6,7 +7,8 @@ import {
   EXAMPLE_STUDENT_ATTRIBUTES,
 } from './instructor-help-students-data';
 import { StudentsSectionQuestions } from './students-section-questions';
-import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../../services/config.service';
 import { Student } from '../../../../types/api-output';
 import { CourseRelatedInfoComponent } from '../../../components/course-related-info/course-related-info.component';
 import { InstructorCourseStudentEditPageComponent } from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
@@ -38,11 +40,15 @@ import { Sections } from '../sections';
   ],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+  private readonly configService = inject(ConfigService);
+
   // enums
   StudentsSectionQuestions!: typeof StudentsSectionQuestions;
   Sections!: typeof Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
   readonly exampleStudentAttributes: Student = EXAMPLE_STUDENT_ATTRIBUTES;
   readonly exampleSingleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_SINGLE_STUDENT_RESULT_TABLES;
   readonly exampleMultipleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES;

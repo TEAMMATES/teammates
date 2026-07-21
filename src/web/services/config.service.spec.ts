@@ -12,6 +12,7 @@ describe('ConfigService', () => {
   const mockConfig: Config = {
     loginMethods: [],
     frontendUrl: '',
+    supportEmail: '',
   };
 
   beforeEach(() => {
@@ -27,7 +28,7 @@ describe('ConfigService', () => {
   });
 
   it('should execute GET on config endpoint', () => {
-    spyHttpRequestService.get.mockReturnValue(of(mockConfig));
+    spyHttpRequestService.get.mockReturnValue(of({}));
     service.getConfig();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.CONFIG);
   });

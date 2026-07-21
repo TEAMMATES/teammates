@@ -1,7 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../services/config.service';
 import { ErrorReportService } from '../../../services/error-report.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorReportRequest } from '../../../types/api-request';
@@ -20,6 +22,7 @@ export class ErrorReportComponent implements OnInit {
   private errorReportService = inject(ErrorReportService);
   private ngbActiveModal = inject(NgbActiveModal);
   private statusMessageService = inject(StatusMessageService);
+  private configService = inject(ConfigService);
 
   errorMessage = '';
   subject = 'User-submitted Error Report';
@@ -29,7 +32,9 @@ export class ErrorReportComponent implements OnInit {
   errorReportEnabled = true;
   errorReportSubmitted = false;
   csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
 
   ngOnInit(): void {
     if (this.csrfErrorMessages.includes(this.errorMessage)) {

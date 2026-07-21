@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, Params } from '@angular/router';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
@@ -9,7 +10,8 @@ import { SessionsSectionQuestions } from './instructor-help-sessions-section/ses
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section/instructor-help-students-section.component';
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
-import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../services/config.service';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { RouterLink } from '@angular/router';
 
@@ -33,10 +35,13 @@ import { RouterLink } from '@angular/router';
 export class InstructorHelpPageComponent implements AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly pageScrollService = inject(PageScrollService);
+  private readonly configService = inject(ConfigService);
 
   // enum
   Sections!: typeof Sections;
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
   instructorGettingStartedPath = '';
   searchTerm = '';
   key = '';
