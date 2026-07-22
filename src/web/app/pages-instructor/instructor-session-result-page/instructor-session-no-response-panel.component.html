@@ -17,7 +17,7 @@
           id="btn-remind-all"
           class="btn btn-secondary btn-sm button"
           type="button"
-          (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation()"
+          (click)="!isDisplayOnly && openSendReminderPage($event); $event.stopPropagation()"
           [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN"
         >
           Remind All

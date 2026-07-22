@@ -1,5 +1,8 @@
 @if (studentListInfoTableRowModels.length > 0) {
   <div>
+    @if (studentTableLabel) {
+      <h1>{{ studentTableLabel }}</h1>
+    }
     <table id="student-list-table" class="table table-bordered">
       <thead>
         <tr class="background-color-medium-gray">
@@ -148,6 +151,9 @@
 <br />
 @if (instructorListInfoTableRowModels.length > 0) {
   <div>
+    @if (instructorTableLabel) {
+      <h1>{{ instructorTableLabel }}</h1>
+    }
     <table id="instructor-list-table" class="table table-bordered">
       <thead>
         <tr class="background-color-medium-gray">

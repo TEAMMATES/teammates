@@ -255,6 +255,8 @@ public final class Const {
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/{feedbackSessionId}/edit";
         public static final String INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE = INSTRUCTOR_PAGE
                 + "/sessions/{feedbackSessionId}/individual-extension";
+        public static final String INSTRUCTOR_SESSION_SEND_REMINDERS_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/{feedbackSessionId}/send-reminders";
         public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE
                 + "/sessions/{feedbackSessionId}/result";
         public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE
