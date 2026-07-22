@@ -221,20 +221,12 @@ export class FeedbackSessionsService {
   /**
    * Gets all sessions for the student by calling API.
    */
-  getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
-    let paramMap: Record<string, string>;
-    if (courseId) {
-      paramMap = {
-        entitytype: entityType,
-        [QueryParamKeys.COURSE_ID]: courseId,
-      };
-    } else {
-      paramMap = {
-        entitytype: entityType,
-      };
-    }
+  getFeedbackSessionsForStudent(courseId: string): Observable<FeedbackSessions> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
 
-    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
   }
 
   /**
