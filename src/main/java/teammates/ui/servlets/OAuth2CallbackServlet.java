@@ -43,10 +43,23 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        handleCallback(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        handleCallback(req, resp);
+    }
+
+    /**
+     * Handles the main callback logic.
+     */
+    private void handleCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthState state;
         try {
             state = getValidAuthStateFromCallback(req);
         } catch (AuthException e) {
+            log.warning("Invalid state parameter in OAuth2 callback", e);
             rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
             return;
         }
@@ -64,9 +77,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
             AuthResult authResult = loginHandler.handleCallback(req, state);
             cookie = getLoginCookie(authResult);
         } catch (AuthException e) {
+            log.warning("Failed to handle OAuth2 callback", e);
             rejectLogin(req, resp, HttpStatus.SC_BAD_REQUEST);
             return;
         } catch (Exception e) {
+            log.severe("Unexpected error during OAuth2 callback", e);
             rejectLogin(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR);
             return;
         }

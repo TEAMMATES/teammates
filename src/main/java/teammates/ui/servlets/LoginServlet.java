@@ -65,6 +65,7 @@ public class LoginServlet extends AuthServlet {
             redirectUrl = resp.encodeRedirectURL(redirectUrl);
             resp.sendRedirect(redirectUrl);
         } catch (Exception e) {
+            log.severe("Failed to handle login request", e);
             resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }

@@ -6,4 +6,5 @@ package teammates.common.datatransfer;
 public enum Provider {
   TEAMMATES_DEV,
   GOOGLE,
+  MICROSOFT,
 }
