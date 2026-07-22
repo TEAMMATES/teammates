@@ -31,6 +31,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.InstructorCoursePrivilege;
 import teammates.storage.entity.InstructorSectionPrivilege;
 import teammates.storage.entity.InstructorSessionPrivilege;
+import teammates.storage.entity.MagicLink;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
@@ -114,6 +115,7 @@ public final class DataBundleLogic {
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<ResponseInstructorComment> responseComments = dataBundle.responseInstructorComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
+        Collection<MagicLink> magicLinks = dataBundle.magicLinks.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
@@ -274,6 +276,11 @@ public final class DataBundleLogic {
             notificationsMap.put(placeholderId, notification);
         }
 
+        for (MagicLink magicLink : magicLinks) {
+            UUID placeholderId = magicLink.getId();
+            magicLink.setId(generateId(placeholderId, seed));
+        }
+
         for (ReadNotification readNotification : readNotifications) {
             UUID placeholderId = readNotification.getId();
             readNotification.setId(generateId(placeholderId, seed));
@@ -418,10 +425,12 @@ public final class DataBundleLogic {
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<ResponseInstructorComment> responseComments = dataBundle.responseInstructorComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
+        Collection<MagicLink> magicLinks = dataBundle.magicLinks.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         persistEntities(institutes);
+        persistEntities(magicLinks);
         persistEntities(notifications);
         persistEntities(accounts);
         persistEntities(accountVerificationRequests);
