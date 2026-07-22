@@ -1,13 +1,6 @@
-<button
-  type="button"
-  class="btn btn-outline-dark border-2 w-100 fw-semibold position-relative fs-6 py-3"
-  (click)="login.emit()"
->
-  <span
-    class="position-absolute top-50 start-0 translate-middle-y ms-3 d-inline-flex align-items-center justify-content-center fs-4 lh-1"
-  >
-    <i class="fas fa-user-lock"></i>
+<button type="button" class="btn btn-dark btn-lg w-100" (click)="login.emit()">
+  <span class="d-inline-flex align-items-center justify-content-center gap-2">
+    <i class="fas fa-user-lock" aria-hidden="true"></i>
+    <span>Continue with Development Server</span>
   </span>
-
-  <span class="d-block text-center text-truncate px-5">Continue with Development Server</span>
 </button>

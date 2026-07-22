@@ -1,16 +1,14 @@
 <div *tmIsLoading="isLoadingLoginMethods()">
-  <div class="login-page-container container d-flex align-items-center justify-content-center py-5">
-    <div class="login-page-card card w-100 mx-auto shadow-sm rounded-4">
-      <div class="card-body p-5">
-        <div class="login-card-content w-100 mx-auto">
-          <h1 class="h2 fw-bold mb-2">Sign in</h1>
-          <p class="text-secondary mb-4">Choose a sign-in method to continue.</p>
-          <tm-login-method-buttons-container
-            [nextUrl]="nextUrl()"
-            [supportedLoginMethods]="loginMethods()"
-          ></tm-login-method-buttons-container>
-        </div>
-      </div>
+  <div class="card bg-light mx-auto" style="max-width: 600px">
+    <div class="card-header bg-primary text-white">
+      <h1 class="mb-0 h3">Sign in</h1>
+    </div>
+    <div class="card-body">
+      <p>Choose a sign-in method to continue.</p>
+      <tm-login-method-buttons-container
+        [nextUrl]="nextUrl()"
+        [supportedLoginMethods]="loginMethods()"
+      ></tm-login-method-buttons-container>
     </div>
   </div>
 </div>

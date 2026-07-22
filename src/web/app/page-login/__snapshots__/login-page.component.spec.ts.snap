@@ -10,81 +10,48 @@ exports[`LoginPageComponent snapshot > should match snapshot with login methods 
 >
   <div>
     <div
-      class="login-page-container container d-flex align-items-center justify-content-center py-5"
+      class="card bg-light mx-auto"
+      style="max-width: 600px;"
     >
       <div
-        class="login-page-card card w-100 mx-auto shadow-sm rounded-4"
+        class="card-header bg-primary text-white"
       >
-        <div
-          class="card-body p-5"
+        <h1
+          class="mb-0 h3"
         >
+          Sign in
+        </h1>
+      </div>
+      <div
+        class="card-body"
+      >
+        <p>
+          Choose a sign-in method to continue.
+        </p>
+        <tm-login-method-buttons-container>
           <div
-            class="login-card-content w-100 mx-auto"
+            class="login-method-buttons d-flex flex-column gap-3 mx-auto"
           >
-            <h1
-              class="h2 fw-bold mb-2"
-            >
-              Sign in
-            </h1>
-            <p
-              class="text-secondary mb-4"
-            >
-              Choose a sign-in method to continue.
-            </p>
-            <tm-login-method-buttons-container>
-              <div
-                class="login-method-buttons d-flex flex-column gap-3 mx-auto w-100"
+            <tm-google-login-button>
+              <button
+                class="btn btn-danger btn-lg w-100"
+                type="button"
               >
-                <tm-google-login-button>
-                  <button
-                    class="btn btn-outline-dark border-2 w-100 fw-semibold position-relative fs-6 py-3"
-                    type="button"
-                  >
-                    <span
-                      class="position-absolute top-50 start-0 translate-middle-y ms-3 d-inline-flex align-items-center justify-content-center fs-4 lh-1"
-                    >
-                      <svg
-                        class="d-block"
-                        height="1em"
-                        version="1.1"
-                        viewBox="0 0 48 48"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                      >
-                        <path
-                          d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-                          fill="#EA4335"
-                        />
-                        <path
-                          d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-                          fill="#4285F4"
-                        />
-                        <path
-                          d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-                          fill="#FBBC05"
-                        />
-                        <path
-                          d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-                          fill="#34A853"
-                        />
-                        <path
-                          d="M0 0h48v48H0z"
-                          fill="none"
-                        />
-                      </svg>
-                    </span>
-                    <span
-                      class="d-block text-center text-truncate px-5"
-                    >
-                      Continue with Google
-                    </span>
-                  </button>
-                </tm-google-login-button>
-              </div>
-            </tm-login-method-buttons-container>
+                <span
+                  class="d-inline-flex align-items-center justify-content-center gap-2"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fab fa-google"
+                  />
+                  <span>
+                    Continue with Google
+                  </span>
+                </span>
+              </button>
+            </tm-google-login-button>
           </div>
-        </div>
+        </tm-login-method-buttons-container>
       </div>
     </div>
   </div>
