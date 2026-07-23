@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -53,6 +54,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private UsersLogic usersLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
@@ -61,7 +63,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
         FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = mock(FeedbackSessionEmailsLogic.class);
         fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic,
                 deadlineExtensionsLogic, feedbackSessionEmailsLogic);
@@ -93,6 +95,32 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         assertNull(result);
         verify(fsDb, times(1)).getFeedbackSession(nonExistentId);
+    }
+
+    @Test
+    public void testGetFeedbackSessionsWithDeadline_returnsInstructorDeadlineWhenInstructorExists() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        Instructor instructor = getTypicalInstructor();
+        Instant deadline = Instant.now();
+
+        when(deadlineExtensionsLogic.getDeadlineForUser(session, instructor)).thenReturn(deadline);
+
+        Map<FeedbackSession, Instant> result =
+                fsLogic.getFeedbackSessionsWithDeadline(List.of(session), Map.of(course.getId(), instructor));
+
+        assertEquals(Map.of(session, deadline), result);
+        verify(deadlineExtensionsLogic, times(1)).getDeadlineForUser(session, instructor);
+    }
+
+    @Test
+    public void testGetFeedbackSessionsWithDeadline_noInstructor_returnsSessionEndTime() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+
+        Map<FeedbackSession, Instant> result = fsLogic.getFeedbackSessionsWithDeadline(List.of(session), Map.of());
+
+        assertEquals(Map.of(session, session.getEndTime()), result);
     }
 
     @Test

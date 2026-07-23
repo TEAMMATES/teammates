@@ -126,8 +126,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.isSessionEditFormExpanded = !!this.courseId;
     this.templateSessions = this.feedbackSessionsService.getTemplateSessions();
     this.loadCandidatesCourse();
-    this.loadFeedbackSessions();
-    this.loadRecycleBinFeedbackSessions();
   }
 
   /**
@@ -202,6 +200,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
+          this.loadFeedbackSessions();
+          this.loadRecycleBinFeedbackSessions();
         },
         error: (resp: ErrorMessageOutput) => {
           this.resetAllModels();
@@ -349,9 +349,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
+    if (this.courseCandidates.length === 0) {
+      this.isFeedbackSessionsLoading = false;
+      return;
+    }
     this.isFeedbackSessionsLoading = true;
     this.feedbackSessionsService
-      .getFeedbackSessionsForInstructor()
+      .getFeedbackSessionsForInstructor({ courseIds: this.courseCandidates.map((course) => course.courseId) })
       .pipe(
         finalize(() => {
           this.isFeedbackSessionsLoading = false;
@@ -556,9 +560,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
+    if (this.courseCandidates.length === 0) {
+      this.isRecycleBinLoading = false;
+      return;
+    }
     this.isRecycleBinLoading = true;
     this.feedbackSessionsService
-      .getFeedbackSessionsInRecycleBinForInstructor()
+      .getFeedbackSessionsForInstructor({
+        courseIds: this.courseCandidates.map((course) => course.courseId),
+        isInRecycleBin: true,
+      })
       .pipe(
         finalize(() => {
           this.isRecycleBinLoading = false;
@@ -718,8 +729,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.hasFeedbackSessionLoadingFailed = false;
     this.hasCourseLoadingFailed = false;
     this.loadCandidatesCourse();
-    this.loadFeedbackSessions();
-    this.loadRecycleBinFeedbackSessions();
   }
 
   resetAllModels(): void {

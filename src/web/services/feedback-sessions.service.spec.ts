@@ -197,6 +197,17 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
   });
 
+  it('should execute GET when retrieving feedback sessions for an instructor', () => {
+    const courseIds = ['CS1231', 'CS3281'];
+    const paramMap: Record<string, string | string[]> = {
+      [QueryParamKeys.COURSE_ID]: courseIds,
+    };
+
+    service.getFeedbackSessionsForInstructor({ courseIds });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSIONS, paramMap);
+  });
+
   it('should return true if a feedbackSession is no longer open', () => {
     expect(service.isFeedbackSessionOpen(mockFeedbackSession)).toBeTruthy();
   });

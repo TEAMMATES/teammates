@@ -189,31 +189,18 @@ export class FeedbackSessionsService {
   /**
    * Gets all sessions for the instructor by calling API.
    */
-  getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
-    let paramMap: Record<string, string>;
-    if (courseId) {
-      paramMap = {
-        entitytype: 'instructor',
-        [QueryParamKeys.COURSE_ID]: courseId,
-      };
-    } else {
-      paramMap = {
-        entitytype: 'instructor',
-        isinrecyclebin: 'false',
-      };
+  getFeedbackSessionsForInstructor(queryParams: {
+    courseIds: string[];
+    isInRecycleBin?: boolean;
+  }): Observable<FeedbackSessions> {
+    const paramMap: Record<string, string | string[]> = {};
+    if (queryParams.courseIds?.length) {
+      paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseIds;
     }
 
-    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
-  }
-
-  /**
-   * Gets all sessions in the recycle bin for the instructor by calling API.
-   */
-  getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
-    const paramMap: Record<string, string> = {
-      entitytype: 'instructor',
-      isinrecyclebin: 'true',
-    };
+    if (queryParams.isInRecycleBin) {
+      paramMap['isinrecyclebin'] = String(queryParams.isInRecycleBin);
+    }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }

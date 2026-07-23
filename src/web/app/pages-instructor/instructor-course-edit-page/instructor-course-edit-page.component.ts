@@ -144,7 +144,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     // load all section and session name
     forkJoin([
       this.studentService.getStudents({ courseIds: [this.courseId] }),
-      this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+      this.feedbackSessionsService.getFeedbackSessionsForInstructor({ courseIds: [this.courseId] }),
     ]).subscribe((vals) => {
       const students: Students = vals[0];
       const sessions: FeedbackSessions = vals[1];
