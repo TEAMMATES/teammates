@@ -45,7 +45,7 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessions(query);
 
         // Admin can retrieve all feedback sessions without specific course IDs.
-        if (requestContext.isAdmin() && courseIds != null) {
+        if (requestContext.isAdmin() && courseIds == null) {
             return new JsonResult(new FeedbackSessionsData(feedbackSessions));
         }
 

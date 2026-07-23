@@ -65,9 +65,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
         deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
         FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = mock(FeedbackSessionEmailsLogic.class);
-        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
         fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic,
-                deadlineExtensionsLogic, feedbackSessionEmailsLogic, instructorPermissionsLogic);
+                deadlineExtensionsLogic, feedbackSessionEmailsLogic);
     }
 
     @Test
