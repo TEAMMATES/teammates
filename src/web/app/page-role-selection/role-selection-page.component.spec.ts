@@ -51,7 +51,7 @@ describe('RoleSelectionPageComponent', () => {
     fixture.detectChanges();
 
     const pageText = fixture.nativeElement.textContent;
-    expect(pageText).toContain('You do not have access to any instructor or student pages yet.');
+    expect(pageText).toContain('You do not currently have access to any instructor or student pages in TEAMMATES.');
     expect(pageText).toContain('Return to main page');
   });
 });
