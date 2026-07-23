@@ -24,42 +24,19 @@ public final class UrlHelper {
     }
 
     /**
-     * Returns a relative URL from the given absolute URL.
+     * Checks whether the given redirect URL is safe to use as a relative redirect target, and returns it if it is.
      *
      * <p>
-     * If the URL is not absolute, it returns the original URL.
-     * If the URL doesn't have a path or is invalid, it returns the {@link #DEFAULT_REDIRECT_URL}.
-     */
-    public static String getRelativeUrl(String url) {
-        if (StringHelper.isEmpty(url)) {
-            return DEFAULT_REDIRECT_URL;
-        }
-
-        try {
-            URI uri = new URI(url);
-            String relativeUrl = uri.getPath();
-            // Only preserve the query when there is a path.
-            return StringHelper.isEmpty(relativeUrl)
-                    ? DEFAULT_REDIRECT_URL
-                    : relativeUrl + (uri.getQuery() != null ? "?" + uri.getQuery() : "");
-        } catch (URISyntaxException e) {
-            return DEFAULT_REDIRECT_URL;
-        }
-    }
-
-    /**
-     * Normalizes the given redirectUrl to a relative URL and checks if it is safe.
-     *
-     * <p>
-     * If the provided redirectUrl is not safe, it returns the {@link #DEFAULT_REDIRECT_URL}.
+     * If the provided redirectUrl is not safe, or isn't relative, it returns the {@link #DEFAULT_REDIRECT_URL}.
      */
     public static String getSafeRelativeRedirectUrl(String redirectUrl) {
-        String relativeUrl = getRelativeUrl(redirectUrl);
-        return isSafeRelativeRedirectUrl(relativeUrl) ? relativeUrl : DEFAULT_REDIRECT_URL;
+        return isSafeRelativeRedirectUrl(redirectUrl) ? redirectUrl : DEFAULT_REDIRECT_URL;
     }
 
     /**
      * Checks whether the given relative URL is safe to use as a redirect target.
+     *
+     * <p>
      * Rejects absolute URLs.
      */
     public static boolean isSafeRelativeRedirectUrl(String url) {
