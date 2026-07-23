@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionQuery;
 import teammates.common.util.Const;
@@ -90,18 +91,17 @@ public class GetFeedbackSessionsAction extends LoggedInAction {
         if (instructor == null) {
             return new InstructorFeedbackSessionPermissionsData(false, false, false);
         }
-        boolean canModifySession = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        boolean canSubmitSession = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
-                        feedbackSession.getFeedbackSession().getFeedbackSessionId(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION);
-        boolean canViewSession = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_VIEW_SESSION)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
-                        feedbackSession.getFeedbackSession().getFeedbackSessionId(),
-                        Const.InstructorPermissions.CAN_VIEW_SESSION);
+
+        UUID sessionId = feedbackSession.getFeedbackSession().getFeedbackSessionId();
+        boolean canModifySession = logic.hasInstructorPermissions(
+                instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(
+                    instructor, sessionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(
+                    instructor, sessionId, Const.InstructorPermissions.CAN_VIEW_SESSION);
+
         return new InstructorFeedbackSessionPermissionsData(
                 canModifySession,
                 canSubmitSession,

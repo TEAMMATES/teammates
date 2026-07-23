@@ -92,8 +92,7 @@ public final class FeedbackSessionsLogic {
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
             UsersLogic usersLogic, CoursesLogic coursesLogic,
             DeadlineExtensionsLogic deadlineExtensionsLogic,
-            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic,
-            InstructorPermissionsLogic instructorPermissionsLogic) {
+            FeedbackSessionEmailsLogic feedbackSessionsEmailsLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
