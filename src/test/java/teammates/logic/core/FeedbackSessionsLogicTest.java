@@ -41,7 +41,6 @@ import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
-import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
@@ -56,7 +55,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     private FeedbackQuestionsLogic fqLogic;
     private UsersLogic usersLogic;
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
-    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
@@ -67,7 +65,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
         deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
         FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = mock(FeedbackSessionEmailsLogic.class);
-        instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
         fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic, coursesLogic,
                 deadlineExtensionsLogic, feedbackSessionEmailsLogic, instructorPermissionsLogic);
     }
@@ -101,43 +99,29 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetFeedbackSessionsData_withoutInstructorDetails_returnsSessions() {
+    public void testGetFeedbackSessionsWithDeadline_returnsInstructorDeadlineWhenInstructorExists() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setCreatedAt(Instant.now());
-        FeedbackSessionQuery query = new FeedbackSessionQuery(List.of(course.getId()), false);
+        Instructor instructor = getTypicalInstructor();
+        Instant deadline = Instant.now();
 
-        when(fsDb.getFeedbackSessions(query)).thenReturn(List.of(session));
+        when(deadlineExtensionsLogic.getDeadlineForUser(session, instructor)).thenReturn(deadline);
 
-        FeedbackSessionsData result = fsLogic.getFeedbackSessionsData(query, Map.of(), false);
+        Map<FeedbackSession, Instant> result =
+                fsLogic.getFeedbackSessionsWithDeadline(List.of(session), Map.of(course.getId(), instructor));
 
-        assertNotNull(result);
-        assertEquals(1, result.getFeedbackSessions().size());
-        assertEquals(session.getId(), result.getFeedbackSessions().get(0).getFeedbackSession().getFeedbackSessionId());
-        assertNull(result.getFeedbackSessions().get(0).getInstructorPermissions());
+        assertEquals(Map.of(session, deadline), result);
+        verify(deadlineExtensionsLogic, times(1)).getDeadlineForUser(session, instructor);
     }
 
     @Test
-    public void testGetFeedbackSessionsData_withInstructorDetails_returnsDeadlinesAndPermissions() {
+    public void testGetFeedbackSessionsWithDeadline_noInstructor_returnsSessionEndTime() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setCreatedAt(Instant.now());
-        Instructor instructor = getTypicalInstructor();
-        FeedbackSessionQuery query = new FeedbackSessionQuery(List.of(course.getId()), false);
-        Instant deadline = Instant.now();
 
-        when(fsDb.getFeedbackSessions(query)).thenReturn(List.of(session));
-        when(deadlineExtensionsLogic.getDeadlineForUser(session, instructor)).thenReturn(deadline);
-        when(instructorPermissionsLogic.hasPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION))
-                .thenReturn(true);
+        Map<FeedbackSession, Instant> result = fsLogic.getFeedbackSessionsWithDeadline(List.of(session), Map.of());
 
-        FeedbackSessionsData result = fsLogic.getFeedbackSessionsData(query, Map.of(course.getId(), instructor), true);
-
-        assertNotNull(result);
-        assertEquals(1, result.getFeedbackSessions().size());
-        assertEquals(deadline.toEpochMilli(), result.getFeedbackSessions().get(0).getUserDeadlineExtension());
-        assertNotNull(result.getFeedbackSessions().get(0).getInstructorPermissions());
-        assertTrue(result.getFeedbackSessions().get(0).getInstructorPermissions().getCanViewSession());
+        assertEquals(Map.of(session, session.getEndTime()), result);
     }
 
     @Test

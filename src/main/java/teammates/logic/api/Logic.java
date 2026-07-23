@@ -74,7 +74,6 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.UsageStatisticsData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -648,12 +647,11 @@ public class Logic {
     }
 
     /**
-     * Gets feedback session list data matching the given query.
+     * Gets the deadline for each feedback session according to the requested course instructor, if any.
      */
-    public FeedbackSessionsData getFeedbackSessionsData(FeedbackSessionQuery query,
-            Map<String, Instructor> courseIdToInstructor, boolean shouldIncludeInstructorDetails) {
-        return feedbackSessionsLogic.getFeedbackSessionsData(
-                query, courseIdToInstructor, shouldIncludeInstructorDetails);
+    public Map<FeedbackSession, Instant> getFeedbackSessionsWithDeadline(List<FeedbackSession> feedbackSessions,
+            Map<String, Instructor> courseIdToInstructor) {
+        return feedbackSessionsLogic.getFeedbackSessionsWithDeadline(feedbackSessions, courseIdToInstructor);
     }
 
     /**
