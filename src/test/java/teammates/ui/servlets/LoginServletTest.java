@@ -99,7 +99,7 @@ public class LoginServletTest extends BaseTestCase {
             servlet.doGet(req, resp);
         }
 
-        assertEquals("/web/instructor/home", resp.getRedirectUrl());
+        assertEquals(Config.APP_FRONTEND_URL + "/web/instructor/home", resp.getRedirectUrl());
     }
 
     @Test

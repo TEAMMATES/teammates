@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static teammates.common.util.UrlHelper.encodeQueryParam;
-import static teammates.common.util.UrlHelper.isSafeRedirectUrl;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+import static teammates.common.util.UrlHelper.isSafeRelativeRedirectUrl;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,23 +16,35 @@ import teammates.test.BaseTestCase;
  */
 public class UrlHelperTest extends BaseTestCase {
 
-    @Test
-    public void testIsSafeRedirectUrl_relativeUrl_returnsTrue() {
-        String url = "/web/instructor/home";
-
-        assertTrue(isSafeRedirectUrl(url));
+    @Test(dataProvider = "relativeUrls")
+    public void testIsSafeRelativeRedirectUrl_relativeUrl_returnsTrue(String url) {
+        assertTrue(isSafeRelativeRedirectUrl(url));
     }
 
-    @Test
-    public void testIsSafeRedirectUrl_configuredFrontendUrl_returnsTrue() {
-        String url = Config.APP_FRONTEND_URL + "/web/instructor/home";
+    @DataProvider
+    private Object[][] relativeUrls() {
+        return new Object[][] {
+                {"/web/instructor/home"},
+                {"/web/student/home?query=value"},
+        };
+    }
 
-        assertTrue(isSafeRedirectUrl(url));
+    @Test(dataProvider = "absoluteUrls")
+    public void testIsSafeRelativeRedirectUrl_absoluteUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] absoluteUrls() {
+        return new Object[][] {
+                {"https://example.com/web/instructor/home"},
+                {"http://example.com/web/student/home"},
+        };
     }
 
     @Test(dataProvider = "externalUrls")
-    public void testIsSafeRedirectUrl_externalUrl_returnsFalse(String url) {
-        assertFalse(isSafeRedirectUrl(url));
+    public void testIsSafeRelativeRedirectUrl_externalUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
     }
 
     @DataProvider
@@ -43,52 +52,65 @@ public class UrlHelperTest extends BaseTestCase {
         return new Object[][] {
                 {"https://example.com/web/instructor/home"},
                 {"https://evil.example.com"},
+                {"evil.com/web/instructor/home"},
+                {"//evil.com/web/instructor/home"},
         };
-    }
-
-    @Test
-    public void testIsSafeRedirectUrl_differentPort_returnsFalse() throws URISyntaxException {
-        URI frontendUri = new URI(Config.APP_FRONTEND_URL);
-        int differentPort = frontendUri.getPort() == 8080 ? 8081 : 8080;
-        String url = String.format("%s://%s:%d/web/instructor/home",
-                frontendUri.getScheme(), frontendUri.getHost(), differentPort);
-
-        assertFalse(isSafeRedirectUrl(url));
-    }
-
-    @Test
-    public void testIsSafeRedirectUrl_protocolRelativeUrl_returnsFalse() {
-        assertFalse(isSafeRedirectUrl("//example.com/web/instructor/home"));
-    }
-
-    @Test(dataProvider = "unsupportedSchemeUrls")
-    public void testIsSafeRedirectUrl_unsupportedScheme_returnsFalse(String url) {
-        assertFalse(isSafeRedirectUrl(url));
-    }
-
-    @DataProvider
-    private Object[][] unsupportedSchemeUrls() {
-        return new Object[][] {
-                {"javascript:alert(1)"},
-                {"ftp://example.com/web/instructor/home"},
-        };
-    }
-
-    @Test
-    public void testIsSafeRedirectUrl_nullUrl_returnsFalse() {
-        assertFalse(isSafeRedirectUrl(null));
     }
 
     @Test(dataProvider = "malformedUrls")
-    public void testIsSafeRedirectUrl_malformedUrl_returnsFalse(String url) {
-        assertFalse(isSafeRedirectUrl(url));
+    public void testIsSafeRelativeRedirectUrl_malformedUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
     }
 
     @DataProvider
     private Object[][] malformedUrls() {
         return new Object[][] {
                 {"https://[invalid"},
-                {"web/instructor/home"},
+                {"example.com/invalid path"},
+        };
+    }
+
+    @Test(dataProvider = "invalidRedirectUrls")
+    public void testIsSafeRelativeRedirectUrl_invalidRedirectUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] invalidRedirectUrls() {
+        return new Object[][] {
+                {"?query=param"},
+                {"web/instructor"},
+                {"https://evil.com"},
+                {"//evil.com"},
+        };
+    }
+
+    @Test(dataProvider = "invalidUrls")
+    public void testIsSafeRelativeRedirectUrl_invalidUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] invalidUrls() {
+        return new Object[][] {
+                {""},
+                {null},
+                {"javascript:alert(1)"},
+        };
+    }
+
+    @Test(dataProvider = "unsupportedSchemaUrls")
+    public void testIsSafeRelativeRedirectUrl_unsupportedSchemaUrl_returnsFalse(String url) {
+        assertFalse(isSafeRelativeRedirectUrl(url));
+    }
+
+    @DataProvider
+    private Object[][] unsupportedSchemaUrls() {
+        return new Object[][] {
+                {"ftp://example.com/resource"},
+                {"file:///path/to/file"},
+                {"mailto:example@example.com"},
+                {"../relative/path"},
         };
     }
 

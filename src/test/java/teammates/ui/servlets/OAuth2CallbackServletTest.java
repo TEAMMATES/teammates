@@ -193,7 +193,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
             servlet.doGet(req, resp);
         }
 
-        assertEquals("/web/instructor/home", resp.getRedirectUrl());
+        assertEquals(Config.APP_FRONTEND_URL + "/web/instructor/home", resp.getRedirectUrl());
     }
 
     private static MockedStatic<Config> mockSupportedLoginMethod(LoginMethod loginMethod, boolean isSupported) {
