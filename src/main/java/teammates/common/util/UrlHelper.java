@@ -24,7 +24,7 @@ public final class UrlHelper {
     }
 
     /**
-     * Checks whether the given redirect URL is safe to use as a relative redirect target, and returns it if it is.
+     * Returns a safe relative redirect URL.
      *
      * <p>
      * If the provided redirectUrl is not safe, or isn't relative, it returns the {@link #DEFAULT_REDIRECT_URL}.
