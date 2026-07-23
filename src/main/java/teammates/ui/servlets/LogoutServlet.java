@@ -10,6 +10,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.common.util.UrlHelper;
 
 /**
  * Servlet that handles logout.
@@ -25,7 +26,8 @@ public class LogoutServlet extends AuthServlet {
         Cookie cookie = getLoginInvalidationCookie();
         resp.addCookie(cookie);
 
-        String frontendUrl = resp.encodeRedirectURL(Config.getFrontEndAppUrl("/").toAbsoluteString());
+        String frontendUrl = Config.getFrontEndAppUrl(UrlHelper.DEFAULT_REDIRECT_URL).toAbsoluteString();
+        frontendUrl = resp.encodeRedirectURL(frontendUrl);
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to home page after logging out");
         resp.sendRedirect(frontendUrl);
     }
