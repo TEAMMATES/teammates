@@ -1,14 +1,6 @@
 package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.testng.annotations.Test;
 
@@ -24,8 +16,7 @@ import teammates.e2e.pageobjects.IanaTimezonePage;
  */
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
-    private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
-    private static final int DAYS_TO_UPDATE_TZ = 120;
+    private static final String IANA_TIMEZONE_DATABASE_VERSION_URL = "https://data.iana.org/time-zones/tzdb/version";
 
     @Override
     protected void prepareTestData() {
@@ -56,25 +47,12 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
-                new AppUrl(IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
+                new AppUrl(IANA_TIMEZONE_DATABASE_VERSION_URL), IanaTimezonePage.class);
         String latestTzVersion = ianaPage.getVersion();
 
-        if (!currentTzVersion.equals(latestTzVersion)) {
-            // find the release day
-            String releaseDateString = ianaPage.getReleaseDate();
-            Pattern datePattern = Pattern.compile("\\(Released (.+)\\)");
-            Matcher matcher = datePattern.matcher(releaseDateString);
-            assertTrue(matcher.find());
-
-            LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate nowDate = Instant.now().atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE)).toLocalDate();
-
-            assertTrue(
-                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate),
-                    "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
-                            + " please update them according to the maintenance guide.");
-
-        }
+        assertEquals(latestTzVersion, currentTzVersion,
+                "The timezone database version is not up-to-date, "
+                        + "please update them according to the maintenance guide.");
     }
 
 }
