@@ -128,13 +128,13 @@ describe('FeedbackSessionsService', () => {
   it('should call get when retrieving user feedback session results', () => {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
-      userid: 'student-user-id',
-      ispreview: 'false',
+      [QueryParamKeys.USER_ID]: 'student-user-id',
+      [QueryParamKeys.IS_PREVIEW]: 'false',
     };
 
     service.getUserSessionResults({
       feedbackSessionId: paramMap[QueryParamKeys.FEEDBACK_SESSION_ID],
-      userId: paramMap['userid'],
+      userId: paramMap[QueryParamKeys.USER_ID],
       isPreview: false,
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
@@ -144,17 +144,17 @@ describe('FeedbackSessionsService', () => {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
       intent: Intent.STUDENT_SUBMISSION,
-      key: 'reg-key',
+      [QueryParamKeys.KEY]: 'reg-key',
       [QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON]: 'moderated-person',
-      previewas: 'preview-person',
+      [QueryParamKeys.PREVIEWAS]: 'preview-person',
     };
 
     service.getSessionSubmissionData({
       feedbackSessionId: paramMap[QueryParamKeys.FEEDBACK_SESSION_ID],
       intent: Intent.STUDENT_SUBMISSION,
-      key: paramMap['key'],
+      key: paramMap[QueryParamKeys.KEY],
       moderatedPerson: paramMap[QueryParamKeys.FEEDBACK_SESSION_MODERATED_PERSON],
-      previewAs: paramMap['previewas'],
+      previewAs: paramMap[QueryParamKeys.PREVIEWAS],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
   });
@@ -186,6 +186,17 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
   });
 
+  it('should execute GET when retrieving feedback sessions for a student', () => {
+    const courseId = 'CS1231';
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
+
+    service.getFeedbackSessionsForStudent(courseId);
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
+  });
+
   it('should return true if a feedbackSession is no longer open', () => {
     expect(service.isFeedbackSessionOpen(mockFeedbackSession)).toBeTruthy();
   });
@@ -198,7 +209,7 @@ describe('FeedbackSessionsService', () => {
     const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     service.hasResponsesForAllFeedbackSessionsInCourse(courseId, 'instructor');
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
@@ -209,7 +220,7 @@ describe('FeedbackSessionsService', () => {
     const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: feedbackSessionId,
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     service.getDeadlineExtension({ feedbackSessionId, userId });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);

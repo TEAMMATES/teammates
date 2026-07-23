@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs/operators';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
+import { ConfigService } from '../../../../services/config.service';
 import { PageScrollService } from '../../../../services/page-scroll.service';
 import { RouterLink } from '@angular/router';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
@@ -24,6 +26,7 @@ import { Sections } from '../sections';
 export class InstructorHelpGettingStartedComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly pageScrollService = inject(PageScrollService);
+  private readonly configService = inject(ConfigService);
 
   // enum
   StudentsSectionQuestions!: typeof StudentsSectionQuestions;
@@ -33,7 +36,9 @@ export class InstructorHelpGettingStartedComponent {
   CourseEditFormMode!: typeof CourseEditFormMode;
   Sections!: typeof Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
   instructorHelpPath = '';
 
   constructor() {

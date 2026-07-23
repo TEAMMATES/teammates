@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
@@ -16,7 +17,8 @@ import {
   EXAMPLE_TEMPLATE_SESSIONS,
 } from './instructor-help-sessions-data';
 import { SessionsSectionQuestions } from './sessions-section-questions';
-import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../../services/config.service';
 import { Course, FeedbackSession, Instructor, ResponseOutput, Student } from '../../../../types/api-output';
 import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
 import type { CommentEditFormModel } from '../../../components/comment-box/comment.model';
@@ -78,6 +80,8 @@ import { TemplateSession } from '../../../../data/template-sessions';
   ],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+  private readonly configService = inject(ConfigService);
+
   // enums
   CommentRowMode!: typeof CommentRowMode;
   SessionEditFormMode!: typeof SessionEditFormMode;
@@ -86,7 +90,9 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   SessionsSectionQuestions!: typeof SessionsSectionQuestions;
   Sections!: typeof Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
   readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
   readonly exampleResponse: ResponseOutput = EXAMPLE_RESPONSE;

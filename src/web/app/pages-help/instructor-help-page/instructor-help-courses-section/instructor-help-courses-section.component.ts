@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CoursesSectionQuestions } from './courses-section-questions';
-import { environment } from '../../../../environments/environment';
 import { RouterLink } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../../services/config.service';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
@@ -16,11 +18,15 @@ import { Sections } from '../sections';
   imports: [InstructorHelpPanelComponent, RouterLink],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+  private readonly configService = inject(ConfigService);
+
   // enums
   CoursesSectionQuestions!: typeof CoursesSectionQuestions;
   Sections!: typeof Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
 
   readonly questionsOrder: string[] = [
     CoursesSectionQuestions.COURSE_ADD_STUDENTS,

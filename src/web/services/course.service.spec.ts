@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { CourseCreateRequest, CourseJoinKeyRequest, CourseUpdateRequest } from '../types/api-request';
 
 describe('CourseService', () => {
@@ -30,7 +30,7 @@ describe('CourseService', () => {
   it('should execute GET on courses endpoint with course status as an instructor', () => {
     const courseStatus = 'active';
     const paramMap: { [key: string]: string } = {
-      coursestatus: courseStatus,
+      [QueryParamKeys.COURSE_STATUS]: courseStatus,
     };
     service.getAllCoursesAsInstructor(courseStatus);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_COURSES, paramMap);
@@ -40,7 +40,7 @@ describe('CourseService', () => {
     const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     service.getCourseAsInstructor(courseId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
@@ -55,7 +55,7 @@ describe('CourseService', () => {
     const courseId = 'test-id';
     const paramMap: Record<string, string> = {
       entitytype: 'student',
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
     service.getCourseAsStudent(courseId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
@@ -78,28 +78,28 @@ describe('CourseService', () => {
       courseName: 'test-name',
       timeZone: 'test-zone',
     };
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = { [QueryParamKeys.COURSE_ID]: courseid };
     service.updateCourse(courseid, request);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap, request);
   });
 
   it('should execute DELETE to delete course', () => {
     const courseid = 'test-id';
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = { [QueryParamKeys.COURSE_ID]: courseid };
     service.deleteCourse(courseid);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
   });
 
   it('should execute PUT to bin course', () => {
     const courseid = 'test-id';
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = { [QueryParamKeys.COURSE_ID]: courseid };
     service.binCourse(courseid);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_COURSE, paramMap);
   });
 
   it('should execute DELETE to restore course', () => {
     const courseid = 'test-id';
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = { [QueryParamKeys.COURSE_ID]: courseid };
     service.restoreCourse(courseid);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_COURSE, paramMap);
   });
@@ -120,7 +120,7 @@ describe('CourseService', () => {
 
   it('should execute POST to remind unregistered students of a course', () => {
     const courseid = 'test-id';
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: { [key: string]: string } = { [QueryParamKeys.COURSE_ID]: courseid };
     service.remindUnregisteredStudentsForJoin(courseid);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
@@ -128,7 +128,7 @@ describe('CourseService', () => {
   it('should execute POST to remind particular user', () => {
     const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
-      userid: userId,
+      [QueryParamKeys.USER_ID]: userId,
     };
     service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
@@ -136,9 +136,9 @@ describe('CourseService', () => {
 
   it('should execute GET when getting course sections', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
-    service.getCourseSections(paramMap['courseid']);
+    service.getCourseSections(paramMap[QueryParamKeys.COURSE_ID]);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
   });
 

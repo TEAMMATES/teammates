@@ -38,6 +38,11 @@ export enum DefaultInstructorPermissions {
 export enum QueryParamKeys {
   NEXT_URL = "nextUrl",
   LOGIN_METHOD = "loginMethod",
+  COURSE_ID = "courseid",
+  COURSE_STATUS = "coursestatus",
+  NOTIFICATION_ID = "notificationid",
+  NOTIFICATION_TARGET_USER = "usertype",
+  NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive",
   FEEDBACK_SESSION_ID = "fsid",
   FEEDBACK_SESSION_START_TIME = "fsstarttime",
   FEEDBACK_SESSION_END_TIME = "fsendtime",
@@ -45,6 +50,15 @@ export enum QueryParamKeys {
   FEEDBACK_SESSION_LOG_START_TIME = "fslstarttime",
   FEEDBACK_SESSION_LOG_END_TIME = "fslendtime",
   FEEDBACK_SESSION_LOG_TYPE = "fsltype",
+  QUERY_LOGS_STARTTIME = "qlstarttime",
+  QUERY_LOGS_ENDTIME = "qlendtime",
+  USER_ID = "userid",
+  ACCOUNT_ID = "accountid",
+  PREVIEWAS = "previewas",
+  IS_PREVIEW = "ispreview",
+  KEY = "key",
+  SEARCH_KEY = "searchkey",
+  LIMIT = "limit",
 }
 
 export enum QuestionTypeStructures {
@@ -116,6 +130,7 @@ export enum ResourceEndpoints {
   SESSION_SUBMITTED_GIVER_SET = "/webapi/session/submitted/giverset",
   SESSIONS = "/webapi/sessions",
   BIN_SESSION = "/webapi/bin/session",
+  STUDENT_SESSIONS = "/webapi/student/sessions",
   QUESTIONS = "/webapi/questions",
   QUESTION = "/webapi/question",
   RESPONSES = "/webapi/responses",

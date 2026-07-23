@@ -116,6 +116,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
         map(ResourceURIs.SESSION_SUBMISSION, GET, GetSessionSubmissionDataAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
+        map(ResourceURIs.STUDENT_SESSIONS, GET, GetStudentFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
         map(ResourceURIs.USER_KEY, POST, RegenerateUserKeyAction.class);

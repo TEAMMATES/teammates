@@ -63,7 +63,7 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
@@ -92,7 +92,7 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     if (queryParams.moderatedPerson) {
@@ -100,7 +100,7 @@ export class FeedbackSessionsService {
     }
 
     if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
+      paramMap[QueryParamKeys.PREVIEWAS] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
@@ -110,7 +110,7 @@ export class FeedbackSessionsService {
    * Creates a feedback session by calling API.
    */
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
-    const paramMap: Record<string, string> = { courseid: courseId };
+    const paramMap: Record<string, string> = { [QueryParamKeys.COURSE_ID]: courseId };
     return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
   }
 
@@ -134,10 +134,10 @@ export class FeedbackSessionsService {
   }): Observable<DeadlineExtension> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
+      [QueryParamKeys.USER_ID]: queryParams.userId,
     };
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
     return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
   }
@@ -194,7 +194,7 @@ export class FeedbackSessionsService {
     if (courseId) {
       paramMap = {
         entitytype: 'instructor',
-        courseid: courseId,
+        [QueryParamKeys.COURSE_ID]: courseId,
       };
     } else {
       paramMap = {
@@ -221,20 +221,12 @@ export class FeedbackSessionsService {
   /**
    * Gets all sessions for the student by calling API.
    */
-  getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
-    let paramMap: Record<string, string>;
-    if (courseId) {
-      paramMap = {
-        entitytype: entityType,
-        courseid: courseId,
-      };
-    } else {
-      paramMap = {
-        entitytype: entityType,
-      };
-    }
+  getFeedbackSessionsForStudent(courseId: string): Observable<FeedbackSessions> {
+    const paramMap: Record<string, string> = {
+      [QueryParamKeys.COURSE_ID]: courseId,
+    };
 
-    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_SESSIONS, paramMap);
   }
 
   /**
@@ -257,7 +249,7 @@ export class FeedbackSessionsService {
   ): Observable<HasResponses> {
     const paramMap: Record<string, string> = {
       entitytype: entityType,
-      courseid: courseId,
+      [QueryParamKeys.COURSE_ID]: courseId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
@@ -423,12 +415,12 @@ export class FeedbackSessionsService {
   }): Observable<UserSessionResults> {
     const paramMap: Record<string, string> = {
       [QueryParamKeys.FEEDBACK_SESSION_ID]: queryParams.feedbackSessionId,
-      userid: queryParams.userId,
-      ispreview: String(queryParams.isPreview),
+      [QueryParamKeys.USER_ID]: queryParams.userId,
+      [QueryParamKeys.IS_PREVIEW]: String(queryParams.isPreview),
     };
 
     if (queryParams.key) {
-      paramMap['key'] = queryParams.key;
+      paramMap[QueryParamKeys.KEY] = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);

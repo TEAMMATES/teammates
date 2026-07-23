@@ -7,7 +7,7 @@ import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
 import * as studentCsvListWithSection from './test-data/student-csv-list-with-section';
 import * as studentCsvListWithoutSection from './test-data/student-csv-list-without-section';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Course, CourseView, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
 
@@ -64,13 +64,13 @@ describe('StudentService', () => {
 
   it('should execute PUT when updating students in a course', () => {
     const paramMap: Record<string, string> = {
-      userid: '12345',
+      [QueryParamKeys.USER_ID]: '12345',
     };
     vi.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent(
       {
-        userId: paramMap['userid'],
+        userId: paramMap[QueryParamKeys.USER_ID],
       },
       defaultStudentUpdateRequest,
     );
@@ -84,12 +84,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting a student by user ID', () => {
     const paramMap: Record<string, string> = {
-      userid: '00000000-0000-4000-9000-000000000001',
+      [QueryParamKeys.USER_ID]: '00000000-0000-4000-9000-000000000001',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudent({
-      userId: paramMap['userid'],
+      userId: paramMap[QueryParamKeys.USER_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramMap);
@@ -97,12 +97,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting the current student of a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getOwnStudent({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_STUDENT, paramMap);
@@ -110,12 +110,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting all students in a course', () => {
     const paramMap = {
-      courseid: ['CS3281'],
+      [QueryParamKeys.COURSE_ID]: ['CS3281'],
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudents({
-      courseIds: paramMap.courseid,
+      courseIds: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
@@ -123,8 +123,8 @@ describe('StudentService', () => {
 
   it('should execute GET when loading students with search parameters', () => {
     const paramMap: Record<string, string> = {
-      searchkey: 'Alice',
-      limit: '50',
+      [QueryParamKeys.SEARCH_KEY]: 'Alice',
+      [QueryParamKeys.LIMIT]: '50',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
@@ -138,12 +138,12 @@ describe('StudentService', () => {
 
   it('should execute GET when getting own team students', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getOwnTeamStudents({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_TEAM_STUDENTS, paramMap);
@@ -151,12 +151,12 @@ describe('StudentService', () => {
 
   it('should execute DELETE when deleting all students in a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      [QueryParamKeys.COURSE_ID]: 'CS3281',
     };
     vi.spyOn(spyHttpRequestService, 'delete');
 
     service.deleteStudentsFromCourse({
-      courseId: paramMap['courseid'],
+      courseId: paramMap[QueryParamKeys.COURSE_ID],
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);

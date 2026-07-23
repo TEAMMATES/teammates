@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { ConfigService } from '../../../services/config.service';
 
 /**
  * Contact page.
@@ -10,5 +12,9 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./contact-page.component.scss'],
 })
 export class ContactPageComponent {
-  readonly supportEmail: string = environment.supportEmail;
+  private readonly configService = inject(ConfigService);
+
+  readonly supportEmail = toSignal(this.configService.getConfig().pipe(map((config) => config.supportEmail)), {
+    initialValue: '',
+  });
 }
