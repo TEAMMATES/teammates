@@ -10,8 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -26,7 +24,7 @@ public class MagicLink extends BaseEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false, unique = true)
@@ -34,9 +32,6 @@ public class MagicLink extends BaseEntity {
 
     @Column(nullable = false)
     private Instant expiresAt;
-
-    @UpdateTimestamp
-    private Instant updatedAt;
 
     protected MagicLink() {
         // required by Hibernate
@@ -90,14 +85,6 @@ public class MagicLink extends BaseEntity {
         this.expiresAt = expiresAt;
     }
 
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     /**
      * Returns true if the magic link expires at or before {@code now}.
      */
@@ -133,6 +120,6 @@ public class MagicLink extends BaseEntity {
     @Override
     public String toString() {
         return "MagicLink [id=" + id + ", email=" + email + ", expiresAt=" + expiresAt
-                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + getCreatedAt() + "]";
     }
 }

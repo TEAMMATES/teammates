@@ -15,9 +15,7 @@
             <column name="token_hash" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
         </createTable>
         <addUniqueConstraint columnNames="token_hash" constraintName="UC_MAGIC_LINKSTOKEN_HASH_COL" tableName="magic_links"/>
-        <addUniqueConstraint columnNames="email" constraintName="UK6gxypheo8erwn0q8svo6osc1w" tableName="magic_links"/>
     </changeSet>
 </databaseChangeLog>
