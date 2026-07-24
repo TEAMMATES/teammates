@@ -116,6 +116,19 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
       },
       {
+        path: 'role-selection',
+        component: PageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./page-role-selection/role-selection-page.component').then((m) => m.RoleSelectionPageComponent),
+          },
+        ],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+      },
+      {
         path: 'login',
         component: PageComponent,
         children: [

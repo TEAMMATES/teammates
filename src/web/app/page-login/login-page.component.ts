@@ -17,7 +17,7 @@ export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
 
-  readonly nextUrl = input('/');
+  readonly nextUrl = input('/web/role-selection');
 
   readonly isLoadingLoginMethods = signal(true);
   readonly loginMethods = signal<ReadonlySet<LoginMethod>>(new Set());
