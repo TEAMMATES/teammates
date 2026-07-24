@@ -1,18 +1,11 @@
 package teammates.e2e.pageobjects;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
 
 /**
- * Page Object Model for the official IANA page for timezone database.
+ * Page Object Model for the official IANA timezone database version page.
  */
 public class IanaTimezonePage extends AppPage {
-
-    @FindBy(id = "version")
-    private WebElement timezoneVersion;
-
-    @FindBy(id = "date")
-    private WebElement timezoneReleaseDate;
 
     public IanaTimezonePage(Browser browser) {
         super(browser);
@@ -20,15 +13,11 @@ public class IanaTimezonePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return true;
+        return getVersion().matches("\\d{4}[a-z]");
     }
 
     public String getVersion() {
-        return timezoneVersion.getText();
-    }
-
-    public String getReleaseDate() {
-        return timezoneReleaseDate.getText();
+        return browser.driver.findElement(By.tagName("body")).getText().trim();
     }
 
 }
