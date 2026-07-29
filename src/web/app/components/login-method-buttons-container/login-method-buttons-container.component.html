@@ -1,4 +1,4 @@
-<div class="login-method-buttons d-flex flex-column gap-3 mx-auto w-100">
+<div class="login-method-buttons d-flex flex-column gap-3 mx-auto">
   @if (isSupported(LoginMethod.GOOGLE)) {
     <tm-google-login-button (login)="login(LoginMethod.GOOGLE)"></tm-google-login-button>
   }

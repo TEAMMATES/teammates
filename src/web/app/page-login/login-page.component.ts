@@ -8,7 +8,6 @@ import { LoginMethodButtonsContainerComponent } from '../components/login-method
 
 @Component({
   selector: 'tm-login-page',
-  styleUrls: ['./login-page.component.scss'],
   templateUrl: './login-page.component.html',
   imports: [LoadingSpinnerDirective, LoginMethodButtonsContainerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
