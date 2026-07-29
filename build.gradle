@@ -27,14 +27,14 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
-        classpath "org.liquibase:liquibase-core:4.27.0"
+        classpath "org.liquibase:liquibase-core:4.33.0"
     }
 }
 
 configurations {
     staticAnalysis
 
-    liquibaseRuntime.extendsFrom testImplementation
+    liquibaseRuntime.extendsFrom implementation
 }
 
 
@@ -56,11 +56,13 @@ dependencies {
     implementation("com.google.cloud:google-cloud-logging")
     implementation("tools.jackson.core:jackson-databind:3.1.1")
     implementation("commons-lang:commons-lang:2.6")
+    implementation("org.apache.commons:commons-lang3:3.18.0")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
     implementation("com.sendgrid:sendgrid-java:4.10.3")
     implementation(platform("org.eclipse.jetty:jetty-bom:11.0.20"))
+    implementation("org.liquibase:liquibase-core:4.33.0")
     implementation("org.eclipse.jetty:jetty-slf4j-impl")
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
@@ -81,7 +83,6 @@ dependencies {
     testImplementation("com.deque.html.axe-core:selenium:4.11.2")
     testImplementation(testng)
     testImplementation("org.testcontainers:testcontainers-postgresql:2.0.5")
-    testImplementation("org.liquibase:liquibase-core:4.27.0")
     testImplementation("org.mockito:mockito-core:5.21.0")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
