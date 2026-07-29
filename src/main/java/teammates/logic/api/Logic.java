@@ -647,6 +647,14 @@ public class Logic {
     }
 
     /**
+     * Gets the deadline for each feedback session according to the requested course instructor, if any.
+     */
+    public Map<FeedbackSession, Instant> getFeedbackSessionsWithDeadline(List<FeedbackSession> feedbackSessions,
+            Map<String, Instructor> courseIdToInstructor) {
+        return feedbackSessionsLogic.getFeedbackSessionsWithDeadline(feedbackSessions, courseIdToInstructor);
+    }
+
+    /**
      * Gets all and only the feedback sessions ongoing within a range of time.
      */
     public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {

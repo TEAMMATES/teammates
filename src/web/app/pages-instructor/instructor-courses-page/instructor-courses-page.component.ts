@@ -333,7 +333,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       return;
     }
 
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor({ courseIds: [courseId] }).subscribe({
       next: (response: FeedbackSessions) => {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.oldCourseId = courseId;

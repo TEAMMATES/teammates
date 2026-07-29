@@ -214,7 +214,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     const studentSpy = vi.spyOn(studentService, 'getStudents');
 
     expect(courseSpy).toHaveBeenCalledWith(testCourse1.courseId);
-    expect(feedbackSessionSpy).toHaveBeenCalledWith(testCourse1.courseId);
+    expect(feedbackSessionSpy).toHaveBeenCalledWith({ courseIds: [testCourse1.courseId] });
     expect(studentSpy).toHaveBeenCalledWith({ courseIds: [testCourse1.courseId] });
     expect(component.course).toEqual(testCourse1);
     expect(component.feedbackSessions.get(testFeedbackSession.feedbackSessionId)).toEqual(testFeedbackSession);

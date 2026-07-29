@@ -240,7 +240,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe(
         (courseId: string) => {
           this.feedbackSessionsService
-            .getFeedbackSessionsForInstructor(courseId)
+            .getFeedbackSessionsForInstructor({ courseIds: [courseId] })
             .subscribe((feedbackSessions: FeedbackSessions) => {
               modalRef.componentInstance.courseToFeedbackSession[courseId] = [
                 ...feedbackSessions.feedbackSessions.map((session) => session.feedbackSession),

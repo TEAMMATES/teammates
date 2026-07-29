@@ -1000,9 +1000,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.isCopyingQuestion = true;
     const feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
 
-    this.feedbackSessionsService
-      .getFeedbackSessionsForInstructor()
+    this.courseService
+      .getAllCoursesAsInstructor('active')
       .pipe(
+        switchMap((courses) => {
+          const courseIds: string[] = courses.courses.map((course) => course.courseId);
+          return courseIds.length === 0
+            ? of({ feedbackSessions: [] })
+            : this.feedbackSessionsService.getFeedbackSessionsForInstructor({ courseIds });
+        }),
         finalize(() => {
           this.isCopyingQuestion = false;
         }),

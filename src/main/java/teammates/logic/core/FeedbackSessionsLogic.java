@@ -113,6 +113,22 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets the deadline for each feedback session according to the requested course instructor, if any.
+     */
+    public Map<FeedbackSession, Instant> getFeedbackSessionsWithDeadline(List<FeedbackSession> feedbackSessions,
+            Map<String, Instructor> courseIdToInstructor) {
+        Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
+        for (FeedbackSession session : feedbackSessions) {
+            Instructor instructor = courseIdToInstructor.get(session.getCourseId());
+            Instant deadline = instructor == null
+                    ? session.getEndTime()
+                    : deadlineExtensionsLogic.getDeadlineForUser(session, instructor);
+            sessionToDeadline.put(session, deadline);
+        }
+        return sessionToDeadline;
+    }
+
+    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {

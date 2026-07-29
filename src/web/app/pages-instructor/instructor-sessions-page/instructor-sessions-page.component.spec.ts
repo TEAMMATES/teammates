@@ -191,9 +191,11 @@ describe('InstructorSessionsPageComponent', () => {
     };
     const sessionSpy = vi.spyOn(sessionService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
 
+    component.courseCandidates = [testCourse1, testCourse2];
     component.loadFeedbackSessions();
 
     expect(sessionSpy).toHaveBeenCalledTimes(1);
+    expect(sessionSpy).toHaveBeenCalledWith({ courseIds: ['CS1231', 'CS3281'] });
 
     expect(component.sessionsTableRowModels.length).toEqual(2);
     expect(component.sessionsTableRowModels[0].feedbackSession.courseId).toEqual('CS1231');
@@ -207,12 +209,14 @@ describe('InstructorSessionsPageComponent', () => {
       feedbackSessions: [{ feedbackSession: testFeedbackSession3 }, { feedbackSession: testFeedbackSession4 }],
     };
     const sessionSpy = vi
-      .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
+      .spyOn(sessionService, 'getFeedbackSessionsForInstructor')
       .mockReturnValue(of(recycleBinSessions));
 
+    component.courseCandidates = [testCourse1, testCourse2];
     component.loadRecycleBinFeedbackSessions();
 
     expect(sessionSpy).toHaveBeenCalledTimes(1);
+    expect(sessionSpy).toHaveBeenCalledWith({ courseIds: ['CS1231', 'CS3281'], isInRecycleBin: true });
 
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(2);
     expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.courseId).toEqual('CS3281');
