@@ -90,6 +90,15 @@ public final class Config {
     /** Value of {@code app.oidc.google.client.secret}. */
     public static final String OIDC_GOOGLE_CLIENT_SECRET;
 
+    /** Value of {@code app.oidc.microsoft.client.id}. */
+    public static final String OIDC_MICROSOFT_CLIENT_ID;
+
+    /** Value of {@code app.oidc.microsoft.client.secret}. */
+    public static final String OIDC_MICROSOFT_CLIENT_SECRET;
+
+    /** Value of {@code app.oidc.microsoft.tenant.id}. */
+    public static final String OIDC_MICROSOFT_TENANT_ID;
+
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
 
@@ -209,6 +218,9 @@ public final class Config {
         LOGIN_METHODS = getLoginMethods(getProperty(properties, devProperties, "app.login.methods").split(","));
         OIDC_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oidc.google.client.id");
         OIDC_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oidc.google.client.secret");
+        OIDC_MICROSOFT_CLIENT_ID = getProperty(properties, devProperties, "app.oidc.microsoft.client.id");
+        OIDC_MICROSOFT_CLIENT_SECRET = getProperty(properties, devProperties, "app.oidc.microsoft.client.secret");
+        OIDC_MICROSOFT_TENANT_ID = getProperty(properties, devProperties, "app.oidc.microsoft.tenant.id", "common");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         RECAPTCHA_SERVICE = getProperty(properties, devProperties, "app.recaptcha.service",
                 IS_DEV_SERVER ? "local" : "google");

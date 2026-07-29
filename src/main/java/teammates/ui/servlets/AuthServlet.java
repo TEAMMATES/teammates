@@ -13,6 +13,7 @@ import teammates.common.util.StringHelper;
 import teammates.ui.loginmethodhandlers.DevServerLoginHandler;
 import teammates.ui.loginmethodhandlers.GoogleLoginHandler;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
+import teammates.ui.loginmethodhandlers.MicrosoftLoginHandler;
 import teammates.ui.output.LoginMethod;
 
 /**
@@ -22,7 +23,8 @@ abstract class AuthServlet extends HttpServlet {
 
     private static final Map<LoginMethod, LoginMethodHandler> LOGIN_HANDLERS = Map.of(
             LoginMethod.DEV_SERVER, new DevServerLoginHandler(),
-            LoginMethod.GOOGLE, new GoogleLoginHandler());
+            LoginMethod.GOOGLE, new GoogleLoginHandler(),
+            LoginMethod.MICROSOFT, new MicrosoftLoginHandler());
 
     Cookie getLoginInvalidationCookie() {
         Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, "");

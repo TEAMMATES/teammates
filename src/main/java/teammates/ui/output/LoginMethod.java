@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum LoginMethod {
     GOOGLE("google"),
+    MICROSOFT("microsoft"),
     DEV_SERVER("devserver");
 
     private final String method;
