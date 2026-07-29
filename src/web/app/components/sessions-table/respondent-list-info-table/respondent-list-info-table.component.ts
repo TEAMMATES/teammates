@@ -25,6 +25,12 @@ export class RespondentListInfoTableComponent {
   shouldDisplayHasSubmittedSessionColumn = false;
 
   @Input()
+  studentTableLabel = '';
+
+  @Input()
+  instructorTableLabel = '';
+
+  @Input()
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
 
   @Input()

@@ -19,6 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
+import teammates.e2e.pageobjects.InstructorSessionSendRemindersPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -352,9 +353,9 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyNoResponsePanelDetails(notResponded);
 
         ______TS("remind all who have not responded to any question");
-        resultsPage.remindAllNonResponders();
+        InstructorSessionSendRemindersPage sendRemindersPage = resultsPage.remindAllNonResponders();
 
-        resultsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students and instructors."
+        sendRemindersPage.verifyStatusMessage("Reminder e-mails have been sent out to those students and instructors."
                 + " Please allow up to 1 hour for all the notification emails to be sent out.");
     }
 

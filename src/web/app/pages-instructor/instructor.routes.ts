@@ -94,6 +94,16 @@ const routes: Routes = [
         },
       },
       {
+        path: ':feedbackSessionId/send-reminders',
+        loadComponent: () =>
+          import('./instructor-session-send-reminders-page/instructor-session-send-reminders-page.component').then(
+            (m) => m.InstructorSessionSendRemindersPageComponent,
+          ),
+        data: {
+          pageTitle: 'Send Reminders',
+        },
+      },
+      {
         path: ':feedbackSessionId/edit',
         loadComponent: () =>
           import('./instructor-session-edit-page/instructor-session-edit-page.component').then(
