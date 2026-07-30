@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.ui.loginmethodhandlers.DevServerLoginHandler;
+import teammates.ui.loginmethodhandlers.EmailLoginHandler;
 import teammates.ui.loginmethodhandlers.GoogleLoginHandler;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
 import teammates.ui.output.LoginMethod;
@@ -22,6 +23,7 @@ abstract class AuthServlet extends HttpServlet {
 
     private static final Map<LoginMethod, LoginMethodHandler> LOGIN_HANDLERS = Map.of(
             LoginMethod.DEV_SERVER, new DevServerLoginHandler(),
+            LoginMethod.EMAIL, new EmailLoginHandler(),
             LoginMethod.GOOGLE, new GoogleLoginHandler());
 
     Cookie getLoginInvalidationCookie() {

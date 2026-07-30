@@ -850,6 +850,7 @@ export enum JoinState {
 
 export enum LoginMethod {
   GOOGLE = "google",
+  EMAIL = "email",
   DEV_SERVER = "devserver",
 }
 
