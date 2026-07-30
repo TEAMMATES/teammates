@@ -32,6 +32,7 @@ export class InstructorSearchPageComponent implements OnInit {
   private courseService = inject(CourseService);
   private studentService = inject(StudentService);
   private visibleCourseIds$: Observable<string[]> = of([]);
+  private privilegeCache: Map<string, InstructorPrivilege> = new Map();
 
   searchParams: SearchParams = {
     searchKey: '',
@@ -58,16 +59,18 @@ export class InstructorSearchPageComponent implements OnInit {
         mergeMap((courseIds: string[]) => this.searchService.searchInstructor(this.searchParams.searchKey, courseIds)),
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
         mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
-          forkJoin([of(coursesWithStudents), this.getPrivileges(coursesWithStudents)]),
+          this.getPrivileges(coursesWithStudents).pipe(
+            map((privilegeMap: Map<string, InstructorPrivilege>) =>
+              this.combinePrivileges(coursesWithStudents, privilegeMap),
+            ),
+          ),
         ),
-        map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
         finalize(() => {
           this.isSearching = false;
         }),
       )
       .subscribe({
-        next: (resp: TransformedInstructorSearchResult) => {
-          const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
+        next: (searchStudentsTable: SearchStudentsListRowTable[]) => {
           const hasStudents = !!searchStudentsTable?.length;
 
           if (hasStudents) {
@@ -105,51 +108,48 @@ export class InstructorSearchPageComponent implements OnInit {
     return coursesWithStudents;
   }
 
-  getPrivileges(coursesWithStudents: SearchStudentsListRowTable[]): Observable<InstructorPrivilege[]> {
-    if (coursesWithStudents.length === 0) {
-      return of([]);
+  getPrivileges(coursesWithStudents: SearchStudentsListRowTable[]): Observable<Map<string, InstructorPrivilege>> {
+    const courseIds: string[] = Array.from(
+      new Set(coursesWithStudents.map((c: SearchStudentsListRowTable) => c.courseId)),
+    );
+    const uncachedIds: string[] = courseIds.filter((id: string) => !this.privilegeCache.has(id));
+
+    if (uncachedIds.length === 0) {
+      return of(new Map(this.privilegeCache));
     }
-    const privileges: Observable<InstructorPrivilege>[] = [];
-    coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
-      const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
-      Array.from(
-        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
-      ).forEach((section: string) => {
-        sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege({ courseId: course.courseId });
-      });
-      course.students.forEach((studentModel: StudentListRowModel) =>
-        privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
-      );
+
+    const requests: Record<string, Observable<InstructorPrivilege>> = {};
+    uncachedIds.forEach((id: string) => {
+      requests[id] = this.instructorService.loadInstructorPrivilege({ courseId: id });
     });
-    return forkJoin(privileges);
+
+    return forkJoin(requests).pipe(
+      map((results: Record<string, InstructorPrivilege>) => {
+        Object.entries(results).forEach(([courseId, privilege]: [string, InstructorPrivilege]) => {
+          this.privilegeCache.set(courseId, privilege);
+        });
+        return new Map(this.privilegeCache);
+      }),
+    );
   }
 
-  combinePrivileges([coursesWithStudents, privileges]: [
-    SearchStudentsListRowTable[],
-    InstructorPrivilege[],
-  ]): TransformedInstructorSearchResult {
-    /**
-     * Pop the privilege objects one at a time and attach them to the results. This is possible
-     * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
-     * same order the requests were made.
-     */
+  combinePrivileges(
+    coursesWithStudents: SearchStudentsListRowTable[],
+    privilegeMap: Map<string, InstructorPrivilege>,
+  ): SearchStudentsListRowTable[] {
     for (const course of coursesWithStudents) {
+      const privilege: InstructorPrivilege | undefined = privilegeMap.get(course.courseId);
+      if (!privilege) {
+        continue;
+      }
+      const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
       for (const studentModel of course.students) {
-        const privilege: InstructorPrivilege | undefined = privileges.shift();
-        if (!privilege) {
-          continue;
-        }
         const sectionId: string = studentModel.student.sectionId;
-        const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
         const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionId] || courseLevel;
-
         studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;
       }
     }
-
-    return {
-      searchStudentTables: coursesWithStudents,
-    };
+    return coursesWithStudents;
   }
 
   /**
@@ -184,8 +184,4 @@ export class InstructorSearchPageComponent implements OnInit {
       .getAllCoursesAsInstructor('active')
       .pipe(map((courses) => Array.from(new Set(courses.courses.map((course) => course.courseId)))));
   }
-}
-
-interface TransformedInstructorSearchResult {
-  searchStudentTables: SearchStudentsListRowTable[];
 }

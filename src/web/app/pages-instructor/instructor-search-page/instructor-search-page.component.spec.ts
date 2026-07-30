@@ -278,12 +278,23 @@ describe('InstructorSearchPageComponent', () => {
     ).toEqual(students.filter((s: Student) => s.sectionName === students[0].sectionName).length);
   });
 
-  it('should execute GET when fetching privileges', () => {
-    component.getPrivileges(coursesWithStudents);
+  it('should call loadInstructorPrivilege once per unique courseId', () => {
+    component.getPrivileges(coursesWithStudents).subscribe(() => {
+      // 2 unique courses: CS3281 and CS3282
+      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledTimes(2);
+      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledWith({ courseId: 'CS3281' });
+      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledWith({ courseId: 'CS3282' });
+    });
+  });
 
-    for (const course of coursesWithStudents) {
-      expect(mockInstructorService.loadInstructorPrivilege).toHaveBeenCalledWith({ courseId: course.courseId });
-    }
+  it('should use cached privileges on subsequent calls', () => {
+    component.getPrivileges(coursesWithStudents).subscribe(() => {
+      mockInstructorService.loadInstructorPrivilege.mockClear();
+
+      component.getPrivileges(coursesWithStudents).subscribe(() => {
+        expect(mockInstructorService.loadInstructorPrivilege).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('should combine privileges and course data correctly', () => {
@@ -295,59 +306,39 @@ describe('InstructorSearchPageComponent', () => {
       canViewSession: true,
       canSubmitSession: true,
     };
-    const mockPrivilegesArray: InstructorPrivilege[] = [
-      {
-        privileges: {
-          courseLevel: basePrivilege,
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canModifyStudent: true,
+    const privilegeMap: Map<string, InstructorPrivilege> = new Map([
+      [
+        'CS3281',
+        {
+          privileges: {
+            courseLevel: basePrivilege,
+            sectionLevel: {},
+            sessionLevel: {},
           },
-          sectionLevel: {},
-          sessionLevel: {},
         },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canModifyStudent: false,
+      ],
+      [
+        'CS3282',
+        {
+          privileges: {
+            courseLevel: {
+              ...basePrivilege,
+              canModifyStudent: false,
+            },
+            sectionLevel: {},
+            sessionLevel: {},
           },
-          sectionLevel: {},
-          sessionLevel: {},
         },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canModifyStudent: false,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-    ];
-    component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
+      ],
+    ]);
+    component.combinePrivileges(coursesWithStudents, privilegeMap);
 
-    const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
-    expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
+    // CS3281 has courseLevel canModifyStudent: true
+    expect(coursesWithStudents[0].students[0].isAllowedToModifyStudent).toEqual(true);
+    expect(coursesWithStudents[0].students[1].isAllowedToModifyStudent).toEqual(true);
+    expect(coursesWithStudents[0].students[2].isAllowedToModifyStudent).toEqual(true);
 
-    const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
-    expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
-
-    const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
-    expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
-
-    const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
-    expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
-
-    expect(mockPrivilegesArray.length).toEqual(0);
+    // CS3282 has courseLevel canModifyStudent: false
+    expect(coursesWithStudents[1].students[0].isAllowedToModifyStudent).toEqual(false);
   });
 });
