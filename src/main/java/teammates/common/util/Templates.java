@@ -88,6 +88,8 @@ public final class Templates {
                 FileHelper.readResourceFile("accountVerificationApproved.html");
         public static final String ACCOUNT_VERIFICATION_REJECTED =
                 FileHelper.readResourceFile("accountVerificationRejected.html");
+        public static final String MAGIC_LINK_LOGIN =
+                FileHelper.readResourceFile("userEmailTemplate-magicLinkLogin.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
         public static final String USER_DEADLINE_EXTENSION =

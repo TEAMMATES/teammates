@@ -9,6 +9,7 @@ import teammates.logic.email.CourseJoinEmailsLogic;
 import teammates.logic.email.DeadlineExtensionEmailsLogic;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.FeedbackSessionEmailsLogic;
+import teammates.logic.email.MagicLinkEmailsLogic;
 import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -19,6 +20,7 @@ import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstitutesDb;
 import teammates.storage.api.InstructorPermissionsDb;
+import teammates.storage.api.MagicLinksDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.api.UsersDb;
@@ -49,6 +51,7 @@ public class LogicStarter implements ServletContextListener {
         ResponseInstructorCommentsLogic frcLogic = ResponseInstructorCommentsLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+        MagicLinksLogic magicLinksLogic = MagicLinksLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
         UsersLogic usersLogic = UsersLogic.inst();
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
@@ -57,12 +60,14 @@ public class LogicStarter implements ServletContextListener {
         DeadlineExtensionEmailsLogic deadlineExtensionEmailsLogic = DeadlineExtensionEmailsLogic.inst();
         FeedbackSessionEmailsLogic feedbackSessionEmailsLogic = FeedbackSessionEmailsLogic.inst();
         AccountVerificationEmailsLogic accountVerificationEmailsLogic = AccountVerificationEmailsLogic.inst();
+        MagicLinkEmailsLogic magicLinkEmailsLogic = MagicLinkEmailsLogic.inst();
         EmailQueueService emailQueueService = EmailQueueService.inst();
 
         courseJoinEmailsLogic.init(emailQueueService);
         deadlineExtensionEmailsLogic.init(emailQueueService);
         feedbackSessionEmailsLogic.init(emailQueueService);
         accountVerificationEmailsLogic.init(emailQueueService);
+        magicLinkEmailsLogic.init(emailQueueService);
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
@@ -84,6 +89,7 @@ public class LogicStarter implements ServletContextListener {
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic,
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
+        magicLinksLogic.initLogicDependencies(MagicLinksDb.inst(), magicLinkEmailsLogic);
         usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
         enrollmentLogic.initLogicDependencies(usersLogic, coursesLogic, fsLogic);
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, courseJoinEmailsLogic,

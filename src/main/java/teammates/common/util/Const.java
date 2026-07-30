@@ -169,6 +169,7 @@ public final class Const {
         public static final String LOGIN_METHOD = "loginMethod";
         public static final String EMAIL = "email";
         public static final String AUTH_STATE = "state";
+        public static final String TOKEN = "token";
     }
 
     /**
@@ -237,6 +238,7 @@ public final class Const {
         private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         public static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
+        public static final String EMAIL_LOGIN_CONFIRMATION_PAGE = URI_PREFIX + "/email-login/confirm";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts/{accountId}";

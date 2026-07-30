@@ -29,6 +29,7 @@ import teammates.logic.email.model.FeedbackSessionResultsParticipantEmailContext
 import teammates.logic.email.model.FeedbackSessionResultsPreviewEmailContext;
 import teammates.logic.email.model.FeedbackSessionSummaryEmailContext;
 import teammates.logic.email.model.InstructorCourseJoinEmailContext;
+import teammates.logic.email.model.MagicLinkEmailContext;
 import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionAccessLink;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
@@ -402,6 +403,15 @@ public final class EmailRenderer {
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${welcomeUrl}", context.instructorWelcomeUrl(),
                 "${supportEmail}", Config.SUPPORT_EMAIL));
+    }
+
+    /**
+     * Renders the magic-link sign-in email body.
+     */
+    public static RenderedEmail renderMagicLinkEmail(MagicLinkEmailContext context) {
+        return new RenderedEmail(Templates.populateTemplate(
+                EmailTemplates.MAGIC_LINK_LOGIN,
+                "${magicLinkUrl}", context.magicLinkUrl()));
     }
 
     /**
