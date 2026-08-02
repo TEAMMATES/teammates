@@ -95,7 +95,7 @@ public final class ActionFactory {
         map(ResourceURIs.NOTIFICATION, DELETE, DeleteNotificationAction.class);
         map(ResourceURIs.NOTIFICATION_READ, POST, MarkNotificationAsReadAction.class);
         map(ResourceURIs.NOTIFICATION_READ, GET, GetReadNotificationsAction.class);
-
+        map(ResourceURIs.NOTIFICATIONS_READ_ALL, POST, MarkAllNotificationsAsReadAction.class);
         // NOTIFICATIONS APIs
         map(ResourceURIs.NOTIFICATIONS, GET, GetNotificationsAction.class);
 

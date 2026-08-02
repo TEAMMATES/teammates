@@ -5,6 +5,13 @@
   <div class="row mb-3">
     <div class="col-12">
       <div class="float-end">
+        <button
+          class="btn btn-primary"
+          [disabled]="!hasUnreadNotifications() || isMarkingAllAsRead"
+          (click)="markAllNotificationsAsRead()"
+        >
+          Mark All as Read
+        </button>
         <strong class="d-inline"> Sort By: </strong>
         <div class="btn-group" data-toggle="buttons">
           <button
