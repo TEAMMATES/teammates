@@ -56,7 +56,9 @@ export class UserJoinPageComponent implements OnInit {
                 this.navigationService.navigateByURL(`/web/${this.entityType}`);
                 break;
               case CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED:
-                this.navigationService.navigateByURL(`/web/login?${QueryParamKeys.NEXT_URL}=${encodeURIComponent(nextUrl)}`);
+                this.navigationService.navigateByURL(
+                  `/web/login?${QueryParamKeys.NEXT_URL}=${encodeURIComponent(nextUrl)}`,
+                );
                 break;
               case CourseJoinKeyAccessDecision.VALID:
                 this.hasJoined = false;
