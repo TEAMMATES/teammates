@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
-import { ResourceEndpoints } from '../types/api-const';
+import { QueryParamKeys, ResourceEndpoints } from '../types/api-const';
 import { Institutes } from '../types/api-output';
 
 /**
@@ -17,6 +17,6 @@ export class InstituteService {
    * Gets the institutes for which the given account has been verified.
    */
   getVerifiedInstitutes(accountId: string): Observable<Institutes> {
-    return this.httpRequestService.get(ResourceEndpoints.INSTITUTES, { accountid: accountId });
+    return this.httpRequestService.get(ResourceEndpoints.INSTITUTES, { [QueryParamKeys.ACCOUNT_ID]: accountId });
   }
 }

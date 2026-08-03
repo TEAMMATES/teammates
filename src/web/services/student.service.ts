@@ -29,7 +29,7 @@ export class StudentService {
     const paramsMap: { [key: string]: string | string[] } = {};
 
     if (queryParams.courseIds !== undefined) {
-      paramsMap['courseid'] = queryParams.courseIds;
+      paramsMap[QueryParamKeys.COURSE_ID] = queryParams.courseIds;
     }
     if (queryParams.searchKey !== undefined) {
       paramsMap[QueryParamKeys.SEARCH_KEY] = queryParams.searchKey;

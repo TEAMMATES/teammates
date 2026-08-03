@@ -113,7 +113,7 @@ export class InstructorService {
     if ('courseId' in queryParams) {
       paramMap[QueryParamKeys.COURSE_ID] = queryParams.courseId;
     } else {
-      paramMap['userid'] = queryParams.userId;
+      paramMap[QueryParamKeys.USER_ID] = queryParams.userId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);

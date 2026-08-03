@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
+import { QueryParamKeys } from '../types/api-const';
 import { AuthInfo, CourseJoinKeyAccess, CourseJoinKeyAccessDecision } from '../types/api-output';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
@@ -37,13 +38,13 @@ export class UserJoinPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
       this.entityType = queryParams['entityType'];
-      this.key = queryParams['key'];
+      this.key = queryParams[QueryParamKeys.KEY];
 
       const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
       this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
-          this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
+          this.navigationService.navigateByURL(`/web/login?${QueryParamKeys.NEXT_URL}=${encodeURIComponent(nextUrl)}`);
           return;
         }
         this.accountEmail = auth.user.accountEmail;
@@ -55,7 +56,9 @@ export class UserJoinPageComponent implements OnInit {
                 this.navigationService.navigateByURL(`/web/${this.entityType}`);
                 break;
               case CourseJoinKeyAccessDecision.SIGN_IN_REQUIRED:
-                this.navigationService.navigateByURL(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
+                this.navigationService.navigateByURL(
+                  `/web/login?${QueryParamKeys.NEXT_URL}=${encodeURIComponent(nextUrl)}`,
+                );
                 break;
               case CourseJoinKeyAccessDecision.VALID:
                 this.hasJoined = false;
