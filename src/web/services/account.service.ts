@@ -134,7 +134,7 @@ export class AccountService {
       paramMap['instituteid'] = queryParams.instituteId;
     }
     if (queryParams.accountId) {
-      paramMap['accountid'] = queryParams.accountId;
+      paramMap[QueryParamKeys.ACCOUNT_ID] = queryParams.accountId;
     }
     if (queryParams.status) {
       paramMap['status'] = queryParams.status;

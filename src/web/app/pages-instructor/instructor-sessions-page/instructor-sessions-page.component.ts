@@ -10,6 +10,7 @@ import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
+import { QueryParamKeys } from '../../../types/api-const';
 import {
   Course,
   FeedbackQuestion,
@@ -120,7 +121,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
+      this.courseId = queryParams[QueryParamKeys.COURSE_ID];
     });
 
     this.isSessionEditFormExpanded = !!this.courseId;

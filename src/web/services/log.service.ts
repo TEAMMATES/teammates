@@ -52,7 +52,7 @@ export class LogService {
     };
 
     if (queryParams.userId) {
-      paramMap['userid'] = queryParams.userId;
+      paramMap[QueryParamKeys.USER_ID] = queryParams.userId;
     }
 
     if (queryParams.sessionId) {
