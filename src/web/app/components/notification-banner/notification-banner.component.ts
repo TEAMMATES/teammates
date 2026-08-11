@@ -32,19 +32,31 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   notifications: Notification[] = [];
 
   ngOnInit(): void {
-    if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
+    if (this.notificationTargetUser !== NotificationTargetUser.GENERAL && !this.isNotificationsPage()) {
       this.fetchNotifications();
     }
   }
 
   ngOnChanges(): void {
-    // Hide the notification banner if the user is on user notifications page
-    if (this.url.includes('notifications')) {
+    if (this.isNotificationsPage()) {
+      // Clear stale unread cache and hide banner while on notifications page
+      this.notifications = [];
       this.closeNotification();
+      return;
     }
+
+  // When leaving notifications page, refresh from server
+  if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
+    this.fetchNotifications();
   }
+}
 
   fetchNotifications(): void {
+    if (this.isNotificationsPage()) {
+      this.notifications = [];
+      this.closeNotification();
+      return;
+    }
     forkJoin({
       readNotifications: this.notificationService.getReadNotifications(),
       notifications: this.notificationService.getNotifications({
@@ -70,7 +82,9 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
       },
     );
   }
-
+  private isNotificationsPage(): boolean {
+    return this.url.includes('notifications');
+  }
   private getTargetUsers(): NotificationTargetUser[] {
     return Array.from(new Set([this.notificationTargetUser, NotificationTargetUser.GENERAL]));
   }

@@ -60,6 +60,40 @@ export class UserNotificationsListComponent implements OnInit {
   isLoadingNotifications = false;
   hasLoadingFailed = false;
 
+  isMarkingAllAsRead = false;
+
+  hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some((tab) => !tab.isRead);
+  }
+
+  markAllNotificationsAsRead(): void {
+    if (!this.hasUnreadNotifications() || this.isMarkingAllAsRead) {
+    return;
+    }
+    this.isMarkingAllAsRead = true;
+    this.notificationService.markAllNotificationsAsRead()
+      .pipe(
+        finalize(() => {
+          this.isMarkingAllAsRead = false;
+        }),
+      )
+    .subscribe({
+      next: (resp: ReadNotifications) => {
+        const markedIds = new Set(resp.readNotifications);
+        this.notificationTabs.forEach((tab) => {
+          if (markedIds.has(tab.notification.notificationId)) {
+            tab.isRead = true;
+            tab.hasTabExpanded = false;
+          }
+        });
+        this.statusMessageService.showSuccessToast('All notifications marked as read.');
+      },
+      error: (apiError: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(apiError.error.message);
+      },
+    });
+    }
+    
   DATE_FORMAT = 'DD MMM YYYY';
 
   constructor() {
