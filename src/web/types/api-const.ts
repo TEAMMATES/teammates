@@ -138,6 +138,7 @@ export enum ResourceEndpoints {
   NOTIFICATION = "/webapi/notification",
   NOTIFICATIONS = "/webapi/notifications",
   NOTIFICATION_READ = "/webapi/notification/read",
+  NOTIFICATIONS_READ_ALL = "/webapi/notifications/read/all",
   JOIN = "/webapi/join",
   JOIN_KEY_ACCESS = "/webapi/join/key/access",
   JOIN_REMIND = "/webapi/join/remind",

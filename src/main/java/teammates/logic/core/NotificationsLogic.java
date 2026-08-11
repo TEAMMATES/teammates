@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -193,6 +196,47 @@ public final class NotificationsLogic {
 
         return notificationsDb.persistReadNotification(readNotification);
     }
+
+
+ /**
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * @throws EntityDoesNotExistException if the account or notification does not exist.
+     */
+    public List<UUID> createReadAllNotifications(UUID accountId,List<NotificationTargetUser> targetUsers,boolean isActiveOnly) throws EntityDoesNotExistException {
+        Account account = accountsLogic.getAccount(accountId);
+        if (account == null) {
+        throw new EntityDoesNotExistException("Account with id " + accountId + " does not exist");
+        }
+        List<Notification> visibleNotifications = getNotificationsByTargetUsers(targetUsers, isActiveOnly);
+
+        List<ReadNotification> existingReadNotifications = getReadNotificationsByAccountId(accountId);
+        Set<UUID> existingReadNotificationIds = new HashSet<>();
+        for (ReadNotification readNotification : existingReadNotifications) {
+            existingReadNotificationIds.add(readNotification.getNotificationId());
+        }
+
+        List<UUID> newlyMarkedNotificationIds = new ArrayList<>();
+        for (Notification notification : visibleNotifications) {
+            UUID notificationId = notification.getId();
+            if (existingReadNotificationIds.contains(notificationId)) {
+                continue;
+            }
+
+            ReadNotification readNotification = new ReadNotification();
+            account.addReadNotification(readNotification);
+            notification.addReadNotification(readNotification);
+            notificationsDb.persistReadNotification(readNotification);
+
+            newlyMarkedNotificationIds.add(notificationId);
+        }
+
+        return newlyMarkedNotificationIds;
+    }
+
+
+
+
+
 
     /**
      * Deletes a read notification associated with the {@code readNotificationId}.

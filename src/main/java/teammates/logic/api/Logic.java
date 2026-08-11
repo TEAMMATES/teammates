@@ -887,6 +887,16 @@ public class Logic {
         return notificationsLogic.createReadNotification(accountId, notificationId);
     }
 
+
+    /**
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * @throws EntityDoesNotExistException if the account or notification does not exist.
+     */
+    public List<UUID> createReadAllNotifications(UUID accountId,List<NotificationTargetUser> targetUsers,boolean isActiveOnly) throws EntityDoesNotExistException {
+        return notificationsLogic.createReadAllNotifications(accountId, targetUsers, isActiveOnly);
+    }
+
+
     /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
