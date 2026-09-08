@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
@@ -219,5 +221,70 @@ public class NotificationsLogicTest extends BaseTestCase {
         verify(notificationsDb, times(1)).persistReadNotification(any());
         assertEquals(account.getId(), result.getAccount().getId());
         assertEquals(notification.getId(), result.getNotification().getId());
+    }
+
+    @Test
+    public void testCreateReadNotificationsForAllVisible_skipsAlreadyReadNotifications_success()
+            throws EntityDoesNotExistException {
+        Account account = getTypicalAccount();
+        Notification unreadNotification1 = getTypicalNotificationWithId();
+        Notification unreadNotification2 = getTypicalNotificationWithId();
+        Notification readNotification = getTypicalNotificationWithId();
+
+        List<Notification> visibleNotifications = List.of(unreadNotification1, readNotification, unreadNotification2);
+
+        ReadNotification existingReadNotification = new ReadNotification();
+        account.addReadNotification(existingReadNotification);
+        readNotification.addReadNotification(existingReadNotification);
+
+        when(accountsLogic.getAccount(account.getId())).thenReturn(account);
+        when(notificationsDb.getNotificationsByTargetUsers(any(), anyBoolean()))
+                .thenReturn(visibleNotifications);
+        when(notificationsDb.getReadNotificationsByAccountId(account.getId()))
+                .thenReturn(List.of(existingReadNotification));
+        when(notificationsDb.persistReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        List<UUID> newlyMarkedIds = notificationsLogic.createReadNotificationsForAllVisible(
+                account.getId(), List.of(NotificationTargetUser.GENERAL), true);
+
+        verify(notificationsDb, times(2)).persistReadNotification(any());
+        assertEquals(2, newlyMarkedIds.size());
+        assertEquals(Set.of(unreadNotification1.getId(), unreadNotification2.getId()), Set.copyOf(newlyMarkedIds));
+    }
+
+    @Test
+    public void testCreateReadNotificationsForAllVisible_onlyAlreadyReadNotification_noNewNotifications()
+            throws EntityDoesNotExistException {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+
+        ReadNotification existingReadNotification = new ReadNotification();
+        account.addReadNotification(existingReadNotification);
+        notification.addReadNotification(existingReadNotification);
+
+        when(accountsLogic.getAccount(account.getId())).thenReturn(account);
+        when(notificationsDb.getNotificationsByTargetUsers(any(), anyBoolean()))
+                .thenReturn(List.of(notification));
+        when(notificationsDb.getReadNotificationsByAccountId(account.getId()))
+                .thenReturn(List.of(existingReadNotification));
+
+        List<UUID> newlyMarkedIds = notificationsLogic.createReadNotificationsForAllVisible(
+                account.getId(), List.of(NotificationTargetUser.GENERAL), true);
+
+        verify(notificationsDb, never()).persistReadNotification(any());
+        assertEquals(0, newlyMarkedIds.size());
+    }
+
+    @Test
+    public void testCreateReadNotificationsForAllVisible_accountDoesNotExist_throwsEntityDoesNotExistException() {
+        Account account = getTypicalAccount();
+
+        when(accountsLogic.getAccount(account.getId())).thenReturn(null);
+
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+                () -> notificationsLogic.createReadNotificationsForAllVisible(
+                        account.getId(), List.of(NotificationTargetUser.GENERAL), true));
+
+        assertEquals("Account with id " + account.getId() + " does not exist", ex.getMessage());
     }
 }

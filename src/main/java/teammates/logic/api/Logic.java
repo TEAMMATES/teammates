@@ -888,6 +888,19 @@ public class Logic {
     }
 
     /**
+     * Marks all notifications matching the given {@code targetUsers} as read
+     * for the account with {@code accountId}.
+     *
+     * @return a list of newly-marked notification IDs
+     * @throws EntityDoesNotExistException if the account does not exist
+     */
+    public List<UUID> createReadNotificationsForAllVisible(
+            UUID accountId, List<NotificationTargetUser> targetUsers, boolean isActiveOnly)
+            throws EntityDoesNotExistException {
+        return notificationsLogic.createReadNotificationsForAllVisible(accountId, targetUsers, isActiveOnly);
+    }
+
+    /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {

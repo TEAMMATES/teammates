@@ -74,4 +74,11 @@ export class NotificationService {
   getReadNotifications(): Observable<ReadNotifications> {
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION_READ);
   }
+
+  /**
+   * Marks all visible notifications as read for the current user.
+   */
+  markAllNotificationsAsRead(): Observable<ReadNotifications> {
+    return this.httpRequestService.post(ResourceEndpoints.NOTIFICATIONS_READ_ALL, {}, {});
+  }
 }
