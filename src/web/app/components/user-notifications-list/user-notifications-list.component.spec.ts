@@ -143,6 +143,52 @@ describe('UserNotificationsListComponent', () => {
     expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
   });
 
+  it('should mark all notifications as read when button is clicked', () => {
+    const apiSpy = vi.spyOn(notificationService, 'markAllNotificationsAsRead').mockReturnValue(
+      of({
+        readNotifications: [testNotificationOne.notificationId, testNotificationTwo.notificationId],
+      }),
+    );
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('All notifications marked as read.');
+    });
+
+    component.userType = NotificationTargetUser.STUDENT;
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('#mark-all-notifications-read')).nativeElement.click();
+
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notificationTabs[0].isRead).toBeTruthy();
+    expect(component.notificationTabs[1].isRead).toBeTruthy();
+    expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
+    expect(component.notificationTabs[1].hasTabExpanded).toBeFalsy();
+  });
+
+  it('should disable mark all button when there are no unread notifications', () => {
+    component.notificationTabs = getNotificationTabs([testNotificationOne], [testNotificationOne.notificationId]);
+    fixture.detectChanges();
+
+    expect(component.hasUnreadNotifications()).toBeFalsy();
+    const button = fixture.debugElement.query(By.css('#mark-all-notifications-read'));
+    expect(button.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('should not call API when marking all as read with no unread notifications', () => {
+    const apiSpy = vi.spyOn(notificationService, 'markAllNotificationsAsRead').mockReturnValue(
+      of({
+        readNotifications: [],
+      }),
+    );
+
+    component.notificationTabs = getNotificationTabs([testNotificationOne], [testNotificationOne.notificationId]);
+    fixture.detectChanges();
+
+    component.markAllNotificationsAsRead();
+    expect(apiSpy).not.toHaveBeenCalled();
+  });
+
   it('should collapse an expanded tab when the header is clicked', () => {
     component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();

@@ -60,6 +60,8 @@ export class UserNotificationsListComponent implements OnInit {
   isLoadingNotifications = false;
   hasLoadingFailed = false;
 
+  isMarkingAllAsRead = false;
+
   DATE_FORMAT = 'DD MMM YYYY';
 
   constructor() {
@@ -147,6 +149,39 @@ export class UserNotificationsListComponent implements OnInit {
 
   getBodyTextClass(notificationTab: NotificationTab): string {
     return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
+  }
+
+  hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some((notificationTab) => !notificationTab.isRead);
+  }
+
+  markAllNotificationsAsRead(): void {
+    if (this.isMarkingAllAsRead || !this.hasUnreadNotifications()) {
+      return;
+    }
+    this.isMarkingAllAsRead = true;
+    this.notificationService
+      .markAllNotificationsAsRead()
+      .pipe(
+        finalize(() => {
+          this.isMarkingAllAsRead = false;
+        }),
+      )
+      .subscribe({
+        next: (readNotifications: ReadNotifications) => {
+          const readNotificationIds: Set<string> = new Set(readNotifications.readNotifications);
+          this.notificationTabs.forEach((notificationTab) => {
+            if (readNotificationIds.has(notificationTab.notification.notificationId)) {
+              notificationTab.isRead = true;
+              notificationTab.hasTabExpanded = false;
+            }
+          });
+          this.statusMessageService.showSuccessToast('All notifications marked as read.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   getButtonClass(notificationTab: NotificationTab): string {
