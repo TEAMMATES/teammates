@@ -1212,7 +1212,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -2142,12 +2142,12 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -2867,7 +2867,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
@@ -4482,7 +4482,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -5412,12 +5412,12 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -6137,7 +6137,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
@@ -8221,7 +8221,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -9151,12 +9151,12 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -9876,7 +9876,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
@@ -11477,7 +11477,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -12407,12 +12407,12 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -13132,7 +13132,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
@@ -15219,7 +15219,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -16149,12 +16149,12 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -16874,7 +16874,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
@@ -18489,7 +18489,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                     <option
                       value="America/Santiago"
                     >
-                      America/Santiago (UTC -04:00)
+                      America/Santiago (UTC -03:00)
                     </option>
                     <option
                       value="America/Santo_Domingo"
@@ -19419,12 +19419,12 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                     <option
                       value="Chile/Continental"
                     >
-                      Chile/Continental (UTC -04:00)
+                      Chile/Continental (UTC -03:00)
                     </option>
                     <option
                       value="Chile/EasterIsland"
                     >
-                      Chile/EasterIsland (UTC -06:00)
+                      Chile/EasterIsland (UTC -05:00)
                     </option>
                     <option
                       value="Cuba"
@@ -20144,7 +20144,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                     <option
                       value="Pacific/Easter"
                     >
-                      Pacific/Easter (UTC -06:00)
+                      Pacific/Easter (UTC -05:00)
                     </option>
                     <option
                       value="Pacific/Efate"
