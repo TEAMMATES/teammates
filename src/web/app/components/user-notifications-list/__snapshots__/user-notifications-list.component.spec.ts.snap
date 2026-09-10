@@ -7,6 +7,7 @@ exports[`UserNotificationsListComponent > should snap when all loaded notificati
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
@@ -31,6 +32,14 @@ exports[`UserNotificationsListComponent > should snap when all loaded notificati
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-primary"
+          disabled=""
+          id="mark-all-notifications-read"
+          type="button"
+        >
+           Mark All as Read 
+        </button>
         <strong
           class="d-inline"
         >
@@ -168,6 +177,7 @@ exports[`UserNotificationsListComponent > should snap when it fails to load 1`] 
   SortBy={[Function Object]}
   hasLoadingFailed={[Function Boolean]}
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
@@ -216,6 +226,7 @@ exports[`UserNotificationsListComponent > should snap when it loads the provided
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
@@ -240,6 +251,13 @@ exports[`UserNotificationsListComponent > should snap when it loads the provided
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-primary"
+          id="mark-all-notifications-read"
+          type="button"
+        >
+           Mark All as Read 
+        </button>
         <strong
           class="d-inline"
         >
@@ -397,6 +415,7 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
@@ -421,6 +440,13 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-primary"
+          id="mark-all-notifications-read"
+          type="button"
+        >
+           Mark All as Read 
+        </button>
         <strong
           class="d-inline"
         >
@@ -579,6 +605,7 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
@@ -603,6 +630,13 @@ exports[`UserNotificationsListComponent > should snap when it sorts the notifica
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-primary"
+          id="mark-all-notifications-read"
+          type="button"
+        >
+           Mark All as Read 
+        </button>
         <strong
           class="d-inline"
         >
@@ -761,6 +795,7 @@ exports[`UserNotificationsListComponent > should snap with default fields when l
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications={[Function Boolean]}
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
@@ -810,6 +845,7 @@ exports[`UserNotificationsListComponent > should snap with no notifications 1`] 
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
+  isMarkingAllAsRead="false"
   notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"

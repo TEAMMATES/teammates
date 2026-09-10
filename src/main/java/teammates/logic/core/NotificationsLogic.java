@@ -3,8 +3,11 @@ package teammates.logic.core;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -192,6 +195,48 @@ public final class NotificationsLogic {
         notification.addReadNotification(readNotification);
 
         return notificationsDb.persistReadNotification(readNotification);
+    }
+
+    /**
+     * Marks all notifications matching the given {@code targetUsers} as read
+     * for the account with {@code accountId}.
+     *
+     * <p>Notifications already marked as read are skipped to avoid violating the
+     * unique constraint on {@code (accountId, notificationId)}.</p>
+     *
+     * @return a list of newly-marked notification IDs
+     * @throws EntityDoesNotExistException if the account does not exist
+     */
+    public List<UUID> createReadNotificationsForAllVisible(
+            UUID accountId, List<NotificationTargetUser> targetUsers, boolean isActiveOnly)
+            throws EntityDoesNotExistException {
+        Account account = accountsLogic.getAccount(accountId);
+        if (account == null) {
+            throw new EntityDoesNotExistException("Account with id " + accountId + " does not exist");
+        }
+        Objects.requireNonNull(targetUsers);
+
+        List<Notification> visibleNotifications = getNotificationsByTargetUsers(targetUsers, isActiveOnly);
+        Set<UUID> existingReadNotificationIds = new HashSet<>();
+        for (ReadNotification readNotification : getReadNotificationsByAccountId(accountId)) {
+            existingReadNotificationIds.add(readNotification.getNotificationId());
+        }
+
+        List<UUID> newlyMarkedNotificationIds = new ArrayList<>();
+        for (Notification notification : visibleNotifications) {
+            UUID notificationId = notification.getId();
+            if (existingReadNotificationIds.contains(notificationId)) {
+                continue;
+            }
+
+            ReadNotification readNotification = new ReadNotification();
+            account.addReadNotification(readNotification);
+            notification.addReadNotification(readNotification);
+            notificationsDb.persistReadNotification(readNotification);
+            newlyMarkedNotificationIds.add(notificationId);
+        }
+
+        return newlyMarkedNotificationIds;
     }
 
     /**
