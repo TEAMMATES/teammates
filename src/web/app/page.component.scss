@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 footer,
 nav {
   background: #3c3c3c;
@@ -13,21 +19,9 @@ nav {
 }
 
 .main-content {
+  flex: 1;
   margin-top: 50px;
-  min-height: calc(100vh - 102px);
   padding: 20px 70px;
-}
-
-@media (width <= 575px) {
-  .main-content {
-    min-height: calc(100vh - 144px);
-  }
-}
-
-@media (width >= 576px) and (width <= 589px) {
-  .main-content {
-    min-height: calc(100vh - 123px);
-  }
 }
 
 .footer {
